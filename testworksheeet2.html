@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html lang="he">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>תרגול זמנים - Present Simple ו-Present Progressive</title>
+    <meta charset="viewport" content="width=device-width, initial-scale=1.0">
+    <title>תרגול זמנים - משחק החווה</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background: linear-gradient(to right, #ffecd2, #fcb69f);
             direction: rtl;
-            text-align: right;
             margin: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .main-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
         }
         h1 {
             text-align: center;
@@ -18,12 +24,64 @@
             font-size: 24px;
         }
         .container {
-            max-width: 600px;
-            margin: auto;
+            flex: 2;
             padding: 20px;
             background-color: #ffffff;
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin: 0 30px;
+            max-width: 800px;
+            box-sizing: border-box;
+            z-index: 1;
+        }
+        .farm-container-wrapper, .rules-container {
+            flex: 1;
+            max-width: 200px;
+            z-index: 0;
+        }
+        .farm-container-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-left: 30px;
+            box-sizing: border-box;
+        }
+        .farm-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); /* 5 חיות בשורה */
+            gap: 5px;
+            padding: 10px;
+            background-color: #fff8dc; /* צבע רקע */
+            width: 100%;
+            max-width: 200px;
+            box-sizing: border-box;
+            border-radius: 10px;
+        }
+        .farm-animal {
+            font-size: 30px;
+            text-align: center;
+        }
+        .rules-container {
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-right: 30px;
+            box-sizing: border-box;
+        }
+        .rules-container h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .rules-container ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .rules-container li {
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #555;
         }
         .question {
             margin-bottom: 15px;
@@ -69,269 +127,643 @@
             font-size: 18px;
             font-weight: bold;
         }
-        .correct {
-            background-color: #d4edda;
-            color: #155724;
+        .hidden {
+            display: none;
         }
-        .incorrect {
-            background-color: #f8d7da;
-            color: #721c24;
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
         }
-        .neutral {
-            background-color: #d1ecf1;
-            color: #0c5460;
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f5b7b1;
+            opacity: 0.7;
+            animation: confetti-fall 3s ease-in-out forwards, confetti-drift 3s ease-in-out forwards;
         }
+        @keyframes confetti-fall {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+        @keyframes confetti-drift {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* צבעי רקע שונים לכל שלב */
+        #stage1 { background-color: #f8f9fa; }
+        #stage2 { background-color: #e9f7ef; }
+        #stage3 { background-color: #e8f0fe; }
+        #stage4 { background-color: #f3e5f5; }
+        #stage5 { background-color: #fff3e0; }
+        #stage6 { background-color: #fbe9e7; }
+        #stage7 { background-color: #e0f7fa; }
+        #stage8 { background-color: #e0f2f1; }
+        #stage9 { background-color: #ffebee; }
+        #stage10 { background-color: #ede7f6; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>תרגול Present Simple ו-Present Progressive</h1>
-
-        <div class="question">
-            1. She ___ (to read) books every evening.
-            <select id="q1">
-                <option value="">בחר</option>
-                <option value="Present Simple">reads</option>
-                <option value="Present Progressive">is reading</option>
-            </select>
+    <div class="main-container">
+        <!-- פאנל החוקים -->
+        <div class="rules-container">
+            <h2>חוקי המשחק</h2>
+            <ul>
+                <li>ענה על כל השאלות בכל שלב.</li>
+                <li>אם ענית על כל השאלות נכון, תעבור לשלב הבא.</li>
+                <li>אם לא הצלחת, תוכל לנסות שוב.</li>
+                <li>אחרי 3 ניסיונות כושלים, התשובות השגויות והנכונות יסומנו בצבע.</li>
+                <li>על כל תשובה נכונה תזכה בחיה לחווה.</li>
+                <li>אסוף את כל החיות כדי לסיים את המשחק!</li>
+            </ul>
         </div>
 
-        <div class="question">
-            2. They ___ (to play) football on Sundays.
-            <select id="q2">
-                <option value="">בחר</option>
-                <option value="Present Simple">play</option>
-                <option value="Present Progressive">are playing</option>
-            </select>
+        <div class="container">
+            <h1>משחק החווה - תרגול Present Simple ו-Present Progressive</h1>
+
+            <div id="stage-container">
+                <!-- שלב 1 -->
+                <div id="stage1" class="stage">
+                    <h2>שלב 1</h2>
+                    <div class="question">
+                        1. She ___ (to read) books every evening.
+                        <select id="q1-1">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">reads</option>
+                            <option value="Present Progressive">is reading</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        2. They ___ (to play) football on Sundays.
+                        <select id="q1-2">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">play</option>
+                            <option value="Present Progressive">are playing</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        3. I ___ (to watch) a movie right now.
+                        <select id="q1-3">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">watch</option>
+                            <option value="Present Progressive">am watching</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        4. We ___ (to eat) dinner at the moment.
+                        <select id="q1-4">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">eat</option>
+                            <option value="Present Progressive">are eating</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        5. The dog ___ (to sleep) in the garden now.
+                        <select id="q1-5">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">sleeps</option>
+                            <option value="Present Progressive">is sleeping</option>
+                        </select>
+                    </div>
+                    <button onclick="checkStage(1)">בדוק שלב</button>
+                    <div id="result1" class="result"></div>
+                </div>
+
+                <!-- שלב 2 -->
+                <div id="stage2" class="stage hidden">
+                    <h2>שלב 2</h2>
+                    <div class="question">
+                        6. He ___ (to write) a letter at the moment.
+                        <select id="q2-1">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">writes</option>
+                            <option value="Present Progressive">is writing</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        7. They usually ___ (to walk) to school.
+                        <select id="q2-2">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">walk</option>
+                            <option value="Present Progressive">are walking</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        8. We ___ (to have) breakfast right now.
+                        <select id="q2-3">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">have</option>
+                            <option value="Present Progressive">are having</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        9. The baby ___ (to cry) at the moment.
+                        <select id="q2-4">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">cries</option>
+                            <option value="Present Progressive">is crying</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        10. She always ___ (to sing) in the shower.
+                        <select id="q2-5">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">sings</option>
+                            <option value="Present Progressive">is singing</option>
+                        </select>
+                    </div>
+                    <button onclick="checkStage(2)">בדוק שלב</button>
+                    <div id="result2" class="result"></div>
+                </div>
+
+                <!-- שלב 3 -->
+                <div id="stage3" class="stage hidden">
+                    <h2>שלב 3</h2>
+                    <div class="question">
+                        11. The cat ___ (to sleep) on the mat now.
+                        <select id="q3-1">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">sleeps</option>
+                            <option value="Present Progressive">is sleeping</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        12. We ___ (to eat) lunch every day at noon.
+                        <select id="q3-2">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">eat</option>
+                            <option value="Present Progressive">are eating</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        13. They ___ (to run) in the park every weekend.
+                        <select id="q3-3">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">run</option>
+                            <option value="Present Progressive">are running</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        14. She ___ (to write) an email at the moment.
+                        <select id="q3-4">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">writes</option>
+                            <option value="Present Progressive">is writing</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        15. The children ___ (to play) outside now.
+                        <select id="q3-5">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">play</option>
+                            <option value="Present Progressive">are playing</option>
+                        </select>
+                    </div>
+                    <button onclick="checkStage(3)">בדוק שלב</button>
+                    <div id="result3" class="result"></div>
+                </div>
+
+                <!-- שלב 4 -->
+                <div id="stage4" class="stage hidden">
+                    <h2>שלב 4</h2>
+                    <div class="question">
+                        16. The dog ___ (to bark) right now.
+                        <select id="q4-1">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">barks</option>
+                            <option value="Present Progressive">is barking</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        17. We ___ (to go) to the cinema every Friday.
+                        <select id="q4-2">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">go</option>
+                            <option value="Present Progressive">are going</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        18. They ___ (to study) English now.
+                        <select id="q4-3">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">study</option>
+                            <option value="Present Progressive">are studying</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        19. The sun ___ (to shine) every day.
+                        <select id="q4-4">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">shines</option>
+                            <option value="Present Progressive">is shining</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        20. I ___ (to sleep) now.
+                        <select id="q4-5">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">sleep</option>
+                            <option value="Present Progressive">am sleeping</option>
+                        </select>
+                    </div>
+                    <button onclick="checkStage(4)">בדוק שלב</button>
+                    <div id="result4" class="result"></div>
+                </div>
+
+                <!-- שלב 5 -->
+                <div id="stage5" class="stage hidden">
+                    <h2>שלב 5</h2>
+                    <div class="question">
+                        21. The children ___ (to play) in the park every day.
+                        <select id="q5-1">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">play</option>
+                            <option value="Present Progressive">are playing</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        22. She ___ (to work) on a project right now.
+                        <select id="q5-2">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">works</option>
+                            <option value="Present Progressive">is working</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        23. They ___ (to listen) to music now.
+                        <select id="q5-3">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">listen</option>
+                            <option value="Present Progressive">are listening</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        24. We ___ (to cook) dinner every evening.
+                        <select id="q5-4">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">cook</option>
+                            <option value="Present Progressive">are cooking</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        25. The baby ___ (to cry) now.
+                        <select id="q5-5">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">cries</option>
+                            <option value="Present Progressive">is crying</option>
+                        </select>
+                    </div>
+                    <button onclick="checkStage(5)">בדוק שלב</button>
+                    <div id="result5" class="result"></div>
+                </div>
+
+                <!-- שלב 6 -->
+                <div id="stage6" class="stage hidden">
+                    <h2>שלב 6</h2>
+                    <div class="question">
+                        26. The birds ___ (to sing) every morning.
+                        <select id="q6-1">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">sing</option>
+                            <option value="Present Progressive">are singing</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        27. He ___ (to run) in the park now.
+                        <select id="q6-2">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">runs</option>
+                            <option value="Present Progressive">is running</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        28. We ___ (to drive) to work every day.
+                        <select id="q6-3">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">drive</option>
+                            <option value="Present Progressive">are driving</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        29. She ___ (to paint) a picture now.
+                        <select id="q6-4">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">paints</option>
+                            <option value="Present Progressive">is painting</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        30. The cat ___ (to sleep) in the sun every day.
+                        <select id="q6-5">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">sleeps</option>
+                            <option value="Present Progressive">is sleeping</option>
+                        </select>
+                    </div>
+                    <button onclick="checkStage(6)">בדוק שלב</button>
+                    <div id="result6" class="result"></div>
+                </div>
+
+                <!-- שלב 7 -->
+                <div id="stage7" class="stage hidden">
+                    <h2>שלב 7</h2>
+                    <div class="question">
+                        31. The dog ___ (to run) in the park now.
+                        <select id="q7-1">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">runs</option>
+                            <option value="Present Progressive">is running</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        32. They ___ (to swim) every summer.
+                        <select id="q7-2">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">swim</option>
+                            <option value="Present Progressive">are swimming</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        33. She ___ (to eat) lunch right now.
+                        <select id="q7-3">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">eats</option>
+                            <option value="Present Progressive">is eating</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        34. We ___ (to study) English every day.
+                        <select id="q7-4">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">study</option>
+                            <option value="Present Progressive">are studying</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        35. The children ___ (to play) outside now.
+                        <select id="q7-5">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">play</option>
+                            <option value="Present Progressive">are playing</option>
+                        </select>
+                    </div>
+                    <button onclick="checkStage(7)">בדוק שלב</button>
+                    <div id="result7" class="result"></div>
+                </div>
+
+                <!-- שלב 8 -->
+                <div id="stage8" class="stage hidden">
+                    <h2>שלב 8</h2>
+                    <div class="question">
+                        36. He ___ (to sleep) now.
+                        <select id="q8-1">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">sleeps</option>
+                            <option value="Present Progressive">is sleeping</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        37. They ___ (to play) football every weekend.
+                        <select id="q8-2">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">play</option>
+                            <option value="Present Progressive">are playing</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        38. We ___ (to write) emails now.
+                        <select id="q8-3">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">write</option>
+                            <option value="Present Progressive">are writing</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        39. She ___ (to drink) coffee every morning.
+                        <select id="q8-4">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">drinks</option>
+                            <option value="Present Progressive">is drinking</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        40. The cat ___ (to sleep) on the mat now.
+                        <select id="q8-5">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">sleeps</option>
+                            <option value="Present Progressive">is sleeping</option>
+                        </select>
+                    </div>
+                    <button onclick="checkStage(8)">בדוק שלב</button>
+                    <div id="result8" class="result"></div>
+                </div>
+
+                <!-- שלב 9 -->
+                <div id="stage9" class="stage hidden">
+                    <h2>שלב 9</h2>
+                    <div class="question">
+                        41. We ___ (to have) breakfast now.
+                        <select id="q9-1">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">have</option>
+                            <option value="Present Progressive">are having</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        42. The sun ___ (to rise) every day.
+                        <select id="q9-2">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">rises</option>
+                            <option value="Present Progressive">is rising</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        43. The children ___ (to play) outside every afternoon.
+                        <select id="q9-3">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">play</option>
+                            <option value="Present Progressive">are playing</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        44. She ___ (to read) a book right now.
+                        <select id="q9-4">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">reads</option>
+                            <option value="Present Progressive">is reading</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        45. The baby ___ (to sleep) now.
+                        <select id="q9-5">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">sleeps</option>
+                            <option value="Present Progressive">is sleeping</option>
+                        </select>
+                    </div>
+                    <button onclick="checkStage(9)">בדוק שלב</button>
+                    <div id="result9" class="result"></div>
+                </div>
+
+                <!-- שלב 10 -->
+                <div id="stage10" class="stage hidden">
+                    <h2>שלב 10</h2>
+                    <div class="question">
+                        46. The sun ___ (to rise) every morning.
+                        <select id="q10-1">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">rises</option>
+                            <option value="Present Progressive">is rising</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        47. I ___ (to talk) to my friend right now.
+                        <select id="q10-2">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">talk</option>
+                            <option value="Present Progressive">am talking</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        48. They ___ (to go) to the gym every day.
+                        <select id="q10-3">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">go</option>
+                            <option value="Present Progressive">are going</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        49. The birds ___ (to sing) outside now.
+                        <select id="q10-4">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">sing</option>
+                            <option value="Present Progressive">are singing</option>
+                        </select>
+                    </div>
+                    <div class="question">
+                        50. We ___ (to watch) a movie every Friday.
+                        <select id="q10-5">
+                            <option value="">בחר</option>
+                            <option value="Present Simple">watch</option>
+                            <option value="Present Progressive">are watching</option>
+                        </select>
+                    </div>
+                    <button onclick="checkStage(10)">בדוק שלב</button>
+                    <div id="result10" class="result"></div>
+                </div>
+            </div>
         </div>
 
-        <div class="question">
-            3. I ___ (to watch) a movie right now.
-            <select id="q3">
-                <option value="">בחר</option>
-                <option value="Present Simple">watch</option>
-                <option value="Present Progressive">am watching</option>
-            </select>
+        <div class="farm-container-wrapper">
+            <div id="farm" class="farm-container"></div>
         </div>
-
-        <div class="question">
-            4. We ___ (to eat) dinner at the moment.
-            <select id="q4">
-                <option value="">בחר</option>
-                <option value="Present Simple">eat</option>
-                <option value="Present Progressive">are eating</option>
-            </select>
-        </div>
-
-        <div class="question">
-            5. The dog ___ (to sleep) in the garden now.
-            <select id="q5">
-                <option value="">בחר</option>
-                <option value="Present Simple">sleeps</option>
-                <option value="Present Progressive">is sleeping</option>
-            </select>
-        </div>
-
-        <div class="question">
-            6. My friends ___ (to visit) me every weekend.
-            <select id="q6">
-                <option value="">בחר</option>
-                <option value="Present Simple">visit</option>
-                <option value="Present Progressive">are visiting</option>
-            </select>
-        </div>
-
-        <div class="question">
-            7. He ___ (to write) a letter at the moment.
-            <select id="q7">
-                <option value="">בחר</option>
-                <option value="Present Simple">writes</option>
-                <option value="Present Progressive">is writing</option>
-            </select>
-        </div>
-
-        <div class="question">
-            8. They usually ___ (to walk) to school.
-            <select id="q8">
-                <option value="">בחר</option>
-                <option value="Present Simple">walk</option>
-                <option value="Present Progressive">are walking</option>
-            </select>
-        </div>
-
-        <div class="question">
-            9. We ___ (to have) breakfast right now.
-            <select id="q9">
-                <option value="">בחר</option>
-                <option value="Present Simple">have</option>
-                <option value="Present Progressive">are having</option>
-            </select>
-        </div>
-
-        <div class="question">
-            10. The baby ___ (to cry) at the moment.
-            <select id="q10">
-                <option value="">בחר</option>
-                <option value="Present Simple">cries</option>
-                <option value="Present Progressive">is crying</option>
-            </select>
-        </div>
-
-        <div class="question">
-            11. She always ___ (to sing) in the shower.
-            <select id="q11">
-                <option value="">בחר</option>
-                <option value="Present Simple">sings</option>
-                <option value="Present Progressive">is singing</option>
-            </select>
-        </div>
-
-        <div class="question">
-            12. I ___ (to read) a good book these days.
-            <select id="q12">
-                <option value="">בחר</option>
-                <option value="Present Simple">read</option>
-                <option value="Present Progressive">am reading</option>
-            </select>
-        </div>
-
-        <div class="question">
-            13. The teacher ___ (to explain) the lesson right now.
-            <select id="q13">
-                <option value="">בחר</option>
-                <option value="Present Simple">explains</option>
-                <option value="Present Progressive">is explaining</option>
-            </select>
-        </div>
-
-        <div class="question">
-            14. The sun ___ (to rise) every morning.
-            <select id="q14">
-                <option value="">בחר</option>
-                <option value="Present Simple">rises</option>
-                <option value="Present Progressive">is rising</option>
-            </select>
-        </div>
-
-        <div class="question">
-            15. I ___ (to talk) to my friend right now.
-            <select id="q15">
-                <option value="">בחר</option>
-                <option value="Present Simple">talk</option>
-                <option value="Present Progressive">am talking</option>
-            </select>
-        </div>
-
-        <div class="question">
-            16. They ___ (to go) to the gym every day.
-            <select id="q16">
-                <option value="">בחר</option>
-                <option value="Present Simple">go</option>
-                <option value="Present Progressive">are going</option>
-            </select>
-        </div>
-
-        <div class="question">
-            17. The birds ___ (to sing) outside now.
-            <select id="q17">
-                <option value="">בחר</option>
-                <option value="Present Simple">sing</option>
-                <option value="Present Progressive">are singing</option>
-            </select>
-        </div>
-
-        <div class="question">
-            18. We ___ (to watch) a movie every Friday.
-            <select id="q18">
-                <option value="">בחר</option>
-                <option value="Present Simple">watch</option>
-                <option value="Present Progressive">are watching</option>
-            </select>
-        </div>
-
-        <div class="question">
-            19. She ___ (to bake) a cake at the moment.
-            <select id="q19">
-                <option value="">בחר</option>
-                <option value="Present Simple">bakes</option>
-                <option value="Present Progressive">is baking</option>
-            </select>
-        </div>
-
-        <div class="question">
-            20. He ___ (to run) in the park every morning.
-            <select id="q20">
-                <option value="">בחר</option>
-                <option value="Present Simple">runs</option>
-                <option value="Present Progressive">is running</option>
-            </select>
-        </div>
-
-        <button onclick="checkAnswers()">בדיקה וסימון שגויים</button>
-        <button onclick="checkAnswersDetailed()">בדיקה כמה נכונים וכמה לא</button>
-
-        <div id="result" class="result"></div>
     </div>
 
     <script>
-        const correctAnswers = [
-            "Present Simple", "Present Simple", "Present Progressive", 
-            "Present Progressive", "Present Progressive", "Present Simple", 
-            "Present Progressive", "Present Simple", "Present Progressive", 
-            "Present Progressive", "Present Simple", "Present Progressive", 
-            "Present Progressive", "Present Simple", "Present Progressive", 
-            "Present Simple", "Present Progressive", "Present Simple", 
-            "Present Progressive", "Present Simple"
-        ];
+        const correctAnswers = {
+            1: ["Present Simple", "Present Simple", "Present Progressive", "Present Progressive", "Present Progressive"],
+            2: ["Present Progressive", "Present Simple", "Present Progressive", "Present Progressive", "Present Simple"],
+            3: ["Present Progressive", "Present Simple", "Present Simple", "Present Progressive", "Present Progressive"],
+            4: ["Present Progressive", "Present Simple", "Present Progressive", "Present Simple", "Present Progressive"],
+            5: ["Present Simple", "Present Progressive", "Present Progressive", "Present Simple", "Present Progressive"],
+            6: ["Present Simple", "Present Progressive", "Present Simple", "Present Progressive", "Present Simple"],
+            7: ["Present Progressive", "Present Simple", "Present Progressive", "Present Simple", "Present Progressive"],
+            8: ["Present Progressive", "Present Simple", "Present Progressive", "Present Simple", "Present Progressive"],
+            9: ["Present Progressive", "Present Simple", "Present Simple", "Present Progressive", "Present Progressive"],
+            10: ["Present Simple", "Present Progressive", "Present Simple", "Present Progressive", "Present Simple"]
+        };
 
-        function checkAnswers() {
-            let score = 0;
+        const animals = [
+            "🐮", "🐷", "🐥", "🐰", "🐴", "🐶", "🐱", "🦊", "🦁", "🐯",
+            "🐻", "🐼", "🐨", "🐸", "🐒", "🐧", "🐦", "🦉", "🦇", "🦆",
+            "🐢", "🐍", "🦎", "🐙", "🦑", "🦀", "🐡", "🐬", "🐳", "🐋",
+            "🦈", "🐊", "🦓", "🦛", "🦏", "🐪", "🐫", "🦒", "🦘", "🦡",
+            "🦢", "🦩", "🦜", "🦚", "🦅", "🦝", "🦨", "🦦", "🦥", "🦄"
+        ];  // 50 אייקונים שונים לחווה
 
-            for (let i = 1; i <= 20; i++) {
-                const selectElement = document.getElementById(`q${i}`);
+        const failedAttempts = {}; // משתנה לשמירת מספר הכישלונות בכל שלב
+
+        function checkStage(stage) {
+            if (!failedAttempts[stage]) {
+                failedAttempts[stage] = 0;
+            }
+
+            let correctCount = 0;
+
+            for (let i = 1; i <= 5; i++) {
+                const selectElement = document.getElementById(`q${stage}-${i}`);
                 const answer = selectElement.value;
 
-                if (answer === correctAnswers[i - 1]) {
-                    score++;
-                    selectElement.style.backgroundColor = "#e6ffe6";  // סימון תשובה נכונה בירוק
-                    selectElement.style.borderColor = "#73e573";
+                if (answer === correctAnswers[stage][i - 1]) {
+                    correctCount++;
+                    if (failedAttempts[stage] >= 3) {
+                        selectElement.style.backgroundColor = "#e6ffe6";  // סימון תשובה נכונה בירוק
+                        selectElement.style.borderColor = "#73e573";
+                    } else {
+                        selectElement.style.backgroundColor = "";
+                        selectElement.style.borderColor = "";
+                    }
+                    addAnimalToFarm();
                 } else {
-                    selectElement.style.backgroundColor = "#ffe6e6";  // סימון תשובה שגויה בוורוד
-                    selectElement.style.borderColor = "#e57373";
+                    if (failedAttempts[stage] >= 3) {
+                        selectElement.style.backgroundColor = "#ffe6e6";  // סימון תשובה שגויה בוורוד
+                        selectElement.style.borderColor = "#e57373";
+                    } else {
+                        selectElement.style.backgroundColor = "";
+                        selectElement.style.borderColor = "";
+                    }
                 }
             }
 
-            const resultDiv = document.getElementById("result");
-            resultDiv.innerHTML = `קיבלת ${score} מתוך 20 נכונים.`;
-            resultDiv.className = score === 20 ? "result correct" : "result incorrect";
+            const resultDiv = document.getElementById(`result${stage}`);
+            if (correctCount === 5) {
+                resultDiv.innerHTML = "כל התשובות נכונות! לחץ על הכפתור למעבר לשלב הבא.";
+                resultDiv.className = "result correct";
+                showConfetti();
+                setTimeout(() => {
+                    document.getElementById(`stage${stage}`).classList.add("hidden");
+                    if (stage < 10) {
+                        document.getElementById(`stage${stage + 1}`).classList.remove("hidden");
+                    }
+                }, 3000); // הפסקה של 3 שניות לפני מעבר לשלב הבא
+                failedAttempts[stage] = 0; // איפוס הכישלונות לשלב הנוכחי
+            } else {
+                resultDiv.innerHTML = `ענית נכונה על ${correctCount} מתוך 5. נסה שוב.`;
+                resultDiv.className = "result incorrect";
+                failedAttempts[stage]++;
+            }
         }
 
-        function checkAnswersDetailed() {
-            let correct = 0;
-            let incorrect = 0;
+        function addAnimalToFarm() {
+            const farm = document.getElementById("farm");
+            const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
+            const animalElement = document.createElement("div");
+            animalElement.className = "farm-animal";
+            animalElement.textContent = randomAnimal;
+            farm.appendChild(animalElement);
+        }
 
-            // הסרת סימונים לפני חישוב מחדש
-            for (let i = 1; i <= 20; i++) {
-                const selectElement = document.getElementById(`q${i}`);
-                selectElement.style.backgroundColor = "";
-                selectElement.style.borderColor = "";
+        function showConfetti() {
+            const confettiContainer = document.createElement("div");
+            confettiContainer.className = "confetti";
+            document.body.appendChild(confettiContainer);
+
+            for (let i = 0; i < 100; i++) {
+                const confettiPiece = document.createElement("div");
+                confettiPiece.className = "confetti-piece";
+                confettiPiece.style.left = `${Math.random() * 100}%`;
+                confettiPiece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                confettiContainer.appendChild(confettiPiece);
             }
 
-            // חישוב כמה נכונים וכמה שגויים
-            for (let i = 1; i <= 20; i++) {
-                const selectElement = document.getElementById(`q${i}`);
-                const answer = selectElement.value;
-
-                if (answer === correctAnswers[i - 1]) {
-                    correct++;
-                } else {
-                    incorrect++;
-                }
-            }
-
-            const resultDiv = document.getElementById("result");
-            resultDiv.innerHTML = `קיבלת ${correct} נכונים ו-${incorrect} שגויים.`;
-            resultDiv.className = "result neutral";
+            setTimeout(() => {
+                document.body.removeChild(confettiContainer);
+            }, 3000);
         }
     </script>
 </body>
