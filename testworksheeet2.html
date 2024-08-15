@@ -47,6 +47,12 @@
             margin-left: 30px;
             box-sizing: border-box;
         }
+		.farm-container img {
+			width: 200%;
+			height: 200%;
+			transform-origin: top left;
+			transform: scale(0.5);
+		}
         .farm-container {
             display: grid;
             grid-template-columns: repeat(5, 1fr); /* 5 חיות בשורה */
@@ -59,7 +65,7 @@
             border-radius: 10px;
         }
         .farm-animal {
-            font-size: 30px;
+            font-size: 60px;
             text-align: center;
         }
         .rules-container {
@@ -691,7 +697,7 @@
         }
 
         // Only apply colors if enabled and it's the third attempt or more
-        if (enableColorMarking && stageAttempts[stageNumber] >= 5) {
+        if (enableColorMarking && stageAttempts[stageNumber] >= 6) {
             for (var i = 0; i < questions.length; i++) {
                 var select = questions[i].getElementsByTagName("select")[0];
                 var correctAnswer = getCorrectAnswer(stageNumber, i + 1);
@@ -709,7 +715,10 @@
         if (allCorrect) {
             result.innerHTML = "כל הכבוד! עברת לשלב הבא.";
             result.style.color = "green";
-            addAnimalToFarm();
+            for (var i = 0; i < questions.length; i++) {
+                addAnimalToFarm();
+            }
+            stage.classList.add("hidden"); // Hide the current stage
             if (stageNumber < 10) {
                 document.getElementById("stage" + (stageNumber + 1)).classList.remove("hidden");
             }
@@ -739,12 +748,21 @@
         return correctAnswers[stageNumber][questionNumber - 1];
     }
 
-    function addAnimalToFarm() {
-        var farm = document.getElementById("farm");
-        var animals = ["🐶", "🐱", "🐮", "🐷", "🐔", "🐸", "🐰", "🦊", "🐻", "🐼"];
-        var randomAnimal = animals[Math.floor(Math.random() * animals.length)];
-        farm.innerHTML += randomAnimal;
-    }
+function addAnimalToFarm() {
+    var farm = document.getElementById("farm");
+    var animals = [
+        "🐶", "🐱", "🐮", "🐷", "🐔", "🐸", "🐰", "🦊", "🐻", "🐼",
+        "🐨", "🐯", "🦁", "🐮", "🐷", "🐽", "🐗", "🦓", "🦄", "🦌",
+        "🐴", "🦘", "🦒", "🦏", "🦛", "🐘", "🦍", "🦧", "🐒", "🐵",
+        "🐺", "🐻", "🦥", "🦦", "🦨", "🦇", "🦔", "🐿️", "🦃",
+        "🦚", "🦜", "🦢", "🦩", "🕊️", "🦅", "🦉", "🐸", "🐊", "🐢"
+    ];
+    var randomAnimal = animals[Math.floor(Math.random() * animals.length)];
+    var animalSpan = document.createElement('span');
+    animalSpan.innerHTML = randomAnimal;
+    animalSpan.style.fontSize = '2em'; // This makes the emoji twice as large
+    farm.appendChild(animalSpan);
+}
 </script>
 </body>
 </html>
