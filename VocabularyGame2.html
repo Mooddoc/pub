@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>משחק החווה - תרגול אוצר מילים</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #ffecd2, #fcb69f);
+            direction: rtl;
+            margin: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .main-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 24px;
+        }
+        .container {
+            flex: 2;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin: 0 20px;
+            max-width: 800px;
+            box-sizing: border-box;
+            z-index: 1;
+        }
+        .farm-container-wrapper, .rules-container {
+            flex: 1;
+            max-width: 200px;
+            z-index: 0;
+        }
+        .farm-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            padding: 10px;
+            background-color: #fff8dc;
+            width: 100%;
+            max-width: 200px;
+            box-sizing: border-box;
+            border-radius: 10px;
+        }
+        .farm-animal {
+            font-size: 60px;
+            text-align: center;
+        }
+        .rules-container {
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-right: 20px;
+            box-sizing: border-box;
+        }
+        .rules-container h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .rules-container ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .rules-container li {
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #555;
+        }
+        .question {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .question span {
+            margin-left: 10px;
+            font-size: 18px;
+            color: #333;
+        }
+        .question input {
+            width: 70%;
+            padding: 5px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            transition: background-color 0.3s ease;
+        }
+        .incorrect-answer {
+            background-color: #ffcccc !important;
+            border: 1px solid red !important;
+        }
+        .correct-answer {
+            background-color: #ccffcc !important;
+            border: 1px solid green !important;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .hidden {
+            display: none;
+        }
+        .counter {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 16px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="rules-container">
+            <h2>חוקי המשחק</h2>
+            <ul>
+                <li>ענה על כל השאלות בכל שלב.</li>
+                <li>אם ענית על כל השאלות נכון, תעבור לשלב הבא.</li>
+                <li>אם לא הצלחת, תוכל לנסות שוב.</li>
+                <li>אחרי 7 ניסיונות כושלים, התשובות השגויות והנכונות יסומנו בצבע.</li>
+                <li>על כל תשובה נכונה תזכה בחיה לחווה.</li>
+                <li>אסוף את כל החיות כדי לסיים את המשחק!</li>
+            </ul>
+        </div>
+
+        <div class="container">
+            <h1>משחק החווה - תרגול אוצר מילים</h1>
+
+            <div id="stage-container">
+             <!-- שלב 1: ימי השבוע -->
+<div id="stage1" class="stage">
+    <h2>שלב 1: ימי השבוע</h2>
+    <div class="question"><span>ראשון</span><input type="text" data-answer="sunday"></div>
+    <div class="question"><span>שני</span><input type="text" data-answer="monday"></div>
+    <div class="question"><span>שלישי</span><input type="text" data-answer="tuesday"></div>
+    <div class="question"><span>רביעי</span><input type="text" data-answer="wednesday"></div>
+    <div class="question"><span>חמישי</span><input type="text" data-answer="thursday"></div>
+    <div class="question"><span>שישי</span><input type="text" data-answer="friday"></div>
+    <div class="question"><span>שבת</span><input type="text" data-answer="saturday"></div>
+    <button id="checkStage1">בדוק שלב</button>
+    <div id="result1" class="result"></div>
+</div>
+
+<!-- שלב 2: חודשים -->
+<div id="stage2" class="stage hidden">
+    <h2>שלב 2: חודשים</h2>
+    <div class="question"><span>ינואר</span><input type="text" data-answer="january"></div>
+    <div class="question"><span>פברואר</span><input type="text" data-answer="february"></div>
+    <div class="question"><span>מרץ</span><input type="text" data-answer="march"></div>
+    <div class="question"><span>אפריל</span><input type="text" data-answer="april"></div>
+    <div class="question"><span>מאי</span><input type="text" data-answer="may"></div>
+    <div class="question"><span>יוני</span><input type="text" data-answer="june"></div>
+    <div class="question"><span>יולי</span><input type="text" data-answer="july"></div>
+    <div class="question"><span>אוגוסט</span><input type="text" data-answer="august"></div>
+    <div class="question"><span>ספטמבר</span><input type="text" data-answer="september"></div>
+    <div class="question"><span>אוקטובר</span><input type="text" data-answer="october"></div>
+    <div class="question"><span>נובמבר</span><input type="text" data-answer="november"></div>
+    <div class="question"><span>דצמבר</span><input type="text" data-answer="december"></div>
+    <button id="checkStage2">בדוק שלב</button>
+    <div id="result2" class="result"></div>
+</div>
+
+<!-- שלב 3: בני משפחה -->
+<div id="stage3" class="stage hidden">
+    <h2>שלב 3: בני משפחה</h2>
+    <div class="question"><span>אמא</span><input type="text" data-answer="mother"></div>
+    <div class="question"><span>אבא</span><input type="text" data-answer="father"></div>
+    <div class="question"><span>אח</span><input type="text" data-answer="brother"></div>
+    <div class="question"><span>אחות</span><input type="text" data-answer="sister"></div>
+    <div class="question"><span>סבתא</span><input type="text" data-answer="grandmother"></div>
+    <div class="question"><span>סבא</span><input type="text" data-answer="grandfather"></div>
+    <div class="question"><span>בן</span><input type="text" data-answer="son"></div>
+    <div class="question"><span>בת</span><input type="text" data-answer="daughter"></div>
+    <div class="question"><span>דוד</span><input type="text" data-answer="uncle"></div>
+    <div class="question"><span>דודה</span><input type="text" data-answer="aunt"></div>
+    <button id="checkStage3">בדוק שלב</button>
+    <div id="result3" class="result"></div>
+</div>
+
+<!-- שלב 4: כלי כתיבה לבית ספר -->
+<div id="stage4" class="stage hidden">
+    <h2>שלב 4: כלי כתיבה לבית ספר</h2>
+    <div class="question"><span>עיפרון</span><input type="text" data-answer="pencil"></div>
+    <div class="question"><span>עט</span><input type="text" data-answer="pen"></div>
+    <div class="question"><span>מחברת</span><input type="text" data-answer="notebook"></div>
+    <div class="question"><span>מחק</span><input type="text" data-answer="eraser"></div>
+    <div class="question"><span>דבק</span><input type="text" data-answer="glue"></div>
+    <div class="question"><span>סרגל</span><input type="text" data-answer="ruler"></div>
+    <div class="question"><span>תיק</span><input type="text" data-answer="bag"></div>
+    <div class="question"><span>מספריים</span><input type="text" data-answer="scissors"></div>
+    <div class="question"><span>חוד מחק</span><input type="text" data-answer="sharpener"></div>
+    <div class="question"><span>מרקר</span><input type="text" data-answer="marker"></div>
+    <button id="checkStage4">בדוק שלב</button>
+    <div id="result4" class="result"></div>
+</div>
+
+<!-- שלב 5: מזג האוויר -->
+<div id="stage5" class="stage hidden">
+    <h2>שלב 5: מזג האוויר</h2>
+    <div class="question"><span>שמש</span><input type="text" data-answer="sunny"></div>
+    <div class="question"><span>גשם</span><input type="text" data-answer="rainy"></div>
+    <div class="question"><span>שלג</span><input type="text" data-answer="snowy"></div>
+    <div class="question"><span>ענן</span><input type="text" data-answer="cloudy"></div>
+    <div class="question"><span>רוח</span><input type="text" data-answer="windy"></div>
+    <div class="question"><span>ערפל</span><input type="text" data-answer="foggy"></div>
+    <div class="question"><span>ברק</span><input type="text" data-answer="thunder"></div>
+    <div class="question"><span>חם</span><input type="text" data-answer="hot"></div>
+    <div class="question"><span>קר</span><input type="text" data-answer="cold"></div>
+    <div class="question"><span>לח</span><input type="text" data-answer="humid"></div>
+    <button id="checkStage5">בדוק שלב</button>
+    <div id="result5" class="result"></div>
+</div>
+
+<!-- שלב 6: צורות -->
+<div id="stage6" class="stage hidden">
+    <h2>שלב 6: צורות</h2>
+    <div class="question"><span>עיגול</span><input type="text" data-answer="circle"></div>
+    <div class="question"><span>ריבוע</span><input type="text" data-answer="square"></div>
+    <div class="question"><span>משולש</span><input type="text" data-answer="triangle"></div>
+    <div class="question"><span>מלבן</span><input type="text" data-answer="rectangle"></div>
+    <div class="question"><span>כוכב</span><input type="text" data-answer="star"></div>
+    <div class="question"><span>לב</span><input type="text" data-answer="heart"></div>
+    <div class="question"><span>חצי עיגול</span><input type="text" data-answer="semicircle"></div>
+    <div class="question"><span>מעוין</span><input type="text" data-answer="diamond"></div>
+    <div class="question"><span>משושה</span><input type="text" data-answer="hexagon"></div>
+    <div class="question"><span>חץ</span><input type="text" data-answer="arrow"></div>
+    <button id="checkStage6">בדוק שלב</button>
+    <div id="result6" class="result"></div>
+</div>
+
+<!-- שלב 7: מקצועות -->
+<div id="stage7" class="stage hidden">
+    <h2>שלב 7: מקצועות</h2>
+    <div class="question"><span>רופא</span><input type="text" data-answer="doctor"></div>
+    <div class="question"><span>מורה</span><input type="text" data-answer="teacher"></div>
+    <div class="question"><span>מהנדס</span><input type="text" data-answer="engineer"></div>
+    <div class="question"><span>עורך דין</span><input type="text" data-answer="lawyer"></div>
+    <div class="question"><span>שף</span><input type="text" data-answer="chef"></div>
+    <div class="question"><span>נהג</span><input type="text" data-answer="driver"></div>
+    <div class="question"><span>חקלאי</span><input type="text" data-answer="farmer"></div>
+    <div class="question"><span>כבאי</span><input type="text" data-answer="firefighter"></div>
+    <div class="question"><span>ספר</span><input type="text" data-answer="barber"></div>
+    <div class="question"><span>אופה</span><input type="text" data-answer="baker"></div>
+    <button id="checkStage7">בדוק שלב</button>
+    <div id="result7" class="result"></div>
+</div>
+
+<!-- שלב 8: אוכל -->
+<div id="stage8" class="stage hidden">
+    <h2>שלב 8: אוכל</h2>
+    <div class="question"><span>לחם</span><input type="text" data-answer="bread"></div>
+    <div class="question"><span>גבינה</span><input type="text" data-answer="cheese"></div>
+    <div class="question"><span>חלב</span><input type="text" data-answer="milk"></div>
+    <div class="question"><span>בשר</span><input type="text" data-answer="meat"></div>
+    <div class="question"><span>ביצה</span><input type="text" data-answer="egg"></div>
+    <div class="question"><span>מרק</span><input type="text" data-answer="soup"></div>
+    <div class="question"><span>פיצה</span><input type="text" data-answer="pizza"></div>
+    <div class="question"><span>עוגה</span><input type="text" data-answer="cake"></div>
+    <div class="question"><span>דג</span><input type="text" data-answer="fish"></div>
+    <div class="question"><span>אורז</span><input type="text" data-answer="rice"></div>
+    <button id="checkStage8">בדוק שלב</button>
+    <div id="result8" class="result"></div>
+</div>
+
+<!-- שלב 9: ספורט -->
+<div id="stage9" class="stage hidden">
+    <h2>שלב 9: ספורט</h2>
+    <div class="question"><span>כדורגל</span><input type="text" data-answer="soccer"></div>
+    <div class="question"><span>כדורסל</span><input type="text" data-answer="basketball"></div>
+    <div class="question"><span>טניס</span><input type="text" data-answer="tennis"></div>
+    <div class="question"><span>שחייה</span><input type="text" data-answer="swimming"></div>
+    <div class="question"><span>ריצה</span><input type="text" data-answer="running"></div>
+    <div class="question"><span>אופניים</span><input type="text" data-answer="cycling"></div>
+    <div class="question"><span>סקי</span><input type="text" data-answer="skiing"></div>
+    <div class="question"><span>כדורעף</span><input type="text" data-answer="volleyball"></div>
+    <div class="question"><span>איגרוף</span><input type="text" data-answer="boxing"></div>
+    <div class="question"><span>היאבקות</span><input type="text" data-answer="wrestling"></div>
+    <button id="checkStage9">בדוק שלב</button>
+    <div id="result9" class="result"></div>
+</div>
+
+<!-- שלב 10: מדינות -->
+<div id="stage10" class="stage hidden">
+    <h2>שלב 10: מדינות</h2>
+    <div class="question"><span>ארצות הברית</span><input type="text" data-answer="united states"></div>
+    <div class="question"><span>בריטניה</span><input type="text" data-answer="united kingdom"></div>
+    <div class="question"><span>צרפת</span><input type="text" data-answer="france"></div>
+    <div class="question"><span>גרמניה</span><input type="text" data-answer="germany"></div>
+    <div class="question"><span>יפן</span><input type="text" data-answer="japan"></div>
+    <div class="question"><span>סין</span><input type="text" data-answer="china"></div>
+    <div class="question"><span>רוסיה</span><input type="text" data-answer="russia"></div>
+    <div class="question"><span>קנדה</span><input type="text" data-answer="canada"></div>
+    <div class="question"><span>איטליה</span><input type="text" data-answer="italy"></div>
+    <div class="question"><span>ברזיל</span><input type="text" data-answer="brazil"></div>
+    <button id="checkStage10">בדוק שלב</button>
+    <div id="result10" class="result"></div>
+</div>
+
+            </div>
+        </div>
+
+        <div class="farm-container-wrapper">
+            <div id="farm" class="farm-container"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentStage = 1;
+        const stageAttempts = {};
+        const enableColorMarking = true;
+
+        function checkStage(stageNumber) {
+            stageAttempts[stageNumber] = (stageAttempts[stageNumber] || 0) + 1;
+            const stage = document.getElementById("stage" + stageNumber);
+            const inputs = stage.querySelectorAll('input[type="text"]');
+            let allCorrect = true;
+            let correctAnswers = 0;
+
+            inputs.forEach(input => {
+                const userAnswer = input.value.trim().toLowerCase();
+                const correctAnswer = input.getAttribute('data-answer').toLowerCase();
+
+                if (userAnswer === correctAnswer) {
+                    correctAnswers++;
+                } else {
+                    allCorrect = false;
+                }
+            });
+
+            const result = document.getElementById("result" + stageNumber);
+            if (allCorrect) {
+                result.innerHTML = "כל הכבוד! עברת לשלב הבא.";
+                result.style.color = "green";
+                
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+                
+                setTimeout(() => {
+                    stage.classList.add("hidden");
+                    currentStage++;
+                    if (currentStage <= 10) {
+                        document.getElementById("stage" + currentStage).classList.remove("hidden");
+                    } else {
+                        alert("סיימת את כל השלבים! כל הכבוד!");
+                    }
+                }, 2000);
+                
+                inputs.forEach(() => addAnimalToFarm());
+                stageAttempts[stageNumber] = 0;
+            } else {
+                result.innerHTML = `נסה שוב. תשובות נכונות: ${correctAnswers} מתוך ${inputs.length}`;
+                result.style.color = "red";
+            }
+
+            if (enableColorMarking && stageAttempts[stageNumber] >= 7) {
+                markAnswers(inputs);
+            }
+        }
+
+        function markAnswers(inputs) {
+            inputs.forEach(input => {
+                const userAnswer = input.value.trim().toLowerCase();
+                const correctAnswer = input.getAttribute('data-answer').toLowerCase();
+                input.classList.remove('incorrect-answer', 'correct-answer');
+                if (userAnswer === correctAnswer) {
+                    input.classList.add('correct-answer');
+                } else {
+                    input.classList.add('incorrect-answer');
+                }
+            });
+        }
+
+        function addAnimalToFarm() {
+            const farm = document.getElementById("farm");
+            const animals = [
+                "🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐨", "🐯",
+                "🦁", "🐮", "🐷", "🐸", "🐵", "🐔", "🦄", "🐴", "🐺", "🦓",
+                "🦒", "🐘", "🦏", "🐆", "🐅", "🐊", "🐢", "🦈", "🐳", "🐋",
+                "🐬", "🐟", "🐠", "🐡", "🦐", "🦑", "🦀", "🦞", "🐙", "🦪",
+                "🐚", "🐌", "🐛", "🐜", "🐝", "🦋", "🐞", "🐲", "🐉", "🦕",
+                "🦖", "🦧", "🦍", "🐒", "🦮", "🐕‍🦺", "🐩", "🐕", "🐈", "🦦",
+                "🦥", "🐾", "🦔", "🐿️", "🦃", "🦆", "🦅", "🦉", "🦢", "🦜",
+                "🦚", "🦩", "🕊️", "🦎", "🐍", "🐢", "🐊", "🦈", "🐋", "🐳",
+                "🐬", "🐟", "🐠", "🐡", "🐙", "🦐", "🦑", "🦀", "🦞", "🐚",
+                "🦪", "🦆", "🐓", "🦃", "🦢", "🦩", "🦜", "🦚", "🦉", "🦅"
+            ];
+            const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
+            const animalSpan = document.createElement('span');
+            animalSpan.innerHTML = randomAnimal;
+            animalSpan.style.fontSize = '2em';
+            farm.appendChild(animalSpan);
+        }
+
+        document.getElementById("checkStage1").addEventListener("click", () => checkStage(1));
+        document.getElementById("checkStage2").addEventListener("click", () => checkStage(2));
+        document.getElementById("checkStage3").addEventListener("click", () => checkStage(3));
+        document.getElementById("checkStage4").addEventListener("click", () => checkStage(4));
+        document.getElementById("checkStage5").addEventListener("click", () => checkStage(5));
+        document.getElementById("checkStage6").addEventListener("click", () => checkStage(6));
+        document.getElementById("checkStage7").addEventListener("click", () => checkStage(7));
+        document.getElementById("checkStage8").addEventListener("click", () => checkStage(8));
+        document.getElementById("checkStage9").addEventListener("click", () => checkStage(9));
+        document.getElementById("checkStage10").addEventListener("click", () => checkStage(10));
+    </script>
+</body>
+</html>
