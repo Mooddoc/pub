@@ -9,7 +9,7 @@
         body {
             font-family: 'Comic Sans MS', cursive;
             background: linear-gradient(to bottom, #87CEEB, #20B2AA, #00CED1);
-            color: #0000CD; /* Changed to medium blue */
+            color: #0000CD;
             margin: 0;
             padding: 0;
             min-height: 100vh;
@@ -18,20 +18,20 @@
         }
         .page-container {
             display: flex;
-            max-width: 1200px;
+            max-width: 1400px;
             width: 100%;
             padding: 20px;
+            gap: 20px;
         }
         .quiz-container {
-            flex: 1;
+            flex: 2;
             background-color: rgba(255, 255, 255, 0.8);
             border-radius: 20px;
             padding: 20px;
             box-shadow: 0 0 20px rgba(0, 0, 205, 0.3);
-            margin-right: 20px;
         }
-        .rules-panel {
-            width: 250px;
+        .side-panel {
+            flex: 1;
             background-color: rgba(255, 255, 255, 0.8);
             border-radius: 20px;
             padding: 20px;
@@ -40,8 +40,8 @@
         }
         h1, h2 {
             text-align: center;
-            color: #1E90FF; /* Dodger Blue */
-            text-shadow: 2px 2px #00BFFF; /* Deep Sky Blue */
+            color: #1E90FF;
+            text-shadow: 2px 2px #00BFFF;
         }
         .audio-player {
             width: 100%;
@@ -49,7 +49,7 @@
         }
         .question {
             margin-bottom: 20px;
-            background-color: rgba(135, 206, 250, 0.2); /* Light Sky Blue */
+            background-color: rgba(135, 206, 250, 0.2);
             padding: 15px;
             border-radius: 10px;
         }
@@ -58,17 +58,17 @@
             font-size: inherit;
             padding: 2px 5px;
             border: none;
-            border-bottom: 2px solid #4169E1; /* Royal Blue */
+            border-bottom: 2px solid #4169E1;
             background-color: transparent;
-            color: #0000CD; /* Medium Blue */
+            color: #0000CD;
             width: 100px;
         }
         input[type="text"]:focus {
             outline: none;
-            border-bottom-color: #1E90FF; /* Dodger Blue */
+            border-bottom-color: #1E90FF;
         }
         button {
-            background-color: #4169E1; /* Royal Blue */
+            background-color: #4169E1;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -79,7 +79,7 @@
             margin: 10px 0;
         }
         button:hover {
-            background-color: #1E90FF; /* Dodger Blue */
+            background-color: #1E90FF;
         }
         .result {
             font-weight: bold;
@@ -90,7 +90,7 @@
             bottom: 0;
             left: 20px;
             font-size: 100px;
-            color: #228B22; /* Forest Green */
+            color: #228B22;
             z-index: -1;
         }
         .sun {
@@ -98,19 +98,31 @@
             top: 20px;
             right: 20px;
             font-size: 60px;
-            color: #FFD700; /* Gold */
+            color: #FFD700;
             z-index: -1;
         }
         #attempts {
             text-align: center;
             font-size: 18px;
             margin-bottom: 10px;
-            color: #4169E1; /* Royal Blue */
+            color: #4169E1;
         }
     </style>
 </head>
 <body>
     <div class="page-container">
+        <div class="side-panel">
+            <h2>Instructions</h2>
+            <ol>
+                <li>Listen to the audio story about Emma's camping trip.</li>
+                <li>Read each question carefully.</li>
+                <li>For fill-in-the-blank questions, type your answer in the provided space.</li>
+                <li>For multiple-choice questions, select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+            </ol>
+        </div>
+
         <div class="quiz-container">
             <h1>The Camping Trip Quiz</h1>
             
@@ -127,7 +139,7 @@
             <button onclick="checkAnswers()">Check Answers</button>
         </div>
         
-        <div class="rules-panel">
+        <div class="side-panel">
             <h2>Quiz Rules</h2>
             <ol>
                 <li>Answer all questions to the best of your ability.</li>
@@ -251,10 +263,10 @@
                 if (question.type === "multiple") {
                     if (userAnswer === question.answer) {
                         resultElement.textContent = "Correct!";
-                        resultElement.style.color = "#008000"; // Green
+                        resultElement.style.color = "#008000";
                     } else {
                         resultElement.textContent = "Incorrect answer.";
-                        resultElement.style.color = "#FF0000"; // Red
+                        resultElement.style.color = "#FF0000";
                         if (attempts > 6) {
                             resultElement.textContent += ` The correct answer is: ${question.options[question.answer]}`;
                         }
@@ -262,10 +274,10 @@
                 } else {
                     if (userAnswer === question.answer.toLowerCase()) {
                         resultElement.textContent = "Correct!";
-                        resultElement.style.color = "#008000"; // Green
+                        resultElement.style.color = "#008000";
                     } else {
                         resultElement.textContent = "Incorrect answer.";
-                        resultElement.style.color = "#FF0000"; // Red
+                        resultElement.style.color = "#FF0000";
                         if (attempts > 6) {
                             resultElement.textContent += ` The correct answer is: ${question.answer}`;
                         }
