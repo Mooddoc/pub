@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flute Audio Quiz</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100%;
+            background: linear-gradient(to bottom, #ffb3ba, #ffdfba);
+        }
+        .page-container {
+            display: flex;
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .column {
+            flex: 1;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            margin: 0 10px;
+        }
+        .quiz-container {
+            flex: 1.2;
+        }
+        h1, h2 {
+            color: #ff6b6b;
+            text-align: center;
+            margin-top: 0;
+        }
+        .word-container {
+            background-color: #ffffba;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+        }
+        .missing-letter {
+            width: 40px;
+            height: 30px;
+            border: none;
+            border-bottom: 2px solid #333;
+            text-align: center;
+            font-size: 24px;
+            color: #0066cc;
+            outline: none;
+            margin: 0 5px;
+            background-color: transparent;
+        }
+        button {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+        }
+        button:hover {
+            background-color: #ff8e8e;
+        }
+        .attempts {
+            text-align: center;
+            margin: 15px 0;
+        }
+        audio {
+            width: 100%;
+            margin: 15px 0;
+        }
+        #result {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 15px;
+            height: 20px;
+        }
+        .sun {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: yellow;
+            border-radius: 50%;
+        }
+        .flute {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 100px;
+            height: 20px;
+            background-color: #8B4513;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="column">
+            <h2>Instructions</h2>
+            <ol>
+                <li>Listen to the flute audio.</li>
+                <li>Fill in the missing letter in the word below.</li>
+                <li>Click "Check Answer" when you're ready.</li>
+                <li>You can check your answer multiple times to improve.</li>
+            </ol>
+        </div>
+        <div class="column quiz-container">
+            <h1>Flute Audio Quiz</h1>
+            <div class="attempts">Attempts: <span id="attemptCount">0</span></div>
+            <audio controls>
+                <source src="https://github.com/Mooddoc/audio/raw/main/flute.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <h2>Fill in the missing letter:</h2>
+            <div class="word-container">
+                <span>Fl</span>
+                <input type="text" class="missing-letter" id="letterInput" maxlength="2">
+                <span>te</span>
+            </div>
+            <button onclick="checkAnswer()">Check Answer</button>
+            <p id="result"></p>
+        </div>
+        <div class="column">
+            <h2>Quiz Rules</h2>
+            <ol>
+                <li>Answer to the best of your ability.</li>
+                <li>You have unlimited attempts to check your answer.</li>
+                <li>The correct answer will be revealed after 6 incorrect attempts.</li>
+                <li>Have fun and enjoy the flute sound!</li>
+            </ol>
+        </div>
+    </div>
+    <div class="sun"></div>
+    <div class="flute"></div>
+    <script>
+        let attempts = 0;
+        function checkAnswer() {
+            attempts++;
+            document.getElementById('attemptCount').textContent = attempts;
+            const input = document.getElementById('letterInput').value.toLowerCase();
+            const result = document.getElementById('result');
+            if (input === 'u') {
+                result.textContent = "Correct! The word is Flute.";
+                result.style.color = "green";
+            } else {
+                if (attempts < 6) {
+                    result.textContent = "Incorrect. Try again!";
+                    result.style.color = "red";
+                } else {
+                    result.textContent = "Incorrect. The correct answer is 'u'. The word is Flute.";
+                    result.style.color = "red";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
