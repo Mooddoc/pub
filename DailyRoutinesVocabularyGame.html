@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synonyms and Antonyms Game</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(to bottom, #ff9e9e, #ffb38a, #ffd286, #ffe381, #e6ff99);
+            color: #ff6b6b;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .page-container {
+            display: flex;
+            max-width: 1400px;
+            width: 100%;
+            padding: 20px;
+            gap: 20px;
+        }
+        .quiz-container {
+            flex: 2;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+        .side-panel {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+            align-self: flex-start;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .question {
+            margin-bottom: 20px;
+            background-color: rgba(255, 204, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        select {
+            font-family: inherit;
+            font-size: inherit;
+            padding: 5px;
+            border: none;
+            border-bottom: 2px solid #ff9e9e;
+            background-color: transparent;
+            color: #ff6b6b;
+        }
+        select:focus {
+            outline: none;
+            border-bottom-color: #ff9e9e;
+        }
+        button {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #ff9e9e;
+        }
+        .result {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        #attempts {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #ff6b6b;
+        }
+        .stage-number {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #ffe381;
+            border-radius: 10px;
+            margin: 10px 0;
+            height: 30px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #ff6b6b;
+            border-radius: 10px;
+            transition: width 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .confetti {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f5b7b1;
+            opacity: 0.7;
+            animation: confetti-fall 3s ease-in-out forwards, confetti-drift 3s ease-in-out forwards;
+        }
+        @keyframes confetti-fall {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+        @keyframes confetti-drift {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="side-panel">
+            <h2>Instructions</h2>
+            <ol>
+                <li>Read each question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+            </ol>
+        </div>
+
+        <div class="quiz-container">
+            <h1>Daily Routines Vocabulary Game</h1>
+            <div class="stage-number">Stage <span id="stage-number">1</span></div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar">0%</div>
+            </div>
+            
+            <div id="attempts">Attempts: 0</div>
+            <button onclick="checkStage()">Check Answers</button>
+            
+            <div id="quiz-content"></div>
+            
+            <button onclick="checkStage()">Check Answers</button>
+        </div>
+        
+        <div class="side-panel">
+            <h2>Quiz Rules</h2>
+            <ol>
+                <li>Answer all questions to the best of your ability.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>After 10 attempts, correct answers will be revealed for any incorrect responses.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+                <li>Have fun and learn new words!</li>
+            </ol>
+        </div>
+    </div>
+    
+    <script>
+        const quizData = [
+
+// Stage 1
+[
+    { 
+        question: "What is the first thing you usually do after waking up?", 
+        options: ["Stretch", "Play games", "Go to bed", "Watch TV", "Eat lunch"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do before eating breakfast?", 
+        options: ["Brush my teeth", "Go to bed", "Do homework", "Watch TV", "Play games"], 
+        answer: 0 
+    },
+    { 
+        question: "What is something you might do after getting dressed?", 
+        options: ["Pack my bag", "Go to bed", "Eat dinner", "Watch TV", "Brush my teeth"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do on your way to school?", 
+        options: ["Listen to music", "Go to bed", "Brush my teeth", "Play games", "Eat breakfast"], 
+        answer: 0 
+    },
+    { 
+        question: "What is the first thing you do when you get home from school?", 
+        options: ["Change my clothes", "Brush my teeth", "Eat breakfast", "Go to bed", "Play games"], 
+        answer: 0 
+    },
+],
+// Stage 2
+[
+    { 
+        question: "What do you usually do before going to bed?", 
+        options: ["Read a book", "Go to bed", "Play games", "Eat breakfast", "Do homework"], 
+        answer: 0 
+    },
+    { 
+        question: "What is something you might do after dinner?", 
+        options: ["Help clean up", "Go to bed", "Watch TV", "Play games", "Eat breakfast"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do after finishing your homework?", 
+        options: ["Relax", "Go to school", "Eat breakfast", "Brush my teeth", "Do more homework"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do before lunch?", 
+        options: ["Wash my hands", "Go to bed", "Play games", "Watch TV", "Go to school"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do when you feel hungry in the morning?", 
+        options: ["Have a snack", "Play games", "Go to bed", "Do homework", "Brush my teeth"], 
+        answer: 0 
+    },
+],
+// Stage 3
+[
+    { 
+        question: "What do you usually do after school?", 
+        options: ["Go to an activity", "Brush my teeth", "Eat dinner", "Go to bed", "Play games"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do after a meal?", 
+        options: ["Digest", "Go to bed", "Play games", "Watch TV", "Do homework"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do before leaving the house?", 
+        options: ["Check the weather", "Brush my teeth", "Go to bed", "Eat breakfast", "Play games"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do in the afternoon?", 
+        options: ["Take a nap", "Eat breakfast", "Go to bed", "Brush my teeth", "Go to school"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do before starting homework?", 
+        options: ["Organize my desk", "Play games", "Eat breakfast", "Watch TV", "Go to bed"], 
+        answer: 0 
+    },
+],
+// Stage 4
+[
+    { 
+        question: "What is something you do after coming home from a trip?", 
+        options: ["Unpack my bag", "Go to bed", "Eat breakfast", "Play games", "Brush my teeth"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do before bedtime?", 
+        options: ["Set an alarm", "Eat breakfast", "Play games", "Go to school", "Watch TV"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do after waking up on the weekend?", 
+        options: ["Relax in bed", "Go to school", "Eat dinner", "Brush my teeth", "Go to bed"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do in the morning before school?", 
+        options: ["Check my schedule", "Go to bed", "Play games", "Watch TV", "Brush my teeth"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do before going out with friends?", 
+        options: ["Get ready", "Go to bed", "Eat breakfast", "Do homework", "Play games"], 
+        answer: 0 
+    },
+],
+// Stage 5
+[
+    { 
+        question: "What do you usually do after breakfast?", 
+        options: ["Clean the dishes", "Go to bed", "Play games", "Watch TV", "Brush my teeth"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do before starting a new task?", 
+        options: ["Take a deep breath", "Go to bed", "Eat breakfast", "Play games", "Do homework"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do in the evening?", 
+        options: ["Plan for tomorrow", "Go to bed", "Play games", "Watch TV", "Eat breakfast"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do after playing outside?", 
+        options: ["Wash my hands", "Eat breakfast", "Go to bed", "Brush my teeth", "Play games"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do before dinner?", 
+        options: ["Set the table", "Go to bed", "Do homework", "Play games", "Brush my teeth"], 
+        answer: 0 
+    },
+],
+// Stage 6
+[
+    { 
+        question: "What do you do after eating lunch?", 
+        options: ["Take a break", "Brush my teeth", "Go to bed", "Play games", "Watch TV"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do before going to bed?", 
+        options: ["Change into pajamas", "Eat breakfast", "Play games", "Go to school", "Watch TV"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do when you get home from school?", 
+        options: ["Do homework", "Go to bed", "Eat breakfast", "Play games", "Brush my teeth"], 
+        answer: 0 
+    },
+    { 
+        question: "What is something you might do after playing a sport?", 
+        options: ["Take a shower", "Go to bed", "Eat breakfast", "Brush my teeth", "Play games"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do before breakfast?", 
+        options: ["Make my bed", "Go to bed", "Do homework", "Play games", "Watch TV"], 
+        answer: 0 
+    },
+],
+// Stage 7
+[
+    { 
+        question: "What do you usually do before eating lunch?", 
+        options: ["Wash my hands", "Go to bed", "Play games", "Watch TV", "Do homework"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do after brushing your teeth in the morning?", 
+        options: ["Eat breakfast", "Go to bed", "Play games", "Do homework", "Watch TV"], 
+        answer: 0 
+    },
+    { 
+        question: "What is something you might do before going to bed?", 
+        options: ["Turn off the lights", "Go to bed", "Eat breakfast", "Do homework", "Play games"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do after finishing your homework?", 
+        options: ["Relax", "Go to school", "Eat breakfast", "Brush my teeth", "Play games"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do before leaving the house in the morning?", 
+        options: ["Put on my shoes", "Go to bed", "Play games", "Eat breakfast", "Watch TV"], 
+        answer: 0 
+    },
+],
+// Stage 8
+[
+    { 
+        question: "What do you do after getting dressed in the morning?", 
+        options: ["Pack my bag", "Go to bed", "Play games", "Watch TV", "Eat breakfast"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do after dinner?", 
+        options: ["Help clean up", "Go to bed", "Play games", "Watch TV", "Do homework"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do when you feel tired in the afternoon?", 
+        options: ["Take a nap", "Brush my teeth", "Eat breakfast", "Do homework", "Play games"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do before going to school?", 
+        options: ["Put on my uniform", "Go to bed", "Play games", "Eat breakfast", "Watch TV"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do after getting home from an activity?", 
+        options: ["Relax", "Go to bed", "Eat breakfast", "Play games", "Do homework"], 
+        answer: 0 
+    },
+],
+// Stage 9
+[
+    { 
+        question: "What do you usually do in the evening?", 
+        options: ["Watch TV", "Go to bed", "Play games", "Eat breakfast", "Do homework"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do after finishing dinner?", 
+        options: ["Help clean the table", "Go to bed", "Play games", "Eat breakfast", "Brush my teeth"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do after playing outside?", 
+        options: ["Take a shower", "Go to bed", "Play games", "Eat breakfast", "Watch TV"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do before going out with friends?", 
+        options: ["Get dressed", "Go to bed", "Play games", "Do homework", "Watch TV"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do when you get home from school?", 
+        options: ["Do homework", "Go to bed", "Eat breakfast", "Play games", "Brush my teeth"], 
+        answer: 0 
+    },
+],
+// Stage 10
+[
+    { 
+        question: "What do you do when you feel sleepy at night?", 
+        options: ["Go to bed", "Eat breakfast", "Play games", "Do homework", "Watch TV"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do before eating breakfast?", 
+        options: ["Get dressed", "Go to bed", "Play games", "Do homework", "Watch TV"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do after school?", 
+        options: ["Go to an activity", "Brush my teeth", "Eat dinner", "Go to bed", "Play games"], 
+        answer: 0 
+    },
+    { 
+        question: "What is something you might do after lunch?", 
+        options: ["Take a walk", "Go to bed", "Play games", "Do homework", "Watch TV"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do before going to bed?", 
+        options: ["Set an alarm", "Go to bed", "Play games", "Eat breakfast", "Watch TV"], 
+        answer: 0 
+    },
+],
+// Stage 11
+[
+    { 
+        question: "What do you do after getting home from school?", 
+        options: ["Change my clothes", "Go to bed", "Eat breakfast", "Play games", "Brush my teeth"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do in the morning before school?", 
+        options: ["Pack my bag", "Go to bed", "Play games", "Watch TV", "Eat breakfast"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do before going to school?", 
+        options: ["Eat breakfast", "Go to bed", "Play games", "Watch TV", "Do homework"], 
+        answer: 0 
+    },
+    { 
+        question: "What is something you do after coming home from a trip?", 
+        options: ["Unpack my bag", "Go to bed", "Eat breakfast", "Play games", "Brush my teeth"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do before going out with friends?", 
+        options: ["Get ready", "Go to bed", "Eat breakfast", "Do homework", "Play games"], 
+        answer: 0 
+    },
+],
+// Stage 12
+[
+    { 
+        question: "What do you do when you wake up?", 
+        options: ["Stretch", "Go to bed", "Eat breakfast", "Play games", "Do homework"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do after breakfast?", 
+        options: ["Brush my teeth", "Go to bed", "Play games", "Do homework", "Watch TV"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do before starting homework?", 
+        options: ["Organize my desk", "Go to bed", "Play games", "Eat breakfast", "Watch TV"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do after getting dressed?", 
+        options: ["Pack my bag", "Go to bed", "Eat dinner", "Watch TV", "Brush my teeth"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do on your way to school?", 
+        options: ["Listen to music", "Go to bed", "Brush my teeth", "Play games", "Eat breakfast"], 
+        answer: 0 
+    },
+],
+// Stage 13
+[
+    { 
+        question: "What do you do after finishing your homework?", 
+        options: ["Relax", "Go to bed", "Eat breakfast", "Brush my teeth", "Do more homework"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do after school?", 
+        options: ["Go to an activity", "Brush my teeth", "Eat dinner", "Go to bed", "Play games"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do before going to bed?", 
+        options: ["Read a book", "Go to bed", "Play games", "Eat breakfast", "Do homework"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do before lunch?", 
+        options: ["Wash my hands", "Go to bed", "Play games", "Watch TV", "Go to school"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do when you feel hungry in the morning?", 
+        options: ["Have a snack", "Play games", "Go to bed", "Do homework", "Brush my teeth"], 
+        answer: 0 
+    },
+],
+// Stage 14
+[
+    { 
+        question: "What do you usually do after eating lunch?", 
+        options: ["Take a break", "Brush my teeth", "Go to bed", "Play games", "Watch TV"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do when you get home from school?", 
+        options: ["Do homework", "Go to bed", "Eat breakfast", "Play games", "Brush my teeth"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do before eating breakfast?", 
+        options: ["Get dressed", "Go to bed", "Play games", "Do homework", "Watch TV"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do before dinner?", 
+        options: ["Set the table", "Go to bed", "Do homework", "Play games", "Brush my teeth"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do before leaving the house?", 
+        options: ["Check the weather", "Brush my teeth", "Go to bed", "Eat breakfast", "Play games"], 
+        answer: 0 
+    },
+],
+// Stage 15
+[
+    { 
+        question: "What do you do before going to school?", 
+        options: ["Eat breakfast", "Go to bed", "Play games", "Watch TV", "Do homework"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do in the morning before school?", 
+        options: ["Check my schedule", "Go to bed", "Play games", "Watch TV", "Brush my teeth"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do after breakfast?", 
+        options: ["Brush my teeth", "Go to bed", "Play games", "Do homework", "Watch TV"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do before taking a shower?", 
+        options: ["Take off my clothes", "Go to bed", "Play games", "Eat breakfast", "Do homework"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do when you feel tired?", 
+        options: ["Take a nap", "Brush my teeth", "Eat breakfast", "Do homework", "Play games"], 
+        answer: 0 
+    },
+],
+// Stage 16
+[
+    { 
+        question: "What do you usually do before lunch?", 
+        options: ["Wash my hands", "Go to bed", "Play games", "Watch TV", "Do homework"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do after brushing your teeth in the morning?", 
+        options: ["Eat breakfast", "Go to bed", "Play games", "Do homework", "Watch TV"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do before leaving the house in the morning?", 
+        options: ["Put on my shoes", "Go to bed", "Play games", "Eat breakfast", "Watch TV"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do before going to bed?", 
+        options: ["Turn off the lights", "Go to bed", "Eat breakfast", "Do homework", "Play games"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do before going out with friends?", 
+        options: ["Get ready", "Go to bed", "Eat breakfast", "Do homework", "Play games"], 
+        answer: 0 
+    },
+],
+// Stage 17
+[
+    { 
+        question: "What do you usually do after school?", 
+        options: ["Go to an activity", "Brush my teeth", "Eat dinner", "Go to bed", "Play games"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do after a meal?", 
+        options: ["Digest", "Go to bed", "Play games", "Watch TV", "Do homework"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do after getting dressed in the morning?", 
+        options: ["Pack my bag", "Go to bed", "Play games", "Watch TV", "Eat breakfast"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do in the afternoon?", 
+        options: ["Take a nap", "Eat breakfast", "Go to bed", "Brush my teeth", "Go to school"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do before starting homework?", 
+        options: ["Organize my desk", "Play games", "Eat breakfast", "Watch TV", "Go to bed"], 
+        answer: 0 
+    },
+],
+// Stage 18
+[
+    { 
+        question: "What do you do after playing outside?", 
+        options: ["Take a shower", "Eat breakfast", "Go to bed", "Brush my teeth", "Play games"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do in the evening?", 
+        options: ["Plan for tomorrow", "Go to bed", "Play games", "Watch TV", "Eat breakfast"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do before dinner?", 
+        options: ["Set the table", "Go to bed", "Do homework", "Play games", "Brush my teeth"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do after eating lunch?", 
+        options: ["Take a break", "Brush my teeth", "Go to bed", "Play games", "Watch TV"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do before starting a new task?", 
+        options: ["Take a deep breath", "Go to bed", "Eat breakfast", "Play games", "Do homework"], 
+        answer: 0 
+    },
+],
+// Stage 19
+[
+    { 
+        question: "What do you do before going to school?", 
+        options: ["Eat breakfast", "Go to bed", "Play games", "Watch TV", "Do homework"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do when you wake up in the morning?", 
+        options: ["Stretch", "Go to bed", "Eat breakfast", "Play games", "Do homework"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do before taking a shower?", 
+        options: ["Take off my clothes", "Go to bed", "Play games", "Eat breakfast", "Do homework"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do after getting dressed?", 
+        options: ["Pack my bag", "Go to bed", "Eat dinner", "Watch TV", "Brush my teeth"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do after brushing your teeth in the morning?", 
+        options: ["Eat breakfast", "Go to bed", "Play games", "Do homework", "Watch TV"], 
+        answer: 0 
+    },
+],
+// Stage 20
+[
+    { 
+        question: "What do you do when you feel tired?", 
+        options: ["Take a nap", "Brush my teeth", "Eat breakfast", "Do homework", "Play games"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do before eating breakfast?", 
+        options: ["Get dressed", "Go to bed", "Play games", "Do homework", "Watch TV"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do after getting home from an activity?", 
+        options: ["Relax", "Go to bed", "Eat breakfast", "Play games", "Do homework"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you do before going out with friends?", 
+        options: ["Get ready", "Go to bed", "Eat breakfast", "Do homework", "Play games"], 
+        answer: 0 
+    },
+    { 
+        question: "What do you usually do before lunch?", 
+        options: ["Wash my hands", "Go to bed", "Play games", "Watch TV", "Do homework"], 
+        answer: 0 
+    },
+]
+
+
+
+        ];
+
+        let attempts = 0;
+		let currentStage = 1; 
+		const stageCount = quizData.length;
+
+        function renderQuiz() {
+		const quizContainer = document.getElementById("quiz-content");
+		quizContainer.innerHTML = '';
+		quizData[currentStage - 1].forEach((question, index) => {
+                const questionElement = document.createElement("div");
+                questionElement.className = "question";
+                
+                questionElement.innerHTML = `
+                    <p>${index + 1}. ${question.question}</p>
+                    <div class="options">
+                        <select id="q${index}">
+                            <option value="">Select</option>
+                            ${question.options.map((option, i) => `
+                                <option value="${i}">${option}</option>
+                            `).join("")}
+                        </select>
+                    </div>
+                    <div class="result" id="result${index}"></div>
+                `;
+
+                quizContainer.appendChild(questionElement);
+            });
+
+            updateStageNumber();
+        }
+
+        function checkStage() {
+            attempts++;
+            document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+            let correctCount = 0;
+
+            quizData[currentStage - 1].forEach((question, index) => {
+                const resultElement = document.getElementById(`result${index}`);
+                const selectedOption = document.getElementById(`q${index}`).value;
+                const userAnswer = parseInt(selectedOption);
+
+                if (userAnswer === question.answer) {
+                    resultElement.textContent = "Correct!";
+                    resultElement.style.color = "green";
+                    correctCount++;
+                } else {
+                    resultElement.textContent = "Incorrect answer.";
+                    resultElement.style.color = "red";
+                    if (attempts >= 10) {
+                        resultElement.textContent += ` The correct answer is: ${question.options[question.answer]}`;
+                    }
+                }
+            });
+
+			if (correctCount === quizData[currentStage - 1].length) {
+				if (currentStage < stageCount) {
+					showConfetti();
+					currentStage++;
+					updateProgressBar(); // Move this here
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 3000);
+				} else {
+					updateProgressBar();
+					alert("Congratulations! You've completed all stages.");
+				}
+            } else if (attempts >= 10) {
+                alert("You've reached the maximum number of attempts. The correct answers have been revealed.");
+            }
+
+            scrollToTop(); // Scroll back to top after checking answers
+        }
+
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+    
+    // Calculate progress based on completed stages
+    const completedStages = currentStage - 1;
+    const totalStages = stageCount;
+    const progress = (completedStages / totalStages) * 100;
+    
+    // Round the progress to 2 decimal places
+    const roundedProgress = Math.max(0, Math.round(progress * 100) / 100);
+    
+    // Set the progress bar width and text
+    progressBar.style.width = `${roundedProgress}%`;
+    progressBar.textContent = roundedProgress > 0 ? `${roundedProgress }%` : '';
+    
+    console.log(`Current Stage: ${currentStage}, Completed Stages: ${completedStages}, Total Stages: ${totalStages}, Progress: ${roundedProgress}%`);
+}
+
+
+
+        function updateStageNumber() {
+            document.getElementById("stage-number").textContent = currentStage;
+        }
+
+        function showConfetti() {
+            const confettiContainer = document.createElement("div");
+            confettiContainer.className = "confetti";
+            document.body.appendChild(confettiContainer);
+
+            for (let i = 0; i < 100; i++) {
+                const confettiPiece = document.createElement("div");
+                confettiPiece.className = "confetti-piece";
+                confettiPiece.style.left = `${Math.random() * 100}%`;
+                confettiPiece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                confettiContainer.appendChild(confettiPiece);
+            }
+
+            setTimeout(() => {
+                document.body.removeChild(confettiContainer);
+            }, 3000);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+		renderQuiz();
+		updateProgressBar(); 
+
+
+    </script>
+</body>
+</html>
