@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synonyms and Antonyms Game</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(to bottom, #ff9e9e, #ffb38a, #ffd286, #ffe381, #e6ff99);
+            color: #ff6b6b;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .page-container {
+            display: flex;
+            max-width: 1400px;
+            width: 100%;
+            padding: 20px;
+            gap: 20px;
+        }
+        .quiz-container {
+            flex: 2;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+        .side-panel {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+            align-self: flex-start;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .question {
+            margin-bottom: 20px;
+            background-color: rgba(255, 204, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        select {
+            font-family: inherit;
+            font-size: inherit;
+            padding: 5px;
+            border: none;
+            border-bottom: 2px solid #ff9e9e;
+            background-color: transparent;
+            color: #ff6b6b;
+        }
+        select:focus {
+            outline: none;
+            border-bottom-color: #ff9e9e;
+        }
+        button {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #ff9e9e;
+        }
+        .result {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        #attempts {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #ff6b6b;
+        }
+        .stage-number {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #ffe381;
+            border-radius: 10px;
+            margin: 10px 0;
+            height: 30px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #ff6b6b;
+            border-radius: 10px;
+            transition: width 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .confetti {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f5b7b1;
+            opacity: 0.7;
+            animation: confetti-fall 3s ease-in-out forwards, confetti-drift 3s ease-in-out forwards;
+        }
+        @keyframes confetti-fall {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+        @keyframes confetti-drift {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="side-panel">
+            <h2>Instructions</h2>
+            <ol>
+                <li>Read each question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+            </ol>
+        </div>
+
+        <div class="quiz-container">
+            <h1>Food and Meals Vocabulary Game</h1>
+            <div class="stage-number">Stage <span id="stage-number">1</span></div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar">0%</div>
+            </div>
+            
+            <div id="attempts">Attempts: 0</div>
+            <button onclick="checkStage()">Check Answers</button>
+            
+            <div id="quiz-content"></div>
+            
+            <button onclick="checkStage()">Check Answers</button>
+        </div>
+        
+        <div class="side-panel">
+            <h2>Quiz Rules</h2>
+            <ol>
+                <li>Answer all questions to the best of your ability.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>After 10 attempts, correct answers will be revealed for any incorrect responses.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+                <li>Have fun and learn new words!</li>
+            </ol>
+        </div>
+    </div>
+    
+    <script>
+        const quizData = [
+
+       
+// Stage 1
+[
+    { 
+        question: "Which of the following is a type of fruit?", 
+        options: ["Tomato", "Cheese", "Bread", "Apple", "Chicken"], 
+        answer: 3 
+    },
+    { 
+        question: "Which of these is a dairy product?", 
+        options: ["Orange", "Milk", "Potato", "Rice", "Carrot"], 
+        answer: 1 
+    },
+    { 
+        question: "Which of these is a type of vegetable?", 
+        options: ["Fish", "Carrot", "Butter", "Egg", "Cheese"], 
+        answer: 1 
+    },
+    { 
+        question: "Which of the following is a type of meat?", 
+        options: ["Beef", "Bread", "Rice", "Apple", "Banana"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is commonly eaten for breakfast?", 
+        options: ["Cereal", "Pasta", "Chicken", "Cake", "Fish"], 
+        answer: 0 
+    },
+],
+// Stage 2
+[
+    { 
+        question: "Which of the following is a type of grain?", 
+        options: ["Rice", "Apple", "Cheese", "Beef", "Carrot"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a beverage?", 
+        options: ["Bread", "Milk", "Chicken", "Carrot", "Fish"], 
+        answer: 1 
+    },
+    { 
+        question: "Which of the following is a type of seafood?", 
+        options: ["Fish", "Chicken", "Apple", "Carrot", "Milk"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a healthy snack?", 
+        options: ["Candy", "Chips", "Apple", "Cake", "Soda"], 
+        answer: 2 
+    },
+    { 
+        question: "Which of these is a type of bread?", 
+        options: ["Rice", "Cereal", "Toast", "Milk", "Apple"], 
+        answer: 2 
+    },
+],
+// Stage 3
+[
+    { 
+        question: "Which of the following is commonly added to coffee?", 
+        options: ["Salt", "Butter", "Sugar", "Pepper", "Rice"], 
+        answer: 2 
+    },
+    { 
+        question: "Which of these is a type of dessert?", 
+        options: ["Chicken", "Pie", "Potato", "Rice", "Broccoli"], 
+        answer: 1 
+    },
+    { 
+        question: "Which of the following is a source of protein?", 
+        options: ["Fish", "Banana", "Rice", "Carrot", "Cereal"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a citrus fruit?", 
+        options: ["Grapes", "Orange", "Strawberry", "Apple", "Banana"], 
+        answer: 1 
+    },
+    { 
+        question: "Which of these is typically eaten with a spoon?", 
+        options: ["Soup", "Bread", "Pizza", "Apple", "Carrot"], 
+        answer: 0 
+    },
+],
+// Stage 4
+[
+    { 
+        question: "Which of the following is a type of cheese?", 
+        options: ["Cheddar", "Bread", "Fish", "Rice", "Apple"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a leafy green vegetable?", 
+        options: ["Spinach", "Banana", "Chicken", "Fish", "Milk"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a type of nut?", 
+        options: ["Almond", "Bread", "Beef", "Apple", "Rice"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a type of pasta?", 
+        options: ["Spaghetti", "Rice", "Bread", "Apple", "Chicken"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is commonly spread on toast?", 
+        options: ["Jam", "Fish", "Rice", "Chicken", "Apple"], 
+        answer: 0 
+    },
+],
+// Stage 5
+[
+    { 
+        question: "Which of these is a tropical fruit?", 
+        options: ["Pineapple", "Apple", "Carrot", "Rice", "Milk"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a common ingredient in salads?", 
+        options: ["Lettuce", "Chicken", "Rice", "Bread", "Fish"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a type of root vegetable?", 
+        options: ["Carrot", "Rice", "Apple", "Milk", "Chicken"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a type of red meat?", 
+        options: ["Beef", "Fish", "Chicken", "Apple", "Cheese"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is often used to make sandwiches?", 
+        options: ["Bread", "Soup", "Apple", "Rice", "Carrot"], 
+        answer: 0 
+    },
+],
+// Stage 6
+[
+    { 
+        question: "Which of these is a source of calcium?", 
+        options: ["Milk", "Carrot", "Rice", "Apple", "Chicken"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a type of citrus fruit?", 
+        options: ["Lemon", "Potato", "Bread", "Milk", "Chicken"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a type of breakfast cereal?", 
+        options: ["Oats", "Rice", "Apple", "Cheese", "Carrot"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a type of white meat?", 
+        options: ["Chicken", "Beef", "Fish", "Apple", "Carrot"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a healthy beverage?", 
+        options: ["Water", "Soda", "Candy", "Chips", "Cake"], 
+        answer: 0 
+    },
+],
+// Stage 7
+[
+    { 
+        question: "Which of the following is a type of berry?", 
+        options: ["Strawberry", "Apple", "Bread", "Cheese", "Chicken"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is often eaten with pasta?", 
+        options: ["Tomato sauce", "Apple", "Bread", "Rice", "Milk"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a tropical fruit?", 
+        options: ["Mango", "Potato", "Bread", "Carrot", "Chicken"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is commonly used in baking?", 
+        options: ["Flour", "Rice", "Chicken", "Fish", "Carrot"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a type of juice?", 
+        options: ["Orange juice", "Milk", "Cheese", "Rice", "Bread"], 
+        answer: 0 
+    },
+],
+// Stage 8
+[
+    { 
+        question: "Which of the following is a type of dairy product?", 
+        options: ["Yogurt", "Carrot", "Apple", "Fish", "Rice"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a common ingredient in a fruit salad?", 
+        options: ["Banana", "Bread", "Cheese", "Chicken", "Fish"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a type of bread?", 
+        options: ["Baguette", "Apple", "Milk", "Cheese", "Fish"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a green vegetable?", 
+        options: ["Broccoli", "Chicken", "Rice", "Bread", "Fish"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is commonly served as a dessert?", 
+        options: ["Ice cream", "Chicken", "Carrot", "Rice", "Cheese"], 
+        answer: 0 
+    },
+],
+// Stage 9
+[
+    { 
+        question: "Which of these is a type of dried fruit?", 
+        options: ["Raisin", "Bread", "Chicken", "Carrot", "Rice"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a type of leafy vegetable?", 
+        options: ["Lettuce", "Potato", "Milk", "Chicken", "Fish"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a type of seafood?", 
+        options: ["Shrimp", "Bread", "Apple", "Rice", "Cheese"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is often used to sweeten food?", 
+        options: ["Honey", "Carrot", "Cheese", "Chicken", "Fish"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a type of salad green?", 
+        options: ["Arugula", "Apple", "Cheese", "Fish", "Milk"], 
+        answer: 0 
+    },
+],
+// Stage 10
+[
+    { 
+        question: "Which of these is a type of citrus fruit?", 
+        options: ["Grapefruit", "Rice", "Milk", "Cheese", "Chicken"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a type of legume?", 
+        options: ["Lentil", "Bread", "Fish", "Carrot", "Apple"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a type of whole grain?", 
+        options: ["Brown rice", "Apple", "Milk", "Fish", "Chicken"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a type of protein?", 
+        options: ["Egg", "Bread", "Apple", "Carrot", "Rice"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a type of cheese?", 
+        options: ["Mozzarella", "Fish", "Chicken", "Rice", "Carrot"], 
+        answer: 0 
+    },
+],
+// Stage 11
+[
+    { 
+        question: "Which of these is a type of bread roll?", 
+        options: ["Bun", "Apple", "Milk", "Cheese", "Fish"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is commonly added to sandwiches?", 
+        options: ["Lettuce", "Fish", "Rice", "Carrot", "Milk"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a source of fiber?", 
+        options: ["Whole wheat bread", "Cheese", "Chicken", "Fish", "Milk"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a type of citrus fruit?", 
+        options: ["Lime", "Potato", "Bread", "Milk", "Chicken"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a type of fish?", 
+        options: ["Salmon", "Bread", "Cheese", "Apple", "Carrot"], 
+        answer: 0 
+    },
+],
+// Stage 12
+[
+    { 
+        question: "Which of these is a type of grain?", 
+        options: ["Quinoa", "Apple", "Cheese", "Beef", "Carrot"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a type of seasoning?", 
+        options: ["Salt", "Bread", "Cheese", "Fish", "Milk"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is commonly used in smoothies?", 
+        options: ["Banana", "Rice", "Chicken", "Fish", "Carrot"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is often grilled?", 
+        options: ["Steak", "Bread", "Cheese", "Apple", "Rice"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a type of fruit?", 
+        options: ["Strawberry", "Cheese", "Bread", "Chicken", "Fish"], 
+        answer: 0 
+    },
+],
+// Stage 13
+[
+    { 
+        question: "Which of these is a common cooking oil?", 
+        options: ["Olive oil", "Apple", "Bread", "Cheese", "Fish"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a type of poultry?", 
+        options: ["Chicken", "Rice", "Apple", "Carrot", "Cheese"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a type of root vegetable?", 
+        options: ["Beet", "Apple", "Fish", "Rice", "Chicken"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is commonly spread on bread?", 
+        options: ["Butter", "Rice", "Chicken", "Carrot", "Apple"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a common pizza topping?", 
+        options: ["Pepperoni", "Rice", "Apple", "Carrot", "Fish"], 
+        answer: 0 
+    },
+],
+// Stage 14
+[
+    { 
+        question: "Which of these is a type of cereal?", 
+        options: ["Cornflakes", "Chicken", "Fish", "Carrot", "Apple"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a type of citrus fruit?", 
+        options: ["Tangerine", "Bread", "Milk", "Cheese", "Chicken"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a type of red fruit?", 
+        options: ["Cherry", "Fish", "Bread", "Cheese", "Rice"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a type of grain?", 
+        options: ["Barley", "Apple", "Carrot", "Chicken", "Cheese"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a healthy fat?", 
+        options: ["Avocado", "Soda", "Candy", "Cake", "Chips"], 
+        answer: 0 
+    },
+],
+// Stage 15
+[
+    { 
+        question: "Which of these is a type of bean?", 
+        options: ["Kidney bean", "Apple", "Rice", "Chicken", "Fish"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a type of pasta?", 
+        options: ["Penne", "Bread", "Rice", "Cheese", "Carrot"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a common breakfast food?", 
+        options: ["Omelette", "Fish", "Chicken", "Carrot", "Apple"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a common ingredient in cakes?", 
+        options: ["Flour", "Rice", "Apple", "Chicken", "Carrot"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a type of meat?", 
+        options: ["Lamb", "Bread", "Rice", "Cheese", "Apple"], 
+        answer: 0 
+    },
+],
+// Stage 16
+[
+    { 
+        question: "Which of these is a type of fruit?", 
+        options: ["Banana", "Fish", "Carrot", "Rice", "Milk"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a type of seafood?", 
+        options: ["Shrimp", "Apple", "Chicken", "Rice", "Carrot"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a common cooking ingredient?", 
+        options: ["Salt", "Bread", "Fish", "Cheese", "Milk"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a type of salad?", 
+        options: ["Caesar salad", "Rice", "Cheese", "Chicken", "Fish"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a type of red fruit?", 
+        options: ["Strawberry", "Rice", "Cheese", "Fish", "Carrot"], 
+        answer: 0 
+    },
+],
+// Stage 17
+[
+    { 
+        question: "Which of these is a type of nut?", 
+        options: ["Walnut", "Bread", "Cheese", "Fish", "Milk"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a type of vegetable?", 
+        options: ["Spinach", "Fish", "Chicken", "Rice", "Cheese"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a type of white meat?", 
+        options: ["Turkey", "Bread", "Apple", "Cheese", "Fish"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a source of vitamin C?", 
+        options: ["Orange", "Rice", "Carrot", "Chicken", "Fish"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is commonly added to sandwiches?", 
+        options: ["Mayonnaise", "Fish", "Rice", "Carrot", "Apple"], 
+        answer: 0 
+    },
+],
+// Stage 18
+[
+    { 
+        question: "Which of these is a source of protein?", 
+        options: ["Egg", "Bread", "Apple", "Cheese", "Rice"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a dairy product?", 
+        options: ["Cheese", "Rice", "Fish", "Apple", "Carrot"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is commonly used in baking?", 
+        options: ["Sugar", "Rice", "Fish", "Carrot", "Chicken"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a green vegetable?", 
+        options: ["Broccoli", "Cheese", "Apple", "Fish", "Chicken"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a type of citrus fruit?", 
+        options: ["Lemon", "Bread", "Fish", "Rice", "Carrot"], 
+        answer: 0 
+    },
+],
+// Stage 19
+[
+    { 
+        question: "Which of these is a type of seafood?", 
+        options: ["Tuna", "Bread", "Cheese", "Carrot", "Apple"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is commonly used in soups?", 
+        options: ["Broth", "Rice", "Cheese", "Chicken", "Fish"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a type of breakfast food?", 
+        options: ["Pancake", "Fish", "Chicken", "Rice", "Carrot"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is commonly used in salads?", 
+        options: ["Tomato", "Fish", "Bread", "Cheese", "Apple"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is a type of dairy product?", 
+        options: ["Yogurt", "Fish", "Chicken", "Rice", "Carrot"], 
+        answer: 0 
+    },
+],
+// Stage 20
+[
+    { 
+        question: "Which of these is a type of vegetable?", 
+        options: ["Cabbage", "Apple", "Cheese", "Fish", "Rice"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is commonly served as a dessert?", 
+        options: ["Cake", "Chicken", "Carrot", "Rice", "Cheese"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is commonly used as a spread?", 
+        options: ["Butter", "Rice", "Apple", "Carrot", "Fish"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of the following is a source of vitamin A?", 
+        options: ["Carrot", "Rice", "Fish", "Bread", "Apple"], 
+        answer: 0 
+    },
+    { 
+        question: "Which of these is commonly eaten at breakfast?", 
+        options: ["Cereal", "Fish", "Chicken", "Rice", "Carrot"], 
+        answer: 0 
+    },
+]
+
+
+
+
+        ];
+
+        let attempts = 0;
+		let currentStage = 1; 
+		const stageCount = quizData.length;
+
+        function renderQuiz() {
+		const quizContainer = document.getElementById("quiz-content");
+		quizContainer.innerHTML = '';
+		quizData[currentStage - 1].forEach((question, index) => {
+                const questionElement = document.createElement("div");
+                questionElement.className = "question";
+                
+                questionElement.innerHTML = `
+                    <p>${index + 1}. ${question.question}</p>
+                    <div class="options">
+                        <select id="q${index}">
+                            <option value="">Select</option>
+                            ${question.options.map((option, i) => `
+                                <option value="${i}">${option}</option>
+                            `).join("")}
+                        </select>
+                    </div>
+                    <div class="result" id="result${index}"></div>
+                `;
+
+                quizContainer.appendChild(questionElement);
+            });
+
+            updateStageNumber();
+        }
+
+        function checkStage() {
+            attempts++;
+            document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+            let correctCount = 0;
+
+            quizData[currentStage - 1].forEach((question, index) => {
+                const resultElement = document.getElementById(`result${index}`);
+                const selectedOption = document.getElementById(`q${index}`).value;
+                const userAnswer = parseInt(selectedOption);
+
+                if (userAnswer === question.answer) {
+                    resultElement.textContent = "Correct!";
+                    resultElement.style.color = "green";
+                    correctCount++;
+                } else {
+                    resultElement.textContent = "Incorrect answer.";
+                    resultElement.style.color = "red";
+                    if (attempts >= 10) {
+                        resultElement.textContent += ` The correct answer is: ${question.options[question.answer]}`;
+                    }
+                }
+            });
+
+			if (correctCount === quizData[currentStage - 1].length) {
+				if (currentStage < stageCount) {
+					showConfetti();
+					currentStage++;
+					updateProgressBar(); // Move this here
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 3000);
+				} else {
+					updateProgressBar();
+					alert("Congratulations! You've completed all stages.");
+				}
+            } else if (attempts >= 10) {
+                alert("You've reached the maximum number of attempts. The correct answers have been revealed.");
+            }
+
+            scrollToTop(); // Scroll back to top after checking answers
+        }
+
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+    
+    // Calculate progress based on completed stages
+    const completedStages = currentStage - 1;
+    const totalStages = stageCount;
+    const progress = (completedStages / totalStages) * 100;
+    
+    // Round the progress to 2 decimal places
+    const roundedProgress = Math.max(0, Math.round(progress * 100) / 100);
+    
+    // Set the progress bar width and text
+    progressBar.style.width = `${roundedProgress}%`;
+    progressBar.textContent = roundedProgress > 0 ? `${roundedProgress }%` : '';
+    
+    console.log(`Current Stage: ${currentStage}, Completed Stages: ${completedStages}, Total Stages: ${totalStages}, Progress: ${roundedProgress}%`);
+}
+
+
+
+        function updateStageNumber() {
+            document.getElementById("stage-number").textContent = currentStage;
+        }
+
+        function showConfetti() {
+            const confettiContainer = document.createElement("div");
+            confettiContainer.className = "confetti";
+            document.body.appendChild(confettiContainer);
+
+            for (let i = 0; i < 100; i++) {
+                const confettiPiece = document.createElement("div");
+                confettiPiece.className = "confetti-piece";
+                confettiPiece.style.left = `${Math.random() * 100}%`;
+                confettiPiece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                confettiContainer.appendChild(confettiPiece);
+            }
+
+            setTimeout(() => {
+                document.body.removeChild(confettiContainer);
+            }, 3000);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+		renderQuiz();
+		updateProgressBar(); 
+
+
+    </script>
+</body>
+</html>
