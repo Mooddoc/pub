@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synonyms and Antonyms Game</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(to bottom, #ff9e9e, #ffb38a, #ffd286, #ffe381, #e6ff99);
+            color: #ff6b6b;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .page-container {
+            display: flex;
+            max-width: 1400px;
+            width: 100%;
+            padding: 20px;
+            gap: 20px;
+        }
+        .quiz-container {
+            flex: 2;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+        .side-panel {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+            align-self: flex-start;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .question {
+            margin-bottom: 20px;
+            background-color: rgba(255, 204, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        select {
+            font-family: inherit;
+            font-size: inherit;
+            padding: 5px;
+            border: none;
+            border-bottom: 2px solid #ff9e9e;
+            background-color: transparent;
+            color: #ff6b6b;
+        }
+        select:focus {
+            outline: none;
+            border-bottom-color: #ff9e9e;
+        }
+        button {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #ff9e9e;
+        }
+        .result {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        #attempts {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #ff6b6b;
+        }
+        .stage-number {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #ffe381;
+            border-radius: 10px;
+            margin: 10px 0;
+            height: 30px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #ff6b6b;
+            border-radius: 10px;
+            transition: width 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .confetti {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f5b7b1;
+            opacity: 0.7;
+            animation: confetti-fall 3s ease-in-out forwards, confetti-drift 3s ease-in-out forwards;
+        }
+        @keyframes confetti-fall {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+        @keyframes confetti-drift {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="side-panel">
+            <h2>Instructions</h2>
+            <ol>
+                <li>Read each question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+            </ol>
+        </div>
+
+        <div class="quiz-container">
+            <h1>General Knowledge Game</h1>
+            <div class="stage-number">Stage <span id="stage-number">1</span></div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar">0%</div>
+            </div>
+            
+            <div id="attempts">Attempts: 0</div>
+            <button onclick="checkStage()">Check Answers</button>
+            
+            <div id="quiz-content"></div>
+            
+            <button onclick="checkStage()">Check Answers</button>
+        </div>
+        
+        <div class="side-panel">
+            <h2>Quiz Rules</h2>
+            <ol>
+                <li>Answer all questions to the best of your ability.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>After 10 attempts, correct answers will be revealed for any incorrect responses.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+                <li>Have fun and learn new words!</li>
+            </ol>
+        </div>
+    </div>
+    
+    <script>
+        const quizData = [
+			// Stage 1
+			[
+				{ question: "What is the capital of the United States?", options: ["New York", "Los Angeles", "Washington, D.C.", "Chicago"], answer: 2 },
+				{ question: "Which animal is known as the King of the Jungle?", options: ["Elephant", "Lion", "Tiger", "Giraffe"], answer: 1 },
+				{ question: "How many continents are there?", options: ["Five", "Six", "Seven", "Eight"], answer: 2 },
+				{ question: "What color are bananas?", options: ["Red", "Yellow", "Green", "Blue"], answer: 1 },
+				{ question: "What is 2 + 2?", options: ["3", "4", "5", "6"], answer: 1 },
+			],
+			// Stage 2
+			[
+				{ question: "What is the capital of Italy?", options: ["Rome", "Paris", "London", "Berlin"], answer: 0 },
+				{ question: "Which animal is known for its black and white stripes?", options: ["Elephant", "Zebra", "Lion", "Giraffe"], answer: 1 },
+				{ question: "How many days are there in a week?", options: ["5", "6", "7", "8"], answer: 2 },
+				{ question: "What color is the sky on a clear day?", options: ["Blue", "Green", "Red", "Yellow"], answer: 0 },
+				{ question: "What is 10 - 4?", options: ["5", "6", "7", "8"], answer: 1 },
+			],
+			// Stage 3
+			[
+				{ question: "What is the capital of Japan?", options: ["Seoul", "Beijing", "Tokyo", "Bangkok"], answer: 2 },
+				{ question: "Which animal is the largest in the world?", options: ["Elephant", "Blue Whale", "Shark", "Giraffe"], answer: 1 },
+				{ question: "How many months are there in a year?", options: ["10", "11", "12", "13"], answer: 2 },
+				{ question: "What color is an apple?", options: ["Purple", "Red", "Blue", "Orange"], answer: 1 },
+				{ question: "What is 5 x 3?", options: ["10", "12", "15", "20"], answer: 2 },
+			],
+			// Stage 4
+			[
+				{ question: "What is the capital of France?", options: ["Berlin", "Madrid", "Paris", "Lisbon"], answer: 2 },
+				{ question: "Which animal is known for its long neck?", options: ["Elephant", "Giraffe", "Lion", "Zebra"], answer: 1 },
+				{ question: "How many hours are there in a day?", options: ["12", "24", "36", "48"], answer: 1 },
+				{ question: "What color is the sun?", options: ["Yellow", "Red", "Blue", "Green"], answer: 0 },
+				{ question: "What is 8 - 3?", options: ["4", "5", "6", "7"], answer: 1 },
+			],
+			// Stage 5
+			[
+				{ question: "What is the capital of China?", options: ["Tokyo", "Seoul", "Beijing", "Bangkok"], answer: 2 },
+				{ question: "Which animal is known as man's best friend?", options: ["Cat", "Dog", "Bird", "Horse"], answer: 1 },
+				{ question: "How many seasons are there in a year?", options: ["2", "3", "4", "5"], answer: 2 },
+				{ question: "What color is the grass?", options: ["Red", "Yellow", "Blue", "Green"], answer: 3 },
+				{ question: "What is 6 x 2?", options: ["10", "12", "14", "16"], answer: 1 },
+			],
+			// Stage 6
+			[
+				{ question: "What is the capital of the United Kingdom?", options: ["Paris", "London", "Berlin", "Madrid"], answer: 1 },
+				{ question: "Which animal is known for its long trunk?", options: ["Elephant", "Lion", "Giraffe", "Zebra"], answer: 0 },
+				{ question: "How many legs does a spider have?", options: ["6", "7", "8", "9"], answer: 2 },
+				{ question: "What color is the ocean?", options: ["Green", "Yellow", "Blue", "Red"], answer: 2 },
+				{ question: "What is 9 + 1?", options: ["9", "10", "11", "12"], answer: 1 },
+			],
+			// Stage 7
+			[
+				{ question: "What is the capital of Australia?", options: ["Sydney", "Melbourne", "Canberra", "Brisbane"], answer: 2 },
+				{ question: "Which animal is known for its speed?", options: ["Cheetah", "Elephant", "Turtle", "Horse"], answer: 0 },
+				{ question: "How many colors are there in a rainbow?", options: ["5", "6", "7", "8"], answer: 2 },
+				{ question: "What color is an orange?", options: ["Red", "Yellow", "Orange", "Blue"], answer: 2 },
+				{ question: "What is 12 / 4?", options: ["2", "3", "4", "5"], answer: 1 },
+			],
+			// Stage 8
+			[
+				{ question: "What is the capital of Canada?", options: ["Toronto", "Vancouver", "Ottawa", "Montreal"], answer: 2 },
+				{ question: "Which animal is known for its quills?", options: ["Porcupine", "Hedgehog", "Elephant", "Lion"], answer: 0 },
+				{ question: "How many sides does a square have?", options: ["3", "4", "5", "6"], answer: 1 },
+				{ question: "What color is the moon?", options: ["Yellow", "White", "Blue", "Red"], answer: 1 },
+				{ question: "What is 15 - 5?", options: ["5", "10", "15", "20"], answer: 1 },
+			],
+			// Stage 9
+			[
+				{ question: "What is the capital of Russia?", options: ["Moscow", "Saint Petersburg", "Kazan", "Sochi"], answer: 0 },
+				{ question: "Which animal is known for its pouch?", options: ["Kangaroo", "Lion", "Elephant", "Zebra"], answer: 0 },
+				{ question: "How many wheels does a car have?", options: ["2", "3", "4", "5"], answer: 2 },
+				{ question: "What color are strawberries?", options: ["Green", "Yellow", "Red", "Blue"], answer: 2 },
+				{ question: "What is 20 / 4?", options: ["3", "4", "5", "6"], answer: 2 },
+			],
+			// Stage 10
+			[
+				{ question: "What is the capital of Germany?", options: ["Berlin", "Munich", "Hamburg", "Frankfurt"], answer: 0 },
+				{ question: "Which animal is known for its hump?", options: ["Camel", "Horse", "Elephant", "Giraffe"], answer: 0 },
+				{ question: "How many fingers do humans have?", options: ["8", "9", "10", "11"], answer: 2 },
+				{ question: "What color are apples?", options: ["Yellow", "Red", "Blue", "Orange"], answer: 1 },
+				{ question: "What is 14 + 6?", options: ["19", "20", "21", "22"], answer: 1 },
+			],
+			// Stage 11
+			[
+				{ question: "What is the capital of Brazil?", options: ["São Paulo", "Rio de Janeiro", "Brasília", "Salvador"], answer: 2 },
+				{ question: "Which animal is known for its ability to mimic speech?", options: ["Parrot", "Crow", "Eagle", "Penguin"], answer: 0 },
+				{ question: "How many wings does a bird have?", options: ["1", "2", "3", "4"], answer: 1 },
+				{ question: "What color is the flag of Japan?", options: ["White and red", "Blue and white", "Green and yellow", "Red and yellow"], answer: 0 },
+				{ question: "What is 5 x 2?", options: ["8", "9", "10", "11"], answer: 2 },
+			],
+			// Stage 12
+			[
+				{ question: "What is the capital of Mexico?", options: ["Cancún", "Guadalajara", "Monterrey", "Mexico City"], answer: 3 },
+				{ question: "Which animal is known for building dams?", options: ["Beaver", "Otter", "Fox", "Bear"], answer: 0 },
+				{ question: "How many legs does a crab have?", options: ["6", "8", "10", "12"], answer: 2 },
+				{ question: "What color are lemons?", options: ["Red", "Yellow", "Green", "Blue"], answer: 1 },
+				{ question: "What is 18 / 3?", options: ["4", "5", "6", "7"], answer: 2 },
+			],
+			// Stage 13
+			[
+				{ question: "What is the capital of Egypt?", options: ["Cairo", "Alexandria", "Luxor", "Giza"], answer: 0 },
+				{ question: "Which animal is known for its stripes?", options: ["Elephant", "Tiger", "Lion", "Giraffe"], answer: 1 },
+				{ question: "How many teeth do adults usually have?", options: ["28", "30", "32", "34"], answer: 2 },
+				{ question: "What color are oranges?", options: ["Red", "Yellow", "Orange", "Blue"], answer: 2 },
+				{ question: "What is 16 + 4?", options: ["18", "19", "20", "21"], answer: 2 },
+			],
+			// Stage 14
+			[
+				{ question: "What is the capital of Spain?", options: ["Madrid", "Barcelona", "Valencia", "Seville"], answer: 0 },
+				{ question: "Which animal is known for its tusks?", options: ["Elephant", "Lion", "Giraffe", "Zebra"], answer: 0 },
+				{ question: "How many wheels does a bicycle have?", options: ["1", "2", "3", "4"], answer: 1 },
+				{ question: "What color is the grass?", options: ["Red", "Yellow", "Blue", "Green"], answer: 3 },
+				{ question: "What is 30 - 10?", options: ["18", "19", "20", "21"], answer: 2 },
+			],
+			// Stage 15
+			[
+				{ question: "What is the capital of Argentina?", options: ["Buenos Aires", "Córdoba", "Rosario", "Mendoza"], answer: 0 },
+				{ question: "Which animal is known for its trunk?", options: ["Elephant", "Lion", "Giraffe", "Zebra"], answer: 0 },
+				{ question: "How many letters are there in the English alphabet?", options: ["24", "25", "26", "27"], answer: 2 },
+				{ question: "What color are strawberries?", options: ["Red", "Yellow", "Blue", "Green"], answer: 0 },
+				{ question: "What is 50 / 5?", options: ["9", "10", "11", "12"], answer: 1 },
+			],
+			// Stage 16
+			[
+				{ question: "What is the capital of South Africa?", options: ["Cape Town", "Johannesburg", "Pretoria", "Durban"], answer: 2 },
+				{ question: "Which animal is known for its shell?", options: ["Turtle", "Snake", "Elephant", "Zebra"], answer: 0 },
+				{ question: "How many continents are there?", options: ["5", "6", "7", "8"], answer: 2 },
+				{ question: "What color is the sky on a clear day?", options: ["Red", "Yellow", "Blue", "Green"], answer: 2 },
+				{ question: "What is 100 - 25?", options: ["70", "75", "80", "85"], answer: 1 },
+			],
+			// Stage 17
+			[
+				{ question: "What is the capital of New Zealand?", options: ["Auckland", "Christchurch", "Wellington", "Dunedin"], answer: 2 },
+				{ question: "Which animal is known for its speed?", options: ["Cheetah", "Elephant", "Giraffe", "Zebra"], answer: 0 },
+				{ question: "How many days are there in a year?", options: ["355", "360", "365", "370"], answer: 2 },
+				{ question: "What color is the sun?", options: ["Red", "Yellow", "Blue", "Green"], answer: 1 },
+				{ question: "What is 20 x 2?", options: ["30", "40", "50", "60"], answer: 1 },
+			],
+			// Stage 18
+			[
+				{ question: "What is the capital of Norway?", options: ["Oslo", "Bergen", "Stavanger", "Trondheim"], answer: 0 },
+				{ question: "Which animal is known for its long neck?", options: ["Elephant", "Lion", "Giraffe", "Zebra"], answer: 2 },
+				{ question: "How many hours are there in a day?", options: ["12", "24", "36", "48"], answer: 1 },
+				{ question: "What color is an orange?", options: ["Red", "Yellow", "Blue", "Orange"], answer: 3 },
+				{ question: "What is 8 + 8?", options: ["14", "15", "16", "17"], answer: 2 },
+			],
+			// Stage 19
+			[
+				{ question: "What is the capital of Sweden?", options: ["Stockholm", "Gothenburg", "Malmö", "Uppsala"], answer: 0 },
+				{ question: "Which animal is known for its black and white stripes?", options: ["Elephant", "Lion", "Zebra", "Giraffe"], answer: 2 },
+				{ question: "How many sides does a triangle have?", options: ["2", "3", "4", "5"], answer: 1 },
+				{ question: "What color are lemons?", options: ["Red", "Yellow", "Blue", "Green"], answer: 1 },
+				{ question: "What is 15 + 10?", options: ["20", "25", "30", "35"], answer: 1 },
+			],
+			// Stage 20
+			[
+				{ question: "What is the capital of Finland?", options: ["Helsinki", "Turku", "Tampere", "Oulu"], answer: 0 },
+				{ question: "Which animal is known for its hump?", options: ["Camel", "Horse", "Elephant", "Giraffe"], answer: 0 },
+				{ question: "How many fingers do humans have?", options: ["8", "9", "10", "11"], answer: 2 },
+				{ question: "What color is an apple?", options: ["Purple", "Red", "Blue", "Orange"], answer: 1 },
+				{ question: "What is 14 + 6?", options: ["19", "20", "21", "22"], answer: 1 },
+			]
+
+
+        ];
+
+        let attempts = 0;
+		let currentStage = 1; 
+		const stageCount = quizData.length;
+
+        function renderQuiz() {
+		const quizContainer = document.getElementById("quiz-content");
+		quizContainer.innerHTML = '';
+		quizData[currentStage - 1].forEach((question, index) => {
+                const questionElement = document.createElement("div");
+                questionElement.className = "question";
+                
+                questionElement.innerHTML = `
+                    <p>${index + 1}. ${question.question}</p>
+                    <div class="options">
+                        <select id="q${index}">
+                            <option value="">Select</option>
+                            ${question.options.map((option, i) => `
+                                <option value="${i}">${option}</option>
+                            `).join("")}
+                        </select>
+                    </div>
+                    <div class="result" id="result${index}"></div>
+                `;
+
+                quizContainer.appendChild(questionElement);
+            });
+
+            updateStageNumber();
+        }
+
+        function checkStage() {
+            attempts++;
+            document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+            let correctCount = 0;
+
+            quizData[currentStage - 1].forEach((question, index) => {
+                const resultElement = document.getElementById(`result${index}`);
+                const selectedOption = document.getElementById(`q${index}`).value;
+                const userAnswer = parseInt(selectedOption);
+
+                if (userAnswer === question.answer) {
+                    resultElement.textContent = "Correct!";
+                    resultElement.style.color = "green";
+                    correctCount++;
+                } else {
+                    resultElement.textContent = "Incorrect answer.";
+                    resultElement.style.color = "red";
+                    if (attempts >= 10) {
+                        resultElement.textContent += ` The correct answer is: ${question.options[question.answer]}`;
+                    }
+                }
+            });
+
+			if (correctCount === quizData[currentStage - 1].length) {
+				if (currentStage < stageCount) {
+					showConfetti();
+					currentStage++;
+					updateProgressBar(); // Move this here
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 3000);
+				} else {
+					updateProgressBar();
+					alert("Congratulations! You've completed all stages.");
+				}
+            } else if (attempts >= 10) {
+                alert("You've reached the maximum number of attempts. The correct answers have been revealed.");
+            }
+
+            scrollToTop(); // Scroll back to top after checking answers
+        }
+
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+    
+    // Calculate progress based on completed stages
+    const completedStages = currentStage - 1;
+    const totalStages = stageCount;
+    const progress = (completedStages / totalStages) * 100;
+    
+    // Round the progress to 2 decimal places
+    const roundedProgress = Math.max(0, Math.round(progress * 100) / 100);
+    
+    // Set the progress bar width and text
+    progressBar.style.width = `${roundedProgress}%`;
+    progressBar.textContent = roundedProgress > 0 ? `${roundedProgress }%` : '';
+    
+    console.log(`Current Stage: ${currentStage}, Completed Stages: ${completedStages}, Total Stages: ${totalStages}, Progress: ${roundedProgress}%`);
+}
+
+
+
+        function updateStageNumber() {
+            document.getElementById("stage-number").textContent = currentStage;
+        }
+
+        function showConfetti() {
+            const confettiContainer = document.createElement("div");
+            confettiContainer.className = "confetti";
+            document.body.appendChild(confettiContainer);
+
+            for (let i = 0; i < 100; i++) {
+                const confettiPiece = document.createElement("div");
+                confettiPiece.className = "confetti-piece";
+                confettiPiece.style.left = `${Math.random() * 100}%`;
+                confettiPiece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                confettiContainer.appendChild(confettiPiece);
+            }
+
+            setTimeout(() => {
+                document.body.removeChild(confettiContainer);
+            }, 3000);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+		renderQuiz();
+		updateProgressBar(); 
+
+
+    </script>
+</body>
+</html>
