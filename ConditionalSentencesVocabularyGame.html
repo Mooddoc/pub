@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synonyms and Antonyms Game</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(to bottom, #ff9e9e, #ffb38a, #ffd286, #ffe381, #e6ff99);
+            color: #ff6b6b;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .page-container {
+            display: flex;
+            max-width: 1400px;
+            width: 100%;
+            padding: 20px;
+            gap: 20px;
+        }
+        .quiz-container {
+            flex: 2;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+        .side-panel {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+            align-self: flex-start;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .question {
+            margin-bottom: 20px;
+            background-color: rgba(255, 204, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        select {
+            font-family: inherit;
+            font-size: inherit;
+            padding: 5px;
+            border: none;
+            border-bottom: 2px solid #ff9e9e;
+            background-color: transparent;
+            color: #ff6b6b;
+        }
+        select:focus {
+            outline: none;
+            border-bottom-color: #ff9e9e;
+        }
+        button {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #ff9e9e;
+        }
+        .result {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        #attempts {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #ff6b6b;
+        }
+        .stage-number {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #ffe381;
+            border-radius: 10px;
+            margin: 10px 0;
+            height: 30px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #ff6b6b;
+            border-radius: 10px;
+            transition: width 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .confetti {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f5b7b1;
+            opacity: 0.7;
+            animation: confetti-fall 3s ease-in-out forwards, confetti-drift 3s ease-in-out forwards;
+        }
+        @keyframes confetti-fall {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+        @keyframes confetti-drift {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="side-panel">
+            <h2>Instructions</h2>
+            <ol>
+                <li>Read each question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+            </ol>
+        </div>
+
+        <div class="quiz-container">
+            <h1>Conditional Sentences Vocabulary Game</h1>
+            <div class="stage-number">Stage <span id="stage-number">1</span></div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar">0%</div>
+            </div>
+            
+            <div id="attempts">Attempts: 0</div>
+            <button onclick="checkStage()">Check Answers</button>
+            
+            <div id="quiz-content"></div>
+            
+            <button onclick="checkStage()">Check Answers</button>
+        </div>
+        
+        <div class="side-panel">
+            <h2>Quiz Rules</h2>
+            <ol>
+                <li>Answer all questions to the best of your ability.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>After 10 attempts, correct answers will be revealed for any incorrect responses.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+                <li>Have fun and learn new words!</li>
+            </ol>
+        </div>
+    </div>
+    
+    <script>
+        const quizData = [
+
+// Stage 1
+[
+    { 
+        question: "If she ___ (to study) harder, she would pass the exam.", 
+        options: ["studies", "studied", "had studied", "has studied"], 
+        answer: 2 
+    },
+    { 
+        question: "If they ___ (to arrive) earlier, they could have seen the show.", 
+        options: ["arrive", "arrived", "had arrived", "have arrived"], 
+        answer: 2 
+    },
+    { 
+        question: "If I ___ (to know) his number, I would call him.", 
+        options: ["know", "knew", "had known", "have known"], 
+        answer: 1 
+    },
+    { 
+        question: "If you ___ (to invite) her, she would have come.", 
+        options: ["invite", "invited", "had invited", "has invited"], 
+        answer: 2 
+    },
+    { 
+        question: "If we ___ (to leave) now, we will catch the bus.", 
+        options: ["leave", "left", "had left", "have left"], 
+        answer: 0 
+    },
+],
+// Stage 2
+[
+    { 
+        question: "If I ___ (to be) you, I would take the job.", 
+        options: ["am", "were", "was", "had been"], 
+        answer: 1 
+    },
+    { 
+        question: "If they ___ (to work) harder, they would finish on time.", 
+        options: ["work", "worked", "had worked", "have worked"], 
+        answer: 1 
+    },
+    { 
+        question: "If she ___ (to see) the movie, she would understand the joke.", 
+        options: ["sees", "saw", "had seen", "has seen"], 
+        answer: 1 
+    },
+    { 
+        question: "If he ___ (to try) again, he might succeed.", 
+        options: ["tries", "tried", "had tried", "has tried"], 
+        answer: 1 
+    },
+    { 
+        question: "If we ___ (to wait) here, someone will help us.", 
+        options: ["wait", "waited", "had waited", "have waited"], 
+        answer: 0 
+    },
+],
+// Stage 3
+[
+    { 
+        question: "If you ___ (to listen) to me, you wouldn't be in trouble.", 
+        options: ["listen", "listened", "had listened", "have listened"], 
+        answer: 2 
+    },
+    { 
+        question: "If they ___ (to finish) the project on time, they would have been rewarded.", 
+        options: ["finish", "finished", "had finished", "have finished"], 
+        answer: 2 
+    },
+    { 
+        question: "If I ___ (to win) the lottery, I would buy a new house.", 
+        options: ["win", "won", "had won", "have won"], 
+        answer: 1 
+    },
+    { 
+        question: "If she ___ (to call) me, I would help her.", 
+        options: ["calls", "called", "had called", "has called"], 
+        answer: 1 
+    },
+    { 
+        question: "If you ___ (to ask) nicely, they might help you.", 
+        options: ["ask", "asked", "had asked", "have asked"], 
+        answer: 1 
+    },
+],
+// Stage 4
+[
+    { 
+        question: "If we ___ (to leave) earlier, we would have missed the traffic.", 
+        options: ["leave", "left", "had left", "have left"], 
+        answer: 2 
+    },
+    { 
+        question: "If he ___ (to practice) more, he would play better.", 
+        options: ["practices", "practiced", "had practiced", "has practiced"], 
+        answer: 1 
+    },
+    { 
+        question: "If they ___ (to know) the truth, they would have told you.", 
+        options: ["know", "knew", "had known", "have known"], 
+        answer: 2 
+    },
+    { 
+        question: "If I ___ (to be) rich, I would travel the world.", 
+        options: ["am", "were", "was", "had been"], 
+        answer: 1 
+    },
+    { 
+        question: "If you ___ (to eat) your vegetables, you will be healthy.", 
+        options: ["eat", "ate", "had eaten", "have eaten"], 
+        answer: 0 
+    },
+],
+// Stage 5
+[
+    { 
+        question: "If she ___ (to ask) for directions, she wouldn’t have gotten lost.", 
+        options: ["asks", "asked", "had asked", "has asked"], 
+        answer: 2 
+    },
+    { 
+        question: "If they ___ (to come) to the party, it would have been more fun.", 
+        options: ["come", "came", "had come", "have come"], 
+        answer: 2 
+    },
+    { 
+        question: "If I ___ (to pass) the test, I would celebrate.", 
+        options: ["pass", "passed", "had passed", "have passed"], 
+        answer: 1 
+    },
+    { 
+        question: "If you ___ (to save) your money, you could buy a car.", 
+        options: ["save", "saved", "had saved", "have saved"], 
+        answer: 1 
+    },
+    { 
+        question: "If we ___ (to study) more, we would have gotten better grades.", 
+        options: ["study", "studied", "had studied", "have studied"], 
+        answer: 2 
+    },
+],
+// Stage 6
+[
+    { 
+        question: "If he ___ (to call) the doctor, he would have felt better.", 
+        options: ["calls", "called", "had called", "has called"], 
+        answer: 2 
+    },
+    { 
+        question: "If they ___ (to try) harder, they would have won the game.", 
+        options: ["try", "tried", "had tried", "have tried"], 
+        answer: 2 
+    },
+    { 
+        question: "If I ___ (to know) about the sale, I would have gone shopping.", 
+        options: ["know", "knew", "had known", "have known"], 
+        answer: 2 
+    },
+    { 
+        question: "If you ___ (to cook) dinner, I will do the dishes.", 
+        options: ["cook", "cooked", "had cooked", "have cooked"], 
+        answer: 0 
+    },
+    { 
+        question: "If we ___ (to work) together, we will finish faster.", 
+        options: ["work", "worked", "had worked", "have worked"], 
+        answer: 0 
+    },
+],
+// Stage 7
+[
+    { 
+        question: "If I ___ (to have) more time, I would take a vacation.", 
+        options: ["have", "had", "had had", "have had"], 
+        answer: 1 
+    },
+    { 
+        question: "If she ___ (to study) medicine, she would be a doctor.", 
+        options: ["studies", "studied", "had studied", "has studied"], 
+        answer: 1 
+    },
+    { 
+        question: "If they ___ (to arrive) on time, they wouldn’t have missed the bus.", 
+        options: ["arrive", "arrived", "had arrived", "have arrived"], 
+        answer: 2 
+    },
+    { 
+        question: "If we ___ (to plan) ahead, we would have avoided the problem.", 
+        options: ["plan", "planned", "had planned", "have planned"], 
+        answer: 2 
+    },
+    { 
+        question: "If you ___ (to take) a break, you will feel better.", 
+        options: ["take", "took", "had taken", "have taken"], 
+        answer: 0 
+    },
+],
+// Stage 8
+[
+    { 
+        question: "If he ___ (to listen) to his parents, he would have stayed out of trouble.", 
+        options: ["listens", "listened", "had listened", "has listened"], 
+        answer: 2 
+    },
+    { 
+        question: "If they ___ (to work) as a team, they would have finished earlier.", 
+        options: ["work", "worked", "had worked", "have worked"], 
+        answer: 2 
+    },
+    { 
+        question: "If I ___ (to win) the competition, I would have celebrated.", 
+        options: ["win", "won", "had won", "have won"], 
+        answer: 2 
+    },
+    { 
+        question: "If you ___ (to be) kind to others, they will be kind to you.", 
+        options: ["are", "were", "had been", "have been"], 
+        answer: 0 
+    },
+    { 
+        question: "If we ___ (to prepare) better, we would have succeeded.", 
+        options: ["prepare", "prepared", "had prepared", "have prepared"], 
+        answer: 2 
+    },
+],
+// Stage 9
+[
+    { 
+        question: "If she ___ (to wake) up earlier, she would have caught the bus.", 
+        options: ["wakes", "woke", "had woken", "has woken"], 
+        answer: 2 
+    },
+    { 
+        question: "If they ___ (to practice) more, they would have improved.", 
+        options: ["practice", "practiced", "had practiced", "have practiced"], 
+        answer: 2 
+    },
+    { 
+        question: "If I ___ (to see) the email, I would have responded.", 
+        options: ["see", "saw", "had seen", "have seen"], 
+        answer: 2 
+    },
+    { 
+        question: "If you ___ (to apologize), they will forgive you.", 
+        options: ["apologize", "apologized", "had apologized", "have apologized"], 
+        answer: 0 
+    },
+    { 
+        question: "If we ___ (to leave) on time, we will arrive early.", 
+        options: ["leave", "left", "had left", "have left"], 
+        answer: 0 
+    },
+],
+// Stage 10
+[
+    { 
+        question: "If he ___ (to bring) an umbrella, he wouldn’t have gotten wet.", 
+        options: ["brings", "brought", "had brought", "has brought"], 
+        answer: 2 
+    },
+    { 
+        question: "If they ___ (to explain) it better, we would have understood.", 
+        options: ["explain", "explained", "had explained", "have explained"], 
+        answer: 2 
+    },
+    { 
+        question: "If I ___ (to find) my keys, I will drive to work.", 
+        options: ["find", "found", "had found", "have found"], 
+        answer: 0 
+    },
+    { 
+        question: "If you ___ (to listen) carefully, you will understand the instructions.", 
+        options: ["listen", "listened", "had listened", "have listened"], 
+        answer: 0 
+    },
+    { 
+        question: "If we ___ (to prepare) better, we would have done well.", 
+        options: ["prepare", "prepared", "had prepared", "have prepared"], 
+        answer: 2 
+    },
+],
+// Stage 11
+[
+    { 
+        question: "If she ___ (to take) the medicine, she would feel better.", 
+        options: ["takes", "took", "had taken", "has taken"], 
+        answer: 2 
+    },
+    { 
+        question: "If they ___ (to follow) the map, they would have found the place.", 
+        options: ["follow", "followed", "had followed", "have followed"], 
+        answer: 2 
+    },
+    { 
+        question: "If I ___ (to study) more, I would have passed the test.", 
+        options: ["study", "studied", "had studied", "have studied"], 
+        answer: 2 
+    },
+    { 
+        question: "If you ___ (to save) money, you could buy a new phone.", 
+        options: ["save", "saved", "had saved", "have saved"], 
+        answer: 1 
+    },
+    { 
+        question: "If we ___ (to exercise) regularly, we will stay healthy.", 
+        options: ["exercise", "exercised", "had exercised", "have exercised"], 
+        answer: 0 
+    },
+],
+// Stage 12
+[
+    { 
+        question: "If he ___ (to arrive) on time, we wouldn’t have waited.", 
+        options: ["arrives", "arrived", "had arrived", "has arrived"], 
+        answer: 2 
+    },
+    { 
+        question: "If they ___ (to ask) for help, we would have assisted them.", 
+        options: ["ask", "asked", "had asked", "have asked"], 
+        answer: 2 
+    },
+    { 
+        question: "If I ___ (to learn) French, I could travel to France.", 
+        options: ["learn", "learned", "had learned", "have learned"], 
+        answer: 1 
+    },
+    { 
+        question: "If you ___ (to be) honest, people will trust you.", 
+        options: ["are", "were", "had been", "have been"], 
+        answer: 0 
+    },
+    { 
+        question: "If we ___ (to plan) ahead, we wouldn’t have made mistakes.", 
+        options: ["plan", "planned", "had planned", "have planned"], 
+        answer: 2 
+    },
+],
+// Stage 13
+[
+    { 
+        question: "If she ___ (to tell) the truth, they would have believed her.", 
+        options: ["tells", "told", "had told", "has told"], 
+        answer: 2 
+    },
+    { 
+        question: "If they ___ (to try) again, they might succeed.", 
+        options: ["try", "tried", "had tried", "have tried"], 
+        answer: 2 
+    },
+    { 
+        question: "If I ___ (to know) the answer, I would tell you.", 
+        options: ["know", "knew", "had known", "have known"], 
+        answer: 1 
+    },
+    { 
+        question: "If you ___ (to help) me, we will finish faster.", 
+        options: ["help", "helped", "had helped", "have helped"], 
+        answer: 0 
+    },
+    { 
+        question: "If we ___ (to work) together, we would achieve more.", 
+        options: ["work", "worked", "had worked", "have worked"], 
+        answer: 1 
+    },
+],
+// Stage 14
+[
+    { 
+        question: "If he ___ (to apologize), she would forgive him.", 
+        options: ["apologizes", "apologized", "had apologized", "has apologized"], 
+        answer: 2 
+    },
+    { 
+        question: "If they ___ (to leave) earlier, they would have arrived on time.", 
+        options: ["leave", "left", "had left", "have left"], 
+        answer: 2 
+    },
+    { 
+        question: "If I ___ (to see) the sign, I would have stopped.", 
+        options: ["see", "saw", "had seen", "have seen"], 
+        answer: 2 
+    },
+    { 
+        question: "If you ___ (to study) hard, you will pass the exam.", 
+        options: ["study", "studied", "had studied", "have studied"], 
+        answer: 0 
+    },
+    { 
+        question: "If we ___ (to eat) less sugar, we would be healthier.", 
+        options: ["eat", "ate", "had eaten", "have eaten"], 
+        answer: 1 
+    },
+],
+// Stage 15
+[
+    { 
+        question: "If she ___ (to practice) more, she would play better.", 
+        options: ["practices", "practiced", "had practiced", "has practiced"], 
+        answer: 1 
+    },
+    { 
+        question: "If they ___ (to finish) on time, they would have been rewarded.", 
+        options: ["finish", "finished", "had finished", "have finished"], 
+        answer: 2 
+    },
+    { 
+        question: "If I ___ (to win) the lottery, I would buy a new house.", 
+        options: ["win", "won", "had won", "have won"], 
+        answer: 1 
+    },
+    { 
+        question: "If you ___ (to ask) nicely, they might help you.", 
+        options: ["ask", "asked", "had asked", "have asked"], 
+        answer: 1 
+    },
+    { 
+        question: "If we ___ (to study) more, we would have gotten better grades.", 
+        options: ["study", "studied", "had studied", "have studied"], 
+        answer: 2 
+    },
+],
+// Stage 16
+[
+    { 
+        question: "If he ___ (to try) harder, he would have succeeded.", 
+        options: ["tries", "tried", "had tried", "has tried"], 
+        answer: 2 
+    },
+    { 
+        question: "If they ___ (to listen) to advice, they would have avoided mistakes.", 
+        options: ["listen", "listened", "had listened", "have listened"], 
+        answer: 2 
+    },
+    { 
+        question: "If I ___ (to have) more money, I would travel more.", 
+        options: ["have", "had", "had had", "have had"], 
+        answer: 1 
+    },
+    { 
+        question: "If you ___ (to be) patient, you will get better results.", 
+        options: ["are", "were", "had been", "have been"], 
+        answer: 0 
+    },
+    { 
+        question: "If we ___ (to communicate) clearly, there would be no confusion.", 
+        options: ["communicate", "communicated", "had communicated", "have communicated"], 
+        answer: 1 
+    },
+],
+// Stage 17
+[
+    { 
+        question: "If she ___ (to plan) ahead, she wouldn’t have been late.", 
+        options: ["plans", "planned", "had planned", "has planned"], 
+        answer: 2 
+    },
+    { 
+        question: "If they ___ (to cooperate), they would finish faster.", 
+        options: ["cooperate", "cooperated", "had cooperated", "have cooperated"], 
+        answer: 1 
+    },
+    { 
+        question: "If I ___ (to prepare) better, I would have passed.", 
+        options: ["prepare", "prepared", "had prepared", "have prepared"], 
+        answer: 2 
+    },
+    { 
+        question: "If you ___ (to focus), you will succeed.", 
+        options: ["focus", "focused", "had focused", "have focused"], 
+        answer: 0 
+    },
+    { 
+        question: "If we ___ (to support) each other, we will achieve more.", 
+        options: ["support", "supported", "had supported", "have supported"], 
+        answer: 0 
+    },
+],
+// Stage 18
+[
+    { 
+        question: "If he ___ (to ask) for help, he wouldn’t have failed.", 
+        options: ["asks", "asked", "had asked", "has asked"], 
+        answer: 2 
+    },
+    { 
+        question: "If they ___ (to know) the answer, they would have responded.", 
+        options: ["know", "knew", "had known", "have known"], 
+        answer: 2 
+    },
+    { 
+        question: "If I ___ (to attend) the meeting, I would have shared my ideas.", 
+        options: ["attend", "attended", "had attended", "have attended"], 
+        answer: 2 
+    },
+    { 
+        question: "If you ___ (to believe) in yourself, you will achieve your goals.", 
+        options: ["believe", "believed", "had believed", "have believed"], 
+        answer: 0 
+    },
+    { 
+        question: "If we ___ (to collaborate), the project will be successful.", 
+        options: ["collaborate", "collaborated", "had collaborated", "have collaborated"], 
+        answer: 0 
+    },
+],
+// Stage 19
+[
+    { 
+        question: "If she ___ (to prepare) better, she would have won the competition.", 
+        options: ["prepares", "prepared", "had prepared", "has prepared"], 
+        answer: 2 
+    },
+    { 
+        question: "If they ___ (to take) a different route, they would have arrived earlier.", 
+        options: ["take", "took", "had taken", "have taken"], 
+        answer: 2 
+    },
+    { 
+        question: "If I ___ (to know) it was your birthday, I would have bought a gift.", 
+        options: ["know", "knew", "had known", "have known"], 
+        answer: 2 
+    },
+    { 
+        question: "If you ___ (to work) hard, you will succeed.", 
+        options: ["work", "worked", "had worked", "have worked"], 
+        answer: 0 
+    },
+    { 
+        question: "If we ___ (to help) each other, we will finish faster.", 
+        options: ["help", "helped", "had helped", "have helped"], 
+        answer: 0 
+    },
+],
+// Stage 20
+[
+    { 
+        question: "If he ___ (to apologize), she would forgive him.", 
+        options: ["apologizes", "apologized", "had apologized", "has apologized"], 
+        answer: 2 
+    },
+    { 
+        question: "If they ___ (to leave) earlier, they would have arrived on time.", 
+        options: ["leave", "left", "had left", "have left"], 
+        answer: 2 
+    },
+    { 
+        question: "If I ___ (to see) the sign, I would have stopped.", 
+        options: ["see", "saw", "had seen", "have seen"], 
+        answer: 2 
+    },
+    { 
+        question: "If you ___ (to study) hard, you will pass the exam.", 
+        options: ["study", "studied", "had studied", "have studied"], 
+        answer: 0 
+    },
+    { 
+        question: "If we ___ (to eat) less sugar, we would be healthier.", 
+        options: ["eat", "ate", "had eaten", "have eaten"], 
+        answer: 1 
+    },
+]
+
+
+
+        ];
+
+        let attempts = 0;
+		let currentStage = 1; 
+		const stageCount = quizData.length;
+
+        function renderQuiz() {
+		const quizContainer = document.getElementById("quiz-content");
+		quizContainer.innerHTML = '';
+		quizData[currentStage - 1].forEach((question, index) => {
+                const questionElement = document.createElement("div");
+                questionElement.className = "question";
+                
+                questionElement.innerHTML = `
+                    <p>${index + 1}. ${question.question}</p>
+                    <div class="options">
+                        <select id="q${index}">
+                            <option value="">Select</option>
+                            ${question.options.map((option, i) => `
+                                <option value="${i}">${option}</option>
+                            `).join("")}
+                        </select>
+                    </div>
+                    <div class="result" id="result${index}"></div>
+                `;
+
+                quizContainer.appendChild(questionElement);
+            });
+
+            updateStageNumber();
+        }
+
+        function checkStage() {
+            attempts++;
+            document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+            let correctCount = 0;
+
+            quizData[currentStage - 1].forEach((question, index) => {
+                const resultElement = document.getElementById(`result${index}`);
+                const selectedOption = document.getElementById(`q${index}`).value;
+                const userAnswer = parseInt(selectedOption);
+
+                if (userAnswer === question.answer) {
+                    resultElement.textContent = "Correct!";
+                    resultElement.style.color = "green";
+                    correctCount++;
+                } else {
+                    resultElement.textContent = "Incorrect answer.";
+                    resultElement.style.color = "red";
+                    if (attempts >= 10) {
+                        resultElement.textContent += ` The correct answer is: ${question.options[question.answer]}`;
+                    }
+                }
+            });
+
+			if (correctCount === quizData[currentStage - 1].length) {
+				if (currentStage < stageCount) {
+					showConfetti();
+					currentStage++;
+					updateProgressBar(); // Move this here
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 3000);
+				} else {
+					updateProgressBar();
+					alert("Congratulations! You've completed all stages.");
+				}
+            } else if (attempts >= 10) {
+                alert("You've reached the maximum number of attempts. The correct answers have been revealed.");
+            }
+
+            scrollToTop(); // Scroll back to top after checking answers
+        }
+
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+    
+    // Calculate progress based on completed stages
+    const completedStages = currentStage - 1;
+    const totalStages = stageCount;
+    const progress = (completedStages / totalStages) * 100;
+    
+    // Round the progress to 2 decimal places
+    const roundedProgress = Math.max(0, Math.round(progress * 100) / 100);
+    
+    // Set the progress bar width and text
+    progressBar.style.width = `${roundedProgress}%`;
+    progressBar.textContent = roundedProgress > 0 ? `${roundedProgress }%` : '';
+    
+    console.log(`Current Stage: ${currentStage}, Completed Stages: ${completedStages}, Total Stages: ${totalStages}, Progress: ${roundedProgress}%`);
+}
+
+
+
+        function updateStageNumber() {
+            document.getElementById("stage-number").textContent = currentStage;
+        }
+
+        function showConfetti() {
+            const confettiContainer = document.createElement("div");
+            confettiContainer.className = "confetti";
+            document.body.appendChild(confettiContainer);
+
+            for (let i = 0; i < 100; i++) {
+                const confettiPiece = document.createElement("div");
+                confettiPiece.className = "confetti-piece";
+                confettiPiece.style.left = `${Math.random() * 100}%`;
+                confettiPiece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                confettiContainer.appendChild(confettiPiece);
+            }
+
+            setTimeout(() => {
+                document.body.removeChild(confettiContainer);
+            }, 3000);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+		renderQuiz();
+		updateProgressBar(); 
+
+
+    </script>
+</body>
+</html>
