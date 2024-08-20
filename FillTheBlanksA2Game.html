@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synonyms and Antonyms Game</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(to bottom, #ff9e9e, #ffb38a, #ffd286, #ffe381, #e6ff99);
+            color: #ff6b6b;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .page-container {
+            display: flex;
+            max-width: 1400px;
+            width: 100%;
+            padding: 20px;
+            gap: 20px;
+        }
+        .quiz-container {
+            flex: 2;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+        .side-panel {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+            align-self: flex-start;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .question {
+            margin-bottom: 20px;
+            background-color: rgba(255, 204, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        select {
+            font-family: inherit;
+            font-size: inherit;
+            padding: 5px;
+            border: none;
+            border-bottom: 2px solid #ff9e9e;
+            background-color: transparent;
+            color: #ff6b6b;
+        }
+        select:focus {
+            outline: none;
+            border-bottom-color: #ff9e9e;
+        }
+        button {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #ff9e9e;
+        }
+        .result {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        #attempts {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #ff6b6b;
+        }
+        .stage-number {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #ffe381;
+            border-radius: 10px;
+            margin: 10px 0;
+            height: 30px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #ff6b6b;
+            border-radius: 10px;
+            transition: width 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .confetti {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f5b7b1;
+            opacity: 0.7;
+            animation: confetti-fall 3s ease-in-out forwards, confetti-drift 3s ease-in-out forwards;
+        }
+        @keyframes confetti-fall {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+        @keyframes confetti-drift {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="side-panel">
+            <h2>Instructions</h2>
+            <ol>
+                <li>Read each question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+            </ol>
+        </div>
+
+        <div class="quiz-container">
+            <h1>General Knowledge Game</h1>
+            <div class="stage-number">Stage <span id="stage-number">1</span></div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar">0%</div>
+            </div>
+            
+            <div id="attempts">Attempts: 0</div>
+            <button onclick="checkStage()">Check Answers</button>
+            
+            <div id="quiz-content"></div>
+            
+            <button onclick="checkStage()">Check Answers</button>
+        </div>
+        
+        <div class="side-panel">
+            <h2>Quiz Rules</h2>
+            <ol>
+                <li>Answer all questions to the best of your ability.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>After 10 attempts, correct answers will be revealed for any incorrect responses.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+                <li>Have fun and learn new words!</li>
+            </ol>
+        </div>
+    </div>
+    
+    <script>
+        const quizData = [
+
+
+// Stage 1
+[
+    { question: "A cat says ______.", options: ["woof", "meow", "moo", "quack", "chirp"], answer: 1 },
+    { question: "The sun rises in the ______.", options: ["north", "south", "east", "west", "center"], answer: 2 },
+    { question: "The opposite of 'cold' is ______.", options: ["hot", "wet", "dry", "warm", "cool"], answer: 0 },
+    { question: "We drink water from a ______.", options: ["plate", "cup", "fork", "napkin", "bowl"], answer: 1 },
+    { question: "A zebra has ______ stripes.", options: ["red", "yellow", "green", "black", "blue"], answer: 3 },
+],
+// Stage 2
+[
+    { question: "The sky is ______ during the day.", options: ["red", "green", "blue", "black", "yellow"], answer: 2 },
+    { question: "A cow gives us ______.", options: ["meat", "eggs", "milk", "wool", "cheese"], answer: 2 },
+    { question: "We use a ______ to cut paper.", options: ["spoon", "fork", "knife", "scissors", "pen"], answer: 3 },
+    { question: "The opposite of 'up' is ______.", options: ["left", "right", "down", "over", "under"], answer: 2 },
+    { question: "Fish live in ______.", options: ["trees", "water", "soil", "air", "grass"], answer: 1 },
+],
+// Stage 3
+[
+    { question: "Birds have ______ to help them fly.", options: ["fins", "wings", "paws", "legs", "tails"], answer: 1 },
+    { question: "We wear ______ on our feet.", options: ["hats", "gloves", "shoes", "scarves", "jackets"], answer: 2 },
+    { question: "A ______ is used to tell time.", options: ["mirror", "book", "clock", "table", "lamp"], answer: 2 },
+    { question: "The opposite of 'happy' is ______.", options: ["joyful", "excited", "sad", "glad", "cheerful"], answer: 2 },
+    { question: "A bicycle has ______ wheels.", options: ["one", "two", "three", "four", "five"], answer: 1 },
+],
+// Stage 4
+[
+    { question: "We use a ______ to write on paper.", options: ["pencil", "eraser", "ruler", "sharpener", "glue"], answer: 0 },
+    { question: "A dog is a common ______.", options: ["fruit", "vegetable", "toy", "pet", "plant"], answer: 3 },
+    { question: "The opposite of 'fast' is ______.", options: ["quick", "swift", "rapid", "slow", "speedy"], answer: 3 },
+    { question: "The moon shines at ______.", options: ["morning", "night", "noon", "dawn", "evening"], answer: 1 },
+    { question: "We use a ______ to eat soup.", options: ["fork", "knife", "spoon", "plate", "glass"], answer: 2 },
+],
+// Stage 5
+[
+    { question: "The opposite of 'big' is ______.", options: ["large", "huge", "tiny", "giant", "massive"], answer: 2 },
+    { question: "We read books in a ______.", options: ["library", "kitchen", "garage", "bathroom", "bedroom"], answer: 0 },
+    { question: "A doctor works in a ______.", options: ["school", "library", "hospital", "bank", "store"], answer: 2 },
+    { question: "The opposite of 'young' is ______.", options: ["old", "new", "small", "big", "light"], answer: 0 },
+    { question: "The sun sets in the ______.", options: ["north", "south", "east", "west", "center"], answer: 3 },
+],
+// Stage 6
+[
+    { question: "We go to school to ______.", options: ["play", "eat", "learn", "sleep", "shop"], answer: 2 },
+    { question: "A ______ is a fruit that is usually red or green.", options: ["banana", "apple", "orange", "grape", "cherry"], answer: 1 },
+    { question: "We use an ______ to stay dry in the rain.", options: ["umbrella", "oven", "bicycle", "eraser", "apple"], answer: 0 },
+    { question: "The opposite of 'tall' is ______.", options: ["high", "short", "long", "wide", "thin"], answer: 1 },
+    { question: "We ______ with our eyes.", options: ["hear", "taste", "smell", "see", "touch"], answer: 3 },
+],
+// Stage 7
+[
+    { question: "A ______ is a place where we go to watch movies.", options: ["theater", "bank", "store", "school", "library"], answer: 0 },
+    { question: "The opposite of 'hot' is ______.", options: ["cold", "warm", "cool", "hot", "soft"], answer: 0 },
+    { question: "A car has ______ wheels.", options: ["one", "two", "three", "four", "five"], answer: 3 },
+    { question: "We use a ______ to call someone.", options: ["computer", "phone", "television", "radio", "book"], answer: 1 },
+    { question: "A tree has many ______.", options: ["flowers", "branches", "leaves", "roots", "trunks"], answer: 2 },
+],
+// Stage 8
+[
+    { question: "We use a ______ to keep our teeth clean.", options: ["hairbrush", "comb", "toothbrush", "shampoo", "soap"], answer: 2 },
+    { question: "The opposite of 'day' is ______.", options: ["morning", "afternoon", "night", "evening", "dawn"], answer: 2 },
+    { question: "A plane flies in the ______.", options: ["water", "land", "sky", "forest", "desert"], answer: 2 },
+    { question: "We ______ with our ears.", options: ["hear", "see", "taste", "touch", "smell"], answer: 0 },
+    { question: "A bird lays ______.", options: ["cows", "dogs", "eggs", "trees", "leaves"], answer: 2 },
+],
+// Stage 9
+[
+    { question: "The opposite of 'light' is ______.", options: ["dark", "bright", "shiny", "clear", "soft"], answer: 0 },
+    { question: "A teacher works in a ______.", options: ["hospital", "library", "bank", "school", "store"], answer: 3 },
+    { question: "A ______ is a place where we go to buy food.", options: ["library", "market", "school", "bank", "theater"], answer: 1 },
+    { question: "The opposite of 'above' is ______.", options: ["under", "over", "between", "inside", "beside"], answer: 0 },
+    { question: "We use a ______ to boil water.", options: ["pan", "pot", "kettle", "bowl", "plate"], answer: 2 },
+],
+// Stage 10
+[
+    { question: "We wear a ______ on our head.", options: ["shoe", "scarf", "hat", "shirt", "sock"], answer: 2 },
+    { question: "The opposite of 'soft' is ______.", options: ["light", "hard", "thin", "smooth", "clear"], answer: 1 },
+    { question: "We ______ with our hands.", options: ["see", "hear", "touch", "taste", "smell"], answer: 2 },
+    { question: "A ______ is a sweet food made from sugar.", options: ["carrot", "potato", "candy", "bread", "meat"], answer: 2 },
+    { question: "The opposite of 'easy' is ______.", options: ["simple", "difficult", "light", "smooth", "quick"], answer: 1 },
+],
+// Stage 11
+[
+    { question: "The opposite of 'dry' is ______.", options: ["wet", "hard", "smooth", "rough", "light"], answer: 0 },
+    { question: "We ______ to school by bus.", options: ["swim", "drive", "fly", "walk", "ride"], answer: 4 },
+    { question: "The opposite of 'in' is ______.", options: ["over", "under", "between", "out", "beside"], answer: 3 },
+    { question: "We eat breakfast in the ______.", options: ["morning", "afternoon", "night", "evening", "midnight"], answer: 0 },
+    { question: "A cat has four ______.", options: ["legs", "wings", "fins", "hooves", "tentacles"], answer: 0 },
+],
+// Stage 12
+[
+    { question: "The opposite of 'full' is ______.", options: ["empty", "big", "small", "round", "wide"], answer: 0 },
+    { question: "We use a ______ to listen to music.", options: ["radio", "book", "computer", "television", "lamp"], answer: 0 },
+    { question: "A ______ is a fruit that is usually orange.", options: ["banana", "apple", "orange", "grape", "cherry"], answer: 2 },
+    { question: "The opposite of 'inside' is ______.", options: ["outside", "between", "under", "above", "beside"], answer: 0 },
+    { question: "We use a ______ to write emails.", options: ["pen", "book", "computer", "phone", "television"], answer: 2 },
+],
+// Stage 13
+[
+    { question: "The opposite of 'clean' is ______.", options: ["dirty", "soft", "light", "clear", "smooth"], answer: 0 },
+    { question: "We use a ______ to wash our clothes.", options: ["dishwasher", "washing machine", "oven", "microwave", "refrigerator"], answer: 1 },
+    { question: "The opposite of 'new' is ______.", options: ["shiny", "old", "bright", "clear", "clean"], answer: 1 },
+    { question: "We ______ dinner in the evening.", options: ["drink", "eat", "watch", "write", "listen"], answer: 1 },
+    { question: "A ______ is a fruit that is usually yellow.", options: ["banana", "apple", "orange", "grape", "cherry"], answer: 0 },
+],
+// Stage 14
+[
+    { question: "The opposite of 'high' is ______.", options: ["wide", "short", "low", "long", "deep"], answer: 2 },
+    { question: "We use a ______ to open a door.", options: ["pen", "book", "key", "clock", "phone"], answer: 2 },
+    { question: "The opposite of 'strong' is ______.", options: ["big", "tall", "weak", "hard", "tough"], answer: 2 },
+    { question: "We use a ______ to clean our teeth.", options: ["comb", "toothbrush", "shampoo", "soap", "razor"], answer: 1 },
+    { question: "A ______ is an animal that can swim.", options: ["bird", "cat", "dog", "fish", "monkey"], answer: 3 },
+],
+// Stage 15
+[
+    { question: "The opposite of 'far' is ______.", options: ["close", "high", "wide", "tall", "deep"], answer: 0 },
+    { question: "We use a ______ to write on a chalkboard.", options: ["pen", "pencil", "chalk", "marker", "crayon"], answer: 2 },
+    { question: "The opposite of 'late' is ______.", options: ["quick", "slow", "early", "fast", "long"], answer: 2 },
+    { question: "We use a ______ to light up a room.", options: ["computer", "lamp", "book", "phone", "television"], answer: 1 },
+    { question: "A ______ is a type of vegetable.", options: ["apple", "banana", "carrot", "grape", "cherry"], answer: 2 },
+],
+// Stage 16
+[
+    { question: "The opposite of 'thick' is ______.", options: ["narrow", "small", "wide", "thin", "short"], answer: 3 },
+    { question: "We use a ______ to take photos.", options: ["computer", "camera", "phone", "radio", "television"], answer: 1 },
+    { question: "The opposite of 'empty' is ______.", options: ["shallow", "full", "short", "long", "deep"], answer: 1 },
+    { question: "We use a ______ to clean the floor.", options: ["broom", "book", "computer", "lamp", "phone"], answer: 0 },
+    { question: "A ______ is a place where we go to read books.", options: ["market", "school", "library", "bank", "store"], answer: 2 },
+],
+// Stage 17
+[
+    { question: "The opposite of 'short' is ______.", options: ["high", "deep", "tall", "wide", "narrow"], answer: 2 },
+    { question: "We use a ______ to cut food.", options: ["fork", "spoon", "knife", "plate", "cup"], answer: 2 },
+    { question: "The opposite of 'day' is ______.", options: ["morning", "afternoon", "night", "evening", "dawn"], answer: 2 },
+    { question: "We use a ______ to listen to music.", options: ["radio", "book", "television", "computer", "lamp"], answer: 0 },
+    { question: "A ______ is an animal that can fly.", options: ["fish", "cat", "dog", "bird", "monkey"], answer: 3 },
+],
+// Stage 18
+[
+    { question: "The opposite of 'happy' is ______.", options: ["joyful", "excited", "sad", "glad", "cheerful"], answer: 2 },
+    { question: "We use a ______ to write on paper.", options: ["pen", "ruler", "eraser", "scissors", "glue"], answer: 0 },
+    { question: "The opposite of 'dark' is ______.", options: ["clear", "bright", "shiny", "light", "smooth"], answer: 3 },
+    { question: "We use a ______ to sit on.", options: ["table", "chair", "book", "lamp", "pen"], answer: 1 },
+    { question: "A ______ is a fruit that is usually red or green.", options: ["banana", "apple", "orange", "grape", "cherry"], answer: 1 },
+],
+// Stage 19
+[
+    { question: "The opposite of 'noisy' is ______.", options: ["quiet", "soft", "light", "clear", "shiny"], answer: 0 },
+    { question: "We use a ______ to clean our hair.", options: ["toothbrush", "shampoo", "soap", "comb", "razor"], answer: 1 },
+    { question: "The opposite of 'weak' is ______.", options: ["big", "tall", "strong", "hard", "tough"], answer: 2 },
+    { question: "We use a ______ to keep warm in bed.", options: ["pillow", "blanket", "mattress", "sheet", "towel"], answer: 1 },
+    { question: "A ______ is an animal that lives in the sea.", options: ["bird", "fish", "cat", "dog", "monkey"], answer: 1 },
+],
+// Stage 20
+[
+    { question: "The opposite of 'full' is ______.", options: ["empty", "small", "round", "wide", "light"], answer: 0 },
+    { question: "We use a ______ to write emails.", options: ["pen", "book", "computer", "phone", "television"], answer: 2 },
+    { question: "The opposite of 'clean' is ______.", options: ["shiny", "dirty", "bright", "clear", "smooth"], answer: 1 },
+    { question: "We use a ______ to wash our clothes.", options: ["dishwasher", "washing machine", "oven", "microwave", "refrigerator"], answer: 1 },
+    { question: "The opposite of 'new' is ______.", options: ["old", "big", "light", "smooth", "clean"], answer: 0 },
+]
+
+
+
+        ];
+
+        let attempts = 0;
+		let currentStage = 1; 
+		const stageCount = quizData.length;
+
+        function renderQuiz() {
+		const quizContainer = document.getElementById("quiz-content");
+		quizContainer.innerHTML = '';
+		quizData[currentStage - 1].forEach((question, index) => {
+                const questionElement = document.createElement("div");
+                questionElement.className = "question";
+                
+                questionElement.innerHTML = `
+                    <p>${index + 1}. ${question.question}</p>
+                    <div class="options">
+                        <select id="q${index}">
+                            <option value="">Select</option>
+                            ${question.options.map((option, i) => `
+                                <option value="${i}">${option}</option>
+                            `).join("")}
+                        </select>
+                    </div>
+                    <div class="result" id="result${index}"></div>
+                `;
+
+                quizContainer.appendChild(questionElement);
+            });
+
+            updateStageNumber();
+        }
+
+        function checkStage() {
+            attempts++;
+            document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+            let correctCount = 0;
+
+            quizData[currentStage - 1].forEach((question, index) => {
+                const resultElement = document.getElementById(`result${index}`);
+                const selectedOption = document.getElementById(`q${index}`).value;
+                const userAnswer = parseInt(selectedOption);
+
+                if (userAnswer === question.answer) {
+                    resultElement.textContent = "Correct!";
+                    resultElement.style.color = "green";
+                    correctCount++;
+                } else {
+                    resultElement.textContent = "Incorrect answer.";
+                    resultElement.style.color = "red";
+                    if (attempts >= 10) {
+                        resultElement.textContent += ` The correct answer is: ${question.options[question.answer]}`;
+                    }
+                }
+            });
+
+			if (correctCount === quizData[currentStage - 1].length) {
+				if (currentStage < stageCount) {
+					showConfetti();
+					currentStage++;
+					updateProgressBar(); // Move this here
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 3000);
+				} else {
+					updateProgressBar();
+					alert("Congratulations! You've completed all stages.");
+				}
+            } else if (attempts >= 10) {
+                alert("You've reached the maximum number of attempts. The correct answers have been revealed.");
+            }
+
+            scrollToTop(); // Scroll back to top after checking answers
+        }
+
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+    
+    // Calculate progress based on completed stages
+    const completedStages = currentStage - 1;
+    const totalStages = stageCount;
+    const progress = (completedStages / totalStages) * 100;
+    
+    // Round the progress to 2 decimal places
+    const roundedProgress = Math.max(0, Math.round(progress * 100) / 100);
+    
+    // Set the progress bar width and text
+    progressBar.style.width = `${roundedProgress}%`;
+    progressBar.textContent = roundedProgress > 0 ? `${roundedProgress }%` : '';
+    
+    console.log(`Current Stage: ${currentStage}, Completed Stages: ${completedStages}, Total Stages: ${totalStages}, Progress: ${roundedProgress}%`);
+}
+
+
+
+        function updateStageNumber() {
+            document.getElementById("stage-number").textContent = currentStage;
+        }
+
+        function showConfetti() {
+            const confettiContainer = document.createElement("div");
+            confettiContainer.className = "confetti";
+            document.body.appendChild(confettiContainer);
+
+            for (let i = 0; i < 100; i++) {
+                const confettiPiece = document.createElement("div");
+                confettiPiece.className = "confetti-piece";
+                confettiPiece.style.left = `${Math.random() * 100}%`;
+                confettiPiece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                confettiContainer.appendChild(confettiPiece);
+            }
+
+            setTimeout(() => {
+                document.body.removeChild(confettiContainer);
+            }, 3000);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+		renderQuiz();
+		updateProgressBar(); 
+
+
+    </script>
+</body>
+</html>
