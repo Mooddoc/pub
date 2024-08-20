@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synonyms and Antonyms Game</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(to bottom, #ff9e9e, #ffb38a, #ffd286, #ffe381, #e6ff99);
+            color: #ff6b6b;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .page-container {
+            display: flex;
+            max-width: 1400px;
+            width: 100%;
+            padding: 20px;
+            gap: 20px;
+        }
+        .quiz-container {
+            flex: 2;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+        .side-panel {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+            align-self: flex-start;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .question {
+            margin-bottom: 20px;
+            background-color: rgba(255, 204, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        select {
+            font-family: inherit;
+            font-size: inherit;
+            padding: 5px;
+            border: none;
+            border-bottom: 2px solid #ff9e9e;
+            background-color: transparent;
+            color: #ff6b6b;
+        }
+        select:focus {
+            outline: none;
+            border-bottom-color: #ff9e9e;
+        }
+        button {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #ff9e9e;
+        }
+        .result {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        #attempts {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #ff6b6b;
+        }
+        .stage-number {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #ffe381;
+            border-radius: 10px;
+            margin: 10px 0;
+            height: 30px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #ff6b6b;
+            border-radius: 10px;
+            transition: width 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .confetti {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f5b7b1;
+            opacity: 0.7;
+            animation: confetti-fall 3s ease-in-out forwards, confetti-drift 3s ease-in-out forwards;
+        }
+        @keyframes confetti-fall {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+        @keyframes confetti-drift {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="side-panel">
+            <h2>Instructions</h2>
+            <ol>
+                <li>Read each question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+            </ol>
+        </div>
+
+        <div class="quiz-container">
+            <h1>Complex Sentences Game</h1>
+            <div class="stage-number">Stage <span id="stage-number">1</span></div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar">0%</div>
+            </div>
+            
+            <div id="attempts">Attempts: 0</div>
+            <button onclick="checkStage()">Check Answers</button>
+            
+            <div id="quiz-content"></div>
+            
+            <button onclick="checkStage()">Check Answers</button>
+        </div>
+        
+        <div class="side-panel">
+            <h2>Quiz Rules</h2>
+            <ol>
+                <li>Answer all questions to the best of your ability.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>After 10 attempts, correct answers will be revealed for any incorrect responses.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+                <li>Have fun and learn new words!</li>
+            </ol>
+        </div>
+    </div>
+    
+    <script>
+        const quizData = [
+
+// Stage 1
+[
+    { 
+        question: "Complete the sentence: 'He was tired, ___ he went to bed early.'", 
+        options: ["and", "so", "but", "because", "or"], 
+        answer: 1 
+    },
+    { 
+        question: "Complete the sentence: 'She wanted to go to the park, ___ it was raining.'", 
+        options: ["because", "so", "and", "but", "or"], 
+        answer: 3 
+    },
+    { 
+        question: "Complete the sentence: 'I like apples ___ oranges.'", 
+        options: ["and", "so", "because", "but", "or"], 
+        answer: 0 
+    },
+    { 
+        question: "Complete the sentence: 'He didn’t go to the party ___ he was sick.'", 
+        options: ["but", "because", "so", "and", "or"], 
+        answer: 1 
+    },
+    { 
+        question: "Complete the sentence: 'They can go swimming ___ stay at home.'", 
+        options: ["and", "but", "because", "or", "so"], 
+        answer: 3 
+    },
+],
+// Stage 2
+[
+    { 
+        question: "Complete the sentence: 'I was hungry, ___ I ate a sandwich.'", 
+        options: ["so", "and", "but", "because", "or"], 
+        answer: 0 
+    },
+    { 
+        question: "Complete the sentence: 'She wanted to buy a new dress, ___ she didn’t have enough money.'", 
+        options: ["because", "or", "and", "but", "so"], 
+        answer: 3 
+    },
+    { 
+        question: "Complete the sentence: 'We went to the park ___ it was a sunny day.'", 
+        options: ["so", "and", "but", "or", "because"], 
+        answer: 4 
+    },
+    { 
+        question: "Complete the sentence: 'He studied hard, ___ he passed the exam.'", 
+        options: ["and", "so", "but", "because", "or"], 
+        answer: 1 
+    },
+    { 
+        question: "Complete the sentence: 'They wanted to watch a movie, ___ the cinema was closed.'", 
+        options: ["and", "but", "so", "because", "or"], 
+        answer: 1 
+    },
+],
+// Stage 3
+[
+    { 
+        question: "Complete the sentence: 'I’m cold, ___ I’ll put on a jacket.'", 
+        options: ["so", "and", "but", "because", "or"], 
+        answer: 0 
+    },
+    { 
+        question: "Complete the sentence: 'He was late ___ he missed the bus.'", 
+        options: ["but", "because", "so", "and", "or"], 
+        answer: 1 
+    },
+    { 
+        question: "Complete the sentence: 'She wanted to dance, ___ there was no music.'", 
+        options: ["and", "or", "because", "but", "so"], 
+        answer: 3 
+    },
+    { 
+        question: "Complete the sentence: 'They were tired ___ they didn’t stop working.'", 
+        options: ["but", "and", "because", "so", "or"], 
+        answer: 0 
+    },
+    { 
+        question: "Complete the sentence: 'He studied hard ___ he didn’t get good grades.'", 
+        options: ["so", "and", "because", "or", "but"], 
+        answer: 4 
+    },
+],
+// Stage 4
+[
+    { 
+        question: "Complete the sentence: 'We can go to the beach ___ we can stay home.'", 
+        options: ["because", "but", "so", "or", "and"], 
+        answer: 3 
+    },
+    { 
+        question: "Complete the sentence: 'She didn’t bring an umbrella, ___ she got wet.'", 
+        options: ["because", "so", "but", "or", "and"], 
+        answer: 1 
+    },
+    { 
+        question: "Complete the sentence: 'I’m hungry, ___ I’ll eat something.'", 
+        options: ["so", "because", "and", "but", "or"], 
+        answer: 0 
+    },
+    { 
+        question: "Complete the sentence: 'They wanted to play soccer, ___ it started raining.'", 
+        options: ["and", "so", "because", "or", "but"], 
+        answer: 4 
+    },
+    { 
+        question: "Complete the sentence: 'He was tired ___ he stayed up late.'", 
+        options: ["so", "because", "but", "or", "and"], 
+        answer: 2 
+    },
+],
+// Stage 5
+[
+    { 
+        question: "Complete the sentence: 'I didn’t eat breakfast, ___ I was in a hurry.'", 
+        options: ["and", "so", "but", "because", "or"], 
+        answer: 3 
+    },
+    { 
+        question: "Complete the sentence: 'She likes tea ___ she doesn’t like coffee.'", 
+        options: ["and", "because", "but", "so", "or"], 
+        answer: 2 
+    },
+    { 
+        question: "Complete the sentence: 'We wanted to go for a walk, ___ it was too hot outside.'", 
+        options: ["and", "but", "so", "because", "or"], 
+        answer: 1 
+    },
+    { 
+        question: "Complete the sentence: 'He worked hard ___ he got promoted.'", 
+        options: ["so", "but", "because", "and", "or"], 
+        answer: 0 
+    },
+    { 
+        question: "Complete the sentence: 'I went to the store ___ bought some bread.'", 
+        options: ["but", "because", "or", "and", "so"], 
+        answer: 3 
+    },
+],
+// Stage 6
+[
+    { 
+        question: "Complete the sentence: 'She was tired, ___ she didn’t want to go to the party.'", 
+        options: ["so", "but", "because", "and", "or"], 
+        answer: 0 
+    },
+    { 
+        question: "Complete the sentence: 'I studied a lot, ___ I didn’t pass the test.'", 
+        options: ["and", "or", "but", "because", "so"], 
+        answer: 2 
+    },
+    { 
+        question: "Complete the sentence: 'He loves chocolate, ___ he doesn’t like vanilla.'", 
+        options: ["but", "so", "and", "because", "or"], 
+        answer: 0 
+    },
+    { 
+        question: "Complete the sentence: 'We can go to the park ___ we can go to the movies.'", 
+        options: ["so", "but", "because", "or", "and"], 
+        answer: 3 
+    },
+    { 
+        question: "Complete the sentence: 'She was happy ___ she got a new job.'", 
+        options: ["and", "because", "but", "or", "so"], 
+        answer: 1 
+    },
+],
+// Stage 7
+[
+    { 
+        question: "Complete the sentence: 'It was cold outside, ___ he wore a coat.'", 
+        options: ["but", "and", "or", "so", "because"], 
+        answer: 3 
+    },
+    { 
+        question: "Complete the sentence: 'I’m going to the store, ___ I need to buy some milk.'", 
+        options: ["but", "so", "or", "and", "because"], 
+        answer: 4 
+    },
+    { 
+        question: "Complete the sentence: 'He didn’t have a pen, ___ he couldn’t write.'", 
+        options: ["but", "so", "and", "because", "or"], 
+        answer: 1 
+    },
+    { 
+        question: "Complete the sentence: 'She likes to read, ___ she also enjoys writing.'", 
+        options: ["because", "so", "and", "or", "but"], 
+        answer: 2 
+    },
+    { 
+        question: "Complete the sentence: 'I went to the park ___ I played soccer.'", 
+        options: ["and", "but", "so", "or", "because"], 
+        answer: 0 
+    },
+],
+// Stage 8
+[
+    { 
+        question: "Complete the sentence: 'He didn’t eat lunch, ___ he was too busy.'", 
+        options: ["because", "so", "but", "or", "and"], 
+        answer: 0 
+    },
+    { 
+        question: "Complete the sentence: 'I want to buy a new phone, ___ I don’t have enough money.'", 
+        options: ["because", "so", "but", "or", "and"], 
+        answer: 2 
+    },
+    { 
+        question: "Complete the sentence: 'They went to the beach ___ they had fun in the water.'", 
+        options: ["but", "so", "or", "and", "because"], 
+        answer: 3 
+    },
+    { 
+        question: "Complete the sentence: 'She stayed home ___ she was sick.'", 
+        options: ["but", "or", "and", "so", "because"], 
+        answer: 4 
+    },
+    { 
+        question: "Complete the sentence: 'He didn’t do his homework, ___ he watched TV instead.'", 
+        options: ["so", "because", "or", "but", "and"], 
+        answer: 3 
+    },
+],
+// Stage 9
+[
+    { 
+        question: "Complete the sentence: 'I want to go out, ___ it’s raining.'", 
+        options: ["because", "and", "or", "so", "but"], 
+        answer: 4 
+    },
+    { 
+        question: "Complete the sentence: 'She went to the store ___ she bought some bread.'", 
+        options: ["because", "so", "but", "and", "or"], 
+        answer: 3 
+    },
+    { 
+        question: "Complete the sentence: 'They were hungry, ___ they made some dinner.'", 
+        options: ["so", "but", "or", "because", "and"], 
+        answer: 0 
+    },
+    { 
+        question: "Complete the sentence: 'He didn’t call me, ___ I was worried.'", 
+        options: ["so", "because", "and", "or", "but"], 
+        answer: 0 
+    },
+    { 
+        question: "Complete the sentence: 'I was late, ___ I ran to school.'", 
+        options: ["and", "because", "or", "so", "but"], 
+        answer: 3 
+    },
+],
+// Stage 10
+[
+    { 
+        question: "Complete the sentence: 'We wanted to go for a walk, ___ it started raining.'", 
+        options: ["but", "so", "because", "and", "or"], 
+        answer: 0 
+    },
+    { 
+        question: "Complete the sentence: 'He was tired, ___ he took a nap.'", 
+        options: ["but", "because", "and", "so", "or"], 
+        answer: 3 
+    },
+    { 
+        question: "Complete the sentence: 'She likes coffee ___ she doesn’t like tea.'", 
+        options: ["so", "or", "but", "because", "and"], 
+        answer: 2 
+    },
+    { 
+        question: "Complete the sentence: 'I need to study, ___ I can pass the test.'", 
+        options: ["but", "so", "because", "and", "or"], 
+        answer: 1 
+    },
+    { 
+        question: "Complete the sentence: 'They were cold, ___ they went inside.'", 
+        options: ["or", "so", "because", "and", "but"], 
+        answer: 1 
+    },
+],
+// Stage 11
+[
+    { 
+        question: "Complete the sentence: 'I’m tired ___ I stayed up late last night.'", 
+        options: ["so", "but", "or", "because", "and"], 
+        answer: 3 
+    },
+    { 
+        question: "Complete the sentence: 'She didn’t bring an umbrella, ___ she got wet.'", 
+        options: ["so", "and", "but", "because", "or"], 
+        answer: 0 
+    },
+    { 
+        question: "Complete the sentence: 'He likes to read ___ he also enjoys writing.'", 
+        options: ["because", "so", "but", "and", "or"], 
+        answer: 3 
+    },
+    { 
+        question: "Complete the sentence: 'We went to the park ___ it was a sunny day.'", 
+        options: ["because", "so", "and", "but", "or"], 
+        answer: 0 
+    },
+    { 
+        question: "Complete the sentence: 'She was sad ___ she lost her favorite toy.'", 
+        options: ["and", "or", "but", "because", "so"], 
+        answer: 3 
+    },
+],
+// Stage 12
+[
+    { 
+        question: "Complete the sentence: 'They wanted to go hiking, ___ it started to rain.'", 
+        options: ["but", "so", "or", "because", "and"], 
+        answer: 0 
+    },
+    { 
+        question: "Complete the sentence: 'I’m hungry ___ I didn’t eat lunch.'", 
+        options: ["and", "so", "because", "or", "but"], 
+        answer: 2 
+    },
+    { 
+        question: "Complete the sentence: 'He went to the store ___ he needed to buy groceries.'", 
+        options: ["or", "and", "because", "so", "but"], 
+        answer: 2 
+    },
+    { 
+        question: "Complete the sentence: 'She was tired, ___ she went to bed early.'", 
+        options: ["because", "but", "and", "so", "or"], 
+        answer: 3 
+    },
+    { 
+        question: "Complete the sentence: 'They played soccer ___ it was a sunny day.'", 
+        options: ["so", "but", "because", "or", "and"], 
+        answer: 2 
+    },
+],
+// Stage 13
+[
+    { 
+        question: "Complete the sentence: 'I want to buy a new phone, ___ I don’t have enough money.'", 
+        options: ["because", "so", "but", "or", "and"], 
+        answer: 2 
+    },
+    { 
+        question: "Complete the sentence: 'He didn’t eat lunch, ___ he was too busy.'", 
+        options: ["but", "or", "because", "and", "so"], 
+        answer: 2 
+    },
+    { 
+        question: "Complete the sentence: 'We went to the park ___ we had a picnic.'", 
+        options: ["but", "or", "because", "so", "and"], 
+        answer: 4 
+    },
+    { 
+        question: "Complete the sentence: 'She was happy ___ she got a good grade on her test.'", 
+        options: ["and", "or", "because", "but", "so"], 
+        answer: 2 
+    },
+    { 
+        question: "Complete the sentence: 'He was late, ___ he ran to school.'", 
+        options: ["so", "or", "but", "because", "and"], 
+        answer: 0 
+    },
+],
+// Stage 14
+[
+    { 
+        question: "Complete the sentence: 'They wanted to watch a movie, ___ the cinema was closed.'", 
+        options: ["and", "so", "but", "because", "or"], 
+        answer: 2 
+    },
+    { 
+        question: "Complete the sentence: 'I’m cold, ___ I’ll put on a jacket.'", 
+        options: ["because", "but", "or", "and", "so"], 
+        answer: 4 
+    },
+    { 
+        question: "Complete the sentence: 'She didn’t bring an umbrella, ___ she got wet.'", 
+        options: ["so", "and", "because", "or", "but"], 
+        answer: 0 
+    },
+    { 
+        question: "Complete the sentence: 'He studied hard, ___ he passed the exam.'", 
+        options: ["because", "so", "and", "or", "but"], 
+        answer: 1 
+    },
+    { 
+        question: "Complete the sentence: 'We can go to the beach ___ we can stay home.'", 
+        options: ["but", "and", "or", "so", "because"], 
+        answer: 2 
+    },
+],
+// Stage 15
+[
+    { 
+        question: "Complete the sentence: 'She was tired, ___ she didn’t want to go to the party.'", 
+        options: ["and", "but", "so", "because", "or"], 
+        answer: 2 
+    },
+    { 
+        question: "Complete the sentence: 'I studied a lot, ___ I didn’t pass the test.'", 
+        options: ["but", "and", "so", "or", "because"], 
+        answer: 0 
+    },
+    { 
+        question: "Complete the sentence: 'We can go to the park ___ we can go to the movies.'", 
+        options: ["but", "so", "or", "and", "because"], 
+        answer: 2 
+    },
+    { 
+        question: "Complete the sentence: 'He didn’t have a pen, ___ he couldn’t write.'", 
+        options: ["and", "but", "because", "or", "so"], 
+        answer: 4 
+    },
+    { 
+        question: "Complete the sentence: 'She likes tea ___ she doesn’t like coffee.'", 
+        options: ["or", "so", "and", "because", "but"], 
+        answer: 4 
+    },
+],
+// Stage 16
+[
+    { 
+        question: "Complete the sentence: 'I was tired, ___ I went to bed early.'", 
+        options: ["but", "so", "and", "or", "because"], 
+        answer: 1 
+    },
+    { 
+        question: "Complete the sentence: 'She didn’t bring her book, ___ she couldn’t do her homework.'", 
+        options: ["so", "or", "because", "and", "but"], 
+        answer: 0 
+    },
+    { 
+        question: "Complete the sentence: 'They wanted to play soccer, ___ it started raining.'", 
+        options: ["so", "because", "but", "or", "and"], 
+        answer: 2 
+    },
+    { 
+        question: "Complete the sentence: 'He was happy ___ he got a new toy.'", 
+        options: ["so", "because", "and", "or", "but"], 
+        answer: 1 
+    },
+    { 
+        question: "Complete the sentence: 'We went to the park ___ we played on the swings.'", 
+        options: ["because", "so", "and", "or", "but"], 
+        answer: 2 
+    },
+],
+// Stage 17
+[
+    { 
+        question: "Complete the sentence: 'She wanted to buy a new dress, ___ she didn’t have enough money.'", 
+        options: ["because", "but", "so", "and", "or"], 
+        answer: 1 
+    },
+    { 
+        question: "Complete the sentence: 'I’m cold, ___ I’ll put on a jacket.'", 
+        options: ["but", "because", "or", "and", "so"], 
+        answer: 4 
+    },
+    { 
+        question: "Complete the sentence: 'They were hungry, ___ they made some dinner.'", 
+        options: ["so", "but", "or", "because", "and"], 
+        answer: 0 
+    },
+    { 
+        question: "Complete the sentence: 'He didn’t call me, ___ I was worried.'", 
+        options: ["because", "so", "and", "or", "but"], 
+        answer: 1 
+    },
+    { 
+        question: "Complete the sentence: 'We wanted to go for a walk, ___ it started raining.'", 
+        options: ["but", "so", "because", "and", "or"], 
+        answer: 0 
+    },
+],
+// Stage 18
+[
+    { 
+        question: "Complete the sentence: 'He was tired, ___ he took a nap.'", 
+        options: ["because", "but", "and", "so", "or"], 
+        answer: 3 
+    },
+    { 
+        question: "Complete the sentence: 'She likes coffee ___ she doesn’t like tea.'", 
+        options: ["so", "or", "but", "because", "and"], 
+        answer: 2 
+    },
+    { 
+        question: "Complete the sentence: 'I need to study, ___ I can pass the test.'", 
+        options: ["but", "so", "because", "and", "or"], 
+        answer: 1 
+    },
+    { 
+        question: "Complete the sentence: 'They were cold, ___ they went inside.'", 
+        options: ["or", "so", "because", "and", "but"], 
+        answer: 1 
+    },
+    { 
+        question: "Complete the sentence: 'He was late, ___ he ran to school.'", 
+        options: ["so", "because", "and", "or", "but"], 
+        answer: 0 
+    },
+],
+// Stage 19
+[
+    { 
+        question: "Complete the sentence: 'I was hungry, ___ I ate a sandwich.'", 
+        options: ["because", "and", "or", "so", "but"], 
+        answer: 3 
+    },
+    { 
+        question: "Complete the sentence: 'She didn’t bring her umbrella, ___ she got wet.'", 
+        options: ["because", "and", "so", "or", "but"], 
+        answer: 2 
+    },
+    { 
+        question: "Complete the sentence: 'He was late ___ he missed the bus.'", 
+        options: ["so", "because", "and", "or", "but"], 
+        answer: 1 
+    },
+    { 
+        question: "Complete the sentence: 'They wanted to watch a movie, ___ the cinema was closed.'", 
+        options: ["so", "or", "but", "because", "and"], 
+        answer: 2 
+    },
+    { 
+        question: "Complete the sentence: 'She was tired, ___ she didn’t want to go to the party.'", 
+        options: ["but", "so", "because", "and", "or"], 
+        answer: 1 
+    },
+],
+// Stage 20
+[
+    { 
+        question: "Complete the sentence: 'He studied hard ___ he passed the exam.'", 
+        options: ["but", "because", "so", "or", "and"], 
+        answer: 2 
+    },
+    { 
+        question: "Complete the sentence: 'I’m cold, ___ I’ll put on a jacket.'", 
+        options: ["so", "and", "because", "but", "or"], 
+        answer: 0 
+    },
+    { 
+        question: "Complete the sentence: 'She didn’t eat lunch, ___ she was too busy.'", 
+        options: ["so", "but", "because", "or", "and"], 
+        answer: 2 
+    },
+    { 
+        question: "Complete the sentence: 'They can go swimming ___ stay at home.'", 
+        options: ["so", "and", "because", "but", "or"], 
+        answer: 4 
+    },
+    { 
+        question: "Complete the sentence: 'He was happy ___ he got a new toy.'", 
+        options: ["so", "but", "because", "or", "and"], 
+        answer: 2 
+    },
+]
+
+
+
+
+        ];
+
+        let attempts = 0;
+		let currentStage = 1; 
+		const stageCount = quizData.length;
+
+        function renderQuiz() {
+		const quizContainer = document.getElementById("quiz-content");
+		quizContainer.innerHTML = '';
+		quizData[currentStage - 1].forEach((question, index) => {
+                const questionElement = document.createElement("div");
+                questionElement.className = "question";
+                
+                questionElement.innerHTML = `
+                    <p>${index + 1}. ${question.question}</p>
+                    <div class="options">
+                        <select id="q${index}">
+                            <option value="">Select</option>
+                            ${question.options.map((option, i) => `
+                                <option value="${i}">${option}</option>
+                            `).join("")}
+                        </select>
+                    </div>
+                    <div class="result" id="result${index}"></div>
+                `;
+
+                quizContainer.appendChild(questionElement);
+            });
+
+            updateStageNumber();
+        }
+
+        function checkStage() {
+            attempts++;
+            document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+            let correctCount = 0;
+
+            quizData[currentStage - 1].forEach((question, index) => {
+                const resultElement = document.getElementById(`result${index}`);
+                const selectedOption = document.getElementById(`q${index}`).value;
+                const userAnswer = parseInt(selectedOption);
+
+                if (userAnswer === question.answer) {
+                    resultElement.textContent = "Correct!";
+                    resultElement.style.color = "green";
+                    correctCount++;
+                } else {
+                    resultElement.textContent = "Incorrect answer.";
+                    resultElement.style.color = "red";
+                    if (attempts >= 10) {
+                        resultElement.textContent += ` The correct answer is: ${question.options[question.answer]}`;
+                    }
+                }
+            });
+
+			if (correctCount === quizData[currentStage - 1].length) {
+				if (currentStage < stageCount) {
+					showConfetti();
+					currentStage++;
+					updateProgressBar(); // Move this here
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 3000);
+				} else {
+					updateProgressBar();
+					alert("Congratulations! You've completed all stages.");
+				}
+            } else if (attempts >= 10) {
+                alert("You've reached the maximum number of attempts. The correct answers have been revealed.");
+            }
+
+            scrollToTop(); // Scroll back to top after checking answers
+        }
+
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+    
+    // Calculate progress based on completed stages
+    const completedStages = currentStage - 1;
+    const totalStages = stageCount;
+    const progress = (completedStages / totalStages) * 100;
+    
+    // Round the progress to 2 decimal places
+    const roundedProgress = Math.max(0, Math.round(progress * 100) / 100);
+    
+    // Set the progress bar width and text
+    progressBar.style.width = `${roundedProgress}%`;
+    progressBar.textContent = roundedProgress > 0 ? `${roundedProgress }%` : '';
+    
+    console.log(`Current Stage: ${currentStage}, Completed Stages: ${completedStages}, Total Stages: ${totalStages}, Progress: ${roundedProgress}%`);
+}
+
+
+
+        function updateStageNumber() {
+            document.getElementById("stage-number").textContent = currentStage;
+        }
+
+        function showConfetti() {
+            const confettiContainer = document.createElement("div");
+            confettiContainer.className = "confetti";
+            document.body.appendChild(confettiContainer);
+
+            for (let i = 0; i < 100; i++) {
+                const confettiPiece = document.createElement("div");
+                confettiPiece.className = "confetti-piece";
+                confettiPiece.style.left = `${Math.random() * 100}%`;
+                confettiPiece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                confettiContainer.appendChild(confettiPiece);
+            }
+
+            setTimeout(() => {
+                document.body.removeChild(confettiContainer);
+            }, 3000);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+		renderQuiz();
+		updateProgressBar(); 
+
+
+    </script>
+</body>
+</html>
