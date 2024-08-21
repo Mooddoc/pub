@@ -159,7 +159,7 @@
         </div>
 
         <div class="quiz-container">
-            <h1>Daily Routines Vocabulary - A2</h1>
+            <h1>Daily Routines Vocabulary Game - A2</h1>
             <div class="stage-number">Stage <span id="stage-number">1</span></div>
             <div class="progress-bar-container">
                 <div class="progress-bar" id="progress-bar">0%</div>
@@ -188,566 +188,167 @@
     <script>
         const quizData = [
 
-// Stage 1
-[
-    { 
-        question: "What is the first thing you usually do after waking up?", 
-        options: ["Stretch", "Play games", "Go to bed", "Watch TV", "Eat lunch"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do before eating breakfast?", 
-        options: ["Brush my teeth", "Go to bed", "Do homework", "Watch TV", "Play games"], 
-        answer: 0 
-    },
-    { 
-        question: "What is something you might do after getting dressed?", 
-        options: ["Pack my bag", "Go to bed", "Eat dinner", "Watch TV", "Brush my teeth"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do on your way to school?", 
-        options: ["Listen to music", "Go to bed", "Brush my teeth", "Play games", "Eat breakfast"], 
-        answer: 0 
-    },
-    { 
-        question: "What is the first thing you do when you get home from school?", 
-        options: ["Change my clothes", "Brush my teeth", "Eat breakfast", "Go to bed", "Play games"], 
-        answer: 0 
-    },
-],
-// Stage 2
-[
-    { 
-        question: "What do you usually do before going to bed?", 
-        options: ["Read a book", "Go to bed", "Play games", "Eat breakfast", "Do homework"], 
-        answer: 0 
-    },
-    { 
-        question: "What is something you might do after dinner?", 
-        options: ["Help clean up", "Go to bed", "Watch TV", "Play games", "Eat breakfast"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do after finishing your homework?", 
-        options: ["Relax", "Go to school", "Eat breakfast", "Brush my teeth", "Do more homework"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do before lunch?", 
-        options: ["Wash my hands", "Go to bed", "Play games", "Watch TV", "Go to school"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do when you feel hungry in the morning?", 
-        options: ["Have a snack", "Play games", "Go to bed", "Do homework", "Brush my teeth"], 
-        answer: 0 
-    },
-],
-// Stage 3
-[
-    { 
-        question: "What do you usually do after school?", 
-        options: ["Go to an activity", "Brush my teeth", "Eat dinner", "Go to bed", "Play games"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do after a meal?", 
-        options: ["Digest", "Go to bed", "Play games", "Watch TV", "Do homework"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do before leaving the house?", 
-        options: ["Check the weather", "Brush my teeth", "Go to bed", "Eat breakfast", "Play games"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do in the afternoon?", 
-        options: ["Take a nap", "Eat breakfast", "Go to bed", "Brush my teeth", "Go to school"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do before starting homework?", 
-        options: ["Organize my desk", "Play games", "Eat breakfast", "Watch TV", "Go to bed"], 
-        answer: 0 
-    },
-],
-// Stage 4
-[
-    { 
-        question: "What is something you do after coming home from a trip?", 
-        options: ["Unpack my bag", "Go to bed", "Eat breakfast", "Play games", "Brush my teeth"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do before bedtime?", 
-        options: ["Set an alarm", "Eat breakfast", "Play games", "Go to school", "Watch TV"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do after waking up on the weekend?", 
-        options: ["Relax in bed", "Go to school", "Eat dinner", "Brush my teeth", "Go to bed"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do in the morning before school?", 
-        options: ["Check my schedule", "Go to bed", "Play games", "Watch TV", "Brush my teeth"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do before going out with friends?", 
-        options: ["Get ready", "Go to bed", "Eat breakfast", "Do homework", "Play games"], 
-        answer: 0 
-    },
-],
-// Stage 5
-[
-    { 
-        question: "What do you usually do after breakfast?", 
-        options: ["Clean the dishes", "Go to bed", "Play games", "Watch TV", "Brush my teeth"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do before starting a new task?", 
-        options: ["Take a deep breath", "Go to bed", "Eat breakfast", "Play games", "Do homework"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do in the evening?", 
-        options: ["Plan for tomorrow", "Go to bed", "Play games", "Watch TV", "Eat breakfast"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do after playing outside?", 
-        options: ["Wash my hands", "Eat breakfast", "Go to bed", "Brush my teeth", "Play games"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do before dinner?", 
-        options: ["Set the table", "Go to bed", "Do homework", "Play games", "Brush my teeth"], 
-        answer: 0 
-    },
-],
-// Stage 6
-[
-    { 
-        question: "What do you do after eating lunch?", 
-        options: ["Take a break", "Brush my teeth", "Go to bed", "Play games", "Watch TV"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do before going to bed?", 
-        options: ["Change into pajamas", "Eat breakfast", "Play games", "Go to school", "Watch TV"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do when you get home from school?", 
-        options: ["Do homework", "Go to bed", "Eat breakfast", "Play games", "Brush my teeth"], 
-        answer: 0 
-    },
-    { 
-        question: "What is something you might do after playing a sport?", 
-        options: ["Take a shower", "Go to bed", "Eat breakfast", "Brush my teeth", "Play games"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do before breakfast?", 
-        options: ["Make my bed", "Go to bed", "Do homework", "Play games", "Watch TV"], 
-        answer: 0 
-    },
-],
-// Stage 7
-[
-    { 
-        question: "What do you usually do before eating lunch?", 
-        options: ["Wash my hands", "Go to bed", "Play games", "Watch TV", "Do homework"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do after brushing your teeth in the morning?", 
-        options: ["Eat breakfast", "Go to bed", "Play games", "Do homework", "Watch TV"], 
-        answer: 0 
-    },
-    { 
-        question: "What is something you might do before going to bed?", 
-        options: ["Turn off the lights", "Go to bed", "Eat breakfast", "Do homework", "Play games"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do after finishing your homework?", 
-        options: ["Relax", "Go to school", "Eat breakfast", "Brush my teeth", "Play games"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do before leaving the house in the morning?", 
-        options: ["Put on my shoes", "Go to bed", "Play games", "Eat breakfast", "Watch TV"], 
-        answer: 0 
-    },
-],
-// Stage 8
-[
-    { 
-        question: "What do you do after getting dressed in the morning?", 
-        options: ["Pack my bag", "Go to bed", "Play games", "Watch TV", "Eat breakfast"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do after dinner?", 
-        options: ["Help clean up", "Go to bed", "Play games", "Watch TV", "Do homework"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do when you feel tired in the afternoon?", 
-        options: ["Take a nap", "Brush my teeth", "Eat breakfast", "Do homework", "Play games"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do before going to school?", 
-        options: ["Put on my uniform", "Go to bed", "Play games", "Eat breakfast", "Watch TV"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do after getting home from an activity?", 
-        options: ["Relax", "Go to bed", "Eat breakfast", "Play games", "Do homework"], 
-        answer: 0 
-    },
-],
-// Stage 9
-[
-    { 
-        question: "What do you usually do in the evening?", 
-        options: ["Watch TV", "Go to bed", "Play games", "Eat breakfast", "Do homework"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do after finishing dinner?", 
-        options: ["Help clean the table", "Go to bed", "Play games", "Eat breakfast", "Brush my teeth"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do after playing outside?", 
-        options: ["Take a shower", "Go to bed", "Play games", "Eat breakfast", "Watch TV"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do before going out with friends?", 
-        options: ["Get dressed", "Go to bed", "Play games", "Do homework", "Watch TV"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do when you get home from school?", 
-        options: ["Do homework", "Go to bed", "Eat breakfast", "Play games", "Brush my teeth"], 
-        answer: 0 
-    },
-],
-// Stage 10
-[
-    { 
-        question: "What do you do when you feel sleepy at night?", 
-        options: ["Go to bed", "Eat breakfast", "Play games", "Do homework", "Watch TV"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do before eating breakfast?", 
-        options: ["Get dressed", "Go to bed", "Play games", "Do homework", "Watch TV"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do after school?", 
-        options: ["Go to an activity", "Brush my teeth", "Eat dinner", "Go to bed", "Play games"], 
-        answer: 0 
-    },
-    { 
-        question: "What is something you might do after lunch?", 
-        options: ["Take a walk", "Go to bed", "Play games", "Do homework", "Watch TV"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do before going to bed?", 
-        options: ["Set an alarm", "Go to bed", "Play games", "Eat breakfast", "Watch TV"], 
-        answer: 0 
-    },
-],
-// Stage 11
-[
-    { 
-        question: "What do you do after getting home from school?", 
-        options: ["Change my clothes", "Go to bed", "Eat breakfast", "Play games", "Brush my teeth"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do in the morning before school?", 
-        options: ["Pack my bag", "Go to bed", "Play games", "Watch TV", "Eat breakfast"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do before going to school?", 
-        options: ["Eat breakfast", "Go to bed", "Play games", "Watch TV", "Do homework"], 
-        answer: 0 
-    },
-    { 
-        question: "What is something you do after coming home from a trip?", 
-        options: ["Unpack my bag", "Go to bed", "Eat breakfast", "Play games", "Brush my teeth"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do before going out with friends?", 
-        options: ["Get ready", "Go to bed", "Eat breakfast", "Do homework", "Play games"], 
-        answer: 0 
-    },
-],
-// Stage 12
-[
-    { 
-        question: "What do you do when you wake up?", 
-        options: ["Stretch", "Go to bed", "Eat breakfast", "Play games", "Do homework"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do after breakfast?", 
-        options: ["Brush my teeth", "Go to bed", "Play games", "Do homework", "Watch TV"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do before starting homework?", 
-        options: ["Organize my desk", "Go to bed", "Play games", "Eat breakfast", "Watch TV"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do after getting dressed?", 
-        options: ["Pack my bag", "Go to bed", "Eat dinner", "Watch TV", "Brush my teeth"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do on your way to school?", 
-        options: ["Listen to music", "Go to bed", "Brush my teeth", "Play games", "Eat breakfast"], 
-        answer: 0 
-    },
-],
-// Stage 13
-[
-    { 
-        question: "What do you do after finishing your homework?", 
-        options: ["Relax", "Go to bed", "Eat breakfast", "Brush my teeth", "Do more homework"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do after school?", 
-        options: ["Go to an activity", "Brush my teeth", "Eat dinner", "Go to bed", "Play games"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do before going to bed?", 
-        options: ["Read a book", "Go to bed", "Play games", "Eat breakfast", "Do homework"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do before lunch?", 
-        options: ["Wash my hands", "Go to bed", "Play games", "Watch TV", "Go to school"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do when you feel hungry in the morning?", 
-        options: ["Have a snack", "Play games", "Go to bed", "Do homework", "Brush my teeth"], 
-        answer: 0 
-    },
-],
-// Stage 14
-[
-    { 
-        question: "What do you usually do after eating lunch?", 
-        options: ["Take a break", "Brush my teeth", "Go to bed", "Play games", "Watch TV"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do when you get home from school?", 
-        options: ["Do homework", "Go to bed", "Eat breakfast", "Play games", "Brush my teeth"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do before eating breakfast?", 
-        options: ["Get dressed", "Go to bed", "Play games", "Do homework", "Watch TV"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do before dinner?", 
-        options: ["Set the table", "Go to bed", "Do homework", "Play games", "Brush my teeth"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do before leaving the house?", 
-        options: ["Check the weather", "Brush my teeth", "Go to bed", "Eat breakfast", "Play games"], 
-        answer: 0 
-    },
-],
-// Stage 15
-[
-    { 
-        question: "What do you do before going to school?", 
-        options: ["Eat breakfast", "Go to bed", "Play games", "Watch TV", "Do homework"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do in the morning before school?", 
-        options: ["Check my schedule", "Go to bed", "Play games", "Watch TV", "Brush my teeth"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do after breakfast?", 
-        options: ["Brush my teeth", "Go to bed", "Play games", "Do homework", "Watch TV"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do before taking a shower?", 
-        options: ["Take off my clothes", "Go to bed", "Play games", "Eat breakfast", "Do homework"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do when you feel tired?", 
-        options: ["Take a nap", "Brush my teeth", "Eat breakfast", "Do homework", "Play games"], 
-        answer: 0 
-    },
-],
-// Stage 16
-[
-    { 
-        question: "What do you usually do before lunch?", 
-        options: ["Wash my hands", "Go to bed", "Play games", "Watch TV", "Do homework"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do after brushing your teeth in the morning?", 
-        options: ["Eat breakfast", "Go to bed", "Play games", "Do homework", "Watch TV"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do before leaving the house in the morning?", 
-        options: ["Put on my shoes", "Go to bed", "Play games", "Eat breakfast", "Watch TV"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do before going to bed?", 
-        options: ["Turn off the lights", "Go to bed", "Eat breakfast", "Do homework", "Play games"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do before going out with friends?", 
-        options: ["Get ready", "Go to bed", "Eat breakfast", "Do homework", "Play games"], 
-        answer: 0 
-    },
-],
-// Stage 17
-[
-    { 
-        question: "What do you usually do after school?", 
-        options: ["Go to an activity", "Brush my teeth", "Eat dinner", "Go to bed", "Play games"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do after a meal?", 
-        options: ["Digest", "Go to bed", "Play games", "Watch TV", "Do homework"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do after getting dressed in the morning?", 
-        options: ["Pack my bag", "Go to bed", "Play games", "Watch TV", "Eat breakfast"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do in the afternoon?", 
-        options: ["Take a nap", "Eat breakfast", "Go to bed", "Brush my teeth", "Go to school"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do before starting homework?", 
-        options: ["Organize my desk", "Play games", "Eat breakfast", "Watch TV", "Go to bed"], 
-        answer: 0 
-    },
-],
-// Stage 18
-[
-    { 
-        question: "What do you do after playing outside?", 
-        options: ["Take a shower", "Eat breakfast", "Go to bed", "Brush my teeth", "Play games"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do in the evening?", 
-        options: ["Plan for tomorrow", "Go to bed", "Play games", "Watch TV", "Eat breakfast"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do before dinner?", 
-        options: ["Set the table", "Go to bed", "Do homework", "Play games", "Brush my teeth"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do after eating lunch?", 
-        options: ["Take a break", "Brush my teeth", "Go to bed", "Play games", "Watch TV"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do before starting a new task?", 
-        options: ["Take a deep breath", "Go to bed", "Eat breakfast", "Play games", "Do homework"], 
-        answer: 0 
-    },
-],
-// Stage 19
-[
-    { 
-        question: "What do you do before going to school?", 
-        options: ["Eat breakfast", "Go to bed", "Play games", "Watch TV", "Do homework"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do when you wake up in the morning?", 
-        options: ["Stretch", "Go to bed", "Eat breakfast", "Play games", "Do homework"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do before taking a shower?", 
-        options: ["Take off my clothes", "Go to bed", "Play games", "Eat breakfast", "Do homework"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do after getting dressed?", 
-        options: ["Pack my bag", "Go to bed", "Eat dinner", "Watch TV", "Brush my teeth"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do after brushing your teeth in the morning?", 
-        options: ["Eat breakfast", "Go to bed", "Play games", "Do homework", "Watch TV"], 
-        answer: 0 
-    },
-],
-// Stage 20
-[
-    { 
-        question: "What do you do when you feel tired?", 
-        options: ["Take a nap", "Brush my teeth", "Eat breakfast", "Do homework", "Play games"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do before eating breakfast?", 
-        options: ["Get dressed", "Go to bed", "Play games", "Do homework", "Watch TV"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do after getting home from an activity?", 
-        options: ["Relax", "Go to bed", "Eat breakfast", "Play games", "Do homework"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you do before going out with friends?", 
-        options: ["Get ready", "Go to bed", "Eat breakfast", "Do homework", "Play games"], 
-        answer: 0 
-    },
-    { 
-        question: "What do you usually do before lunch?", 
-        options: ["Wash my hands", "Go to bed", "Play games", "Watch TV", "Do homework"], 
-        answer: 0 
-    },
-]
+    // Stage 1
+    [
+        { question: "What do you do after breakfast?", options: ["Go to work", "Go to school", "Watch TV", "Do exercises", "Brush my teeth"], answer: 1 },
+        { question: "What is something you might do before dinner?", options: ["Take a nap", "Brush my teeth", "Wash my hands", "Do homework", "Go shopping"], answer: 2 },
+        { question: "What do you do in the evening?", options: ["Watch TV", "Play outside", "Go to bed", "Eat breakfast", "Go to work"], answer: 0 },
+        { question: "What do you do after you get home from work or school?", options: ["Watch TV", "Do homework", "Take a shower", "Go for a walk", "Cook dinner"], answer: 2 },
+        { question: "What do you do before going to bed?", options: ["Watch TV", "Brush my teeth", "Read a book", "Play games", "Eat dinner"], answer: 1 },
+    ],
+    // Stage 2
+    [
+        { question: "What do you usually eat for lunch?", options: ["Snacks", "Dinner", "Lunch", "Dessert", "Soup"], answer: 2 },
+        { question: "What is the first thing you do in the morning?", options: ["Brush my teeth", "Get dressed", "Eat breakfast", "Take a shower", "Go to work"], answer: 3 },
+        { question: "What do you do after lunch?", options: ["Do homework", "Brush my teeth", "Take a nap", "Go for a walk", "Go shopping"], answer: 2 },
+        { question: "What do you do before leaving the house?", options: ["Brush my teeth", "Eat breakfast", "Watch TV", "Get dressed", "Go to bed"], answer: 3 },
+        { question: "What do you do when you feel tired?", options: ["Take a nap", "Brush my teeth", "Eat breakfast", "Do homework", "Go to bed"], answer: 0 },
+    ],
+    // Stage 3
+    [
+        { question: "What do you do after dinner?", options: ["Go to bed", "Brush my teeth", "Watch TV", "Read a book", "Do the dishes"], answer: 4 },
+        { question: "What do you do in the afternoon?", options: ["Eat lunch", "Do homework", "Take a walk", "Go to bed", "Read a book"], answer: 2 },
+        { question: "What do you usually do before breakfast?", options: ["Brush my teeth", "Get dressed", "Take a shower", "Go for a run", "Go shopping"], answer: 1 },
+        { question: "What do you do on the weekend?", options: ["Go to school", "Do chores", "Visit friends", "Read a book", "Do homework"], answer: 2 },
+        { question: "What do you do when you are hungry?", options: ["Eat a snack", "Go for a walk", "Brush my teeth", "Go to bed", "Take a shower"], answer: 0 },
+    ],
+    // Stage 4
+    [
+        { question: "What do you do after brushing your teeth?", options: ["Go to bed", "Eat breakfast", "Do homework", "Get dressed", "Take a nap"], answer: 3 },
+        { question: "What do you do when you get home from school?", options: ["Go to bed", "Do homework", "Eat dinner", "Take a shower", "Go outside"], answer: 1 },
+        { question: "What do you do before you go to sleep?", options: ["Read a book", "Brush my teeth", "Watch TV", "Eat dinner", "Take a nap"], answer: 1 },
+        { question: "What do you do first thing in the morning?", options: ["Brush my teeth", "Eat breakfast", "Take a shower", "Get dressed", "Read a book"], answer: 2 },
+        { question: "What do you do after you wake up?", options: ["Go to bed", "Brush my teeth", "Eat breakfast", "Take a shower", "Go to work"], answer: 3 },
+    ],
+    // Stage 5
+    [
+        { question: "What do you do before going to work or school?", options: ["Eat breakfast", "Go to bed", "Watch TV", "Brush my teeth", "Do exercises"], answer: 0 },
+        { question: "What do you do after school or work?", options: ["Do exercises", "Cook dinner", "Read a book", "Watch TV", "Take a shower"], answer: 1 },
+        { question: "What do you do before going to bed?", options: ["Brush my teeth", "Read a book", "Take a nap", "Do homework", "Watch TV"], answer: 0 },
+        { question: "What do you do after dinner?", options: ["Do the dishes", "Brush my teeth", "Go to bed", "Watch TV", "Read a book"], answer: 0 },
+        { question: "What do you do on a rainy day?", options: ["Go for a walk", "Read a book", "Stay inside", "Do chores", "Watch TV"], answer: 2 },
+    ],
+    // Stage 6
+    [
+        { question: "What do you do when you are tired?", options: ["Take a nap", "Go to bed", "Brush my teeth", "Watch TV", "Eat a snack"], answer: 1 },
+        { question: "What do you do in the evening?", options: ["Eat dinner", "Watch TV", "Go for a walk", "Read a book", "Brush my teeth"], answer: 1 },
+        { question: "What do you do before leaving the house?", options: ["Get dressed", "Brush my teeth", "Eat breakfast", "Watch TV", "Take a shower"], answer: 0 },
+        { question: "What do you do in the afternoon?", options: ["Go for a walk", "Take a nap", "Do homework", "Eat lunch", "Watch TV"], answer: 2 },
+        { question: "What do you do after school?", options: ["Do homework", "Eat dinner", "Brush my teeth", "Go to bed", "Watch TV"], answer: 0 },
+    ],
+    // Stage 7
+    [
+        { question: "What do you do before breakfast?", options: ["Get dressed", "Go to bed", "Take a shower", "Watch TV", "Brush my teeth"], answer: 2 },
+        { question: "What do you do in the morning?", options: ["Brush my teeth", "Eat breakfast", "Go for a run", "Watch TV", "Go to work"], answer: 1 },
+        { question: "What do you do after lunch?", options: ["Take a nap", "Do homework", "Watch TV", "Go shopping", "Go for a walk"], answer: 1 },
+        { question: "What do you do before going to bed?", options: ["Brush my teeth", "Read a book", "Watch TV", "Take a shower", "Go to bed"], answer: 0 },
+        { question: "What do you do when you are hungry?", options: ["Eat a snack", "Go for a walk", "Brush my teeth", "Take a nap", "Go to bed"], answer: 0 },
+    ],
+    // Stage 8
+    [
+        { question: "What do you do after waking up?", options: ["Brush my teeth", "Get dressed", "Take a shower", "Go to work", "Watch TV"], answer: 2 },
+        { question: "What do you do before leaving for work?", options: ["Get dressed", "Brush my teeth", "Eat breakfast", "Watch TV", "Take a shower"], answer: 3 },
+        { question: "What do you do in the evening?", options: ["Watch TV", "Go for a walk", "Brush my teeth", "Do homework", "Read a book"], answer: 0 },
+        { question: "What do you do before lunch?", options: ["Take a walk", "Do exercises", "Wash my hands", "Do homework", "Go for a run"], answer: 2 },
+        { question: "What do you do on the weekend?", options: ["Go to school", "Visit friends", "Go shopping", "Read a book", "Do chores"], answer: 2 },
+    ],
+    // Stage 9
+    [
+        { question: "What do you do before going to bed?", options: ["Read a book", "Brush my teeth", "Watch TV", "Take a shower", "Go to bed"], answer: 1 },
+        { question: "What do you do in the afternoon?", options: ["Eat lunch", "Take a nap", "Watch TV", "Go shopping", "Do homework"], answer: 4 },
+        { question: "What do you do when you get home?", options: ["Watch TV", "Do homework", "Eat dinner", "Take a shower", "Read a book"], answer: 1 },
+        { question: "What do you do after lunch?", options: ["Take a nap", "Watch TV", "Do exercises", "Go for a walk", "Brush my teeth"], answer: 0 },
+        { question: "What do you do before going to school?", options: ["Brush my teeth", "Get dressed", "Take a shower", "Eat breakfast", "Watch TV"], answer: 1 },
+    ],
+    // Stage 10
+    [
+        { question: "What do you do on a rainy day?", options: ["Watch TV", "Read a book", "Stay inside", "Go shopping", "Do chores"], answer: 2 },
+        { question: "What do you do after school?", options: ["Take a shower", "Do homework", "Watch TV", "Go shopping", "Go for a walk"], answer: 1 },
+        { question: "What do you do in the morning?", options: ["Eat breakfast", "Brush my teeth", "Take a shower", "Get dressed", "Watch TV"], answer: 0 },
+        { question: "What do you do before going to bed?", options: ["Read a book", "Watch TV", "Brush my teeth", "Go to bed", "Take a shower"], answer: 3 },
+        { question: "What do you do after dinner?", options: ["Do the dishes", "Watch TV", "Read a book", "Go to bed", "Brush my teeth"], answer: 0 },
+    ],
+    // Stage 11
+    [
+        { question: "What do you do after breakfast?", options: ["Go to school", "Brush my teeth", "Watch TV", "Do exercises", "Go shopping"], answer: 0 },
+        { question: "What is the first thing you do in the morning?", options: ["Get dressed", "Take a shower", "Brush my teeth", "Eat breakfast", "Go to work"], answer: 3 },
+        { question: "What do you do after lunch?", options: ["Do homework", "Brush my teeth", "Take a nap", "Go for a walk", "Go shopping"], answer: 2 },
+        { question: "What do you do before leaving the house?", options: ["Brush my teeth", "Eat breakfast", "Watch TV", "Get dressed", "Go to bed"], answer: 3 },
+        { question: "What do you do when you feel tired?", options: ["Take a nap", "Brush my teeth", "Eat breakfast", "Do homework", "Go to bed"], answer: 0 },
+    ],
+    // Stage 12
+    [
+        { question: "What do you do after dinner?", options: ["Go to bed", "Brush my teeth", "Watch TV", "Read a book", "Do the dishes"], answer: 4 },
+        { question: "What do you do in the afternoon?", options: ["Eat lunch", "Do homework", "Take a walk", "Go to bed", "Read a book"], answer: 2 },
+        { question: "What do you usually do before breakfast?", options: ["Brush my teeth", "Get dressed", "Take a shower", "Go for a run", "Go shopping"], answer: 1 },
+        { question: "What do you do on the weekend?", options: ["Go to school", "Do chores", "Visit friends", "Read a book", "Do homework"], answer: 2 },
+        { question: "What do you do when you are hungry?", options: ["Eat a snack", "Go for a walk", "Brush my teeth", "Go to bed", "Take a shower"], answer: 0 },
+    ],
+    // Stage 13
+    [
+        { question: "What do you do after brushing your teeth?", options: ["Go to bed", "Eat breakfast", "Do homework", "Get dressed", "Take a nap"], answer: 3 },
+        { question: "What do you do when you get home from school?", options: ["Go to bed", "Do homework", "Eat dinner", "Take a shower", "Go outside"], answer: 1 },
+        { question: "What do you do before you go to sleep?", options: ["Read a book", "Brush my teeth", "Watch TV", "Eat dinner", "Take a nap"], answer: 1 },
+        { question: "What do you do first thing in the morning?", options: ["Brush my teeth", "Eat breakfast", "Take a shower", "Get dressed", "Read a book"], answer: 2 },
+        { question: "What do you do after you wake up?", options: ["Go to bed", "Brush my teeth", "Eat breakfast", "Take a shower", "Go to work"], answer: 3 },
+    ],
+    // Stage 14
+    [
+        { question: "What do you do before going to work or school?", options: ["Eat breakfast", "Go to bed", "Watch TV", "Brush my teeth", "Do exercises"], answer: 0 },
+        { question: "What do you do after school or work?", options: ["Do exercises", "Cook dinner", "Read a book", "Watch TV", "Take a shower"], answer: 1 },
+        { question: "What do you do before going to bed?", options: ["Brush my teeth", "Read a book", "Take a nap", "Do homework", "Watch TV"], answer: 0 },
+        { question: "What do you do after dinner?", options: ["Do the dishes", "Brush my teeth", "Go to bed", "Watch TV", "Read a book"], answer: 0 },
+        { question: "What do you do on a rainy day?", options: ["Go for a walk", "Read a book", "Stay inside", "Do chores", "Watch TV"], answer: 2 },
+    ],
+    // Stage 15
+    [
+        { question: "What do you do when you are tired?", options: ["Take a nap", "Go to bed", "Brush my teeth", "Watch TV", "Eat a snack"], answer: 1 },
+        { question: "What do you do in the evening?", options: ["Eat dinner", "Watch TV", "Go for a walk", "Read a book", "Brush my teeth"], answer: 1 },
+        { question: "What do you do before leaving the house?", options: ["Get dressed", "Brush my teeth", "Eat breakfast", "Watch TV", "Take a shower"], answer: 0 },
+        { question: "What do you do in the afternoon?", options: ["Go for a walk", "Take a nap", "Do homework", "Eat lunch", "Watch TV"], answer: 2 },
+        { question: "What do you do after school?", options: ["Do homework", "Eat dinner", "Brush my teeth", "Go to bed", "Watch TV"], answer: 0 },
+    ],
+    // Stage 16
+    [
+        { question: "What do you do before breakfast?", options: ["Get dressed", "Go to bed", "Take a shower", "Watch TV", "Brush my teeth"], answer: 2 },
+        { question: "What do you do in the morning?", options: ["Brush my teeth", "Eat breakfast", "Go for a run", "Watch TV", "Go to work"], answer: 1 },
+        { question: "What do you do after lunch?", options: ["Take a nap", "Do homework", "Watch TV", "Go shopping", "Go for a walk"], answer: 1 },
+        { question: "What do you do before going to bed?", options: ["Brush my teeth", "Read a book", "Watch TV", "Take a shower", "Go to bed"], answer: 0 },
+        { question: "What do you do when you are hungry?", options: ["Eat a snack", "Go for a walk", "Brush my teeth", "Take a nap", "Go to bed"], answer: 0 },
+    ],
+    // Stage 17
+    [
+        { question: "What do you do after waking up?", options: ["Brush my teeth", "Get dressed", "Take a shower", "Go to work", "Watch TV"], answer: 2 },
+        { question: "What do you do before leaving for work?", options: ["Get dressed", "Brush my teeth", "Eat breakfast", "Watch TV", "Take a shower"], answer: 3 },
+        { question: "What do you do in the evening?", options: ["Watch TV", "Go for a walk", "Brush my teeth", "Do homework", "Read a book"], answer: 0 },
+        { question: "What do you do before lunch?", options: ["Take a walk", "Do exercises", "Wash my hands", "Do homework", "Go for a run"], answer: 2 },
+        { question: "What do you do on the weekend?", options: ["Go to school", "Visit friends", "Go shopping", "Read a book", "Do chores"], answer: 2 },
+    ],
+    // Stage 18
+    [
+        { question: "What do you do before going to bed?", options: ["Read a book", "Brush my teeth", "Watch TV", "Take a shower", "Go to bed"], answer: 1 },
+        { question: "What do you do in the afternoon?", options: ["Eat lunch", "Take a nap", "Watch TV", "Go shopping", "Do homework"], answer: 4 },
+        { question: "What do you do when you get home?", options: ["Watch TV", "Do homework", "Eat dinner", "Take a shower", "Read a book"], answer: 1 },
+        { question: "What do you do after lunch?", options: ["Take a nap", "Watch TV", "Do exercises", "Go for a walk", "Brush my teeth"], answer: 0 },
+        { question: "What do you do before going to school?", options: ["Brush my teeth", "Get dressed", "Take a shower", "Eat breakfast", "Watch TV"], answer: 1 },
+    ],
+    // Stage 19
+    [
+        { question: "What do you do on a rainy day?", options: ["Watch TV", "Read a book", "Stay inside", "Go shopping", "Do chores"], answer: 2 },
+        { question: "What do you do after school?", options: ["Take a shower", "Do homework", "Watch TV", "Go shopping", "Go for a walk"], answer: 1 },
+        { question: "What do you do in the morning?", options: ["Eat breakfast", "Brush my teeth", "Take a shower", "Get dressed", "Watch TV"], answer: 0 },
+        { question: "What do you do before going to bed?", options: ["Read a book", "Watch TV", "Brush my teeth", "Go to bed", "Take a shower"], answer: 3 },
+        { question: "What do you do after dinner?", options: ["Do the dishes", "Watch TV", "Read a book", "Go to bed", "Brush my teeth"], answer: 0 },
+    ],
+    // Stage 20
+    [
+        { question: "What do you do after breakfast?", options: ["Go to school", "Brush my teeth", "Watch TV", "Do exercises", "Go shopping"], answer: 0 },
+        { question: "What is the first thing you do in the morning?", options: ["Get dressed", "Take a shower", "Brush my teeth", "Eat breakfast", "Go to work"], answer: 3 },
+        { question: "What do you do after lunch?", options: ["Do homework", "Brush my teeth", "Take a nap", "Go for a walk", "Go shopping"], answer: 2 },
+        { question: "What do you do before leaving the house?", options: ["Brush my teeth", "Eat breakfast", "Watch TV", "Get dressed", "Go to bed"], answer: 3 },
+        { question: "What do you do when you feel tired?", options: ["Take a nap", "Brush my teeth", "Eat breakfast", "Do homework", "Go to bed"], answer: 0 },
+    ]
+
 
 
 
