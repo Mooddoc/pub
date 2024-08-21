@@ -154,7 +154,7 @@
                 <li>Select the best answer.</li>
                 <li>Click "Check Answers" when you're ready to see how you did!</li>
                 <li>You can check your answers multiple times to improve your score.</li>
-                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>Correct answers are revealed after 20 attempts.</li>
             </ol>
         </div>
 
@@ -802,7 +802,7 @@
                 } else {
                     resultElement.textContent = "Incorrect answer.";
                     resultElement.style.color = "red";
-                    if (attempts >= 10) {
+                    if (attempts >= 20) {
                         resultElement.textContent += ` The correct answer is: ${question.options[question.answer]}`;
                     }
                 }
@@ -822,7 +822,7 @@
 					updateProgressBar();
 					alert("Congratulations! You've completed all stages.");
 				}
-            } else if (attempts >= 10) {
+            } else if (attempts >= 20) {
                 alert("You've reached the maximum number of attempts. The correct answers have been revealed.");
             }
 
