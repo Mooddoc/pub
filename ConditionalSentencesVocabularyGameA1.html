@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synonyms and Antonyms Game</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(to bottom, #ff9e9e, #ffb38a, #ffd286, #ffe381, #e6ff99);
+            color: #ff6b6b;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .page-container {
+            display: flex;
+            max-width: 1400px;
+            width: 100%;
+            padding: 20px;
+            gap: 20px;
+        }
+        .quiz-container {
+            flex: 2;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+        .side-panel {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+            align-self: flex-start;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .question {
+            margin-bottom: 20px;
+            background-color: rgba(255, 204, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        select {
+            font-family: inherit;
+            font-size: inherit;
+            padding: 5px;
+            border: none;
+            border-bottom: 2px solid #ff9e9e;
+            background-color: transparent;
+            color: #ff6b6b;
+        }
+        select:focus {
+            outline: none;
+            border-bottom-color: #ff9e9e;
+        }
+        button {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #ff9e9e;
+        }
+        .result {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        #attempts {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #ff6b6b;
+        }
+        .stage-number {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #ffe381;
+            border-radius: 10px;
+            margin: 10px 0;
+            height: 30px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #ff6b6b;
+            border-radius: 10px;
+            transition: width 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .confetti {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f5b7b1;
+            opacity: 0.7;
+            animation: confetti-fall 3s ease-in-out forwards, confetti-drift 3s ease-in-out forwards;
+        }
+        @keyframes confetti-fall {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+        @keyframes confetti-drift {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="side-panel">
+            <h2>Instructions</h2>
+            <ol>
+                <li>Read each question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+            </ol>
+        </div>
+
+        <div class="quiz-container">
+            <h1>Conditional Sentences Game - A1</h1>
+            <div class="stage-number">Stage <span id="stage-number">1</span></div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar">0%</div>
+            </div>
+            
+            <div id="attempts">Attempts: 0</div>
+            <button onclick="checkStage()">Check Answers</button>
+            
+            <div id="quiz-content"></div>
+            
+            <button onclick="checkStage()">Check Answers</button>
+        </div>
+        
+        <div class="side-panel">
+            <h2>Quiz Rules</h2>
+            <ol>
+                <li>Answer all questions to the best of your ability.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>After 10 attempts, correct answers will be revealed for any incorrect responses.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+                <li>Have fun and learn new words!</li>
+            </ol>
+        </div>
+    </div>
+    
+    <script>
+const quizData = [
+    // Stage 1
+    [
+        { question: "If it ___ (to rain), I will stay home.", options: ["is rain", "rains", "rained", "will rain", "rain"], answer: 1 },
+        { question: "If you ___ (to study), you will pass the test.", options: ["studied", "will study", "study", "are study", "studies"], answer: 2 },
+        { question: "If they ___ (to be) late, we will start without them.", options: ["was", "are", "were", "is", "will be"], answer: 1 },
+        { question: "If I ___ (to eat) too much, I will feel sick.", options: ["ate", "will eat", "eats", "eaten", "eat"], answer: 4 },
+        { question: "If she ___ (to call) me, I will answer.", options: ["called", "calls", "is call", "call", "will call"], answer: 1 },
+    ],
+    // Stage 2
+    [
+        { question: "If you ___ (to be) tired, you should rest.", options: ["be", "are", "is", "was", "will be"], answer: 1 },
+        { question: "If they ___ (to win) the game, they will celebrate.", options: ["win", "won", "will win", "winning", "wins"], answer: 0 },
+        { question: "If we ___ (to leave) now, we will be on time.", options: ["leave", "will leave", "leaves", "leaving", "left"], answer: 0 },
+        { question: "If it ___ (to snow), we will build a snowman.", options: ["will snow", "snows", "is snow", "snowed", "snow"], answer: 1 },
+        { question: "If she ___ (to ask) nicely, I will help her.", options: ["ask", "will ask", "is ask", "asked", "asks"], answer: 4 },
+    ],
+    // Stage 3
+    [
+        { question: "If I ___ (to find) your book, I will return it.", options: ["finds", "find", "will find", "found", "finding"], answer: 1 },
+        { question: "If you ___ (to help) me, I will finish faster.", options: ["helps", "will help", "helped", "help", "helping"], answer: 3 },
+        { question: "If the sun ___ (to shine), we will go to the beach.", options: ["shine", "will shine", "is shine", "shined", "shines"], answer: 4 },
+        { question: "If they ___ (to study), they will do well on the exam.", options: ["study", "will study", "are study", "studied", "studies"], answer: 0 },
+        { question: "If it ___ (to be) hot, we will drink lemonade.", options: ["is", "will be", "are", "were", "was"], answer: 0 },
+    ],
+    // Stage 4
+    [
+        { question: "If you ___ (to listen), you will learn something new.", options: ["listened", "listen", "will listen", "listens", "listening"], answer: 1 },
+        { question: "If she ___ (to go) to bed early, she will feel better.", options: ["will go", "going", "go", "went", "goes"], answer: 4 },
+        { question: "If they ___ (to play) together, they will have fun.", options: ["play", "played", "playing", "will play", "plays"], answer: 0 },
+        { question: "If we ___ (to walk) fast, we will catch the bus.", options: ["walk", "walked", "walking", "walks", "will walk"], answer: 0 },
+        { question: "If it ___ (to get) dark, we will go inside.", options: ["will get", "gets", "getting", "got", "get"], answer: 1 },
+    ],
+    // Stage 5
+    [
+        { question: "If he ___ (to work) hard, he will succeed.", options: ["work", "works", "worked", "will work", "working"], answer: 1 },
+        { question: "If you ___ (to read) this book, you will enjoy it.", options: ["readed", "reading", "read", "will read", "reads"], answer: 2 },
+        { question: "If they ___ (to sing), we will listen.", options: ["sings", "sing", "sang", "will sing", "singing"], answer: 1 },
+        { question: "If we ___ (to drive) carefully, we will arrive safely.", options: ["drives", "will drive", "drove", "drive", "driving"], answer: 3 },
+        { question: "If she ___ (to dance), everyone will watch.", options: ["dancing", "will dance", "danced", "dance", "dances"], answer: 4 },
+    ],
+    // Stage 6
+    [
+        { question: "If it ___ (to rain) tomorrow, we will stay inside.", options: ["is rain", "rain", "rained", "will rain", "rains"], answer: 4 },
+        { question: "If you ___ (to eat) now, you won't be hungry later.", options: ["will eat", "eats", "eat", "ate", "eating"], answer: 2 },
+        { question: "If I ___ (to learn) English, I will travel more.", options: ["learned", "learn", "learning", "learns", "will learn"], answer: 1 },
+        { question: "If we ___ (to clean) the house, it will look nice.", options: ["will clean", "clean", "cleaned", "cleans", "cleaning"], answer: 1 },
+        { question: "If he ___ (to watch) TV, he will not study.", options: ["watch", "watched", "watches", "will watch", "watching"], answer: 2 },
+    ],
+    // Stage 7
+    [
+        { question: "If you ___ (to call) me, I will answer.", options: ["call", "calls", "called", "calling", "will call"], answer: 0 },
+        { question: "If they ___ (to arrive) early, we will start on time.", options: ["arrived", "arrives", "will arrive", "arriving", "arrive"], answer: 4 },
+        { question: "If I ___ (to cook) dinner, will you help?", options: ["cook", "cooked", "cooking", "cooks", "will cook"], answer: 0 },
+        { question: "If we ___ (to try) hard, we will succeed.", options: ["tries", "trying", "tried", "try", "will try"], answer: 3 },
+        { question: "If she ___ (to write) a letter, I will read it.", options: ["wrote", "writing", "will write", "writes", "write"], answer: 3 },
+    ],
+    // Stage 8
+    [
+        { question: "If it ___ (to be) cold, we will wear jackets.", options: ["is", "are", "was", "were", "will be"], answer: 0 },
+        { question: "If you ___ (to run) fast, you will win the race.", options: ["will run", "run", "ran", "running", "runs"], answer: 1 },
+        { question: "If they ___ (to bring) food, we will eat together.", options: ["brought", "will bring", "bring", "brings", "bringing"], answer: 2 },
+        { question: "If I ___ (to write) a story, will you read it?", options: ["will write", "writing", "wrote", "write", "writes"], answer: 3 },
+        { question: "If she ___ (to finish) early, she will call you.", options: ["finish", "will finish", "finished", "finishes", "finishing"], answer: 3 },
+    ],
+    // Stage 9
+    [
+        { question: "If it ___ (to snow), we will go skiing.", options: ["snowing", "snows", "snowed", "will snow", "snow"], answer: 1 },
+        { question: "If you ___ (to play) well, you will win.", options: ["will play", "played", "playing", "plays", "play"], answer: 4 },
+        { question: "If I ___ (to read) this book, I will understand.", options: ["reads", "readed", "read", "will read", "reading"], answer: 2 },
+        { question: "If we ___ (to start) now, we will finish by noon.", options: ["starts", "will start", "starting", "started", "start"], answer: 4 },
+        { question: "If she ___ (to sleep) well, she will be happy.", options: ["sleeping", "slept", "sleeps", "sleep", "will sleep"], answer: 2 },
+    ],
+    // Stage 10
+    [
+        { question: "If it ___ (to be) sunny, we will have a picnic.", options: ["is", "are", "was", "will be", "were"], answer: 0 },
+        { question: "If you ___ (to save) money, you can buy a toy.", options: ["saves", "saved", "saving", "save", "will save"], answer: 3 },
+        { question: "If they ___ (to finish) their meal, they can play.", options: ["finishing", "will finish", "finished", "finishes", "finish"], answer: 4 },
+        { question: "If I ___ (to watch) TV, I will be late.", options: ["watches", "will watch", "watched", "watching", "watch"], answer: 4 },
+        { question: "If we ___ (to eat) now, we won't be hungry later.", options: ["eats", "eating", "will eat", "ate", "eat"], answer: 4 },
+    ],
+    // Stage 11
+    [
+        { question: "If it ___ (to rain), we will get wet.", options: ["rains", "rained", "is rain", "will rain", "rain"], answer: 0 },
+        { question: "If you ___ (to study), you will do well.", options: ["studies", "study", "studying", "studied", "will study"], answer: 1 },
+        { question: "If they ___ (to play) outside, they will be happy.", options: ["played", "playing", "will play", "play", "plays"], answer: 3 },
+        { question: "If I ___ (to buy) a new phone, I will show you.", options: ["buys", "buying", "bought", "buy", "will buy"], answer: 3 },
+        { question: "If we ___ (to walk) fast, we won't be late.", options: ["walk", "walks", "walking", "walked", "will walk"], answer: 0 },
+    ],
+    // Stage 12
+    [
+        { question: "If it ___ (to snow), we will stay home.", options: ["snow", "snows", "snowed", "snowing", "will snow"], answer: 1 },
+        { question: "If you ___ (to write) a letter, I will read it.", options: ["writes", "wrote", "will write", "writing", "write"], answer: 4 },
+        { question: "If they ___ (to call) us, we will answer.", options: ["calls", "calling", "call", "called", "will call"], answer: 2 },
+        { question: "If I ___ (to study), I will pass the test.", options: ["study", "will study", "studies", "studied", "studying"], answer: 0 },
+        { question: "If we ___ (to play) a game, will you join us?", options: ["plays", "playing", "play", "will play", "played"], answer: 2 },
+    ],
+    // Stage 13
+    [
+        { question: "If it ___ (to rain), the ground will be wet.", options: ["is rain", "rain", "rained", "rains", "will rain"], answer: 3 },
+        { question: "If you ___ (to eat) too much, you will feel sick.", options: ["eating", "ate", "will eat", "eats", "eat"], answer: 4 },
+        { question: "If they ___ (to work) hard, they will succeed.", options: ["will work", "worked", "working", "works", "work"], answer: 4 },
+        { question: "If I ___ (to sleep) early, I will wake up fresh.", options: ["slept", "sleep", "sleeping", "sleeps", "will sleep"], answer: 1 },
+        { question: "If we ___ (to walk) to school, we will be on time.", options: ["walked", "walking", "will walk", "walk", "walks"], answer: 3 },
+    ],
+    // Stage 14
+    [
+        { question: "If she ___ (to sing), everyone will listen.", options: ["sing", "singing", "sings", "sang", "will sing"], answer: 2 },
+        { question: "If you ___ (to help) me, we will finish quickly.", options: ["helps", "will help", "help", "helping", "helped"], answer: 2 },
+        { question: "If it ___ (to be) windy, we will fly a kite.", options: ["are", "was", "will be", "is", "were"], answer: 3 },
+        { question: "If they ___ (to run) fast, they will win the race.", options: ["runs", "ran", "run", "running", "will run"], answer: 2 },
+        { question: "If I ___ (to bake) a cake, will you eat it?", options: ["bake", "will bake", "baking", "baked", "bakes"], answer: 0 },
+    ],
+    // Stage 15
+    [
+        { question: "If it ___ (to rain) later, we will stay home.", options: ["rains", "rain", "is rain", "rained", "will rain"], answer: 0 },
+        { question: "If you ___ (to clean) your room, it will look nice.", options: ["cleaned", "cleaning", "cleans", "clean", "will clean"], answer: 3 },
+        { question: "If they ___ (to study), they will pass the exam.", options: ["studying", "study", "will study", "studied", "studies"], answer: 1 },
+        { question: "If I ___ (to go) shopping, I will buy some food.", options: ["went", "going", "will go", "goes", "go"], answer: 4 },
+        { question: "If we ___ (to play) outside, we will get dirty.", options: ["will play", "played", "playing", "play", "plays"], answer: 3 },
+    ],
+    // Stage 16
+    [
+        { question: "If it ___ (to snow), we will build a snowman.", options: ["snowed", "snow", "will snow", "snowing", "snows"], answer: 4 },
+        { question: "If you ___ (to eat) breakfast, you will be full.", options: ["eats", "ate", "eat", "will eat", "eating"], answer: 2 },
+        { question: "If I ___ (to drive) carefully, I will be safe.", options: ["driving", "drove", "drive", "drives", "will drive"], answer: 2 },
+        { question: "If they ___ (to sing), we will listen.", options: ["sing", "will sing", "sings", "singing", "sang"], answer: 0 },
+        { question: "If we ___ (to play) a game, it will be fun.", options: ["will play", "play", "playing", "plays", "played"], answer: 1 },
+    ],
+    // Stage 17
+    [
+        { question: "If it ___ (to rain), we will take an umbrella.", options: ["rains", "will rain", "is rain", "rain", "rained"], answer: 0 },
+        { question: "If you ___ (to drink) water, you won't be thirsty.", options: ["drank", "drink", "will drink", "drinking", "drinks"], answer: 1 },
+        { question: "If I ___ (to learn) English, I will travel more.", options: ["learning", "learn", "learned", "learns", "will learn"], answer: 1 },
+        { question: "If they ___ (to work) hard, they will succeed.", options: ["working", "work", "worked", "will work", "works"], answer: 1 },
+        { question: "If we ___ (to sleep) early, we will wake up fresh.", options: ["sleep", "slept", "sleeping", "sleeps", "will sleep"], answer: 0 },
+    ],
+    // Stage 18
+    [
+        { question: "If it ___ (to be) hot, we will drink lemonade.", options: ["are", "will be", "is", "was", "were"], answer: 2 },
+        { question: "If you ___ (to read) this book, you will enjoy it.", options: ["will read", "reading", "read", "reads", "readed"], answer: 2 },
+        { question: "If I ___ (to finish) my homework, I will watch TV.", options: ["finished", "finishes", "finishing", "finish", "will finish"], answer: 3 },
+        { question: "If they ___ (to dance), everyone will clap.", options: ["dancing", "danced", "dances", "dance", "will dance"], answer: 3 },
+        { question: "If we ___ (to cook) dinner, we will eat together.", options: ["will cook", "cook", "cooked", "cooking", "cooks"], answer: 1 },
+    ],
+    // Stage 19
+    [
+        { question: "If it ___ (to snow), we will go skiing.", options: ["snowing", "snows", "snowed", "will snow", "snow"], answer: 1 },
+        { question: "If you ___ (to play) well, you will win.", options: ["will play", "played", "playing", "plays", "play"], answer: 4 },
+        { question: "If I ___ (to read) this book, I will understand.", options: ["reads", "readed", "read", "will read", "reading"], answer: 2 },
+        { question: "If we ___ (to start) now, we will finish by noon.", options: ["starts", "will start", "starting", "started", "start"], answer: 4 },
+        { question: "If she ___ (to sleep) well, she will be happy.", options: ["sleeping", "slept", "sleeps", "sleep", "will sleep"], answer: 2 },
+    ],
+    // Stage 20
+    [
+        { question: "If it ___ (to be) sunny, we will have a picnic.", options: ["is", "are", "was", "will be", "were"], answer: 0 },
+        { question: "If you ___ (to save) money, you can buy a toy.", options: ["saves", "saved", "saving", "save", "will save"], answer: 3 },
+        { question: "If they ___ (to finish) their meal, they can play.", options: ["finishing", "will finish", "finished", "finishes", "finish"], answer: 4 },
+        { question: "If I ___ (to watch) TV, I will be late.", options: ["watches", "will watch", "watched", "watching", "watch"], answer: 4 },
+        { question: "If we ___ (to eat) now, we won't be hungry later.", options: ["eats", "eating", "will eat", "ate", "eat"], answer: 4 },
+    ],
+];
+
+
+        let attempts = 0;
+		let currentStage = 1; 
+		const stageCount = quizData.length;
+
+        function renderQuiz() {
+		const quizContainer = document.getElementById("quiz-content");
+		quizContainer.innerHTML = '';
+		quizData[currentStage - 1].forEach((question, index) => {
+                const questionElement = document.createElement("div");
+                questionElement.className = "question";
+                
+                questionElement.innerHTML = `
+                    <p>${index + 1}. ${question.question}</p>
+                    <div class="options">
+                        <select id="q${index}">
+                            <option value="">Select</option>
+                            ${question.options.map((option, i) => `
+                                <option value="${i}">${option}</option>
+                            `).join("")}
+                        </select>
+                    </div>
+                    <div class="result" id="result${index}"></div>
+                `;
+
+                quizContainer.appendChild(questionElement);
+            });
+
+            updateStageNumber();
+        }
+
+        function checkStage() {
+            attempts++;
+            document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+            let correctCount = 0;
+
+            quizData[currentStage - 1].forEach((question, index) => {
+                const resultElement = document.getElementById(`result${index}`);
+                const selectedOption = document.getElementById(`q${index}`).value;
+                const userAnswer = parseInt(selectedOption);
+
+                if (userAnswer === question.answer) {
+                    resultElement.textContent = "Correct!";
+                    resultElement.style.color = "green";
+                    correctCount++;
+                } else {
+                    resultElement.textContent = "Incorrect answer.";
+                    resultElement.style.color = "red";
+                    if (attempts >= 10) {
+                        resultElement.textContent += ` The correct answer is: ${question.options[question.answer]}`;
+                    }
+                }
+            });
+
+			if (correctCount === quizData[currentStage - 1].length) {
+				if (currentStage < stageCount) {
+					showConfetti();
+					currentStage++;
+					updateProgressBar(); // Move this here
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 3000);
+				} else {
+					updateProgressBar();
+					alert("Congratulations! You've completed all stages.");
+				}
+            } else if (attempts >= 10) {
+                alert("You've reached the maximum number of attempts. The correct answers have been revealed.");
+            }
+
+            scrollToTop(); // Scroll back to top after checking answers
+        }
+
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+    
+    // Calculate progress based on completed stages
+    const completedStages = currentStage - 1;
+    const totalStages = stageCount;
+    const progress = (completedStages / totalStages) * 100;
+    
+    // Round the progress to 2 decimal places
+    const roundedProgress = Math.max(0, Math.round(progress * 100) / 100);
+    
+    // Set the progress bar width and text
+    progressBar.style.width = `${roundedProgress}%`;
+    progressBar.textContent = roundedProgress > 0 ? `${roundedProgress }%` : '';
+    
+    console.log(`Current Stage: ${currentStage}, Completed Stages: ${completedStages}, Total Stages: ${totalStages}, Progress: ${roundedProgress}%`);
+}
+
+
+
+        function updateStageNumber() {
+            document.getElementById("stage-number").textContent = currentStage;
+        }
+
+        function showConfetti() {
+            const confettiContainer = document.createElement("div");
+            confettiContainer.className = "confetti";
+            document.body.appendChild(confettiContainer);
+
+            for (let i = 0; i < 100; i++) {
+                const confettiPiece = document.createElement("div");
+                confettiPiece.className = "confetti-piece";
+                confettiPiece.style.left = `${Math.random() * 100}%`;
+                confettiPiece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                confettiContainer.appendChild(confettiPiece);
+            }
+
+            setTimeout(() => {
+                document.body.removeChild(confettiContainer);
+            }, 3000);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+		renderQuiz();
+		updateProgressBar(); 
+
+
+    </script>
+</body>
+</html>
