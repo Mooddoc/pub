@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dialog Completion Game A1</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(to bottom, #ff9e9e, #ffb38a, #ffd286, #ffe381, #e6ff99);
+            color: #ff6b6b;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .page-container {
+            display: flex;
+            max-width: 1400px;
+            width: 100%;
+            padding: 20px;
+            gap: 20px;
+        }
+        .quiz-container {
+            flex: 2;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+        .side-panel {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+            align-self: flex-start;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .question {
+            margin-bottom: 20px;
+            background-color: rgba(255, 204, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        select {
+            font-family: inherit;
+            font-size: inherit;
+            padding: 5px;
+            border: none;
+            border-bottom: 2px solid #ff9e9e;
+            background-color: transparent;
+            color: #ff6b6b;
+        }
+        select:focus {
+            outline: none;
+            border-bottom-color: #ff9e9e;
+        }
+        button {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #ff9e9e;
+        }
+        .result {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        #attempts {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #ff6b6b;
+        }
+        .stage-number {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #ffe381;
+            border-radius: 10px;
+            margin: 10px 0;
+            height: 30px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #ff6b6b;
+            border-radius: 10px;
+            transition: width 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .confetti {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f5b7b1;
+            opacity: 0.7;
+            animation: confetti-fall 3s ease-in-out forwards, confetti-drift 3s ease-in-out forwards;
+        }
+        @keyframes confetti-fall {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+        @keyframes confetti-drift {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="side-panel">
+            <h2>Instructions</h2>
+            <ol>
+                <li>Read each question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+            </ol>
+        </div>
+
+        <div class="quiz-container">
+            <h1>Dialog Completion Game - A1</h1>
+            <div class="stage-number">Stage <span id="stage-number">1</span></div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar">0%</div>
+            </div>
+            
+            <div id="attempts">Attempts: 0</div>
+            <button onclick="checkStage()">Check Answers</button>
+            
+            <div id="quiz-content"></div>
+            
+            <button onclick="checkStage()">Check Answers</button>
+        </div>
+        
+        <div class="side-panel">
+            <h2>Quiz Rules</h2>
+            <ol>
+                <li>Answer all questions to the best of your ability.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>After 10 attempts, correct answers will be revealed for any incorrect responses.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+                <li>Have fun and learn new words!</li>
+            </ol>
+        </div>
+    </div>
+    
+    <script>
+        const quizData = [
+
+  //Stage 1
+  [
+    {
+      "question": "A: Hello, what's your ___? B: My name is Tom.",
+      "options": ["dog", "name", "book", "car", "house"],
+      "answer": 1
+    },
+    {
+      "question": "A: How are ___? B: I'm fine, thank you.",
+      "options": ["he", "they", "you", "we", "she"],
+      "answer": 2
+    },
+    {
+      "question": "A: What color is this? B: It's ___.",
+      "options": ["happy", "fast", "loud", "red", "big"],
+      "answer": 3
+    },
+    {
+      "question": "A: Do you like apples? B: Yes, I ___ apples.",
+      "options": ["big", "blue", "like", "cat", "run"],
+      "answer": 2
+    },
+    {
+      "question": "A: How old are you? B: I'm ___ years old.",
+      "options": ["blue", "happy", "fast", "ten", "big"],
+      "answer": 3
+    }
+  ],
+  //Stage 2
+  [
+    {
+      "question": "A: Where is the book? B: It's ___ the table.",
+      "options": ["blue", "happy", "on", "fast", "big"],
+      "answer": 2
+    },
+    {
+      "question": "A: What time is it? B: It's ___ o'clock.",
+      "options": ["happy", "three", "blue", "big", "fast"],
+      "answer": 1
+    },
+    {
+      "question": "A: Is this your pen? B: Yes, it's ___.",
+      "options": ["blue", "happy", "big", "mine", "fast"],
+      "answer": 3
+    },
+    {
+      "question": "A: What's your favorite color? B: I like ___.",
+      "options": ["run", "happy", "blue", "big", "fast"],
+      "answer": 2
+    },
+    {
+      "question": "A: Do you have a dog? B: No, I ___.",
+      "options": ["blue", "happy", "big", "don't", "fast"],
+      "answer": 3
+    }
+  ],
+  //Stage 3
+  [
+    {
+      "question": "A: What's this? B: It's a ___.",
+      "options": ["happy", "blue", "cat", "big", "fast"],
+      "answer": 2
+    },
+    {
+      "question": "A: How many apples do you have? B: I have ___.",
+      "options": ["blue", "two", "happy", "big", "fast"],
+      "answer": 1
+    },
+    {
+      "question": "A: What day is it today? B: It's ___.",
+      "options": ["blue", "happy", "big", "Monday", "fast"],
+      "answer": 3
+    },
+    {
+      "question": "A: Can you swim? B: Yes, I ___.",
+      "options": ["happy", "blue", "can", "big", "fast"],
+      "answer": 2
+    },
+    {
+      "question": "A: Is it raining? B: No, it's ___.",
+      "options": ["blue", "happy", "sunny", "big", "fast"],
+      "answer": 2
+    }
+  ],
+  //Stage 4
+  [
+    {
+      "question": "A: What do you eat for breakfast? B: I eat ___.",
+      "options": ["blue", "happy", "eggs", "big", "fast"],
+      "answer": 2
+    },
+    {
+      "question": "A: Where do you live? B: I live in a ___.",
+      "options": ["happy", "blue", "big", "house", "fast"],
+      "answer": 3
+    },
+    {
+      "question": "A: How do you go to school? B: I go by ___.",
+      "options": ["blue", "happy", "big", "fast", "bus"],
+      "answer": 4
+    },
+    {
+      "question": "A: What's your sister's name? B: Her name is ___.",
+      "options": ["blue", "Mary", "happy", "big", "fast"],
+      "answer": 1
+    },
+    {
+      "question": "A: Do you like pizza? B: Yes, I ___ it.",
+      "options": ["blue", "happy", "big", "love", "fast"],
+      "answer": 3
+    }
+  ],
+  //Stage 5
+  [
+    {
+      "question": "A: What's your favorite animal? B: I like ___.",
+      "options": ["happy", "blue", "big", "dogs", "fast"],
+      "answer": 3
+    },
+    {
+      "question": "A: How's the weather today? B: It's ___.",
+      "options": ["happy", "cold", "blue", "big", "fast"],
+      "answer": 1
+    },
+    {
+      "question": "A: What do you do? B: I'm a ___.",
+      "options": ["blue", "happy", "teacher", "big", "fast"],
+      "answer": 2
+    },
+    {
+      "question": "A: When is your birthday? B: It's in ___.",
+      "options": ["happy", "blue", "big", "May", "fast"],
+      "answer": 3
+    },
+    {
+      "question": "A: Do you have a car? B: Yes, I ___.",
+      "options": ["blue", "do", "happy", "big", "fast"],
+      "answer": 1
+    }
+  ],
+  //Stage 6
+  [
+    {
+      "question": "A: What's your favorite food? B: I like ___.",
+      "options": ["blue", "happy", "pizza", "big", "fast"],
+      "answer": 2
+    },
+    {
+      "question": "A: How do you feel? B: I feel ___.",
+      "options": ["cat", "blue", "happy", "big", "fast"],
+      "answer": 2
+    },
+    {
+      "question": "A: What time do you wake up? B: I wake up at ___ AM.",
+      "options": ["blue", "happy", "big", "seven", "fast"],
+      "answer": 3
+    },
+    {
+      "question": "A: Where is the bathroom? B: It's ___ the left.",
+      "options": ["happy", "blue", "on", "big", "fast"],
+      "answer": 2
+    },
+    {
+      "question": "A: Can you help me? B: Yes, I can ___ you.",
+      "options": ["blue", "happy", "big", "help", "fast"],
+      "answer": 3
+    }
+  ],
+  //Stage 7
+  [
+    {
+      "question": "A: What's your job? B: I'm a ___.",
+      "options": ["happy", "blue", "doctor", "big", "fast"],
+      "answer": 2
+    },
+    {
+      "question": "A: How many brothers do you have? B: I have ___ brother.",
+      "options": ["blue", "happy", "one", "big", "fast"],
+      "answer": 2
+    },
+    {
+      "question": "A: What's your favorite drink? B: I like ___.",
+      "options": ["blue", "happy", "big", "coffee", "fast"],
+      "answer": 3
+    },
+    {
+      "question": "A: Where are you from? B: I'm from ___.",
+      "options": ["happy", "Spain", "blue", "big", "fast"],
+      "answer": 1
+    },
+    {
+      "question": "A: Do you speak English? B: Yes, a ___.",
+      "options": ["blue", "happy", "little", "big", "fast"],
+      "answer": 2
+    }
+  ],
+  //Stage 8
+  [
+    {
+      "question": "A: What's your phone number? B: It's ___.",
+      "options": ["blue", "555-1234", "happy", "big", "fast"],
+      "answer": 1
+    },
+    {
+      "question": "A: How tall are you? B: I'm ___ tall.",
+      "options": ["happy", "blue", "big", "tall", "fast"],
+      "answer": 3
+    },
+    {
+      "question": "A: What do you do on weekends? B: I ___ TV.",
+      "options": ["blue", "happy", "watch", "big", "fast"],
+      "answer": 2
+    },
+    {
+      "question": "A: What's your favorite season? B: I like ___.",
+      "options": ["blue", "summer", "happy", "big", "fast"],
+      "answer": 1
+    },
+    {
+      "question": "A: How do you spell your name? B: It's T-O-___.",
+      "options": ["happy", "blue", "M", "big", "fast"],
+      "answer": 2
+    }
+  ],
+  //Stage 9
+  [
+    {
+      "question": "A: What's your favorite subject? B: I like ___.",
+      "options": ["blue", "happy", "math", "big", "fast"],
+      "answer": 2
+    },
+    {
+      "question": "A: How often do you exercise? B: I exercise ___ day.",
+      "options": ["blue", "happy", "big", "every", "fast"],
+      "answer": 3
+    },
+    {
+      "question": "A: What time do you go to bed? B: I go to bed at ___ PM.",
+      "options": ["happy", "blue", "ten", "big", "fast"],
+      "answer": 2
+    },
+    {
+      "question": "A: Do you have any pets? B: Yes, I have a ___.",
+      "options": ["blue", "happy", "big", "cat", "fast"],
+      "answer": 3
+    },
+    {
+      "question": "A: What's the weather like? B: It's ___ today.",
+      "options": ["blue", "happy", "big", "rainy", "fast"],
+      "answer": 3
+    }
+  ],
+  //Stage 10
+  [
+    {
+      "question": "A: What do you do in your free time? B: I like to ___.",
+      "options": ["blue", "happy", "read", "big", "fast"],
+      "answer": 2
+    },
+    {
+      "question": "A: How do you come to school? B: I come by ___.",
+      "options": ["happy", "blue", "bike", "big", "fast"],
+      "answer": 2
+    },
+    {
+      "question": "A: What's your favorite sport? B: I like ___.",
+      "options": ["blue", "happy", "big", "soccer", "fast"],
+      "answer": 3
+    },
+    {
+      "question": "A: How many people are in your family? B: There are ___.",
+      "options": ["blue", "happy", "big", "four", "fast"],
+      "answer": 3
+    },
+    {
+      "question": "A: What do you want to be? B: I want to be a ___.",
+      "options": ["happy", "blue", "teacher", "big", "fast"],
+      "answer": 2
+    }
+  ],
+  //Stage 11
+  [
+    {
+      "question": "A: What's your favorite fruit? B: I like ___.",
+      "options": ["happy", "apples", "blue", "fast", "big"],
+      "answer": 1
+    },
+    {
+      "question": "A: How do you go to work? B: I ___ to work.",
+      "options": ["blue", "fast", "walk", "happy", "big"],
+      "answer": 2
+    },
+    {
+      "question": "A: What color is your shirt? B: It's ___.",
+      "options": ["run", "fast", "happy", "green", "big"],
+      "answer": 3
+    },
+    {
+      "question": "A: Do you have a sister? B: Yes, I ___.",
+      "options": ["big", "blue", "do", "fast", "happy"],
+      "answer": 2
+    },
+    {
+      "question": "A: What time is lunch? B: Lunch is at ___ PM.",
+      "options": ["fast", "blue", "happy", "twelve", "big"],
+      "answer": 3
+    }
+  ],
+  //Stage 12
+  [
+    {
+      "question": "A: What do you do on Sundays? B: I ___ TV.",
+      "options": ["happy", "watch", "blue", "big", "fast"],
+      "answer": 1
+    },
+    {
+      "question": "A: How many languages do you speak? B: I speak ___.",
+      "options": ["big", "fast", "two", "blue", "happy"],
+      "answer": 2
+    },
+    {
+      "question": "A: What's your favorite season? B: I like ___.",
+      "options": ["blue", "winter", "fast", "happy", "big"],
+      "answer": 1
+    },
+    {
+      "question": "A: Where do you buy food? B: At the ___.",
+      "options": ["happy", "blue", "store", "fast", "big"],
+      "answer": 2
+    },
+    {
+      "question": "A: How do you feel today? B: I feel ___.",
+      "options": ["blue", "big", "fast", "good", "happy"],
+      "answer": 3
+    }
+  ],
+  //Stage 13
+  [
+    {
+      "question": "A: What's your job? B: I'm a ___.",
+      "options": ["blue", "happy", "teacher", "fast", "big"],
+      "answer": 2
+    },
+    {
+      "question": "A: Do you like coffee? B: No, I ___ tea.",
+      "options": ["happy", "prefer", "blue", "fast", "big"],
+      "answer": 1
+    },
+    {
+      "question": "A: What's the weather like? B: It's ___.",
+      "options": ["blue", "big", "windy", "happy", "fast"],
+      "answer": 2
+    },
+    {
+      "question": "A: How old is your brother? B: He's ___ years old.",
+      "options": ["happy", "blue", "fast", "twenty", "big"],
+      "answer": 3
+    },
+    {
+      "question": "A: What time do you wake up? B: I wake up at ___ AM.",
+      "options": ["six", "happy", "blue", "fast", "big"],
+      "answer": 0
+    }
+  ],
+  //Stage 14
+  [
+    {
+      "question": "A: What's your favorite hobby? B: I like ___.",
+      "options": ["happy", "blue", "painting", "fast", "big"],
+      "answer": 2
+    },
+    {
+      "question": "A: How often do you exercise? B: I exercise ___ week.",
+      "options": ["blue", "happy", "fast", "twice a", "big"],
+      "answer": 3
+    },
+    {
+      "question": "A: What's your phone number? B: It's ___.",
+      "options": ["blue", "555-1234", "happy", "fast", "big"],
+      "answer": 1
+    },
+    {
+      "question": "A: Where do you live? B: I live in a ___.",
+      "options": ["happy", "blue", "apartment", "fast", "big"],
+      "answer": 2
+    },
+    {
+      "question": "A: What do you eat for breakfast? B: I eat ___.",
+      "options": ["happy", "blue", "fast", "cereal", "big"],
+      "answer": 3
+    }
+  ],
+  //Stage 15
+  [
+    {
+      "question": "A: How do you spell your name? B: It's J-O-___-N.",
+      "options": ["blue", "happy", "H", "fast", "big"],
+      "answer": 2
+    },
+    {
+      "question": "A: What's your favorite drink? B: I like ___.",
+      "options": ["happy", "orange juice", "blue", "fast", "big"],
+      "answer": 1
+    },
+    {
+      "question": "A: How tall are you? B: I'm ___ tall.",
+      "options": ["blue", "happy", "fast", "big", "170cm"],
+      "answer": 4
+    },
+    {
+      "question": "A: What do you do in your free time? B: I like to ___.",
+      "options": ["read", "happy", "blue", "fast", "big"],
+      "answer": 0
+    },
+    {
+      "question": "A: How's the food? B: It's very ___.",
+      "options": ["blue", "fast", "happy", "delicious", "big"],
+      "answer": 3
+    }
+  ],
+  //Stage 16
+  [
+    {
+      "question": "A: What's your favorite movie? B: I like ___ movies.",
+      "options": ["happy", "blue", "fast", "action", "big"],
+      "answer": 3
+    },
+    {
+      "question": "A: How do you come to school? B: I come by ___.",
+      "options": ["happy", "bicycle", "blue", "fast", "big"],
+      "answer": 1
+    },
+    {
+      "question": "A: What's your favorite subject? B: I like ___.",
+      "options": ["blue", "happy", "science", "fast", "big"],
+      "answer": 2
+    },
+    {
+      "question": "A: How many people are in your family? B: There are ___.",
+      "options": ["happy", "blue", "fast", "four", "big"],
+      "answer": 3
+    },
+    {
+      "question": "A: What do you want to be? B: I want to be a ___.",
+      "options": ["doctor", "happy", "blue", "fast", "big"],
+      "answer": 0
+    }
+  ],
+  //Stage 17
+  [
+    {
+      "question": "A: What's your favorite vegetable? B: I like ___.",
+      "options": ["blue", "carrots", "happy", "fast", "big"],
+      "answer": 1
+    },
+    {
+      "question": "A: How do you go to the supermarket? B: I ___ there.",
+      "options": ["happy", "blue", "drive", "fast", "big"],
+      "answer": 2
+    },
+    {
+      "question": "A: What color are your shoes? B: They're ___.",
+      "options": ["happy", "fast", "blue", "brown", "big"],
+      "answer": 3
+    },
+    {
+      "question": "A: Do you have any pets? B: Yes, I have a ___.",
+      "options": ["big", "blue", "happy", "fast", "dog"],
+      "answer": 4
+    },
+    {
+      "question": "A: What time do you go to bed? B: I go to bed at ___ PM.",
+      "options": ["ten", "happy", "blue", "fast", "big"],
+      "answer": 0
+    }
+  ],
+  //Stage 18
+  [
+    {
+      "question": "A: What's your favorite sport? B: I like ___.",
+      "options": ["happy", "blue", "tennis", "fast", "big"],
+      "answer": 2
+    },
+    {
+      "question": "A: How do you travel to work? B: I ___ the bus.",
+      "options": ["blue", "happy", "take", "fast", "big"],
+      "answer": 2
+    },
+    {
+      "question": "A: What's your favorite color? B: My favorite color is ___.",
+      "options": ["happy", "fast", "red", "big", "blue"],
+      "answer": 2
+    },
+    {
+      "question": "A: Do you have a car? B: No, I ___.",
+      "options": ["happy", "blue", "fast", "don't", "big"],
+      "answer": 3
+    },
+    {
+      "question": "A: What do you usually have for lunch? B: I usually have ___.",
+      "options": ["blue", "happy", "fast", "big", "sandwich"],
+      "answer": 4
+    }
+  ],
+  //Stage 19
+  [
+    {
+      "question": "A: What's your nationality? B: I'm ___.",
+      "options": ["happy", "blue", "American", "fast", "big"],
+      "answer": 2
+    },
+    {
+      "question": "A: How often do you go to the gym? B: I go ___ a week.",
+      "options": ["blue", "happy", "fast", "twice", "big"],
+      "answer": 3
+    },
+    {
+      "question": "A: What's your favorite day of the week? B: I like ___.",
+      "options": ["blue", "Friday", "happy", "fast", "big"],
+      "answer": 1
+    },
+    {
+      "question": "A: Where do you work? B: I work in a ___.",
+      "options": ["happy", "blue", "fast", "office", "big"],
+      "answer": 3
+    },
+    {
+      "question": "A: What do you do on weekends? B: I ___ with friends.",
+      "options": ["hang out", "happy", "blue", "fast", "big"],
+      "answer": 0
+    }
+  ],
+  //Stage 20
+  [
+    {
+      "question": "A: What's your favorite season? B: I like ___.",
+      "options": ["happy", "blue", "summer", "fast", "big"],
+      "answer": 2
+    },
+    {
+      "question": "A: How do you pay for things? B: I usually pay by ___.",
+      "options": ["blue", "card", "happy", "fast", "big"],
+      "answer": 1
+    },
+    {
+      "question": "A: What kind of music do you like? B: I like ___ music.",
+      "options": ["blue", "happy", "fast", "pop", "big"],
+      "answer": 3
+    },
+    {
+      "question": "A: How many siblings do you have? B: I have ___ sister.",
+      "options": ["happy", "blue", "fast", "big", "one"],
+      "answer": 4
+    },
+    {
+      "question": "A: What's your favorite place in the city? B: I like the ___.",
+      "options": ["park", "happy", "blue", "fast", "big"],
+      "answer": 0
+    }
+  ]
+
+        ];
+
+        let attempts = 0;
+		let currentStage = 1; 
+		const stageCount = quizData.length;
+
+        function renderQuiz() {
+		const quizContainer = document.getElementById("quiz-content");
+		quizContainer.innerHTML = '';
+		quizData[currentStage - 1].forEach((question, index) => {
+                const questionElement = document.createElement("div");
+                questionElement.className = "question";
+                
+                questionElement.innerHTML = `
+                    <p>${index + 1}. ${question.question}</p>
+                    <div class="options">
+                        <select id="q${index}">
+                            <option value="">Select</option>
+                            ${question.options.map((option, i) => `
+                                <option value="${i}">${option}</option>
+                            `).join("")}
+                        </select>
+                    </div>
+                    <div class="result" id="result${index}"></div>
+                `;
+
+                quizContainer.appendChild(questionElement);
+            });
+
+            updateStageNumber();
+        }
+
+        function checkStage() {
+            attempts++;
+            document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+            let correctCount = 0;
+
+            quizData[currentStage - 1].forEach((question, index) => {
+                const resultElement = document.getElementById(`result${index}`);
+                const selectedOption = document.getElementById(`q${index}`).value;
+                const userAnswer = parseInt(selectedOption);
+
+                if (userAnswer === question.answer) {
+                    resultElement.textContent = "Correct!";
+                    resultElement.style.color = "green";
+                    correctCount++;
+                } else {
+                    resultElement.textContent = "Incorrect answer.";
+                    resultElement.style.color = "red";
+                    if (attempts >= 10) {
+                        resultElement.textContent += ` The correct answer is: ${question.options[question.answer]}`;
+                    }
+                }
+            });
+
+			if (correctCount === quizData[currentStage - 1].length) {
+				if (currentStage < stageCount) {
+					showConfetti();
+					currentStage++;
+					updateProgressBar(); // Move this here
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 3000);
+				} else {
+					updateProgressBar();
+					alert("Congratulations! You've completed all stages.");
+				}
+            } else if (attempts >= 10) {
+                alert("You've reached the maximum number of attempts. The correct answers have been revealed.");
+            }
+
+            scrollToTop(); // Scroll back to top after checking answers
+        }
+
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+    
+    // Calculate progress based on completed stages
+    const completedStages = currentStage - 1;
+    const totalStages = stageCount;
+    const progress = (completedStages / totalStages) * 100;
+    
+    // Round the progress to 2 decimal places
+    const roundedProgress = Math.max(0, Math.round(progress * 100) / 100);
+    
+    // Set the progress bar width and text
+    progressBar.style.width = `${roundedProgress}%`;
+    progressBar.textContent = roundedProgress > 0 ? `${roundedProgress }%` : '';
+    
+    console.log(`Current Stage: ${currentStage}, Completed Stages: ${completedStages}, Total Stages: ${totalStages}, Progress: ${roundedProgress}%`);
+}
+
+
+
+        function updateStageNumber() {
+            document.getElementById("stage-number").textContent = currentStage;
+        }
+
+        function showConfetti() {
+            const confettiContainer = document.createElement("div");
+            confettiContainer.className = "confetti";
+            document.body.appendChild(confettiContainer);
+
+            for (let i = 0; i < 100; i++) {
+                const confettiPiece = document.createElement("div");
+                confettiPiece.className = "confetti-piece";
+                confettiPiece.style.left = `${Math.random() * 100}%`;
+                confettiPiece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                confettiContainer.appendChild(confettiPiece);
+            }
+
+            setTimeout(() => {
+                document.body.removeChild(confettiContainer);
+            }, 3000);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+		renderQuiz();
+		updateProgressBar(); 
+
+
+    </script>
+</body>
+</html>
