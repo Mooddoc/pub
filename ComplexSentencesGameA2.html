@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Synonyms and Antonyms Game</title>
+    <title>Complex Sentences Game</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
     <style>
         body {
@@ -154,12 +154,12 @@
                 <li>Select the best answer.</li>
                 <li>Click "Check Answers" when you're ready to see how you did!</li>
                 <li>You can check your answers multiple times to improve your score.</li>
-                <li>Correct answers are revealed after 20 attempts.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
             </ol>
         </div>
 
         <div class="quiz-container">
-            <h1>Complex Sentences Game</h1>
+            <h1>Complex Sentences Game - A2</h1>
             <div class="stage-number">Stage <span id="stage-number">1</span></div>
             <div class="progress-bar-container">
                 <div class="progress-bar" id="progress-bar">0%</div>
@@ -802,7 +802,7 @@
                 } else {
                     resultElement.textContent = "Incorrect answer.";
                     resultElement.style.color = "red";
-                    if (attempts >= 20) {
+                    if (attempts >= 10) {
                         resultElement.textContent += ` The correct answer is: ${question.options[question.answer]}`;
                     }
                 }
@@ -822,7 +822,7 @@
 					updateProgressBar();
 					alert("Congratulations! You've completed all stages.");
 				}
-            } else if (attempts >= 20) {
+            } else if (attempts >= 10) {
                 alert("You've reached the maximum number of attempts. The correct answers have been revealed.");
             }
 
