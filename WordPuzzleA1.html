@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>אתגר חיפוש מילים באנגלית A1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: linear-gradient(45deg, #64b5f6, #81c784, #4caf50);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .page-container {
+            display: flex;
+            max-width: 1200px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .side-panel {
+            background-color: #4caf50;
+            padding: 20px;
+            width: 250px;
+            color: #ffffff;
+        }
+.quiz-container {
+    flex-grow: 1;
+    padding: 20px;  /* Reduced from 30px */
+    width: 850px;  /* Increased from 800px */
+    display: flex;
+    flex-direction: column;
+}
+        h1, h2 {
+            color: #1565c0;
+            margin-bottom: 10px;
+            font-size: 2em;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            font-size: 1.5em;
+            color: #1565c0;
+            border-bottom: 2px solid #1565c0;
+            padding-bottom: 5px;
+        }
+        .stage-number {
+            font-size: 1.2em;
+            color: #1565c0;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 700;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 20px;
+            background: linear-gradient(90deg, #2196f3, #4caf50);
+            border-radius: 10px;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+            font-weight: 700;
+            transition: width 0.5s ease-in-out;
+        }
+#word-search {
+    display: grid;
+    grid-template-columns: repeat(12, 45px);  /* Increased from 35px */
+    gap: 3px;  /* Increased from 2px */
+    justify-content: center;
+    margin: 20px 0;  /* Added margin top and bottom */
+}
+.letter {
+    width: 45px;  /* Increased from 35px */
+    height: 45px;  /* Increased from 35px */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e3f2fd;
+    border: 2px solid #bbdefb;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 700;
+    font-size: 1.2em;  /* Increased from 1em */
+    color: #1565c0;
+    transition: all 0.2s;
+}
+        .letter:hover {
+            background-color: #bbdefb;
+            transform: scale(1.1);
+        }
+        .letter.selected {
+            background-color: #2196f3;
+            color: white;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        button {
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #2196f3, #4caf50);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Heebo', sans-serif;
+            font-weight: 700;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: linear-gradient(45deg, #1e88e5, #43a047);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        #word-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .word {
+            padding: 5px 10px;
+            background-color: #e3f2fd;
+            border-radius: 15px;
+            font-weight: 700;
+            color: #1565c0;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .word.found {
+            text-decoration: line-through;
+            opacity: 0.5;
+            background-color: #c8e6c9;
+        }
+        .word .translation {
+            font-size: 0.8em;
+            color: #4caf50;
+        }
+        #message {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #1565c0;
+            font-size: 1.2em;
+        }
+        #continueButton {
+            display: none;
+            margin-top: 15px;
+            background: linear-gradient(45deg, #ffa726, #fb8c00);
+        }
+        #word-practice {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .practice-word {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .practice-word input {
+            margin-top: 5px;
+            padding: 5px;
+            border: 2px solid #bbdefb;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .practice-word input.correct {
+            background-color: #c8e6c9;
+        }
+        .practice-word input.incorrect {
+            background-color: #ffcdd2;
+        }
+        #confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .modal-buttons {
+            margin-top: 20px;
+        }
+        .modal-buttons button {
+            margin: 0 10px;
+        }
+        #practice-instructions {
+            text-align: center;
+            font-weight: bold;
+            color: #1565c0;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="side-panel">
+            <h2>הוראות</h2>
+            <ol>
+                <li>מצא את כל המילים ברשת כדי להשלים כל שלב.</li>
+                <li>לחץ על האותיות כדי לבחור אותן.</li>
+                <li>המילים יכולות להיות אופקיות, אנכיות או אלכסוניות.</li>
+                <li>השלם את כל המילים וכתוב כל אחת 3 פעמים נכונות כדי לעבור לשלב הבא.</li>
+                <li>שימוש ב"הצג הכל" יחזיר אותך 2 שלבים אחורה!</li>
+            </ol>
+        </div>
+        <div class="quiz-container">
+            <h1>חיפוש מילים באנגלית A1</h1>
+            <h2 id="subject-title"></h2>
+            <div class="stage-number">שלב <span id="stage-number">1</span> מתוך <span id="total-stages"></span></div>
+            <div class="progress-bar-container">
+                <div id="progress-bar" class="progress-bar">0%</div>
+            </div>
+            <div id="word-list"></div>
+            <div id="word-search"></div>
+            <div class="controls">
+                <button onclick="checkAnswers()">בדוק תשובות</button>
+                <button onclick="confirmShowAll()">הצג הכל</button>
+                <button id="continueButton" onclick="continueGame()" style="display: none;">המשך לשלב הבא</button>
+            </div>
+            <div id="message"></div>
+            <div id="practice-instructions">כתוב כל מילה 3 פעמים כדי להמשיך לשלב הבא:</div>
+            <div id="word-practice"></div>
+        </div>
+    </div>
+
+<div id="confirmModal" class="modal">
+    <div class="modal-content">
+        <p>האם אתה בטוח שברצונך להציג את כל המילים? פעולה זו תחזיר אותך שלב אחד אחורה.</p>
+        <div class="modal-buttons">
+            <button onclick="showAll()">כן, הצג הכל</button>
+            <button onclick="closeModal()">לא, בטל</button>
+        </div>
+    </div>
+
+    <canvas id="confetti"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+    // Game data - replace this part for new games
+const gameData = {
+    stages: [
+        { subject: "Greetings", words: [
+            {en: 'HELLO', he: 'שלום'},
+            {en: 'HI', he: 'היי'},
+            {en: 'BYE', he: 'ביי'},
+            {en: 'GOOD', he: 'טוב'},
+            {en: 'MORNING', he: 'בוקר'},
+            {en: 'NIGHT', he: 'לילה'}
+        ]},
+        { subject: "Numbers 1-5", words: [
+            {en: 'ONE', he: 'אחד'},
+            {en: 'TWO', he: 'שניים'},
+            {en: 'THREE', he: 'שלוש'},
+            {en: 'FOUR', he: 'ארבע'},
+            {en: 'FIVE', he: 'חמש'},
+            {en: 'ZERO', he: 'אפס'}
+        ]},
+        { subject: "Colors", words: [
+            {en: 'RED', he: 'אדום'},
+            {en: 'BLUE', he: 'כחול'},
+            {en: 'GREEN', he: 'ירוק'},
+            {en: 'YELLOW', he: 'צהוב'},
+            {en: 'BLACK', he: 'שחור'},
+            {en: 'WHITE', he: 'לבן'}
+        ]},
+        { subject: "Family", words: [
+            {en: 'MOM', he: 'אמא'},
+            {en: 'DAD', he: 'אבא'},
+            {en: 'SISTER', he: 'אחות'},
+            {en: 'BROTHER', he: 'אח'},
+            {en: 'BABY', he: 'תינוק'},
+            {en: 'FAMILY', he: 'משפחה'}
+        ]},
+        { subject: "Animals", words: [
+            {en: 'DOG', he: 'כלב'},
+            {en: 'CAT', he: 'חתול'},
+            {en: 'BIRD', he: 'ציפור'},
+            {en: 'FISH', he: 'דג'},
+            {en: 'COW', he: 'פרה'},
+            {en: 'PIG', he: 'חזיר'}
+        ]},
+        { subject: "Food", words: [
+            {en: 'BREAD', he: 'לחם'},
+            {en: 'MILK', he: 'חלב'},
+            {en: 'APPLE', he: 'תפוח'},
+            {en: 'BANANA', he: 'בננה'},
+            {en: 'WATER', he: 'מים'},
+            {en: 'EGG', he: 'ביצה'}
+        ]},
+        { subject: "Body", words: [
+            {en: 'HEAD', he: 'ראש'},
+            {en: 'HAND', he: 'יד'},
+            {en: 'FOOT', he: 'רגל'},
+            {en: 'EYE', he: 'עין'},
+            {en: 'NOSE', he: 'אף'},
+            {en: 'MOUTH', he: 'פה'}
+        ]},
+        { subject: "Clothes", words: [
+            {en: 'SHIRT', he: 'חולצה'},
+            {en: 'PANTS', he: 'מכנסיים'},
+            {en: 'SHOE', he: 'נעל'},
+            {en: 'HAT', he: 'כובע'},
+            {en: 'SOCK', he: 'גרב'},
+            {en: 'COAT', he: 'מעיל'}
+        ]},
+        { subject: "Weather", words: [
+            {en: 'SUN', he: 'שמש'},
+            {en: 'RAIN', he: 'גשם'},
+            {en: 'SNOW', he: 'שלג'},
+            {en: 'WIND', he: 'רוח'},
+            {en: 'CLOUD', he: 'ענן'},
+            {en: 'HOT', he: 'חם'}
+        ]},
+        { subject: "School", words: [
+            {en: 'BOOK', he: 'ספר'},
+            {en: 'PEN', he: 'עט'},
+            {en: 'DESK', he: 'שולחן'},
+            {en: 'CHAIR', he: 'כיסא'},
+            {en: 'TEACHER', he: 'מורה'},
+            {en: 'STUDENT', he: 'תלמיד'}
+        ]}
+    ]
+};
+
+    // Game variables
+    let currentStage = 0;
+    const gridSize = 12;
+    let grid = [];
+    let wordPositions = [];
+
+    function initializeGame() {
+        document.getElementById('total-stages').textContent = gameData.stages.length;
+        initializeStage();
+    }
+
+    function initializeGrid() {
+        grid = Array(gridSize).fill().map(() => Array(gridSize).fill(''));
+    }
+
+    function placeWord(word) {
+        const directions = [
+            [0, 1], [1, 0], [1, 1],  // Right, Down, Diagonal
+            [0, -1], [-1, 0], [-1, -1]  // Left, Up, Diagonal (backwards)
+        ];
+        let placed = false;
+        while (!placed) {
+            const direction = directions[Math.floor(Math.random() * directions.length)];
+            const row = Math.floor(Math.random() * gridSize);
+            const col = Math.floor(Math.random() * gridSize);
+            if (canPlaceWord(word.en, row, col, direction)) {
+                placeWordAt(word.en, row, col, direction);
+                placed = true;
+            }
+        }
+    }
+
+    function canPlaceWord(word, row, col, direction) {
+        for (let i = 0; i < word.length; i++) {
+            const newRow = row + i * direction[0];
+            const newCol = col + i * direction[1];
+            if (newRow < 0 || newRow >= gridSize || newCol < 0 || newCol >= gridSize) {
+                return false;
+            }
+            if (grid[newRow][newCol] !== '' && grid[newRow][newCol] !== word[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function placeWordAt(word, row, col, direction) {
+        const positions = [];
+        for (let i = 0; i < word.length; i++) {
+            const newRow = row + i * direction[0];
+            const newCol = col + i * direction[1];
+            grid[newRow][newCol] = word[i];
+            positions.push([newRow, newCol]);
+        }
+        wordPositions.push({ word, positions });
+    }
+
+function fillEmptySpaces() {
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        for (let i = 0; i < gridSize; i++) {
+            for (let j = 0; j < gridSize; j++) {
+                if (grid[i][j] === '') {
+                    grid[i][j] = letters[Math.floor(Math.random() * letters.length)];
+                }
+            }
+        }
+    }
+
+    function createWordSearch() {
+        const wordSearchEl = document.getElementById('word-search');
+        wordSearchEl.innerHTML = '';
+        for (let i = 0; i < gridSize; i++) {
+            for (let j = 0; j < gridSize; j++) {
+                const letterEl = document.createElement('div');
+                letterEl.className = 'letter';
+                letterEl.textContent = grid[i][j];
+                letterEl.addEventListener('click', () => toggleLetter(letterEl));
+                wordSearchEl.appendChild(letterEl);
+            }
+        }
+    }
+
+    function createWordList() {
+        const wordListEl = document.getElementById('word-list');
+        wordListEl.innerHTML = '';
+        gameData.stages[currentStage].words.forEach(word => {
+            const wordEl = document.createElement('div');
+            wordEl.className = 'word';
+            wordEl.innerHTML = `${word.en}<span class="translation">${word.he}</span>`;
+            wordEl.dataset.word = word.en;
+            wordListEl.appendChild(wordEl);
+        });
+    }
+
+    function createWordPractice() {
+        const wordPracticeEl = document.getElementById('word-practice');
+        wordPracticeEl.innerHTML = '';
+        gameData.stages[currentStage].words.forEach(word => {
+            const practiceWordEl = document.createElement('div');
+            practiceWordEl.className = 'practice-word';
+            practiceWordEl.innerHTML = `
+                <strong>${word.en}:</strong>
+                <input type="text" data-word="${word.en}" oninput="checkPracticeWord(this)">
+                <input type="text" data-word="${word.en}" oninput="checkPracticeWord(this)">
+                <input type="text" data-word="${word.en}" oninput="checkPracticeWord(this)">
+            `;
+            wordPracticeEl.appendChild(practiceWordEl);
+        });
+    }
+
+    function checkPracticeWord(input) {
+        const word = input.dataset.word;
+        if (input.value.toUpperCase() === word) {
+            input.classList.add('correct');
+            input.classList.remove('incorrect');
+        } else {
+            input.classList.add('incorrect');
+            input.classList.remove('correct');
+        }
+        checkAllPracticeWords();
+    }
+
+    function checkAllPracticeWords() {
+        const allInputs = document.querySelectorAll('#word-practice input');
+        const allCorrect = Array.from(allInputs).every(input => input.classList.contains('correct'));
+        if (allCorrect) {
+            document.getElementById('continueButton').style.display = 'block';
+        } else {
+            document.getElementById('continueButton').style.display = 'none';
+        }
+    }
+
+    function toggleLetter(letterEl) {
+        letterEl.classList.toggle('selected');
+    }
+
+    function checkAnswers() {
+        const selectedLetters = document.querySelectorAll('.letter.selected');
+        const selectedPositions = Array.from(selectedLetters).map(el => {
+            const index = Array.from(el.parentNode.children).indexOf(el);
+            return [Math.floor(index / gridSize), index % gridSize];
+        });
+
+        let foundWords = 0;
+        wordPositions.forEach(({word, positions}) => {
+            if (positions.every(pos => selectedPositions.some(selPos => selPos[0] === pos[0] && selPos[1] === pos[1]))) {
+                foundWords++;
+                const wordEl = document.querySelector(`.word[data-word="${word}"]`);
+                if (wordEl) {
+                    wordEl.classList.add('found');
+                }
+            }
+        });
+
+        document.getElementById('message').textContent = `מצאת ${foundWords} מתוך ${gameData.stages[currentStage].words.length} מילים!`;
+
+        if (foundWords === gameData.stages[currentStage].words.length) {
+            showConfetti();
+            playWinSound();
+        }
+    }
+
+    function confirmShowAll() {
+        document.getElementById('confirmModal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('confirmModal').style.display = 'none';
+    }
+
+    function showAll() {
+        closeModal();
+        // Clear all selected letters
+        document.querySelectorAll('.letter').forEach(el => el.classList.remove('selected'));
+        
+        // Highlight the correct words
+        wordPositions.forEach(({positions}) => {
+            positions.forEach(([row, col]) => {
+                const index = row * gridSize + col;
+                document.querySelectorAll('.letter')[index].classList.add('selected');
+            });
+        });
+        document.querySelectorAll('button:not(#continueButton)').forEach(btn => btn.disabled = true);
+        currentStage = Math.max(0, currentStage - 1); // How many stages back this will take the user
+        setTimeout(() => {
+            initializeStage();
+            document.querySelectorAll('button').forEach(btn => btn.disabled = false);
+        }, 6000); // How many seconds to wait after showing correct answers before jumping back
+    }
+
+    function continueGame() {
+        currentStage++;
+        if (currentStage < gameData.stages.length) {
+            initializeStage();
+        } else {
+            document.getElementById('message').textContent = 'כל הכבוד! השלמת את כל השלבים!';
+        }
+    }
+
+    function showConfetti() {
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+    }
+
+    function playWinSound() {
+        const audio = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
+        audio.play();
+    }
+
+    function updateProgress() {
+        const progress = (currentStage / gameData.stages.length) * 100;
+        document.getElementById('progress-bar').style.width = `${progress}%`;
+        document.getElementById('progress-bar').textContent = `${Math.round(progress)}%`;
+    }
+
+    function initializeStage() {
+        document.getElementById('stage-number').textContent = currentStage + 1;
+        document.getElementById('subject-title').textContent = gameData.stages[currentStage].subject;
+        updateProgress();
+        initializeGrid();
+        wordPositions = [];
+        gameData.stages[currentStage].words.forEach(placeWord);
+        fillEmptySpaces();
+        createWordSearch();
+        createWordList();
+        createWordPractice();
+        document.getElementById('message').textContent = '';
+        document.querySelectorAll('button').forEach(btn => btn.disabled = false);
+        document.getElementById('continueButton').style.display = 'none';
+    }
+
+    initializeGame();
+    </script>
+</body>
+</html>
