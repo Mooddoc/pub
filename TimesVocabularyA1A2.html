@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Times Vocabulary Game - A1 A2</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(to bottom, #ff9e9e, #ffb38a, #ffd286, #ffe381, #e6ff99);
+            color: #ff6b6b;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .page-container {
+            display: flex;
+            max-width: 1400px;
+            width: 100%;
+            padding: 20px;
+            gap: 20px;
+        }
+        .quiz-container {
+            flex: 2;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+        .side-panel {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+            align-self: flex-start;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .question {
+            margin-bottom: 20px;
+            background-color: rgba(255, 204, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        select {
+            font-family: inherit;
+            font-size: inherit;
+            padding: 5px;
+            border: none;
+            border-bottom: 2px solid #ff9e9e;
+            background-color: transparent;
+            color: #ff6b6b;
+        }
+        select:focus {
+            outline: none;
+            border-bottom-color: #ff9e9e;
+        }
+        button {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #ff9e9e;
+        }
+        .result {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        #attempts {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #ff6b6b;
+        }
+        .stage-number {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #ffe381;
+            border-radius: 10px;
+            margin: 10px 0;
+            height: 30px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #ff6b6b;
+            border-radius: 10px;
+            transition: width 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .confetti {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f5b7b1;
+            opacity: 0.7;
+            animation: confetti-fall 3s ease-in-out forwards, confetti-drift 3s ease-in-out forwards;
+        }
+        @keyframes confetti-fall {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+        @keyframes confetti-drift {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+<div class="side-panel">
+    <h2>Instructions & Rules</h2>
+    <ol>
+        <li>We are practicing how to tell time using common phrases like 'quarter to,' 'half past,' and 'ten past.'</li>
+        <li>Read each question carefully.</li>
+        <li>Select the best answer from the drop-down menu.</li>
+        <li>Click "Check Answers" when you're ready to see how you did!</li>
+        <li>You must answer all questions correctly to proceed to the next stage.</li>
+        <li>You can check your answers multiple times to improve your score.</li>
+        <li>Correct answers are revealed after 10 attempts.</li>
+        <li>There are 20 stages, each with 5 questions.</li>
+        <li>Have fun and learn new ways to tell time!</li>
+    </ol>
+</div>
+
+
+
+        <div class="quiz-container">
+            <h1>Times Vocabulary Game - A1 A2</h1>
+            <div class="stage-number">Stage <span id="stage-number">1</span></div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar">0%</div>
+            </div>
+            
+            <div id="attempts">Attempts: 0</div>
+            <button onclick="checkStage()">Check Answers</button>
+            
+            <div id="quiz-content"></div>
+            
+            <button onclick="checkStage()">Check Answers</button>
+        </div>
+        
+<div class="side-panel">
+    <h2>Time-Telling Terms Explained</h2>
+    <ul>
+        <li><strong>Quarter to:</strong> 15 minutes before the next hour. For example, 'quarter to eight' means 7:45.</li>
+        <li><strong>Half past:</strong> 30 minutes past the hour. For example, 'half past six' means 6:30.</li>
+        <li><strong>Ten past:</strong> 10 minutes after the hour. For example, 'ten past ten' means 10:10.</li>
+        <li><strong>Quarter past:</strong> 15 minutes after the hour. For example, 'quarter past nine' means 9:15.</li>
+        <li><strong>Ten to:</strong> 10 minutes before the next hour. For example, 'ten to five' means 4:50.</li>
+    </ul>
+</div>
+
+    </div>
+    
+    <script>
+        const quizData = [
+
+// Stage 1
+[
+    { 
+        question: "What time is 'quarter to eight'?", 
+        options: ["7:45", "8:15", "8:45", "7:15", "7:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'half past six'?", 
+        options: ["6:30", "7:00", "5:30", "6:00", "7:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'twenty past four'?", 
+        options: ["4:20", "4:40", "4:00", "4:30", "3:40"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'quarter past nine'?", 
+        options: ["9:15", "8:15", "8:45", "9:45", "9:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'ten to five'?", 
+        options: ["4:50", "5:10", "4:10", "4:40", "5:50"], 
+        answer: 0 
+    },
+],
+// Stage 2
+[
+    { 
+        question: "What time is 'half past eleven'?", 
+        options: ["11:30", "11:00", "12:00", "12:30", "10:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'five past three'?", 
+        options: ["3:05", "3:15", "3:50", "3:30", "3:25"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'quarter to twelve'?", 
+        options: ["11:45", "12:00", "11:15", "12:15", "12:45"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'twenty to two'?", 
+        options: ["1:40", "2:20", "1:20", "2:40", "2:00"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'ten past ten'?", 
+        options: ["10:10", "10:50", "9:10", "10:20", "11:10"], 
+        answer: 0 
+    },
+],
+// Stage 3
+[
+    { 
+        question: "What time is 'quarter past seven'?", 
+        options: ["7:15", "6:45", "8:15", "7:30", "7:45"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'half past two'?", 
+        options: ["2:30", "1:30", "2:00", "3:30", "3:00"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'five to five'?", 
+        options: ["4:55", "5:55", "4:05", "5:05", "4:50"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'ten past twelve'?", 
+        options: ["12:10", "12:20", "11:10", "12:50", "12:00"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'quarter to six'?", 
+        options: ["5:45", "5:15", "6:15", "6:45", "6:30"], 
+        answer: 0 
+    },
+],
+// Stage 4
+[
+    { 
+        question: "What time is 'twenty past eight'?", 
+        options: ["8:20", "7:20", "8:40", "8:50", "7:50"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'quarter past four'?", 
+        options: ["4:15", "3:45", "4:45", "4:30", "5:15"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'half past nine'?", 
+        options: ["9:30", "8:00", "8:30", "9:00", "10:00"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'ten to eleven'?", 
+        options: ["10:50", "11:40", "11:10", "10:40", "11:50"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'five past seven'?", 
+        options: ["7:05", "8:05", "6:55", "6:05", "7:55"], 
+        answer: 0 
+    },
+],
+// Stage 5
+[
+    { 
+        question: "What time is 'quarter to five'?", 
+        options: ["4:45", "5:15", "5:45", "4:15", "5:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'half past ten'?", 
+        options: ["10:30", "11:00", "11:30", "9:30", "10:00"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'ten to eight'?", 
+        options: ["7:50", "8:10", "7:10", "8:50", "7:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'twenty past three'?", 
+        options: ["3:20", "2:20", "3:40", "4:20", "3:00"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'quarter past one'?", 
+        options: ["1:15", "12:45", "1:45", "1:30", "12:15"], 
+        answer: 0 
+    },
+],
+// Stage 6
+[
+    { 
+        question: "What time is 'half past four'?", 
+        options: ["4:30", "5:00", "3:30", "4:00", "3:00"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'quarter to nine'?", 
+        options: ["8:45", "9:15", "9:45", "8:15", "8:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'twenty to six'?", 
+        options: ["5:40", "6:20", "5:20", "4:40", "6:40"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'ten past three'?", 
+        options: ["3:10", "2:50", "3:20", "4:10", "3:50"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'five to twelve'?", 
+        options: ["11:55", "12:05", "12:55", "11:50", "12:50"], 
+        answer: 0 
+    },
+],
+// Stage 7
+[
+    { 
+        question: "What time is 'quarter past two'?", 
+        options: ["2:15", "1:45", "2:45", "3:15", "1:15"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'half past seven'?", 
+        options: ["7:30", "6:30", "7:00", "8:00", "6:00"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'ten to two'?", 
+        options: ["1:50", "2:10", "1:10", "2:50", "1:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'twenty to nine'?", 
+        options: ["8:40", "7:40", "8:20", "9:20", "8:00"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'quarter past ten'?", 
+        options: ["10:15", "11:15", "10:45", "9:15", "10:30"], 
+        answer: 0 
+    },
+],
+// Stage 8
+[
+    { 
+        question: "What time is 'half past eight'?", 
+        options: ["8:30", "7:30", "8:00", "9:00", "7:00"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'quarter to three'?", 
+        options: ["2:45", "3:15", "3:45", "2:15", "2:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'twenty past one'?", 
+        options: ["1:20", "12:20", "2:20", "1:40", "12:40"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'ten to four'?", 
+        options: ["3:50", "4:10", "3:10", "4:50", "3:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'five past nine'?", 
+        options: ["9:05", "8:05", "9:55", "8:55", "10:05"], 
+        answer: 0 
+    },
+],
+// Stage 9
+[
+    { 
+        question: "What time is 'quarter to seven'?", 
+        options: ["6:45", "7:45", "7:15", "6:15", "7:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'half past twelve'?", 
+        options: ["12:30", "11:30", "12:00", "1:00", "11:00"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'ten past four'?", 
+        options: ["4:10", "5:10", "3:50", "4:50", "3:10"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'twenty to eleven'?", 
+        options: ["10:40", "11:20", "10:20", "11:40", "10:00"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'five to ten'?", 
+        options: ["9:55", "10:55", "10:05", "9:05", "10:50"], 
+        answer: 0 
+    },
+],
+// Stage 10
+[
+    { 
+        question: "What time is 'quarter past three'?", 
+        options: ["3:15", "4:15", "2:15", "3:45", "2:45"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'half past five'?", 
+        options: ["5:30", "4:30", "6:00", "6:30", "5:00"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'ten to nine'?", 
+        options: ["8:50", "9:10", "8:10", "9:50", "8:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'twenty past ten'?", 
+        options: ["10:20", "9:20", "10:40", "9:40", "10:00"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'quarter to one'?", 
+        options: ["12:45", "1:15", "1:45", "12:15", "12:30"], 
+        answer: 0 
+    },
+],
+// Stage 11
+[
+    { 
+        question: "What time is 'half past one'?", 
+        options: ["1:30", "2:00", "12:30", "1:00", "2:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'quarter to ten'?", 
+        options: ["9:45", "10:15", "8:45", "9:15", "10:45"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'twenty to eight'?", 
+        options: ["7:40", "8:20", "6:40", "8:00", "7:20"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'ten past two'?", 
+        options: ["2:10", "3:10", "2:50", "3:50", "1:50"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'five to six'?", 
+        options: ["5:55", "6:05", "5:05", "6:55", "5:50"], 
+        answer: 0 
+    },
+],
+// Stage 12
+[
+    { 
+        question: "What time is 'quarter past eight'?", 
+        options: ["8:15", "7:45", "8:45", "7:15", "8:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'half past ten'?", 
+        options: ["10:30", "11:30", "9:30", "10:00", "11:00"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'ten to three'?", 
+        options: ["2:50", "3:10", "2:10", "3:50", "2:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'twenty to five'?", 
+        options: ["4:40", "5:20", "3:40", "4:20", "5:00"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'five past two'?", 
+        options: ["2:05", "3:05", "1:05", "2:55", "3:55"], 
+        answer: 0 
+    },
+],
+// Stage 13
+[
+    { 
+        question: "What time is 'quarter to four'?", 
+        options: ["3:45", "4:15", "4:45", "3:15", "4:00"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'half past nine'?", 
+        options: ["9:30", "10:00", "8:30", "9:00", "8:00"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'ten past one'?", 
+        options: ["1:10", "2:10", "12:50", "2:50", "12:10"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'twenty to ten'?", 
+        options: ["9:40", "10:20", "8:40", "10:00", "9:20"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'five to seven'?", 
+        options: ["6:55", "7:55", "7:05", "6:05", "7:50"], 
+        answer: 0 
+    },
+],
+// Stage 14
+[
+    { 
+        question: "What time is 'quarter past five'?", 
+        options: ["5:15", "4:45", "5:45", "4:15", "5:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'half past seven'?", 
+        options: ["7:30", "6:30", "8:00", "7:00", "8:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'ten to six'?", 
+        options: ["5:50", "6:10", "5:10", "6:50", "5:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'twenty past seven'?", 
+        options: ["7:20", "6:20", "7:40", "8:20", "6:40"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'quarter to two'?", 
+        options: ["1:45", "2:45", "1:15", "2:15", "1:30"], 
+        answer: 0 
+    },
+],
+// Stage 15
+[
+    { 
+        question: "What time is 'half past four'?", 
+        options: ["4:30", "5:30", "3:30", "4:00", "5:00"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'quarter to eleven'?", 
+        options: ["10:45", "11:45", "10:15", "11:15", "10:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'twenty to four'?", 
+        options: ["3:40", "4:20", "2:40", "4:00", "3:20"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'ten past seven'?", 
+        options: ["7:10", "8:10", "6:50", "8:50", "6:10"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'five to three'?", 
+        options: ["2:55", "3:55", "2:05", "3:05", "3:50"], 
+        answer: 0 
+    },
+],
+// Stage 16
+[
+    { 
+        question: "What time is 'quarter past six'?", 
+        options: ["6:15", "5:15", "6:45", "5:45", "6:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'half past three'?", 
+        options: ["3:30", "4:00", "2:30", "3:00", "4:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'ten to seven'?", 
+        options: ["6:50", "7:10", "6:10", "7:50", "6:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'twenty past nine'?", 
+        options: ["9:20", "10:20", "8:20", "9:40", "8:40"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'five to one'?", 
+        options: ["12:55", "1:55", "12:05", "1:05", "12:50"], 
+        answer: 0 
+    },
+],
+// Stage 17
+[
+    { 
+        question: "What time is 'quarter to seven'?", 
+        options: ["6:45", "7:45", "7:15", "6:15", "7:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'half past eight'?", 
+        options: ["8:30", "7:30", "8:00", "9:00", "7:00"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'ten past eleven'?", 
+        options: ["11:10", "10:10", "11:50", "10:50", "12:10"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'twenty to ten'?", 
+        options: ["9:40", "10:20", "8:40", "10:00", "9:20"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'five to two'?", 
+        options: ["1:55", "2:55", "2:05", "3:05", "1:05"], 
+        answer: 0 
+    },
+],
+// Stage 18
+[
+    { 
+        question: "What time is 'quarter past twelve'?", 
+        options: ["12:15", "1:15", "11:45", "12:45", "1:45"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'half past one'?", 
+        options: ["1:30", "2:30", "12:30", "1:00", "2:00"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'ten to four'?", 
+        options: ["3:50", "4:10", "3:10", "4:50", "3:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'twenty past eleven'?", 
+        options: ["11:20", "12:20", "10:20", "11:40", "10:40"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'five to five'?", 
+        options: ["4:55", "5:55", "4:05", "5:05", "4:50"], 
+        answer: 0 
+    },
+],
+// Stage 19
+[
+    { 
+        question: "What time is 'quarter to six'?", 
+        options: ["5:45", "6:15", "5:15", "6:45", "6:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'half past seven'?", 
+        options: ["7:30", "8:00", "8:30", "6:30", "7:00"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'ten past nine'?", 
+        options: ["9:10", "10:10", "8:50", "10:50", "8:10"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'twenty to three'?", 
+        options: ["2:40", "3:20", "1:40", "3:00", "2:20"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'five past eight'?", 
+        options: ["8:05", "7:05", "8:55", "7:55", "9:05"], 
+        answer: 0 
+    },
+],
+// Stage 20
+[
+    { 
+        question: "What time is 'quarter past nine'?", 
+        options: ["9:15", "8:45", "8:15", "9:45", "9:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'half past ten'?", 
+        options: ["10:30", "9:30", "10:00", "11:00", "11:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'ten to three'?", 
+        options: ["2:50", "3:50", "3:10", "2:10", "3:30"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'twenty to eight'?", 
+        options: ["7:40", "8:20", "6:40", "8:00", "7:20"], 
+        answer: 0 
+    },
+    { 
+        question: "What time is 'five past four'?", 
+        options: ["4:05", "5:05", "3:05", "4:55", "5:55"], 
+        answer: 0 
+    },
+]
+
+        ];
+
+        let attempts = 0;
+		let currentStage = 1; 
+		const stageCount = quizData.length;
+
+        function renderQuiz() {
+		const quizContainer = document.getElementById("quiz-content");
+		quizContainer.innerHTML = '';
+		quizData[currentStage - 1].forEach((question, index) => {
+                const questionElement = document.createElement("div");
+                questionElement.className = "question";
+                
+                questionElement.innerHTML = `
+                    <p>${index + 1}. ${question.question}</p>
+                    <div class="options">
+                        <select id="q${index}">
+                            <option value="">Select</option>
+                            ${question.options.map((option, i) => `
+                                <option value="${i}">${option}</option>
+                            `).join("")}
+                        </select>
+                    </div>
+                    <div class="result" id="result${index}"></div>
+                `;
+
+                quizContainer.appendChild(questionElement);
+            });
+
+            updateStageNumber();
+        }
+
+        function checkStage() {
+            attempts++;
+            document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+            let correctCount = 0;
+
+            quizData[currentStage - 1].forEach((question, index) => {
+                const resultElement = document.getElementById(`result${index}`);
+                const selectedOption = document.getElementById(`q${index}`).value;
+                const userAnswer = parseInt(selectedOption);
+
+                if (userAnswer === question.answer) {
+                    resultElement.textContent = "Correct!";
+                    resultElement.style.color = "green";
+                    correctCount++;
+                } else {
+                    resultElement.textContent = "Incorrect answer.";
+                    resultElement.style.color = "red";
+                    if (attempts >= 10) {
+                        resultElement.textContent += ` The correct answer is: ${question.options[question.answer]}`;
+                    }
+                }
+            });
+
+			if (correctCount === quizData[currentStage - 1].length) {
+				if (currentStage < stageCount) {
+					showConfetti();
+					currentStage++;
+					updateProgressBar(); // Move this here
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 3000);
+				} else {
+					updateProgressBar();
+					alert("Congratulations! You've completed all stages.");
+				}
+            } else if (attempts >= 10) {
+                alert("You've reached the maximum number of attempts. The correct answers have been revealed.");
+            }
+
+            scrollToTop(); // Scroll back to top after checking answers
+        }
+
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+    
+    // Calculate progress based on completed stages
+    const completedStages = currentStage - 1;
+    const totalStages = stageCount;
+    const progress = (completedStages / totalStages) * 100;
+    
+    // Round the progress to 2 decimal places
+    const roundedProgress = Math.max(0, Math.round(progress * 100) / 100);
+    
+    // Set the progress bar width and text
+    progressBar.style.width = `${roundedProgress}%`;
+    progressBar.textContent = roundedProgress > 0 ? `${roundedProgress }%` : '';
+    
+    console.log(`Current Stage: ${currentStage}, Completed Stages: ${completedStages}, Total Stages: ${totalStages}, Progress: ${roundedProgress}%`);
+}
+
+
+
+        function updateStageNumber() {
+            document.getElementById("stage-number").textContent = currentStage;
+        }
+
+        function showConfetti() {
+            const confettiContainer = document.createElement("div");
+            confettiContainer.className = "confetti";
+            document.body.appendChild(confettiContainer);
+
+            for (let i = 0; i < 100; i++) {
+                const confettiPiece = document.createElement("div");
+                confettiPiece.className = "confetti-piece";
+                confettiPiece.style.left = `${Math.random() * 100}%`;
+                confettiPiece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                confettiContainer.appendChild(confettiPiece);
+            }
+
+            setTimeout(() => {
+                document.body.removeChild(confettiContainer);
+            }, 3000);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+		renderQuiz();
+		updateProgressBar(); 
+
+
+    </script>
+</body>
+</html>
