@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synonyms and Antonyms Game - A1</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(to bottom, #ff9e9e, #ffb38a, #ffd286, #ffe381, #e6ff99);
+            color: #ff6b6b;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .page-container {
+            display: flex;
+            max-width: 1400px;
+            width: 100%;
+            padding: 20px;
+            gap: 20px;
+        }
+        .quiz-container {
+            flex: 2;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+        .side-panel {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+            align-self: flex-start;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .question {
+            margin-bottom: 20px;
+            background-color: rgba(255, 204, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        select {
+            font-family: inherit;
+            font-size: inherit;
+            padding: 5px;
+            border: none;
+            border-bottom: 2px solid #ff9e9e;
+            background-color: transparent;
+            color: #ff6b6b;
+        }
+        select:focus {
+            outline: none;
+            border-bottom-color: #ff9e9e;
+        }
+        button {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #ff9e9e;
+        }
+        .result {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        #attempts {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #ff6b6b;
+        }
+        .stage-number {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #ffe381;
+            border-radius: 10px;
+            margin: 10px 0;
+            height: 30px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #ff6b6b;
+            border-radius: 10px;
+            transition: width 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .confetti {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f5b7b1;
+            opacity: 0.7;
+            animation: confetti-fall 3s ease-in-out forwards, confetti-drift 3s ease-in-out forwards;
+        }
+        @keyframes confetti-fall {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+        @keyframes confetti-drift {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="side-panel">
+            <h2>Instructions</h2>
+            <ol>
+                <li>Read each question carefully.</li>
+                <li>Select the best synonym or antonym for the word given.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+            </ol>
+        </div>
+
+        <div class="quiz-container">
+            <h1>Synonyms and Antonyms Game - A1</h1>
+            <div class="stage-number">Stage <span id="stage-number">1</span></div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar">0%</div>
+            </div>
+            
+            <div id="attempts">Attempts: 0</div>
+            <button onclick="checkStage()">Check Answers</button>
+            
+            <div id="quiz-content"></div>
+            
+            <button onclick="checkStage()">Check Answers</button>
+        </div>
+        
+        <div class="side-panel">
+            <h2>Quiz Rules</h2>
+            <ol>
+                <li>Answer all questions to the best of your ability.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>After 10 attempts, correct answers will be revealed for any incorrect responses.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+                <li>Have fun and learn new words!</li>
+            </ol>
+        </div>
+    </div>
+    
+    <script>
+        const quizData = [
+
+        // Stage 1
+        [
+            { question: "Choose the synonym for 'big':", options: ["small", "large", "tiny", "short"], answer: 1 },
+            { question: "Choose the antonym for 'hot':", options: ["warm", "cold", "cool", "nice"], answer: 1 },
+            { question: "Choose the synonym for 'happy':", options: ["sad", "angry", "glad", "mad"], answer: 2 },
+            { question: "Choose the antonym for 'good':", options: ["nice", "bad", "great", "fine"], answer: 1 },
+            { question: "Choose the synonym for 'little':", options: ["big", "large", "small", "tall"], answer: 2 },
+        ],
+        // Stage 2
+        [
+            { question: "Choose the antonym for 'fast':", options: ["quick", "slow", "speedy", "rapid"], answer: 1 },
+            { question: "Choose the synonym for 'sad':", options: ["happy", "unhappy", "glad", "joyful"], answer: 1 },
+            { question: "Choose the antonym for 'old':", options: ["young", "aged", "ancient", "elder"], answer: 0 },
+            { question: "Choose the synonym for 'nice':", options: ["mean", "kind", "bad", "angry"], answer: 1 },
+            { question: "Choose the antonym for 'long':", options: ["big", "tall", "short", "high"], answer: 2 },
+        ],
+        // Stage 3
+        [
+            { question: "Choose the synonym for 'cold':", options: ["hot", "warm", "cool", "nice"], answer: 2 },
+            { question: "Choose the antonym for 'happy':", options: ["glad", "sad", "joyful", "pleased"], answer: 1 },
+            { question: "Choose the synonym for 'quick':", options: ["slow", "fast", "lazy", "tired"], answer: 1 },
+            { question: "Choose the antonym for 'big':", options: ["large", "huge", "small", "tall"], answer: 2 },
+            { question: "Choose the synonym for 'good':", options: ["bad", "nice", "evil", "wrong"], answer: 1 },
+        ],
+        // Stage 4
+        [
+            { question: "Choose the antonym for 'happy':", options: ["glad", "joyful", "sad", "pleased"], answer: 2 },
+            { question: "Choose the synonym for 'small':", options: ["big", "large", "tiny", "huge"], answer: 2 },
+            { question: "Choose the antonym for 'fast':", options: ["quick", "slow", "rapid", "speedy"], answer: 1 },
+            { question: "Choose the synonym for 'old':", options: ["young", "new", "aged", "fresh"], answer: 2 },
+            { question: "Choose the antonym for 'good':", options: ["nice", "great", "fine", "bad"], answer: 3 },
+        ],
+        // Stage 5
+        [
+            { question: "Choose the synonym for 'hot':", options: ["cold", "cool", "warm", "icy"], answer: 2 },
+            { question: "Choose the antonym for 'big':", options: ["huge", "large", "small", "giant"], answer: 2 },
+            { question: "Choose the synonym for 'fast':", options: ["slow", "quick", "lazy", "tired"], answer: 1 },
+            { question: "Choose the antonym for 'happy':", options: ["glad", "joyful", "sad", "merry"], answer: 2 },
+            { question: "Choose the synonym for 'little':", options: ["big", "large", "small", "huge"], answer: 2 },
+        ],
+        // Stage 6
+        [
+            { question: "Choose the antonym for 'good':", options: ["nice", "fine", "bad", "great"], answer: 2 },
+            { question: "Choose the synonym for 'sad':", options: ["happy", "glad", "unhappy", "joyful"], answer: 2 },
+            { question: "Choose the antonym for 'cold':", options: ["cool", "warm", "icy", "frosty"], answer: 1 },
+            { question: "Choose the synonym for 'big':", options: ["small", "tiny", "little", "large"], answer: 3 },
+            { question: "Choose the antonym for 'fast':", options: ["quick", "rapid", "slow", "speedy"], answer: 2 },
+        ],
+        // Stage 7
+        [
+            { question: "Choose the synonym for 'happy':", options: ["sad", "angry", "glad", "mad"], answer: 2 },
+            { question: "Choose the antonym for 'small':", options: ["tiny", "little", "big", "short"], answer: 2 },
+            { question: "Choose the synonym for 'cold':", options: ["hot", "warm", "cool", "sunny"], answer: 2 },
+            { question: "Choose the antonym for 'old':", options: ["aged", "ancient", "young", "elderly"], answer: 2 },
+            { question: "Choose the synonym for 'fast':", options: ["slow", "lazy", "quick", "tired"], answer: 2 },
+        ],
+        // Stage 8
+        [
+            { question: "Choose the antonym for 'happy':", options: ["glad", "joyful", "merry", "sad"], answer: 3 },
+            { question: "Choose the synonym for 'good':", options: ["bad", "evil", "nice", "wrong"], answer: 2 },
+            { question: "Choose the antonym for 'big':", options: ["large", "huge", "small", "giant"], answer: 2 },
+            { question: "Choose the synonym for 'quick':", options: ["slow", "lazy", "fast", "tired"], answer: 2 },
+            { question: "Choose the antonym for 'hot':", options: ["warm", "cool", "cold", "burning"], answer: 2 },
+        ],
+        // Stage 9
+        [
+            { question: "Choose the synonym for 'little':", options: ["big", "large", "huge", "small"], answer: 3 },
+            { question: "Choose the antonym for 'fast':", options: ["quick", "rapid", "speedy", "slow"], answer: 3 },
+            { question: "Choose the synonym for 'old':", options: ["young", "new", "aged", "fresh"], answer: 2 },
+            { question: "Choose the antonym for 'good':", options: ["nice", "fine", "great", "bad"], answer: 3 },
+            { question: "Choose the synonym for 'sad':", options: ["happy", "glad", "unhappy", "joyful"], answer: 2 },
+        ],
+        // Stage 10
+        [
+            { question: "Choose the antonym for 'cold':", options: ["cool", "icy", "hot", "frosty"], answer: 2 },
+            { question: "Choose the synonym for 'big':", options: ["small", "tiny", "little", "large"], answer: 3 },
+            { question: "Choose the antonym for 'happy':", options: ["glad", "joyful", "merry", "sad"], answer: 3 },
+            { question: "Choose the synonym for 'fast':", options: ["slow", "quick", "lazy", "tired"], answer: 1 },
+            { question: "Choose the antonym for 'good':", options: ["nice", "fine", "bad", "great"], answer: 2 },
+        ],
+        // Stage 11
+        [
+            { question: "Choose the synonym for 'hot':", options: ["cold", "cool", "warm", "icy"], answer: 2 },
+            { question: "Choose the antonym for 'big':", options: ["large", "huge", "small", "giant"], answer: 2 },
+            { question: "Choose the synonym for 'happy':", options: ["sad", "angry", "glad", "mad"], answer: 2 },
+            { question: "Choose the antonym for 'fast':", options: ["quick", "rapid", "slow", "speedy"], answer: 2 },
+            { question: "Choose the synonym for 'good':", options: ["bad", "evil", "nice", "wrong"], answer: 2 },
+        ],
+        // Stage 12
+        [
+            { question: "Choose the antonym for 'small':", options: ["tiny", "little", "short", "big"], answer: 3 },
+            { question: "Choose the synonym for 'cold':", options: ["hot", "warm", "cool", "sunny"], answer: 2 },
+            { question: "Choose the antonym for 'happy':", options: ["glad", "joyful", "sad", "merry"], answer: 2 },
+            { question: "Choose the synonym for 'quick':", options: ["slow", "fast", "lazy", "tired"], answer: 1 },
+            { question: "Choose the antonym for 'old':", options: ["aged", "ancient", "young", "elderly"], answer: 2 },
+        ],
+        // Stage 13
+        [
+            { question: "Choose the synonym for 'little':", options: ["big", "large", "small", "huge"], answer: 2 },
+            { question: "Choose the antonym for 'good':", options: ["nice", "fine", "great", "bad"], answer: 3 },
+            { question: "Choose the synonym for 'sad':", options: ["happy", "glad", "unhappy", "joyful"], answer: 2 },
+            { question: "Choose the antonym for 'hot':", options: ["warm", "cool", "burning", "cold"], answer: 3 },
+            { question: "Choose the synonym for 'fast':", options: ["slow", "quick", "lazy", "tired"], answer: 1 },
+        ],
+        // Stage 14
+        [
+            { question: "Choose the antonym for 'happy':", options: ["glad", "joyful", "sad", "merry"], answer: 2 },
+            { question: "Choose the synonym for 'big':", options: ["small", "tiny", "little", "large"], answer: 3 },
+            { question: "Choose the antonym for 'fast':", options: ["quick", "slow", "rapid", "speedy"], answer: 1 },
+            { question: "Choose the synonym for 'old':", options: ["young", "new", "aged", "fresh"], answer: 2 },
+            { question: "Choose the antonym for 'cold':", options: ["cool", "icy", "frosty", "hot"], answer: 3 },
+        ],
+        // Stage 15
+        [
+            { question: "Choose the synonym for 'good':", options: ["bad", "evil", "nice", "wrong"], answer: 2 },
+            { question: "Choose the antonym for 'big':", options: ["large", "huge", "small", "giant"], answer: 2 },
+            { question: "Choose the synonym for 'quick':", options: ["slow", "fast", "lazy", "tired"], answer: 1 },
+            { question: "Choose the antonym for 'happy':", options: ["glad", "joyful", "sad", "merry"], answer: 2 },
+            { question: "Choose the synonym for 'little':", options: ["big", "large", "small", "huge"], answer: 2 },
+        ],
+        // Stage 16
+        [
+            { question: "Choose the antonym for 'good':", options: ["nice", "fine", "bad", "great"], answer: 2 },
+            { question: "Choose the synonym for 'sad':", options: ["happy", "glad", "unhappy", "joyful"], answer: 2 },
+            { question: "Choose the antonym for 'fast':", options: ["quick", "slow", "rapid", "speedy"], answer: 1 },
+            { question: "Choose the synonym for 'hot':", options: ["cold", "cool", "warm", "icy"], answer: 2 },
+            { question: "Choose the antonym for 'small':", options: ["tiny", "little", "big", "short"], answer: 2 },
+        ],
+        // Stage 17
+        [
+            { question: "Choose the synonym for 'happy':", options: ["sad", "angry", "glad", "mad"], answer: 2 },
+            { question: "Choose the antonym for 'old':", options: ["aged", "ancient", "young", "elderly"], answer: 2 },
+            { question: "Choose the synonym for 'cold':", options: ["hot", "warm", "cool", "sunny"], answer: 2 },
+            { question: "Choose the antonym for 'big':", options: ["large", "huge", "small", "giant"], answer: 2 },
+            { question: "Choose the synonym for 'fast':", options: ["slow", "lazy", "quick", "tired"], answer: 2 },
+        ],
+        // Stage 18
+        [
+            { question: "Choose the antonym for 'happy':", options: ["glad", "joyful", "merry", "sad"], answer: 3 },
+            { question: "Choose the synonym for 'good':", options: ["bad", "evil", "nice", "wrong"], answer: 2 },
+            { question: "Choose the antonym for 'cold':", options: ["cool", "icy", "hot", "frosty"], answer: 2 },
+            { question: "Choose the synonym for 'little':", options: ["big", "large", "huge", "small"], answer: 3 },
+            { question: "Choose the antonym for 'fast':", options: ["quick", "rapid", "slow", "speedy"], answer: 2 },
+        ],
+        // Stage 19
+        [
+            { question: "Choose the synonym for 'big':", options: ["small", "tiny", "little", "large"], answer: 3 },
+            { question: "Choose the antonym for 'good':", options: ["nice", "fine", "great", "bad"], answer: 3 },
+            { question: "Choose the synonym for 'sad':", options: ["happy", "glad", "unhappy", "joyful"], answer: 2 },
+            { question: "Choose the antonym for 'hot':", options: ["warm", "cool", "burning", "cold"], answer: 3 },
+            { question: "Choose the synonym for 'quick':", options: ["slow", "fast", "lazy", "tired"], answer: 1 },
+        ],
+        // Stage 20
+        [
+            { question: "Choose the antonym for 'small':", options: ["tiny", "little", "short", "big"], answer: 3 },
+            { question: "Choose the synonym for 'cold':", options: ["hot", "warm", "cool", "sunny"], answer: 2 },
+            { question: "Choose the antonym for 'happy':", options: ["glad", "joyful", "sad", "merry"], answer: 2 },
+            { question: "Choose the synonym for 'old':", options: ["young", "new", "aged", "fresh"], answer: 2 },
+            { question: "Choose the antonym for 'fast':", options: ["quick", "slow", "rapid", "speedy"], answer: 1 },
+        ]
+
+        ];
+
+        let attempts = 0;
+		let currentStage = 1; 
+		const stageCount = quizData.length;
+
+        function renderQuiz() {
+		const quizContainer = document.getElementById("quiz-content");
+		quizContainer.innerHTML = '';
+		quizData[currentStage - 1].forEach((question, index) => {
+                const questionElement = document.createElement("div");
+                questionElement.className = "question";
+                
+                questionElement.innerHTML = `
+                    <p>${index + 1}. ${question.question}</p>
+                    <div class="options">
+                        <select id="q${index}">
+                            <option value="">Select</option>
+                            ${question.options.map((option, i) => `
+                                <option value="${i}">${option}</option>
+                            `).join("")}
+                        </select>
+                    </div>
+                    <div class="result" id="result${index}"></div>
+                `;
+
+                quizContainer.appendChild(questionElement);
+            });
+
+            updateStageNumber();
+        }
+
+        function checkStage() {
+            attempts++;
+            document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+            let correctCount = 0;
+
+            quizData[currentStage - 1].forEach((question, index) => {
+                const resultElement = document.getElementById(`result${index}`);
+                const selectedOption = document.getElementById(`q${index}`).value;
+                const userAnswer = parseInt(selectedOption);
+
+                if (userAnswer === question.answer) {
+                    resultElement.textContent = "Correct!";
+                    resultElement.style.color = "green";
+                    correctCount++;
+                } else {
+                    resultElement.textContent = "Incorrect answer.";
+                    resultElement.style.color = "red";
+                    if (attempts >= 10) {
+                        resultElement.textContent += ` The correct answer is: ${question.options[question.answer]}`;
+                    }
+                }
+            });
+
+			if (correctCount === quizData[currentStage - 1].length) {
+				if (currentStage < stageCount) {
+					showConfetti();
+					currentStage++;
+					updateProgressBar(); // Move this here
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 3000);
+				} else {
+					updateProgressBar();
+					alert("Congratulations! You've completed all stages.");
+				}
+            } else if (attempts >= 10) {
+                alert("You've reached the maximum number of attempts. The correct answers have been revealed.");
+            }
+
+            scrollToTop(); // Scroll back to top after checking answers
+        }
+
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+    
+    // Calculate progress based on completed stages
+    const completedStages = currentStage - 1;
+    const totalStages = stageCount;
+    const progress = (completedStages / totalStages) * 100;
+    
+    // Round the progress to 2 decimal places
+    const roundedProgress = Math.max(0, Math.round(progress * 100) / 100);
+    
+    // Set the progress bar width and text
+    progressBar.style.width = `${roundedProgress}%`;
+    progressBar.textContent = roundedProgress > 0 ? `${roundedProgress }%` : '';
+    
+    console.log(`Current Stage: ${currentStage}, Completed Stages: ${completedStages}, Total Stages: ${totalStages}, Progress: ${roundedProgress}%`);
+}
+
+
+
+        function updateStageNumber() {
+            document.getElementById("stage-number").textContent = currentStage;
+        }
+
+        function showConfetti() {
+            const confettiContainer = document.createElement("div");
+            confettiContainer.className = "confetti";
+            document.body.appendChild(confettiContainer);
+
+            for (let i = 0; i < 100; i++) {
+                const confettiPiece = document.createElement("div");
+                confettiPiece.className = "confetti-piece";
+                confettiPiece.style.left = `${Math.random() * 100}%`;
+                confettiPiece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                confettiContainer.appendChild(confettiPiece);
+            }
+
+            setTimeout(() => {
+                document.body.removeChild(confettiContainer);
+            }, 3000);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+		renderQuiz();
+		updateProgressBar(); 
+
+
+    </script>
+</body>
+</html>
