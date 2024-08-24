@@ -164,7 +164,7 @@
 
         function generateProblem() {
             questionCount++;
-            let maxAnswer = Math.floor((questionCount - 1) / 30) * 10 + 20;
+            let maxAnswer = Math.min(20 + Math.floor((questionCount - 1) / 30) * 10, 100);
             let a, b, operation;
 
             do {
