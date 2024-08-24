@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Days and Months Vocabulary Game - A1 A2</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(to bottom, #ff9e9e, #ffb38a, #ffd286, #ffe381, #e6ff99);
+            color: #ff6b6b;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .page-container {
+            display: flex;
+            max-width: 1400px;
+            width: 100%;
+            padding: 20px;
+            gap: 20px;
+        }
+        .quiz-container {
+            flex: 2;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+        .side-panel {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+            align-self: flex-start;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .question {
+            margin-bottom: 20px;
+            background-color: rgba(255, 204, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        select {
+            font-family: inherit;
+            font-size: inherit;
+            padding: 5px;
+            border: none;
+            border-bottom: 2px solid #ff9e9e;
+            background-color: transparent;
+            color: #ff6b6b;
+        }
+        select:focus {
+            outline: none;
+            border-bottom-color: #ff9e9e;
+        }
+        button {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #ff9e9e;
+        }
+        .result {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        #attempts {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #ff6b6b;
+        }
+        .stage-number {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #ffe381;
+            border-radius: 10px;
+            margin: 10px 0;
+            height: 30px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #ff6b6b;
+            border-radius: 10px;
+            transition: width 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .confetti {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f5b7b1;
+            opacity: 0.7;
+            animation: confetti-fall 3s ease-in-out forwards, confetti-drift 3s ease-in-out forwards;
+        }
+        @keyframes confetti-fall {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+        @keyframes confetti-drift {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+<div class="side-panel">
+    <h2>Instructions & Rules</h2>
+    <ol>
+        <li>We are practicing the names of months and days.</li>
+        <li>Read each question carefully.</li>
+        <li>Select the correct name of the month or day from the options provided.</li>
+        <li>Click "Check Answers" when you're ready to see how you did!</li>
+        <li>You must answer all questions correctly to proceed to the next stage.</li>
+        <li>You can check your answers multiple times to improve your score.</li>
+        <li>Correct answers are revealed after 10 attempts.</li>
+        <li>There are 20 stages, each with 5 questions.</li>
+        <li>Have fun and learn the names of the months and days!</li>
+    </ol>
+</div>
+
+
+
+
+        <div class="quiz-container">
+            <h1>Days and Months Game - A1 A2</h1>
+            <div class="stage-number">Stage <span id="stage-number">1</span></div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar">0%</div>
+            </div>
+            
+            <div id="attempts">Attempts: 0</div>
+            <button onclick="checkStage()">Check Answers</button>
+            
+            <div id="quiz-content"></div>
+            
+            <button onclick="checkStage()">Check Answers</button>
+        </div>
+        
+<div class="side-panel">
+    <h2>Months & Days Explained</h2>
+    <ul>
+        <li><strong>Days of the Week:</strong> There are seven days in a week: Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, and Saturday.</li>
+        <li><strong>Months of the Year:</strong> There are twelve months in a year: January, February, March, April, May, June, July, August, September, October, November, and December.</li>
+        <li><strong>Weekdays:</strong> The days from Sunday to Thursday are called weekdays.</li>
+        <li><strong>Weekend:</strong> Friday and Saturday are considered the weekend.</li>
+    </ul>
+</div>
+
+
+    </div>
+    
+    <script>
+        const quizData = [
+
+// Stage 1
+[
+    { 
+        question: "Which day comes after Monday?", 
+        options: ["Tuesday", "Wednesday", "Thursday", "Friday", "Sunday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes before April?", 
+        options: ["March", "May", "June", "July", "February"], 
+        answer: 0 
+    },
+    { 
+        question: "What is the last day of the week?", 
+        options: ["Saturday", "Sunday", "Friday", "Monday", "Wednesday"], 
+        answer: 1 
+    },
+    { 
+        question: "Which month comes after August?", 
+        options: ["September", "October", "July", "November", "June"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes before Saturday?", 
+        options: ["Friday", "Sunday", "Thursday", "Monday", "Tuesday"], 
+        answer: 0 
+    },
+],
+// Stage 2
+[
+    { 
+        question: "What is the first month of the year?", 
+        options: ["January", "February", "March", "April", "May"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes before Tuesday?", 
+        options: ["Monday", "Wednesday", "Thursday", "Friday", "Sunday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes after November?", 
+        options: ["December", "January", "February", "October", "March"], 
+        answer: 0 
+    },
+    { 
+        question: "What is the seventh month of the year?", 
+        options: ["July", "August", "June", "May", "April"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes after Wednesday?", 
+        options: ["Thursday", "Friday", "Saturday", "Sunday", "Monday"], 
+        answer: 0 
+    },
+],
+// Stage 3
+[
+    { 
+        question: "Which month comes before October?", 
+        options: ["September", "November", "August", "July", "June"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes after Friday?", 
+        options: ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes after March?", 
+        options: ["April", "May", "June", "July", "August"], 
+        answer: 0 
+    },
+    { 
+        question: "What is the second month of the year?", 
+        options: ["February", "January", "March", "April", "May"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes before Thursday?", 
+        options: ["Wednesday", "Friday", "Tuesday", "Saturday", "Sunday"], 
+        answer: 0 
+    },
+],
+// Stage 4
+[
+    { 
+        question: "What is the last month of the year?", 
+        options: ["December", "January", "February", "November", "October"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes before Wednesday?", 
+        options: ["Tuesday", "Thursday", "Monday", "Sunday", "Friday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes after June?", 
+        options: ["July", "August", "September", "October", "May"], 
+        answer: 0 
+    },
+    { 
+        question: "What is the fourth month of the year?", 
+        options: ["April", "March", "May", "June", "July"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes after Sunday?", 
+        options: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], 
+        answer: 0 
+    },
+],
+// Stage 5
+[
+    { 
+        question: "Which month comes before July?", 
+        options: ["June", "August", "May", "September", "October"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes after Thursday?", 
+        options: ["Friday", "Saturday", "Sunday", "Monday", "Tuesday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes after February?", 
+        options: ["March", "April", "May", "January", "June"], 
+        answer: 0 
+    },
+    { 
+        question: "What is the third month of the year?", 
+        options: ["March", "February", "April", "May", "January"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes before Monday?", 
+        options: ["Sunday", "Tuesday", "Wednesday", "Thursday", "Friday"], 
+        answer: 0 
+    },
+],
+// Stage 6
+[
+    { 
+        question: "Which month comes before December?", 
+        options: ["November", "October", "September", "August", "July"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes after Saturday?", 
+        options: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes after May?", 
+        options: ["June", "July", "April", "August", "September"], 
+        answer: 0 
+    },
+    { 
+        question: "What is the fifth month of the year?", 
+        options: ["May", "June", "April", "July", "August"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes before Friday?", 
+        options: ["Thursday", "Saturday", "Sunday", "Monday", "Wednesday"], 
+        answer: 0 
+    },
+],
+// Stage 7
+[
+    { 
+        question: "Which month comes after October?", 
+        options: ["November", "December", "January", "February", "March"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes before Thursday?", 
+        options: ["Wednesday", "Friday", "Saturday", "Sunday", "Tuesday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes after January?", 
+        options: ["February", "March", "April", "May", "June"], 
+        answer: 0 
+    },
+    { 
+        question: "What is the sixth month of the year?", 
+        options: ["June", "July", "May", "April", "August"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes after Tuesday?", 
+        options: ["Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], 
+        answer: 0 
+    },
+],
+// Stage 8 (continued)
+[
+    { 
+        question: "Which month comes after July?", 
+        options: ["August", "September", "October", "June", "May"], 
+        answer: 0 
+    },
+    { 
+        question: "What is the second month of the year?", 
+        options: ["February", "January", "March", "April", "May"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes before Tuesday?", 
+        options: ["Monday", "Wednesday", "Thursday", "Friday", "Sunday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes before June?", 
+        options: ["May", "July", "April", "August", "September"], 
+        answer: 0 
+    },
+],
+
+// Stage 9
+[
+    { 
+        question: "Which day comes after Wednesday?", 
+        options: ["Thursday", "Friday", "Saturday", "Sunday", "Monday"], 
+        answer: 0 
+    },
+    { 
+        question: "What is the eighth month of the year?", 
+        options: ["August", "September", "July", "June", "May"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes before March?", 
+        options: ["February", "April", "January", "May", "June"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes before Friday?", 
+        options: ["Thursday", "Saturday", "Sunday", "Monday", "Wednesday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes after December?", 
+        options: ["January", "February", "March", "April", "November"], 
+        answer: 0 
+    },
+],
+
+// Stage 10
+[
+    { 
+        question: "Which day comes after Monday?", 
+        options: ["Tuesday", "Wednesday", "Thursday", "Friday", "Sunday"], 
+        answer: 0 
+    },
+    { 
+        question: "What is the first month of the year?", 
+        options: ["January", "February", "March", "April", "May"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes before Sunday?", 
+        options: ["Saturday", "Friday", "Thursday", "Wednesday", "Tuesday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes after September?", 
+        options: ["October", "November", "December", "January", "August"], 
+        answer: 0 
+    },
+    { 
+        question: "What is the fifth month of the year?", 
+        options: ["May", "June", "July", "April", "August"], 
+        answer: 0 
+    },
+],
+
+// Stage 11
+[
+    { 
+        question: "Which day comes after Saturday?", 
+        options: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes before August?", 
+        options: ["July", "September", "June", "October", "May"], 
+        answer: 0 
+    },
+    { 
+        question: "What is the twelfth month of the year?", 
+        options: ["December", "November", "October", "January", "September"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes before Thursday?", 
+        options: ["Wednesday", "Friday", "Saturday", "Tuesday", "Monday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes after May?", 
+        options: ["June", "July", "April", "August", "September"], 
+        answer: 0 
+    },
+],
+
+// Stage 12
+[
+    { 
+        question: "Which day comes after Friday?", 
+        options: ["Saturday", "Sunday", "Monday", "Tuesday", "Thursday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes before January?", 
+        options: ["December", "November", "February", "October", "March"], 
+        answer: 0 
+    },
+    { 
+        question: "What is the fourth month of the year?", 
+        options: ["April", "March", "May", "June", "July"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes before Monday?", 
+        options: ["Sunday", "Tuesday", "Wednesday", "Thursday", "Friday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes after October?", 
+        options: ["November", "December", "January", "February", "March"], 
+        answer: 0 
+    },
+],
+
+// Stage 13
+[
+    { 
+        question: "Which day comes after Thursday?", 
+        options: ["Friday", "Saturday", "Sunday", "Monday", "Tuesday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes before April?", 
+        options: ["March", "May", "June", "July", "February"], 
+        answer: 0 
+    },
+    { 
+        question: "What is the sixth month of the year?", 
+        options: ["June", "July", "May", "April", "August"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes before Wednesday?", 
+        options: ["Tuesday", "Thursday", "Monday", "Sunday", "Friday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes after March?", 
+        options: ["April", "May", "June", "July", "August"], 
+        answer: 0 
+    },
+],
+
+// Stage 14
+[
+    { 
+        question: "Which day comes after Tuesday?", 
+        options: ["Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes before November?", 
+        options: ["October", "December", "September", "August", "July"], 
+        answer: 0 
+    },
+    { 
+        question: "What is the third month of the year?", 
+        options: ["March", "February", "April", "May", "January"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes before Tuesday?", 
+        options: ["Monday", "Wednesday", "Thursday", "Friday", "Sunday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes after July?", 
+        options: ["August", "September", "October", "June", "May"], 
+        answer: 0 
+    },
+],
+
+// Stage 15
+[
+    { 
+        question: "Which day comes after Sunday?", 
+        options: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes before May?", 
+        options: ["April", "June", "July", "August", "March"], 
+        answer: 0 
+    },
+    { 
+        question: "What is the ninth month of the year?", 
+        options: ["September", "October", "November", "August", "July"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes before Saturday?", 
+        options: ["Friday", "Sunday", "Thursday", "Monday", "Tuesday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes after February?", 
+        options: ["March", "April", "May", "January", "June"], 
+        answer: 0 
+    },
+],
+
+// Stage 16
+[
+    { 
+        question: "Which day comes after Thursday?", 
+        options: ["Friday", "Saturday", "Sunday", "Monday", "Tuesday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes before March?", 
+        options: ["February", "April", "January", "May", "June"], 
+        answer: 0 
+    },
+    { 
+        question: "What is the fifth month of the year?", 
+        options: ["May", "June", "July", "April", "August"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes before Wednesday?", 
+        options: ["Tuesday", "Thursday", "Monday", "Sunday", "Friday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes after August?", 
+        options: ["September", "October", "July", "November", "June"], 
+        answer: 0 
+    },
+],
+// Stage 17 (continued)
+[
+    { 
+        question: "What is the eleventh month of the year?", 
+        options: ["November", "October", "September", "December", "August"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes before Friday?", 
+        options: ["Thursday", "Saturday", "Sunday", "Monday", "Wednesday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes after October?", 
+        options: ["November", "December", "January", "February", "March"], 
+        answer: 0 
+    },
+],
+
+// Stage 18
+[
+    { 
+        question: "Which day comes after Monday?", 
+        options: ["Tuesday", "Wednesday", "Thursday", "Friday", "Sunday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes before September?", 
+        options: ["August", "October", "November", "July", "June"], 
+        answer: 0 
+    },
+    { 
+        question: "What is the seventh month of the year?", 
+        options: ["July", "August", "June", "May", "April"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes before Thursday?", 
+        options: ["Wednesday", "Friday", "Tuesday", "Saturday", "Sunday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes after May?", 
+        options: ["June", "July", "April", "August", "September"], 
+        answer: 0 
+    },
+],
+
+// Stage 19
+[
+    { 
+        question: "Which day comes after Friday?", 
+        options: ["Saturday", "Sunday", "Monday", "Tuesday", "Thursday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes before January?", 
+        options: ["December", "February", "March", "April", "November"], 
+        answer: 0 
+    },
+    { 
+        question: "What is the first month of the year?", 
+        options: ["January", "February", "March", "April", "May"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes before Tuesday?", 
+        options: ["Monday", "Wednesday", "Thursday", "Friday", "Sunday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes after November?", 
+        options: ["December", "January", "February", "October", "March"], 
+        answer: 0 
+    },
+],
+
+// Stage 20
+[
+    { 
+        question: "Which day comes after Wednesday?", 
+        options: ["Thursday", "Friday", "Saturday", "Sunday", "Monday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes before February?", 
+        options: ["January", "March", "April", "May", "June"], 
+        answer: 0 
+    },
+    { 
+        question: "What is the twelfth month of the year?", 
+        options: ["December", "November", "October", "January", "September"], 
+        answer: 0 
+    },
+    { 
+        question: "Which day comes before Monday?", 
+        options: ["Sunday", "Tuesday", "Wednesday", "Thursday", "Friday"], 
+        answer: 0 
+    },
+    { 
+        question: "Which month comes after April?", 
+        options: ["May", "June", "March", "July", "August"], 
+        answer: 0 
+    },
+]
+
+
+        ];
+
+        let attempts = 0;
+		let currentStage = 1; 
+		const stageCount = quizData.length;
+
+        function renderQuiz() {
+		const quizContainer = document.getElementById("quiz-content");
+		quizContainer.innerHTML = '';
+		quizData[currentStage - 1].forEach((question, index) => {
+                const questionElement = document.createElement("div");
+                questionElement.className = "question";
+                
+                questionElement.innerHTML = `
+                    <p>${index + 1}. ${question.question}</p>
+                    <div class="options">
+                        <select id="q${index}">
+                            <option value="">Select</option>
+                            ${question.options.map((option, i) => `
+                                <option value="${i}">${option}</option>
+                            `).join("")}
+                        </select>
+                    </div>
+                    <div class="result" id="result${index}"></div>
+                `;
+
+                quizContainer.appendChild(questionElement);
+            });
+
+            updateStageNumber();
+        }
+
+        function checkStage() {
+            attempts++;
+            document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+            let correctCount = 0;
+
+            quizData[currentStage - 1].forEach((question, index) => {
+                const resultElement = document.getElementById(`result${index}`);
+                const selectedOption = document.getElementById(`q${index}`).value;
+                const userAnswer = parseInt(selectedOption);
+
+                if (userAnswer === question.answer) {
+                    resultElement.textContent = "Correct!";
+                    resultElement.style.color = "green";
+                    correctCount++;
+                } else {
+                    resultElement.textContent = "Incorrect answer.";
+                    resultElement.style.color = "red";
+                    if (attempts >= 10) {
+                        resultElement.textContent += ` The correct answer is: ${question.options[question.answer]}`;
+                    }
+                }
+            });
+
+			if (correctCount === quizData[currentStage - 1].length) {
+				if (currentStage < stageCount) {
+					showConfetti();
+					currentStage++;
+					updateProgressBar(); // Move this here
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 3000);
+				} else {
+					updateProgressBar();
+					alert("Congratulations! You've completed all stages.");
+				}
+            } else if (attempts >= 10) {
+                alert("You've reached the maximum number of attempts. The correct answers have been revealed.");
+            }
+
+            scrollToTop(); // Scroll back to top after checking answers
+        }
+
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+    
+    // Calculate progress based on completed stages
+    const completedStages = currentStage - 1;
+    const totalStages = stageCount;
+    const progress = (completedStages / totalStages) * 100;
+    
+    // Round the progress to 2 decimal places
+    const roundedProgress = Math.max(0, Math.round(progress * 100) / 100);
+    
+    // Set the progress bar width and text
+    progressBar.style.width = `${roundedProgress}%`;
+    progressBar.textContent = roundedProgress > 0 ? `${roundedProgress }%` : '';
+    
+    console.log(`Current Stage: ${currentStage}, Completed Stages: ${completedStages}, Total Stages: ${totalStages}, Progress: ${roundedProgress}%`);
+}
+
+
+
+        function updateStageNumber() {
+            document.getElementById("stage-number").textContent = currentStage;
+        }
+
+        function showConfetti() {
+            const confettiContainer = document.createElement("div");
+            confettiContainer.className = "confetti";
+            document.body.appendChild(confettiContainer);
+
+            for (let i = 0; i < 100; i++) {
+                const confettiPiece = document.createElement("div");
+                confettiPiece.className = "confetti-piece";
+                confettiPiece.style.left = `${Math.random() * 100}%`;
+                confettiPiece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                confettiContainer.appendChild(confettiPiece);
+            }
+
+            setTimeout(() => {
+                document.body.removeChild(confettiContainer);
+            }, 3000);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+		renderQuiz();
+		updateProgressBar(); 
+
+
+    </script>
+</body>
+</html>
