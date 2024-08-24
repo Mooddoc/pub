@@ -72,12 +72,14 @@
         .farm-container {
             font-size: 2rem;
             margin-top: 1rem;
-            height: 100px;
-            overflow: hidden;
+            min-height: 100px;
+            max-height: 200px;
+            overflow-y: auto;
             background-color: #F0F8FF;
             border-radius: 10px;
             padding: 10px;
             box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+            word-wrap: break-word;
         }
         .modal {
             display: none;
@@ -112,6 +114,13 @@
             text-decoration: none;
             cursor: pointer;
         }
+        #closeModal {
+            background-color: #f44336;
+            margin-top: 10px;
+        }
+        #closeModal:hover {
+            background-color: #d32f2f;
+        }
     </style>
 </head>
 <body>
@@ -135,6 +144,7 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <p>התשובה לא נכונה. נסה שוב!</p>
+            <button id="closeModal">סגור</button>
         </div>
     </div>
 
@@ -144,7 +154,7 @@
             '🐒', '🐔', '🐧', '🐦', '🐤', '🐣', '🐥', '🦆', '🦅', '🦉', '🦇', '🐺', '🐗', '🐴', '🦄', '🐝', '🐛', '🦋', '🐌', 
             '🐞', '🐜', '🦟', '🦗', '🕷', '🕸', '🦂', '🐢', '🐍', '🦎', '🦖', '🦕', '🐙', '🦑', '🦐', '🦞', '🦀', '🐡', '🐠', 
             '🐟', '🐬', '🐳', '🐋', '🦈', '🐊', '🐅', '🐆', '🦓', '🦍', '🦧', '🐘', '🦛', '🦏', '🐪', '🐫', '🦒', '🦘', '🐃', 
-            '🐂', '🐄', '🐎', '🐖', '🐏', '🐑', '🦙', '🐐', '🦌', '🐕', '🐩', '🦮', '🐕', '🦺', '🐈', '🐈', '🐓', '🦃', '🦚', 
+            '🐂', '🐄', '🐎', '🐖', '🐏', '🐑', '🦙', '🐐', '🦌', '🐕', '🐩', '🦮', '🐕‍🦺', '🐈', '🐈‍⬛', '🐓', '🦃', '🦚', 
             '🦜', '🦢', '🦩', '🕊', '🐇', '🦝', '🦨', '🦡', '🦦', '🦥', '🐁', '🐀', '🐿', '🦔', '🐾', '🐉', '🐲'
         ];
         
@@ -154,7 +164,7 @@
 
         function generateProblem() {
             questionCount++;
-            let maxAnswer = Math.floor((questionCount - 1) / 20) * 20 + 20;
+            let maxAnswer = Math.floor((questionCount - 1) / 30) * 10 + 20;
             let a, b, operation;
 
             do {
@@ -174,37 +184,37 @@
             document.getElementById('problem').textContent = `? = ${b} ${operation} ${a}`;
         }
 
-function checkAnswer() {
-    let userAnswer = parseInt(document.getElementById('answer').value);
-    let correctAnswer = currentProblem.operation === '+' 
-        ? currentProblem.a + currentProblem.b 
-        : currentProblem.a - currentProblem.b;
-    
-    if (userAnswer === correctAnswer) {
-        score++;
-        document.getElementById('score').textContent = score;
-        showRandomAnimal();
-        document.getElementById('answer').value = '';
-        generateProblem();
-    } else {
-        showIncorrectModal();
-        // Add the following line to prevent moving forward on incorrect answer
-        return;
-    }
-}
+        function checkAnswer() {
+            let userAnswer = parseInt(document.getElementById('answer').value);
+            let correctAnswer = currentProblem.operation === '+' 
+                ? currentProblem.a + currentProblem.b 
+                : currentProblem.a - currentProblem.b;
+            
+            if (userAnswer === correctAnswer) {
+                score++;
+                document.getElementById('score').textContent = score;
+                addAnimalToFarm();
+                document.getElementById('answer').value = '';
+                generateProblem();
+            } else {
+                showIncorrectModal();
+            }
+        }
 
-        function showRandomAnimal() {
+        function addAnimalToFarm() {
             let farm = document.getElementById('farm');
             let animal = animals[Math.floor(Math.random() * animals.length)];
             farm.textContent += animal;
-            if (farm.textContent.length > 10) {
-                farm.textContent = farm.textContent.slice(-10);
-            }
         }
 
         function showIncorrectModal() {
             let modal = document.getElementById('incorrectModal');
             modal.style.display = "block";
+        }
+
+        function closeModal() {
+            let modal = document.getElementById('incorrectModal');
+            modal.style.display = "none";
         }
 
         // Get the modal
@@ -213,15 +223,19 @@ function checkAnswer() {
         // Get the <span> element that closes the modal
         var span = document.getElementsByClassName("close")[0];
 
+        // Get the close button
+        var closeButton = document.getElementById("closeModal");
+
         // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
+        span.onclick = closeModal;
+
+        // When the user clicks on the close button, close the modal
+        closeButton.onclick = closeModal;
 
         // When the user clicks anywhere outside of the modal, close it
         window.onclick = function(event) {
             if (event.target == modal) {
-                modal.style.display = "none";
+                closeModal();
             }
         }
 
