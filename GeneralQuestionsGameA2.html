@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>General Knowledge - A2</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(to bottom, #ff9e9e, #ffb38a, #ffd286, #ffe381, #e6ff99);
+            color: #ff6b6b;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .page-container {
+            display: flex;
+            max-width: 1400px;
+            width: 100%;
+            padding: 20px;
+            gap: 20px;
+        }
+        .quiz-container {
+            flex: 2;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+        .side-panel {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+            align-self: flex-start;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .question {
+            margin-bottom: 20px;
+            background-color: rgba(255, 204, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        select {
+            font-family: inherit;
+            font-size: inherit;
+            padding: 5px;
+            border: none;
+            border-bottom: 2px solid #ff9e9e;
+            background-color: transparent;
+            color: #ff6b6b;
+        }
+        select:focus {
+            outline: none;
+            border-bottom-color: #ff9e9e;
+        }
+        button {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #ff9e9e;
+        }
+        .result {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        #attempts {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #ff6b6b;
+        }
+        .stage-number {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ff6b6b;
+            text-shadow: 2px 2px #ffcc00;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #ffe381;
+            border-radius: 10px;
+            margin: 10px 0;
+            height: 30px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #ff6b6b;
+            border-radius: 10px;
+            transition: width 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .confetti {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f5b7b1;
+            opacity: 0.7;
+            animation: confetti-fall 3s ease-in-out forwards, confetti-drift 3s ease-in-out forwards;
+        }
+        @keyframes confetti-fall {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+        @keyframes confetti-drift {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="side-panel">
+            <h2>Instructions</h2>
+            <ol>
+                <li>Read each question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+            </ol>
+        </div>
+
+        <div class="quiz-container">
+            <h1>General Knowledge Game - A2</h1>
+            <div class="stage-number">Stage <span id="stage-number">1</span></div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar">0%</div>
+            </div>
+            
+            <div id="attempts">Attempts: 0</div>
+            <button onclick="checkStage()">Check Answers</button>
+            
+            <div id="quiz-content"></div>
+            
+            <button onclick="checkStage()">Check Answers</button>
+        </div>
+        
+        <div class="side-panel">
+            <h2>Quiz Rules</h2>
+            <ol>
+                <li>Answer all questions to the best of your ability.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>After 10 attempts, correct answers will be revealed for any incorrect responses.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+                <li>Have fun and learn new words!</li>
+            </ol>
+        </div>
+    </div>
+    
+    <script>
+        const quizData = [
+
+        // Stage 1
+        [
+            { question: "What color is a banana?", options: ["Red", "Green", "Yellow", "Blue"], answer: 2 },
+            { question: "How many days are in a week?", options: ["Five", "Six", "Seven", "Eight"], answer: 2 },
+            { question: "Which animal says 'moo'?", options: ["Dog", "Cat", "Cow", "Duck"], answer: 2 },
+            { question: "What do we use to write?", options: ["Fork", "Pen", "Shoe", "Cup"], answer: 1 },
+            { question: "Which season is usually the coldest?", options: ["Spring", "Summer", "Autumn", "Winter"], answer: 3 },
+        ],
+        // Stage 2
+        [
+            { question: "What planet do we live on?", options: ["Mars", "Jupiter", "Earth", "Venus"], answer: 2 },
+            { question: "How many legs does a cat have?", options: ["Two", "Four", "Six", "Eight"], answer: 1 },
+            { question: "What do fish breathe with?", options: ["Lungs", "Gills", "Nose", "Mouth"], answer: 1 },
+            { question: "Which fruit is red and shaped like a heart?", options: ["Apple", "Banana", "Strawberry", "Orange"], answer: 2 },
+            { question: "What do we use to dry ourselves after a shower?", options: ["Paper", "Towel", "Shirt", "Pants"], answer: 1 },
+        ],
+        // Stage 3
+        [
+            { question: "What do bees make?", options: ["Milk", "Honey", "Juice", "Water"], answer: 1 },
+            { question: "Which meal do we usually eat in the morning?", options: ["Dinner", "Lunch", "Breakfast", "Snack"], answer: 2 },
+            { question: "What color is the sky on a clear day?", options: ["Green", "Blue", "Red", "Yellow"], answer: 1 },
+            { question: "Which animal is known as man's best friend?", options: ["Cat", "Dog", "Horse", "Rabbit"], answer: 1 },
+            { question: "What do we use to cut paper?", options: ["Hammer", "Scissors", "Spoon", "Brush"], answer: 1 },
+        ],
+        // Stage 4
+        [
+            { question: "What do we call a baby dog?", options: ["Kitten", "Calf", "Puppy", "Cub"], answer: 2 },
+            { question: "How many fingers do you have on one hand?", options: ["Three", "Four", "Five", "Six"], answer: 2 },
+            { question: "What do we use to see far away things clearly?", options: ["Hat", "Glasses", "Shoes", "Gloves"], answer: 1 },
+            { question: "Which fruit is yellow and curved?", options: ["Apple", "Orange", "Banana", "Grape"], answer: 2 },
+            { question: "What vehicle runs on railways?", options: ["Car", "Bicycle", "Bus", "Train"], answer: 3 },
+        ],
+        // Stage 5
+        [
+            { question: "What do we use to tell time?", options: ["Book", "Clock", "Shoe", "Table"], answer: 1 },
+            { question: "Which animal has a very long neck?", options: ["Elephant", "Giraffe", "Lion", "Monkey"], answer: 1 },
+            { question: "What do plants need to grow?", options: ["Water", "Chocolate", "Books", "Shoes"], answer: 0 },
+            { question: "What color is grass usually?", options: ["Blue", "Red", "Yellow", "Green"], answer: 3 },
+            { question: "What do we use to call someone far away?", options: ["Letter", "Phone", "Newspaper", "Television"], answer: 1 },
+        ],
+        // Stage 6
+        [
+            { question: "Which room in a house do we usually cook in?", options: ["Bedroom", "Bathroom", "Kitchen", "Living room"], answer: 2 },
+            { question: "What do birds use to fly?", options: ["Fins", "Wings", "Legs", "Arms"], answer: 1 },
+            { question: "What is the opposite of 'hot'?", options: ["Warm", "Cool", "Cold", "Wet"], answer: 2 },
+            { question: "Which month usually has snow in the north?", options: ["July", "August", "December", "April"], answer: 2 },
+            { question: "What do we use to open a door?", options: ["Fork", "Spoon", "Key", "Plate"], answer: 2 },
+        ],
+        // Stage 7
+        [
+            { question: "What animal gives us milk?", options: ["Chicken", "Pig", "Cow", "Horse"], answer: 2 },
+            { question: "How many wheels does a bicycle have?", options: ["One", "Two", "Three", "Four"], answer: 1 },
+            { question: "What color is a carrot?", options: ["Green", "Red", "Orange", "Purple"], answer: 2 },
+            { question: "What do we use to wash our hands?", options: ["Sand", "Soap", "Salt", "Sugar"], answer: 1 },
+            { question: "Which animal can fly?", options: ["Fish", "Snake", "Bird", "Cat"], answer: 2 },
+        ],
+        // Stage 8
+        [
+            { question: "What do we wear on our feet?", options: ["Hat", "Gloves", "Scarf", "Shoes"], answer: 3 },
+            { question: "Which shape has three sides?", options: ["Circle", "Square", "Triangle", "Rectangle"], answer: 2 },
+            { question: "What do we use to carry money and cards?", options: ["Bag", "Wallet", "Box", "Basket"], answer: 1 },
+            { question: "What do we use to dry our hair?", options: ["Toothbrush", "Hairdryer", "Spoon", "Pencil"], answer: 1 },
+            { question: "Which fruit is round and orange?", options: ["Apple", "Banana", "Orange", "Pear"], answer: 2 },
+        ],
+        // Stage 9
+        [
+            { question: "What do we use to clean our teeth?", options: ["Fork", "Toothbrush", "Spoon", "Knife"], answer: 1 },
+            { question: "Which animal says 'meow'?", options: ["Dog", "Cat", "Cow", "Pig"], answer: 1 },
+            { question: "What do we use to write on a blackboard?", options: ["Pen", "Pencil", "Marker", "Chalk"], answer: 3 },
+            { question: "What do we call frozen water?", options: ["Steam", "Ice", "Fog", "Rain"], answer: 1 },
+            { question: "Which room in a house do we usually sleep in?", options: ["Kitchen", "Bathroom", "Bedroom", "Living room"], answer: 2 },
+        ],
+        // Stage 10
+        [
+            { question: "What do we use to cut food?", options: ["Spoon", "Fork", "Knife", "Plate"], answer: 2 },
+            { question: "Which animal has black and white stripes?", options: ["Lion", "Tiger", "Zebra", "Giraffe"], answer: 2 },
+            { question: "What do we call a baby cat?", options: ["Puppy", "Kitten", "Calf", "Cub"], answer: 1 },
+            { question: "What do we use to keep rain off us?", options: ["Coat", "Scarf", "Umbrella", "Hat"], answer: 2 },
+            { question: "What is the opposite of 'big'?", options: ["Large", "Huge", "Small", "Tall"], answer: 2 },
+        ],
+        // Stage 11
+        [
+            { question: "What do we use to see ourselves?", options: ["Window", "Door", "Mirror", "Picture"], answer: 2 },
+            { question: "Which vegetable makes you cry when you cut it?", options: ["Carrot", "Potato", "Onion", "Tomato"], answer: 2 },
+            { question: "What do we use to measure temperature?", options: ["Ruler", "Scale", "Clock", "Thermometer"], answer: 3 },
+            { question: "What is the main color of the sea?", options: ["Red", "Green", "Blue", "Yellow"], answer: 2 },
+            { question: "What do bees collect from flowers?", options: ["Water", "Nectar", "Sugar", "Salt"], answer: 1 },
+        ],
+        // Stage 12
+        [
+            { question: "What do we call a person who teaches in school?", options: ["Doctor", "Teacher", "Chef", "Driver"], answer: 1 },
+            { question: "Which animal has a trunk?", options: ["Giraffe", "Elephant", "Lion", "Monkey"], answer: 1 },
+            { question: "What do we use to listen to music?", options: ["Book", "Radio", "Pen", "Shoe"], answer: 1 },
+            { question: "What is the opposite of 'young'?", options: ["New", "Fresh", "Old", "Small"], answer: 2 },
+            { question: "What do we call the meal we eat in the evening?", options: ["Breakfast", "Lunch", "Snack", "Dinner"], answer: 3 },
+        ],
+        // Stage 13
+        [
+            { question: "What do we use to take pictures?", options: ["Radio", "Television", "Camera", "Phone"], answer: 2 },
+            { question: "Which animal lives in water?", options: ["Cat", "Dog", "Bird", "Fish"], answer: 3 },
+            { question: "What do we call a baby horse?", options: ["Kitten", "Puppy", "Foal", "Calf"], answer: 2 },
+            { question: "What do we use to keep food cold?", options: ["Oven", "Fridge", "Microwave", "Toaster"], answer: 1 },
+            { question: "What is the opposite of 'fast'?", options: ["Quick", "Slow", "Rapid", "Swift"], answer: 1 },
+        ],
+        // Stage 14
+        [
+            { question: "What do we call a place where we borrow books?", options: ["School", "Library", "Shop", "Park"], answer: 1 },
+            { question: "Which animal can change its color?", options: ["Dog", "Cat", "Chameleon", "Fish"], answer: 2 },
+            { question: "What do we use to write on paper?", options: ["Scissors", "Glue", "Pencil", "Ruler"], answer: 2 },
+            { question: "What is the opposite of 'dark'?", options: ["Night", "Bright", "Black", "Evening"], answer: 1 },
+            { question: "What do we call water falling from the sky?", options: ["Snow", "Hail", "Rain", "Fog"], answer: 2 },
+        ],
+        // Stage 15
+        [
+            { question: "What do we call a person who flies an airplane?", options: ["Driver", "Captain", "Pilot", "Sailor"], answer: 2 },
+            { question: "Which animal has a shell?", options: ["Snake", "Turtle", "Rabbit", "Bear"], answer: 1 },
+            { question: "What do we use to clean the floor?", options: ["Plate", "Cup", "Fork", "Mop"], answer: 3 },
+            { question: "What is the opposite of 'high'?", options: ["Tall", "Short", "Long", "Low"], answer: 3 },
+            { question: "What do we call the first meal of the day?", options: ["Lunch", "Dinner", "Breakfast", "Snack"], answer: 2 },
+        ],
+        // Stage 16
+        [
+            { question: "What do we use to keep our feet dry in rain?", options: ["Gloves", "Hat", "Boots", "Scarf"], answer: 2 },
+            { question: "Which animal says 'quack'?", options: ["Chicken", "Duck", "Cow", "Pig"], answer: 1 },
+            { question: "What do we use to clean our clothes?", options: ["Salt", "Sugar", "Sand", "Soap"], answer: 3 },
+            { question: "What is the opposite of 'empty'?", options: ["Hollow", "Vacant", "Full", "Blank"], answer: 2 },
+            { question: "What do we call the middle of the day?", options: ["Morning", "Evening", "Noon", "Night"], answer: 2 },
+        ],
+        // Stage 17
+        [
+            { question: "What do we call a person who cuts hair?", options: ["Chef", "Barber", "Teacher", "Doctor"], answer: 1 },
+            { question: "Which animal sleeps upside down?", options: ["Cat", "Dog", "Bat", "Bird"], answer: 2 },
+            { question: "What do we use to sweep the floor?", options: ["Mop", "Brush", "Broom", "Cloth"], answer: 2 },
+            { question: "What is the opposite of 'wet'?", options: ["Damp", "Moist", "Dry", "Soaked"], answer: 2 },
+            { question: "What do we call the day after today?", options: ["Yesterday", "Tomorrow", "Today", "Now"], answer: 1 },
+        ],
+        // Stage 18
+        [
+            { question: "What do we call a person who sells things?", options: ["Buyer", "Seller", "Customer", "Manager"], answer: 1 },
+            { question: "Which animal can jump very high?", options: ["Elephant", "Kangaroo", "Hippo", "Cow"], answer: 1 },
+            { question: "What do we use to keep our hands warm?", options: ["Socks", "Shoes", "Gloves", "Hat"], answer: 2 },
+            { question: "What is the opposite of 'soft'?", options: ["Fluffy", "Hard", "Smooth", "Gentle"], answer: 1 },
+            { question: "What do we call the middle day of the week?", options: ["Monday", "Friday", "Sunday", "Wednesday"], answer: 3 },
+        ],
+        // Stage 19
+        [
+            { question: "What do we call a person who fixes cars?", options: ["Plumber", "Electrician", "Mechanic", "Carpenter"], answer: 2 },
+            { question: "Which animal has a pouch?", options: ["Lion", "Tiger", "Kangaroo", "Elephant"], answer: 2 },
+            { question: "What do we use to keep food hot?", options: ["Fridge", "Freezer", "Oven", "Sink"], answer: 2 },
+            { question: "What is the opposite of 'first'?", options: ["Second", "Third", "Last", "Middle"], answer: 2 },
+            { question: "What do we call the season when leaves fall?", options: ["Spring", "Summer", "Autumn", "Winter"], answer: 2 },
+        ],
+		// Stage 20
+        [
+            { question: "What do we call a person who grows food?", options: ["Chef", "Farmer", "Baker", "Butcher"], answer: 1 },
+            { question: "Which animal lives in the desert?", options: ["Penguin", "Polar bear", "Camel", "Dolphin"], answer: 2 },
+            { question: "What do we use to listen to people?", options: ["Eyes", "Nose", "Mouth", "Ears"], answer: 3 },
+            { question: "What is the opposite of 'start'?", options: ["Begin", "End", "Middle", "Continue"], answer: 1 },
+            { question: "What do we call the season when it's very hot?", options: ["Spring", "Summer", "Autumn", "Winter"], answer: 1 },
+        ]
+
+        ];
+
+        let attempts = 0;
+		let currentStage = 1; 
+		const stageCount = quizData.length;
+
+        function renderQuiz() {
+		const quizContainer = document.getElementById("quiz-content");
+		quizContainer.innerHTML = '';
+		quizData[currentStage - 1].forEach((question, index) => {
+                const questionElement = document.createElement("div");
+                questionElement.className = "question";
+                
+                questionElement.innerHTML = `
+                    <p>${index + 1}. ${question.question}</p>
+                    <div class="options">
+                        <select id="q${index}">
+                            <option value="">Select</option>
+                            ${question.options.map((option, i) => `
+                                <option value="${i}">${option}</option>
+                            `).join("")}
+                        </select>
+                    </div>
+                    <div class="result" id="result${index}"></div>
+                `;
+
+                quizContainer.appendChild(questionElement);
+            });
+
+            updateStageNumber();
+        }
+
+        function checkStage() {
+            attempts++;
+            document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+            let correctCount = 0;
+
+            quizData[currentStage - 1].forEach((question, index) => {
+                const resultElement = document.getElementById(`result${index}`);
+                const selectedOption = document.getElementById(`q${index}`).value;
+                const userAnswer = parseInt(selectedOption);
+
+                if (userAnswer === question.answer) {
+                    resultElement.textContent = "Correct!";
+                    resultElement.style.color = "green";
+                    correctCount++;
+                } else {
+                    resultElement.textContent = "Incorrect answer.";
+                    resultElement.style.color = "red";
+                    if (attempts >= 10) {
+                        resultElement.textContent += ` The correct answer is: ${question.options[question.answer]}`;
+                    }
+                }
+            });
+
+			if (correctCount === quizData[currentStage - 1].length) {
+				if (currentStage < stageCount) {
+					showConfetti();
+					currentStage++;
+					updateProgressBar(); // Move this here
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 3000);
+				} else {
+					updateProgressBar();
+					alert("Congratulations! You've completed all stages.");
+				}
+            } else if (attempts >= 10) {
+                alert("You've reached the maximum number of attempts. The correct answers have been revealed.");
+            }
+
+            scrollToTop(); // Scroll back to top after checking answers
+        }
+
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+    
+    // Calculate progress based on completed stages
+    const completedStages = currentStage - 1;
+    const totalStages = stageCount;
+    const progress = (completedStages / totalStages) * 100;
+    
+    // Round the progress to 2 decimal places
+    const roundedProgress = Math.max(0, Math.round(progress * 100) / 100);
+    
+    // Set the progress bar width and text
+    progressBar.style.width = `${roundedProgress}%`;
+    progressBar.textContent = roundedProgress > 0 ? `${roundedProgress }%` : '';
+    
+    console.log(`Current Stage: ${currentStage}, Completed Stages: ${completedStages}, Total Stages: ${totalStages}, Progress: ${roundedProgress}%`);
+}
+
+
+
+        function updateStageNumber() {
+            document.getElementById("stage-number").textContent = currentStage;
+        }
+
+        function showConfetti() {
+            const confettiContainer = document.createElement("div");
+            confettiContainer.className = "confetti";
+            document.body.appendChild(confettiContainer);
+
+            for (let i = 0; i < 100; i++) {
+                const confettiPiece = document.createElement("div");
+                confettiPiece.className = "confetti-piece";
+                confettiPiece.style.left = `${Math.random() * 100}%`;
+                confettiPiece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                confettiContainer.appendChild(confettiPiece);
+            }
+
+            setTimeout(() => {
+                document.body.removeChild(confettiContainer);
+            }, 3000);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+		renderQuiz();
+		updateProgressBar(); 
+
+
+    </script>
+</body>
+</html>
