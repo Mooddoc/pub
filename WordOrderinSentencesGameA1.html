@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentence Ordering Game</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(to bottom, #6eb5ff, #78e08f);
+            color: #3498db;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .page-container {
+            display: flex;
+            max-width: 1400px;
+            width: 100%;
+            padding: 20px;
+            gap: 20px;
+        }
+        .quiz-container {
+            flex: 2;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(52, 152, 219, 0.3);
+            position: relative;
+        }
+        .side-panel {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(52, 152, 219, 0.3);
+            align-self: flex-start;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #3498db;
+            text-shadow: 2px 2px #2ecc71;
+        }
+        .stage-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        .question-container {
+            margin: 20px;
+            background-color: rgba(52, 152, 219, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .word-bubble {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 5px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.3s;
+        }
+        .word-bubble:hover {
+            background-color: #2ecc71;
+            color: white;
+        }
+        #check-answer {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: background-color 0.3s, transform 0.3s;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #check-answer:hover {
+            background-color: #2ecc71;
+            transform: scale(1.05);
+        }
+        #feedback {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #78e08f;
+            border-radius: 10px;
+            margin: 10px 0;
+            height: 30px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #3498db;
+            border-radius: 10px;
+            transition: width 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .confetti {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f5b7b1;
+            opacity: 0.7;
+            animation: confetti-fall 3s ease-in-out forwards, confetti-drift 3s ease-in-out forwards;
+        }
+        @keyframes confetti-fall {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+        @keyframes confetti-drift {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .global-attempts {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #3498db;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <div class="side-panel">
+            <h2>Instructions</h2>
+            <ol>
+                <li>Drag and drop the words to arrange them into the correct sentence.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>After 10 attempts, the correct order will be revealed.</li>
+            </ol>
+        </div>
+
+        <div class="quiz-container">
+            <div class="global-attempts">Total Attempts: <span id="global-attempts-count">0</span></div>
+            <h1>Sentence Ordering Game - A1</h1>
+            <div class="stage-title">Stage <span id="stage-number">1</span></div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar">0%</div>
+            </div>
+            
+            <div id="quiz-content"></div>
+            <div id="attempts">Attempts this Stage: 0</div>
+            <button id="check-answer" onclick="checkStage()">Check Answers</button>
+        </div>
+        
+        <div class="side-panel">
+            <h2>Quiz Rules</h2>
+            <ol>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>After 10 attempts, the correct answers will be revealed for any incorrect responses.</li>
+                <li>There are 30 stages, each with 5 questions.</li>
+            </ol>
+        </div>
+    </div>
+    
+    <script>
+const quizData = [
+    // Stage 1
+    [
+        { words: "cat / is / The / black", correctAnswer: "The cat is black" },
+        { words: "like / apples / I", correctAnswer: "I like apples" },
+        { words: "She / my / is / friend", correctAnswer: "She is my friend" },
+        { words: "have / a / I / dog", correctAnswer: "I have a dog" },
+        { words: "The / on / table / is / book / the", correctAnswer: "The book is on the table" },
+    ],
+    // Stage 2
+    [
+        { words: "We / school / go / to", correctAnswer: "We go to school" },
+        { words: "They / play / football", correctAnswer: "They play football" },
+        { words: "eat / We / dinner / at / 7", correctAnswer: "We eat dinner at 7" },
+        { words: "is / She / teacher / a", correctAnswer: "She is a teacher" },
+        { words: "The / sun / shines / brightly", correctAnswer: "The sun shines brightly" },
+    ],
+    // Stage 3
+    [
+        { words: "I / like / to / read", correctAnswer: "I like to read" },
+        { words: "He / is / tall", correctAnswer: "He is tall" },
+        { words: "You / have / a / pen", correctAnswer: "You have a pen" },
+        { words: "The / car / is / red", correctAnswer: "The car is red" },
+        { words: "She / sings / beautifully", correctAnswer: "She sings beautifully" },
+    ],
+    // Stage 4
+    [
+        { words: "We / are / happy", correctAnswer: "We are happy" },
+        { words: "They / live / in / a / big / house", correctAnswer: "They live in a big house" },
+        { words: "He / has / a / new / bike", correctAnswer: "He has a new bike" },
+        { words: "The / dog / is / running", correctAnswer: "The dog is running" },
+        { words: "I / am / hungry", correctAnswer: "I am hungry" },
+    ],
+    // Stage 5
+    [
+        { words: "She / is / my / sister", correctAnswer: "She is my sister" },
+        { words: "We / like / pizza", correctAnswer: "We like pizza" },
+        { words: "The / cat / is / on / the / chair", correctAnswer: "The cat is on the chair" },
+        { words: "They / are / good / friends", correctAnswer: "They are good friends" },
+        { words: "I / am / a / student", correctAnswer: "I am a student" },
+    ],
+    // Stage 6
+    [
+        { words: "She / is / my / mother", correctAnswer: "She is my mother" },
+        { words: "He / likes / to / swim", correctAnswer: "He likes to swim" },
+        { words: "The / ball / is / under / the / table", correctAnswer: "The ball is under the table" },
+        { words: "They / are / at / home", correctAnswer: "They are at home" },
+        { words: "We / go / to / bed / at / 9", correctAnswer: "We go to bed at 9" },
+    ],
+    // Stage 7
+    [
+        { words: "I / have / two / brothers", correctAnswer: "I have two brothers" },
+        { words: "She / is / very / kind", correctAnswer: "She is very kind" },
+        { words: "The / dog / is / sleeping", correctAnswer: "The dog is sleeping" },
+        { words: "We / are / in / the / park", correctAnswer: "We are in the park" },
+        { words: "They / play / in / the / garden", correctAnswer: "They play in the garden" },
+    ],
+    // Stage 8
+    [
+        { words: "He / has / a / big / car", correctAnswer: "He has a big car" },
+        { words: "She / is / a / good / student", correctAnswer: "She is a good student" },
+        { words: "The / apple / is / red", correctAnswer: "The apple is red" },
+        { words: "I / like / to / dance", correctAnswer: "I like to dance" },
+        { words: "We / are / eating / dinner", correctAnswer: "We are eating dinner" },
+    ],
+    // Stage 9
+    [
+        { words: "They / live / in / a / small / town", correctAnswer: "They live in a small town" },
+        { words: "He / plays / the / piano", correctAnswer: "He plays the piano" },
+        { words: "She / is / watching / TV", correctAnswer: "She is watching TV" },
+        { words: "The / children / are / playing", correctAnswer: "The children are playing" },
+        { words: "I / have / a / red / ball", correctAnswer: "I have a red ball" },
+    ],
+    // Stage 10
+    [
+        { words: "We / are / going / to / the / zoo", correctAnswer: "We are going to the zoo" },
+        { words: "She / likes / to / paint", correctAnswer: "She likes to paint" },
+        { words: "He / is / reading / a / book", correctAnswer: "He is reading a book" },
+        { words: "The / sky / is / blue", correctAnswer: "The sky is blue" },
+        { words: "They / are / happy / today", correctAnswer: "They are happy today" },
+    ],
+    // Stage 11
+    [
+        { words: "I / love / my / family", correctAnswer: "I love my family" },
+        { words: "The / bird / is / flying", correctAnswer: "The bird is flying" },
+        { words: "She / is / wearing / a / dress", correctAnswer: "She is wearing a dress" },
+        { words: "We / are / at / the / beach", correctAnswer: "We are at the beach" },
+        { words: "They / are / dancing", correctAnswer: "They are dancing" },
+    ],
+    // Stage 12
+    [
+        { words: "He / is / my / best / friend", correctAnswer: "He is my best friend" },
+        { words: "She / likes / to / play / the / piano", correctAnswer: "She likes to play the piano" },
+        { words: "The / dog / is / very / cute", correctAnswer: "The dog is very cute" },
+        { words: "We / are / reading / a / book", correctAnswer: "We are reading a book" },
+        { words: "They / are / having / fun", correctAnswer: "They are having fun" },
+    ],
+    // Stage 13
+    [
+        { words: "The / cat / is / drinking / milk", correctAnswer: "The cat is drinking milk" },
+        { words: "I / like / to / run", correctAnswer: "I like to run" },
+        { words: "He / is / drawing / a / picture", correctAnswer: "He is drawing a picture" },
+        { words: "She / is / wearing / a / hat", correctAnswer: "She is wearing a hat" },
+        { words: "We / are / playing / with / a / ball", correctAnswer: "We are playing with a ball" },
+    ],
+    // Stage 14
+    [
+        { words: "The / flowers / are / beautiful", correctAnswer: "The flowers are beautiful" },
+        { words: "I / am / reading / a / story", correctAnswer: "I am reading a story" },
+        { words: "He / is / eating / a / sandwich", correctAnswer: "He is eating a sandwich" },
+        { words: "She / is / singing / a / song", correctAnswer: "She is singing a song" },
+        { words: "We / are / swimming / in / the / pool", correctAnswer: "We are swimming in the pool" },
+    ],
+    // Stage 15
+    [
+        { words: "They / are / riding / bikes", correctAnswer: "They are riding bikes" },
+        { words: "The / sun / is / shining", correctAnswer: "The sun is shining" },
+        { words: "I / am / learning / English", correctAnswer: "I am learning English" },
+        { words: "He / is / playing / a / game", correctAnswer: "He is playing a game" },
+        { words: "She / is / very / happy", correctAnswer: "She is very happy" },
+    ],
+    // Stage 16
+    [
+        { words: "The / car / is / fast", correctAnswer: "The car is fast" },
+        { words: "I / like / to / listen / to / music", correctAnswer: "I like to listen to music" },
+        { words: "He / is / making / a / cake", correctAnswer: "He is making a cake" },
+        { words: "She / is / painting / a / picture", correctAnswer: "She is painting a picture" },
+        { words: "They / are / watching / TV", correctAnswer: "They are watching TV" },
+    ],
+    // Stage 17
+    [
+        { words: "We / are / going / shopping", correctAnswer: "We are going shopping" },
+        { words: "The / tree / is / tall", correctAnswer: "The tree is tall" },
+        { words: "I / am / playing / football", correctAnswer: "I am playing football" },
+        { words: "He / is / running / fast", correctAnswer: "He is running fast" },
+        { words: "She / is / wearing / a / red / dress", correctAnswer: "She is wearing a red dress" },
+    ],
+    // Stage 18
+    [
+        { words: "They / are / good / students", correctAnswer: "They are good students" },
+        { words: "The / water / is / cold", correctAnswer: "The water is cold" },
+        { words: "I / am / drinking / juice", correctAnswer: "I am drinking juice" },
+        { words: "He / is / doing / his / homework", correctAnswer: "He is doing his homework" },
+        { words: "She / is / reading / a / book", correctAnswer: "She is reading a book" },
+    ],
+    // Stage 19
+    [
+        { words: "We / are / having / lunch", correctAnswer: "We are having lunch" },
+        { words: "The / cat / is / small", correctAnswer: "The cat is small" },
+        { words: "I / am / happy / today", correctAnswer: "I am happy today" },
+        { words: "He / is / playing / in / the / park", correctAnswer: "He is playing in the park" },
+        { words: "She / is / singing / a / beautiful / song", correctAnswer: "She is singing a beautiful song" },
+    ],
+    // Stage 20
+    [
+        { words: "They / are / painting / a / picture", correctAnswer: "They are painting a picture" },
+        { words: "The / dog / is / barking", correctAnswer: "The dog is barking" },
+        { words: "I / like / to / eat / ice / cream", correctAnswer: "I like to eat ice cream" },
+        { words: "He / is / playing / the / guitar", correctAnswer: "He is playing the guitar" },
+        { words: "She / is / drinking / water", correctAnswer: "She is drinking water" },
+    ],
+    // Stage 21
+    [
+        { words: "We / are / going / to / school", correctAnswer: "We are going to school" },
+        { words: "The / sky / is / blue", correctAnswer: "The sky is blue" },
+        { words: "I / am / eating / breakfast", correctAnswer: "I am eating breakfast" },
+        { words: "He / is / very / strong", correctAnswer: "He is very strong" },
+        { words: "She / is / my / friend", correctAnswer: "She is my friend" },
+    ],
+    // Stage 22
+    [
+        { words: "They / are / watching / a / movie", correctAnswer: "They are watching a movie" },
+        { words: "The / car / is / blue", correctAnswer: "The car is blue" },
+        { words: "I / like / to / ride / my / bike", correctAnswer: "I like to ride my bike" },
+        { words: "He / is / playing / with / his / toys", correctAnswer: "He is playing with his toys" },
+        { words: "She / is / eating / an / apple", correctAnswer: "She is eating an apple" },
+    ],
+    // Stage 23
+    [
+        { words: "We / are / going / to / the / park", correctAnswer: "We are going to the park" },
+        { words: "The / flowers / are / red", correctAnswer: "The flowers are red" },
+        { words: "I / am / doing / my / homework", correctAnswer: "I am doing my homework" },
+        { words: "He / is / my / brother", correctAnswer: "He is my brother" },
+        { words: "She / is / reading / a / book", correctAnswer: "She is reading a book" },
+    ],
+    // Stage 24
+    [
+        { words: "They / are / playing / football", correctAnswer: "They are playing football" },
+        { words: "The / dog / is / brown", correctAnswer: "The dog is brown" },
+        { words: "I / like / to / draw / pictures", correctAnswer: "I like to draw pictures" },
+        { words: "He / is / very / smart", correctAnswer: "He is very smart" },
+        { words: "She / is / a / good / teacher", correctAnswer: "She is a good teacher" },
+    ],
+    // Stage 25
+    [
+        { words: "We / are / going / home", correctAnswer: "We are going home" },
+        { words: "The / cat / is / white", correctAnswer: "The cat is white" },
+        { words: "I / am / drinking / milk", correctAnswer: "I am drinking milk" },
+        { words: "He / is / writing / a / letter", correctAnswer: "He is writing a letter" },
+        { words: "She / is / my / sister", correctAnswer: "She is my sister" },
+    ],
+    // Stage 26
+    [
+        { words: "They / are / eating / lunch", correctAnswer: "They are eating lunch" },
+        { words: "The / sun / is / shining", correctAnswer: "The sun is shining" },
+        { words: "I / like / to / sing", correctAnswer: "I like to sing" },
+        { words: "He / is / reading / a / story", correctAnswer: "He is reading a story" },
+        { words: "She / is / drawing / a / picture", correctAnswer: "She is drawing a picture" },
+    ],
+    // Stage 27
+    [
+        { words: "We / are / going / to / the / market", correctAnswer: "We are going to the market" },
+        { words: "The / tree / is / green", correctAnswer: "The tree is green" },
+        { words: "I / am / eating / an / apple", correctAnswer: "I am eating an apple" },
+        { words: "He / is / very / fast", correctAnswer: "He is very fast" },
+        { words: "She / is / a / good / singer", correctAnswer: "She is a good singer" },
+    ],
+    // Stage 28
+    [
+        { words: "They / are / playing / games", correctAnswer: "They are playing games" },
+        { words: "The / dog / is / barking", correctAnswer: "The dog is barking" },
+        { words: "I / like / to / read", correctAnswer: "I like to read" },
+        { words: "He / is / my / father", correctAnswer: "He is my father" },
+        { words: "She / is / playing / with / her / doll", correctAnswer: "She is playing with her doll" },
+    ],
+    // Stage 29
+    [
+        { words: "We / are / going / to / the / cinema", correctAnswer: "We are going to the cinema" },
+        { words: "The / sky / is / clear", correctAnswer: "The sky is clear" },
+        { words: "I / am / learning / to / swim", correctAnswer: "I am learning to swim" },
+        { words: "He / is / painting / a / picture", correctAnswer: "He is painting a picture" },
+        { words: "She / is / very / kind", correctAnswer: "She is very kind" },
+    ],
+    // Stage 30
+    [
+        { words: "They / are / riding / their / bikes", correctAnswer: "They are riding their bikes" },
+        { words: "The / sun / is / bright", correctAnswer: "The sun is bright" },
+        { words: "I / am / playing / with / my / toys", correctAnswer: "I am playing with my toys" },
+        { words: "He / is / singing / a / song", correctAnswer: "He is singing a song" },
+        { words: "She / is / drawing / a / cat", correctAnswer: "She is drawing a cat" },
+    ]
+];
+
+
+        let attempts = 0;
+        let globalAttempts = 0;
+		let currentStage = 1; 
+		const stageCount = quizData.length;
+
+        function renderQuiz() {
+		    const quizContainer = document.getElementById("quiz-content");
+		    quizContainer.innerHTML = '';
+		    quizData[currentStage - 1].forEach((question, index) => {
+                const words = shuffleArray(question.words.split(" / "));
+                const wordBubbles = words.map(word => `<div class="word-bubble">${word}</div>`).join('');
+                const questionElement = document.createElement("div");
+                questionElement.className = "question-container";
+                
+                questionElement.innerHTML = `
+                    <div class="word-container" id="word-container${index}">${wordBubbles}</div>
+                    <div id="feedback${index}" class="feedback"></div>
+                `;
+
+                quizContainer.appendChild(questionElement);
+            });
+
+            document.querySelectorAll('.word-bubble').forEach(word => {
+                word.setAttribute('draggable', true);
+                word.addEventListener('dragstart', dragStart);
+                word.addEventListener('dragover', dragOver);
+                word.addEventListener('drop', drop);
+            });
+
+            updateStageNumber();
+        }
+
+        function checkStage() {
+            attempts++;
+            globalAttempts++;
+            document.getElementById("attempts").textContent = `Attempts this Stage: ${attempts}`;
+            document.getElementById("global-attempts-count").textContent = globalAttempts;
+
+            let correctCount = 0;
+
+            quizData[currentStage - 1].forEach((question, index) => {
+                const wordContainer = document.getElementById(`word-container${index}`);
+                const words = Array.from(wordContainer.getElementsByClassName('word-bubble'));
+                const userAnswer = words.map(word => word.textContent).join(' ');
+
+                const feedback = document.getElementById(`feedback${index}`);
+                if (userAnswer.toLowerCase() === question.correctAnswer.toLowerCase()) {
+                    feedback.textContent = "Correct!";
+                    feedback.style.color = "green";
+                    correctCount++;
+                } else {
+                    feedback.textContent = "Try again!";
+                    feedback.style.color = "red";
+                    if (attempts >= 10) {
+                        feedback.textContent += ` The correct order is: ${question.correctAnswer}`;
+                    }
+                }
+            });
+
+            if (correctCount === quizData[currentStage - 1].length) {
+                showConfetti();
+                if (currentStage < stageCount) {
+                    setTimeout(() => {
+                        currentStage++;
+                        updateProgressBar();
+                        renderQuiz();
+                        document.getElementById("attempts").textContent = `Attempts this Stage: ${attempts = 0}`;
+                    }, 3000);
+                } else {
+                    updateProgressBar();
+                    alert("Congratulations! You've completed all stages.");
+                }
+            } else if (attempts >= 10) {
+                alert("You've reached the maximum number of attempts. The correct answers have been revealed.");
+            }
+
+            scrollToTop();
+        }
+
+function dragStart(event) {
+    event.dataTransfer.setData('text/plain', event.target.textContent);
+    event.dataTransfer.setData('sourceContainer', event.target.closest('.word-container').id);
+    event.dataTransfer.effectAllowed = "move";
+    this.style.opacity = "0.5";
+}
+
+function dragOver(event) {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+}
+
+
+function drop(event) {
+    event.preventDefault();
+    const draggedText = event.dataTransfer.getData('text/plain');
+    const sourceContainerId = event.dataTransfer.getData('sourceContainer');
+    const targetContainer = event.target.closest('.word-container');
+
+    // Check if the drop is within the same container
+    if (targetContainer && targetContainer.id === sourceContainerId) {
+        const targetWord = event.target.closest('.word-bubble');
+        if (targetWord) {
+            const words = Array.from(targetContainer.getElementsByClassName('word-bubble'));
+            const originalOrder = words.map(w => w.textContent);
+            
+            // Find the indices of the dragged and target words
+            const draggedIndex = originalOrder.indexOf(draggedText);
+            const targetIndex = words.indexOf(targetWord);
+            
+            // Swap the words
+            [words[draggedIndex].textContent, words[targetIndex].textContent] = 
+                [words[targetIndex].textContent, words[draggedIndex].textContent];
+            
+            // Verify and correct the order
+            const currentOrder = words.map(w => w.textContent);
+            const correctOrder = [...new Set(originalOrder)];
+            
+            correctOrder.forEach((word, index) => {
+                if (currentOrder[index] !== word) {
+                    const correctIndex = currentOrder.indexOf(word);
+                    [words[index].textContent, words[correctIndex].textContent] = 
+                        [words[correctIndex].textContent, words[index].textContent];
+                }
+            });
+        }
+    }
+
+    document.querySelectorAll('.word-bubble').forEach(word => word.style.opacity = "1");
+}
+
+
+        function updateProgressBar() {
+            const progressBar = document.getElementById("progress-bar");
+            
+            // Calculate progress based on completed stages
+            const completedStages = currentStage - 1;
+            const totalStages = stageCount;
+            const progress = (completedStages / totalStages) * 100;
+            
+            // Round the progress to 2 decimal places
+            const roundedProgress = Math.max(0, Math.round(progress * 100) / 100);
+            
+            // Set the progress bar width and text
+            progressBar.style.width = `${roundedProgress}%`;
+            progressBar.textContent = roundedProgress > 0 ? `${roundedProgress }%` : '';
+        }
+
+        function updateStageNumber() {
+            document.getElementById("stage-number").textContent = currentStage;
+        }
+
+        function showConfetti() {
+            const confettiContainer = document.createElement("div");
+            confettiContainer.className = "confetti";
+            document.body.appendChild(confettiContainer);
+
+            for (let i = 0; i < 100; i++) {
+                const confettiPiece = document.createElement("div");
+                confettiPiece.className = "confetti-piece";
+                confettiPiece.style.left = `${Math.random() * 100}%`;
+                confettiPiece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                confettiContainer.appendChild(confettiPiece);
+            }
+
+            setTimeout(() => {
+                document.body.removeChild(confettiContainer);
+            }, 3000);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        renderQuiz();
+        updateProgressBar();
+    </script>
+</body>
+</html>
