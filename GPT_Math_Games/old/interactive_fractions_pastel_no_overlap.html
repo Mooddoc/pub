@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>תרגול שברים</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: center;
+            background-color: #ffe4e1;
+            margin: 0;
+            padding: 0;
+            color: #000;
+            overflow-x: hidden;
+        }
+        h1 {
+            color: #ff7f50;
+            margin-top: 20px;
+            font-size: 36px;
+        }
+        .space-container {
+            position: relative;
+            height: auto;
+            width: 100%;
+            padding: 20px;
+        }
+        .cloud, .answer-cloud {
+            padding: 15px;
+            border-radius: 20%;
+            cursor: pointer;
+            color: #ffffff;
+            font-weight: bold;
+            text-align: center;
+            direction: ltr;
+            white-space: nowrap;
+            background-color: #ffb6c1;
+            box-shadow: 0 0 20px rgba(255, 182, 193, 0.5);
+            position: absolute;
+        }
+        .cloud {
+            width: 160px;
+            height: 100px;
+            line-height: 100px;
+            font-size: 16px;
+            border: 3px solid #fa8072;
+        }
+        .answer-cloud {
+            width: 120px;
+            height: 80px;
+            line-height: 80px;
+            font-size: 14px;
+            border: 2px solid #fa8072;
+        }
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        .instructions {
+            font-size: 20px;
+            background-color: #ffe4b5;
+            padding: 15px;
+            border-radius: 10px;
+            color: #ff7f50;
+            margin-bottom: 20px;
+        }
+        .check-button, .clear-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #ff7f50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 2px 2px 5px #333;
+        }
+    </style>
+</head>
+<body>
+
+<h1>תרגול שברים</h1>
+
+<div class="instructions">
+    גרור קו מהשבר אל השבר התואם בתשובה. לחיצה נוספת על שבר או תשובה תסיר את הקו. תוכל ללחוץ על "בדיקה" כדי לבדוק את החיבורים.
+</div>
+
+<canvas id="canvas"></canvas>
+
+<div class="space-container" id="space">
+<div id="ex1" class="cloud" style="top: 68%; left: 5%;">3/4 - 1/4 = ?</div>
+<div id="ex2" class="cloud" style="top: 26%; left: 8%;">2/3 + 1/3 = ?</div>
+<div id="ex3" class="cloud" style="top: 10%; left: 7%;">5/6 - 2/6 = ?</div>
+<div id="ex4" class="cloud" style="top: 62%; left: 74%;">7/8 + 1/8 = ?</div>
+<div id="ex5" class="cloud" style="top: 43%; left: 37%;">9/10 - 4/10 = ?</div>
+<div id="ex6" class="cloud" style="top: 63%; left: 32%;">2/5 + 3/5 = ?</div>
+<div id="ans1" class="answer-cloud" style="top: 44%; left: 68%;">2/4</div>
+<div id="ans2" class="answer-cloud" style="top: 26%; left: 70%;">1</div>
+<div id="ans3" class="answer-cloud" style="top: 26%; left: 31%;">1/2</div>
+<div id="ans4" class="answer-cloud" style="top: 66%; left: 53%;">1</div>
+<div id="ans5" class="answer-cloud" style="top: 26%; left: 46%;">1/2</div>
+<div id="ans6" class="answer-cloud" style="top: 50%; left: 53%;">1</div>
+
+</div>
+
+<button class="check-button" onclick="checkConnections()">בדיקה</button>
+<button class="clear-button" onclick="clearConnections()">נקה הכל</button>
+
+<script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const clouds = document.querySelectorAll('.cloud');
+    const answerClouds = document.querySelectorAll('.answer-cloud');
+
+    const correctConnections = {
+        "ex1": "ans1",
+        "ex2": "ans2",
+        "ex3": "ans3",
+        "ex4": "ans4",
+        "ex5": "ans5",
+        "ex6": "ans6"
+    };
+
+    const connections = {}; // To store connections between clouds and answer clouds
+
+    let startElement = null;
+    let startX = 0;
+    let startY = 0;
+
+    function setCanvasSize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight * 2.5; // Allow scrolling by increasing height
+    }
+
+    function getPosition(element) {
+        const rect = element.getBoundingClientRect();
+        return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+    }
+
+    function drawLine(startX, startY, endX, endY) {
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(endX, endY);
+        ctx.strokeStyle = '#ff7f50';
+        ctx.lineWidth = 3;
+        ctx.shadowColor = '#ff7f50';
+        ctx.shadowBlur = 10;
+        ctx.stroke();
+    }
+
+    function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function redrawLines() {
+        clearCanvas();
+        for (const [cloudId, answerCloudId] of Object.entries(connections)) {
+            const startPos = getPosition(document.getElementById(cloudId));
+            const endPos = getPosition(document.getElementById(answerCloudId));
+            drawLine(startPos.x, startPos.y, endPos.x, endPos.y);
+        }
+    }
+
+    function startDrag(event) {
+        const elementId = event.target.id;
+        if (connections[elementId]) {
+            // If there's an existing connection, remove it
+            delete connections[elementId];
+            delete connections[connections[elementId]]; // Remove reverse mapping
+            redrawLines();
+        } else {
+            startElement = event.target;
+            const pos = getPosition(startElement);
+            startX = pos.x;
+            startY = pos.y;
+        }
+    }
+
+    function endDrag(event) {
+        const endElement = event.target;
+        const pos = getPosition(endElement);
+        drawLine(startX, startY, pos.x, pos.y);
+        connections[startElement.id] = endElement.id;
+        connections[endElement.id] = startElement.id; // Create reverse mapping
+        redrawLines();
+    }
+
+    function setupDragAndDrop() {
+        clouds.forEach(cloud => {
+            cloud.addEventListener('mousedown', startDrag);
+        });
+
+        answerClouds.forEach(answerCloud => {
+            answerCloud.addEventListener('mouseup', endDrag);
+        });
+    }
+
+    function checkConnections() {
+        let correct = true;
+        for (const [cloudId, answerCloudId] of Object.entries(correctConnections)) {
+            if (connections[cloudId] !== answerCloudId) {
+                correct = false;
+                break;
+            }
+        }
+        if (correct) {
+            alert("כל החיבורים נכונים! כל הכבוד!");
+        } else {
+            alert("יש טעויות בחיבורים. נסה שוב.");
+        }
+    }
+
+    function clearConnections() {
+        connections = {};
+        clearCanvas();
+    }
+
+    window.addEventListener('resize', setCanvasSize);
+    window.addEventListener('load', () => {
+        setCanvasSize();
+        setupDragAndDrop();
+    });
+</script>
+
+</body>
+</html>

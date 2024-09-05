@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Math Exercises</title>
+    <style>
+        body, html {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #FFFFFF;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: auto;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        h1 {
+            text-align: center;
+            color: #FF1493;
+            margin: 0 0 20px 0;
+            font-size: 40px;
+            text-shadow: 2px 2px #FFB6C1;
+        }
+        .main-container {
+            display: flex;
+            gap: 20px;
+        }
+        .game-area {
+            flex: 1;
+        }
+        .options {
+            background-color: #87CEEB;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 6px 0 #4682B4;
+        }
+        .options label, .options input {
+            font-size: 18px;
+        }
+        .options input[type="number"] {
+            width: 60px;
+            padding: 5px;
+            border: 2px solid #FF1493;
+            border-radius: 5px;
+        }
+        .operator-btn {
+            background-color: #FFB6C1;
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 18px;
+            box-shadow: 0 4px 0 #DB7093;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+        .operator-btn.selected {
+            background-color: #FF69B4;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #C71585;
+            opacity: 1;
+        }
+        .operator-btn:hover {
+            opacity: 1;
+        }
+        .generate-btn, .check-btn {
+            background-color: #FF69B4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 18px;
+            box-shadow: 0 4px 0 #C71585;
+            transition: all 0.3s ease;
+        }
+        .generate-btn:hover, .check-btn:hover {
+            background-color: #FF1493;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #C71585;
+        }
+        .generate-btn:active, .check-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #C71585;
+        }
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .exercise {
+            background-color: #87CEEB;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 6px 0 #4682B4;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .exercise:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 11px 0 #4682B4;
+        }
+        .whole-number, .operator {
+            margin: 0 5px;
+            color: #FF4500;
+        }
+        .fraction {
+            display: inline-block;
+            text-align: center;
+            vertical-align: middle;
+            margin: 0 5px;
+            color: #FF4500;
+        }
+        .fraction .numerator {
+            display: block;
+            border-bottom: 2px solid #FF4500;
+        }
+        .fraction .denominator {
+            display: block;
+        }
+        .answer-area {
+            width: 60px;
+            height: 60px;
+            border: 3px dashed #FF1493;
+            background-color: #FFFACD;
+            border-radius: 10px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 10px;
+        }
+        .cloud {
+            background-color: #98FB98;
+            border-radius: 30px;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 0 #3CB371;
+        }
+        .answer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px;
+            padding: 10px;
+            background-color: #FFFACD;
+            border: 3px solid #FF1493;
+            border-radius: 10px;
+            cursor: move;
+            user-select: none;
+            font-size: 20px;
+            transition: all 0.2s ease;
+        }
+        .answer:hover {
+            transform: scale(1.1);
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .feedback {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 30px;
+        }
+        .correct {
+            color: #32CD32;
+        }
+        .incorrect {
+            color: #FF4500;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #FFFACD;
+            margin: 15% auto;
+            padding: 20px;
+            border: 3px solid #FF1493;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+            font-size: 24px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .close-modal {
+            color: #FF1493;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-modal:hover {
+            color: #FF69B4;
+        }
+        .instructions-panel {
+            width: 250px;
+            background-color: #E6E6FA;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 6px 0 #9370DB;
+            align-self: flex-start;
+            position: sticky;
+            top: 20px;
+        }
+        .instructions-panel h2 {
+            color: #8A2BE2;
+            margin-top: 0;
+        }
+        .instructions-panel ul {
+            padding-left: 20px;
+        }
+        .instructions-panel li {
+            margin-bottom: 10px;
+        }
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .instructions-panel {
+                width: auto;
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌈 Fun Math Exercises 🌈</h1>
+        
+        <div class="main-container">
+            <div class="game-area">
+                <div class="options">
+                    <label for="min-range">Minimum number:</label>
+                    <input type="number" id="min-range" min="0" max="100" value="0">
+                    
+                    <label for="max-range">Maximum number:</label>
+                    <input type="number" id="max-range" min="1" max="100" value="20">
+                    
+                    <div>
+                        <label>Operators:</label>
+                        <button class="operator-btn selected" data-op="+">+</button>
+                        <button class="operator-btn selected" data-op="-">-</button>
+                        <button class="operator-btn" data-op="*">×</button>
+                        <button class="operator-btn" data-op="/">÷</button>
+                    </div>
+                    
+                    <button class="generate-btn" onclick="generateExercises()">Generate</button>
+                </div>
+                <div class="exercise-grid" id="exerciseGrid">
+                    <!-- Exercises will be dynamically inserted here -->
+                </div>
+                <div class="cloud" id="answerCloud">
+                    <!-- Answers will be dynamically inserted here -->
+                </div>
+                <div class="buttons">
+                    <button class="check-btn" onclick="checkAllAnswers()">Check Answers 🎉</button>
+                </div>
+            </div>
+            
+            <div class="instructions-panel">
+                <h2>Instructions and Rules</h2>
+                <ul>
+                    <li>Select the number range and operators you want to practice.</li>
+                    <li>Click "Generate" to create new exercises.</li>
+                    <li>Drag and drop the correct answers from the green bar to the exercise boxes.</li>
+                    <li>You can move answers between boxes or back to the green bar.</li>
+                    <li>Click "Check Answers" when you're done to see how you did!</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <p id="modalText"></p>
+        </div>
+    </div>
+
+    <script>
+        function generateExercises() {
+            const minRange = parseInt(document.getElementById('min-range').value);
+            const maxRange = parseInt(document.getElementById('max-range').value);
+            const operators = Array.from(document.querySelectorAll('.operator-btn.selected'))
+                .map(btn => btn.getAttribute('data-op'));
+
+            if (operators.length === 0) {
+                alert("Please select at least one operator.");
+                return;
+            }
+
+            const exercises = [];
+            for (let i = 1; i <= 12; i++) {
+                let exercise = generateValidExercise(minRange, maxRange, operators);
+                exercises.push(exercise);
+            }
+
+            displayExercises(exercises);
+        }
+
+        function generateValidExercise(minRange, maxRange, operators) {
+            const operator = operators[Math.floor(Math.random() * operators.length)];
+            let num1, num2, answer;
+            let attempts = 0;
+            const maxAttempts = 1000;
+
+            do {
+                attempts++;
+                switch (operator) {
+                    case '+':
+                        num1 = Math.floor(Math.random() * maxRange);
+                        num2 = Math.floor(Math.random() * (maxRange - num1));
+                        answer = num1 + num2;
+                        break;
+                    case '-':
+                        answer = Math.floor(Math.random() * (maxRange - minRange + 1)) + minRange;
+                        num1 = Math.floor(Math.random() * (maxRange - answer)) + answer;
+                        num2 = num1 - answer;
+                        break;
+                    case '*':
+                        num1 = Math.floor(Math.random() * (Math.sqrt(maxRange) - 1)) + 2;
+                        num2 = Math.floor(Math.random() * (maxRange / num1)) + 1;
+                        answer = num1 * num2;
+                        break;
+                    case '/':
+                        num2 = Math.floor(Math.random() * (Math.sqrt(maxRange) - 1)) + 2;
+                        answer = Math.floor(Math.random() * (maxRange / num2)) + 1;
+                        num1 = answer * num2;
+                        break;
+                }
+            } while ((answer < minRange || answer > maxRange) && attempts < maxAttempts);
+
+            if (attempts >= maxAttempts) {
+                num1 = minRange;
+                num2 = 0;
+                answer = minRange;
+            }
+
+            return {
+                id: Math.random().toString(36).substr(2, 9),
+                fraction1: { numerator: num1, denominator: 1 },
+                fraction2: { numerator: num2, denominator: 1 },
+                operator: operator,
+                answer: { wholeNumber: answer, numerator: 0, denominator: 1 }
+            };
+        }
+
+        function displayExercises(exercises) {
+            const grid = document.getElementById('exerciseGrid');
+            grid.innerHTML = exercises.map(createExerciseHTML).join('');
+
+            const answerCloud = document.getElementById('answerCloud');
+            const answers = exercises.map(ex => ex.answer);
+            const shuffledAnswers = [...answers].sort(() => Math.random() - 0.5);
+            answerCloud.innerHTML = shuffledAnswers.map((answer, index) => createAnswerHTML(answer, index)).join('');
+        }
+
+        function createExerciseHTML(exercise) {
+            return `
+                <div class="exercise" id="exercise-${exercise.id}" data-answer='${JSON.stringify(exercise.answer)}'>
+                    ${createFractionHTML(exercise.fraction1)}
+                    <span class="operator">${exercise.operator}</span>
+                    ${createFractionHTML(exercise.fraction2)}
+                    <span class="operator">=</span>
+                    <div class="answer-area" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="feedback"></div>
+                </div>
+            `;
+        }
+
+function createFractionHTML(fraction) {
+            if (fraction.denominator === 1) {
+                return `<span class="whole-number">${fraction.numerator}</span>`;
+            } else {
+                return `<span class="fraction"><span class="numerator">${fraction.numerator}</span><span class="denominator">${fraction.denominator}</span></span>`;
+            }
+        }
+
+        function createAnswerHTML(answer, index) {
+            let answerHTML;
+            if (answer.denominator === 1) {
+                answerHTML = `<span class="whole-number">${answer.wholeNumber}</span>`;
+            } else {
+                answerHTML = `
+                    ${answer.wholeNumber ? `<span class="whole-number">${answer.wholeNumber}</span>` : ''}
+                    <span class="fraction">
+                        <span class="numerator">${answer.numerator}</span>
+                        <span class="denominator">${answer.denominator}</span>
+                    </span>
+                `;
+            }
+            return `
+                <div class="answer" id="answer-${index}" draggable="true" ondragstart="drag(event)" data-answer='${JSON.stringify(answer)}'>
+                    ${answerHTML}
+                </div>
+            `;
+        }
+
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text");
+            const draggedElement = document.getElementById(data);
+            
+            if (ev.target.classList.contains('answer-area')) {
+                if (ev.target.firstChild) {
+                    document.getElementById('answerCloud').appendChild(ev.target.firstChild);
+                }
+                ev.target.appendChild(draggedElement);
+            } else if (ev.target.classList.contains('cloud')) {
+                ev.target.appendChild(draggedElement);
+            }
+        }
+
+        function checkAllAnswers() {
+            let correctAnswers = 0;
+            const exercises = document.querySelectorAll('.exercise');
+            
+            exercises.forEach(exercise => {
+                const answerArea = exercise.querySelector('.answer-area');
+                const answerElement = answerArea.firstChild;
+                const feedbackElement = exercise.querySelector('.feedback');
+                
+                if (answerElement) {
+                    const givenAnswer = JSON.parse(answerElement.getAttribute('data-answer'));
+                    const correctAnswer = JSON.parse(exercise.getAttribute('data-answer'));
+                    
+                    if (JSON.stringify(givenAnswer) === JSON.stringify(correctAnswer)) {
+                        correctAnswers++;
+                        answerArea.style.backgroundColor = '#98FB98'; // Pale green
+                        feedbackElement.textContent = '😃';
+                        feedbackElement.className = 'feedback correct';
+                    } else {
+                        answerArea.style.backgroundColor = '#FFA07A'; // Light salmon
+                        feedbackElement.textContent = '❌';
+                        feedbackElement.className = 'feedback incorrect';
+                    }
+                } else {
+                    answerArea.style.backgroundColor = '#FFFACD'; // Lemon chiffon
+                    feedbackElement.textContent = '';
+                    feedbackElement.className = 'feedback';
+                }
+            });
+            
+            showModal(`You got ${correctAnswers} out of ${exercises.length} correct!`);
+        }
+
+        function showModal(message) {
+            const modal = document.getElementById('resultModal');
+            const modalText = document.getElementById('modalText');
+            modalText.textContent = message;
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('resultModal');
+            modal.style.display = 'none';
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('resultModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Toggle operator buttons
+        document.querySelectorAll('.operator-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.classList.toggle('selected');
+            });
+        });
+
+        // Generate initial exercises when the page loads
+        generateExercises();
+    </script>
+</body>
+</html>
