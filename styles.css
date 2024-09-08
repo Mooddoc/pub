@@ -158,12 +158,15 @@
 	    margin: 10px 0;
 	    margin-top: 20px; /* Add space above the button */
 	}
-	
-
-
         button:hover {
             background-color: #ff5722;
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+        button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
 	.progress-bar-container {
@@ -293,4 +296,64 @@
         .modal-button:hover {
             background-color: #0097a7;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* --------------- Word Bubble --------------- */
+        .word {
+            padding: 5px 10px;
+            background-color: #e3f2fd;
+            border-radius: 15px;
+            font-weight: 700;
+            color: #1565c0;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .word.found {
+            text-decoration: line-through;
+            opacity: 0.5;
+            background-color: #c8e6c9;
+        }
+        .word .translation {
+            font-size: 0.8em;
+            color: #4caf50;
+        }
+
+        /* --------------- Practice-Word --------------- */
+       #message {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #1565c0;
+            font-size: 1.2em;
+        }
+        #continueButton {
+            display: none;
+            margin-top: 15px;
+            background: linear-gradient(45deg, #ffa726, #fb8c00);
+        }
+        #word-practice {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .practice-word {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .practice-word input {
+            margin-top: 5px;
+            padding: 5px;
+            border: 2px solid #bbdefb;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .practice-word input.correct {
+            background-color: #c8e6c9;
+        }
+        .practice-word input.incorrect {
+            background-color: #ffcdd2;
         }
