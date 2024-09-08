@@ -357,3 +357,9 @@
         .practice-word input.incorrect {
             background-color: #ffcdd2;
         }
+        #practice-instructions {
+            text-align: center;
+            font-weight: bold;
+            color: #1565c0;
+            margin-bottom: 15px;
+        }
