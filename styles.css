@@ -83,9 +83,9 @@ body, html {
             user-select: none;
             transition: background-color 0.3s;
         }
+
         .word-bubble:hover {
             background-color: #2ecc71;
-            color: white;
         }
 
         input[type="text"], select {
