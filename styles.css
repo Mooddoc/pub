@@ -72,6 +72,22 @@ body, html {
             border-radius: 10px;
         }
 
+        .word-bubble {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 5px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.3s;
+        }
+        .word-bubble:hover {
+            background-color: #2ecc71;
+            color: white;
+        }
+
         input[type="text"], select {
             font-family: inherit;
             font-size: inherit;
