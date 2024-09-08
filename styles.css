@@ -54,7 +54,16 @@
 	    flex-grow: 1;
 	}
 
-        .side-panel {
+	.quiz-container > button {
+	    display: block;
+	    margin: 20px auto;
+	}
+
+	.quiz-container > button:last-child {
+	    margin-top: auto;
+	}        
+
+	.side-panel {
             flex: 1;
             background-color: #00acc1;
             color: white;
@@ -137,59 +146,51 @@
 
         }
 
-button {
-    background-color: #ff7f50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s, box-shadow 0.3s;
-    margin: 10px 0;
-    margin-top: 20px; /* Add space above the button */
-}
+	button {
+	    background-color: #ff7f50;
+	    color: white;
+	    border: none;
+	    padding: 10px 20px;
+	    border-radius: 5px;
+	    cursor: pointer;
+	    font-size: 16px;
+	    transition: background-color 0.3s, box-shadow 0.3s;
+	    margin: 10px 0;
+	    margin-top: 20px; /* Add space above the button */
+	}
+	
 
-.quiz-container > button {
-    display: block;
-    margin: 20px auto;
-}
-
-/* Ensure the button stays at the bottom of the quiz container */
-.quiz-container > button:last-child {
-    margin-top: auto;
-}
 
         button:hover {
             background-color: #ff5722;
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
         }
 
-.progress-bar-container {
-    width: 100%;
-    background-color: #ff7f50;  /* The unfilled part of the bar */
-    border-radius: 10px;
-    margin: 10px 0;
-    height: 30px;
-    overflow: hidden;
-    position: relative;
-}
-
-.progress-bar {
-    width: 0%;
-    height: 100%;
-    background-color: #00acc1;  /* The filled part of the bar */
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
-    transition: width 0.3s ease-in-out;
-    position: absolute;
-    left: 0;
-    top: 0;
-}
+	.progress-bar-container {
+	    width: 100%;
+	    background-color: #ff7f50;  /* The unfilled part of the bar */
+	    border-radius: 10px;
+	    margin: 10px 0;
+	    height: 30px;
+	    overflow: hidden;
+	    position: relative;
+	}
+	
+	.progress-bar {
+	    width: 0%;
+	    height: 100%;
+	    background-color: #00acc1;  /* The filled part of the bar */
+	    border-radius: 10px;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    color: white;
+	    font-weight: bold;
+	    transition: width 0.3s ease-in-out;
+	    position: absolute;
+	    left: 0;
+	    top: 0;
+	}
 
         .result {
             font-weight: bold;
