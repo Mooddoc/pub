@@ -116,6 +116,11 @@ button {
     margin-top: 20px; /* Add space above the button */
 }
 
+.quiz-container > button {
+    display: block;
+    margin: 20px auto;
+}
+
 /* Ensure the button stays at the bottom of the quiz container */
 .quiz-container > button:last-child {
     margin-top: auto;
