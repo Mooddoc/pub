@@ -94,6 +94,15 @@ body, html {
             border-bottom-color: #ff7f50;
         }
 
+        .stage-number {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ff7f50;
+
+        }
+
 button {
     background-color: #ff7f50;
     color: white;
