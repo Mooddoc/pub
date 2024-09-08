@@ -4,189 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sentence Ordering Game - A1</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
-        
-        body, html {
-            margin: 0;
-            padding: 0;
-            font-family: 'Quicksand', sans-serif;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            background-color: #f9e8d4;
-            min-height: 100%;
-            height: auto;
-        }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+	    <link rel="stylesheet" href="http://www.ez42.live/styles.css"> <!-- Link to external CSS file -->
 
-        .page-container {
-            display: flex;
-            max-width: 1500px;
-            width: 100%;
-            padding: 20px;
-            gap: 20px;
-            min-height: 100vh;
-        }
-
-        .quiz-container {
-            flex: 2.2;
-            background-color: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .side-panel {
-            flex: 1;
-            background-color: #00acc1;
-            color: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            align-self: flex-start;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .side-panel h2 {
-            color: white;
-            margin-top: 0;
-            text-align: center;
-        }
-
-        h1 {
-            text-align: center;
-            color: #00acc1;
-        }
-
-        .stage-number {
-            font-size: 24px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 20px;
-            color: #ff7f50;
-        }
-
-        .progress-bar-container {
-            width: 100%;
-            background-color: #ff7f50;
-            border-radius: 10px;
-            margin: 10px 0;
-            height: 30px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .progress-bar {
-            width: 0%;
-            height: 100%;
-            background-color: #00acc1;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            transition: width 0.3s ease-in-out;
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-
-        .attempts-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-            margin-bottom: 20px;
-            font-size: 18px;
-            color: #ff7f50;
-        }
-
-        .question-container {
-            margin-bottom: 20px;
-            background-color: rgba(224, 247, 250, 0.8);
-            padding: 15px;
-            border-radius: 10px;
-        }
-
-        .word-bubble {
-            display: inline-block;
-            padding: 10px 15px;
-            margin: 5px;
-            background-color: #3498db;
-            color: white;
-            border-radius: 20px;
-            cursor: pointer;
-            user-select: none;
-            transition: background-color 0.3s;
-        }
-
-        .word-bubble:hover {
-            background-color: #2ecc71;
-        }
-
-        #check-answer {
-            background-color: #ff7f50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s, box-shadow 0.3s;
-            margin: 20px auto;
-            display: block;
-        }
-
-        #check-answer:hover {
-            background-color: #ff5722;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-        }
-
-        .feedback {
-            font-weight: bold;
-            margin-top: 10px;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 500px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-    </style>
+	
 </head>
 <body>
     <div class="page-container">
@@ -209,9 +30,9 @@
                 <div id="attempts">Attempts this Stage: 0</div>
                 <div class="global-attempts">Total Attempts: <span id="global-attempts-count">0</span></div>
             </div>
-            
+			
             <div id="quiz-content"></div>
-            <button id="check-answer" onclick="checkStage()">Check Answers</button>
+			<button onclick="checkStage()">Check Answers</button>
         </div>
         
         <div class="side-panel">
@@ -223,11 +44,13 @@
             </ol>
         </div>
     </div>
-
+    
+    <!-- Modal -->
     <div id="myModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <p id="modal-message"></p>
+            <span class="close-button">&times;</span>
+            <p id="modal-text"></p>
+            <button class="modal-button" onclick="closeModal()">OK</button>
         </div>
     </div>
 
@@ -476,23 +299,27 @@ const quizData = [
 ];
 
 
+
         let attempts = 0;
-        let globalAttempts = 0;
         let currentStage = 1;
         const stageCount = quizData.length;
 
         function renderQuiz() {
+            console.log("Rendering quiz for stage:", currentStage);
             const quizContainer = document.getElementById("quiz-content");
+            console.log("Quiz container:", quizContainer);
             quizContainer.innerHTML = '';
+            console.log("Quiz data for current stage:", quizData[currentStage - 1]);
+
             quizData[currentStage - 1].forEach((question, index) => {
                 const words = shuffleArray(question.words.split(" / "));
                 const wordBubbles = words.map(word => `<div class="word-bubble" draggable="true">${word}</div>`).join('');
                 const questionElement = document.createElement("div");
-                questionElement.className = "question-container";
+                questionElement.className = "question";
                 
                 questionElement.innerHTML = `
                     <div class="word-container" id="word-container${index}">${wordBubbles}</div>
-                    <div id="feedback${index}" class="feedback"></div>
+                    <div class="result" id="result${index}"></div>
                 `;
 
                 quizContainer.appendChild(questionElement);
@@ -500,6 +327,7 @@ const quizData = [
 
             setupDragAndDrop();
             updateStageNumber();
+            console.log("Quiz rendering complete");
         }
 
         function setupDragAndDrop() {
@@ -551,9 +379,7 @@ const quizData = [
 
         function checkStage() {
             attempts++;
-            globalAttempts++;
-            document.getElementById("attempts").textContent = `Attempts this Stage: ${attempts}`;
-            document.getElementById("global-attempts-count").textContent = globalAttempts;
+            document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
 
             let correctCount = 0;
 
@@ -562,30 +388,31 @@ const quizData = [
                 const words = Array.from(wordContainer.getElementsByClassName('word-bubble'));
                 const userAnswer = words.map(word => word.textContent).join(' ');
 
-                const feedback = document.getElementById(`feedback${index}`);
+                const resultElement = document.getElementById(`result${index}`);
                 if (userAnswer.toLowerCase() === question.correctAnswer.toLowerCase()) {
-                    feedback.textContent = "Correct!";
-                    feedback.style.color = "green";
+                    resultElement.textContent = "Correct!";
+                    resultElement.style.color = "green";
                     correctCount++;
                 } else {
-                    feedback.textContent = "Try again!";
-                    feedback.style.color = "red";
+                    resultElement.textContent = "Incorrect. Try again!";
+                    resultElement.style.color = "red";
                     if (attempts >= 10) {
-                        feedback.textContent += ` The correct order is: ${question.correctAnswer}`;
+                        resultElement.textContent += ` The correct answer is: ${question.correctAnswer}`;
                     }
                 }
             });
 
             if (correctCount === quizData[currentStage - 1].length) {
+                showConfetti();
                 if (currentStage < stageCount) {
-                    showModal("Great job! Moving to the next stage.");
                     setTimeout(() => {
                         currentStage++;
                         attempts = 0;
                         updateProgressBar();
                         renderQuiz();
-                        document.getElementById("attempts").textContent = `Attempts this Stage: ${attempts}`;
-                    }, 2000);
+                        document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+                        showModal("Great job! Moving to the next stage.");
+                    }, 3000);
                 } else {
                     updateProgressBar();
                     showModal("Congratulations! You've completed all stages!");
@@ -593,6 +420,8 @@ const quizData = [
             } else if (attempts >= 10) {
                 showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
             }
+
+            scrollToTop();
         }
 
         function updateProgressBar() {
@@ -606,38 +435,67 @@ const quizData = [
             document.getElementById("stage-number").textContent = currentStage;
         }
 
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
+function showConfetti() {
+    const confettiContainer = document.createElement("div");
+    confettiContainer.className = "confetti";
+    document.body.appendChild(confettiContainer);
 
-        function showModal(message) {
-            const modal = document.getElementById("myModal");
-            const modalMessage = document.getElementById("modal-message");
-            modalMessage.textContent = message;
-            modal.style.display = "block";
-        }
+    for (let i = 0; i < 100; i++) {
+        const confettiPiece = document.createElement("div");
+        confettiPiece.className = "confetti-piece";
+        confettiPiece.style.left = `${Math.random() * 100}%`;
+        confettiPiece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+        confettiContainer.appendChild(confettiPiece);
+    }
 
-        // Close the modal when clicking on <span> (x)
-        document.querySelector(".close").onclick = function() {
-            document.getElementById("myModal").style.display = "none";
-        }
+    setTimeout(() => {
+        document.body.removeChild(confettiContainer);
+    }, 3000);
+}
 
-        // Close the modal when clicking outside of it
-        window.onclick = function(event) {
-            const modal = document.getElementById("myModal");
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
-        document.addEventListener('DOMContentLoaded', function() {
-            renderQuiz();
-            updateProgressBar();
-        });
-    </script>
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function showModal(message) {
+    const modal = document.getElementById("myModal");
+    const modalText = document.getElementById("modal-text");
+    modalText.textContent = message;
+    modal.style.display = "block";
+}
+
+function closeModal() {
+    const modal = document.getElementById("myModal");
+    modal.style.display = "none";
+}
+
+// Close the modal when clicking outside of it
+window.onclick = function(event) {
+    const modal = document.getElementById("myModal");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+// Close the modal when clicking the close button
+document.querySelector(".close-button").onclick = function() {
+    closeModal();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM fully loaded");
+    renderQuiz();
+    updateProgressBar();
+});
+</script>
+
 </body>
 </html>
