@@ -186,6 +186,15 @@ button {
             margin-top: 10px;
         }
 
+        .attempts-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #ff7f50;
+        }
+
         #attempts {
             text-align: center;
             font-size: 18px;
