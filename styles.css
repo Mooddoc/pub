@@ -363,3 +363,40 @@
             color: #1565c0;
             margin-bottom: 15px;
         }
+
+        /* --------------- Word Puzzle --------------- */
+       #word-search {
+            display: grid;
+            grid-template-columns: repeat(12, 45px);
+            gap: 3px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .letter {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #e3f2fd;
+            border: 2px solid #bbdefb;
+            cursor: pointer;
+            user-select: none;
+            font-weight: 700;
+            font-size: 1.2em;
+            color: #1565c0;
+            transition: all 0.2s;
+        }
+        .letter:hover {
+            background-color: #bbdefb;
+            transform: scale(1.1);
+        }
+        .letter.selected {
+            background-color: #2196f3;
+            color: white;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
