@@ -8,82 +8,122 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9610203984741349"
      crossorigin="anonymous"></script>
 
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
 
-    
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap');
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Quicksand', sans-serif;
+    background-color: #f9e8d4;
+    min-height: 100vh;
+}
 
-        body {
-            font-family: 'Nunito', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            background-image: linear-gradient(
-                45deg, 
-                #FFC300, #4CAF50, #3498DB
-            );
-            background-size: 300% 300%;
-            animation: gradient 15s ease infinite;
-        }
-        @keyframes gradient {
-            0% {background-position: 0% 50%;}
-            50% {background-position: 100% 50%;}
-            100% {background-position: 0% 50%;}
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1 {
-            font-family: 'Fredoka One', cursive;
-            text-align: center;
-            color: #FFFFFF;
-            margin-bottom: 20px;
-            font-size: 3em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-        .menu-section {
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-        .menu-section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-        h2 {
-            font-family: 'Fredoka One', cursive;
-            color: #4CAF50;
-            border-bottom: 2px solid #FFC300;
-            padding-bottom: 5px;
-            margin-top: 0;
-        }
-        ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-        a {
-            color: #3498DB;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        a:hover {
-            color: #FFC300;
-            text-decoration: underline;
-        }
-    </style>
+.container {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    font-family: 'Quicksand', sans-serif;
+    text-align: center;
+    color: #00acc1;
+    margin-bottom: 20px;
+    font-size: 3em;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.menu-section {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.menu-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+h2 {
+    font-family: 'Quicksand', sans-serif;
+    color: #ff7f50;
+    border-bottom: 2px solid #ffd54f;
+    padding-bottom: 5px;
+    margin-top: 0;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+a {
+    color: #00acc1;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #ff7f50;
+    text-decoration: underline;
+}
+
+button {
+    background-color: #ff7f50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    margin: 10px 0;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #ff5722;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+button:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+@media (max-width: 1200px) {
+    .grid-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
 </head>
 <body>
     <div class="container">
@@ -122,7 +162,6 @@
                     <li><a href="ConditionalSentencesVocabularyGameA1.html">Conditional Sentences - A1</a></li>
                     <li><a href="WordPuzzleA1.html">Word Puzzles - A2</a></li>
                     <li><a href="WordPuzzleA2.html">Word Puzzles - A1</a></li>
-                    
                 </ul>
             </div>
 
@@ -155,7 +194,6 @@
                 <ul>
                     <li><a href="DaysandMonthsVocabularyA1A2.html">Days and Months Vocabulary - A1 & A2</a></li>
                     <li><a href="TimesVocabularyA1A2.html">Times Vocabulary - A1 & A2</a></li>
-                    
                     <li><a href="GeneralQuestionsGameA1.html">General Knowledge - A1</a></li>
                     <li><a href="GeneralQuestionsGameA2.html">General Knowledge - A2</a></li>
                     <li><a href="EngBookRead1.html">English Story - Danni</a></li>
@@ -165,7 +203,6 @@
             <div class="menu-section">
                 <h2>For Skye (Kindergarten)</h2>
                 <ul>
-                    
                     <li><a href="Math1.html">חיבור וחיסור 2</a></li>
                     <li><a href="Math1.html">חיבור וחיסור 1</a></li>
                     <li><a href="yashar.html">ישר המספרים לסקיי</a></li>
