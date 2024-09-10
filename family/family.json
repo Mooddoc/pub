@@ -1,0 +1,29 @@
+{
+  "family": [
+    {
+      "name": "John Smith",
+      "age": 42,
+      "height": 180
+    },
+    {
+      "name": "Sarah Smith",
+      "age": 39,
+      "height": 165
+    },
+    {
+      "name": "Tommy Smith",
+      "age": 15,
+      "height": 170
+    },
+    {
+      "name": "Emma Smith",
+      "age": 12,
+      "height": 155
+    },
+    {
+      "name": "Lily Smith",
+      "age": 5,
+      "height": 110
+    }
+  ]
+}
