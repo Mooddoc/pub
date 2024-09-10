@@ -433,3 +433,34 @@
         .result-text {
             color: white;
         }
+        /* --------------- table of numbers --------------- */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        label {
+            display: inline-block;
+            width: 60%;
+            text-align: right;
+        }
+
+        .math-left-align {
+            direction: ltr;
+            text-align: left;
+        }
+        .math-left-align label {
+            width: 70%;
+            text-align: left;
+        }
+        .math-left-align input[type="text"] {
+            width: 20%;
+        }
