@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מספר קודם ומספר עוקב</title>
+    <style>
+        body {
+            background-color: #f0f8ff;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            direction: rtl;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #3b5998;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .content {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .numbers {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+            font-size: 2.5em;
+        }
+        .numbers p {
+            margin: 0;
+        }
+        .numbers .emphasized {
+            font-weight: bold;
+            color: #d9534f;
+        }
+        .arrow {
+            font-size: 2em;
+            color: #5bc0de;
+        }
+        p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>מספר קודם ומספר עוקב</h1>
+    <div class="content">
+        <p><strong>מספר קודם = </strong>המספר שבא קודם. כדי למצוא אותו נחסר 1.</p>
+        <p><strong>מספר עוקב (ף) = </strong>המספר שבא אחרי. כדי למצוא אותו נוסיף 1.</p>
+        <p>כיצד נמצא מספר קודם במספרים עם אפסים - </p>
+        <p>כל האפסים יהפכו ל-9 ומהמספר שקרוב לאפסים נחסיר 1</p>
+        <div class="numbers">
+            <p>4<span class="emphasized">5</span>,000</p>
+            <span class="arrow">←</span>
+            <p>4<span class="emphasized">4</span>,999</p>
+        </div>
+        <p>כאשר המספר הקרוב לאפסים הוא <span class="emphasized">1</span>, הוא פשוט יימחק.</p>
+
+        <div class="numbers">
+            <p><span class="emphasized">1</span>0,000</p>
+            <span class="arrow">←</span>
+            <p>9,999</p>
+        </div>
+
+        <p><strong>כיצד נמצא מספר עוקב (ף) במספרים עם תשיעיות (99999) –</strong> כל התשיעיות יהפכו לאפסים והמספר שקרוב לתשיעיות יגדל ב-<span class="emphasized">1</span>.</p>
+
+        <div class="numbers">
+            <p>4<span class="emphasized">5</span>,999</p>
+            <span class="arrow">←</span>
+            <p>4<span class="emphasized">6</span>,000</p>
+        </div>
+
+        <div class="numbers">
+            <p>999,999<span class="emphasized">(0)</span></p>
+            <span class="arrow">←</span>
+            <p><span class="emphasized">1</span>,000,000</p>
+        </div>
+    </div>
+            <p>עמוד 1</p>
+</body>
+</html>
+
