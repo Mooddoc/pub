@@ -141,8 +141,8 @@
     }
 
     .question p {
-        text-align: left;
-        direction: ltr;
+        text-align: left !important;
+        direction: ltr !important;
         width: 100%;  /* Ensures the question text takes full width */
     }
 
