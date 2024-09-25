@@ -1,0 +1,353 @@
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
+    
+    :root {
+        font-size: 16px;
+    }
+
+    body, html {
+	    direction: rtl;
+        margin: 0;
+        padding: 0;
+        font-family: 'Quicksand', sans-serif;
+        background-color: #f0f0f0;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+
+    .page-container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 1rem;
+        box-sizing: border-box;
+        min-height: 100vh;
+    }
+
+    .content-wrapper {
+        display: flex;
+        width: 100%;
+        max-width: 1800px;
+        gap: 1rem;
+        flex: 1;
+    }
+
+    .side-panel {
+        background-color: #00acc1;
+        color: white;
+        border-radius: 0.625rem;
+        padding: 1rem;
+        box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
+        flex: 0 0 calc(20% - 0.5rem);
+        max-width: calc(20% - 0.5rem);
+        transition: flex 0.3s ease, max-width 0.3s ease;
+        overflow-y: auto;
+        max-height: 90vh;
+		padding-left: 0;
+        padding-right: 1rem;
+    }
+
+    .quiz-container {
+        background-color: white;
+        border-radius: 0.625rem;
+        padding: 1rem;
+        box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
+        flex: 1;
+        min-width: 0;
+        transition: flex 0.3s ease;
+        min-height: 800px;
+    }
+
+    .side-panel h2 {
+        color: white;
+        margin-top: 0;
+        text-align: center;
+        font-size: 1.25rem;
+    }
+
+    .quiz-container h1 {
+        color: black;
+        text-align: center;
+        font-size: 2rem;
+    }
+
+    .quiz-container h2 {
+        color: #ff7f50;
+        text-align: center;
+        font-size: 1.5rem;
+    }
+
+    .switch-container {
+        display: flex;
+        justify-content: center;
+        margin: 1rem 0;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-flex;
+        background-color: #f9e8d4;
+        border-radius: 1.5625rem;
+        padding: 0.3125rem;
+        cursor: pointer;
+        box-shadow: inset 0 0.0625rem 0.1875rem rgba(0,0,0,0.2);
+        height: 3.125rem;
+        width: auto;
+        max-width: 100%;
+    }
+
+    .switch-labels {
+        display: flex;
+        position: relative;
+        z-index: 2;
+    }
+
+    .switch-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: #37474f;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+        padding: 0 1rem;
+        font-size: 0.875rem;
+    }
+
+    .switch-label.active {
+        color: #ffffff;
+    }
+
+    .switch-handle {
+        position: absolute;
+        top: 0.3125rem;
+        height: calc(100% - 0.625rem);
+        background-color: #00acc1;
+        border-radius: 1.25rem;
+        transition: all 0.3s ease;
+        z-index: 1;
+    }
+
+    .question {
+        margin-bottom: 1rem;
+        background-color: rgba(224, 247, 250, 0.8);
+        padding: 0.8rem;
+        border-radius: 0.625rem;
+		display: flex;
+        flex-direction: column;
+        align-items: flex-start;  /* Aligns children to the left */
+    }
+
+    .question p {
+        text-align: left;
+        direction: ltr;
+        width: 100%;  /* Ensures the question text takes full width */
+    }
+
+    .question::after {      /* Clear float if needed */
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    .options {
+        align-self: flex-start;  /* Aligns the options container to the left */
+        width: 100%;  /* Full width to allow alignment */
+    }
+	
+    .question select {
+        direction: ltr;
+        text-align: left;
+        padding-right: 1.5rem; /* Space for the arrow on the right */
+        padding-left: 0.5rem; /* Adjust left padding as needed */
+        background-position: right 0.625rem center; /* Move arrow to the right */
+        float: left; /* Keep this to align the select to the left of its container */
+    }
+
+    select {
+        font-family: inherit;
+        font-size: 1rem;
+        padding: 0.5rem;
+        padding-right: 0.5rem;
+        padding-left: 1.5rem;
+        border: none;
+        border-radius: 0.3125rem;
+        border-bottom: 0.125rem solid #00acc1;
+        background-color: transparent;
+        color: #37474f;
+        width: 100%;
+        max-width: 9.375rem;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: left 0.625rem center;
+        background-size: 0.75rem;
+    }
+
+    .stage-number {
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 1rem;
+        color: #ff7f50;
+    }
+
+    button {
+        background-color: #ff7f50;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.3125rem;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s, box-shadow 0.3s;
+        margin: 0.5rem 0;
+    }
+
+    .progress-bar-container {
+        width: 100%;
+        background-color: #ff7f50;
+        border-radius: 0.625rem;
+        margin: 0.5rem 0;
+        height: 1.875rem;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .progress-bar {
+        width: 0%;
+        height: 100%;
+        background-color: #00acc1;
+        border-radius: 0.625rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        transition: width 0.3s ease-in-out;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    #attempts {
+        text-align: center;
+        font-size: 1.125rem;
+        margin-bottom: 0.5rem;
+        color: #ff7f50;
+    }
+
+    @media (max-width: 75rem) {
+        .content-wrapper {
+            flex-direction: column;
+        }
+        .side-panel, .quiz-container {
+            flex: 1 1 100%;
+            max-width: 100%;
+        }
+    }
+
+    @media (min-width: 120rem) {
+        :root {
+            font-size: 18px;
+        }
+    }
+
+    @media (min-width: 160rem) {
+        :root {
+            font-size: 20px;
+        }
+    }
+
+    @media screen and (min-resolution: 192dpi) {
+        :root {
+            font-size: 14px;
+        }
+    }
+
+    #copyright-container {
+        text-align: center;
+        padding: 1rem;
+        background-color: #f0f0f0;
+        width: 100%;
+        font-size: 0.875rem;
+        color: #666;
+    }
+
+    .emoji-list {
+        list-style-type: none;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .emoji-list li {
+        font-size: 1.6rem;
+    }
+
+    ol {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    /* Modal Styles */
+    .modal-quiz {
+        display: none;
+        position: fixed;
+        z-index: 10000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+    }
+    .modal-quiz-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .modal-quiz-close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .modal-quiz-close:hover,
+    .modal-quiz-close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    .modal-quiz-button {
+        background-color: #00acc1;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+        transition: background-color 0.3s, box-shadow 0.3s;
+    }
+    .modal-quiz-button:hover {
+        background-color: #0097a7;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+	
+.center-button {
+    display: block;
+    margin: 1rem auto;
+}
+	
