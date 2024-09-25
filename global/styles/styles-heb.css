@@ -346,8 +346,23 @@
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
 	
-.center-button {
-    display: block;
-    margin: 1rem auto;
-}
+    .center-button {
+        display: block;
+        margin: 1rem auto;
+    }
+
+	.logo-container {
+	    position: relative;
+	    width: 100%;
+	    height: 100px; /* Adjust as needed */
+	}
+	
+	.logo-image {
+	    position: absolute;
+	    top: 50%;
+	    left: 50%;
+	    transform: translate(-50%, -50%);
+	    width: 50%;
+	    height: auto;
+	}
 	
