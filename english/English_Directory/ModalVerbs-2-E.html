@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <title>EZ42 LIVE - It's EZ</title>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read each question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title : A1 - 📗 Green, A2 - 📘 Blue, 📕 Red, 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray -->	
+                <h1>Modal Verbs - 📘</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 1;
+
+        const quizData = [ 												<!--  PH3 - Quiz Data   -->	
+// Stage 1
+[
+  { "question": "She ___ (to speak) three languages fluently.", "options": ["must", "should", "can", "might"], "answer": 2 },
+  { "question": "You ___ (to finish) your homework before playing games.", "options": ["might", "must", "can", "should"], "answer": 1 },
+  { "question": "They ___ (to be) at the cafe; I'm not sure.", "options": ["should", "can", "might", "must"], "answer": 0 },
+  { "question": "We ___ (to visit) the new museum this weekend.", "options": ["can", "might", "should", "must"], "answer": 2 },
+  { "question": "He ___ (to apologize) for his mistake.", "options": ["should", "might", "must", "can"], "answer": 0 }
+],
+// Stage 2
+[
+  { "question": "He ___ (to play) the guitar beautifully.", "options": ["might", "can", "should", "must"], "answer": 1 },
+  { "question": "You ___ (to take) an umbrella; it might rain.", "options": ["must", "should", "can", "might"], "answer": 1 },
+  { "question": "They ___ (to come) to the party, but they haven't decided yet.", "options": ["can", "might", "must", "should"], "answer": 0 },
+  { "question": "We ___ (to leave) early to avoid traffic.", "options": ["should", "must", "can", "might"], "answer": 0 },
+  { "question": "She ___ (to visit) her grandmother more often.", "options": ["must", "should", "might", "can"], "answer": 1 }
+],
+// Stage 3
+[
+  { "question": "They ___ (to attend) the meeting if they have time.", "options": ["should", "must", "can", "might"], "answer": 3 },
+  { "question": "We ___ (to submit) the report by Monday.", "options": ["might", "can", "should", "must"], "answer": 2 },
+  { "question": "You ___ (to call) her; she's waiting.", "options": ["can", "should", "must", "might"], "answer": 0 },
+  { "question": "He ___ (to finish) his work before leaving.", "options": ["must", "might", "can", "should"], "answer": 3 },
+  { "question": "She ___ (to be) at the office now.", "options": ["can", "might", "should", "must"], "answer": 2 }
+],
+// Stage 4
+[
+  { "question": "You ___ (to wear) a coat; it's cold outside.", "options": ["must", "should", "can", "might"], "answer": 0 },
+  { "question": "They ___ (to be) on their way now.", "options": ["can", "must", "might", "should"], "answer": 2 },
+  { "question": "We ___ (to try) that new café downtown.", "options": ["should", "must", "might", "can"], "answer": 0 },
+  { "question": "He ___ (to have) left already.", "options": ["might", "can", "must", "should"], "answer": 0 },
+  { "question": "She ___ (to practice) more to improve.", "options": ["can", "should", "must", "might"], "answer": 1 }
+],
+// Stage 5
+[
+  { "question": "I ___ (to forget) her name; I'm not sure.", "options": ["should", "might", "can", "must"], "answer": 1 },
+  { "question": "They ___ (to follow) the rules strictly.", "options": ["can", "must", "should", "might"], "answer": 1 },
+  { "question": "We ___ (to take) a taxi to save time.", "options": ["must", "should", "might", "can"], "answer": 3 },
+  { "question": "You ___ (to be) hungry after the trip.", "options": ["must", "can", "might", "should"], "answer": 2 },
+  { "question": "He ___ (to finish) his work before leaving.", "options": ["might", "must", "should", "can"], "answer": 1 }
+],
+// Stage 6
+[
+  { "question": "She ___ (to attend) the meeting if she feels better.", "options": ["must", "can", "might", "should"], "answer": 2 },
+  { "question": "You ___ (to submit) the report by Monday.", "options": ["should", "might", "must", "can"], "answer": 0 },
+  { "question": "They ___ (to join) us for dinner.", "options": ["can", "should", "must", "might"], "answer": 1 },
+  { "question": "We ___ (to leave) early to avoid traffic.", "options": ["might", "must", "can", "should"], "answer": 3 },
+  { "question": "He ___ (to know) the answer to that question.", "options": ["must", "might", "should", "can"], "answer": 2 }
+],
+// Stage 7
+[
+  { "question": "They ___ (to finish) their work by noon.", "options": ["must", "might", "should", "can"], "answer": 0 },
+  { "question": "We ___ (to go) to the beach if the weather is nice.", "options": ["should", "can", "must", "might"], "answer": 0 },
+  { "question": "He ___ (to be) at home; the lights are on.", "options": ["can", "must", "might", "should"], "answer": 2 },
+  { "question": "She ___ (to call) her mother more often.", "options": ["might", "should", "can", "must"], "answer": 1 },
+  { "question": "You ___ (to read) this book; it's excellent.", "options": ["must", "can", "might", "should"], "answer": 3 }
+],
+// Stage 8
+[
+  { "question": "I ___ (to buy) a new car next year.", "options": ["must", "might", "can", "should"], "answer": 1 },
+  { "question": "They ___ (to be) very tired after the trip.", "options": ["should", "can", "must", "might"], "answer": 2 },
+  { "question": "We ___ (to help) them if they ask.", "options": ["can", "should", "might", "must"], "answer": 0 },
+  { "question": "He ___ (to arrive) late due to traffic.", "options": ["must", "might", "can", "should"], "answer": 1 },
+  { "question": "She ___ (to study) harder for the exam.", "options": ["should", "must", "might", "can"], "answer": 0 }
+],
+// Stage 9
+[
+  { "question": "He ___ (to take) a break; he's been working all day.", "options": ["must", "should", "can", "might"], "answer": 1 },
+  { "question": "They ___ (to arrive) any minute now.", "options": ["should", "might", "can", "must"], "answer": 0 },
+  { "question": "We ___ (to book) our tickets soon.", "options": ["can", "must", "might", "should"], "answer": 3 },
+  { "question": "She ___ (to know) the answer.", "options": ["can", "might", "should", "must"], "answer": 0 },
+  { "question": "You ___ (to finish) your work before leaving.", "options": ["might", "can", "must", "should"], "answer": 3 }
+],
+// Stage 10
+[
+  { "question": "You ___ (to help) your brother with his homework.", "options": ["should", "can", "must", "might"], "answer": 0 },
+  { "question": "They ___ (to arrive) late if they miss the bus.", "options": ["can", "might", "must", "should"], "answer": 1 },
+  { "question": "We ___ (to finish) this project by tomorrow.", "options": ["should", "might", "must", "can"], "answer": 2 },
+  { "question": "She ___ (to play) the piano very well.", "options": ["must", "might", "should", "can"], "answer": 3 },
+  { "question": "He ___ (to go) to the doctor if he feels sick.", "options": ["should", "can", "must", "might"], "answer": 0 }
+],
+// Stage 11
+[
+  { "question": "We ___ (to take) an umbrella; it looks like rain.", "options": ["should", "can", "must", "might"], "answer": 0 },
+  { "question": "He ___ (to be) the one who called earlier.", "options": ["might", "should", "can", "must"], "answer": 0 },
+  { "question": "She ___ (to speak) French after living in Paris.", "options": ["must", "can", "might", "should"], "answer": 1 },
+  { "question": "They ___ (to finish) their work today.", "options": ["can", "must", "should", "might"], "answer": 1 },
+  { "question": "You ___ (to apologize) for the mistake.", "options": ["must", "might", "can", "should"], "answer": 0 }
+],
+// Stage 12
+[
+  { "question": "I ___ (to visit) my grandparents this weekend.", "options": ["should", "might", "can", "must"], "answer": 1 },
+  { "question": "You ___ (to listen) carefully to the instructions.", "options": ["must", "can", "should", "might"], "answer": 0 },
+  { "question": "He ___ (to be) at the gym now.", "options": ["might", "must", "can", "should"], "answer": 0 },
+  { "question": "We ___ (to book) our flights soon.", "options": ["can", "should", "might", "must"], "answer": 1 },
+  { "question": "They ___ (to arrive) on time if they left early.", "options": ["might", "should", "must", "can"], "answer": 0 }
+],
+// Stage 13
+[
+  { "question": "She ___ (to finish) her assignment tonight.", "options": ["must", "can", "should", "might"], "answer": 2 },
+  { "question": "They ___ (to go) to the concert if they get tickets.", "options": ["might", "must", "can", "should"], "answer": 2 },
+  { "question": "He ___ (to be) at the office; his car is there.", "options": ["can", "should", "might", "must"], "answer": 0 },
+  { "question": "We ___ (to leave) now to catch the train.", "options": ["must", "might", "can", "should"], "answer": 0 },
+  { "question": "You ___ (to try) the new café downtown.", "options": ["should", "can", "must", "might"], "answer": 0 }
+],
+// Stage 14
+[
+  { "question": "He ___ (to have) forgotten the meeting.", "options": ["might", "must", "should", "can"], "answer": 0 },
+  { "question": "We ___ (to submit) the report by Friday.", "options": ["can", "should", "must", "might"], "answer": 2 },
+  { "question": "She ___ (to speak) Spanish after her classes.", "options": ["must", "can", "should", "might"], "answer": 1 },
+  { "question": "They ___ (to be) lost; they aren't answering.", "options": ["can", "might", "should", "must"], "answer": 1 },
+  { "question": "You ___ (to finish) your vegetables.", "options": ["should", "must", "might", "can"], "answer": 1 }
+],
+// Stage 15
+[
+  { "question": "They ___ (to have) taken a wrong turn.", "options": ["might", "must", "should", "can"], "answer": 1 },
+  { "question": "He ___ (to practice) more to improve.", "options": ["should", "can", "might", "must"], "answer": 0 },
+  { "question": "We ___ (to wait) here until they arrive.", "options": ["can", "must", "should", "might"], "answer": 0 },
+  { "question": "She ___ (to be) at the library studying.", "options": ["might", "should", "can", "must"], "answer": 2 },
+  { "question": "You ___ (to tell) him the truth.", "options": ["must", "might", "can", "should"], "answer": 0 }
+],
+// Stage 16
+[
+  { "question": "I ___ (to call) her later to check in.", "options": ["must", "might", "should", "can"], "answer": 1 },
+  { "question": "You ___ (to wear) a helmet when cycling.", "options": ["should", "can", "must", "might"], "answer": 0 },
+  { "question": "They ___ (to join) us if they finish early.", "options": ["can", "must", "might", "should"], "answer": 0 },
+  { "question": "He ___ (to have) already left the office.", "options": ["might", "should", "can", "must"], "answer": 0 },
+  { "question": "We ___ (to review) the plans again.", "options": ["must", "can", "should", "might"], "answer": 2 }
+],
+// Stage 17
+[
+  { "question": "She ___ (to be) there already.", "options": ["can", "might", "must", "should"], "answer": 1 },
+  { "question": "They ___ (to check) the schedule again.", "options": ["should", "can", "might", "must"], "answer": 0 },
+  { "question": "You ___ (to lock) the door before leaving.", "options": ["must", "should", "can", "might"], "answer": 1 },
+  { "question": "We ___ (to take) a taxi to get there faster.", "options": ["can", "must", "should", "might"], "answer": 0 },
+  { "question": "He ___ (to forget) about the meeting.", "options": ["should", "might", "must", "can"], "answer": 1 }
+],
+// Stage 18
+[
+  { "question": "I ___ (to see) you at the event tonight.", "options": ["can", "might", "should", "must"], "answer": 1 },
+  { "question": "You ___ (to complete) the form.", "options": ["must", "should", "might", "can"], "answer": 0 },
+  { "question": "He ___ (to play) the violin beautifully.", "options": ["should", "can", "must", "might"], "answer": 1 },
+  { "question": "They ___ (to arrive) by now.", "options": ["might", "must", "can", "should"], "answer": 3 },
+  { "question": "We ___ (to plan) our trip soon.", "options": ["should", "can", "might", "must"], "answer": 0 }
+],
+// Stage 19
+[
+  { "question": "He ___ (to know) the answer; ask him.", "options": ["must", "can", "might", "should"], "answer": 1 },
+  { "question": "They ___ (to leave) early to beat traffic.", "options": ["should", "might", "must", "can"], "answer": 0 },
+  { "question": "You ___ (to finish) your assignment today.", "options": ["might", "must", "should", "can"], "answer": 2 },
+  { "question": "We ___ (to have) missed the train.", "options": ["can", "must", "might", "should"], "answer": 1 },
+  { "question": "She ___ (to be) at home; the lights are off.", "options": ["might", "can", "should", "must"], "answer": 0 }
+],
+// Stage 20
+[
+  { "question": "She ___ (to need) to rest after the long trip.", "options": ["can", "must", "might", "should"], "answer": 1 },
+  { "question": "We ___ (to visit) the museum tomorrow.", "options": ["might", "should", "must", "can"], "answer": 0 },
+  { "question": "He ___ (to drive) carefully in the rain.", "options": ["should", "can", "might", "must"], "answer": 0 },
+  { "question": "They ___ (to be) at the park right now.", "options": ["must", "might", "should", "can"], "answer": 1 },
+  { "question": "You ___ (to turn off) the lights when you leave.", "options": ["should", "must", "can", "might"], "answer": 0 }
+],
+
+
+
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+			'Subject Overview':
+				'<div class="subject-overview-content"><h1>Modal Verbs in English: A Comprehensive Guide</h1><p>Modal verbs are auxiliary verbs that express necessity, possibility, permission, or ability. They are an essential part of English grammar, helping us convey attitudes and moods about actions or events. This guide will delve into four commonly used modal verbs: <strong>should</strong>, <strong>might</strong>, <strong>can</strong>, and <strong>must</strong>. We&#39;ll explore their uses, rules, and provide plenty of examples to help you understand when and how to use them correctly.</p><hr><h2>Table of Contents</h2><ol><li><a href="#what-are-modal-verbs">What Are Modal Verbs?</a></li><li><a href="#general-characteristics-of-modal-verbs">General Characteristics of Modal Verbs</a></li><li><a href="#detailed-explanation-of-modal-verbs">Detailed Explanation of Modal Verbs</a><ul><li><a href="#should">Should</a></li><li><a href="#might">Might</a></li><li><a href="#can">Can</a></li><li><a href="#must">Must</a></li></ul></li><li><a href="#conclusion">Conclusion</a></li></ol><hr><h2 id="what-are-modal-verbs">What Are Modal Verbs?</h2><p>Modal verbs are a type of auxiliary (helping) verb that express the mood or attitude of the speaker toward the action or state indicated by the main verb. They are used to indicate likelihood, ability, permission, obligation, and other conditions.</p><p>Common modal verbs in English include:</p><ul><li>Can</li><li>Could</li><li>May</li><li>Might</li><li>Must</li><li>Shall</li><li>Should</li><li>Will</li><li>Would</li></ul><p>In this guide, we&#39;ll focus on <strong>should</strong>, <strong>might</strong>, <strong>can</strong>, and <strong>must</strong>.</p><hr><h2 id="general-characteristics-of-modal-verbs">General Characteristics of Modal Verbs</h2><p>Before diving into each modal verb, it&#39;s important to understand some general rules that apply to all modal verbs:</p><ol><li><strong>No Infinitive Form</strong>: Modal verbs do not have infinitive forms (<em>to + verb</em>). For example, you cannot say <em>to must</em> or <em>to can</em>.</li><li><strong>No -s Form</strong>: Modal verbs do not take an <em>-s</em> in the third person singular. It&#39;s <em>he can</em>, not <em>he cans</em>.</li><li><strong>Followed by Base Form</strong>: Modal verbs are followed by the base form of the main verb (the infinitive without <em>to</em>). For example, <em>She can swim</em>.</li><li><strong>No Do/Does in Questions and Negatives</strong>: Modal verbs form questions and negatives without using <em>do/does</em>. For example, <em>Can you swim?</em> and <em>He cannot (can&#39;t) swim</em>.</li></ol><hr><h2 id="detailed-explanation-of-modal-verbs">Detailed Explanation of Modal Verbs</h2><h3 id="should">Should</h3><p><strong>Meaning and Use:</strong></p><ol><li><strong>Advice or Recommendations</strong>: <em>Should</em> is used to give advice or make recommendations.<ul><li><em>You should study for your exams.</em></li><li><em>She should see a doctor.</em></li></ul></li><li><strong>Expectation or Probability</strong>: It can express that something is likely or expected.<ul><li><em>They should be here by now.</em></li><li><em>The train should arrive soon.</em></li></ul></li><li><strong>Obligation (Less Strong than Must)</strong>: Suggests an obligation but less forceful than <em>must</em>.<ul><li><em>Employees should wear their ID badges at all times.</em></li></ul></li><li><strong>Conditional Sentences</strong>: Used in conditional sentences to express a possible situation.<ul><li><em>Should you need assistance, please contact us.</em></li></ul></li></ol><p><strong>Examples:</strong></p><ul><li><em>I think you should apologize to her.</em></li><li><em>You shouldn&#39;t eat so much junk food.</em></li><li><em>Where should we go for dinner?</em></li></ul><p><strong>Negative Form:</strong></p><ul><li><em>Should not</em> or <em>shouldn&#39;t</em>.<ul><li><em>You shouldn&#39;t be late for the meeting.</em></li></ul></li></ul><hr><h3 id="might">Might</h3><p><strong>Meaning and Use:</strong></p><ol><li><strong>Possibility</strong>: <em>Might</em> expresses a small possibility or uncertainty.<ul><li><em>It might rain later.</em></li><li><em>She might come to the party.</em></li></ul></li><li><strong>Permission (Formal and Less Common)</strong>: Used to ask for permission politely (more formal than <em>may</em>).<ul><li><em>Might I suggest an alternative?</em></li></ul></li><li><strong>Past Tense of May</strong>: In reported speech, <em>might</em> is used as the past tense of <em>may</em>.<ul><li><strong>Direct speech:</strong> <em>She said, "I may come late."</em></li><li><strong>Reported speech:</strong> <em>She said she might come late.</em></li></ul></li></ol><p><strong>Examples:</strong></p><ul><li><em>He might not like this idea.</em></li><li><em>They might have already left.</em></li><li><em>Might you join us for dinner?</em></li></ul><p><strong>Negative Form:</strong></p><ul><li><em>Might not</em> or <em>mightn&#39;t</em> (though <em>mightn&#39;t</em> is less common and more informal).<ul><li><em>I might not go to the concert.</em></li></ul></li></ul><hr><h3 id="can">Can</h3><p><strong>Meaning and Use:</strong></p><ol><li><strong>Ability or Capacity</strong>: Indicates that someone is able to do something.<ul><li><em>I can swim.</em></li><li><em>She can speak three languages.</em></li></ul></li><li><strong>Permission (Informal)</strong>: Used to ask for or give permission.<ul><li><em>Can I borrow your pen?</em></li><li><em>You can leave early today.</em></li></ul></li><li><strong>Possibility</strong>: Expresses that something is possible.<ul><li><em>Smoking can cause cancer.</em></li><li><em>It can be very cold here in winter.</em></li></ul></li><li><strong>Requests</strong>: Used to make informal requests.<ul><li><em>Can you help me with this?</em></li></ul></li></ol><p><strong>Examples:</strong></p><ul><li><em>We can&#39;t find our keys.</em></li><li><em>Can they finish the project on time?</em></li><li><em>Yes, you can use my phone.</em></li></ul><p><strong>Negative Form:</strong></p><ul><li><em>Cannot</em> or <em>can&#39;t</em>.<ul><li><em>He cannot (can&#39;t) come to the phone right now.</em></li></ul></li></ul><hr><h3 id="must">Must</h3><p><strong>Meaning and Use:</strong></p><ol><li><strong>Strong Obligation or Necessity</strong>: Indicates that something is essential or required.<ul><li><em>You must wear a seatbelt.</em></li><li><em>Students must submit their assignments by Friday.</em></li></ul></li><li><strong>Logical Conclusion or Certainty</strong>: Used when the speaker is sure about something.<ul><li><em>She must be at least 90 years old.</em></li><li><em>They left an hour ago; they must be home by now.</em></li></ul></li><li><strong>Prohibition (In Negative Form)</strong>: <em>Must not</em> indicates that something is prohibited.<ul><li><em>You must not smoke inside the building.</em></li><li><em>Visitors must not touch the exhibits.</em></li></ul></li></ol><p><strong>Examples:</strong></p><ul><li><em>I must finish this report today.</em></li><li><em>You must be tired after your long journey.</em></li><li><em>Must we stay until the end?</em></li></ul><p><strong>Negative Form:</strong></p><ul><li><em>Must not</em> or <em>mustn&#39;t</em>.<ul><li><em>You mustn&#39;t tell anyone our secret.</em></li></ul></li></ul><hr><h2 id="conclusion">Conclusion</h2><p>Understanding modal verbs is crucial for mastering English grammar. They help us express abilities, possibilities, permissions, and obligations with clarity and precision. Here&#39;s a quick recap:</p><ul><li><strong>Should</strong>: Used for advice, recommendations, expectations, and mild obligations.</li><li><strong>Might</strong>: Expresses possibility and is used in polite requests or reported speech.</li><li><strong>Can</strong>: Indicates ability, permission, possibility, and is used in informal requests.</li><li><strong>Must</strong>: Conveys strong obligation, necessity, certainty, and prohibition in its negative form.</li></ul><p><strong>Remember</strong>: Modal verbs are always followed by the base form of the main verb, and they do not change form based on the subject.</p><hr><p>By familiarizing yourself with these modal verbs and their uses, you&#39;ll be able to communicate more effectively and understand the nuances of English conversations. Keep practicing, and don&#39;t hesitate to revisit this guide whenever you need a refresher!</p></div>'
+			,'Practice': '<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>'
+        };
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+		function renderQuiz() {
+				const quizContainer = document.getElementById("quiz-content");
+				quizContainer.innerHTML = '';
+				quizData[currentStage].forEach((question, index) => {
+				const questionElement = document.createElement("div");
+				questionElement.className = "question";
+				
+				questionElement.innerHTML = `
+					<p>${index + 1}. ${question.question}</p>
+					<div class="options">
+						<select id="q${index}">
+							<option value="">Select</option>
+							${question.options.map((option, i) => `
+								<option value="${i}">${option}</option>
+							`).join("")}
+						</select>
+					</div>
+					<div class="result" id="result${index}"></div>
+				`;
+
+				quizContainer.appendChild(questionElement);
+			});
+
+			updateStageNumber();
+		}
+
+		function checkStage() {
+			attempts++;
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+			let correctCount = 0;
+			const totalQuestions = quizData[currentStage].length;
+
+			quizData[currentStage].forEach((question, index) => {
+				const resultElement = document.getElementById(`result${index}`);
+				const selectElement = document.getElementById(`q${index}`);
+				const selectedOption = selectElement.value;
+				const userAnswer = parseInt(selectedOption);
+
+				if (userAnswer === question.answer) {
+					resultElement.textContent = "Correct!";
+					resultElement.style.color = "green";
+					correctCount++;
+				} else {
+					resultElement.textContent = "Incorrect answer.";
+					resultElement.style.color = "red";
+				}
+
+				if (attempts >= 10) {
+					selectElement.value = question.answer;
+					selectElement.disabled = true;
+					resultElement.textContent += ` The correct answer is: ${question.options[question.answer]}`;
+				}
+			});
+
+			console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`Stage ${currentStage + 1} completed. Adding ${totalQuestions} animals.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`Moving to stage ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("Congratulations! You've completed all stages.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+		function updateStageNumber() {
+			const stageElement = document.getElementById("stage-number");
+			stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+		}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+    </script>
+</body>
+</html>
