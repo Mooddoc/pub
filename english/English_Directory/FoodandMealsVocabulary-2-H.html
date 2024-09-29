@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-heb.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+	<title>✅ EZ42 - זה קל</title>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+			<div class="logo-container">
+				<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+					<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+				</a>
+			</div>
+                <h2>הוראות</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                    <li>יש לקרוא כל שאלה בעיון.</li>
+                    <li>בחר/י את התשובה הנכונה ביותר מתוך התפריט הנפתח.</li>
+                    <li>יש ללחוץ על בדיקת תשובות כשמוכנים!</li>
+                    <li>יש להשלים את כל השאלות כדי לעבור לשלב הבא.</li>
+                    <li>לאחר 10 ניסיונות, התשובות הנכונות יוצגו.</li>
+                    <li>שיהיה כיף!</li>
+                </ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, 📕 Red, 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray -->		
+                <h1>אוצר מילים - מאכלים - 📘</h1>
+                <h1>Food and Meals Vocabulary</h1>
+
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות החיות</h2>
+				<p>החווה שלך גדלה תוך כדי התקדמות! כל שלב מוסיף חיות חדשות לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 1;
+
+        const quizData = [ 												<!--  PH3 - Quiz Data   -->	
+
+  // Stage 1
+  [
+    {
+      "question": "Which of these fruits is typically eaten with its skin?",
+      "options": ["Banana", "Orange", "Kiwi", "Watermelon", "Apple"],
+      "answer": 4
+    },
+    {
+      "question": "What do we call a meal eaten in the middle of the day?",
+      "options": ["Lunch", "Dinner", "Breakfast", "Supper", "Brunch"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a dairy product?",
+      "options": ["Bread", "Yogurt", "Apple", "Chicken", "Rice"],
+      "answer": 1
+    },
+    {
+      "question": "What type of food is spaghetti?",
+      "options": ["Vegetable", "Fruit", "Meat", "Pasta", "Dairy"],
+      "answer": 3
+    },
+    {
+      "question": "Which of these vegetables grows underground?",
+      "options": ["Tomato", "Lettuce", "Carrot", "Pea", "Cucumber"],
+      "answer": 2
+    }
+  ],
+  // Stage 2
+  [
+    {
+      "question": "What do we call a food that comes from plants and not animals?",
+      "options": ["Carnivorous", "Vegetarian", "Omnivorous", "Herbivorous", "Vegan"],
+      "answer": 1
+    },
+    {
+      "question": "Which of these is not a way to cook an egg?",
+      "options": ["Boiled", "Fried", "Scrambled", "Poached", "Mashed"],
+      "answer": 4
+    },
+    {
+      "question": "What type of fruit is a peach?",
+      "options": ["Berry", "Citrus", "Stone fruit", "Tropical", "Melon"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is a root vegetable?",
+      "options": ["Potato", "Lettuce", "Tomato", "Pea", "Cucumber"],
+      "answer": 0
+    },
+    {
+      "question": "What do we call a light meal eaten between main meals?",
+      "options": ["Appetizer", "Dessert", "Snack", "Side dish", "Main course"],
+      "answer": 2
+    }
+  ],
+  // Stage 3
+  [
+    {
+      "question": "Which of these is not a type of pasta?",
+      "options": ["Penne", "Spaghetti", "Lasagna", "Risotto", "Fettuccine"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call a person who doesn't eat meat?",
+      "options": ["Vegan", "Carnivore", "Omnivore", "Vegetarian", "Pescatarian"],
+      "answer": 3
+    },
+    {
+      "question": "Which of these fruits is known for having a lot of vitamin C?",
+      "options": ["Apple", "Banana", "Orange", "Grape", "Pear"],
+      "answer": 2
+    },
+    {
+      "question": "What type of food is often served as a dessert?",
+      "options": ["Salad", "Soup", "Ice cream", "Sandwich", "Omelet"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is a type of fish?",
+      "options": ["Beef", "Pork", "Chicken", "Salmon", "Lamb"],
+      "answer": 3
+    }
+  ],
+  // Stage 4
+  [
+    {
+      "question": "What do we call a meal that combines breakfast and lunch?",
+      "options": ["Linner", "Brunch", "Breakfunch", "Lunfast", "Dinnfast"],
+      "answer": 1
+    },
+    {
+      "question": "Which of these is not a type of bread?",
+      "options": ["Baguette", "Croissant", "Brioche", "Ciabatta", "Risotto"],
+      "answer": 4
+    },
+    {
+      "question": "What do we call food that has been grown without chemicals?",
+      "options": ["Natural", "Fresh", "Organic", "Healthy", "Green"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is a citrus fruit?",
+      "options": ["Apple", "Pear", "Grape", "Lemon", "Peach"],
+      "answer": 3
+    },
+    {
+      "question": "What type of food is usually eaten for breakfast?",
+      "options": ["Pizza", "Cereal", "Steak", "Sushi", "Lasagna"],
+      "answer": 1
+    }
+  ],
+  // Stage 5
+  [
+    {
+      "question": "Which of these is not a type of nut?",
+      "options": ["Almond", "Peanut", "Cashew", "Walnut", "Chickpea"],
+      "answer": 4
+    },
+    {
+      "question": "What do we call a food that helps keep us healthy?",
+      "options": ["Junk food", "Fast food", "Nutritious food", "Processed food", "Comfort food"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is a type of seafood?",
+      "options": ["Chicken", "Beef", "Shrimp", "Pork", "Turkey"],
+      "answer": 2
+    },
+    {
+      "question": "What do we call a food that is eaten raw?",
+      "options": ["Boiled", "Fried", "Baked", "Uncooked", "Grilled"],
+      "answer": 3
+    },
+    {
+      "question": "Which of these is not a type of cheese?",
+      "options": ["Cheddar", "Mozzarella", "Parmesan", "Brie", "Tofu"],
+      "answer": 4
+    }
+  ],
+  // Stage 6
+  [
+    {
+      "question": "What do we call a meal that is prepared and eaten outdoors?",
+      "options": ["Barbecue", "Buffet", "Banquet", "Brunch", "Picnic"],
+      "answer": 4
+    },
+    {
+      "question": "Which of these is not a way to cook meat?",
+      "options": ["Roast", "Grill", "Fry", "Bake", "Peel"],
+      "answer": 4
+    },
+    {
+      "question": "What type of food is curry usually served with?",
+      "options": ["Pasta", "Bread", "Rice", "Potato", "Noodles"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is a type of herb often used in cooking?",
+      "options": ["Salt", "Sugar", "Vinegar", "Basil", "Pepper"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call a person who prepares food in a restaurant?",
+      "options": ["Waiter", "Chef", "Manager", "Host", "Cashier"],
+      "answer": 1
+    }
+  ],
+  // Stage 7
+  [
+    {
+      "question": "Which of these is not a type of salad dressing?",
+      "options": ["Ranch", "Caesar", "Vinaigrette", "Mayonnaise", "Ketchup"],
+      "answer": 4
+    },
+    {
+      "question": "What do we call food that is not cooked?",
+      "options": ["Fresh", "Raw", "Organic", "Natural", "Unprocessed"],
+      "answer": 1
+    },
+    {
+      "question": "Which of these fruits is typically dried to make raisins?",
+      "options": ["Apple", "Banana", "Grape", "Strawberry", "Pear"],
+      "answer": 2
+    },
+    {
+      "question": "What type of food is hummus?",
+      "options": ["Meat", "Vegetable", "Fruit", "Dip", "Dessert"],
+      "answer": 3
+    },
+    {
+      "question": "Which of these is not a type of cooking oil?",
+      "options": ["Olive oil", "Coconut oil", "Vegetable oil", "Sunflower oil", "Motor oil"],
+      "answer": 4
+    }
+  ],
+  // Stage 8
+  [
+    {
+      "question": "What do we call a food that is high in sugar and unhealthy?",
+      "options": ["Junk food", "Health food", "Organic food", "Whole food", "Raw food"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is not a type of soup?",
+      "options": ["Tomato", "Chicken noodle", "Vegetable", "Minestrone", "Sushi"],
+      "answer": 4
+    },
+    {
+      "question": "What do we call the first meal of the day?",
+      "options": ["Lunch", "Dinner", "Supper", "Brunch", "Breakfast"],
+      "answer": 4
+    },
+    {
+      "question": "Which of these is a type of grain?",
+      "options": ["Potato", "Carrot", "Rice", "Lettuce", "Tomato"],
+      "answer": 2
+    },
+    {
+      "question": "What do we call a food that is made quickly in a fast-food restaurant?",
+      "options": ["Gourmet food", "Slow food", "Fast food", "Health food", "Organic food"],
+      "answer": 2
+    }
+  ],
+  // Stage 9
+  [
+    {
+      "question": "Which of these is not a way to preserve food?",
+      "options": ["Freezing", "Canning", "Drying", "Salting", "Frying"],
+      "answer": 4
+    },
+    {
+      "question": "What do we call a list of available dishes in a restaurant?",
+      "options": ["Recipe", "Grocery list", "Menu", "Cookbook", "Shopping list"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is a type of Mexican food?",
+      "options": ["Sushi", "Pizza", "Pasta", "Taco", "Curry"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call a vegetable that grows above ground?",
+      "options": ["Root vegetable", "Leafy vegetable", "Tuber", "Bulb", "Fruit"],
+      "answer": 1
+    },
+    {
+      "question": "Which of these is not a type of berry?",
+      "options": ["Strawberry", "Blueberry", "Raspberry", "Blackberry", "Banana"],
+      "answer": 4
+    }
+  ],
+  // Stage 10
+  [
+    {
+      "question": "What do we call a meal that is eaten late in the evening?",
+      "options": ["Breakfast", "Lunch", "Dinner", "Brunch", "Snack"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is not a type of fruit juice?",
+      "options": ["Apple juice", "Orange juice", "Grape juice", "Tomato juice", "Carrot juice"],
+      "answer": 4
+    },
+    {
+      "question": "What do we call food that is thrown away and not eaten?",
+      "options": ["Leftovers", "Scraps", "Waste", "Garbage", "Compost"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is a type of kitchen tool used for cutting?",
+      "options": ["Spoon", "Fork", "Knife", "Plate", "Cup"],
+      "answer": 2
+    },
+    {
+      "question": "What do we call a person who doesn't eat any animal products?",
+      "options": ["Vegetarian", "Pescatarian", "Vegan", "Flexitarian", "Omnivore"],
+      "answer": 2
+    }
+  ],
+  // Stage 11
+  [
+    {
+      "question": "Which of these is not a type of vinegar?",
+      "options": ["Apple cider vinegar", "Balsamic vinegar", "White vinegar", "Red wine vinegar", "Olive oil vinegar"],
+      "answer": 4
+    },
+    {
+      "question": "What do we call a food that is eaten between the main course and dessert?",
+      "options": ["Appetizer", "Side dish", "Palate cleanser", "Main course", "Dessert"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is a type of pasta shaped like little ears?",
+      "options": ["Penne", "Spaghetti", "Farfalle", "Orecchiette", "Fusilli"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call food that is served and eaten at room temperature?",
+      "options": ["Cold", "Hot", "Warm", "Frozen", "Tepid"],
+      "answer": 4
+    },
+    {
+      "question": "Which of these is not a type of mushroom?",
+      "options": ["Shiitake", "Portobello", "Chanterelle", "Broccoli", "Button"],
+      "answer": 3
+    }
+  ],
+  // Stage 12
+  [
+    {
+      "question": "What do we call a dish made of raw vegetables?",
+      "options": ["Stew", "Salad", "Soup", "Casserole", "Stir-fry"],
+      "answer": 1
+    },
+    {
+      "question": "Which of these is not a type of tea?",
+      "options": ["Green tea", "Black tea", "Oolong tea", "Coffee tea", "Herbal tea"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call the outer layer of a fruit or vegetable?",
+      "options": ["Skin", "Peel", "Shell", "Husk", "Rind"],
+      "answer": 1
+    },
+    {
+      "question": "Which of these is a type of sweet spread often used on bread?",
+      "options": ["Mayonnaise", "Mustard", "Ketchup", "Jam", "Vinegar"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call a food that is high in fat and unhealthy?",
+      "options": ["Low-fat", "Greasy", "Light", "Lean", "Healthy"],
+      "answer": 1
+    }
+  ],
+   // Stage 13
+  [
+    {
+      "question": "Which of these is not a type of milk?",
+      "options": ["Cow's milk", "Goat's milk", "Almond milk", "Soy milk", "Potato milk"],
+      "answer": 4
+    },
+    {
+      "question": "What do we call a mixture of chopped fruits?",
+      "options": ["Fruit salad", "Fruit soup", "Fruit stew", "Fruit casserole", "Fruit pie"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a type of fish often used in sushi?",
+      "options": ["Chicken", "Beef", "Pork", "Salmon", "Lamb"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call a person who doesn't eat meat or fish?",
+      "options": ["Vegan", "Pescatarian", "Vegetarian", "Flexitarian", "Omnivore"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is not a way to cook potatoes?",
+      "options": ["Boiled", "Fried", "Baked", "Mashed", "Squeezed"],
+      "answer": 4
+    }
+  ],
+  // Stage 14
+  [
+    {
+      "question": "What do we call a small, sweet food often eaten at the end of a meal?",
+      "options": ["Appetizer", "Main course", "Side dish", "Dessert", "Snack"],
+      "answer": 3
+    },
+    {
+      "question": "Which of these is not a type of sandwich?",
+      "options": ["Club sandwich", "Grilled cheese", "BLT", "Hamburger", "Spaghetti sandwich"],
+      "answer": 4
+    },
+    {
+      "question": "What do we call food that is kept cold to preserve it?",
+      "options": ["Frozen", "Canned", "Dried", "Refrigerated", "Pickled"],
+      "answer": 3
+    },
+    {
+      "question": "Which of these is a type of meat that comes from a young sheep?",
+      "options": ["Beef", "Pork", "Veal", "Lamb", "Chicken"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call a thick, smooth drink made from fruits or vegetables?",
+      "options": ["Juice", "Soda", "Smoothie", "Milkshake", "Coffee"],
+      "answer": 2
+    }
+  ],
+  // Stage 15
+  [
+    {
+      "question": "Which of these is not a type of flour?",
+      "options": ["Wheat flour", "Corn flour", "Rice flour", "Almond flour", "Sugar flour"],
+      "answer": 4
+    },
+    {
+      "question": "What do we call a food that is eaten before the main course?",
+      "options": ["Dessert", "Appetizer", "Side dish", "Main course", "Snack"],
+      "answer": 1
+    },
+    {
+      "question": "Which of these is a type of pasta shaped like little bowties?",
+      "options": ["Penne", "Spaghetti", "Farfalle", "Fettuccine", "Lasagna"],
+      "answer": 2
+    },
+    {
+      "question": "What do we call food that has been cooked slowly in liquid?",
+      "options": ["Fried", "Baked", "Grilled", "Stewed", "Roasted"],
+      "answer": 3
+    },
+    {
+      "question": "Which of these is not a type of spice?",
+      "options": ["Cinnamon", "Pepper", "Cumin", "Oregano", "Lettuce"],
+      "answer": 4
+    }
+  ],
+  // Stage 16
+  [
+    {
+      "question": "What do we call a thick soup with chunks of food in it?",
+      "options": ["Broth", "Consommé", "Chowder", "Bisque", "Gazpacho"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is not a type of cooking method?",
+      "options": ["Boiling", "Frying", "Baking", "Grilling", "Freezing"],
+      "answer": 4
+    },
+    {
+      "question": "What do we call a food that is often eaten as a snack and is made from corn?",
+      "options": ["Chips", "Crackers", "Popcorn", "Pretzels", "Nuts"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is a type of soft French cheese?",
+      "options": ["Cheddar", "Mozzarella", "Parmesan", "Brie", "Swiss"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call a meal that is typically eaten around midday?",
+      "options": ["Breakfast", "Brunch", "Lunch", "Dinner", "Supper"],
+      "answer": 2
+    }
+  ],
+  // Stage 17
+  [
+    {
+      "question": "Which of these is not a type of bread?",
+      "options": ["Rye", "Sourdough", "Wheat", "Pumpernickel", "Spaghetti"],
+      "answer": 4
+    },
+    {
+      "question": "What do we call a food that is high in nutrients and good for your health?",
+      "options": ["Junk food", "Fast food", "Nutritious", "Processed", "Greasy"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is a type of meat that comes from a cow?",
+      "options": ["Pork", "Lamb", "Veal", "Beef", "Poultry"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call a drink that contains alcohol?",
+      "options": ["Soft drink", "Juice", "Milk", "Water", "Alcoholic beverage"],
+      "answer": 4
+    },
+    {
+      "question": "Which of these is not a way to cook eggs?",
+      "options": ["Boiled", "Fried", "Poached", "Scrambled", "Mashed"],
+      "answer": 4
+    }
+  ],
+  // Stage 18
+  [
+    {
+      "question": "What do we call a person who doesn't eat or use any animal products?",
+      "options": ["Vegetarian", "Pescatarian", "Vegan", "Flexitarian", "Omnivore"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is not a type of nut?",
+      "options": ["Almond", "Walnut", "Cashew", "Peanut", "Coconut"],
+      "answer": 4
+    },
+    {
+      "question": "What do we call a food that is made by fermenting milk?",
+      "options": ["Cheese", "Butter", "Cream", "Yogurt", "Ice cream"],
+      "answer": 3
+    },
+    {
+      "question": "Which of these is a type of Japanese noodle?",
+      "options": ["Spaghetti", "Linguine", "Fettuccine", "Udon", "Penne"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call a place where alcoholic drinks are served?",
+      "options": ["Restaurant", "Café", "Bar", "Bakery", "Grocery store"],
+      "answer": 2
+    }
+  ],
+  // Stage 19
+  [
+    {
+      "question": "Which of these is not a type of fruit?",
+      "options": ["Tomato", "Avocado", "Eggplant", "Pepper", "Broccoli"],
+      "answer": 4
+    },
+    {
+      "question": "What do we call a food that is made from flour, water, and yeast?",
+      "options": ["Pasta", "Rice", "Bread", "Potato", "Cereal"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is a type of seafood?",
+      "options": ["Beef", "Pork", "Chicken", "Lamb", "Shrimp"],
+      "answer": 4
+    },
+    {
+      "question": "What do we call a drink made from fermented grapes?",
+      "options": ["Beer", "Cider", "Wine", "Vodka", "Whiskey"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is not a way to serve coffee?",
+      "options": ["Espresso", "Cappuccino", "Latte", "Americano", "Frappé"],
+      "answer": 4
+    }
+  ],
+  // Stage 20
+  [
+    {
+      "question": "What do we call a food that is made from raw fish or seafood?",
+      "options": ["Steak", "Sushi", "Salad", "Soup", "Sandwich"],
+      "answer": 1
+    },
+    {
+      "question": "Which of these is a type of vegetable that grows underground?",
+      "options": ["Tomato", "Lettuce", "Carrot", "Broccoli", "Cucumber"],
+      "answer": 2
+    },
+    {
+      "question": "What do we call a mixture of vegetables cooked slowly in liquid?",
+      "options": ["Salad", "Stir-fry", "Stew", "Roast", "Sandwich"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is not a type of herb?",
+      "options": ["Basil", "Thyme", "Rosemary", "Cinnamon", "Parsley"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call a sweet food made from flour, sugar, eggs, and often chocolate?",
+      "options": ["Bread", "Pasta", "Cake", "Salad", "Soup"],
+      "answer": 2
+    }
+  ]
+
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+			//'לימוד הנושא':
+			//'<h2>משפטים חיוביים</h2>',
+             'תרגול': '<div id="stage-number" class="stage-number">שלב 1 מתוך ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">ניסיונות: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">בדיקת תשובות</button>'
+        };
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'תרגול') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+		function renderQuiz() {
+				const quizContainer = document.getElementById("quiz-content");
+				quizContainer.innerHTML = '';
+				quizData[currentStage].forEach((question, index) => {
+				const questionElement = document.createElement("div");
+				questionElement.className = "question";
+				
+				questionElement.innerHTML = `
+					<p>${index + 1}. ${question.question}</p>
+					<div class="options">
+						<select id="q${index}">
+							<option value="">Select</option>
+							${question.options.map((option, i) => `
+								<option value="${i}">${option}</option>
+							`).join("")}
+						</select>
+					</div>
+					<div class="result" id="result${index}"></div>
+				`;
+
+				quizContainer.appendChild(questionElement);
+			});
+
+			updateStageNumber();
+		}
+
+		function checkStage() {
+			attempts++;
+			document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+
+			let correctCount = 0;
+			const totalQuestions = quizData[currentStage].length;
+
+			quizData[currentStage].forEach((question, index) => {
+				const resultElement = document.getElementById(`result${index}`);
+				const selectElement = document.getElementById(`q${index}`);
+				const selectedOption = selectElement.value;
+				const userAnswer = parseInt(selectedOption);
+
+				if (userAnswer === question.answer) {
+					resultElement.textContent = "נכון!";
+					resultElement.style.color = "green";
+					correctCount++;
+				} else {
+					resultElement.textContent = "תשובה שגויה.";
+					resultElement.style.color = "red";
+				}
+
+				if (attempts >= 10) {
+					selectElement.value = question.answer;
+					selectElement.disabled = true;
+					resultElement.textContent += ` התשובה הנכונה היא: ${question.options[question.answer]}`;
+				}
+			});
+
+			console.log(`שלב ${currentStage + 1}: ${correctCount} נכונות מתוך ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`שלב ${currentStage + 1} הושלם. מוסיף ${totalQuestions} חיות.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`עובר לשלב ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("כל הכבוד! השלמת את כל השלבים.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("הגעת למספר הניסיונות המקסימלי. התשובות הנכונות נחשפו.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+        function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+            const incorrectCount = totalQuestions - correctCount;
+            let message = `קיבלת ${correctCount} נכונות ו-${incorrectCount} שגויות.`;
+            
+            if (correctCount === totalQuestions) {
+                message += " ציון מושלם!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+                message += " עבודה מצוינת! רואים שהנושא מתחיל להיות מובן!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+                message += " מאמץ טוב! נמשיך לתרגל כי השיפור קרוב!";
+            } else {
+                message += " לא לוותר! כל נסיון עוזר לך ללמוד. ננסה שוב!";
+            }
+
+            if (isStageComplete) {
+                message += "\n\n השלב הזה הסתיים, עוברים לשלב הבא.";
+            }
+
+            showModal(message);
+        }
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `נסיונות: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+        function updateStageNumber() {
+            const stageElement = document.getElementById("stage-number");
+            stageElement.textContent = `שלב ${currentStage + 1} מתוך ${stageCount}`;
+        }
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+    </script>
+</body>
+</html>
