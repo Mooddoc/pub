@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>EZ42 LIVE - It's EZ</title>
+</head>
+	<link rel="icon" type="image/svg+xml" href="path/to/your/http://ez42.live/global/logo/tab-logo-emo.svg">
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read each question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title : A1 - 📗 Green, A2 - 📘 Blue, 📕 Red, 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray -->	
+                <h1>Positive Negative & Interrogative - 📗</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 1;
+
+        const quizData = [ 												<!--  PH3 - Quiz Data   -->	
+
+// Stage 1
+[
+{"question": "Change to positive: 'I don't like apples.'", "options": ["I like apples.", "I likes apples.", "I liking apples.", "I am like apples.", "I do like apples."], "answer": 0}, 
+{"question": "Change to negative: 'She plays soccer.'", "options": ["She not plays soccer.", "She don't play soccer.", "She doesn't plays soccer.", "She no play soccer.", "She doesn't play soccer."], "answer": 4}, 
+{"question": "Change to a question: 'You are happy.'", "options": ["You are happy?", "Are you happy?", "Is you happy?", "Do you happy?", "Does you happy?"], "answer": 1}, 
+{"question": "Change to positive: 'They aren't students.'", "options": ["They are students.", "They is students.", "They students.", "They be students.", "They am students."], "answer": 0}, 
+{"question": "Change to negative: 'I am tall.'", "options": ["I not tall.", "I amn't tall.", "I isn't tall.", "I'm not tall.", "I don't tall."], "answer": 3}
+],
+// Stage 2
+[
+{"question": "Change to a question: 'He likes pizza.'", "options": ["He likes pizza?", "Does he likes pizza?", "Do he like pizza?", "Does he like pizza?", "Is he like pizza?"], "answer": 3}, 
+{"question": "Change to positive: 'We don't eat fish.'", "options": ["We eat fish.", "We eats fish.", "We eating fish.", "We are eat fish.", "We does eat fish."], "answer": 0}, 
+{"question": "Change to negative: 'You drink milk.'", "options": ["You not drink milk.", "You don't drinks milk.", "You doesn't drink milk.", "You don't drink milk.", "You no drink milk."], "answer": 3}, 
+{"question": "Change to a question: 'They are teachers.'", "options": ["They are teachers?", "Are they teachers?", "Is they teachers?", "Do they teachers?", "Does they teachers?"], "answer": 1}, 
+{"question": "Change to positive: 'She isn't happy.'", "options": ["She happy.", "She is happy.", "She are happy.", "She be happy.", "She does happy."], "answer": 1}
+],
+// Stage 3
+[
+{"question": "Change to negative: 'I like dogs.'", "options": ["I not like dogs.", "I don't likes dogs.", "I doesn't like dogs.", "I don't like dogs.", "I no like dogs."], "answer": 3}, 
+{"question": "Change to a question: 'He is a student.'", "options": ["He is a student?", "Is he a student?", "Does he a student?", "Do he a student?", "Are he a student?"], "answer": 1}, 
+{"question": "Change to positive: 'They don't work here.'", "options": ["They work here.", "They works here.", "They working here.", "They are work here.", "They is work here."], "answer": 0}, 
+{"question": "Change to negative: 'We are friends.'", "options": ["We not friends.", "We don't friends.", "We isn't friends.", "We no friends.", "We aren't friends."], "answer": 4}, 
+{"question": "Change to a question: 'She likes coffee.'", "options": ["She likes coffee?", "Does she likes coffee?", "Do she like coffee?", "Does she like coffee?", "Is she like coffee?"], "answer": 3}
+],
+
+// Stage 4
+[
+{"question": "Change to positive: 'He doesn't play tennis.'", "options": ["He play tennis.", "He plays tennis.", "He playing tennis.", "He is play tennis.", "He do plays tennis."], "answer": 1}, 
+{"question": "Change to negative: 'I am a teacher.'", "options": ["I not a teacher.", "I amn't a teacher.", "I isn't a teacher.", "I'm not a teacher.", "I don't a teacher."], "answer": 3}, 
+{"question": "Change to a question: 'They eat breakfast.'", "options": ["They eat breakfast?", "Does they eat breakfast?", "Do they eat breakfast?", "Are they eat breakfast?", "Is they eat breakfast?"], "answer": 2}, 
+{"question": "Change to positive: 'We aren't at home.'", "options": ["We are at home.", "We is at home.", "We at home.", "We be at home.", "We do at home."], "answer": 0}, 
+{"question": "Change to negative: 'You speak English.'", "options": ["You not speak English.", "You don't speaks English.", "You doesn't speak English.", "You don't speak English.", "You no speak English."], "answer": 3}
+],
+
+// Stage 5
+[
+{"question": "Change to a question: 'She is happy.'", "options": ["She is happy?", "Is she happy?", "Does she happy?", "Do she happy?", "Are she happy?"], "answer": 1}, 
+{"question": "Change to positive: 'I don't read books.'", "options": ["I read books.", "I reads books.", "I reading books.", "I am read books.", "I do read books."], "answer": 0}, 
+{"question": "Change to negative: 'He plays football.'", "options": ["He not plays football.", "He don't play football.", "He doesn't plays football.", "He doesn't play football.", "He no play football."], "answer": 3}, 
+{"question": "Change to a question: 'We like music.'", "options": ["We like music?", "Does we like music?", "Are we like music?", "Is we like music?", "Do we like music?"], "answer": 4}, 
+{"question": "Change to positive: 'They aren't in the park.'", "options": ["They are in the park.", "They is in the park.", "They in the park.", "They be in the park.", "They am in the park."], "answer": 0}
+],
+
+// Stage 6
+[
+{"question": "Change to negative: 'I eat vegetables.'", "options": ["I not eat vegetables.", "I don't eats vegetables.", "I doesn't eat vegetables.", "I don't eat vegetables.", "I no eat vegetables."], "answer": 3}, 
+{"question": "Change to a question: 'He drinks water.'", "options": ["He drinks water?", "Does he drinks water?", "Do he drink water?", "Does he drink water?", "Is he drink water?"], "answer": 3}, 
+{"question": "Change to positive: 'She doesn't like cats.'", "options": ["She like cats.", "She likes cats.", "She liking cats.", "She is like cats.", "She do likes cats."], "answer": 1}, 
+{"question": "Change to negative: 'We are students.'", "options": ["We not students.", "We aren't students.", "We don't students.", "We isn't students.", "We no students."], "answer": 1}, 
+{"question": "Change to a question: 'You have a car.'", "options": ["You have a car?", "Does you have a car?", "Do you have a car?", "Are you have a car?", "Is you have a car?"], "answer": 2}
+],
+
+// Stage 7
+[
+{"question": "Change to positive: 'They don't live here.'", "options": ["They live here.", "They lives here.", "They living here.", "They are live here.", "They is live here."], "answer": 0}, 
+{"question": "Change to negative: 'She walks to school.'", "options": ["She not walks to school.", "She don't walk to school.", "She doesn't walks to school.", "She doesn't walk to school.", "She no walk to school."], "answer": 3}, 
+{"question": "Change to a question: 'I am a student.'", "options": ["I am a student?", "Am I a student?", "Do I a student?", "Does I a student?", "Is I a student?"], "answer": 1}, 
+{"question": "Change to positive: 'He isn't tall.'", "options": ["He tall.", "He is tall.", "He are tall.", "He be tall.", "He does tall."], "answer": 1}, 
+{"question": "Change to negative: 'We play soccer.'", "options": ["We not play soccer.", "We don't plays soccer.", "We doesn't play soccer.", "We don't play soccer.", "We no play soccer."], "answer": 3}
+],
+
+// Stage 8
+[
+{"question": "Change to a question: 'They work here.'", "options": ["They work here?", "Does they work here?", "Do they work here?", "Are they work here?", "Is they work here?"], "answer": 2}, 
+{"question": "Change to positive: 'I don't speak Spanish.'", "options": ["I speak Spanish.", "I speaks Spanish.", "I speaking Spanish.", "I am speak Spanish.", "I do speak Spanish."], "answer": 0}, 
+{"question": "Change to negative: 'You are happy.'", "options": ["You not happy.", "You aren't happy.", "You don't happy.", "You isn't happy.", "You no happy."], "answer": 1}, 
+{"question": "Change to a question: 'She likes ice cream.'", "options": ["She likes ice cream?", "Does she likes ice cream?", "Do she like ice cream?", "Does she like ice cream?", "Is she like ice cream?"], "answer": 3}, 
+{"question": "Change to positive: 'We aren't doctors.'", "options": ["We are doctors.", "We is doctors.", "We doctors.", "We be doctors.", "We am doctors."], "answer": 0}
+],
+
+// Stage 9
+[
+{"question": "Change to negative: 'I like coffee.'", "options": ["I not like coffee.", "I don't likes coffee.", "I doesn't like coffee.", "I don't like coffee.", "I no like coffee."], "answer": 3}, 
+{"question": "Change to a question: 'He is tall.'", "options": ["He is tall?", "Is he tall?", "Does he tall?", "Do he tall?", "Are he tall?"], "answer": 1}, 
+{"question": "Change to positive: 'They don't study English.'", "options": ["They study English.", "They studies English.", "They studying English.", "They are study English.", "They is study English."], "answer": 0}, 
+{"question": "Change to negative: 'We drink tea.'", "options": ["We not drink tea.", "We don't drinks tea.", "We doesn't drink tea.", "We no drink tea.", "We don't drink tea."], "answer": 4}, 
+{"question": "Change to a question: 'She plays piano.'", "options": ["She plays piano?", "Does she plays piano?", "Do she play piano?", "Does she play piano?", "Is she play piano?"], "answer": 3}
+],
+
+// Stage 10
+[
+{"question": "Change to positive: 'He doesn't eat meat.'", "options": ["He eat meat.", "He eats meat.", "He eating meat.", "He is eat meat.", "He do eats meat."], "answer": 1}, 
+{"question": "Change to negative: 'I am a doctor.'", "options": ["I not a doctor.", "I amn't a doctor.", "I isn't a doctor.", "I'm not a doctor.", "I don't a doctor."], "answer": 3}, 
+{"question": "Change to a question: 'They live in London.'", "options": ["They live in London?", "Does they live in London?", "Are they live in London?", "Is they live in London?", "Do they live in London?"], "answer": 4}, 
+{"question": "Change to positive: 'We aren't friends.'", "options": ["We are friends.", "We is friends.", "We friends.", "We be friends.", "We am friends."], "answer": 0}, 
+{"question": "Change to negative: 'You watch TV.'", "options": ["You not watch TV.", "You don't watches TV.", "You doesn't watch TV.", "You don't watch TV.", "You no watch TV."], "answer": 3}
+],
+
+// Stage 11
+[
+{"question": "Change to a question: 'She is a teacher.'", "options": ["She is a teacher?", "Is she a teacher?", "Does she a teacher?", "Do she a teacher?", "Are she a teacher?"], "answer": 1}, 
+{"question": "Change to positive: 'I don't play guitar.'", "options": ["I play guitar.", "I plays guitar.", "I playing guitar.", "I am play guitar.", "I do play guitar."], "answer": 0}, 
+{"question": "Change to negative: 'He likes pizza.'", "options": ["He not likes pizza.", "He don't like pizza.", "He doesn't likes pizza.", "He no like pizza.", "He doesn't like pizza."], "answer": 4}, 
+{"question": "Change to a question: 'We eat breakfast.'", "options": ["We eat breakfast?", "Does we eat breakfast?", "Do we eat breakfast?", "Are we eat breakfast?", "Is we eat breakfast?"], "answer": 2}, 
+{"question": "Change to positive: 'They aren't happy.'", "options": ["They happy.", "They are happy.", "They is happy.", "They be happy.", "They does happy."], "answer": 1}
+],
+
+// Stage 12
+[
+{"question": "Change to negative: 'I am cold.'", "options": ["I not cold.", "I amn't cold.", "I isn't cold.", "I'm not cold.", "I don't cold."], "answer": 3}, 
+{"question": "Change to a question: 'He drinks milk.'", "options": ["He drinks milk?", "Does he drinks milk?", "Do he drink milk?", "Does he drink milk?", "Is he drink milk?"], "answer": 3}, 
+{"question": "Change to positive: 'We don't like cats.'", "options": ["We like cats.", "We likes cats.", "We liking cats.", "We are like cats.", "We does like cats."], "answer": 0}, 
+{"question": "Change to negative: 'You are my friend.'", "options": ["You not my friend.", "You aren't my friend.", "You don't my friend.", "You isn't my friend.", "You no my friend."], "answer": 1}, 
+{"question": "Change to a question: 'She lives here.'", "options": ["She lives here?", "Does she lives here?", "Do she live here?", "Does she live here?", "Is she live here?"], "answer": 3}
+],
+
+// Stage 13
+[
+{"question": "Change to positive: 'They don't speak English.'", "options": ["They speak English.", "They speaks English.", "They speaking English.", "They are speak English.", "They is speak English."], "answer": 0}, 
+{"question": "Change to negative: 'I like bananas.'", "options": ["I not like bananas.", "I don't likes bananas.", "I doesn't like bananas.", "I don't like bananas.", "I no like bananas."], "answer": 3}, 
+{"question": "Change to a question: 'He is happy.'", "options": ["He is happy?", "Is he happy?", "Does he happy?", "Do he happy?", "Are he happy?"], "answer": 1}, 
+{"question": "Change to positive: 'We aren't students.'", "options": ["We is students.", "We students.", "We are students.", "We be students.", "We am students."], "answer": 2}, 
+{"question": "Change to negative: 'She plays tennis.'", "options": ["She not plays tennis.", "She don't play tennis.", "She doesn't plays tennis.", "She doesn't play tennis.", "She no play tennis."], "answer": 3}
+],
+
+// Stage 14
+[
+{"question": "Change to a question: 'They work hard.'", "options": ["They work hard?", "Does they work hard?", "Do they work hard?", "Are they work hard?", "Is they work hard?"], "answer": 2}, 
+{"question": "Change to positive: 'He doesn't eat vegetables.'", "options": ["He eat vegetables.", "He eats vegetables.", "He eating vegetables.", "He is eat vegetables.", "He do eats vegetables."], "answer": 1}, 
+{"question": "Change to negative: 'I am tall.'", "options": ["I not tall.", "I amn't tall.", "I isn't tall.", "I'm not tall.", "I don't tall."], "answer": 3}, 
+{"question": "Change to a question: 'You like coffee.'", "options": ["You like coffee?", "Does you like coffee?", "Do you like coffee?", "Are you like coffee?", "Is you like coffee?"], "answer": 2}, 
+{"question": "Change to positive: 'We don't live in Paris.'", "options": ["We live in Paris.", "We lives in Paris.", "We living in Paris.", "We are live in Paris.", "We is live in Paris."], "answer": 0}
+],
+
+// Stage 15
+[
+{"question": "Change to negative: 'She is my sister.'", "options": ["She not my sister.", "She aren't my sister.", "She isn't my sister.", "She don't my sister.", "She no my sister."], "answer": 2}, 
+{"question": "Change to a question: 'I eat pizza.'", "options": ["I eat pizza?", "Does I eat pizza?", "Am I eat pizza?", "Is I eat pizza?", "Do I eat pizza?"], "answer": 4}, 
+{"question": "Change to positive: 'They aren't watching TV.'", "options": ["They are watching TV.", "They is watching TV.", "They watching TV.", "They be watching TV.", "They am watching TV."], "answer": 0}, 
+{"question": "Change to negative: 'He plays football.'", "options": ["He not plays football.", "He don't play football.", "He doesn't plays football.", "He doesn't play football.", "He no play football."], "answer": 3}, 
+{"question": "Change to a question: 'We are friends.'", "options": ["We are friends?", "Are we friends?", "Do we friends?", "Does we friends?", "Is we friends?"], "answer": 1}
+],
+
+// Stage 16
+[
+{"question": "Change to positive: 'You don't study English.'", "options": ["You is study English.", "You studies English.", "You studying English.", "You are study English.", "You study English."], "answer": 4}, 
+{"question": "Change to negative: 'I drink water.'", "options": ["I not drink water.", "I don't drinks water.", "I doesn't drink water.", "I don't drink water.", "I no drink water."], "answer": 3}, 
+{"question": "Change to a question: 'She likes dogs.'", "options": ["She likes dogs?", "Does she likes dogs?", "Do she like dogs?", "Does she like dogs?", "Is she like dogs?"], "answer": 3}, 
+{"question": "Change to positive: 'We aren't teachers.'", "options": ["We are teachers.", "We is teachers.", "We teachers.", "We be teachers.", "We am teachers."], "answer": 0}, 
+{"question": "Change to negative: 'They go to school.'", "options": ["They not go to school.", "They don't goes to school.", "They doesn't go to school.", "They don't go to school.", "They no go to school."], "answer": 3}
+],
+
+// Stage 17
+[
+{"question": "Change to a question: 'He is a doctor.'", "options": ["He is a doctor?", "Is he a doctor?", "Does he a doctor?", "Do he a doctor?", "Are he a doctor?"], "answer": 1}, 
+{"question": "Change to positive: 'I don't like music.'", "options": ["I like music.", "I likes music.", "I liking music.", "I am like music.", "I do like music."], "answer": 0}, 
+{"question": "Change to negative: 'She reads books.'", "options": ["She not reads books.", "She don't read books.", "She doesn't reads books.", "She doesn't read books.", "She no read books."], "answer": 3}, 
+{"question": "Change to a question: 'We play football.'", "options": ["We play football?", "Does we play football?", "Do we play football?", "Are we play football?", "Is we play football?"], "answer": 2}, 
+{"question": "Change to positive: 'They aren't at home.'", "options": ["They are at home.", "They is at home.", "They at home.", "They be at home.", "They am at home."], "answer": 0}
+],
+
+// Stage 18
+[
+{"question": "Change to negative: 'I am hungry.'", "options": ["I not hungry.", "I amn't hungry.", "I isn't hungry.", "I'm not hungry.", "I don't hungry."], "answer": 3}, 
+{"question": "Change to a question: 'You speak English.'", "options": ["You speak English?", "Does you speak English?", "Do you speak English?", "Are you speak English?", "Is you speak English?"], "answer": 2}, 
+{"question": "Change to positive: 'He doesn't like coffee.'", "options": ["He like coffee.", "He likes coffee.", "He liking coffee.", "He is like coffee.", "He do likes coffee."], "answer": 1}, 
+{"question": "Change to negative: 'We are busy.'", "options": ["We not busy.", "We aren't busy.", "We don't busy.", "We isn't busy.", "We no busy."], "answer": 1}, 
+{"question": "Change to a question: 'They live in London.'", "options": ["They live in London?", "Does they live in London?", "Do they live in London?", "Are they live in London?", "Is they live in London?"], "answer": 2}
+],
+
+// Stage 19
+[
+{"question": "Change to positive: 'She doesn't work here.'", "options": ["She work here.", "She works here.", "She working here.", "She is work here.", "She do works here."], "answer": 1}, 
+{"question": "Change to negative: 'I like chocolate.'", "options": ["I not like chocolate.", "I don't likes chocolate.", "I doesn't like chocolate.", "I don't like chocolate.", "I no like chocolate."], "answer": 3}, 
+{"question": "Change to a question: 'He is tall.'", "options": ["He is tall?", "Does he tall?", "Do he tall?", "Are he tall?", "Is he tall?"], "answer": 4}, 
+{"question": "Change to positive: 'We don't eat meat.'", "options": ["We eat meat.", "We eats meat.", "We eating meat.", "We are eat meat.", "We is eat meat."], "answer": 0}, 
+{"question": "Change to negative: 'They play tennis.'", "options": ["They not play tennis.", "They don't plays tennis.", "They doesn't play tennis.", "They don't play tennis.", "They no play tennis."], "answer": 3}
+],
+
+// Stage 20
+[
+{"question": "Change to a question: 'She drinks tea.'", "options": ["She drinks tea?", "Does she drinks tea?", "Do she drink tea?", "Does she drink tea?", "Is she drink tea?"], "answer": 3}, 
+{"question": "Change to positive: 'I'm not happy.'", "options": ["I happy.", "I am happy.", "I is happy.", "I be happy.", "I do happy."], "answer": 1}, 
+{"question": "Change to negative: 'You are my friend.'", "options": ["You not my friend.", "You aren't my friend.", "You don't my friend.", "You isn't my friend.", "You no my friend."], "answer": 1}, 
+{"question": "Change to a question: 'We eat pizza.'", "options": ["We eat pizza?", "Does we eat pizza?", "Do we eat pizza?", "Are we eat pizza?", "Is we eat pizza?"], "answer": 2}, 
+{"question": "Change to positive: 'They don't speak French.'", "options": ["They speak French.", "They speaks French.", "They speaking French.", "They are speak French.", "They is speak French."], "answer": 0}
+]
+
+
+
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+          'Subject Overview': 
+			'<div class="subject-overview-content"><h1>Positive, Negative, and Interrogative Sentences in English</h1><h2>Positive Sentences</h2><p>A <strong>positive sentence</strong> states a fact or expresses an idea. It is the most common type of sentence used in communication.</p><h3>Structure of Positive Sentences</h3><p>The basic structure of a positive sentence is:</p><p><strong>Subject + Verb + Object</strong></p><p>Example:</p><ul><li>She <strong>writes</strong> letters.</li><li>They <strong>are</strong> students.</li></ul><h2>Negative Sentences</h2><p>A <strong>negative sentence</strong> states that something is not true or contradicts a positive statement.</p><h3>Structure of Negative Sentences</h3><p>The basic structure of a negative sentence is:</p><p><strong>Subject + Auxiliary Verb + not + Main Verb</strong></p><p>Example:</p><ul><li>She <strong>doesn&#39;t write</strong> letters.</li><li>They <strong>are not</strong> students.</li></ul><h2>Interrogative Sentences</h2><p>An <strong>interrogative sentence</strong> asks a question and requires a response.</p><h3>Structure of Interrogative Sentences</h3><p>The basic structure of an interrogative sentence depends on the type of question:</p><ul><li><strong>Yes/No Questions:</strong><br> <strong>Auxiliary Verb + Subject + Main Verb?</strong><br>Example: <em>Do you like coffee?</em></li><br><li><strong>Wh- Questions:</strong> <br> <strong>Wh- word + Auxiliary Verb + Subject + Main Verb?</strong><br>Example: <em>What are you doing?</em></li></ul></div>'
+
+            ,'Practice': '<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>'
+        };
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+		function renderQuiz() {
+				const quizContainer = document.getElementById("quiz-content");
+				quizContainer.innerHTML = '';
+				quizData[currentStage].forEach((question, index) => {
+				const questionElement = document.createElement("div");
+				questionElement.className = "question";
+				
+				questionElement.innerHTML = `
+					<p>${index + 1}. ${question.question}</p>
+					<div class="options">
+						<select id="q${index}">
+							<option value="">Select</option>
+							${question.options.map((option, i) => `
+								<option value="${i}">${option}</option>
+							`).join("")}
+						</select>
+					</div>
+					<div class="result" id="result${index}"></div>
+				`;
+
+				quizContainer.appendChild(questionElement);
+			});
+
+			updateStageNumber();
+		}
+
+		function checkStage() {
+			attempts++;
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+			let correctCount = 0;
+			const totalQuestions = quizData[currentStage].length;
+
+			quizData[currentStage].forEach((question, index) => {
+				const resultElement = document.getElementById(`result${index}`);
+				const selectElement = document.getElementById(`q${index}`);
+				const selectedOption = selectElement.value;
+				const userAnswer = parseInt(selectedOption);
+
+				if (userAnswer === question.answer) {
+					resultElement.textContent = "Correct!";
+					resultElement.style.color = "green";
+					correctCount++;
+				} else {
+					resultElement.textContent = "Incorrect answer.";
+					resultElement.style.color = "red";
+				}
+
+				if (attempts >= 10) {
+					selectElement.value = question.answer;
+					selectElement.disabled = true;
+					resultElement.textContent += ` The correct answer is: ${question.options[question.answer]}`;
+				}
+			});
+
+			console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`Stage ${currentStage + 1} completed. Adding ${totalQuestions} animals.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`Moving to stage ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("Congratulations! You've completed all stages.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+		function updateStageNumber() {
+			const stageElement = document.getElementById("stage-number");
+			stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+		}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+    </script>
+</body>
+</html>

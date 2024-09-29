@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>EZ42 LIVE - It's EZ</title>
+</head>
+	<link rel="icon" type="image/svg+xml" href="path/to/your/http://ez42.live/global/logo/tab-logo-emo.svg">
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read each question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title : A1 - 📗 Green, A2 - 📘 Blue, 📕 Red, 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray -->	
+                <h1>Positive Negative & Interrogative - 📘</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 1;
+
+        const quizData = [ 												<!--  PH3 - Quiz Data   -->	
+// Stage 1
+[
+    { question: "Turn this sentence into a question: 'They play soccer on Saturdays.'", options: ["Do they play soccer on Saturdays?", "They do play soccer on Saturdays?", "Are they play soccer on Saturdays?", "Play they soccer on Saturdays?", "Does they play soccer on Saturdays?"], answer: 0 },
+    { question: "Turn this sentence into a negative: 'She eats breakfast at 8 AM.'", options: ["She not eats breakfast at 8 AM.", "She doesn't eat breakfast at 8 AM.", "She don't eat breakfast at 8 AM.", "She doesn't eats breakfast at 8 AM.", "She no eat breakfast at 8 AM."], answer: 1 },
+    { question: "Turn this sentence into a positive: 'He doesn't like chocolate.'", options: ["He like chocolate.", "He is like chocolate.", "He likes chocolate.", "He do like chocolate.", "He liking chocolate."], answer: 2 },
+    { question: "Turn this sentence into a question: 'You are going to the store.'", options: ["Do you going to the store?", "Are you go to the store?", "Going you to the store?", "Are you going to the store?", "You are going to the store?"], answer: 3 },
+    { question: "Turn this sentence into a negative: 'They live in New York.'", options: ["They not live in New York.", "They doesn't live in New York.", "They no live in New York.", "They doesn't lives in New York.", "They don't live in New York."], answer: 4 },
+],
+// Stage 2
+[
+    { question: "Turn this sentence into a positive: 'He isn't studying right now.'", options: ["He studying right now.", "He are studying right now.", "He is study right now.", "He study right now.", "He is studying right now."], answer: 4 },
+    { question: "Turn this sentence into a question: 'They are watching TV.'", options: ["Do they are watching TV?", "Are they watching TV?", "Is they watching TV?", "They are watching TV?", "Watch they TV?"], answer: 1 },
+    { question: "Turn this sentence into a negative: 'She likes ice cream.'", options: ["She don't likes ice cream.", "She doesn't likes ice cream.", "She doesn't like ice cream.", "She don't like ice cream.", "She not like ice cream."], answer: 2 },
+    { question: "Turn this sentence into a positive: 'They aren't playing in the park.'", options: ["They is playing in the park.", "They aren't play in the park.", "They plays in the park.", "They are playing in the park.", "They is play in the park."], answer: 3 },
+    { question: "Turn this sentence into a question: 'He works at a bank.'", options: ["Does he work at a bank?", "Do he works at a bank?", "He works at a bank?", "Works he at a bank?", "Does he works at a bank?"], answer: 0 },
+],
+// Stage 3
+[
+    { question: "Turn this sentence into a negative: 'You speak French.'", options: ["You doesn't speak French.", "You don't speaks French.", "You not speak French.", "You no speak French.", "You don't speak French."], answer: 4 },
+    { question: "Turn this sentence into a positive: 'She isn't cooking dinner.'", options: ["She cooking dinner.", "She is cooking dinner.", "She is cook dinner.", "She is cooking dinners.", "She cook dinner."], answer: 1 },
+    { question: "Turn this sentence into a question: 'They are reading a book.'", options: ["Do they are reading a book?", "They are reading a book?", "Are they reading a book?", "Is they reading a book?", "Reading they a book?"], answer: 2 },
+    { question: "Turn this sentence into a negative: 'He plays the piano.'", options: ["He doesn't play the piano.", "He don't plays the piano.", "He don't play the piano.", "He not plays the piano.", "He no play the piano."], answer: 0 },
+    { question: "Turn this sentence into a positive: 'They aren't listening to music.'", options: ["They listen to music.", "They is listening to music.", "They are listen to music.", "They is listen to music.", "They are listening to music."], answer: 4 },
+],
+// Stage 4
+[
+    { question: "Turn this sentence into a question: 'You write letters every day.'", options: ["Do you write letters every day?", "You write letters every day?", "Are you write letters every day?", "Do you writes letters every day?", "Write you letters every day?"], answer: 0 },
+    { question: "Turn this sentence into a negative: 'She speaks English.'", options: ["She don't speaks English.", "She doesn't speak English.", "She doesn't speaks English.", "She don't speak English.", "She not speaks English."], answer: 1 },
+    { question: "Turn this sentence into a positive: 'They aren't playing soccer.'", options: ["They are playing soccer.", "They is playing soccer.", "They playing soccer.", "They are plays soccer.", "They play soccer."], answer: 0 },
+    { question: "Turn this sentence into a question: 'He drives to work every day.'", options: ["Do he drives to work every day?", "He drives to work every day?", "Is he drives to work every day?", "Does he drive to work every day?", "Drives he to work every day?"], answer: 3 },
+    { question: "Turn this sentence into a negative: 'They eat lunch at noon.'", options: ["They not eat lunch at noon.", "They doesn't eat lunch at noon.", "They don't eats lunch at noon.", "They no eat lunch at noon.", "They don't eat lunch at noon."], answer: 4 },
+],
+// Stage 5
+[
+    { question: "Turn this sentence into a positive: 'He doesn't like to swim.'", options: ["He likes to swim.", "He like to swim.", "He swimming.", "He is swim.", "He do like to swim."], answer: 0 },
+    { question: "Turn this sentence into a question: 'She is reading a book.'", options: ["She reading a book?", "Is she reading a book?", "Reading she a book?", "Does she reading a book?", "Is she reads a book?"], answer: 1 },
+    { question: "Turn this sentence into a negative: 'They go to the gym every day.'", options: ["They not go to the gym every day.", "They doesn't go to the gym every day.", "They don't go to the gym every day.", "They don't goes to the gym every day.", "They no go to the gym every day."], answer: 2 },
+    { question: "Turn this sentence into a positive: 'She doesn't watch TV.'", options: ["She watches TV.", "She watching TV.", "She watch TV.", "She is watch TV.", "She do watches TV."], answer: 0 },
+    { question: "Turn this sentence into a question: 'They work on Sundays.'", options: ["They do work on Sundays?", "Are they work on Sundays?", "Work they on Sundays?", "Does they work on Sundays?", "Do they work on Sundays?"], answer: 4 },
+],
+// Stage 6
+[
+    { question: "Turn this sentence into a negative: 'He plays tennis on weekends.'", options: ["He don't plays tennis on weekends.", "He doesn't play tennis on weekends.", "He doesn't plays tennis on weekends.", "He don't play tennis on weekends.", "He not plays tennis on weekends."], answer: 1 },
+    { question: "Turn this sentence into a positive: 'They aren't eating lunch now.'", options: ["They is eating lunch now.", "They are eats lunch now.", "They eating lunch now.", "They are eating lunch now.", "They is eat lunch now."], answer: 3 },
+    { question: "Turn this sentence into a question: 'You like chocolate.'", options: ["You like chocolate?", "Do you like chocolate?", "Likes you chocolate?", "Are you like chocolate?", "Does you like chocolate?"], answer: 1 },
+    { question: "Turn this sentence into a negative: 'She sings well.'", options: ["She doesn't sing well.", "She don't sings well.", "She not sing well.", "She don't sing well.", "She no sing well."], answer: 0 },
+    { question: "Turn this sentence into a positive: 'They don't drink coffee.'", options: ["They drinks coffee.", "They drinking coffee.", "They drink coffee.", "They is drink coffee.", "They is drinks coffee."], answer: 2 },
+],
+// Stage 7
+[
+    { question: "Turn this sentence into a question: 'He reads books.'", options: ["He reads books?", "Do he reads books?", "Does he read books?", "Is he reads books?", "Do he read books?"], answer: 2 },
+    { question: "Turn this sentence into a negative: 'They go to school on Mondays.'", options: ["They not go to school on Mondays.", "They doesn't go to school on Mondays.", "They don't go to school on Mondays.", "They don't goes to school on Mondays.", "They no go to school on Mondays."], answer: 2 },
+    { question: "Turn this sentence into a positive: 'She doesn't drink tea.'", options: ["She drinks tea.", "She drink tea.", "She drinking tea.", "She is drinks tea.", "She is drink tea."], answer: 0 },
+    { question: "Turn this sentence into a question: 'They play basketball.'", options: ["Do they play basketball?", "They do play basketball?", "Are they play basketball?", "Play they basketball?", "Does they play basketball?"], answer: 0 },
+    { question: "Turn this sentence into a negative: 'He listens to music.'", options: ["He don't listens to music.", "He doesn't listen to music.", "He doesn't listens to music.", "He not listen to music.", "He no listen to music."], answer: 1 },
+],
+// Stage 8
+[
+    { question: "Turn this sentence into a positive: 'They aren't talking now.'", options: ["They are talking now.", "They is talking now.", "They talk now.", "They is talks now.", "They talks now."], answer: 0 },
+    { question: "Turn this sentence into a question: 'She writes stories.'", options: ["Do she writes stories?", "Does she writes stories?", "She writes stories?", "Does she write stories?", "Is she writes stories?"], answer: 3 },
+    { question: "Turn this sentence into a negative: 'He plays the guitar.'", options: ["He don't play the guitar.", "He doesn't play the guitar.", "He doesn't plays the guitar.", "He don't plays the guitar.", "He not play the guitar."], answer: 1 },
+    { question: "Turn this sentence into a positive: 'They don't run fast.'", options: ["They runs fast.", "They is run fast.", "They run fast.", "They is running fast.", "They running fast."], answer: 2 },
+    { question: "Turn this sentence into a question: 'He watches TV every evening.'", options: ["Does he watches TV every evening?", "Do he watches TV every evening?", "He watches TV every evening?", "Does he watch TV every evening?", "Do he watch TV every evening?"], answer: 3 },
+],
+// Stage 9
+[
+    { question: "Turn this sentence into a negative: 'She reads books.'", options: ["She don't reads books.", "She doesn't read books.", "She doesn't reads books.", "She not read books.", "She no reads books."], answer: 1 },
+    { question: "Turn this sentence into a positive: 'They aren't coming to the party.'", options: ["They are coming to the party.", "They is coming to the party.", "They comes to the party.", "They is come to the party.", "They coming to the party."], answer: 0 },
+    { question: "Turn this sentence into a question: 'He sings songs.'", options: ["Does he sings songs?", "Do he sing songs?", "Does he sing songs?", "He sings songs?", "Is he sings songs?"], answer: 2 },
+    { question: "Turn this sentence into a negative: 'They play video games.'", options: ["They doesn't plays video games.", "They doesn't play video games.", "They don't plays video games.", "They don't play video games.", "They not play video games."], answer: 3 },
+    { question: "Turn this sentence into a positive: 'She doesn't swim well.'", options: ["She swim well.", "She swims well.", "She swimming well.", "She is swim well.", "She is swimming well."], answer: 1 },
+],
+// Stage 10
+[
+    { question: "Turn this sentence into a question: 'They work in a bank.'", options: ["Do they work in a bank?", "They do work in a bank?", "Are they work in a bank?", "Work they in a bank?", "Does they work in a bank?"], answer: 0 },
+    { question: "Turn this sentence into a negative: 'She likes to dance.'", options: ["She doesn't likes to dance.", "She don't like to dance.", "She doesn't like to dance.", "She not like to dance.", "She no like to dance."], answer: 2 },
+    { question: "Turn this sentence into a positive: 'They aren't eating dinner now.'", options: ["They eating dinner now.", "They are eating dinner now.", "They are eats dinner now.", "They is eating dinner now.", "They eats dinner now."], answer: 1 },
+    { question: "Turn this sentence into a question: 'He drinks coffee every morning.'", options: ["Does he drinks coffee every morning?", "He drinks coffee every morning?", "Does he drink coffee every morning?", "Do he drink coffee every morning?", "Do he drinks coffee every morning?"], answer: 2 },
+    { question: "Turn this sentence into a negative: 'You speak English.'", options: ["You don't speaks English.", "You don't speak English.", "You doesn't speak English.", "You not speak English.", "You no speak English."], answer: 1 },
+],
+// Stage 11
+[
+    { question: "Turn this sentence into a positive: 'He doesn't like to read.'", options: ["He like to read.", "He likes to read.", "He is like to read.", "He do likes to read.", "He like reading."], answer: 1 },
+    { question: "Turn this sentence into a question: 'They are playing soccer.'", options: ["They are playing soccer?", "Are they playing soccer?", "Is they playing soccer?", "Playing they soccer?", "Do they are playing soccer?"], answer: 1 },
+    { question: "Turn this sentence into a negative: 'She eats lunch at noon.'", options: ["She not eats lunch at noon.", "She doesn't eats lunch at noon.", "She don't eat lunch at noon.", "She doesn't eat lunch at noon.", "She no eats lunch at noon."], answer: 3 },
+    { question: "Turn this sentence into a positive: 'They don't go to school.'", options: ["They go to school.", "They is going to school.", "They are go to school.", "They do goes to school.", "They goes to school."], answer: 0 },
+    { question: "Turn this sentence into a question: 'He walks to work.'", options: ["Does he walks to work?", "He walks to work?", "Does he walk to work?", "Do he walk to work?", "Is he walks to work?"], answer: 2 },
+],
+// Stage 12
+[
+    { question: "Turn this sentence into a negative: 'She speaks Spanish.'", options: ["She not speaks Spanish.", "She don't speaks Spanish.", "She doesn't speak Spanish.", "She no speaks Spanish.", "She doesn't speaks Spanish."], answer: 2 },
+    { question: "Turn this sentence into a positive: 'They aren't playing chess.'", options: ["They is playing chess.", "They plays chess.", "They are playing chess.", "They playing chess.", "They is play chess."], answer: 2 },
+    { question: "Turn this sentence into a question: 'He reads every night.'", options: ["Does he reads every night?", "Do he read every night?", "Is he reads every night?", "Does he read every night?", "He reads every night?"], answer: 3 },
+    { question: "Turn this sentence into a negative: 'They watch TV in the evening.'", options: ["They don't watches TV in the evening.", "They don't watch TV in the evening.", "They doesn't watch TV in the evening.", "They not watch TV in the evening.", "They no watch TV in the evening."], answer: 1 },
+    { question: "Turn this sentence into a positive: 'She doesn't drive to work.'", options: ["She drive to work.", "She drives to work.", "She driving to work.", "She is drive to work.", "She do drives to work."], answer: 1 },
+],
+// Stage 13
+[
+    { question: "Turn this sentence into a question: 'They cook dinner every night.'", options: ["They do cook dinner every night?", "Does they cook dinner every night?", "Do they cooks dinner every night?", "Do they cook dinner every night?", "Cook they dinner every night?"], answer: 3 },
+    { question: "Turn this sentence into a negative: 'She listens to music every morning.'", options: ["She don't listens to music every morning.", "She doesn't listen to music every morning.", "She not listens to music every morning.", "She doesn't listens to music every morning.", "She no listen to music every morning."], answer: 1 },
+    { question: "Turn this sentence into a positive: 'They aren't doing their homework.'", options: ["They are doing their homework.", "They is doing their homework.", "They does their homework.", "They doing their homework.", "They do doing their homework."], answer: 0 },
+    { question: "Turn this sentence into a question: 'He takes the bus to school.'", options: ["Does he takes the bus to school?", "Do he take the bus to school?", "He takes the bus to school?", "Does he take the bus to school?", "Is he takes the bus to school?"], answer: 3 },
+    { question: "Turn this sentence into a negative: 'They drink water every day.'", options: ["They doesn't drink water every day.", "They don't drink water every day.", "They don't drinks water every day.", "They not drink water every day.", "They no drink water every day."], answer: 1 },
+],
+// Stage 14
+[
+    { question: "Turn this sentence into a positive: 'He doesn't walk his dog.'", options: ["He walk his dog.", "He walks his dog.", "He is walk his dog.", "He do walks his dog.", "He walking his dog."], answer: 1 },
+    { question: "Turn this sentence into a question: 'They read books in the afternoon.'", options: ["Does they read books in the afternoon?", "Do they reads books in the afternoon?", "Do they read books in the afternoon?", "Read they books in the afternoon?", "Is they read books in the afternoon?"], answer: 2 },
+    { question: "Turn this sentence into a negative: 'She writes emails every day.'", options: ["She not writes emails every day.", "She doesn't write emails every day.", "She don't writes emails every day.", "She doesn't writes emails every day.", "She no write emails every day."], answer: 1 },
+    { question: "Turn this sentence into a positive: 'They don't walk to school.'", options: ["They walk to school.", "They is walk to school.", "They are walks to school.", "They do walks to school.", "They is walks to school."], answer: 0 },
+    { question: "Turn this sentence into a question: 'He plays the guitar.'", options: ["Does he plays the guitar?", "Do he play the guitar?", "He plays the guitar?", "Does he play the guitar?", "Play he the guitar?"], answer: 3 },
+],
+// Stage 15
+[
+    { question: "Turn this sentence into a negative: 'She sings beautifully.'", options: ["She not sings beautifully.", "She don't sing beautifully.", "She doesn't sing beautifully.", "She doesn't sings beautifully.", "She no sing beautifully."], answer: 2 },
+    { question: "Turn this sentence into a positive: 'They don't eat vegetables.'", options: ["They eat vegetables.", "They eats vegetables.", "They eating vegetables.", "They is eat vegetables.", "They is eats vegetables."], answer: 0 },
+    { question: "Turn this sentence into a question: 'He drinks water every day.'", options: ["Does he drinks water every day?", "Do he drink water every day?", "He drinks water every day?", "Does he drink water every day?", "Is he drinks water every day?"], answer: 3 },
+    { question: "Turn this sentence into a negative: 'They work together.'", options: ["They doesn't work together.", "They not work together.", "They don't works together.", "They don't work together.", "They no work together."], answer: 3 },
+    { question: "Turn this sentence into a positive: 'She doesn't run fast.'", options: ["She run fast.", "She runs fast.", "She is run fast.", "She do runs fast.", "She running fast."], answer: 1 },
+],
+// Stage 16
+[
+    { question: "Turn this sentence into a question: 'They travel to France every year.'", options: ["Do they travel to France every year?", "They do travel to France every year?", "Are they travel to France every year?", "Travel they to France every year?", "Does they travel to France every year?"], answer: 0 },
+    { question: "Turn this sentence into a negative: 'He eats lunch at noon.'", options: ["He doesn't eat lunch at noon.", "He don't eats lunch at noon.", "He not eat lunch at noon.", "He doesn't eats lunch at noon.", "He no eat lunch at noon."], answer: 0 },
+    { question: "Turn this sentence into a positive: 'They don't visit their grandparents.'", options: ["They visits their grandparents.", "They visiting their grandparents.", "They is visit their grandparents.", "They visit their grandparents.", "They is visits their grandparents."], answer: 3 },
+    { question: "Turn this sentence into a question: 'She listens to music in the evening.'", options: ["Do she listens to music in the evening?", "Does she listen to music in the evening?", "She listens to music in the evening?", "Is she listens to music in the evening?", "Listen she to music in the evening?"], answer: 1 },
+    { question: "Turn this sentence into a negative: 'He drives to work every day.'", options: ["He doesn't drive to work every day.", "He don't drives to work every day.", "He not drive to work every day.", "He doesn't drives to work every day.", "He no drive to work every day."], answer: 0 },
+],
+// Stage 17
+[
+    { question: "Turn this sentence into a positive: 'She doesn't watch movies.'", options: ["She is watch movies.", "She watch movies.", "She watching movies.", "She is watches movies.", "She watches movies."], answer: 4 },
+    { question: "Turn this sentence into a question: 'They read books at night.'", options: ["Do they read books at night?", "Does they read books at night?", "Read they books at night?", "Are they read books at night?", "They do read books at night?"], answer: 0 },
+    { question: "Turn this sentence into a negative: 'He walks to school.'", options: ["He don't walks to school.", "He doesn't walk to school.", "He not walks to school.", "He doesn't walks to school.", "He no walk to school."], answer: 1 },
+    { question: "Turn this sentence into a positive: 'They don't like coffee.'", options: ["They likes coffee.", "They liking coffee.", "They like coffee.", "They are likes coffee.", "They is liking coffee."], answer: 2 },
+    { question: "Turn this sentence into a question: 'She plays the piano.'", options: ["Does she plays the piano?", "Do she play the piano?", "She plays the piano?", "Does she play the piano?", "Play she the piano?"], answer: 3 },
+],
+// Stage 18
+[
+    { question: "Turn this sentence into a negative: 'They travel by train.'", options: ["They don't travel by train.", "They doesn't travel by train.", "They don't travels by train.", "They not travel by train.", "They no travel by train."], answer: 0 },
+    { question: "Turn this sentence into a positive: 'He doesn't like sports.'", options: ["He liking sports.", "He likes sports.", "He is liking sports.", "He is like sports.", "He do likes sports."], answer: 1 },
+    { question: "Turn this sentence into a question: 'They go to the gym.'", options: ["Do they go to the gym?", "Does they go to the gym?", "Go they to the gym?", "They go to the gym?", "Are they go to the gym?"], answer: 0 },
+    { question: "Turn this sentence into a negative: 'She studies hard.'", options: ["She not studies hard.", "She doesn't studies hard.", "She don't study hard.", "She doesn't study hard.", "She no study hard."], answer: 3 },
+    { question: "Turn this sentence into a positive: 'They don't eat meat.'", options: ["They eats meat.", "They eat meat.", "They eating meat.", "They is eating meat.", "They is eats meat."], answer: 1 },
+],
+// Stage 19
+[
+    { question: "Turn this sentence into a question: 'He speaks English.'", options: ["Does he speaks English?", "Do he speak English?", "Does he speak English?", "He speaks English?", "Speak he English?"], answer: 2 },
+    { question: "Turn this sentence into a negative: 'They visit their friends.'", options: ["They don't visit their friends.", "They doesn't visit their friends.", "They not visit their friends.", "They doesn't visits their friends.", "They no visit their friends."], answer: 0 },
+    { question: "Turn this sentence into a positive: 'She doesn't ride a bike.'", options: ["She rides a bike.", "She ride a bike.", "She riding a bike.", "She is rides a bike.", "She is ride a bike."], answer: 0 },
+    { question: "Turn this sentence into a question: 'They write letters.'", options: ["Do they writes letters?", "Does they write letters?", "They do write letters?", "Do they write letters?", "Are they write letters?"], answer: 3 },
+    { question: "Turn this sentence into a negative: 'He listens to music.'", options: ["He doesn't listen to music.", "He not listen to music.", "He don't listens to music.", "He doesn't listens to music.", "He no listen to music."], answer: 0 },
+],
+// Stage 20
+[
+    { question: "Turn this sentence into a positive: 'They don't drink soda.'", options: ["They drink soda.", "They drinks soda.", "They is drinks soda.", "They is drink soda.", "They drinking soda."], answer: 0 },
+    { question: "Turn this sentence into a question: 'She teaches English.'", options: ["Does she teaches English?", "Do she teach English?", "She teaches English?", "Does she teach English?", "Is she teaches English?"], answer: 3 },
+    { question: "Turn this sentence into a negative: 'They enjoy reading.'", options: ["They not enjoys reading.", "They don't enjoys reading.", "They doesn't enjoy reading.", "They no enjoy reading.", "They don't enjoy reading."], answer: 4 },
+    { question: "Turn this sentence into a positive: 'He doesn't like ice cream.'", options: ["He like ice cream.", "He is like ice cream.", "He likes ice cream.", "He do likes ice cream.", "He liking ice cream."], answer: 2 },
+    { question: "Turn this sentence into a question: 'They bake cookies on Sundays.'", options: ["Do they bakes cookies on Sundays?", "Does they bake cookies on Sundays?", "Do they bake cookies on Sundays?", "Bake they cookies on Sundays?", "Are they bake cookies on Sundays?"], answer: 2 },
+]
+
+
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+          'Subject Overview': 
+			'<div class="subject-overview-content"><h1>Positive, Negative, and Interrogative Sentences in English</h1><h2>Positive Sentences</h2><p>A <strong>positive sentence</strong> states a fact or expresses an idea. It is the most common type of sentence used in communication.</p><h3>Structure of Positive Sentences</h3><p>The basic structure of a positive sentence is:</p><p><strong>Subject + Verb + Object</strong></p><p>Example:</p><ul><li>She <strong>writes</strong> letters.</li><li>They <strong>are</strong> students.</li></ul><h2>Negative Sentences</h2><p>A <strong>negative sentence</strong> states that something is not true or contradicts a positive statement.</p><h3>Structure of Negative Sentences</h3><p>The basic structure of a negative sentence is:</p><p><strong>Subject + Auxiliary Verb + not + Main Verb</strong></p><p>Example:</p><ul><li>She <strong>doesn&#39;t write</strong> letters.</li><li>They <strong>are not</strong> students.</li></ul><h2>Interrogative Sentences</h2><p>An <strong>interrogative sentence</strong> asks a question and requires a response.</p><h3>Structure of Interrogative Sentences</h3><p>The basic structure of an interrogative sentence depends on the type of question:</p><ul><li><strong>Yes/No Questions:</strong><br> <strong>Auxiliary Verb + Subject + Main Verb?</strong><br>Example: <em>Do you like coffee?</em></li><br><li><strong>Wh- Questions:</strong> <br> <strong>Wh- word + Auxiliary Verb + Subject + Main Verb?</strong><br>Example: <em>What are you doing?</em></li></ul></div>'
+
+            ,'Practice': '<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>'
+        };
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+		function renderQuiz() {
+				const quizContainer = document.getElementById("quiz-content");
+				quizContainer.innerHTML = '';
+				quizData[currentStage].forEach((question, index) => {
+				const questionElement = document.createElement("div");
+				questionElement.className = "question";
+				
+				questionElement.innerHTML = `
+					<p>${index + 1}. ${question.question}</p>
+					<div class="options">
+						<select id="q${index}">
+							<option value="">Select</option>
+							${question.options.map((option, i) => `
+								<option value="${i}">${option}</option>
+							`).join("")}
+						</select>
+					</div>
+					<div class="result" id="result${index}"></div>
+				`;
+
+				quizContainer.appendChild(questionElement);
+			});
+
+			updateStageNumber();
+		}
+
+		function checkStage() {
+			attempts++;
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+			let correctCount = 0;
+			const totalQuestions = quizData[currentStage].length;
+
+			quizData[currentStage].forEach((question, index) => {
+				const resultElement = document.getElementById(`result${index}`);
+				const selectElement = document.getElementById(`q${index}`);
+				const selectedOption = selectElement.value;
+				const userAnswer = parseInt(selectedOption);
+
+				if (userAnswer === question.answer) {
+					resultElement.textContent = "Correct!";
+					resultElement.style.color = "green";
+					correctCount++;
+				} else {
+					resultElement.textContent = "Incorrect answer.";
+					resultElement.style.color = "red";
+				}
+
+				if (attempts >= 10) {
+					selectElement.value = question.answer;
+					selectElement.disabled = true;
+					resultElement.textContent += ` The correct answer is: ${question.options[question.answer]}`;
+				}
+			});
+
+			console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`Stage ${currentStage + 1} completed. Adding ${totalQuestions} animals.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`Moving to stage ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("Congratulations! You've completed all stages.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+		function updateStageNumber() {
+			const stageElement = document.getElementById("stage-number");
+			stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+		}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+    </script>
+</body>
+</html>
