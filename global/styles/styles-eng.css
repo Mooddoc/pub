@@ -331,3 +331,78 @@
 	    width: 50%;
 	    height: auto;
 	}
+
+/* Styles for the Subject Overview content */
+.subject-overview-content {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 0.625rem;
+    box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
+    margin: 1rem 0;
+}
+
+.subject-overview-content h1 {
+    color: black;
+    text-align: center;
+    font-size: 2rem;
+}
+
+.subject-overview-content h2 {
+    color: #ff7f50; /* Use the same color as in your existing styles */
+    font-size: 1.5rem;
+    margin-top: 1.5em;
+}
+
+.subject-overview-content h3 {
+    color: #333;
+    font-size: 1.25rem;
+    margin-top: 1em;
+}
+
+.subject-overview-content p {
+    color: #37474f;
+    line-height: 1.6;
+}
+
+.subject-overview-content ul, .subject-overview-content ol {
+    margin-left: 1.5rem;
+}
+
+.subject-overview-content li {
+    margin-bottom: 0.5rem;
+}
+
+.subject-overview-content strong {
+    color: #ff7f50; /* Highlight key terms with the existing accent color */
+}
+
+.subject-overview-content em {
+    font-style: italic;
+}
+
+.subject-overview-content a {
+    color: #00acc1; /* Use the accent color for links */
+    text-decoration: none;
+}
+
+.subject-overview-content a:hover {
+    text-decoration: underline;
+}
+
+.subject-overview-content hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 2em 0;
+}
+
+@media (max-width: 600px) {
+    .subject-overview-content h1 {
+        font-size: 1.5rem;
+    }
+    .subject-overview-content h2 {
+        font-size: 1.25rem;
+    }
+    .subject-overview-content h3 {
+        font-size: 1.1rem;
+    }
+}
