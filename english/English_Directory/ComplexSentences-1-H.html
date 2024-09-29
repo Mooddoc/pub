@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-heb.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+	<title>EZ42 - זה קל</title>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+			<div class="logo-container">
+				<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+					<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+				</a>
+			</div>
+                <h2>הוראות</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                    <li>יש לקרוא כל שאלה בעיון.</li>
+                    <li>בחר/י את התשובה הנכונה ביותר מתוך התפריט הנפתח.</li>
+                    <li>יש ללחוץ על בדיקת תשובות כשמוכנים!</li>
+                    <li>יש להשלים את כל השאלות כדי לעבור לשלב הבא.</li>
+                    <li>לאחר 10 ניסיונות, התשובות הנכונות יוצגו.</li>
+                    <li>שיהיה כיף!</li>
+                </ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, 📕 Red, 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray -->		
+                <h1>משפטים מורכבים - 📗</h1>
+                <h1>Complex Sentences</h1>
+
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות החיות</h2>
+				<p>החווה שלך גדלה תוך כדי התקדמות! כל שלב מוסיף חיות חדשות לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 1;
+
+        const quizData = [ 												<!--  PH3 - Quiz Data   -->	
+  //Stage 1
+  [
+    {
+      "question": "Complete the sentence: 'I like apples ___ oranges.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 1
+    },
+    {
+      "question": "Complete the sentence: 'She is happy ___ she got a new toy.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 2
+    },
+    {
+      "question": "Complete the sentence: 'He is tired, ___ he wants to sleep.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 3
+    },
+    {
+      "question": "Complete the sentence: 'I want ice cream ___ cake.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 4
+    },
+    {
+      "question": "Complete the sentence: 'She likes cats ___ she doesn't like dogs.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 0
+    }
+  ],
+  //Stage 2
+  [
+    {
+      "question": "Complete the sentence: 'He is tall ___ his brother is short.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 0
+    },
+    {
+      "question": "Complete the sentence: 'I am hungry, ___ I will eat lunch.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 3
+    },
+    {
+      "question": "Complete the sentence: 'She likes to sing ___ dance.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 1
+    },
+    {
+      "question": "Complete the sentence: 'We can go to the park ___ stay at home.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 4
+    },
+    {
+      "question": "Complete the sentence: 'He is happy ___ it's his birthday.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 2
+    }
+  ],
+  //Stage 3
+  [
+    {
+      "question": "Complete the sentence: 'I like pizza, ___ my friend likes pasta.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 0
+    },
+    {
+      "question": "Complete the sentence: 'She is sad ___ she lost her toy.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 2
+    },
+    {
+      "question": "Complete the sentence: 'It's raining, ___ I need an umbrella.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 3
+    },
+    {
+      "question": "Complete the sentence: 'He likes tea ___ coffee.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 1
+    },
+    {
+      "question": "Complete the sentence: 'We can watch TV ___ read a book.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 4
+    }
+  ],
+  //Stage 4
+  [
+    {
+      "question": "Complete the sentence: 'She is smart ___ kind.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 1
+    },
+    {
+      "question": "Complete the sentence: 'I am learning English ___ I want to travel.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 2
+    },
+    {
+      "question": "Complete the sentence: 'He is tired, ___ he will go to bed early.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 3
+    },
+    {
+      "question": "Complete the sentence: 'Do you want tea ___ coffee?'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 4
+    },
+    {
+      "question": "Complete the sentence: 'I like summer, ___ I don't like winter.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 0
+    }
+  ],
+  //Stage 5
+  [
+    {
+      "question": "Complete the sentence: 'She can sing ___ she can't dance.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 0
+    },
+    {
+      "question": "Complete the sentence: 'I am thirsty, ___ I will drink water.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 3
+    },
+    {
+      "question": "Complete the sentence: 'He likes to read ___ write.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 1
+    },
+    {
+      "question": "Complete the sentence: 'We can eat here ___ at home.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 4
+    },
+    {
+      "question": "Complete the sentence: 'She is happy ___ she got good grades.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 2
+    }
+  ],
+  //Stage 6
+  [
+    {
+      "question": "Complete the sentence: 'I like cats ___ dogs.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 1
+    },
+    {
+      "question": "Complete the sentence: 'He is late ___ he missed the bus.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 2
+    },
+    {
+      "question": "Complete the sentence: 'It's cold, ___ I will wear a jacket.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 3
+    },
+    {
+      "question": "Complete the sentence: 'Do you want to go now ___ later?'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 4
+    },
+    {
+      "question": "Complete the sentence: 'She can swim, ___ she can't ride a bike.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 0
+    }
+  ],
+  //Stage 7
+  [
+    {
+      "question": "Complete the sentence: 'I like chocolate ___ I don't like candy.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 0
+    },
+    {
+      "question": "Complete the sentence: 'He is sick, ___ he will stay at home.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 3
+    },
+    {
+      "question": "Complete the sentence: 'We need bread ___ milk.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 1
+    },
+    {
+      "question": "Complete the sentence: 'You can have an apple ___ an orange.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 4
+    },
+    {
+      "question": "Complete the sentence: 'She is tired ___ she worked all day.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 2
+    }
+  ],
+  //Stage 8
+  [
+    {
+      "question": "Complete the sentence: 'I want to go out, ___ it's raining.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 0
+    },
+    {
+      "question": "Complete the sentence: 'He is hungry, ___ he will eat a sandwich.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 3
+    },
+    {
+      "question": "Complete the sentence: 'She likes to play soccer ___ basketball.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 1
+    },
+    {
+      "question": "Complete the sentence: 'We can watch a movie ___ go for a walk.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 4
+    },
+    {
+      "question": "Complete the sentence: 'They are happy ___ they won the game.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 2
+    }
+  ],
+  //Stage 9
+  [
+    {
+      "question": "Complete the sentence: 'I like to cook ___ I don't like to clean.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 0
+    },
+    {
+      "question": "Complete the sentence: 'She is smart, ___ she gets good grades.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 3
+    },
+    {
+      "question": "Complete the sentence: 'He wants a new bike ___ a new phone.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 1
+    },
+    {
+      "question": "Complete the sentence: 'Do you want to go by bus ___ by train?'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 4
+    },
+    {
+      "question": "Complete the sentence: 'They are excited ___ they are going on vacation.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 2
+    }
+  ],
+  //Stage 10
+  [
+    {
+      "question": "Complete the sentence: 'She can speak English, ___ she can't write it well.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 0
+    },
+    {
+      "question": "Complete the sentence: 'It's sunny, ___ we can go to the beach.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 3
+    },
+    {
+      "question": "Complete the sentence: 'He likes to play guitar ___ sing.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 1
+    },
+    {
+      "question": "Complete the sentence: 'We can eat pizza ___ pasta for dinner.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 4
+    },
+    {
+      "question": "Complete the sentence: 'They are learning English ___ they want to travel abroad.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 2
+    }
+  ],
+  //Stage 11
+  [
+    {
+      "question": "Complete the sentence: 'I like to swim ___ I don't like to run.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 0
+    },
+    {
+      "question": "Complete the sentence: 'He is hungry, ___ he will eat an apple.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 3
+    },
+    {
+      "question": "Complete the sentence: 'She likes to read books ___ watch movies.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 1
+    },
+    {
+      "question": "Complete the sentence: 'We can go to the park ___ stay at home.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 4
+    },
+    {
+      "question": "Complete the sentence: 'They are happy ___ they won the game.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 2
+    }
+  ],
+  //Stage 12
+  [
+    {
+      "question": "Complete the sentence: 'I want to go out, ___ it's raining.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 0
+    },
+    {
+      "question": "Complete the sentence: 'She is tired, ___ she will go to bed early.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 3
+    },
+    {
+      "question": "Complete the sentence: 'He likes coffee ___ tea.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 1
+    },
+    {
+      "question": "Complete the sentence: 'Do you want pizza ___ pasta for dinner?'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 4
+    },
+    {
+      "question": "Complete the sentence: 'They are learning English ___ they want to travel.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 2
+    }
+  ],
+  //Stage 13
+  [
+    {
+      "question": "Complete the sentence: 'She can sing ___ she can't dance.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 0
+    },
+    {
+      "question": "Complete the sentence: 'It's cold outside, ___ I will wear a coat.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 3
+    },
+    {
+      "question": "Complete the sentence: 'We need bread ___ milk from the store.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 1
+    },
+    {
+      "question": "Complete the sentence: 'You can have an apple ___ an orange.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 4
+    },
+    {
+      "question": "Complete the sentence: 'He is late ___ he missed the bus.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 2
+    }
+  ],
+  //Stage 14
+  [
+    {
+      "question": "Complete the sentence: 'I like cats, ___ my friend likes dogs.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 0
+    },
+    {
+      "question": "Complete the sentence: 'She is sick, ___ she will stay at home.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 3
+    },
+    {
+      "question": "Complete the sentence: 'He wants to buy a book ___ a pen.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 1
+    },
+    {
+      "question": "Complete the sentence: 'We can watch TV ___ listen to music.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 4
+    },
+    {
+      "question": "Complete the sentence: 'They are excited ___ it's their birthday.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 2
+    }
+  ],
+  //Stage 15
+  [
+    {
+      "question": "Complete the sentence: 'I want to go to the beach, ___ I don't have time.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 0
+    },
+    {
+      "question": "Complete the sentence: 'He is thirsty, ___ he will drink some water.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 3
+    },
+    {
+      "question": "Complete the sentence: 'She likes to play piano ___ guitar.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 1
+    },
+    {
+      "question": "Complete the sentence: 'Do you want to go by car ___ by bus?'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 4
+    },
+    {
+      "question": "Complete the sentence: 'They are studying hard ___ they have a test tomorrow.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 2
+    }
+  ],
+  //Stage 16
+  [
+    {
+      "question": "Complete the sentence: 'She speaks English well, ___ she can't write it.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 0
+    },
+    {
+      "question": "Complete the sentence: 'It's sunny today, ___ we can go for a walk.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 3
+    },
+    {
+      "question": "Complete the sentence: 'He likes to play football ___ basketball.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 1
+    },
+    {
+      "question": "Complete the sentence: 'We can eat at home ___ go to a restaurant.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 4
+    },
+    {
+      "question": "Complete the sentence: 'They are happy ___ they got good grades.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 2
+    }
+  ],
+  //Stage 17
+  [
+    {
+      "question": "Complete the sentence: 'I like summer, ___ I don't like winter.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 0
+    },
+    {
+      "question": "Complete the sentence: 'He is tired, ___ he will take a nap.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 3
+    },
+    {
+      "question": "Complete the sentence: 'She wants to buy a shirt ___ a skirt.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 1
+    },
+    {
+      "question": "Complete the sentence: 'You can have cake ___ ice cream for dessert.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 4
+    },
+    {
+      "question": "Complete the sentence: 'They are learning to cook ___ they like good food.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 2
+    }
+  ],
+  //Stage 18
+  [
+    {
+      "question": "Complete the sentence: 'She likes to dance, ___ she doesn't like to sing.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 0
+    },
+    {
+      "question": "Complete the sentence: 'It's raining, ___ I will use an umbrella.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 3
+    },
+    {
+      "question": "Complete the sentence: 'We need to buy eggs ___ milk.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 1
+    },
+    {
+      "question": "Complete the sentence: 'Do you want to wear the blue shirt ___ the red one?'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 4
+    },
+    {
+      "question": "Complete the sentence: 'He is sad ___ his friend moved away.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 2
+    }
+  ],
+  //Stage 19
+  [
+    {
+      "question": "Complete the sentence: 'I want to go to the party, ___ I have to study.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 0
+    },
+    {
+      "question": "Complete the sentence: 'She forgot her lunch, ___ she will buy something.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 3
+    },
+    {
+      "question": "Complete the sentence: 'He likes to play video games ___ read comics.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 1
+    },
+    {
+      "question": "Complete the sentence: 'We can go to the zoo ___ the museum.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 4
+    },
+    {
+      "question": "Complete the sentence: 'They are learning to swim ___ they live near the beach.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 2
+    }
+  ],
+  //Stage 20
+  [
+    {
+      "question": "Complete the sentence: 'He can run fast, ___ he can't jump high.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 0
+    },
+    {
+      "question": "Complete the sentence: 'It's getting late, ___ we should go home.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 3
+    },
+    {
+      "question": "Complete the sentence: 'She likes to draw ___ paint.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 1
+    },
+    {
+      "question": "Complete the sentence: 'Do you want tea ___ coffee?'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 4
+    },
+    {
+      "question": "Complete the sentence: 'They are practicing every day ___ they want to win the competition.'",
+      "options": ["but", "and", "because", "so", "or"],
+      "answer": 2
+    }
+  ]
+
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+			//'לימוד הנושא':
+			//'<h2>משפטים חיוביים</h2>',
+             'תרגול': '<div id="stage-number" class="stage-number">שלב 1 מתוך ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">ניסיונות: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">בדיקת תשובות</button>'
+        };
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'תרגול') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+		function renderQuiz() {
+				const quizContainer = document.getElementById("quiz-content");
+				quizContainer.innerHTML = '';
+				quizData[currentStage].forEach((question, index) => {
+				const questionElement = document.createElement("div");
+				questionElement.className = "question";
+				
+				questionElement.innerHTML = `
+					<p>${index + 1}. ${question.question}</p>
+					<div class="options">
+						<select id="q${index}">
+							<option value="">Select</option>
+							${question.options.map((option, i) => `
+								<option value="${i}">${option}</option>
+							`).join("")}
+						</select>
+					</div>
+					<div class="result" id="result${index}"></div>
+				`;
+
+				quizContainer.appendChild(questionElement);
+			});
+
+			updateStageNumber();
+		}
+
+		function checkStage() {
+			attempts++;
+			document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+
+			let correctCount = 0;
+			const totalQuestions = quizData[currentStage].length;
+
+			quizData[currentStage].forEach((question, index) => {
+				const resultElement = document.getElementById(`result${index}`);
+				const selectElement = document.getElementById(`q${index}`);
+				const selectedOption = selectElement.value;
+				const userAnswer = parseInt(selectedOption);
+
+				if (userAnswer === question.answer) {
+					resultElement.textContent = "נכון!";
+					resultElement.style.color = "green";
+					correctCount++;
+				} else {
+					resultElement.textContent = "תשובה שגויה.";
+					resultElement.style.color = "red";
+				}
+
+				if (attempts >= 10) {
+					selectElement.value = question.answer;
+					selectElement.disabled = true;
+					resultElement.textContent += ` התשובה הנכונה היא: ${question.options[question.answer]}`;
+				}
+			});
+
+			console.log(`שלב ${currentStage + 1}: ${correctCount} נכונות מתוך ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`שלב ${currentStage + 1} הושלם. מוסיף ${totalQuestions} חיות.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`עובר לשלב ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("כל הכבוד! השלמת את כל השלבים.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("הגעת למספר הניסיונות המקסימלי. התשובות הנכונות נחשפו.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+        function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+            const incorrectCount = totalQuestions - correctCount;
+            let message = `קיבלת ${correctCount} נכונות ו-${incorrectCount} שגויות.`;
+            
+            if (correctCount === totalQuestions) {
+                message += " ציון מושלם!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+                message += " עבודה מצוינת! רואים שהנושא מתחיל להיות מובן!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+                message += " מאמץ טוב! נמשיך לתרגל כי השיפור קרוב!";
+            } else {
+                message += " לא לוותר! כל נסיון עוזר לך ללמוד. ננסה שוב!";
+            }
+
+            if (isStageComplete) {
+                message += "\n\n השלב הזה הסתיים, עוברים לשלב הבא.";
+            }
+
+            showModal(message);
+        }
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `נסיונות: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+        function updateStageNumber() {
+            const stageElement = document.getElementById("stage-number");
+            stageElement.textContent = `שלב ${currentStage + 1} מתוך ${stageCount}`;
+        }
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+    </script>
+</body>
+</html>
