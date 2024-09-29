@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/svg+xml" href="path/to/your/http://ez42.live/global/logo/tab-logo-emo.svg">
+.svg">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read each question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title : A1 - 📗 Green, A2 - 📘 Blue, 📕 Red, 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray -->	
+                <h1>Animals and Nature Vocabulary - A2</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 1;
+
+        const quizData = [ 												<!--  PH3 - Quiz Data   -->	
+
+  // Stage 1
+  [
+    {
+      "question": "Which of these animals is a mammal?",
+      "options": ["Crocodile", "Penguin", "Dolphin", "Lizard", "Frog"],
+      "answer": 2
+    },
+    {
+      "question": "What is the process of a caterpillar turning into a butterfly called?",
+      "options": ["Evolution", "Metamorphosis", "Growth", "Adaptation", "Transformation"],
+      "answer": 1
+    },
+    {
+      "question": "Which of these trees loses its leaves in winter?",
+      "options": ["Pine", "Oak", "Palm", "Fir", "Spruce"],
+      "answer": 1
+    },
+    {
+      "question": "What do we call animals that only eat plants?",
+      "options": ["Carnivores", "Herbivores", "Omnivores", "Insectivores", "Pescatarians"],
+      "answer": 1
+    },
+    {
+      "question": "Which of these is not a type of weather?",
+      "options": ["Sunny", "Rainy", "Windy", "Mountain", "Cloudy"],
+      "answer": 3
+    }
+  ],
+  // Stage 2
+  [
+    {
+      "question": "What is the largest planet in our solar system?",
+      "options": ["Mars", "Venus", "Jupiter", "Saturn", "Earth"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these animals is nocturnal?",
+      "options": ["Eagle", "Rabbit", "Owl", "Squirrel", "Bee"],
+      "answer": 2
+    },
+    {
+      "question": "What do we call a young sheep?",
+      "options": ["Calf", "Kitten", "Puppy", "Lamb", "Cub"],
+      "answer": 3
+    },
+    {
+      "question": "Which of these is not a type of cloud?",
+      "options": ["Cumulus", "Stratus", "Nimbus", "Cirrus", "Rainbow"],
+      "answer": 4
+    },
+    {
+      "question": "What is the process of water turning into vapor called?",
+      "options": ["Condensation", "Precipitation", "Evaporation", "Freezing", "Melting"],
+      "answer": 2
+    }
+  ],
+  // Stage 3
+  [
+    {
+      "question": "Which of these animals is a reptile?",
+      "options": ["Frog", "Salamander", "Turtle", "Shark", "Dolphin"],
+      "answer": 2
+    },
+    {
+      "question": "What do we call a group of wolves?",
+      "options": ["Herd", "Flock", "School", "Pack", "Swarm"],
+      "answer": 3
+    },
+    {
+      "question": "Which of these is not a type of rock?",
+      "options": ["Igneous", "Sedimentary", "Metamorphic", "Volcanic", "Aquatic"],
+      "answer": 4
+    },
+    {
+      "question": "What is the natural home of an animal called?",
+      "options": ["Habitat", "House", "Nest", "Den", "Burrow"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these planets is known as the 'Red Planet'?",
+      "options": ["Venus", "Mars", "Jupiter", "Saturn", "Mercury"],
+      "answer": 1
+    }
+  ],
+  // Stage 4
+  [
+    {
+      "question": "What do we call animals that eat both plants and meat?",
+      "options": ["Carnivores", "Herbivores", "Omnivores", "Insectivores", "Vegetarians"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is not a type of renewable energy?",
+      "options": ["Solar", "Wind", "Coal", "Hydroelectric", "Geothermal"],
+      "answer": 2
+    },
+    {
+      "question": "What is the largest organ in the human body?",
+      "options": ["Heart", "Brain", "Liver", "Skin", "Lungs"],
+      "answer": 3
+    },
+    {
+      "question": "Which of these animals is not a primate?",
+      "options": ["Gorilla", "Chimpanzee", "Lemur", "Koala", "Orangutan"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call the study of fossils?",
+      "options": ["Archaeology", "Biology", "Geology", "Paleontology", "Zoology"],
+      "answer": 3
+    }
+  ],
+  // Stage 5
+  [
+    {
+      "question": "Which of these animals is not a marsupial?",
+      "options": ["Kangaroo", "Koala", "Wombat", "Platypus", "Opossum"],
+      "answer": 3
+    },
+    {
+      "question": "What is the process of plants making their own food called?",
+      "options": ["Respiration", "Photosynthesis", "Digestion", "Fermentation", "Absorption"],
+      "answer": 1
+    },
+    {
+      "question": "Which of these is not a layer of the Earth?",
+      "options": ["Crust", "Mantle", "Core", "Atmosphere", "Troposphere"],
+      "answer": 4
+    },
+    {
+      "question": "What do we call a baby kangaroo?",
+      "options": ["Calf", "Kitten", "Joey", "Pup", "Cub"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these animals does not hibernate?",
+      "options": ["Bear", "Squirrel", "Hedgehog", "Penguin", "Bat"],
+      "answer": 3
+    }
+  ],
+  // Stage 6
+  [
+    {
+      "question": "What is the study of weather called?",
+      "options": ["Geology", "Climatology", "Meteorology", "Hydrology", "Ecology"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these animals is not a cetacean?",
+      "options": ["Dolphin", "Whale", "Porpoise", "Seal", "Narwhal"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call the force that pulls objects towards the center of the Earth?",
+      "options": ["Magnetism", "Electricity", "Friction", "Gravity", "Tension"],
+      "answer": 3
+    },
+    {
+      "question": "Which of these is not a type of biome?",
+      "options": ["Tundra", "Desert", "Rainforest", "Mountain", "Savanna"],
+      "answer": 3
+    },
+    {
+      "question": "What is the process of water changing from a gas to a liquid called?",
+      "options": ["Evaporation", "Precipitation", "Condensation", "Sublimation", "Freezing"],
+      "answer": 2
+    }
+  ],
+  // Stage 7
+  [
+    {
+      "question": "Which of these animals is not an arachnid?",
+      "options": ["Spider", "Scorpion", "Tick", "Centipede", "Mite"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call the study of plants?",
+      "options": ["Zoology", "Botany", "Ecology", "Biology", "Horticulture"],
+      "answer": 1
+    },
+    {
+      "question": "Which of these is not a type of volcano?",
+      "options": ["Shield", "Composite", "Cinder cone", "Plateau", "Caldera"],
+      "answer": 3
+    },
+    {
+      "question": "What is the largest organ in a plant?",
+      "options": ["Root", "Stem", "Leaf", "Flower", "Fruit"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these animals is not a rodent?",
+      "options": ["Mouse", "Rat", "Squirrel", "Rabbit", "Hamster"],
+      "answer": 3
+    }
+  ],
+  // Stage 8
+  [
+    {
+      "question": "What do we call animals that are active during twilight hours?",
+      "options": ["Nocturnal", "Diurnal", "Crepuscular", "Hibernating", "Migratory"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is not a type of tectonic plate boundary?",
+      "options": ["Convergent", "Divergent", "Transform", "Subduction", "Rotation"],
+      "answer": 4
+    },
+    {
+      "question": "What is the study of the Earth's atmosphere called?",
+      "options": ["Geology", "Meteorology", "Hydrology", "Seismology", "Volcanology"],
+      "answer": 1
+    },
+    {
+      "question": "Which of these animals is not a ruminant?",
+      "options": ["Cow", "Sheep", "Deer", "Horse", "Goat"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call the process of rocks breaking down into smaller pieces?",
+      "options": ["Erosion", "Weathering", "Deposition", "Sedimentation", "Compaction"],
+      "answer": 1
+    }
+  ],
+  // Stage 9
+  [
+    {
+      "question": "Which of these is not a type of ecosystem?",
+      "options": ["Forest", "Desert", "Ocean", "Mountain", "Planet"],
+      "answer": 4
+    },
+    {
+      "question": "What do we call animals that have a backbone?",
+      "options": ["Invertebrates", "Vertebrates", "Mammals", "Reptiles", "Amphibians"],
+      "answer": 1
+    },
+    {
+      "question": "Which of these is not a phase of the Moon?",
+      "options": ["New Moon", "Full Moon", "Quarter Moon", "Half Moon", "Crescent Moon"],
+      "answer": 3
+    },
+    {
+      "question": "What is the study of the interactions between organisms and their environment called?",
+      "options": ["Biology", "Zoology", "Botany", "Ecology", "Geology"],
+      "answer": 3
+    },
+    {
+      "question": "Which of these animals is not a bird?",
+      "options": ["Penguin", "Ostrich", "Kiwi", "Bat", "Emu"],
+      "answer": 3
+    }
+  ],
+  // Stage 10
+  [
+    {
+      "question": "What do we call the process of a solid changing directly into a gas?",
+      "options": ["Melting", "Freezing", "Condensation", "Sublimation", "Evaporation"],
+      "answer": 3
+    },
+    {
+      "question": "Which of these is not a type of symbiotic relationship?",
+      "options": ["Mutualism", "Commensalism", "Parasitism", "Predation", "Competition"],
+      "answer": 4
+    },
+    {
+      "question": "What is the study of earthquakes called?",
+      "options": ["Geology", "Volcanology", "Seismology", "Meteorology", "Hydrology"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these animals is not an invertebrate?",
+      "options": ["Jellyfish", "Starfish", "Octopus", "Salmon", "Coral"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call the boundary between two different air masses?",
+      "options": ["Isobar", "Front", "Jet stream", "Pressure system", "Cyclone"],
+      "answer": 1
+    }
+  ],
+  // Stage 11
+  [
+    {
+      "question": "Which of these is not a type of plant reproduction?",
+      "options": ["Spores", "Seeds", "Bulbs", "Leaves", "Runners"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call the study of fungi?",
+      "options": ["Mycology", "Botany", "Zoology", "Entomology", "Ichthyology"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is not a type of cloud formation?",
+      "options": ["Stratus", "Cumulus", "Cirrus", "Nimbus", "Nebula"],
+      "answer": 4
+    },
+    {
+      "question": "What is the process of a liquid changing into a solid called?",
+      "options": ["Melting", "Freezing", "Condensation", "Evaporation", "Sublimation"],
+      "answer": 1
+    },
+    {
+      "question": "Which of these animals is not a type of fish?",
+      "options": ["Shark", "Ray", "Dolphin", "Salmon", "Tuna"],
+      "answer": 2
+    }
+  ],
+  // Stage 12
+  [
+    {
+      "question": "What do we call the study of the Earth's water?",
+      "options": ["Geology", "Meteorology", "Hydrology", "Oceanography", "Limnology"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is not a type of metamorphic rock?",
+      "options": ["Marble", "Slate", "Quartzite", "Granite", "Gneiss"],
+      "answer": 3
+    },
+    {
+      "question": "What is the process of rocks being broken down by living organisms called?",
+      "options": ["Physical weathering", "Chemical weathering", "Biological weathering", "Erosion", "Deposition"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these animals is not a crustacean?",
+      "options": ["Crab", "Lobster", "Shrimp", "Octopus", "Barnacle"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call the line where the sky appears to meet the Earth?",
+      "options": ["Skyline", "Horizon", "Atmosphere", "Troposphere", "Stratosphere"],
+      "answer": 1
+    }
+  ],
+  // Stage 13
+  [
+    {
+      "question": "Which of these is not a type of forest biome?",
+      "options": ["Tropical rainforest", "Temperate forest", "Boreal forest", "Savanna forest", "Deciduous forest"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call the study of insects?",
+      "options": ["Arachnology", "Entomology", "Herpetology", "Ornithology", "Ichthyology"],
+      "answer": 1
+    },
+    {
+      "question": "Which of these is not a layer of the atmosphere?",
+      "options": ["Troposphere", "Stratosphere", "Mesosphere", "Lithosphere", "Thermosphere"],
+      "answer": 3
+    },
+    {
+      "question": "What is the process of plants releasing water vapor called?",
+      "options": ["Photosynthesis", "Respiration", "Transpiration", "Evaporation", "Condensation"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these animals is not a type of bear?",
+      "options": ["Grizzly bear", "Polar bear", "Koala bear", "Black bear", "Brown bear"],
+      "answer": 2
+    }
+  ],
+  // Stage 14
+  [
+    {
+      "question": "What do we call the study of birds?",
+      "options": ["Ornithology", "Ichthyology", "Herpetology", "Mammalogy", "Entomology"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is not a type of soil?",
+      "options": ["Clay", "Silt", "Sand", "Loam", "Granite"],
+      "answer": 4
+    },
+    {
+      "question": "What is the process of dead plant and animal matter breaking down called?",
+      "options": ["Photosynthesis", "Decomposition", "Fermentation", "Respiration", "Digestion"],
+      "answer": 1
+    },
+    {
+      "question": "Which of these animals is not a type of whale?",
+      "options": ["Blue whale", "Humpback whale", "Killer whale", "Beluga whale", "Whale shark"],
+      "answer": 4
+    },
+    {
+      "question": "What do we call the study of the Earth's physical structure and substance?",
+      "options": ["Geography", "Geology", "Meteorology", "Oceanography", "Astronomy"],
+      "answer": 1
+    }
+  ],
+  // Stage 15
+  [
+    {
+      "question": "Which of these is not a type of precipitation?",
+      "options": ["Rain", "Snow", "Hail", "Fog", "Sleet"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call animals that eat mainly insects?",
+      "options": ["Herbivores", "Carnivores", "Insectivores", "Omnivores", "Detritivores"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is not a type of adaptations in animals?",
+      "options": ["Structural", "Behavioral", "Physiological", "Environmental", "Functional"],
+      "answer": 3
+    },
+    {
+      "question": "What is the study of the relationships between living organisms and their environment?",
+      "options": ["Biology", "Zoology", "Ecology", "Botany", "Geology"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these animals is not a type of primate?",
+      "options": ["Gorilla", "Chimpanzee", "Lemur", "Sloth", "Baboon"],
+      "answer": 3
+    }
+  ],
+  // Stage 16
+  [
+    {
+      "question": "What do we call the process of water vapor turning into liquid water?",
+      "options": ["Evaporation", "Precipitation", "Condensation", "Sublimation", "Transpiration"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is not a type of plate tectonic boundary?",
+      "options": ["Convergent", "Divergent", "Transform", "Subduction", "Convection"],
+      "answer": 4
+    },
+    {
+      "question": "What is the study of the distribution of plants and animals called?",
+      "options": ["Ecology", "Biogeography", "Zoology", "Botany", "Climatology"],
+      "answer": 1
+    },
+    {
+      "question": "Which of these animals is not a type of reptile?",
+      "options": ["Snake", "Lizard", "Turtle", "Salamander", "Crocodile"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call the process of rocks being broken down by chemical reactions?",
+      "options": ["Physical weathering", "Chemical weathering", "Biological weathering", "Erosion", "Deposition"],
+      "answer": 1
+    }
+  ],
+  // Stage 17
+  [
+    {
+      "question": "Which of these is not a type of marine ecosystem?",
+      "options": ["Coral reef", "Kelp forest", "Estuary", "Savanna", "Deep sea"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call the study of fossils?",
+      "options": ["Archaeology", "Geology", "Paleontology", "Anthropology", "Biology"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is not a type of renewable energy?",
+      "options": ["Solar", "Wind", "Geothermal", "Nuclear", "Hydroelectric"],
+      "answer": 3
+    },
+    {
+      "question": "What is the process of a species becoming better suited to its environment over time?",
+      "options": ["Evolution", "Adaptation", "Mutation", "Selection", "Variation"],
+      "answer": 1
+    },
+    {
+      "question": "Which of these animals is not a type of mollusc?",
+      "options": ["Snail", "Clam", "Octopus", "Jellyfish", "Squid"],
+      "answer": 3
+    }
+  ],
+  // Stage 18
+  [
+    {
+      "question": "What do we call the study of the Earth's oceans?",
+      "options": ["Hydrology", "Oceanography", "Marine biology", "Limnology", "Ichthyology"],
+      "answer": 1
+    },
+    {
+      "question": "Which of these is not a type of igneous rock?",
+      "options": ["Granite", "Basalt", "Obsidian", "Limestone", "Pumice"],
+      "answer": 3
+    },
+    {
+      "question": "What is the process of water moving through a plant called?",
+      "options": ["Photosynthesis", "Respiration", "Transpiration", "Osmosis", "Diffusion"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these animals is not a type of marsupial?",
+      "options": ["Kangaroo", "Koala", "Wombat", "Platypus", "Opossum"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call the boundary between two different air masses?",
+      "options": ["Front", "Isobar", "Isotherm", "Jet stream", "Pressure system"],
+      "answer": 0
+    }
+  ],
+  // Stage 19
+  [
+    {
+      "question": "Which of these is not a type of symbiotic relationship?",
+      "options": ["Mutualism", "Commensalism", "Parasitism", "Predation", "Competition"],
+      "answer": 4
+    },
+    {
+      "question": "What do we call the study of the Earth's atmosphere?",
+      "options": ["Meteorology", "Climatology", "Astronomy", "Aerology", "Atmospheric science"],
+      "answer": 3
+    },
+    {
+      "question": "Which of these is not a type of plant tissue?",
+      "options": ["Xylem", "Phloem", "Epidermis", "Mesophyll", "Endosperm"],
+      "answer": 4
+    },
+    {
+      "question": "What is the process of a solid changing directly into a gas called?",
+      "options": ["Melting", "Freezing", "Condensation", "Sublimation", "Deposition"],
+      "answer": 3
+    },
+    {
+      "question": "Which of these animals is not a type of arthropod?",
+      "options": ["Spider", "Centipede", "Crab", "Earthworm", "Scorpion"],
+      "answer": 3
+    }
+  ],
+  // Stage 20
+  [
+    {
+      "question": "What do we call the study of the Earth's physical features?",
+      "options": ["Topography", "Cartography", "Geography", "Geology", "Geomorphology"],
+      "answer": 4
+    },
+    {
+      "question": "Which of these is not a type of rock cycle process?",
+      "options": ["Melting", "Cooling", "Weathering", "Photosynthesis", "Compaction"],
+      "answer": 3
+    },
+    {
+      "question": "What is the process of plants bending towards light called?",
+      "options": ["Geotropism", "Hydrotropism", "Phototropism", "Thigmotropism", "Chemotropism"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these animals is not a type of cetacean?",
+      "options": ["Dolphin", "Porpoise", "Whale", "Manatee", "Narwhal"],
+      "answer": 3
+    },
+    {
+      "question": "What do we call the study of the interactions between organisms and their environment?",
+      "options": ["Biology", "Zoology", "Botany", "Ecology", "Genetics"],
+      "answer": 3
+    }
+  ]
+
+
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+        //   'Subject Overview': '<h2>Overview</h2>',
+            'Practice': '<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>'
+        };
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+		function renderQuiz() {
+				const quizContainer = document.getElementById("quiz-content");
+				quizContainer.innerHTML = '';
+				quizData[currentStage].forEach((question, index) => {
+				const questionElement = document.createElement("div");
+				questionElement.className = "question";
+				
+				questionElement.innerHTML = `
+					<p>${index + 1}. ${question.question}</p>
+					<div class="options">
+						<select id="q${index}">
+							<option value="">Select</option>
+							${question.options.map((option, i) => `
+								<option value="${i}">${option}</option>
+							`).join("")}
+						</select>
+					</div>
+					<div class="result" id="result${index}"></div>
+				`;
+
+				quizContainer.appendChild(questionElement);
+			});
+
+			updateStageNumber();
+		}
+
+		function checkStage() {
+			attempts++;
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+			let correctCount = 0;
+			const totalQuestions = quizData[currentStage].length;
+
+			quizData[currentStage].forEach((question, index) => {
+				const resultElement = document.getElementById(`result${index}`);
+				const selectElement = document.getElementById(`q${index}`);
+				const selectedOption = selectElement.value;
+				const userAnswer = parseInt(selectedOption);
+
+				if (userAnswer === question.answer) {
+					resultElement.textContent = "Correct!";
+					resultElement.style.color = "green";
+					correctCount++;
+				} else {
+					resultElement.textContent = "Incorrect answer.";
+					resultElement.style.color = "red";
+				}
+
+				if (attempts >= 10) {
+					selectElement.value = question.answer;
+					selectElement.disabled = true;
+					resultElement.textContent += ` The correct answer is: ${question.options[question.answer]}`;
+				}
+			});
+
+			console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`Stage ${currentStage + 1} completed. Adding ${totalQuestions} animals.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`Moving to stage ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("Congratulations! You've completed all stages.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+		function updateStageNumber() {
+			const stageElement = document.getElementById("stage-number");
+			stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+		}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+    </script>
+</body>
+</html>
