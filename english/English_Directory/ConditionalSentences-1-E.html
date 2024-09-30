@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/svg+xml" href="path/to/your/http://ez42.live/global/logo/tab-logo-emo.svg">
+.svg">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read each question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title : A1 - 📗 Green, A2 - 📘 Blue, 📕 Red, 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray -->	
+                <h1>Conditional Sentences - A1</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 1;
+
+        const quizData = [ 												<!--  PH3 - Quiz Data   -->	
+// Stage 1
+[
+    {
+        "question": "If it ___ (rain) tomorrow, we will watch a movie at home.",
+        "options": ["rains", "will rain", "is raining", "rained", "rain"],
+        "answer": 0
+    },
+    {
+        "question": "If you ___ (eat) all your vegetables, you can have ice cream.",
+        "options": ["will eat", "ate", "eat", "eating", "eats"],
+        "answer": 2
+    },
+    {
+        "question": "If we ___ (go) to the park, we will play on the swings.",
+        "options": ["going", "went", "goes", "go", "will go"],
+        "answer": 3
+    },
+    {
+        "question": "If she ___ (finish) her homework, she can watch TV.",
+        "options": ["finishes", "finish", "finished", "finishing", "will finish"],
+        "answer": 0
+    },
+    {
+        "question": "If I ___ (find) your toy, I will give it back to you.",
+        "options": ["find", "found", "finds", "will find", "finding"],
+        "answer": 0
+    }
+],
+
+// Stage 2
+[
+    {
+        "question": "If the sun ___ (shine), we will have a picnic.",
+        "options": ["shine", "shined", "shining", "will shine", "shines"],
+        "answer": 4
+    },
+    {
+        "question": "If you ___ (help) me clean, we will finish faster.",
+        "options": ["help", "helped", "helping", "helps", "will help"],
+        "answer": 0
+    },
+    {
+        "question": "If they ___ (win) the game, they will get a trophy.",
+        "options": ["winning", "won", "win", "will win", "wins"],
+        "answer": 2
+    },
+    {
+        "question": "If it ___ (snow), we will build a snowman.",
+        "options": ["snows", "snowed", "snowing", "will snow", "snow"],
+        "answer": 0
+    },
+    {
+        "question": "If I ___ (see) a shooting star, I will make a wish.",
+        "options": ["saw", "see", "sees", "seeing", "will see"],
+        "answer": 1
+    }
+],
+
+// Stage 3
+[
+    {
+        "question": "If we ___ (arrive) early, we will get good seats.",
+        "options": ["arrives", "arriving", "arrive", "will arrive", "arrived"],
+        "answer": 2
+    },
+    {
+        "question": "If you ___ (study) hard, you will pass the test.",
+        "options": ["studying", "studied", "studies", "study", "will study"],
+        "answer": 3
+    },
+    {
+        "question": "If it ___ (be) hot, we will go swimming.",
+        "options": ["is", "was", "being", "will be", "were"],
+        "answer": 0
+    },
+    {
+        "question": "If they ___ (come) to the party, we will have fun.",
+        "options": ["coming", "came", "comes", "will come", "come"],
+        "answer": 4
+    },
+    {
+        "question": "If I ___ (get) a new bike, I will ride it every day.",
+        "options": ["got", "getting", "get", "gets", "will get"],
+        "answer": 2
+    }
+],
+
+// Stage 4
+[
+    {
+        "question": "If we ___ (plant) seeds, flowers will grow.",
+        "options": ["plant", "planted", "planting", "plants", "will plant"],
+        "answer": 0
+    },
+    {
+        "question": "If you ___ (wear) a coat, you will not be cold.",
+        "options": ["wore", "wearing", "wears", "wear", "will wear"],
+        "answer": 3
+    },
+    {
+        "question": "If it ___ (rain), the plants will be happy.",
+        "options": ["rained", "raining", "rains", "will rain", "rain"],
+        "answer": 2
+    },
+    {
+        "question": "If she ___ (practice) every day, she will improve her skills.",
+        "options": ["practices", "practiced", "practicing", "will practice", "practice"],
+        "answer": 0
+    },
+    {
+        "question": "If we ___ (save) money, we can buy a new toy.",
+        "options": ["saved", "saving", "saves", "will save", "save"],
+        "answer": 4
+    }
+],
+
+// Stage 5
+[
+    {
+        "question": "If you ___ (listen) carefully, you will understand the story.",
+        "options": ["listen", "listened", "listening", "will listen", "listens"],
+        "answer": 0
+    },
+    {
+        "question": "If we ___ (clean) our room, mom will be happy.",
+        "options": ["cleaned", "cleaning", "cleans", "will clean", "clean"],
+        "answer": 4
+    },
+    {
+        "question": "If it ___ (be) sunny, we will go to the beach.",
+        "options": ["is", "was", "being", "will be", "were"],
+        "answer": 0
+    },
+    {
+        "question": "If they ___ (finish) their homework, they can play games.",
+        "options": ["finishes", "finished", "finishing", "will finish", "finish"],
+        "answer": 4
+    },
+    {
+        "question": "If I ___ (learn) to cook, I will make dinner for you.",
+        "options": ["learned", "learning", "learns", "will learn", "learn"],
+        "answer": 4
+    }
+],
+
+// Stage 6
+[
+    {
+        "question": "If we ___ (water) the plants, they will grow taller.",
+        "options": ["water", "watered", "watering", "waters", "will water"],
+        "answer": 0
+    },
+    {
+        "question": "If you ___ (brush) your teeth, you will have a nice smile.",
+        "options": ["brushed", "brushing", "brush", "brushes", "will brush"],
+        "answer": 2
+    },
+    {
+        "question": "If it ___ (be) windy, we will fly kites.",
+        "options": ["is", "was", "being", "will be", "were"],
+        "answer": 0
+    },
+    {
+        "question": "If they ___ (practice) more, they will win the competition.",
+        "options": ["practiced", "practicing", "practices", "will practice", "practice"],
+        "answer": 4
+    },
+    {
+        "question": "If I ___ (help) you, will you help me later?",
+        "options": ["helped", "helping", "helps", "will help", "help"],
+        "answer": 4
+    }
+],
+
+// Stage 7
+[
+    {
+        "question": "If we ___ (recycle), we will help the environment.",
+        "options": ["recycle", "recycled", "recycling", "recycles", "will recycle"],
+        "answer": 0
+    },
+    {
+        "question": "If you ___ (eat) healthy food, you will feel better.",
+        "options": ["ate", "eating", "eat", "eats", "will eat"],
+        "answer": 2
+    },
+    {
+        "question": "If it ___ (stop) raining, we will go for a walk.",
+        "options": ["stopped", "stopping", "stops", "will stop", "stop"],
+        "answer": 2
+    },
+    {
+        "question": "If she ___ (win) the race, she will get a medal.",
+        "options": ["wins", "won", "winning", "will win", "win"],
+        "answer": 4
+    },
+    {
+        "question": "If I ___ (find) your book, I will return it to you.",
+        "options": ["found", "finding", "finds", "will find", "find"],
+        "answer": 4
+    }
+],
+
+// Stage 8
+[
+    {
+        "question": "If we ___ (play) together, we will have more fun.",
+        "options": ["play", "played", "playing", "plays", "will play"],
+        "answer": 0
+    },
+    {
+        "question": "If you ___ (sleep) early, you will wake up refreshed.",
+        "options": ["slept", "sleeping", "sleep", "sleeps", "will sleep"],
+        "answer": 2
+    },
+    {
+        "question": "If it ___ (be) cold, we will wear warm clothes.",
+        "options": ["is", "was", "being", "will be", "were"],
+        "answer": 0
+    },
+    {
+        "question": "If they ___ (come) to visit, we will show them around.",
+        "options": ["comes", "came", "coming", "will come", "come"],
+        "answer": 4
+    },
+    {
+        "question": "If I ___ (learn) to swim, I will join you at the pool.",
+        "options": ["learned", "learning", "learn", "learns", "will learn"],
+        "answer": 2
+    }
+],
+
+// Stage 9
+[
+    {
+        "question": "If we ___ (save) energy, we will help the planet.",
+        "options": ["save", "saved", "saving", "saves", "will save"],
+        "answer": 0
+    },
+    {
+        "question": "If you ___ (practice) the piano, you will play better.",
+        "options": ["practiced", "practicing", "practice", "practices", "will practice"],
+        "answer": 2
+    },
+    {
+        "question": "If it ___ (be) a nice day, we will have a picnic.",
+        "options": ["is", "was", "being", "will be", "were"],
+        "answer": 0
+    },
+    {
+        "question": "If they ___ (work) as a team, they will succeed.",
+        "options": ["worked", "working", "works", "will work", "work"],
+        "answer": 4
+    },
+    {
+        "question": "If I ___ (make) a cake, will you help me decorate it?",
+        "options": ["made", "making", "make", "makes", "will make"],
+        "answer": 2
+    }
+],
+
+// Stage 10
+[
+    {
+        "question": "If we ___ (plant) trees, we will have more oxygen.",
+        "options": ["plant", "planted", "planting", "plants", "will plant"],
+        "answer": 0
+    },
+    {
+        "question": "If you ___ (drink) water, you will stay hydrated.",
+        "options": ["drank", "drinking", "drink", "drinks", "will drink"],
+        "answer": 2
+    },
+    {
+        "question": "If it ___ (snow), we will make a snowman.",
+        "options": ["snowed", "snowing", "snows", "will snow", "snow"],
+        "answer": 2
+    },
+    {
+        "question": "If they ___ (study) together, they will learn more.",
+        "options": ["studied", "studying", "studies", "will study", "study"],
+        "answer": 4
+    },
+    {
+        "question": "If I ___ (find) a four-leaf clover, I will make a wish.",
+        "options": ["found", "finding", "find", "finds", "will find"],
+        "answer": 2
+    }
+],
+
+// Stage 11
+[
+    {
+        "question": "If we ___ (exercise) regularly, we will stay healthy.",
+        "options": ["exercised", "exercising", "exercises", "exercise", "will exercise"],
+        "answer": 3
+    },
+    {
+        "question": "If you ___ (read) more books, your vocabulary will improve.",
+        "options": ["read", "reading", "reads", "will read", "readed"],
+        "answer": 0
+    },
+    {
+        "question": "If it ___ (be) too noisy, we will go somewhere quiet.",
+        "options": ["is", "was", "being", "will be", "were"],
+        "answer": 0
+    },
+    {
+        "question": "If they ___ (arrive) late, we will start without them.",
+        "options": ["arrives", "arrived", "arriving", "will arrive", "arrive"],
+        "answer": 4
+    },
+    {
+        "question": "If I ___ (see) a shooting star, I will make a wish.",
+        "options": ["saw", "seeing", "see", "sees", "will see"],
+        "answer": 2
+    }
+],
+
+// Stage 12
+[
+    {
+        "question": "If we ___ (reduce) plastic use, we will help the oceans.",
+        "options": ["reduces", "reduced", "reducing", "reduce", "will reduce"],
+        "answer": 3
+    },
+    {
+        "question": "If you ___ (try) new foods, you might find a new favorite.",
+        "options": ["tried", "trying", "try", "tries", "will try"],
+        "answer": 2
+    },
+    {
+        "question": "If it ___ (be) a clear night, we will see many stars.",
+        "options": ["is", "was", "being", "will be", "were"],
+        "answer": 0
+    },
+    {
+        "question": "If they ___ (play) fairly, everyone will have fun.",
+        "options": ["played", "playing", "plays", "will play", "play"],
+        "answer": 4
+    },
+    {
+        "question": "If I ___ (learn) to juggle, I will show you my new skill.",
+        "options": ["learned", "learning", "learns", "will learn", "learn"],
+        "answer": 4
+    }
+],
+
+// Stage 13
+[
+    {
+        "question": "If we ___ (take) care of animals, they will be happy.",
+        "options": ["takes", "took", "taking", "take", "will take"],
+        "answer": 3
+    },
+    {
+        "question": "If you ___ (smile) more, you will feel happier.",
+        "options": ["smiled", "smiling", "smiles", "smile", "will smile"],
+        "answer": 3
+    },
+    {
+        "question": "If it ___ (be) sunny, we will have a barbecue.",
+        "options": ["is", "was", "being", "will be", "were"],
+        "answer": 0
+    },
+    {
+        "question": "If they ___ (work) together, the job will be easier.",
+        "options": ["worked", "working", "works", "will work", "work"],
+        "answer": 4
+    },
+    {
+        "question": "If I ___ (learn) to cook, I will make dinner for everyone.",
+        "options": ["learned", "learning", "learn", "learns", "will learn"],
+        "answer": 2
+    }
+],
+
+// Stage 14
+[
+    {
+        "question": "If we ___ (plant) flowers, butterflies will come.",
+        "options": ["planted", "planting", "plants", "plant", "will plant"],
+        "answer": 3
+    },
+    {
+        "question": "If you ___ (finish) your homework, we can go to the movies.",
+        "options": ["finished", "finishing", "finishes", "finish", "will finish"],
+        "answer": 3
+    },
+    {
+        "question": "If it ___ (rain), the concert will be canceled.",
+        "options": ["rained", "raining", "rains", "will rain", "rain"],
+        "answer": 2
+    },
+    {
+        "question": "If they ___ (win) the game, they will celebrate.",
+        "options": ["win", "won", "winning", "wins", "will win"],
+        "answer": 0
+    },
+    {
+        "question": "If I ___ (get) a good grade, my parents will be proud.",
+        "options": ["got", "getting", "gets", "get", "will get"],
+        "answer": 3
+    }
+],
+
+// Stage 15
+[
+    {
+        "question": "If we ___ (clean) the beach, marine life will thrive.",
+        "options": ["cleaned", "cleaning", "cleans", "clean", "will clean"],
+        "answer": 3
+    },
+    {
+        "question": "If you ___ (practice) daily, you will become an expert.",
+        "options": ["practiced", "practicing", "practices", "practice", "will practice"],
+        "answer": 3
+    },
+    {
+        "question": "If it ___ (snow), we will build a snowman.",
+        "options": ["snowed", "snowing", "snows", "will snow", "snow"],
+        "answer": 2
+    },
+    {
+        "question": "If they ___ (help) each other, they will solve the problem.",
+        "options": ["helped", "helping", "helps", "help", "will help"],
+        "answer": 3
+    },
+    {
+        "question": "If I ___ (save) enough money, I will buy a new computer.",
+        "options": ["saved", "saving", "saves", "save", "will save"],
+        "answer": 3
+    }
+],
+
+// Stage 16
+[
+    {
+        "question": "If we ___ (recycle) more, we will reduce waste.",
+        "options": ["recycled", "recycling", "recycles", "recycle", "will recycle"],
+        "answer": 3
+    },
+    {
+        "question": "If you ___ (eat) vegetables, you will be healthier.",
+        "options": ["ate", "eating", "eats", "eat", "will eat"],
+        "answer": 3
+    },
+    {
+        "question": "If it ___ (be) foggy, we will drive carefully.",
+        "options": ["is", "was", "being", "will be", "were"],
+        "answer": 0
+    },
+    {
+        "question": "If they ___ (study) hard, they will pass the exam.",
+        "options": ["studied", "studying", "studies", "study", "will study"],
+        "answer": 3
+    },
+    {
+        "question": "If I ___ (find) your keys, I will call you immediately.",
+        "options": ["found", "finding", "finds", "find", "will find"],
+        "answer": 3
+    }
+],
+
+// Stage 17
+[
+    {
+        "question": "If we ___ (turn off) the lights, we will save energy.",
+        "options": ["turned off", "turning off", "turns off", "turn off", "will turn off"],
+        "answer": 3
+    },
+    {
+        "question": "If you ___ (listen) carefully, you will understand better.",
+        "options": ["listened", "listening", "listens", "listen", "will listen"],
+        "answer": 3
+    },
+    {
+        "question": "If it ___ (be) hot tomorrow, we will go to the beach.",
+        "options": ["is", "was", "being", "will be", "were"],
+        "answer": 0
+    },
+    {
+        "question": "If they ___ (come) early, they will get good seats.",
+        "options": ["came", "coming", "comes", "come", "will come"],
+        "answer": 3
+    },
+    {
+        "question": "If I ___ (win) the lottery, I will travel the world.",
+        "options": ["won", "winning", "wins", "win", "will win"],
+        "answer": 3
+    }
+],
+
+// Stage 18
+[
+    {
+        "question": "If we ___ (plant) more trees, the air will be cleaner.",
+        "options": ["planted", "planting", "plants", "plant", "will plant"],
+        "answer": 3
+    },
+    {
+        "question": "If you ___ (drink) water regularly, you will stay hydrated.",
+        "options": ["drank", "drinking", "drinks", "drink", "will drink"],
+        "answer": 3
+    },
+    {
+        "question": "If it ___ (rain), the plants will grow faster.",
+        "options": ["rained", "raining", "rains", "will rain", "rain"],
+        "answer": 2
+    },
+    {
+        "question": "If they ___ (arrive) on time, we will start the meeting.",
+        "options": ["arrived", "arriving", "arrives", "arrive", "will arrive"],
+        "answer": 3
+    },
+    {
+        "question": "If I ___ (learn) a new language, I will make new friends.",
+        "options": ["learned", "learning", "learns", "learn", "will learn"],
+        "answer": 3
+    }
+],
+
+// Stage 19
+[
+    {
+        "question": "If we ___ (use) public transport, we will reduce pollution.",
+        "options": ["used", "using", "uses", "use", "will use"],
+        "answer": 3
+    },
+    {
+        "question": "If you ___ (study) regularly, you will improve your grades.",
+        "options": ["studied", "studying", "studies", "study", "will study"],
+        "answer": 3
+    },
+    {
+        "question": "If it ___ (be) windy, we will fly kites in the park.",
+        "options": ["is", "was", "being", "will be", "were"],
+        "answer": 0
+    },
+    {
+        "question": "If they ___ (practice) more, they will play better in the match.",
+        "options": ["practiced", "practicing", "practices", "practice", "will practice"],
+        "answer": 3
+    },
+    {
+        "question": "If I ___ (finish) my work early, I will help you with yours.",
+        "options": ["finished", "finishing", "finishes", "finish", "will finish"],
+        "answer": 3
+    }
+],
+
+// Stage 20
+[
+    {
+        "question": "If we ___ (work) together, we will achieve our goals.",
+        "options": ["worked", "working", "works", "work", "will work"],
+        "answer": 3
+    },
+    {
+        "question": "If you ___ (follow) the recipe, the cake will be delicious.",
+        "options": ["followed", "following", "follows", "follow", "will follow"],
+        "answer": 3
+    },
+    {
+        "question": "If it ___ (be) a nice day, we will have a picnic in the park.",
+        "options": ["is", "was", "being", "will be", "were"],
+        "answer": 0
+    },
+    {
+        "question": "If they ___ (save) money, they will be able to buy a new car.",
+        "options": ["saved", "saving", "saves", "save", "will save"],
+        "answer": 3
+    },
+    {
+        "question": "If I ___ (pass) my driving test, I will celebrate with friends.",
+        "options": ["passed", "passing", "passes", "pass", "will pass"],
+        "answer": 3
+    }
+]
+
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+        //   'Subject Overview': '<h2>Overview</h2>',
+            'Practice': '<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>'
+        };
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+		function renderQuiz() {
+				const quizContainer = document.getElementById("quiz-content");
+				quizContainer.innerHTML = '';
+				quizData[currentStage].forEach((question, index) => {
+				const questionElement = document.createElement("div");
+				questionElement.className = "question";
+				
+				questionElement.innerHTML = `
+					<p>${index + 1}. ${question.question}</p>
+					<div class="options">
+						<select id="q${index}">
+							<option value="">Select</option>
+							${question.options.map((option, i) => `
+								<option value="${i}">${option}</option>
+							`).join("")}
+						</select>
+					</div>
+					<div class="result" id="result${index}"></div>
+				`;
+
+				quizContainer.appendChild(questionElement);
+			});
+
+			updateStageNumber();
+		}
+
+		function checkStage() {
+			attempts++;
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+			let correctCount = 0;
+			const totalQuestions = quizData[currentStage].length;
+
+			quizData[currentStage].forEach((question, index) => {
+				const resultElement = document.getElementById(`result${index}`);
+				const selectElement = document.getElementById(`q${index}`);
+				const selectedOption = selectElement.value;
+				const userAnswer = parseInt(selectedOption);
+
+				if (userAnswer === question.answer) {
+					resultElement.textContent = "Correct!";
+					resultElement.style.color = "green";
+					correctCount++;
+				} else {
+					resultElement.textContent = "Incorrect answer.";
+					resultElement.style.color = "red";
+				}
+
+				if (attempts >= 10) {
+					selectElement.value = question.answer;
+					selectElement.disabled = true;
+					resultElement.textContent += ` The correct answer is: ${question.options[question.answer]}`;
+				}
+			});
+
+			console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`Stage ${currentStage + 1} completed. Adding ${totalQuestions} animals.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`Moving to stage ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("Congratulations! You've completed all stages.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+		function updateStageNumber() {
+			const stageElement = document.getElementById("stage-number");
+			stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+		}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+    </script>
+</body>
+</html>
