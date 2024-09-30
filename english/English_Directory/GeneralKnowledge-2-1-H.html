@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-heb.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+	<title>✅ EZ42 - זה קל</title>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+			<div class="logo-container">
+				<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+					<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+				</a>
+			</div>
+                <h2>הוראות</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                    <li>יש לקרוא כל שאלה בעיון.</li>
+                    <li>בחר/י את התשובה הנכונה ביותר מתוך התפריט הנפתח.</li>
+                    <li>יש ללחוץ על בדיקת תשובות כשמוכנים!</li>
+                    <li>יש להשלים את כל השאלות כדי לעבור לשלב הבא.</li>
+                    <li>לאחר 10 ניסיונות, התשובות הנכונות יוצגו.</li>
+                    <li>שיהיה כיף!</li>
+                </ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->		
+                <h1>ידע כללי -2 - 📗</h1>
+                <h1>General Knowledge</h1>
+
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות החיות</h2>
+				<p>החווה שלך גדלה תוך כדי התקדמות! כל שלב מוסיף חיות חדשות לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 1;
+
+        const quizData = [ 												<!--  PH3 - Quiz Data   -->	
+        // Stage 1
+        [
+            { question: "What color is a banana?", options: ["Red", "Blue", "Yellow", "Green"], answer: 2 },
+            { question: "How many legs does a cat have?", options: ["Two", "Four", "Six", "Eight"], answer: 1 },
+            { question: "What do we use to write?", options: ["Fork", "Pen", "Shoe", "Hat"], answer: 1 },
+            { question: "What animal says 'moo'?", options: ["Dog", "Cat", "Cow", "Bird"], answer: 2 },
+            { question: "What do we drink?", options: ["Book", "Chair", "Water", "Shoe"], answer: 2 },
+        ],
+        // Stage 2
+        [
+            { question: "What color is the sky?", options: ["Green", "Blue", "Red", "Yellow"], answer: 1 },
+            { question: "How many fingers do you have on one hand?", options: ["Three", "Four", "Five", "Six"], answer: 2 },
+            { question: "What do we use to see?", options: ["Nose", "Ears", "Mouth", "Eyes"], answer: 3 },
+            { question: "What animal says 'woof'?", options: ["Cat", "Dog", "Fish", "Bird"], answer: 1 },
+            { question: "What do we eat with?", options: ["Book", "Fork", "Shoe", "Car"], answer: 1 },
+        ],
+        // Stage 3
+        [
+            { question: "What color is grass?", options: ["Blue", "Red", "Yellow", "Green"], answer: 3 },
+            { question: "How many days are in a week?", options: ["Five", "Six", "Seven", "Eight"], answer: 2 },
+            { question: "What do we use to hear?", options: ["Eyes", "Nose", "Ears", "Hands"], answer: 2 },
+            { question: "What animal says 'meow'?", options: ["Dog", "Cat", "Cow", "Duck"], answer: 1 },
+            { question: "What do we sleep on?", options: ["Table", "Chair", "Bed", "Car"], answer: 2 },
+        ],
+        // Stage 4
+        [
+            { question: "What color is snow?", options: ["Black", "White", "Brown", "Purple"], answer: 1 },
+            { question: "How many seasons are there?", options: ["Two", "Three", "Four", "Five"], answer: 2 },
+            { question: "What do we use to smell?", options: ["Ears", "Eyes", "Mouth", "Nose"], answer: 3 },
+            { question: "What animal swims in water?", options: ["Cat", "Dog", "Fish", "Bird"], answer: 2 },
+            { question: "What do we wear on our feet?", options: ["Hat", "Gloves", "Shirt", "Shoes"], answer: 3 },
+        ],
+        // Stage 5
+        [
+            { question: "What color is the sun?", options: ["Blue", "Green", "Yellow", "Red"], answer: 2 },
+            { question: "How many wheels does a car have?", options: ["Two", "Three", "Four", "Five"], answer: 2 },
+            { question: "What do we use to taste?", options: ["Nose", "Ears", "Eyes", "Tongue"], answer: 3 },
+            { question: "What animal says 'quack'?", options: ["Chicken", "Duck", "Pig", "Cow"], answer: 1 },
+            { question: "What do we use to cut paper?", options: ["Pen", "Fork", "Scissors", "Spoon"], answer: 2 },
+        ],
+        // Stage 6
+        [
+            { question: "What color is an orange?", options: ["Blue", "Orange", "Green", "Purple"], answer: 1 },
+            { question: "How many months are in a year?", options: ["Ten", "Eleven", "Twelve", "Thirteen"], answer: 2 },
+            { question: "What do we use to brush our teeth?", options: ["Fork", "Toothbrush", "Pen", "Spoon"], answer: 1 },
+            { question: "What animal says 'oink'?", options: ["Sheep", "Cow", "Pig", "Horse"], answer: 2 },
+            { question: "What do we use to tell time?", options: ["Book", "Shoe", "Clock", "Chair"], answer: 2 },
+        ],
+        // Stage 7
+        [
+            { question: "What color is a tomato?", options: ["Green", "Yellow", "Blue", "Red"], answer: 3 },
+            { question: "How many sides does a triangle have?", options: ["Two", "Three", "Four", "Five"], answer: 1 },
+            { question: "What do we use to wash our hands?", options: ["Water", "Sand", "Oil", "Juice"], answer: 0 },
+            { question: "What animal says 'baa'?", options: ["Dog", "Cat", "Sheep", "Cow"], answer: 2 },
+            { question: "What do we use to open a door?", options: ["Fork", "Key", "Pen", "Spoon"], answer: 1 },
+        ],
+        // Stage 8
+        [
+            { question: "What color is a lemon?", options: ["Red", "Blue", "Yellow", "Green"], answer: 2 },
+            { question: "How many legs does a table usually have?", options: ["Two", "Three", "Four", "Five"], answer: 2 },
+            { question: "What do we use to dry ourselves after a shower?", options: ["Paper", "Towel", "Plate", "Fork"], answer: 1 },
+            { question: "What animal gives us milk?", options: ["Dog", "Cat", "Horse", "Cow"], answer: 3 },
+            { question: "What do we use to call someone far away?", options: ["Book", "Shoe", "Phone", "Chair"], answer: 2 },
+        ],
+        // Stage 9
+        [
+            { question: "What color is the ocean?", options: ["Green", "Blue", "Red", "Yellow"], answer: 1 },
+            { question: "How many eyes do most people have?", options: ["One", "Two", "Three", "Four"], answer: 1 },
+            { question: "What do we use to keep food cold?", options: ["Oven", "Fridge", "Sink", "Table"], answer: 1 },
+            { question: "What animal has a long neck?", options: ["Elephant", "Lion", "Giraffe", "Monkey"], answer: 2 },
+            { question: "What do we use to write on a blackboard?", options: ["Pen", "Pencil", "Chalk", "Marker"], answer: 2 },
+        ],
+        // Stage 10
+        [
+            { question: "What color is a carrot?", options: ["Purple", "Green", "Orange", "Blue"], answer: 2 },
+            { question: "How many fingers do most people have on two hands?", options: ["Eight", "Nine", "Ten", "Eleven"], answer: 2 },
+            { question: "What do we use to cook food?", options: ["Fridge", "Sink", "Oven", "Table"], answer: 2 },
+            { question: "What animal has a trunk?", options: ["Lion", "Elephant", "Zebra", "Giraffe"], answer: 1 },
+            { question: "What do we use to measure temperature?", options: ["Ruler", "Clock", "Scale", "Thermometer"], answer: 3 },
+        ],
+        // Stage 11
+        [
+            { question: "What color is a polar bear?", options: ["Brown", "Black", "White", "Gray"], answer: 2 },
+            { question: "How many hours are in a day?", options: ["12", "18", "24", "36"], answer: 2 },
+            { question: "What do we use to clean the floor?", options: ["Fork", "Spoon", "Knife", "Mop"], answer: 3 },
+            { question: "What animal can fly?", options: ["Fish", "Dog", "Cat", "Bird"], answer: 3 },
+            { question: "What do we use to keep warm in bed?", options: ["Plate", "Blanket", "Fork", "Shoe"], answer: 1 },
+        ],
+        // Stage 12
+        [
+            { question: "What color is a strawberry?", options: ["Blue", "Green", "Yellow", "Red"], answer: 3 },
+            { question: "How many sides does a square have?", options: ["Three", "Four", "Five", "Six"], answer: 1 },
+            { question: "What do we use to see things far away?", options: ["Glasses", "Hat", "Shoe", "Gloves"], answer: 0 },
+            { question: "What animal lives in water?", options: ["Cat", "Dog", "Fish", "Bird"], answer: 2 },
+            { question: "What do we use to play music?", options: ["Fork", "Spoon", "Radio", "Plate"], answer: 2 },
+        ],
+        // Stage 13
+        [
+            { question: "What color is broccoli?", options: ["Red", "Blue", "Green", "Yellow"], answer: 2 },
+            { question: "How many legs does a chair usually have?", options: ["Two", "Three", "Four", "Five"], answer: 2 },
+            { question: "What do we use to keep rain off us?", options: ["Hat", "Scarf", "Gloves", "Umbrella"], answer: 3 },
+            { question: "What animal says 'hoot'?", options: ["Duck", "Cow", "Owl", "Dog"], answer: 2 },
+            { question: "What do we use to see ourselves?", options: ["Window", "Door", "Mirror", "Picture"], answer: 2 },
+        ],
+        // Stage 14
+        [
+            { question: "What color is a banana?", options: ["Red", "Green", "Blue", "Yellow"], answer: 3 },
+            { question: "How many ears do most people have?", options: ["One", "Two", "Three", "Four"], answer: 1 },
+            { question: "What do we use to cut food?", options: ["Spoon", "Fork", "Knife", "Plate"], answer: 2 },
+            { question: "What animal catches mice?", options: ["Dog", "Cat", "Bird", "Fish"], answer: 1 },
+            { question: "What do we use to carry things in school?", options: ["Hat", "Shoe", "Backpack", "Glove"], answer: 2 },
+        ],
+        // Stage 15
+        [
+            { question: "What color is the moon?", options: ["Yellow", "Blue", "White", "Green"], answer: 2 },
+            { question: "How many days can months have?", options: ["28", "30", "31", "All of these"], answer: 3 },
+            { question: "What do we use to clean our teeth?", options: ["Soap", "Shampoo", "Toothpaste", "Lotion"], answer: 2 },
+            { question: "What animal has a shell?", options: ["Dog", "Cat", "Bird", "Turtle"], answer: 3 },
+            { question: "What do we use to write on paper?", options: ["Knife", "Fork", "Spoon", "Pencil"], answer: 3 },
+        ],
+        // Stage 16
+        [
+            { question: "What color is a fire truck?", options: ["Blue", "Green", "Yellow", "Red"], answer: 3 },
+            { question: "How many toes do most people have on one foot?", options: ["Three", "Four", "Five", "Six"], answer: 2 },
+            { question: "What do we use to sweep the floor?", options: ["Mop", "Broom", "Sponge", "Towel"], answer: 1 },
+            { question: "What animal lives in the sea?", options: ["Cow", "Chicken", "Fish", "Pig"], answer: 2 },
+            { question: "What do we use to keep food hot?", options: ["Fridge", "Oven", "Sink", "Table"], answer: 1 },
+        ],
+        // Stage 17
+        [
+            { question: "What color is grass?", options: ["Blue", "Red", "Yellow", "Green"], answer: 3 },
+            { question: "How many wheels does a bicycle have?", options: ["One", "Two", "Three", "Four"], answer: 1 },
+            { question: "What do we use to dry our hair?", options: ["Towel", "Paper", "Hairdryer", "Cloth"], answer: 2 },
+            { question: "What animal says 'neigh'?", options: ["Cow", "Pig", "Horse", "Sheep"], answer: 2 },
+            { question: "What do we use to talk to people far away?", options: ["Letter", "Phone", "Book", "Newspaper"], answer: 1 },
+        ],
+        // Stage 18
+        [
+            { question: "What color is the sky at night?", options: ["Blue", "Black", "White", "Green"], answer: 1 },
+            { question: "How many sides does a circle have?", options: ["One", "Two", "Three", "Zero"], answer: 3 },
+            { question: "What do we use to keep food fresh?", options: ["Oven", "Sink", "Fridge", "Table"], answer: 2 },
+            { question: "What animal eats carrots?", options: ["Lion", "Tiger", "Rabbit", "Wolf"], answer: 2 },
+            { question: "What do we use to take pictures?", options: ["Phone", "Book", "Pen", "Camera"], answer: 3 },
+        ],
+        // Stage 19
+        [
+            { question: "What color is an eggplant?", options: ["Red", "Green", "Purple", "Yellow"], answer: 2 },
+            { question: "How many legs does a spider usually have?", options: ["Four", "Six", "Eight", "Ten"], answer: 2 },
+            { question: "What do we use to cut grass?", options: ["Scissors", "Knife", "Lawnmower", "Saw"], answer: 2 },
+            { question: "What animal says 'tweet'?", options: ["Dog", "Cat", "Fish", "Bird"], answer: 3 },
+            { question: "What do we use to keep our head warm?", options: ["Gloves", "Socks", "Shoes", "Hat"], answer: 3 },
+        ],
+        // Stage 20
+        [
+            { question: "What color is a pumpkin?", options: ["Blue", "Green", "Red", "Orange"], answer: 3 },
+            { question: "How many months are in a year?", options: ["Six", "Nine", "Twelve", "Fifteen"], answer: 2 },
+            { question: "What do we use to clean dishes?", options: ["Towel", "Soap", "Paper", "Cloth"], answer: 1 },
+            { question: "What animal likes cheese?", options: ["Dog", "Mouse", "Horse", "Elephant"], answer: 1 },
+            { question: "What do we use to tell the weather?", options: ["Clock", "Calendar", "Thermometer", "Book"], answer: 2 },
+        ]
+
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+			//'לימוד הנושא':
+			//'<h2>משפטים חיוביים</h2>',
+             'תרגול': '<div id="stage-number" class="stage-number">שלב 1 מתוך ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">ניסיונות: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">בדיקת תשובות</button>'
+        };
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'תרגול') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+		function renderQuiz() {
+				const quizContainer = document.getElementById("quiz-content");
+				quizContainer.innerHTML = '';
+				quizData[currentStage].forEach((question, index) => {
+				const questionElement = document.createElement("div");
+				questionElement.className = "question";
+				
+				questionElement.innerHTML = `
+					<p>${index + 1}. ${question.question}</p>
+					<div class="options">
+						<select id="q${index}">
+							<option value="">Select</option>
+							${question.options.map((option, i) => `
+								<option value="${i}">${option}</option>
+							`).join("")}
+						</select>
+					</div>
+					<div class="result" id="result${index}"></div>
+				`;
+
+				quizContainer.appendChild(questionElement);
+			});
+
+			updateStageNumber();
+		}
+
+		function checkStage() {
+			attempts++;
+			document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+
+			let correctCount = 0;
+			const totalQuestions = quizData[currentStage].length;
+
+			quizData[currentStage].forEach((question, index) => {
+				const resultElement = document.getElementById(`result${index}`);
+				const selectElement = document.getElementById(`q${index}`);
+				const selectedOption = selectElement.value;
+				const userAnswer = parseInt(selectedOption);
+
+				if (userAnswer === question.answer) {
+					resultElement.textContent = "נכון!";
+					resultElement.style.color = "green";
+					correctCount++;
+				} else {
+					resultElement.textContent = "תשובה שגויה.";
+					resultElement.style.color = "red";
+				}
+
+				if (attempts >= 10) {
+					selectElement.value = question.answer;
+					selectElement.disabled = true;
+					resultElement.textContent += ` התשובה הנכונה היא: ${question.options[question.answer]}`;
+				}
+			});
+
+			console.log(`שלב ${currentStage + 1}: ${correctCount} נכונות מתוך ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`שלב ${currentStage + 1} הושלם. מוסיף ${totalQuestions} חיות.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`עובר לשלב ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("כל הכבוד! השלמת את כל השלבים.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("הגעת למספר הניסיונות המקסימלי. התשובות הנכונות נחשפו.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+        function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+            const incorrectCount = totalQuestions - correctCount;
+            let message = `קיבלת ${correctCount} נכונות ו-${incorrectCount} שגויות.`;
+            
+            if (correctCount === totalQuestions) {
+                message += " ציון מושלם!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+                message += " עבודה מצוינת! רואים שהנושא מתחיל להיות מובן!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+                message += " מאמץ טוב! נמשיך לתרגל כי השיפור קרוב!";
+            } else {
+                message += " לא לוותר! כל נסיון עוזר לך ללמוד. ננסה שוב!";
+            }
+
+            if (isStageComplete) {
+                message += "\n\n השלב הזה הסתיים, עוברים לשלב הבא.";
+            }
+
+            showModal(message);
+        }
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `נסיונות: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+        function updateStageNumber() {
+            const stageElement = document.getElementById("stage-number");
+            stageElement.textContent = `שלב ${currentStage + 1} מתוך ${stageCount}`;
+        }
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+    </script>
+</body>
+</html>
