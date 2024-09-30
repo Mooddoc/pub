@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/svg+xml" href="path/to/your/http://ez42.live/global/logo/tab-logo-emo.svg">
+.svg">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read each question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																				<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>General Knowledge (1) - A1</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 1;
+
+        const quizData = [ 												<!--  PH3 - Quiz Data   -->	
+ 
+
+ 
+       // Stage 1
+        [
+            { question: "A dog says ______.", options: ["meow", "woof", "moo", "quack", "baa"], answer: 1 },
+            { question: "The sky is ______.", options: ["blue", "green", "red", "yellow", "black"], answer: 0 },
+            { question: "We sleep in a ______.", options: ["car", "bed", "chair", "table", "box"], answer: 1 },
+            { question: "An apple is a ______.", options: ["animal", "fruit", "vegetable", "drink", "toy"], answer: 1 },
+            { question: "We write with a ______.", options: ["book", "pen", "shoe", "hat", "cup"], answer: 1 },
+        ],
+        // Stage 2
+        [
+            { question: "Fish swim in ______.", options: ["air", "fire", "water", "sand", "grass"], answer: 2 },
+            { question: "The sun is ______.", options: ["cold", "wet", "hot", "soft", "hard"], answer: 2 },
+            { question: "We eat with a ______.", options: ["fork", "book", "car", "shoe", "tree"], answer: 0 },
+            { question: "A cat has ______ legs.", options: ["two", "three", "four", "five", "six"], answer: 2 },
+            { question: "Snow is ______.", options: ["hot", "white", "green", "loud", "fast"], answer: 1 },
+        ],
+        // Stage 3
+        [
+            { question: "We wear ______ on our feet.", options: ["hats", "gloves", "shoes", "shirts", "pants"], answer: 2 },
+            { question: "A ______ flies in the sky.", options: ["fish", "car", "bird", "snake", "mouse"], answer: 2 },
+            { question: "We see with our ______.", options: ["ears", "nose", "mouth", "eyes", "hands"], answer: 3 },
+            { question: "A banana is ______.", options: ["blue", "red", "green", "yellow", "purple"], answer: 3 },
+            { question: "We drink from a ______.", options: ["plate", "cup", "chair", "book", "pen"], answer: 1 },
+        ],
+        // Stage 4
+        [
+            { question: "A ______ barks.", options: ["cat", "dog", "bird", "fish", "horse"], answer: 1 },
+            { question: "We read a ______.", options: ["shoe", "car", "book", "tree", "door"], answer: 2 },
+            { question: "Grass is ______.", options: ["blue", "red", "yellow", "green", "purple"], answer: 3 },
+            { question: "A ______ is an animal.", options: ["car", "house", "book", "tree", "elephant"], answer: 4 },
+            { question: "We sleep at ______.", options: ["morning", "night", "noon", "day", "evening"], answer: 1 },
+        ],
+        // Stage 5
+        [
+            { question: "A ______ is red.", options: ["banana", "apple", "grape", "orange", "lemon"], answer: 1 },
+            { question: "We hear with our ______.", options: ["eyes", "nose", "mouth", "ears", "hands"], answer: 3 },
+            { question: "A tree has ______.", options: ["wheels", "windows", "leaves", "shoes", "plates"], answer: 2 },
+            { question: "Milk is ______.", options: ["black", "blue", "green", "red", "white"], answer: 4 },
+            { question: "A ______ swims in water.", options: ["bird", "cat", "dog", "fish", "horse"], answer: 3 },
+        ],
+        // Stage 6
+        [
+            { question: "We cut paper with ______.", options: ["forks", "spoons", "knives", "scissors", "plates"], answer: 3 },
+            { question: "A ______ is a fruit.", options: ["carrot", "potato", "tomato", "orange", "onion"], answer: 3 },
+            { question: "We write on ______.", options: ["water", "air", "paper", "glass", "wood"], answer: 2 },
+            { question: "A ______ has wheels.", options: ["tree", "fish", "bird", "car", "book"], answer: 3 },
+            { question: "The moon comes out at ______.", options: ["day", "morning", "noon", "night", "evening"], answer: 3 },
+        ],
+        // Stage 7
+        [
+            { question: "We sit on a ______.", options: ["table", "chair", "bed", "shelf", "door"], answer: 1 },
+            { question: "A ______ gives us milk.", options: ["dog", "cat", "cow", "horse", "sheep"], answer: 2 },
+            { question: "We brush our ______.", options: ["feet", "hands", "teeth", "hair", "eyes"], answer: 2 },
+            { question: "A ______ is a color.", options: ["dog", "car", "house", "blue", "shoe"], answer: 3 },
+            { question: "We eat ______ for breakfast.", options: ["books", "shoes", "cars", "eggs", "pens"], answer: 3 },
+        ],
+        // Stage 8
+        [
+            { question: "A ______ is yellow.", options: ["apple", "banana", "grape", "orange", "strawberry"], answer: 1 },
+            { question: "We play with a ______.", options: ["fork", "chair", "ball", "book", "cup"], answer: 2 },
+            { question: "A ______ flies.", options: ["fish", "dog", "cat", "bird", "snake"], answer: 3 },
+            { question: "We walk with our ______.", options: ["hands", "ears", "eyes", "nose", "feet"], answer: 4 },
+            { question: "A ______ is hot.", options: ["ice", "snow", "fire", "wind", "rain"], answer: 2 },
+        ],
+        // Stage 9
+        [
+            { question: "We eat ______ with a spoon.", options: ["bread", "meat", "soup", "rice", "fish"], answer: 2 },
+            { question: "A ______ is a vegetable.", options: ["apple", "orange", "carrot", "banana", "grape"], answer: 2 },
+            { question: "We wear a ______ on our head.", options: ["shoe", "hat", "glove", "sock", "pants"], answer: 1 },
+            { question: "A ______ is cold.", options: ["fire", "sun", "ice", "oven", "lamp"], answer: 2 },
+            { question: "We sleep in a ______.", options: ["car", "chair", "table", "bed", "box"], answer: 3 },
+        ],
+        // Stage 10
+        [
+            { question: "A ______ is round.", options: ["book", "pen", "ball", "house", "tree"], answer: 2 },
+            { question: "We drink ______.", options: ["bread", "water", "chair", "shoe", "book"], answer: 1 },
+            { question: "A ______ has fur.", options: ["fish", "bird", "snake", "cat", "frog"], answer: 3 },
+            { question: "We cook in the ______.", options: ["bedroom", "bathroom", "kitchen", "garden", "living room"], answer: 2 },
+            { question: "A ______ is green.", options: ["banana", "apple", "orange", "grape", "lemon"], answer: 1 },
+        ],
+        // Stage 11
+        [
+            { question: "We write with a ______.", options: ["fork", "spoon", "knife", "pencil", "plate"], answer: 3 },
+            { question: "A ______ is a pet.", options: ["car", "book", "tree", "dog", "house"], answer: 3 },
+            { question: "We see with our ______.", options: ["nose", "ears", "mouth", "hands", "eyes"], answer: 4 },
+            { question: "A ______ is loud.", options: ["book", "pillow", "cat", "dog", "fish"], answer: 3 },
+            { question: "We eat ______ for dinner.", options: ["books", "shoes", "food", "cars", "pens"], answer: 2 },
+        ],
+        // Stage 12
+        [
+            { question: "A ______ is soft.", options: ["rock", "pillow", "knife", "chair", "table"], answer: 1 },
+            { question: "We wash our ______.", options: ["books", "shoes", "hands", "cars", "pens"], answer: 2 },
+            { question: "A ______ is sweet.", options: ["lemon", "candy", "salt", "pepper", "vinegar"], answer: 1 },
+            { question: "We swim in a ______.", options: ["car", "house", "pool", "tree", "book"], answer: 2 },
+            { question: "A ______ is fast.", options: ["turtle", "snail", "cheetah", "sloth", "worm"], answer: 2 },
+        ],
+        // Stage 13
+        [
+            { question: "We wear ______ on our hands.", options: ["shoes", "hats", "gloves", "socks", "pants"], answer: 2 },
+            { question: "A ______ is a shape.", options: ["dog", "car", "house", "circle", "shoe"], answer: 3 },
+            { question: "We brush our ______.", options: ["feet", "hands", "teeth", "eyes", "ears"], answer: 2 },
+            { question: "A ______ is tall.", options: ["ant", "mouse", "cat", "dog", "giraffe"], answer: 4 },
+            { question: "We cut with ______.", options: ["forks", "spoons", "knives", "plates", "cups"], answer: 2 },
+        ],
+        // Stage 14
+        [
+            { question: "A ______ is sour.", options: ["sugar", "salt", "lemon", "chocolate", "honey"], answer: 2 },
+            { question: "We play in the ______.", options: ["bed", "kitchen", "bathroom", "park", "car"], answer: 3 },
+            { question: "A ______ is hard.", options: ["pillow", "rock", "feather", "cotton", "sponge"], answer: 1 },
+            { question: "We smell with our ______.", options: ["eyes", "ears", "mouth", "nose", "hands"], answer: 3 },
+            { question: "A ______ is small.", options: ["elephant", "house", "mouse", "car", "tree"], answer: 2 },
+        ],
+        // Stage 15
+        [
+            { question: "We eat with a ______.", options: ["book", "shoe", "fork", "pen", "cup"], answer: 2 },
+            { question: "A ______ is wet.", options: ["fire", "sand", "water", "rock", "tree"], answer: 2 },
+            { question: "We sleep on a ______.", options: ["chair", "table", "bed", "floor", "shelf"], answer: 2 },
+            { question: "A ______ is a bird.", options: ["fish", "cat", "dog", "penguin", "snake"], answer: 3 },
+            { question: "We wear ______ on our feet.", options: ["hats", "gloves", "socks", "shirts", "pants"], answer: 2 },
+        ],
+        // Stage 16
+        [
+            { question: "A ______ is blue.", options: ["grass", "sun", "sky", "tree", "fire"], answer: 2 },
+            { question: "We write on ______.", options: ["water", "air", "paper", "sand", "glass"], answer: 2 },
+            { question: "A ______ has wings.", options: ["fish", "snake", "bird", "cat", "dog"], answer: 2 },
+            { question: "We drink from a ______.", options: ["plate", "fork", "knife", "glass", "spoon"], answer: 3 },
+            { question: "A ______ is hot.", options: ["ice", "snow", "sun", "rain", "wind"], answer: 2 },
+        ],
+        // Stage 17
+        [
+            { question: "We read a ______.", options: ["shoe", "book", "car", "tree", "chair"], answer: 1 },
+            { question: "A ______ is orange.", options: ["apple", "banana", "grape", "carrot", "lemon"], answer: 3 },
+            { question: "We cook in a ______.", options: ["bedroom", "bathroom", "kitchen", "living room", "garden"], answer: 2 },
+            { question: "A ______ is slow.", options: ["cheetah", "car", "turtle", "airplane", "bird"], answer: 2 },
+            { question: "We sit on a ______.", options: ["table", "bed", "chair", "shelf", "door"], answer: 2 },
+        ],
+        // Stage 18
+        [
+            { question: "A ______ is a fruit.", options: ["carrot", "potato", "tomato", "onion", "lettuce"], answer: 2 },
+            { question: "We wash in the ______.", options: ["kitchen", "bathroom", "bedroom", "garden", "car"], answer: 1 },
+            { question: "A ______ is cold.", options: ["fire", "sun", "ice", "oven", "lamp"], answer: 2 },
+            { question: "We walk on the ______.", options: ["ceiling", "wall", "floor", "roof", "door"], answer: 2 },
+            { question: "A ______ has leaves.", options: ["rock", "car", "book", "tree", "shoe"], answer: 3 },
+        ],
+        // Stage 19
+        [
+            { question: "We wear a ______ on our wrist.", options: ["shoe", "hat", "watch", "glove", "sock"], answer: 2 },
+            { question: "A ______ is black and white.", options: ["rainbow", "sun", "zebra", "grass", "sky"], answer: 2 },
+            { question: "We use a ______ to talk to people far away.", options: ["book", "car", "phone", "pen", "fork"], answer: 2 },
+            { question: "A ______ lives in water.", options: ["bird", "cat", "dog", "fish", "snake"], answer: 3 },
+            { question: "We cut hair with ______.", options: ["forks", "spoons", "knives", "scissors", "plates"], answer: 3 },
+        ],
+        // Stage 20
+        [
+            { question: "A ______ is a number.", options: ["cat", "tree", "five", "book", "house"], answer: 2 },
+            { question: "We brush our ______ in the morning.", options: ["feet", "hands", "hair", "eyes", "ears"], answer: 2 },
+            { question: "A ______ gives light.", options: ["book", "chair", "lamp", "shoe", "pen"], answer: 2 },
+            { question: "We eat ______ with a spoon.", options: ["bread", "meat", "soup", "rice", "fish"], answer: 2 },
+            { question: "A ______ is made of wood.", options: ["glass", "paper", "plastic", "table", "metal"], answer: 3 },
+        ]
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+        //   'Subject Overview': '<h2>Overview</h2>',
+            'Practice': '<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>'
+        };
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+		function renderQuiz() {
+				const quizContainer = document.getElementById("quiz-content");
+				quizContainer.innerHTML = '';
+				quizData[currentStage].forEach((question, index) => {
+				const questionElement = document.createElement("div");
+				questionElement.className = "question";
+				
+				questionElement.innerHTML = `
+					<p>${index + 1}. ${question.question}</p>
+					<div class="options">
+						<select id="q${index}">
+							<option value="">Select</option>
+							${question.options.map((option, i) => `
+								<option value="${i}">${option}</option>
+							`).join("")}
+						</select>
+					</div>
+					<div class="result" id="result${index}"></div>
+				`;
+
+				quizContainer.appendChild(questionElement);
+			});
+
+			updateStageNumber();
+		}
+
+		function checkStage() {
+			attempts++;
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+			let correctCount = 0;
+			const totalQuestions = quizData[currentStage].length;
+
+			quizData[currentStage].forEach((question, index) => {
+				const resultElement = document.getElementById(`result${index}`);
+				const selectElement = document.getElementById(`q${index}`);
+				const selectedOption = selectElement.value;
+				const userAnswer = parseInt(selectedOption);
+
+				if (userAnswer === question.answer) {
+					resultElement.textContent = "Correct!";
+					resultElement.style.color = "green";
+					correctCount++;
+				} else {
+					resultElement.textContent = "Incorrect answer.";
+					resultElement.style.color = "red";
+				}
+
+				if (attempts >= 10) {
+					selectElement.value = question.answer;
+					selectElement.disabled = true;
+					resultElement.textContent += ` The correct answer is: ${question.options[question.answer]}`;
+				}
+			});
+
+			console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`Stage ${currentStage + 1} completed. Adding ${totalQuestions} animals.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`Moving to stage ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("Congratulations! You've completed all stages.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+		function updateStageNumber() {
+			const stageElement = document.getElementById("stage-number");
+			stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+		}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+    </script>
+</body>
+</html>
