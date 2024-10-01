@@ -425,7 +425,7 @@
             border: none;
             border-bottom: 2px solid #00acc1;
             background-color: transparent;
-            color: #0000CD;
+            color: black;
             width: 100px;
             outline: none; /* Remove default outline */
             transition: border-bottom-color 0.3s ease;
