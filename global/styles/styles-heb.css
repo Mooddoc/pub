@@ -396,6 +396,16 @@
     color: #FF7F50; /* Add this line to ensure subheadings are orange */
 }
 
+    .audio-player {
+        width: 100%;
+        max-width: 600px;  /* Adjust the max-width */
+        margin: 0 auto 20px auto;  /* Center the player */
+        border-radius: 15px;  /* Smooth rounded edges */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);  /* Add shadow for better depth */
+        padding: 10px;  /* Space inside the player */
+        background-color: #f8f8f8;  /* Light background for contrast */
+        display: block;
+    }
 .highlight_heb {
     color: #FF7F50;
 }
