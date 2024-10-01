@@ -33,20 +33,39 @@
         flex: 1;
     }
 
-    .side-panel {
-        background-color: #00acc1;
-        color: white;
-        border-radius: 0.625rem;
-        padding: 1rem;
-        box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
-        flex: 0 0 calc(20% - 0.5rem);
-        max-width: calc(20% - 0.5rem);
-        transition: flex 0.3s ease, max-width 0.3s ease;
-        overflow-y: auto;
-        max-height: 90vh;
-		padding-left: 0;
-        padding-right: 1rem;
-    }
+	.side-panel {
+		background-color: #00acc1;
+		color: white;
+		border-radius: 0.625rem;
+		padding: 1rem; /* Uniform padding */
+		padding-right: 0.8rem; /* Reduce right padding (RTL start side) */
+		padding-left: 1rem; /* Keep some padding on the left side */
+		box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
+		flex: 0 0 calc(20% - 0.5rem);
+		max-width: calc(20% - 0.5rem);
+		transition: flex 0.3s ease, max-width 0.3s ease;
+		overflow-y: auto;
+		max-height: 90vh;
+	}
+
+
+	.side-panel ol {   				   	 /* Adjust ordered list styles */
+		list-style-type: none;
+		padding: 0;
+		margin: 0; /* Ensure no margin is applied */
+	}
+
+
+	.side-panel ol li {     		    /* List item margin adjustments */
+		margin: 0.5rem 0;   /* Balanced vertical margins for list items */
+		padding-right: 0.2rem; 	    /* Reduce padding inside list items */
+	}
+
+
+	.side-panel h2 {              	    	      /* Heading alignment */
+		text-align: right; 		/* Ensure text is aligned to the right */
+		margin-right: 0; /* Remove any right margin */
+	}
 
     .quiz-container {
         background-color: white;
@@ -59,13 +78,6 @@
         min-height: 800px;
     }
 
-    .side-panel h2 {
-        color: white;
-        margin-top: 0;
-        text-align: center;
-        font-size: 1.25rem;
-    }
-
     .quiz-container h1 {
         color: black;
         text-align: center;
@@ -73,7 +85,7 @@
     }
 
     .quiz-container h2 {
-        color: #ff7f50;
+        color: black;
         text-align: center;
         font-size: 1.5rem;
     }
@@ -139,6 +151,12 @@
         flex-direction: column;
         align-items: flex-start;  /* Aligns children to the left */
     }
+	
+	.question-heb p {
+		text-align: right !important;
+		direction: rtl !important;
+		width: 100%;
+	}
 
     .question p {
         text-align: left !important;
