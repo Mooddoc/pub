@@ -9,35 +9,7 @@
     <link rel="stylesheet" href="http://ez42.live/global/styles/styles-heb.css"> <!-- Link to external CSS file -->
     <title>✅ EZ42 - זה קל</title>
     <style>
-        /* Local style adjustments */
 
-        /* Define the question-heb class for Hebrew questions */
-		.question-heb p {
-			text-align: right !important;
-			direction: rtl !important;
-			width: 100%;
-		}
-
-        /* Input fields are left-aligned for English text */
-        .question input[type="text"] {
-            direction: ltr;
-            text-align: left;
-            font-family: inherit;
-            font-size: 1rem;
-            padding: 0.5rem;
-            border: none;
-            border-radius: 0.3125rem;
-            border-bottom: 0.125rem solid #00acc1;
-            background-color: transparent;
-            color: #37474f;
-            width: 100%;
-            max-width: 9.375rem;
-            margin-top: 0.5rem;
-        }
-		
-		.quiz-container h2 {
-			color: black;
-		}
     </style>
 </head>
 <body>
@@ -437,11 +409,11 @@
 
             stageData.questions.forEach((question, index) => {
                 const questionElement = document.createElement("div");
-                questionElement.className = "question question-heb"; // Apply the question-heb class
+                questionElement.className = "question-heb"; 
 
                 questionElement.innerHTML = `
                     <p>${index + 1}. ${question.question}</p>
-                    <input type="text" id="q${index}" data-answer="${question.answer}">
+                    <input type="text" class="input-in-row" id="q${index}" data-answer="${question.answer}">
                     <div class="result" id="result${index}"></div>
                 `;
 
