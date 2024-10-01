@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <link rel="stylesheet" href="http://ez42.live/global/styles/styles-heb.css"> <!-- Link to external CSS file -->
+    <title>✅ EZ42 - זה קל</title>
+    <style>
+        /* Local style adjustments */
+
+        /* Define the question-heb class for Hebrew questions */
+		.question-heb p {
+			text-align: right !important;
+			direction: rtl !important;
+			width: 100%;
+		}
+
+        /* Input fields are left-aligned for English text */
+        .question input[type="text"] {
+            direction: ltr;
+            text-align: left;
+            font-family: inherit;
+            font-size: 1rem;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 0.3125rem;
+            border-bottom: 0.125rem solid #00acc1;
+            background-color: transparent;
+            color: #37474f;
+            width: 100%;
+            max-width: 9.375rem;
+            margin-top: 0.5rem;
+        }
+		
+		.quiz-container h2 {
+			color: black;
+		}
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+            <!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+                <div class="logo-container">
+                    <a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+                        <img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+                    </a>
+                </div>
+                <h2>הוראות</h2>
+                <ul>
+                    <li>יש לקרוא כל מילה בעברית.</li>
+                    <li>הקלד/י את התרגום הנכון באנגלית בתיבה המתאימה.</li>
+                    <li>יש ללחוץ על בדיקת תשובות כשמוכנים!</li>
+                    <li>יש להשלים את כל השאלות כדי לעבור לשלב הבא.</li>
+                    <li>לאחר 10 ניסיונות, התשובות הנכונות יוצגו.</li>
+                    <li>שיהיה כיף!</li>
+                </ul>
+            </div>
+
+            <!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																		<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>אוצר מילים - תרגום מילים מאנגלית לעברית - 1 - 📘</h1>
+
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+
+                <div id="tabContent"></div>
+            </div>
+
+            <!--  Side Panel 2  -->
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות החיות</h2>
+                <p>החווה שלך גדלה תוך כדי התקדמות! כל שלב מוסיף חיות חדשות לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+        const quizData = [
+            // Stage 1
+            {
+                subject: "צבעים",
+                questions: [
+                    { question: "אדום", answer: "red" },
+                    { question: "כחול", answer: "blue" },
+                    { question: "ירוק", answer: "green" },
+                    { question: "צהוב", answer: "yellow" },
+                    { question: "ורוד", answer: "pink" },
+                ]
+            },
+            // Stage 2
+            {
+                subject: "צבעים",
+                questions: [
+                    { question: "סגול", answer: "purple" },
+                    { question: "שחור", answer: "black" },
+                    { question: "לבן", answer: "white" },
+                    { question: "חום", answer: "brown" },
+                    { question: "כתום", answer: "orange" },
+                ]
+            },
+            // Stage 3
+            {
+                subject: "חיות",
+                questions: [
+                    { question: "חתול", answer: "cat" },
+                    { question: "כלב", answer: "dog" },
+                    { question: "פרה", answer: "cow" },
+                    { question: "כבש", answer: "sheep" },
+                    { question: "סוס", answer: "horse" },
+                ]
+            },
+            // Stage 4
+            {
+                subject: "חיות",
+                questions: [
+                    { question: "תרנגול", answer: "rooster" },
+                    { question: "ברווז", answer: "duck" },
+                    { question: "עז", answer: "goat" },
+                    { question: "אריה", answer: "lion" },
+                    { question: "ציפור", answer: "bird" },
+                ]
+            },
+            // Stage 5
+            {
+                subject: "פירות",
+                questions: [
+                    { question: "תפוח", answer: "apple" },
+                    { question: "בננה", answer: "banana" },
+                    { question: "תפוז", answer: "orange" },
+                    { question: "ענבים", answer: "grapes" },
+                    { question: "אבטיח", answer: "watermelon" },
+                ]
+            },
+            // Stage 6
+            {
+                subject: "פירות",
+                questions: [
+                    { question: "אפרסק", answer: "peach" },
+                    { question: "אננס", answer: "pineapple" },
+                    { question: "דובדבן", answer: "cherry" },
+                    { question: "תות", answer: "strawberry" },
+                    { question: "אגס", answer: "pear" },
+                ]
+            },
+            // Stage 7
+            {
+                subject: "ירקות",
+                questions: [
+                    { question: "מלפפון", answer: "cucumber" },
+                    { question: "עגבנייה", answer: "tomato" },
+                    { question: "גזר", answer: "carrot" },
+                    { question: "חסה", answer: "lettuce" },
+                    { question: "פלפל", answer: "pepper" },
+                ]
+            },
+            // Stage 8
+            {
+                subject: "ירקות",
+                questions: [
+                    { question: "בצל", answer: "onion" },
+                    { question: "שום", answer: "garlic" },
+                    { question: "תפוח אדמה", answer: "potato" },
+                    { question: "כרוב", answer: "cabbage" },
+                    { question: "ברוקולי", answer: "broccoli" },
+                ]
+            },
+            // Stage 9
+            {
+                subject: "חלקי גוף",
+                questions: [
+                    { question: "ראש", answer: "head" },
+                    { question: "יד", answer: "hand" },
+                    { question: "רגל", answer: "leg" },
+                    { question: "אף", answer: "nose" },
+                    { question: "פה", answer: "mouth" },
+                ]
+            },
+            // Stage 10
+            {
+                subject: "חלקי גוף",
+                questions: [
+                    { question: "עין", answer: "eye" },
+                    { question: "אוזן", answer: "ear" },
+                    { question: "לב", answer: "heart" },
+                    { question: "גב", answer: "back" },
+                    { question: "שן", answer: "tooth" },
+                ]
+            },
+            // Stage 11
+            {
+                subject: "מספרים",
+                questions: [
+                    { question: "אחד", answer: "one" },
+                    { question: "שתיים", answer: "two" },
+                    { question: "שלוש", answer: "three" },
+                    { question: "ארבע", answer: "four" },
+                    { question: "חמש", answer: "five" },
+                ]
+            },
+            // Stage 12
+            {
+                subject: "מספרים",
+                questions: [
+                    { question: "שש", answer: "six" },
+                    { question: "שבע", answer: "seven" },
+                    { question: "שמונה", answer: "eight" },
+                    { question: "תשע", answer: "nine" },
+                    { question: "עשר", answer: "ten" },
+                ]
+            },
+            // Stage 13
+            {
+                subject: "בגדים",
+                questions: [
+                    { question: "חולצה", answer: "shirt" },
+                    { question: "מכנסיים", answer: "pants" },
+                    { question: "נעליים", answer: "shoes" },
+                    { question: "כובע", answer: "hat" },
+                    { question: "גרביים", answer: "socks" },
+                ]
+            },
+            // Stage 14
+            {
+                subject: "בגדים",
+                questions: [
+                    { question: "מעיל", answer: "coat" },
+                    { question: "שמלה", answer: "dress" },
+                    { question: "חגורה", answer: "belt" },
+                    { question: "ז'קט", answer: "jacket" },
+                    { question: "משקפיים", answer: "glasses" },
+                ]
+            },
+            // Stage 15
+            {
+                subject: "רהיטים",
+                questions: [
+                    { question: "שולחן", answer: "table" },
+                    { question: "כיסא", answer: "chair" },
+                    { question: "מיטה", answer: "bed" },
+                    { question: "ספה", answer: "sofa" },
+                    { question: "ארון", answer: "closet" },
+                ]
+            },
+            // Stage 16
+            {
+                subject: "רהיטים",
+                questions: [
+                    { question: "מראה", answer: "mirror" },
+                    { question: "שידה", answer: "dresser" },
+                    { question: "שטיח", answer: "carpet" },
+                    { question: "מדף", answer: "shelf" },
+                    { question: "מנורה", answer: "lamp" },
+                ]
+            },
+            // Stage 17
+            {
+                subject: "כלי תחבורה",
+                questions: [
+                    { question: "מכונית", answer: "car" },
+                    { question: "אופניים", answer: "bicycle" },
+                    { question: "מטוס", answer: "airplane" },
+                    { question: "רכבת", answer: "train" },
+                    { question: "אוטובוס", answer: "bus" },
+                ]
+            },
+            // Stage 18
+            {
+                subject: "כלי תחבורה",
+                questions: [
+                    { question: "משאית", answer: "truck" },
+                    { question: "סירה", answer: "boat" },
+                    { question: "רכב", answer: "vehicle" },
+                    { question: "קטנוע", answer: "scooter" },
+                    { question: "אופנוע", answer: "motorcycle" },
+                ]
+            },
+            // Stage 19
+            {
+                subject: "בעלי מקצוע",
+                questions: [
+                    { question: "רופא", answer: "doctor" },
+                    { question: "מורה", answer: "teacher" },
+                    { question: "שוטר", answer: "police officer" },
+                    { question: "כבאי", answer: "firefighter" },
+                    { question: "אופה", answer: "baker" },
+                ]
+            },
+            // Stage 20
+            {
+                subject: "בעלי מקצוע",
+                questions: [
+                    { question: "מהנדס", answer: "engineer" },
+                    { question: "חקלאי", answer: "farmer" },
+                    { question: "ספר", answer: "barber" },
+                    { question: "טבח", answer: "chef" },
+                    { question: "נהג", answer: "driver" },
+                ]
+            },
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+            'תרגול': `<div id="stage-number" class="stage-number">שלב 1 מתוך ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">ניסיונות: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">בדיקת תשובות</button>`
+        };
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'תרגול') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+        function renderQuiz() {
+            const quizContainer = document.getElementById("quiz-content");
+            quizContainer.innerHTML = '';
+
+            const stageData = quizData[currentStage];
+            const subject = stageData.subject;
+
+            // Create and append subject heading
+            const subjectHeading = document.createElement("h2");
+            subjectHeading.textContent = `שלב ${currentStage + 1}: ${subject}`;
+            quizContainer.appendChild(subjectHeading);
+
+            stageData.questions.forEach((question, index) => {
+                const questionElement = document.createElement("div");
+                questionElement.className = "question question-heb"; // Apply the question-heb class
+
+                questionElement.innerHTML = `
+                    <p>${index + 1}. ${question.question}</p>
+                    <input type="text" id="q${index}" data-answer="${question.answer}">
+                    <div class="result" id="result${index}"></div>
+                `;
+
+                quizContainer.appendChild(questionElement);
+            });
+
+            updateStageNumber();
+        }
+
+        function checkStage() {
+            attempts++;
+            document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+
+            let correctCount = 0;
+            const stageData = quizData[currentStage];
+            const totalQuestions = stageData.questions.length;
+
+            stageData.questions.forEach((question, index) => {
+                const resultElement = document.getElementById(`result${index}`);
+                const inputElement = document.getElementById(`q${index}`);
+                const userAnswer = inputElement.value.trim().toLowerCase();
+                const correctAnswer = question.answer.toLowerCase();
+
+                if (userAnswer === correctAnswer) {
+                    resultElement.textContent = "נכון!";
+                    resultElement.style.color = "green";
+                    correctCount++;
+                } else {
+                    resultElement.textContent = "תשובה שגויה.";
+                    resultElement.style.color = "red";
+                }
+
+                if (attempts >= 10) {
+                    inputElement.value = question.answer;
+                    inputElement.disabled = true;
+                    resultElement.textContent += ` התשובה הנכונה היא: ${question.answer}`;
+                }
+            });
+
+            console.log(`שלב ${currentStage + 1}: ${correctCount} נכונות מתוך ${totalQuestions}`);
+
+            if (correctCount === totalQuestions) {
+                console.log(`שלב ${currentStage + 1} הושלם. מוסיף ${totalQuestions} חיות.`);
+                addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+                if (currentStage < stageCount - 1) {
+                    singleStageConfetti();
+                    showEncouragingPopup(correctCount, totalQuestions, true);
+                    currentStage++; // Increment stage immediately
+                    updateProgressBar(); // Update progress bar right after incrementing stage
+                    console.log(`עובר לשלב ${currentStage + 1}`);
+                    setTimeout(() => {
+                        attempts = 0;
+                        renderQuiz();
+                        document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+                    }, 1500);
+                } else {
+                    // This is the final stage completion
+                    currentStage++;
+                    updateProgressBar(); // This will now show 100%
+                    allStagesConfetti();
+                    showModal("כל הכבוד! השלמת את כל השלבים.");
+                }
+            } else {
+                showEncouragingPopup(correctCount, totalQuestions, false);
+                if (attempts >= 10) {
+                    showModal("הגעת למספר הניסיונות המקסימלי. התשובות הנכונות נחשפו.");
+                }
+            }
+
+            scrollToTop();
+        }
+
+        function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+            const incorrectCount = totalQuestions - correctCount;
+            let message = `קיבלת ${correctCount} נכונות ו-${incorrectCount} שגויות.`;
+
+            if (correctCount === totalQuestions) {
+                message += " ציון מושלם!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+                message += " עבודה מצוינת! רואים שהנושא מתחיל להיות מובן!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+                message += " מאמץ טוב! נמשיך לתרגל כי השיפור קרוב!";
+            } else {
+                message += " לא לוותר! כל נסיון עוזר לך ללמוד. ננסה שוב!";
+            }
+
+            if (isStageComplete) {
+                message += "\n\n השלב הזה הסתיים, עוברים לשלב הבא.";
+            }
+
+            showModal(message);
+        }
+
+        function initializeQuiz() {
+            currentStage = 0;
+            attempts = 0;
+            updateProgressBar(); // This should now set the progress to 0%
+            renderQuiz();
+            document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+            updateStageNumber();
+        }
+
+        function updateProgressBar() {
+            const progressBar = document.getElementById("progress-bar");
+            const completedStages = currentStage;
+            const progress = (completedStages / stageCount) * 100;
+            const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+            progressBar.style.width = `${roundedProgress}%`;
+            progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+            console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+        }
+
+        function updateStageNumber() {
+            const stageElement = document.getElementById("stage-number");
+            stageElement.textContent = `שלב ${currentStage + 1} מתוך ${stageCount}`;
+        }
+
+        function singleStageConfetti() {
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+            confetti({
+                angle: randomInRange(55, 125),
+                spread: randomInRange(50, 70),
+                particleCount: randomInRange(50, 100),
+                origin: { y: 0.6 },
+            });
+        }
+
+        function allStagesConfetti() {
+            const defaults = {
+                spread: 360,
+                ticks: 50,
+                gravity: 0,
+                decay: 0.94,
+                startVelocity: 30,
+                shapes: ["star"],
+                colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+            };
+            function shoot() {
+                confetti({
+                    ...defaults,
+                    particleCount: 40,
+                    scalar: 1.2,
+                    shapes: ["star"],
+                });
+                confetti({
+                    ...defaults,
+                    particleCount: 10,
+                    scalar: 0.75,
+                    shapes: ["circle"],
+                });
+            }
+            setTimeout(shoot, 0);
+            setTimeout(shoot, 100);
+            setTimeout(shoot, 200);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+
+            switchContainer.style.display = 'flex';
+
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+        let farmAnimals = [];
+
+        function addAnimalsToFarm(count) {
+            const animalFarm = document.getElementById('animalFarm');
+            let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+            console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+            for (let i = 0; i < count; i++) {
+                if (availableAnimals.length === 0) {
+                    console.log("No more unique animals available!");
+                    break;
+                }
+
+                const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+                const chosenAnimal = availableAnimals[randomIndex];
+
+                const animalElement = document.createElement('li');
+                animalElement.textContent = chosenAnimal;
+                animalFarm.appendChild(animalElement);
+
+                farmAnimals.push(chosenAnimal);
+                availableAnimals.splice(randomIndex, 1);
+                console.log(`Added animal: ${chosenAnimal}`);
+            }
+
+            console.log(`Farm size after addition: ${farmAnimals.length}`);
+            logAnimalFarmState();
+        }
+
+        function logAnimalFarmState() {
+            console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+            console.log(farmAnimals);
+        }
+
+        const animals = [
+            "🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+            "🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+            "🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+            "🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+            "🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+            "🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+            "🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+            "🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+            "🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+            "🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+            "🐷", "🐩", "🐘", "🐸", "🐝"
+        ];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+        window.addEventListener('load', () => {
+            initializeSwitch();
+            initializeQuiz();
+            adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+    </script>
+</body>
+</html>
