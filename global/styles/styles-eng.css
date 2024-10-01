@@ -417,3 +417,20 @@
         background-color: #f8f8f8;  /* Light background for contrast */
         display: block;
     }
+
+        .input-in-row {
+            font-family: inherit;
+            font-size: inherit;
+            padding: 2px 5px;
+            border: none;
+            border-bottom: 2px solid #00acc1;
+            background-color: transparent;
+            color: #0000CD;
+            width: 100px;
+            outline: none; /* Remove default outline */
+            transition: border-bottom-color 0.3s ease;
+        }
+
+        .input-in-row:focus {
+            border-color: #FF5733; /* Change color on focus */
+        }
