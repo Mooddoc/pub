@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-heb.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+	<title>✅ EZ42 - זה קל</title>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+			<div class="logo-container">
+				<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+					<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+				</a>
+			</div>
+                <h2>הוראות</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                    <li>יש לקרוא כל שאלה בעיון.</li>
+                    <li>יש לבחור או להקליד את התשובה הנכונה.</li>
+                    <li>יש ללחוץ על בדיקת תשובות כשמוכנים!</li>
+                    <li>יש להשלים את כל השאלות כדי לעבור לשלב הבא.</li>
+                    <li>לאחר 10 ניסיונות, התשובות הנכונות יוצגו.</li>
+                    <li>שיהיה כיף!</li>
+                </ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->		
+                <h1>הווה פשוט והווה מתמשך - 📘</h1>
+                <h1>Present Simple and Present Progressive</h1>
+
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות החיות</h2>
+				<p>החווה שלך גדלה תוך כדי התקדמות! כל שלב מוסיף חיות חדשות לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 1;
+
+        const quizData = [ 												<!--  PH3 - Quiz Data   -->	
+  // Stage 1 - Dropdown Selection (DDL) - Present Simple
+  {
+    questions: [
+      {
+        type: 'select',
+        question: "She ___ (to play) the piano every evening.",
+        options: ["play", "plays", "playing", "played", "is playing"],
+        answer: 1
+      },
+      {
+        type: 'select',
+        question: "They ___ (to go) to the gym every day.",
+        options: ["go", "goes", "going", "gone", "went"],
+        answer: 0
+      },
+      {
+        type: 'select',
+        question: "He ___ (to work) in a bank.",
+        options: ["work", "works", "working", "worked", "is working"],
+        answer: 1
+      },
+      {
+        type: 'select',
+        question: "We ___ (to study) English twice a week.",
+        options: ["study", "studies", "studying", "studied", "are studying"],
+        answer: 0
+      },
+      {
+        type: 'select',
+        question: "The sun ___ (to rise) in the east.",
+        options: ["rise", "rises", "rising", "rose", "is rising"],
+        answer: 1
+      }
+    ]
+  },
+  // Stage 2 - Dropdown Selection (DDL) - Present Progressive
+  {
+    questions: [
+      {
+        type: 'select',
+        question: "Look! It ___ (to rain) outside.",
+        options: ["rain", "rains", "raining", "rained", "is raining"],
+        answer: 4
+      },
+      {
+        type: 'select',
+        question: "They ___ (to watch) a movie right now.",
+        options: ["watch", "watches", "watching", "watched", "are watching"],
+        answer: 4
+      },
+      {
+        type: 'select',
+        question: "I ___ (to cook) dinner at the moment.",
+        options: ["cook", "cooks", "cooking", "cooked", "am cooking"],
+        answer: 4
+      },
+      {
+        type: 'select',
+        question: "She ___ (to read) a book in the garden.",
+        options: ["read", "reads", "reading", "is reading", "has read"],
+        answer: 3
+      },
+      {
+        type: 'select',
+        question: "We ___ (to learn) new vocabulary today.",
+        options: ["learn", "learns", "learning", "learned", "are learning"],
+        answer: 4
+      }
+    ]
+  },
+  // Stage 3 - Dropdown Selection (DDL) - Present Simple
+  {
+    questions: [
+      {
+        type: 'select',
+        question: "My father ___ (to read) the newspaper every morning.",
+        options: ["read", "reads", "reading", "is reading", "has read"],
+        answer: 1
+      },
+      {
+        type: 'select',
+        question: "The shop ___ (to open) at 9 AM on weekdays.",
+        options: ["open", "opening", "opened", "opens", "is opening"],
+        answer: 3
+      },
+      {
+        type: 'select',
+        question: "They ___ (to have) lunch at 1 PM every day.",
+        options: ["have", "has", "having", "had", "are having"],
+        answer: 0
+      },
+      {
+        type: 'select',
+        question: "The earth ___ (to revolve) around the sun.",
+        options: ["revolve", "revolves", "revolving", "revolved", "is revolving"],
+        answer: 1
+      },
+      {
+        type: 'select',
+        question: "I ___ (to brush) my teeth twice a day.",
+        options: ["brushing", "brushes", "brush", "brushed", "am brushing"],
+        answer: 2
+      }
+    ]
+  },
+  // Stage 4 - Dropdown Selection (DDL) - Present Progressive
+  {
+    questions: [
+      {
+        type: 'select',
+        question: "The children ___ (to play) in the park now.",
+        options: ["play", "plays", "playing", "played", "are playing"],
+        answer: 4
+      },
+      {
+        type: 'select',
+        question: "He ___ (to write) an email to his boss at the moment.",
+        options: ["write", "writes", "writing", "wrote", "is writing"],
+        answer: 4
+      },
+      {
+        type: 'select',
+        question: "I ___ (to wait) for the bus right now.",
+        options: ["wait", "waits", "am waiting", "waited", "waiting"],
+        answer: 2
+      },
+      {
+        type: 'select',
+        question: "They ___ (to prepare) for their exams this week.",
+        options: ["are preparing", "prepares", "preparing", "prepared", "prepare"],
+        answer: 0
+      },
+      {
+        type: 'select',
+        question: "The cat ___ (to sleep) on the sofa.",
+        options: ["sleep", "sleeps", "sleeping", "is sleeping", "slept"],
+        answer: 3
+      }
+    ]
+  },
+  // Stage 5 - Dropdown Selection (DDL) - Present Simple
+  {
+    questions: [
+      {
+        type: 'select',
+        question: "Water ___ (to boil) at 100 degrees Celsius.",
+        options: ["boil", "boils", "boiling", "boiled", "is boiling"],
+        answer: 1
+      },
+      {
+        type: 'select',
+        question: "They ___ (to speak) English fluently.",
+        options: ["speak", "speaks", "speaking", "spoke", "are speaking"],
+        answer: 0
+      },
+      {
+        type: 'select',
+        question: "The museum ___ (to close) at 6 PM on Sundays.",
+        options: ["close", "closes", "closing", "closed", "is closing"],
+        answer: 1
+      },
+      {
+        type: 'select',
+        question: "I ___ (to enjoy) reading books in my free time.",
+        options: ["enjoy", "enjoys", "enjoying", "enjoyed", "am enjoying"],
+        answer: 0
+      },
+      {
+        type: 'select',
+        question: "She ___ (to teach) mathematics at the local school.",
+        options: ["teach", "is teaching", "teaching", "taught", "teaches"],
+        answer: 4
+      }
+    ]
+  },
+  // Stage 6 - Dropdown Selection (DDL) - Present Progressive
+  {
+    questions: [
+      {
+        type: 'select',
+        question: "The economy ___ (to grow) rapidly this year.",
+        options: ["grow", "grows", "growing", "grew", "is growing"],
+        answer: 4
+      },
+      {
+        type: 'select',
+        question: "We ___ (to plan) our summer vacation at the moment.",
+        options: ["plan", "plans", "planning", "planned", "are planning"],
+        answer: 4
+      },
+      {
+        type: 'select',
+        question: "She ___ (to learn) to play the guitar these days.",
+        options: ["learn", "learns", "learning", "is learning", "learned"],
+        answer: 3
+      },
+      {
+        type: 'select',
+        question: "The company ___ (to develop) a new product.",
+        options: ["is developing", "develops", "developing", "developed", "develop"],
+        answer: 0
+      },
+      {
+        type: 'select',
+        question: "I ___ (to consider) changing my job.",
+        options: ["consider", "considers", "am considering", "considering", "considered"],
+        answer: 2
+      }
+    ]
+  },
+  // Stage 7 - Dropdown Selection (DDL) - Present Simple
+  {
+    questions: [
+      {
+        type: 'select',
+        question: "The train ___ (to leave) at 8 AM every morning.",
+        options: ["leave", "leaves", "leaving", "left", "is leaving"],
+        answer: 1
+      },
+      {
+        type: 'select',
+        question: "They ___ (to live) in a small apartment in the city center.",
+        options: ["live", "lives", "living", "lived", "are living"],
+        answer: 0
+      },
+      {
+        type: 'select',
+        question: "The restaurant ___ (to serve) breakfast until 11 AM.",
+        options: ["serve", "serves", "serving", "served", "is serving"],
+        answer: 1
+      },
+      {
+        type: 'select',
+        question: "I ___ (to prefer) tea to coffee.",
+        options: ["prefer", "prefers", "preferring", "preferred", "am preferring"],
+        answer: 0
+      },
+      {
+        type: 'select',
+        question: "The sun ___ (to set) in the west.",
+        options: ["set", "setting", "setted", "sets", "is setting"],
+        answer: 3
+      }
+    ]
+  },
+  // Stage 8 - Dropdown Selection (DDL) - Present Progressive
+  {
+    questions: [
+      {
+        type: 'select',
+        question: "The price of oil ___ (to rise) steadily.",
+        options: ["rise", "rises", "rising", "rose", "is rising"],
+        answer: 4
+      },
+      {
+        type: 'select',
+        question: "They ___ (to build) a new shopping mall in the city.",
+        options: ["build", "builds", "building", "built", "are building"],
+        answer: 4
+      },
+      {
+        type: 'select',
+        question: "I ___ (to save) money for a new car.",
+        options: ["save", "saves", "saving", "am saving", "saved"],
+        answer: 3
+      },
+      {
+        type: 'select',
+        question: "The team ___ (to practice) for the big game tomorrow.",
+        options: ["practice", "practices", "is practicing", "practicing", "practiced"],
+        answer: 2
+      },
+      {
+        type: 'select',
+        question: "She ___ (to look) for a new apartment.",
+        options: ["look", "looks", "is looking", "looking", "looked"],
+        answer: 2
+      }
+    ]
+  },
+  // Stage 9 - Dropdown Selection (DDL) - Present Simple
+  {
+    questions: [
+      {
+        type: 'select',
+        question: "The library ___ (to open) at 9 AM and ___ (to close) at 8 PM.",
+        options: ["open ... close", "opens ... closes", "opening ... closing", "opened ... closed", "is opening ... is closing"],
+        answer: 1
+      },
+      {
+        type: 'select',
+        question: "He ___ (to drive) to work every day.",
+        options: ["drive", "drives", "driving", "drove", "is driving"],
+        answer: 1
+      },
+      {
+        type: 'select',
+        question: "Cats ___ (to sleep) for about 16 hours a day.",
+        options: ["sleep", "sleeps", "sleeping", "slept", "are sleeping"],
+        answer: 0
+      },
+      {
+        type: 'select',
+        question: "The Earth ___ (to rotate) on its axis.",
+        options: ["rotate", "rotating", "rotated", "rotates", "is rotating"],
+        answer: 3
+      },
+      {
+        type: 'select',
+        question: "We ___ (to have) a meeting every Monday morning.",
+        options: ["have", "has", "having", "had", "are having"],
+        answer: 0
+      }
+    ]
+  },
+  // Stage 10 - Dropdown Selection (DDL) - Present Progressive
+  {
+    questions: [
+      {
+        type: 'select',
+        question: "The weather ___ (to get) warmer these days.",
+        options: ["get", "gets", "getting", "got", "is getting"],
+        answer: 4
+      },
+      {
+        type: 'select',
+        question: "They ___ (to renovate) their house this month.",
+        options: ["renovate", "renovates", "renovating", "renovated", "are renovating"],
+        answer: 4
+      },
+      {
+        type: 'select',
+        question: "I ___ (to work) on a new project at the moment.",
+        options: ["work", "works", "working", "am working", "worked"],
+        answer: 3
+      },
+      {
+        type: 'select',
+        question: "The population of the city ___ (to grow) rapidly.",
+        options: ["grow", "grows", "is growing", "growing", "grew"],
+        answer: 2
+      },
+      {
+        type: 'select',
+        question: "She ___ (to learn) to speak Japanese.",
+        options: ["learn", "is learning", "learns", "learning", "learned"],
+        answer: 1
+      }
+    ]
+  },
+  // Stage 11 - Typing Input - Present Simple
+  {
+    questions: [
+      {
+        type: 'input',
+        question: "He ___ (to speak) three languages.",
+        answer: "speaks"
+      },
+      {
+        type: 'input',
+        question: "The train ___ (to leave) at 9 AM every day.",
+        answer: "leaves"
+      },
+      {
+        type: 'input',
+        question: "They ___ (to live) in London.",
+        answer: "live"
+      },
+      {
+        type: 'input',
+        question: "I ___ (to drink) coffee every morning.",
+        answer: "drink"
+      },
+      {
+        type: 'input',
+        question: "She ___ (to teach) English at a primary school.",
+        answer: "teaches"
+      }
+    ]
+  },
+  // Stage 12 - Typing Input - Present Progressive
+  {
+    questions: [
+      {
+        type: 'input',
+        question: "They ___ (to play) football in the park now.",
+        answer: "are playing"
+      },
+      {
+        type: 'input',
+        question: "I ___ (to write) an email to my boss at the moment.",
+        answer: "am writing"
+      },
+      {
+        type: 'input',
+        question: "She ___ (to prepare) for her exam this week.",
+        answer: "is preparing"
+      },
+      {
+        type: 'input',
+        question: "We ___ (to have) lunch right now.",
+        answer: "are having"
+      },
+      {
+        type: 'input',
+        question: "The children ___ (to sleep) upstairs.",
+        answer: "are sleeping"
+      }
+    ]
+  },
+// Stage 13 - Typing Input - Present Simple
+  {
+    questions: [
+      {
+        type: 'input',
+        question: "Water ___ (to boil) at 100 degrees Celsius.",
+        answer: "boils"
+      },
+      {
+        type: 'input',
+        question: "The sun ___ (to rise) in the east.",
+        answer: "rises"
+      },
+      {
+        type: 'input',
+        question: "He ___ (to work) as a doctor.",
+        answer: "works"
+      },
+      {
+        type: 'input',
+        question: "They ___ (to play) tennis every weekend.",
+        answer: "play"
+      },
+      {
+        type: 'input',
+        question: "The store ___ (to open) at 9 AM.",
+        answer: "opens"
+      }
+    ]
+  },
+  // Stage 14 - Typing Input - Present Progressive
+  {
+    questions: [
+      {
+        type: 'input',
+        question: "Look! It ___ (to snow) outside.",
+        answer: "is snowing"
+      },
+      {
+        type: 'input',
+        question: "She ___ (to cook) dinner at the moment.",
+        answer: "is cooking"
+      },
+      {
+        type: 'input',
+        question: "We ___ (to learn) Spanish this semester.",
+        answer: "are learning"
+      },
+      {
+        type: 'input',
+        question: "They ___ (to build) a new house.",
+        answer: "are building"
+      },
+      {
+        type: 'input',
+        question: "I ___ (to read) an interesting book right now.",
+        answer: "am reading"
+      }
+    ]
+  },
+  // Stage 15 - Typing Input - Present Simple
+  {
+    questions: [
+      {
+        type: 'input',
+        question: "The Earth ___ (to rotate) around the Sun.",
+        answer: "rotates"
+      },
+      {
+        type: 'input',
+        question: "She ___ (to like) chocolate ice cream.",
+        answer: "likes"
+      },
+      {
+        type: 'input',
+        question: "The train ___ (to arrive) at 3 PM every day.",
+        answer: "arrives"
+      },
+      {
+        type: 'input',
+        question: "We ___ (to have) dinner at 7 PM.",
+        answer: "have"
+      },
+      {
+        type: 'input',
+        question: "The museum ___ (to close) on Mondays.",
+        answer: "closes"
+      }
+    ]
+  },
+  // Stage 16 - Typing Input - Present Progressive
+  {
+    questions: [
+      {
+        type: 'input',
+        question: "The baby ___ (to sleep) peacefully.",
+        answer: "is sleeping"
+      },
+      {
+        type: 'input',
+        question: "They ___ (to discuss) the project now.",
+        answer: "are discussing"
+      },
+      {
+        type: 'input',
+        question: "I ___ (to wait) for the bus at the moment.",
+        answer: "am waiting"
+      },
+      {
+        type: 'input',
+        question: "She ___ (to paint) a beautiful picture.",
+        answer: "is painting"
+      },
+      {
+        type: 'input',
+        question: "We ___ (to plan) our vacation for next month.",
+        answer: "are planning"
+      }
+    ]
+  },
+  // Stage 17 - Typing Input - Present Simple
+  {
+    questions: [
+      {
+        type: 'input',
+        question: "The library ___ (to open) at 10 AM on Saturdays.",
+        answer: "opens"
+      },
+      {
+        type: 'input',
+        question: "He ___ (to drink) coffee every morning.",
+        answer: "drinks"
+      },
+      {
+        type: 'input',
+        question: "Cats ___ (to sleep) for about 16 hours a day.",
+        answer: "sleep"
+      },
+      {
+        type: 'input',
+        question: "The movie ___ (to start) at 8 PM.",
+        answer: "starts"
+      },
+      {
+        type: 'input',
+        question: "She ___ (to teach) English to children.",
+        answer: "teaches"
+      }
+    ]
+  },
+  // Stage 18 - Typing Input - Present Progressive
+  {
+    questions: [
+      {
+        type: 'input',
+        question: "The climate ___ (to change) rapidly.",
+        answer: "is changing"
+      },
+      {
+        type: 'input',
+        question: "They ___ (to renovate) their house this month.",
+        answer: "are renovating"
+      },
+      {
+        type: 'input',
+        question: "I ___ (to learn) to play the guitar.",
+        answer: "am learning"
+      },
+      {
+        type: 'input',
+        question: "The company ___ (to expand) its operations.",
+        answer: "is expanding"
+      },
+      {
+        type: 'input',
+        question: "We ___ (to prepare) for the upcoming exam.",
+        answer: "are preparing"
+      }
+    ]
+  },
+  // Stage 19 - Typing Input - Present Simple
+  {
+    questions: [
+      {
+        type: 'input',
+        question: "The sun ___ (to set) in the west.",
+        answer: "sets"
+      },
+      {
+        type: 'input',
+        question: "He ___ (to play) the piano beautifully.",
+        answer: "plays"
+      },
+      {
+        type: 'input',
+        question: "The shop ___ (to close) at 6 PM on weekdays.",
+        answer: "closes"
+      },
+      {
+        type: 'input',
+        question: "Water ___ (to freeze) at 0 degrees Celsius.",
+        answer: "freezes"
+      },
+      {
+        type: 'input',
+        question: "They ___ (to speak) French at home.",
+        answer: "speak"
+      }
+    ]
+  },
+  // Stage 20 - Typing Input - Present Progressive
+  {
+    questions: [
+      {
+        type: 'input',
+        question: "The population ___ (to grow) rapidly.",
+        answer: "is growing"
+      },
+      {
+        type: 'input',
+        question: "She ___ (to study) for her final exams.",
+        answer: "is studying"
+      },
+      {
+        type: 'input',
+        question: "We ___ (to save) money for a new car.",
+        answer: "are saving"
+      },
+      {
+        type: 'input',
+        question: "The team ___ (to practice) for the big game.",
+        answer: "is practicing"
+      },
+      {
+        type: 'input',
+        question: "I ___ (to look) for my keys. Have you seen them?",
+        answer: "am looking"
+      }
+    ]
+  }
+];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+			'לימוד הנושא':
+'<div class="subject-overview-content subject-overview-content_heb">     <h1>הבנת ההבדל בין הווה פשוט להווה ממושך</h1>     <p>         בשפה האנגלית משתמשים בזמנים שונים כדי לציין את זמן הפעולה. שניים מהזמנים הנפוצים ביותר הם ההווה הפשוט וההווה הממושך. בואו נבין כיצד משתמשים בזמנים אלה ומה ההבדל ביניהם.     </p>     <h2 class="highlight_heb">הווה פשוט</h2>     <p>זמן ההווה הפשוט משמש לתיאור:</p>     <ul>         <li>אמיתות כלליות או עובדות.</li>         <li>הרגלים או פעולות שגרתיות.</li>         <li>אירועים מתוכננים בעתיד הקרוב.</li>     </ul>     <p>מבנה ההווה הפשוט הוא:</p>     <p><span class="highlight_heb">נושא + צורת הבסיס של הפועל (+ s/es לאדם שלישי יחיד)</span></p>     <h3 class="highlight_heb">דוגמאות:</h3>     <p class="english_heb">She runs every morning.</p>     <p class="english_heb">The sun rises in the east.</p>     <p class="english_heb">They play football every weekend.</p>     <p class="english_heb">Water boils at 100 degrees Celsius.</p>     <p class="english_heb">He works at a bank.</p>     <p class="english_heb">Birds fly south for the winter.</p>     <p class="english_heb">The store opens at 9 AM.</p>     <p class="english_heb">She teaches English at the local school.</p>     <p class="english_heb">They live in New York.</p>     <p class="english_heb">Dogs bark at strangers.</p>     <h2 class="highlight_heb">הווה ממושך</h2>     <p>זמן ההווה הממושך משמש לתיאור:</p>     <ul>         <li>פעולות שמתרחשות כרגע.</li>         <li>פעולות שמתרחשות סביב זמן ההווה, אך לא בהכרח ברגע זה.</li>         <li>תוכניות או סידורים לעתיד.</li>     </ul>     <p>מבנה ההווה הממושך הוא:</p>     <p><span class="highlight_heb">נושא + am/is/are + הפועל + ing</span></p>     <h3 class="highlight_heb">דוגמאות:</h3>     <p class="english_heb">She is running right now.</p>     <p class="english_heb">They are working on the project this week.</p>     <p class="english_heb">We are studying for the exam.</p>     <p class="english_heb">He is cooking dinner at the moment.</p>     <p class="english_heb">I am reading a great book.</p>     <p class="english_heb">She is learning to play the piano.</p>     <p class="english_heb">They are traveling to Italy next month.</p>     <p class="english_heb">The kids are playing outside now.</p>     <p class="english_heb">The company is launching a new product.</p>     <p class="english_heb">We are planning our next vacation.</p>     <h2 class="highlight_heb">הבדלים עיקריים</h2>     <p>         למרות ששני הזמנים מתייחסים לפעמים להווה, השימוש בהם תלוי בהקשר:     </p>     <ul>         <li><span class="highlight_heb">הווה פשוט</span> מתמקד בפעולות רגילות או במצבים קבועים.</li>         <li><span class="highlight_heb">הווה ממושך</span> מדגיש פעולות שהן זמניות או שהן בתהליך התרחשות.</li>     </ul>     <h3 class="highlight_heb">דוגמאות:</h3>     <p><span class="highlight_heb">Present Simple:</span> He works at a bank.</p>     <p><span class="highlight_heb">Present Progressive:</span> He is working on a new project now.</p>     <p>         הבנת ההבדלים הללו תעזור לך לבחור את הזמן הנכון במצבים שונים. תרגל על ידי יצירת משפטים משלך באמצעות שני הזמנים!     </p> </div>'
+
+             ,'תרגול': '<div id="stage-number" class="stage-number">שלב 1 מתוך ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">ניסיונות: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">בדיקת תשובות</button>'
+        };
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'תרגול') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+		function renderQuiz() {
+			const quizContainer = document.getElementById("quiz-content");
+			quizContainer.innerHTML = '';
+			quizData[currentStage].questions.forEach((question, index) => {
+				const questionElement = document.createElement("div");
+				questionElement.className = "question";
+				
+				let inputField = '';
+				if (question.type === 'select') {
+					inputField = `
+						<div class="options">
+							<select id="q${index}">
+								<option value="">Select</option>
+								${question.options.map((option, i) => `
+									<option value="${i}">${option}</option>
+								`).join("")}
+							</select>
+						</div>
+					`;
+				} else if (question.type === 'input') {
+					inputField = `
+						<div class="options">
+							<input type="text" id="q${index}" class="input-in-row">
+						</div>
+					`;
+				}
+
+				questionElement.innerHTML = `
+					<p>${index + 1}. ${question.question}</p>
+					${inputField}
+					<div class="result" id="result${index}"></div>
+				`;
+
+				quizContainer.appendChild(questionElement);
+			});
+
+			updateStageNumber();
+		}
+
+		function checkStage() {
+			attempts++;
+			document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+
+			let correctCount = 0;
+			const totalQuestions = quizData[currentStage].questions.length;
+
+			quizData[currentStage].questions.forEach((question, index) => {
+				const resultElement = document.getElementById(`result${index}`);
+				let userAnswer;
+
+				if (question.type === 'select') {
+					const selectElement = document.getElementById(`q${index}`);
+					const selectedOption = selectElement.value;
+					userAnswer = parseInt(selectedOption);
+				} else if (question.type === 'input') {
+					const inputElement = document.getElementById(`q${index}`);
+					userAnswer = inputElement.value.trim().toLowerCase();
+				}
+
+				if (question.type === 'select') {
+					if (userAnswer === question.answer) {
+						resultElement.textContent = "נכון!";
+						resultElement.style.color = "green";
+						correctCount++;
+					} else {
+						resultElement.textContent = "תשובה לא נכונה.";
+						resultElement.style.color = "red";
+					}
+
+					if (attempts >= 10) {
+						const selectElement = document.getElementById(`q${index}`);
+						selectElement.value = question.answer;
+						selectElement.disabled = true;
+						resultElement.textContent += ` התשובה הנכונה היא: ${question.options[question.answer]}`;
+					}
+				} else if (question.type === 'input') {
+					if (userAnswer === question.answer.toLowerCase()) {
+						resultElement.textContent = "נכון!";
+						resultElement.style.color = "green";
+						correctCount++;
+					} else {
+						resultElement.textContent = "תשובה לא נכונה.";
+						resultElement.style.color = "red";
+						if (attempts >= 10) {
+							const inputElement = document.getElementById(`q${index}`);
+							inputElement.value = question.answer;
+							inputElement.disabled = true;
+							resultElement.textContent += ` התשובה הנכונה היא: ${question.answer}`;
+						}
+					}
+				}
+			});
+
+			console.log(`שלב ${currentStage + 1}: ${correctCount} נכונות מתוך ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`שלב ${currentStage + 1} הושלם. מוסיף ${totalQuestions} animals.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`Moving to stage ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("כל הכבוד! השלמת את כל השלבים.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("הגעת למספר הניסיונות המקסימלי. התשובות הנכונות נחשפו.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+        function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+            const incorrectCount = totalQuestions - correctCount;
+            let message = `קיבלת ${correctCount} נכונות ו-${incorrectCount} שגויות.`;
+            
+            if (correctCount === totalQuestions) {
+                message += " ציון מושלם!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+                message += " עבודה מצוינת! רואים שהנושא מתחיל להיות מובן!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+                message += " מאמץ טוב! נמשיך לתרגל כי השיפור קרוב!";
+            } else {
+                message += " לא לוותר! כל נסיון עוזר לך ללמוד. ננסה שוב!";
+            }
+
+            if (isStageComplete) {
+                message += "\n\n השלב הזה הסתיים, עוברים לשלב הבא.";
+            }
+
+            showModal(message);
+        }
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `נסיונות: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+        function updateStageNumber() {
+            const stageElement = document.getElementById("stage-number");
+            stageElement.textContent = `שלב ${currentStage + 1} מתוך ${stageCount}`;
+        }
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+    </script>
+</body>
+</html>
