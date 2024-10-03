@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-heb.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+	<title>✅ EZ42 - זה קל</title>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+			<div class="logo-container">
+				<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+					<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+				</a>
+			</div>
+                <h2>הוראות</h2>
+				<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+				<li>גררו ושחררו את המילים כדי לסדר אותן במשפט הנכון.</li>
+				<li>לחצו על "בדיקת תשובות" כשאתם מוכנים לראות איך עשיתם!</li>
+				<li>לאחר 10 ניסיונות, הסדר הנכון יתגלה.</li>
+				<li>ישנם 30 שלבים, כל אחד עם 5 שאלות.</li>
+				<li>תהנו!</li>
+                </ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->		
+                <h1>הרכבת משפטים - 📘,📒</h1>
+                <h1>Sentence Ordering</h1>
+
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות החיות</h2>
+				<p>החווה שלך גדלה תוך כדי התקדמות! כל שלב מוסיף חיות חדשות לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 1;
+
+																				//  PH3 - Quiz Data   	
+				const quizData = [
+							// Stage 1
+							[
+								{ words: "she / likes / to / read / books", correctAnswer: "She likes to read books" },
+								{ words: "they / play / football / together", correctAnswer: "They play football together" },
+								{ words: "he / lives / in / a / house", correctAnswer: "He lives in a house" },
+								{ words: "she / goes / to / school", correctAnswer: "She goes to school" },
+								{ words: "he / is / good / at / math", correctAnswer: "He is good at math" },
+							],
+							// Stage 2
+							[
+								{ words: "the / sun / rises / in / the / east", correctAnswer: "The sun rises in the east" },
+								{ words: "we / love / to / eat / ice / cream", correctAnswer: "We love to eat ice cream" },
+								{ words: "they / are / playing / in / the / park", correctAnswer: "They are playing in the park" },
+								{ words: "he / always / eats / breakfast / at / 7", correctAnswer: "He always eats breakfast at 7" },
+								{ words: "she / is / reading / a / new / book", correctAnswer: "She is reading a new book" },
+							],
+							// Stage 3
+							[
+								{ words: "the / cat / is / sitting / on / the / mat", correctAnswer: "The cat is sitting on the mat" },
+								{ words: "they / went / to / the / store / yesterday", correctAnswer: "They went to the store yesterday" },
+								{ words: "he / likes / to / watch / movies / at / night", correctAnswer: "He likes to watch movies at night" },
+								{ words: "she / often / visits / her / grandmother", correctAnswer: "She often visits her grandmother" },
+								{ words: "the / children / are / playing / in / the / garden", correctAnswer: "The children are playing in the garden" },
+							],
+							// Stage 4
+							[
+								{ words: "we / have / a / big / test / tomorrow", correctAnswer: "We have a big test tomorrow" },
+								{ words: "he / is / working / on / a / project", correctAnswer: "He is working on a project" },
+								{ words: "she / loves / to / listen / to / music", correctAnswer: "She loves to listen to music" },
+								{ words: "they / are / planning / a / trip / to / the / beach", correctAnswer: "They are planning a trip to the beach" },
+								{ words: "the / dog / is / barking / at / the / stranger", correctAnswer: "The dog is barking at the stranger" },
+							],
+							// Stage 5
+							[
+								{ words: "he / always / brushes / his / teeth / before / bed", correctAnswer: "He always brushes his teeth before bed" },
+								{ words: "we / are / going / to / the / movies / tonight", correctAnswer: "We are going to the movies tonight" },
+								{ words: "she / is / learning / to / play / the / guitar", correctAnswer: "She is learning to play the guitar" },
+								{ words: "they / are / building / a / new / house", correctAnswer: "They are building a new house" },
+								{ words: "the / baby / is / crying / loudly", correctAnswer: "The baby is crying loudly" },
+							],
+							// Stage 6
+							[
+								{ words: "he / enjoys / playing / chess / with / his / friend", correctAnswer: "He enjoys playing chess with his friend" },
+								{ words: "she / is / writing / a / letter / to / her / cousin", correctAnswer: "She is writing a letter to her cousin" },
+								{ words: "we / often / go / hiking / on / weekends", correctAnswer: "We often go hiking on weekends" },
+								{ words: "they / are / having / dinner / at / a / restaurant", correctAnswer: "They are having dinner at a restaurant" },
+								{ words: "the / teacher / is / explaining / the / lesson", correctAnswer: "The teacher is explaining the lesson" },
+							],
+							// Stage 7
+							[
+								{ words: "he / is / watching / a / football / match", correctAnswer: "He is watching a football match" },
+								{ words: "she / is / decorating / the / house / for / Christmas", correctAnswer: "She is decorating the house for Christmas" },
+								{ words: "they / are / going / to / a / concert / tomorrow", correctAnswer: "They are going to a concert tomorrow" },
+								{ words: "we / are / meeting / our / friends / at / the / park", correctAnswer: "We are meeting our friends at the park" },
+								{ words: "the / car / is / parked / in / the / garage", correctAnswer: "The car is parked in the garage" },
+							],
+							// Stage 8
+							[
+								{ words: "he / usually / walks / to / school / in / the / morning", correctAnswer: "He usually walks to school in the morning" },
+								{ words: "she / is / cooking / dinner / for / her / family", correctAnswer: "She is cooking dinner for her family" },
+								{ words: "they / are / studying / for / their / exams", correctAnswer: "They are studying for their exams" },
+								{ words: "we / are / planning / a / surprise / party", correctAnswer: "We are planning a surprise party" },
+								{ words: "the / weather / is / getting / colder", correctAnswer: "The weather is getting colder" },
+							],
+							// Stage 9
+							[
+								{ words: "he / is / reading / a / book / in / the / library", correctAnswer: "He is reading a book in the library" },
+								{ words: "she / likes / to / draw / pictures / of / animals", correctAnswer: "She likes to draw pictures of animals" },
+								{ words: "they / are / traveling / to / a / different / country", correctAnswer: "They are traveling to a different country" },
+								{ words: "we / are / watching / a / movie / at / home", correctAnswer: "We are watching a movie at home" },
+								{ words: "the / birds / are / singing / in / the / trees", correctAnswer: "The birds are singing in the trees" },
+							],
+							// Stage 10
+							[
+								{ words: "he / is / fixing / his / bike / in / the / garage", correctAnswer: "He is fixing his bike in the garage" },
+								{ words: "she / is / playing / the / piano / beautifully", correctAnswer: "She is playing the piano beautifully" },
+								{ words: "they / are / talking / about / their / weekend / plans", correctAnswer: "They are talking about their weekend plans" },
+								{ words: "we / are / going / on / a / picnic / today", correctAnswer: "We are going on a picnic today" },
+								{ words: "the / children / are / laughing / at / a / funny / joke", correctAnswer: "The children are laughing at a funny joke" },
+							],
+							// Stage 11
+							[
+								{ words: "he / is / helping / his / mother / in / the / kitchen", correctAnswer: "He is helping his mother in the kitchen" },
+								{ words: "she / enjoys / painting / pictures / of / flowers", correctAnswer: "She enjoys painting pictures of flowers" },
+								{ words: "they / are / swimming / in / the / pool", correctAnswer: "They are swimming in the pool" },
+								{ words: "we / are / visiting / the / zoo / tomorrow", correctAnswer: "We are visiting the zoo tomorrow" },
+								{ words: "the / cat / is / sleeping / on / the / sofa", correctAnswer: "The cat is sleeping on the sofa" },
+							],
+							// Stage 12
+							[
+								{ words: "he / is / playing / basketball / with / his / friends", correctAnswer: "He is playing basketball with his friends" },
+								{ words: "she / is / learning / to / bake / a / cake", correctAnswer: "She is learning to bake a cake" },
+								{ words: "they / are / cleaning / their / rooms", correctAnswer: "They are cleaning their rooms" },
+								{ words: "we / are / going / to / the / mall / this / weekend", correctAnswer: "We are going to the mall this weekend" },
+								{ words: "the / dog / is / chasing / a / ball / in / the / yard", correctAnswer: "The dog is chasing a ball in the yard" },
+							],
+							// Stage 13
+							[
+								{ words: "he / is / drawing / a / picture / of / a / tree", correctAnswer: "He is drawing a picture of a tree" },
+								{ words: "she / is / watching / a / documentary / about / animals", correctAnswer: "She is watching a documentary about animals" },
+								{ words: "they / are / listening / to / music / on / the / radio", correctAnswer: "They are listening to music on the radio" },
+								{ words: "we / are / taking / a / walk / in / the / park", correctAnswer: "We are taking a walk in the park" },
+								{ words: "the / students / are / working / on / a / science / project", correctAnswer: "The students are working on a science project" },
+							],
+							// Stage 14
+							[
+								{ words: "he / is / writing / a / story / for / school", correctAnswer: "He is writing a story for school" },
+								{ words: "she / is / knitting / a / scarf / for / her / friend", correctAnswer: "She is knitting a scarf for her friend" },
+								{ words: "they / are / watching / the / sunset / on / the / beach", correctAnswer: "They are watching the sunset on the beach" },
+								{ words: "we / are / planting / flowers / in / the / garden", correctAnswer: "We are planting flowers in the garden" },
+								{ words: "the / baby / is / crawling / on / the / floor", correctAnswer: "The baby is crawling on the floor" },
+							],
+							// Stage 15
+							[
+								{ words: "he / is / building / a / model / airplane", correctAnswer: "He is building a model airplane" },
+								{ words: "she / is / organizing / her / books / on / the / shelf", correctAnswer: "She is organizing her books on the shelf" },
+								{ words: "they / are / celebrating / a / birthday", correctAnswer: "They are celebrating a birthday" },
+								{ words: "we / are / playing / board / games / tonight", correctAnswer: "We are playing board games tonight" },
+								{ words: "the / teacher / is / reading / a / story / to / the / class", correctAnswer: "The teacher is reading a story to the class" },
+							],
+							// Stage 16
+							[
+								{ words: "he / is / learning / how / to / play / chess", correctAnswer: "He is learning how to play chess" },
+								{ words: "she / is / preparing / a / presentation / for / work", correctAnswer: "She is preparing a presentation for work" },
+								{ words: "they / are / dancing / at / the / party", correctAnswer: "They are dancing at the party" },
+								{ words: "we / are / eating / lunch / at / a / café", correctAnswer: "We are eating lunch at a café" },
+								{ words: "the / sun / is / shining / brightly / today", correctAnswer: "The sun is shining brightly today" },
+							],
+							// Stage 17
+							[
+								{ words: "he / is / practicing / his / guitar / skills", correctAnswer: "He is practicing his guitar skills" },
+								{ words: "she / is / studying / for / her / history / exam", correctAnswer: "She is studying for her history exam" },
+								{ words: "they / are / playing / cards / together", correctAnswer: "They are playing cards together" },
+								{ words: "we / are / going / for / a / run / in / the / park", correctAnswer: "We are going for a run in the park" },
+								{ words: "the / birds / are / building / a / nest", correctAnswer: "The birds are building a nest" },
+							],
+							// Stage 18
+							[
+								{ words: "he / is / feeding / his / pet / cat", correctAnswer: "He is feeding his pet cat" },
+								{ words: "she / is / writing / a / letter / to / her / friend", correctAnswer: "She is writing a letter to her friend" },
+								{ words: "they / are / planning / a / vacation / to / Europe", correctAnswer: "They are planning a vacation to Europe" },
+								{ words: "we / are / cooking / dinner / together", correctAnswer: "We are cooking dinner together" },
+								{ words: "the / children / are / watching / cartoons / on / TV", correctAnswer: "The children are watching cartoons on TV" },
+							],
+							// Stage 19
+							[
+								{ words: "he / is / painting / a / picture / of / a / landscape", correctAnswer: "He is painting a picture of a landscape" },
+								{ words: "she / is / reading / a / novel / in / her / room", correctAnswer: "She is reading a novel in her room" },
+								{ words: "they / are / having / a / barbecue / in / the / backyard", correctAnswer: "They are having a barbecue in the backyard" },
+								{ words: "we / are / walking / the / dog / in / the / park", correctAnswer: "We are walking the dog in the park" },
+								{ words: "the / cat / is / chasing / a / mouse", correctAnswer: "The cat is chasing a mouse" },
+							],
+							// Stage 20
+							[
+								{ words: "he / is / teaching / his / brother / how / to / ride / a / bike", correctAnswer: "He is teaching his brother how to ride a bike" },
+								{ words: "she / is / baking / cookies / for / the / bake / sale", correctAnswer: "She is baking cookies for the bake sale" },
+								{ words: "they / are / playing / hide / and / seek", correctAnswer: "They are playing hide and seek" },
+								{ words: "we / are / preparing / for / a / camping / trip", correctAnswer: "We are preparing for a camping trip" },
+								{ words: "the / dog / is / digging / a / hole / in / the / yard", correctAnswer: "The dog is digging a hole in the yard" },
+							],
+							// Stage 21
+							[
+								{ words: "he / is / fixing / the / leaky / faucet / in / the / kitchen", correctAnswer: "He is fixing the leaky faucet in the kitchen" },
+								{ words: "she / is / learning / to / play / the / violin", correctAnswer: "She is learning to play the violin" },
+								{ words: "they / are / practicing / their / dance / routine", correctAnswer: "They are practicing their dance routine" },
+								{ words: "we / are / going / to / a / football / game", correctAnswer: "We are going to a football game" },
+								{ words: "the / cat / is / scratching / the / furniture", correctAnswer: "The cat is scratching the furniture" },
+							],
+							// Stage 22
+							[
+								{ words: "he / is / studying / for / his / math / test", correctAnswer: "He is studying for his math test" },
+								{ words: "she / is / organizing / a / charity / event", correctAnswer: "She is organizing a charity event" },
+								{ words: "they / are / rehearsing / for / their / school / play", correctAnswer: "They are rehearsing for their school play" },
+								{ words: "we / are / packing / our / bags / for / the / trip", correctAnswer: "We are packing our bags for the trip" },
+								{ words: "the / dog / is / wagging / its / tail / happily", correctAnswer: "The dog is wagging its tail happily" },
+							],
+							// Stage 23
+							[
+								{ words: "he / is / teaching / his / dog / new / tricks", correctAnswer: "He is teaching his dog new tricks" },
+								{ words: "she / is / practicing / the / piano / every / day", correctAnswer: "She is practicing the piano every day" },
+								{ words: "they / are / playing / soccer / at / the / field", correctAnswer: "They are playing soccer at the field" },
+								{ words: "we / are / decorating / the / house / for / the / holidays", correctAnswer: "We are decorating the house for the holidays" },
+								{ words: "the / cat / is / sleeping / in / the / sun", correctAnswer: "The cat is sleeping in the sun" },
+							],
+							// Stage 24
+							[
+								{ words: "he / is / planning / a / surprise / for / his / sister", correctAnswer: "He is planning a surprise for his sister" },
+								{ words: "she / is / reading / a / book / under / the / tree", correctAnswer: "She is reading a book under the tree" },
+								{ words: "they / are / building / a / sandcastle / on / the / beach", correctAnswer: "They are building a sandcastle on the beach" },
+								{ words: "we / are / watching / the / stars / at / night", correctAnswer: "We are watching the stars at night" },
+								{ words: "the / dog / is / barking / at / the / mailman", correctAnswer: "The dog is barking at the mailman" },
+							],
+							// Stage 25
+							[
+								{ words: "he / is / studying / for / his / science / exam", correctAnswer: "He is studying for his science exam" },
+								{ words: "she / is / painting / a / picture / of / the / sunset", correctAnswer: "She is painting a picture of the sunset" },
+								{ words: "they / are / going / to / the / library / to / study", correctAnswer: "They are going to the library to study" },
+								{ words: "we / are / making / a / scrapbook / of / our / vacation", correctAnswer: "We are making a scrapbook of our vacation" },
+								{ words: "the / cat / is / playing / with / a / ball / of / yarn", correctAnswer: "The cat is playing with a ball of yarn" },
+							],
+							// Stage 26
+							[
+								{ words: "he / is / learning / to / speak / French", correctAnswer: "He is learning to speak French" },
+								{ words: "she / is / baking / a / cake / for / her / friend", correctAnswer: "She is baking a cake for her friend" },
+								{ words: "they / are / playing / chess / in / the / park", correctAnswer: "They are playing chess in the park" },
+								{ words: "we / are / hiking / in / the / mountains", correctAnswer: "We are hiking in the mountains" },
+								{ words: "the / dog / is / chasing / a / squirrel / in / the / yard", correctAnswer: "The dog is chasing a squirrel in the yard" },
+							],
+							// Stage 27
+							[
+								{ words: "he / is / reading / a / book / about / history", correctAnswer: "He is reading a book about history" },
+								{ words: "she / is / knitting / a / sweater / for / her / brother", correctAnswer: "She is knitting a sweater for her brother" },
+								{ words: "they / are / practicing / their / singing / for / the / concert", correctAnswer: "They are practicing their singing for the concert" },
+								{ words: "we / are / preparing / for / a / big / presentation", correctAnswer: "We are preparing for a big presentation" },
+								{ words: "the / cat / is / staring / out / the / window", correctAnswer: "The cat is staring out the window" },
+							],
+							// Stage 28
+							[
+								{ words: "he / is / helping / his / father / with / the / yardwork", correctAnswer: "He is helping his father with the yardwork" },
+								{ words: "she / is / planting / flowers / in / the / garden", correctAnswer: "She is planting flowers in the garden" },
+								{ words: "they / are / organizing / a / school / event", correctAnswer: "They are organizing a school event" },
+								{ words: "we / are / cleaning / the / house / for / guests", correctAnswer: "We are cleaning the house for guests" },
+								{ words: "the / dog / is / barking / at / a / bird", correctAnswer: "The dog is barking at a bird" },
+							],
+							// Stage 29
+							[
+								{ words: "he / is / practicing / his / soccer / skills", correctAnswer: "He is practicing his soccer skills" },
+								{ words: "she / is / learning / how / to / sew / a / dress", correctAnswer: "She is learning how to sew a dress" },
+								{ words: "they / are / painting / the / walls / of / the / house", correctAnswer: "They are painting the walls of the house" },
+								{ words: "we / are / making / a / cake / for / the / party", correctAnswer: "We are making a cake for the party" },
+								{ words: "the / cat / is / playing / with / a / toy / mouse", correctAnswer: "The cat is playing with a toy mouse" },
+							],
+							// Stage 30
+							[
+								{ words: "he / is / writing / a / letter / to / his / grandmother", correctAnswer: "He is writing a letter to his grandmother" },
+								{ words: "she / is / organizing / her / room", correctAnswer: "She is organizing her room" },
+								{ words: "they / are / planning / a / school / project", correctAnswer: "They are planning a school project" },
+								{ words: "we / are / studying / for / our / exams", correctAnswer: "We are studying for our exams" },
+								{ words: "the / dog / is / wagging / its / tail / excitedly", correctAnswer: "The dog is wagging its tail excitedly" },
+							]
+				];
+
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+			//'לימוד הנושא':
+			//`<h2>משפטים חיוביים</h2>`,
+             'תרגול': `<div id="stage-number" class="stage-number">שלב 1 מתוך ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">ניסיונות: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">בדיקת תשובות</button>`
+        };
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'תרגול') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+																							// Functional functions
+		function renderQuiz() {
+				const quizContainer = document.getElementById("quiz-content");
+				quizContainer.innerHTML = '';
+
+				quizData[currentStage].forEach((question, index) => {
+					const words = shuffleArray(question.words.split(" / "));
+					const wordBubbles = words.map(word => `<div class="word-bubble" draggable="true">${word}</div>`).join('');
+					const questionElement = document.createElement("div");
+					questionElement.className = "question";
+					
+					questionElement.innerHTML = `
+						<div class="word-container" id="word-container${index}">${wordBubbles}</div>
+						<div class="result" id="result${index}"></div>
+					`;
+
+					quizContainer.appendChild(questionElement);
+				});
+
+				setupDragAndDrop();
+				updateStageNumber();
+		}
+
+        function setupDragAndDrop() {
+            const wordBubbles = document.querySelectorAll('.word-bubble');
+            wordBubbles.forEach(bubble => {
+                bubble.addEventListener('dragstart', dragStart);
+                bubble.addEventListener('dragover', dragOver);
+                bubble.addEventListener('drop', drop);
+                bubble.addEventListener('dragend', dragEnd);
+            });
+        }
+
+        function dragStart(e) {
+            e.dataTransfer.setData('text/plain', e.target.textContent);
+            e.dataTransfer.setData('sourceContainer', e.target.closest('.word-container').id);
+            e.dataTransfer.effectAllowed = "move";
+            this.style.opacity = "0.5";
+        }
+
+        function dragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = "move";
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            const draggedText = event.dataTransfer.getData('text/plain');
+            const sourceContainerId = event.dataTransfer.getData('sourceContainer');
+            const targetContainer = event.target.closest('.word-container');
+
+            if (targetContainer && targetContainer.id === sourceContainerId) {
+                const targetWord = event.target.closest('.word-bubble');
+                if (targetWord) {
+                    const draggedWord = Array.from(targetContainer.getElementsByClassName('word-bubble'))
+                        .find(word => word.textContent === draggedText);
+                    
+                    const tempText = targetWord.textContent;
+                    targetWord.textContent = draggedText;
+                    draggedWord.textContent = tempText;
+                }
+            }
+
+            document.querySelectorAll('.word-bubble').forEach(word => word.style.opacity = "1");
+        }
+
+        function dragEnd(e) {
+            e.target.style.opacity = "1";
+        }
+
+		function checkStage() {
+			attempts++;
+			document.getElementById("attempts").textContent = `נסיונות: ${attempts}`;
+
+			let correctCount = 0;
+			const totalQuestions = quizData[currentStage].length;
+
+			quizData[currentStage].forEach((question, index) => {
+                const wordContainer = document.getElementById(`word-container${index}`);
+                const words = Array.from(wordContainer.getElementsByClassName('word-bubble'));
+                const userAnswer = words.map(word => word.textContent).join(' ');
+
+                const resultElement = document.getElementById(`result${index}`);
+                if (userAnswer.toLowerCase() === question.correctAnswer.toLowerCase()) {
+                    resultElement.textContent = "נכון!";
+                    resultElement.style.color = "green";
+                    correctCount++;
+                } else {
+                    resultElement.textContent = "תשובה לא נכונה.";
+                    resultElement.style.color = "red";
+                    if (attempts >= 10) {
+                        resultElement.textContent += ` התשובה הנכונה היא: ${question.correctAnswer}`;
+                    }
+                }
+			});
+
+			if (correctCount === totalQuestions) {
+				console.log(`שלב ${currentStage + 1} הושלם. מוסיף ${totalQuestions} חיות.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; 
+					updateProgressBar(); 
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+					}, 1500);
+				} else {
+
+					currentStage++;
+					updateProgressBar(); 
+					allStagesConfetti();
+					showModal("כל הכבוד! השלמת את כל השלבים.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("הגעת למספר הניסיונות המקסימלי. התשובות הנכונות נחשפו.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+        function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+            const incorrectCount = totalQuestions - correctCount;
+            let message = `קיבלת ${correctCount} נכונות ו-${incorrectCount} שגויות.`;
+            
+            if (correctCount === totalQuestions) {
+                message += " ציון מושלם!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+                message += " עבודה מצוינת! רואים שהנושא מתחיל להיות מובן!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+                message += " מאמץ טוב! נמשיך לתרגל כי השיפור קרוב!";
+            } else {
+                message += " לא לוותר! כל נסיון עוזר לך ללמוד. ננסה שוב!";
+            }
+
+            if (isStageComplete) {
+                message += "\n\n השלב הזה הסתיים, עוברים לשלב הבא.";
+            }
+
+            showModal(message);
+        }
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `נסיונות: ${attempts}`;
+			updateStageNumber();
+		}
+		
+		function shuffleArray(array) {
+			for (let i = array.length - 1; i > 0; i--) {
+				const j = Math.floor(Math.random() * (i + 1));
+				[array[i], array[j]] = [array[j], array[i]];
+			}
+			return array;
+		}
+		
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+        function updateStageNumber() {
+            const stageElement = document.getElementById("stage-number");
+            stageElement.textContent = `שלב ${currentStage + 1} מתוך ${stageCount}`;
+        }
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+    </script>
+</body>
+</html>
