@@ -478,7 +478,7 @@
         }
 																	/* Story Page styles */
         .story-page {
-            max-width: 800px;
+            max-width: 80%;
             margin: 20px 0;
             padding: 30px;
             background-color: white;
