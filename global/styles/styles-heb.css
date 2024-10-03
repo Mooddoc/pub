@@ -497,6 +497,45 @@
             margin-top: 10px;
             color: #00acc1;
         }
+																	/* Story Page styles */
+        .story-page {
+            max-width: 800px;
+            margin: 20px 0;
+            padding: 30px;
+            background-color: white;
+            border-radius: 0.625rem;
+            box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: left;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .story-page:hover {
+            transform: translateY(-5px);
+        }
+
+        .story-page:nth-child(odd) {
+            background-color: rgba(224, 247, 250, 0.8);
+        }
+
+        .story-page:nth-child(even) {
+            background-color: white;
+        }
+
+        .story-page-emoji {
+            font-size: 1.8em;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .story-page-text {
+            margin-top: 20px;
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+		
 
 															/* Tooltip styles */
         .tooltip {
