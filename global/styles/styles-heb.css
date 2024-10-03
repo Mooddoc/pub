@@ -234,6 +234,10 @@
         margin: 0.5rem 0;
     }
 
+     .button-blue {
+        background-color: #00acc1;
+     }
+
     .progress-bar-container {
         width: 100%;
         background-color: #ff7f50;
@@ -316,6 +320,10 @@
     .emoji-list li {
         font-size: 1.6rem;
     }
+
+    .emoji-central {
+        font-size: 120px;
+     }
 
     ol {
         list-style-type: none;
