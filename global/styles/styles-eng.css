@@ -255,6 +255,10 @@
         font-size: 1.6rem;
     }
 
+    .emoji-central {
+        font-size: 120px;
+     }
+
     ol {
         list-style-type: none;
         padding-left: 0;
