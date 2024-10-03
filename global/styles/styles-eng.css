@@ -643,4 +643,20 @@
 		.story-audio audio::-ms-fill-upper {
 			background: #ff7f50; /* Coral color */
 		}
-
+																		/* moving word bubbles styles */	
+        .word-bubble {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 5px;
+            background-color: #00acc1;
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.4s;
+        }
+	
+        .word-bubble:hover {
+            background-color: #ff7f50;
+        }
+	
