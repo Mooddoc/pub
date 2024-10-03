@@ -681,5 +681,10 @@
         .word-bubble:hover {
             background-color: #ff7f50;
         }
-	
+		
+		.word-container {
+			text-align: left;
+			direction: ltr;
+			width: 100%;  /* Ensures the question text takes full width */
+		}
 
