@@ -573,3 +573,74 @@
             opacity: 1;
             transform: translateY(0);
         }
+																		/* story AUDIO player styles */		
+		/* Container for the story audio player */
+		.story-audio {
+			margin-top: 20px;
+			width: 100%;
+			max-width: 600px; /* Adjust as needed */
+			margin-left: auto;
+			margin-right: auto;
+			border-radius: 15px; /* Smooth rounded edges */
+			box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2); /* Enhanced shadow for depth */
+			padding: 15px; /* Increased padding for better spacing */
+			background-color: #00acc1; /* Use the accent teal color */
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		/* Styling the audio element */
+		.story-audio audio {
+			width: 100%;
+			max-width: 580px; /* Slightly less than container to account for padding */
+			border-radius: 10px;
+			outline: none;
+			background-color: #ffffff; /* White background for contrast */
+			box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
+			transition: transform 0.3s ease; /* Smooth transition for interactivity */
+		}
+
+		/* Hover effect on audio player */
+		.story-audio audio:hover {
+			transform: scale(1.02); /* Slight scale on hover for interactivity */
+		}
+
+		/* Webkit (Chrome, Safari) controls styling */
+		.story-audio audio::-webkit-media-controls-panel {
+			background-color: #00acc1; /* Match your accent teal color */
+			border-radius: 10px;
+		}
+
+		.story-audio audio::-webkit-media-controls-play-button,
+		.story-audio audio::-webkit-media-controls-pause-button,
+		.story-audio audio::-webkit-media-controls-volume-slider,
+		.story-audio audio::-webkit-media-controls-timeline {
+			/* Customize control colors */
+			filter: brightness(0) invert(1); /* Makes controls white */
+		}
+
+		/* Firefox controls styling */
+		.story-audio audio::-moz-range-track {
+			background: #ff7f50; /* Use your accent coral color */
+			border-radius: 5px;
+		}
+
+		.story-audio audio::-moz-range-thumb {
+			background: #00acc1; /* Teal color for the thumb */
+			border: none;
+			border-radius: 50%;
+			width: 15px;
+			height: 15px;
+			cursor: pointer;
+		}
+
+		/* Edge and IE controls styling */
+		.story-audio audio::-ms-fill-lower {
+			background: #00acc1; /* Teal color */
+		}
+
+		.story-audio audio::-ms-fill-upper {
+			background: #ff7f50; /* Coral color */
+		}
+
