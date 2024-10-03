@@ -463,3 +463,9 @@
         .input-in-row:focus {
             border-color: #FF5733; /* Change color on focus */
         }
+
+        .result {
+            font-size: 18px;
+            margin-top: 10px;
+            color: green;
+        }
