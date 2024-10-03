@@ -666,3 +666,133 @@
 	    direction: ltr;
 	    width: 100%;  /* Ensures the question text takes full width */
 	}
+	
+																				/* ------------ Word Search Game Styles --------------- */
+
+.word-search-game {
+    background-color: #ffffff;
+    padding: 1rem;
+    border-radius: 0.625rem;
+    box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stage-info {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.word-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.word {
+    padding: 5px 10px;
+    background-color: #e3f2fd;
+    border-radius: 15px;
+    font-weight: 700;
+    color: #1565c0;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: default;
+    width: 100px;
+    text-align: center;
+}
+
+.word.found {
+    text-decoration: line-through;
+    opacity: 0.5;
+    background-color: #c8e6c9;
+}
+
+.word .translation {
+    font-size: 0.8em;
+    color: #4caf50;
+}
+
+.word-search-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 40px);
+    gap: 3px;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.letter {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e3f2fd;
+    border: 2px solid #bbdefb;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 700;
+    font-size: 1em;
+    color: #1565c0;
+    transition: all 0.2s;
+}
+
+.letter:hover {
+    background-color: #bbdefb;
+    transform: scale(1.1);
+}
+
+.letter.selected {
+    background-color: #2196f3;
+    color: white;
+}
+
+.result-message {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: 700;
+    color: #1565c0;
+    font-size: 1.2em;
+}
+
+.practice-instructions {
+    text-align: center;
+    font-weight: bold;
+    color: #1565c0;
+    margin-bottom: 15px;
+}
+
+.word-practice-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    width: 100%;
+}
+
+.practice-word {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.practice-word input {
+    margin-top: 5px;
+    padding: 5px;
+    border: 2px solid #bbdefb;
+    border-radius: 5px;
+    text-align: center;
+    width: 100px;
+}
+
+.practice-word input.correct {
+    background-color: #c8e6c9;
+}
+
+.practice-word input.incorrect {
+    background-color: #ffcdd2;
+}
