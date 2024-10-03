@@ -443,6 +443,34 @@
             border-color: #FF5733; /* Change color on focus */
         }
 
+        .game-board {
+            width: 100%;
+
+			margin: 0 auto;
+            background-color: #f9e8d4;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+		.input-central {
+			width: 60%;
+			padding: 10px;
+			font-size: 22px;
+			border: 2px solid #00acc1;
+			border-radius: 25px;
+			margin: 20px;
+			text-align: center;
+			outline: none;
+			transition: border-color 0.3s ease;
+		}
+		
+
+		.input-central:focus {
+			border-color: #FF5733;
+			box-shadow: 0 0 3px rgba(255, 87, 51, 0.7); 
+		}
         .result {
             font-size: 18px;
             margin-top: 10px;
