@@ -877,7 +877,6 @@
             color: #1565c0;
             font-size: 1.2em;
         }
-		
 																				/* ------------ numbers in table Styles --------------- */	
         table {
             width: 100%;
@@ -893,7 +892,7 @@
             border: 1px solid #ffffff;
             border-radius: 0.3rem;
         }
-
+																				/* ------------ question in one row Styles --------------- */	
         .question-one-line {
             display: flex;
             align-items: center;
@@ -904,7 +903,7 @@
             margin-bottom: 1rem;
             direction: rtl;
         }
-																				/* ------------ question in one row Styles --------------- */	
+
         .question-one-line label {
             flex-grow: 1;
             text-align: right;
@@ -919,3 +918,68 @@
             margin-right: 1rem;
             autocomplete: off;
         }
+		
+																				/* ------------ Matching Game Styles --------------- */		
+        .columns-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+        .questions-column, .answers-column {
+            width: 45%;
+        }
+        .question-item, .answer-item {
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* Switch the column order for LTR layout */
+        .ltr-layout .columns-container {
+            flex-direction: row-reverse;
+        }
+        /* Switch the column order for RTL layout */
+        .rtl-layout .columns-container {
+            flex-direction: row;
+        }
+        .ltr-layout .question-item, .ltr-layout .answer-item {
+            direction: ltr;
+        }
+        .rtl-layout .question-item, .rtl-layout .answer-item {
+            direction: rtl;
+        }
+		
+    .answer-item {
+        cursor: move; /* Indicates item is draggable */
+    }
+    .question-item.drag-over {
+        border: 2px dashed #000;
+    }
+		
+		.button-container {
+			display: flex;
+			justify-content: center;
+			gap: 10px;
+			margin-top: 20px;
+		}
+		.center-button {
+			padding: 10px 20px;
+			font-size: 1em;
+			cursor: pointer;
+			background-color: #00acc1;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			transition: background-color 0.3s;
+		}
+		.center-button:hover {
+			background-color: #00CED1;
+		}	
