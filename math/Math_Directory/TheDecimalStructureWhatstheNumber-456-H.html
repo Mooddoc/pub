@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-heb.css">
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 - זה קל</title>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+            <!-- Side Panel 1 -->
+            <div id="sidePanel1" class="side-panel">
+                <div class="logo-container">
+                    <a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+                        <img src="http://www.ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+                    </a>
+                </div>
+                <h2>טבלת מספרים</h2>
+                <p id="numberRange"></p>
+                <table id="numberTable"></table>
+            </div>
+
+            <!-- Quiz Panel -->
+            <div id="quizContainer" class="quiz-container">
+                <h1>המבנה העשרוני - מה המספר?</h1>
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+
+            <!-- Side Panel 2 -->
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות החיות</h2>
+                <p>החווה שלך גדלה תוך כדי התקדמות! כל שלב מוסיף חיות חדשות לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list"></ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+
+    <script>
+        let attempts = 0;
+        let currentStage = 0;
+        const stageCount = 10;
+        let tableNumbers = [];
+        let selectedNumbers = [];
+        let correctAnswers = {};
+
+        const manuallySetDefaultTab = 0;
+        const animals = [
+            "🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+            "🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+            "🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+            "🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+            "🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+            "🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+            "🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+            "🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+            "🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+            "🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+            "🐷", "🐩", "🐘", "🐸", "🐝"
+        ];
+        let farmAnimals = [];
+
+        const stateContents = {
+            'לימוד הנושא': 
+			`
+<div class="subject-overview-content subject-overview-content_heb">     <h1>מבנה המספר העשרוני</h1>     <p>המספר העשרוני הוא שיטה לייצוג מספרים באמצעות עשר ספרות בסיסיות: 0, 1, 2, 3, 4, 5, 6, 7, 8 ו-9. במבנה זה, כל ספרה במיקום מסוים מייצגת ערך שונה בהתאם למקום שבו היא נמצאת. הבנת מבנה המספר העשרוני היא בסיסית להבנה מתמטית ולחישובים יומיומיים.</p>     <p>נבחן את מבנה המספר העשרוני דרך דוגמאות ממספרים קטנים ועד למספרים גדולים יותר, עד מיליון.</p>         <h2 class="highlight_heb">מיקומי הספרות במערכת העשרונית</h2>     <p>במערכת המספרים העשרונית, כל ספרה במיקום מסוים מייצגת ערך שונה. נתחיל במיקומים הנמוכים ביותר ונמשיך עד למיקומים הגבוהים:</p>         <ul>         <li><span class="highlight_heb">ספרת היחידות:</span> הספרה במקום הראשון מימין. לדוגמה, במספר 7, ספרת היחידות היא 7.</li>         <li><span class="highlight_heb">ספרת העשרות:</span> הספרה במקום השני מימין. לדוגמה, במספר 45, ספרת העשרות היא 4.</li>         <li><span class="highlight_heb">ספרת המאות:</span> הספרה במקום השלישי מימין. לדוגמה, במספר 123, ספרת המאות היא 1.</li>         <li><span class="highlight_heb">ספרת האלפים:</span> הספרה במקום הרביעי מימין. לדוגמה, במספר 1,234, ספרת האלפים היא 1.</li>         <li><span class="highlight_heb">ספרת עשרות האלפים:</span> הספרה במקום החמישי מימין. לדוגמה, במספר 56,789, ספרת עשרות האלפים היא 5.</li>         <li><span class="highlight_heb">ספרת מאות האלפים:</span> הספרה במקום השישי מימין. לדוגמה, במספר 123,456, ספרת מאות האלפים היא 1.</li>         <li><span class="highlight_heb">ספרת המיליון:</span> הספרה במקום השביעי מימין. לדוגמה, במספר 1,000,000, ספרת המיליון היא 1.</li>     </ul>         <h2 class="highlight_heb">פירוק ספרות ומיקומן</h2>     <p>כדי להבין את ערך המספר, חשוב לדעת לפרק אותו לפי מיקומי הספרות השונים:</p>     <ul>         <li><span class="highlight_heb">מספר קטן:</span> מספר 432</li>         <li>פירוק:</li>         <ul>             <li>4 מאות</li>             <li>3 עשרות</li>             <li>2 יחידות</li>         </ul>         <li>סך הכל: 400 + 30 + 2 = 432</li>         <br>         <li><span class="highlight_heb">לדוגמה:</span> מספר 295,687</li>         <li>פירוק:</li>         <ul>             <li>2 מאות אלפים</li>             <li>9 עשרות אלפים</li>             <li>5 אלפים</li>             <li>6 מאות</li>             <li>8 עשרות</li>             <li>7 יחידות</li>         </ul>         <li>סך הכל: 200,000 + 90,000 + 5,000 + 600 + 80 + 7 = 295,687</li>     </ul>     <br>     <h2 class="highlight_heb">בניית מספרים ממיקומי ספרות</h2>     <p>בניית מספר מתוך מיקומי הספרות השונים עוזרת להבין כיצד הספרות משפיעות על ערך המספר:</p>     <ul>         <li><span class="highlight_heb">מספר קטן יותר:</span> ליצור את המספר 56 מתוך:</li>         <ul>             <li>5 עשרות</li>             <li>6 יחידות</li>         </ul>         <li>סך הכל: 50 + 6 = 56</li>         <br>         <li><span class="highlight_heb">לדוגמה:</span> ליצור את המספר 482,359 מתוך:</li>         <ul>             <li>4 מאות אלפים</li>             <li>8 עשרות אלפים</li>             <li>2 אלפים</li>             <li>3 מאות</li>             <li>5 עשרות</li>             <li>9 יחידות</li>         </ul>         <li>סך הכל: 400,000 + 80,000 + 2,000 + 300 + 50 + 9 = 482,359</li>     </ul>     <br>     <h2 class="highlight_heb">כתיבה וקריאה נכונה של מספרים</h2>     <p>כאשר כותבים מספרים בעברית, יש להקפיד על סדר הספרות מהימין לשמאל, כאשר היחידות נמצאות במקום הנמוך ביותר והגדולות ביותר משמאל:</p>     <ul>         <li><span class="highlight_heb">מספר קטן:</span> 95</li>         <li>פירוק:</li>         <ul>             <li>9 עשרות</li>             <li>5 יחידות</li>         </ul>         <li>סך הכל: 90 + 5 = 95</li>         <br>         <li><span class="highlight_heb">מספר גדול:</span> 345,678</li>         <li>פירוק:</li>         <ul>             <li>3 מאות אלפים</li>             <li>4 עשרות אלפים</li>             <li>5 אלפים</li>             <li>6 מאות</li>             <li>7 עשרות</li>             <li>8 יחידות</li>         </ul>         <li>סך הכל: 300,000 + 40,000 + 5,000 + 600 + 70 + 8 = 345,678</li>     </ul>     <br>     <h2 class="highlight_heb">תרגול והבנה מעמיקה</h2>     <p>להבנת מבנה המספר העשרוני באופן מעמיק, חשוב לתרגל פירוק ובניית מספרים שונים:</p>     <ul>         <li><span class="highlight_heb">לדוגמה:</span> מספר 58,321</li>         <li>פירוק:</li>         <ul>             <li>50,000 (5 עשרות אלפים)</li>             <li>8,000 (8 אלפים)</li>             <li>300 (3 מאות)</li>             <li>20 (2 עשרות)</li>             <li>1 (1 יחידה)</li>         </ul>         <li>סך הכל: 50,000 + 8,000 + 300 + 20 + 1 = 58,321</li>         <li>או בצורה מפורטת:</li>         <li>5 עשרות אלפים + 8 אלפים + 3 מאות + 2 עשרות + 1 יחידה</li>         <br>                 <li><span class="highlight_heb">לדוגמה:</span> מספר 999,999</li>         <li>פירוק:</li>         <ul>             <li>900,000 (9 מאות אלפים)</li>             <li>90,000 (9 עשרות אלפים)</li>             <li>9,000 (9 אלפים)</li>             <li>900 (9 מאות)</li>             <li>90 (9 עשרות)</li>             <li>9 (9 יחידות)</li>         </ul>         <li>סך הכל: 900,000 + 90,000 + 9,000 + 900 + 90 + 9 = 999,999</li>         <li>או בצורה מפורטת:</li>         <li>9 מאות אלפים + 9 עשרות אלפים + 9 אלפים + 9 מאות + 9 עשרות + 9 יחידות</li>         <br>                 <li><span class="highlight_heb">לדוגמה:</span> מספר 2,967,485</li>         <li>פירוק:</li>         <ul>             <li>2,000,000 (2 מיליון)</li>             <li>900,000 (9 מאות אלפים)</li>             <li>60,000 (6 עשרות אלפים)</li>             <li>7,000 (7 אלפים)</li>             <li>400 (4 מאות)</li>             <li>80 (8 עשרות)</li>             <li>5 (5 יחידות)</li>         </ul>         <li>סך הכל: 2,000,000 + 900,000 + 60,000 + 7,000 + 400 + 80 + 5 = 2,967,485</li>         <li>או בצורה מפורטת:</li>         <li>2 מיליון + 9 מאות אלפים + 6 עשרות אלפים + 7 אלפים + 4 מאות + 8 עשרות + 5 יחידות</li>     </ul>     <br>         <h2 class="highlight_heb">סיכום</h2>     <p>מבנה המספר העשרוני הוא הבסיס להבנה מתמטית נכונה. על ידי לימוד מיקומי הספרות והערכים שכל ספרה מייצגת, ניתן לקרוא, לכתוב ולחשב מספרים בצורה מדויקת. תרגול עם מספרים שונים, עד למספרים גדולים כמו מיליון, יעזור לבסס את ההבנה ולהפוך את השימוש במספרים לפשוט ויעיל.</p> </div>
+`,
+			'התאמת רמה': `<div class="subject-overview-content subject-overview-content_heb">
+                <h1>התאמת רמה באמצעות פרמטרים בכתובת האתר</h1>
+                <p>במשחק זה ניתן להתאים את רמת הקושי על ידי שימוש בפרמטרים <span class="highlight_heb">max</span> ו-<span class="highlight_heb">min</span> בכתובת האתר. פרמטרים אלו מאפשרים לקבוע את טווח המספרים שיוצגו בטבלה ובשאלות המשחק.</p>
+                <p>באמצעות שימוש בפרמטרים אלו, ניתן להתאים את רמת המשחק לצרכים האישיים שלכם.</p>
+                <h2 class="highlight_heb">כיצד להשתמש בפרמטרים</h2>
+                <p>לדוגמה, כדי להגדיר את המספר המקסימלי ל-500,000 ואת המספר המינימלי ל-10,000, ניתן לטעון את הדף כך:</p>
+                <div class="english_heb">
+                    <code>?max=500000&min=10000</code>
+                </div>
+                <h2 class="highlight_heb">5 דוגמאות של רמות קושי שונות</h2>
+                <ul>
+                    <li><span class="highlight_heb">רמת קושי גבוהה מאוד:</span> <div class="english_heb"><code>?max=1000000&min=0</code></div> - טווח גדול של מספרים.</li>
+                    <li><span class="highlight_heb">רמת קושי בינונית:</span> <div class="english_heb"><code>?max=500000&min=100000</code></div> - טווח ממוצע של מספרים.</li>
+                    <li><span class="highlight_heb">רמת קושי נמוכה:</span> <div class="english_heb"><code>?max=100000&min=10000</code></div> - טווח קטן יותר של מספרים.</li>
+                    <li><span class="highlight_heb">רמת קושי למתחילים:</span> <div class="english_heb"><code>?max=50000&min=1000</code></div> - מתאים לילדים.</li>
+                    <li><span class="highlight_heb">רמת קושי קלה מאוד:</span> <div class="english_heb"><code>?max=10000&min=0</code></div> - טווח קטן במיוחד.</li>
+                    <li><span class="highlight_heb">התחלה מ-0 ועד 99:</span> <div class="english_heb"><code>?max=99&min=0</code></div> - טווח פשוט וברור.</li>
+                </ul>
+            </div>`,
+            'תרגול': `<div id="stage-number" class="stage-number">שלב ${currentStage + 1} מתוך ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">ניסיונות: 0</div><div id="quiz-content"></div><button class="center-button" onclick="showAllAnswers()">הצג תשובות</button><button class="center-button" onclick="checkStage()">בדיקת תשובות</button>`
+        };
+
+        let maxNumber = 1000000;
+        let minNumber = 0;
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const maxParam = urlParams.get('max');
+        const minParam = urlParams.get('min');
+
+        if (maxParam && minParam) {
+            const parsedMax = parseInt(maxParam);
+            const parsedMin = parseInt(minParam);
+
+            if (!isNaN(parsedMax) && !isNaN(parsedMin) && parsedMax > 0 && parsedMin >= 0 && parsedMax > parsedMin) {
+                maxNumber = parsedMax;
+                minNumber = parsedMin;
+            }
+        }
+
+        function generateRandomNumber(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function generateDiverseNumbers() {
+            const range = maxNumber - minNumber;
+            const count = 27;
+            let numbers = new Set();
+
+            for (let i = 0; i < count; i++) {
+                const baseNumber = Math.floor((range * i) / (count - 1)) + minNumber;
+                const randomOffset = generateRandomNumber(-Math.floor(range / (count * 2)), Math.floor(range / (count * 2)));
+                let number = baseNumber + randomOffset;
+                number = Math.max(minNumber, Math.min(maxNumber, number));
+                numbers.add(number);
+            }
+
+            return Array.from(numbers).sort((a, b) => a - b);
+        }
+
+        function populateTable() {
+            const table = document.getElementById('numberTable');
+            table.innerHTML = '';
+            tableNumbers = generateDiverseNumbers();
+
+            for (let i = 0; i < tableNumbers.length; i++) {
+                if (i % 3 === 0) {
+                    var row = table.insertRow();
+                }
+                const cell = row.insertCell();
+                cell.textContent = tableNumbers[i].toLocaleString('en-US');
+            }
+            document.getElementById('numberRange').textContent = `טווח המספרים: מ-${minNumber.toLocaleString('en-US')} ועד ${maxNumber.toLocaleString('en-US')}`;
+        }
+
+        function selectRandomNumbers() {
+            selectedNumbers = [];
+            const shuffled = [...tableNumbers].sort(() => 0.5 - Math.random());
+            selectedNumbers = shuffled.slice(0, Math.min(8, shuffled.length));
+        }
+
+        function generateFullNumberDescription(number) {
+            const digits = number.toString().split('').map(Number);
+            const places = ['יחידות', 'עשרות', 'מאות', 'אלפים', 'עשרות אלפים', 'מאות אלפים', 'מיליונים'];
+            const description = digits.reverse().map((digit, i) => digit ? `${digit} ${places[i]}` : '').filter(Boolean).reverse().join(' + ');
+            return `${description}:`;
+        }
+
+        function generateQuiz() {
+            const quizContent = document.getElementById('quiz-content');
+            if (!quizContent) {
+                console.error("Quiz content element not found");
+                return;
+            }
+            quizContent.innerHTML = '';
+            correctAnswers = {};
+
+            selectedNumbers.forEach((number, index) => {
+                const question = generateFullNumberDescription(number);
+                const questionElement = document.createElement('div');
+                questionElement.className = 'question-one-line';
+                questionElement.innerHTML = `
+                    <label><span style="color: #ff7f50;">${index + 1}.</span> ${question}</label>
+                    <input type="text" id="q${index + 1}" autocomplete="off">
+                `;
+                quizContent.appendChild(questionElement);
+                correctAnswers[`q${index + 1}`] = number.toString();
+            });
+        }
+
+        function updateProgressBar() {
+            const progressBar = document.getElementById("progress-bar");
+            const progress = (currentStage / stageCount) * 100;
+            progressBar.style.width = `${Math.round(progress)}%`;
+            progressBar.textContent = progress > 0 ? `${Math.round(progress)}%` : '';
+        }
+
+        function addAnimalsToFarm(count) {
+            const animalFarm = document.getElementById('animalFarm');
+            let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+            for (let i = 0; i < count; i++) {
+                if (availableAnimals.length === 0) break;
+
+                const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+                const chosenAnimal = availableAnimals[randomIndex];
+
+                const animalElement = document.createElement('li');
+                animalElement.textContent = chosenAnimal;
+                animalFarm.appendChild(animalElement);
+
+                farmAnimals.push(chosenAnimal);
+                availableAnimals.splice(randomIndex, 1);
+            }
+        }
+
+        function checkStage() {
+            attempts++;
+            document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+
+            let correctCount = 0;
+            selectedNumbers.forEach((number, index) => {
+                const input = document.getElementById(`q${index + 1}`);
+                const userAnswer = input.value.replace(/,/g, '');
+                const correctAnswer = correctAnswers[`q${index + 1}`].replace(/,/g, '');
+
+                if (userAnswer === correctAnswer) {
+                    input.style.backgroundColor = '#c8e6c9';
+                    correctCount++;
+                } else {
+                    input.style.backgroundColor = '#ffcdd2';
+                }
+
+                if (attempts >= 10) {
+                    input.value = correctAnswer;
+                    input.disabled = true;
+                }
+            });
+
+            updateProgressBar();
+
+            if (correctCount === selectedNumbers.length) {
+                addAnimalsToFarm(correctCount);
+                showModal("כל הכבוד! השלמת את השלב בהצלחה.");
+                currentStage++;
+                if (currentStage < stageCount) {
+                    setTimeout(() => {
+                        attempts = 0;
+                        initializeQuiz();
+                    }, 1500);
+                } else {
+                    showModal("כל הכבוד! השלמת את כל השלבים.");
+                }
+            } else if (attempts >= 10) {
+                showModal("הגעת למספר הניסיונות המקסימלי. התשובות הנכונות נחשפו.");
+            }
+        }
+
+        function showAllAnswers() {
+            selectedNumbers.forEach((number, index) => {
+                const input = document.getElementById(`q${index + 1}`);
+                const correctAnswer = correctAnswers[`q${index + 1}`];
+                input.value = correctAnswer;
+                input.disabled = true;
+                input.style.backgroundColor = '#c8e6c9';
+            });
+        }
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = activeStates[activeStates.length - 1 - index];
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'תרגול') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+        function renderQuiz() {
+            selectRandomNumbers();
+            generateQuiz();
+        }
+
+        window.addEventListener('load', () => {
+            initializeSwitch();
+            initializeQuiz();
+            adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        function initializeQuiz() {
+            populateTable();
+            selectRandomNumbers();
+            renderQuiz();
+            updateProgressBar();
+            document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+            document.getElementById("stage-number").textContent = `שלב ${currentStage + 1} מתוך ${stageCount}`;
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+    </script>
+</body>
+</html>
