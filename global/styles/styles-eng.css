@@ -1009,3 +1009,74 @@
 			font-size: 1.5em;
 			color: #333;
 		}
+		
+		
+																													/* Memory Game Styles */
+        .memory-game { /* Renamed from .card */
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .memory-card { /* Renamed from .card */
+            aspect-ratio: 1;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.5s;
+            transform-style: preserve-3d;
+        }
+
+        .memory-card .front, /* Renamed from .card .front */
+        .memory-card .back { /* Renamed from .card .back */
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .memory-card .front { /* Renamed from .card .front */
+            background-color: #73AF48;
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .memory-card .back { /* Renamed from .card .back */
+            background-color: #2F7ED8;
+            color: white;
+        }
+
+        .memory-card.flip { /* Renamed from .card.flip */
+            transform: rotateY(180deg);
+        }
+
+        .memory-card.matched .front { /* Renamed from .card.matched .front */
+            background-color: #4CAF50;
+        }
+
+        .controls-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .moves-counter {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+		
+		.memory-stage-number {
+			font-size: 1.2em;
+			color: #333;
+			font-weight: bold;
+			margin-bottom: 15px;
+			text-align: center;
+		}
