@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-heb.css">
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 - זה קל</title>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+            <!-- Side Panel 1 -->
+            <div id="sidePanel1" class="side-panel">
+                <div class="logo-container">
+                    <a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+                        <img src="http://www.ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+                    </a>
+                </div>
+                <h2>טבלת מספרים</h2>
+                <p id="numberRange"></p>
+                <table id="numberTable"></table>
+            </div>
+
+            <!-- Quiz Panel -->
+            <div id="quizContainer" class="quiz-container">
+                <h1>תרגול מספרים עוקבים ומקדימים</h1> <!-- כותרת מעודכנת -->
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+
+            <!-- Side Panel 2 -->
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות החיות</h2>
+                <p>החווה שלך גדלה תוך כדי התקדמות! כל שלב מוסיף חיות חדשות לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list"></ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+
+    <script>
+        let attempts = 0;
+        let currentStage = 0;
+        const stageCount = 10;
+        let tableNumbers = [];
+        let selectedPrecedingNumbers = [];
+        let selectedConsecutiveNumbers = [];
+        let correctAnswers = {};
+
+        const manuallySetDefaultTab = 0;
+        const animals = [
+            "🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+            "🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+            "🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+            "🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+            "🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+            "🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+            "🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+            "🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+            "🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+            "🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+            "🐷", "🐩", "🐘", "🐸", "🐝"
+        ];
+        let farmAnimals = [];
+
+        const stateContents = {
+            'לימוד הנושא': 
+			`<div class="subject-overview-content subject-overview-content_heb">     <h1>הבנת מספרים עוקבים ומקדימים במספרים עשרוניים</h1>     <p>במשחק זה, תתרגלו את ההבנה של המספרים העוקבים והמקדימים במספרים עשרוניים, ותראו כיצד המספרים משתנים מרמות קטנות לרמות גבוהות יותר, עם דוגמאות מיוחדות למספרים המכילים אפסים ותשיעיות.</p>         <h2 class="highlight_heb">מהו מספר עוקב?</h2>     <p>מספר עוקב הוא המספר הבא במספר העשרוני. כדי למצוא את המספר העוקב, יש להוסיף 1 למספר הנתון.</p>         <h2 class="highlight_heb">מהו מספר קודם?</h2>     <p>מספר קודם הוא המספר שמגיע לפני מספר עשרוני נתון. כדי למצוא את המספר הקודם, יש להפחית 1 מהמספר הנתון.</p>     <h2 class="highlight_heb">דוגמאות ממספרים קטנים לגדולים</h2>         <h3 class="subheading_heb">1. מספרים קטנים</h3>     <ul>         <li><span class="highlight_heb">עוקב:</span> המספר העוקב ל-2 הוא 3.</li>         <li><span class="highlight_heb">מקדים:</span> המספר המקדים ל-2 הוא 1.</li>     </ul>     <h3 class="subheading_heb">2. מספרים דו-ספרתיים</h3>     <ul>         <li><span class="highlight_heb">עוקב:</span> המספר העוקב ל-19 הוא 20.</li>         <li><span class="highlight_heb">מקדים:</span> המספר המקדים ל-20 הוא 19.</li>     </ul>         <h3 class="subheading_heb">3. מספרים תלת-ספרתיים</h3>     <ul>         <li><span class="highlight_heb">עוקב:</span> המספר העוקב ל-199 הוא 200.</li>         <li><span class="highlight_heb">מקדים:</span> המספר המקדים ל-200 הוא 199.</li>     </ul>         <h3 class="subheading_heb">4. מספרים עם תשיעיות</h3>     <ul>         <li><span class="highlight_heb">עוקב:</span> המספר העוקב ל-999 הוא 1,000.</li>         <li><span class="highlight_heb">מקדים:</span> המספר המקדים ל-1,000 הוא 999.</li>     </ul>     <h3 class="subheading_heb">5. מספרים בעלי אפסים</h3>     <ul>         <li><span class="highlight_heb">עוקב:</span> המספר העוקב ל-9,999 הוא 10,000.</li>         <li><span class="highlight_heb">מקדים:</span> המספר המקדים ל-10,000 הוא 9,999.</li>     </ul>     <h3 class="subheading_heb">6. מספרים גדולים</h3>     <ul>         <li><span class="highlight_heb">עוקב:</span> המספר העוקב ל-999,999 הוא 1,000,000.</li>         <li><span class="highlight_heb">מקדים:</span> המספר המקדים ל-1,000,000 הוא 999,999.</li>     </ul>     <h3 class="subheading_heb">7. דוגמאות נוספות</h3>     <ul>         <li><span class="highlight_heb">עוקב:</span> המספר העוקב ל-99 הוא 100.</li>         <li><span class="highlight_heb">מקדים:</span> המספר המקדים ל-100 הוא 99.</li>     </ul>         <h2 class="highlight_heb">התמודדות עם מספרים בעלי אפסים ותשיעיות</h2>     <ul>         <li>כאשר המספר העוקב או המקדים למספר עגול כמו 10,000 או 1,000,000 מבוצע, האפסים הופכים לתשיעיות ולהיפך.</li>         <li>כאשר מספר מכיל רצף של תשיעיות, התוספת של 1 תהפוך את כל התשיעיות לאפסים והמספר יגדל לרמה חדשה.</li>     </ul>         <h2 class="highlight_heb">סיכום</h2>     <p>הבנת המספרים העוקבים והמקדימים מסייעת להבנת הרצף והסדר של מספרים עשרוניים ומאפשרת לבצע חישובים עוקבים ומדויקים. בין אם אתם מתמודדים עם מספרים קטנים כמו 19 ו-20 או עם מספרים גדולים כמו 999,999 ו-1,000,000, הבנת עקרונות אלו היא בסיסית לתפיסה מספרית רחבה.</p> </div>`,
+            'התאמת רמה': `<div class="subject-overview-content subject-overview-content_heb">
+                <h1>התאמת רמה באמצעות פרמטרים בכתובת האתר</h1>
+                <p>במשחק זה ניתן להתאים את רמת הקושי על ידי שימוש בפרמטרים <span class="highlight_heb">max</span> ו-<span class="highlight_heb">min</span> בכתובת האתר. פרמטרים אלו מאפשרים לקבוע את טווח המספרים שיוצגו בטבלה ובשאלות המשחק.</p>
+                <p>באמצעות שימוש בפרמטרים אלו, ניתן להתאים את רמת המשחק לצרכים האישיים שלכם.</p>
+                <h2 class="highlight_heb">כיצד להשתמש בפרמטרים</h2>
+                <p>לדוגמה, כדי להגדיר את המספר המקסימלי ל-500,000 ואת המספר המינימלי ל-10,000, ניתן לטעון את הדף כך:</p>
+                <div class="english_heb">
+                    <code>?max=500000&min=10000</code>
+                </div>
+                <h2 class="highlight_heb">5 דוגמאות של רמות קושי שונות</h2>
+                <ul>
+                    <li><span class="highlight_heb">רמת קושי גבוהה מאוד:</span> <div class="english_heb"><code>?max=1000000&min=0</code></div> - טווח גדול של מספרים.</li>
+                    <li><span class="highlight_heb">רמת קושי בינונית:</span> <div class="english_heb"><code>?max=500000&min=100000</code></div> - טווח ממוצע של מספרים.</li>
+                    <li><span class="highlight_heb">רמת קושי נמוכה:</span> <div class="english_heb"><code>?max=100000&min=10000</code></div> - טווח קטן יותר של מספרים.</li>
+                    <li><span class="highlight_heb">רמת קושי למתחילים:</span> <div class="english_heb"><code>?max=50000&min=1000</code></div> - מתאים לילדים.</li>
+                    <li><span class="highlight_heb">רמת קושי קלה מאוד:</span> <div class="english_heb"><code>?max=10000&min=0</code></div> - טווח קטן במיוחד.</li>
+                    <li><span class="highlight_heb">התחלה מ-0 ועד 99:</span> <div class="english_heb"><code>?max=99&min=0</code></div> - טווח פשוט וברור.</li>
+                </ul>
+            </div>`,
+            'תרגול': `<div id="stage-number" class="stage-number">שלב ${currentStage + 1} מתוך ${stageCount}</div>
+<div class="progress-bar-container">
+    <div id="progress-bar" class="progress-bar"></div>
+</div>
+<div id="attempts">ניסיונות: 0</div>
+<div id="quiz-content"></div>
+<button class="center-button" onclick="checkStage()">בדיקת תשובות</button>
+<button class="center-button" onclick="showAllAnswers()">הצג תשובות</button>`
+       };
+
+        let maxNumber = 1000000;
+        let minNumber = 0;
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const maxParam = urlParams.get('max');
+        const minParam = urlParams.get('min');
+
+        if (maxParam && minParam) {
+            const parsedMax = parseInt(maxParam);
+            const parsedMin = parseInt(minParam);
+
+            if (!isNaN(parsedMax) && !isNaN(parsedMin) && parsedMax > 0 && parsedMin >= 0 && parsedMax > parsedMin) {
+                maxNumber = parsedMax;
+                minNumber = parsedMin;
+            }
+        }
+
+        function generateRandomNumber(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function generateDiverseNumbers() {
+            const range = maxNumber - minNumber;
+            const count = 27;
+            let numbers = new Set();
+
+            for (let i = 0; i < count; i++) {
+                const baseNumber = Math.floor((range * i) / (count - 1)) + minNumber;
+                const randomOffset = generateRandomNumber(-Math.floor(range / (count * 2)), Math.floor(range / (count * 2)));
+                let number = baseNumber + randomOffset;
+                number = Math.max(minNumber, Math.min(maxNumber, number));
+                numbers.add(number);
+            }
+
+            return Array.from(numbers).sort((a, b) => a - b);
+        }
+
+        function populateTable() {
+            const table = document.getElementById('numberTable');
+            table.innerHTML = '';
+            tableNumbers = generateDiverseNumbers();
+
+            for (let i = 0; i < tableNumbers.length; i++) {
+                if (i % 3 === 0) {
+                    var row = table.insertRow();
+                }
+                const cell = row.insertCell();
+                cell.textContent = tableNumbers[i].toLocaleString('en-US');
+            }
+            document.getElementById('numberRange').textContent = `טווח המספרים: מ-${minNumber.toLocaleString('en-US')} ועד ${maxNumber.toLocaleString('en-US')}`;
+        }
+
+        function selectRandomNumbers() {
+            // Reset the arrays
+            selectedPrecedingNumbers = [];
+            selectedConsecutiveNumbers = [];
+
+            // Validate that tableNumbers exists and has content
+            if (!tableNumbers || !Array.isArray(tableNumbers) || tableNumbers.length === 0) {
+                console.error('Table numbers array is invalid or empty');
+                return;
+            }
+
+            console.log('Starting number selection with table numbers:', tableNumbers);
+
+            // Create a shuffled copy of tableNumbers
+            const shuffledNumbers = [...tableNumbers].sort(() => 0.5 - Math.random());
+
+            // Select 4 numbers for consecutive questions
+            selectedConsecutiveNumbers = shuffledNumbers
+                .slice(0, 4)
+                .map(answer => answer - 1); // Subtract 1 to get the number we'll ask about
+
+            // Select 4 different numbers for preceding questions
+            selectedPrecedingNumbers = shuffledNumbers
+                .slice(4, 8)
+                .map(answer => answer + 1); // Add 1 to get the number we'll ask about
+
+            console.log('Selected consecutive numbers for questions:', selectedConsecutiveNumbers);
+            console.log('Selected preceding numbers for questions:', selectedPrecedingNumbers);
+        }
+
+        function generateQuiz() {
+            const quizContent = document.getElementById('quiz-content');
+            if (!quizContent) {
+                console.error("Quiz content element not found");
+                return;
+            }
+            
+            quizContent.innerHTML = '';
+            correctAnswers = {};
+
+            let questionIndex = 1;
+
+            // Generate 4 consecutive number questions
+            selectedConsecutiveNumbers.forEach(num => {
+                const questionText = `מהו המספר העוקב ל-${num.toLocaleString('en-US')}?`;
+                const correctAnswer = num + 1;
+
+                const questionElement = document.createElement('div');
+                questionElement.className = 'question-one-line';
+                questionElement.innerHTML = `
+                    <label><span style="color: #ff7f50;">${questionIndex}.</span> ${questionText}</label>
+                    <input type="text" id="q${questionIndex}" autocomplete="off">
+                `;
+                quizContent.appendChild(questionElement);
+                correctAnswers[`q${questionIndex}`] = correctAnswer.toString();
+                questionIndex++;
+            });
+
+            // Generate 4 preceding number questions
+            selectedPrecedingNumbers.forEach(num => {
+                const questionText = `מהו המספר המקדים ל-${num.toLocaleString('en-US')}?`;
+                const correctAnswer = num - 1;
+
+                const questionElement = document.createElement('div');
+                questionElement.className = 'question-one-line';
+                questionElement.innerHTML = `
+                    <label><span style="color: #ff7f50;">${questionIndex}.</span> ${questionText}</label>
+                    <input type="text" id="q${questionIndex}" autocomplete="off">
+                `;
+                quizContent.appendChild(questionElement);
+                correctAnswers[`q${questionIndex}`] = correctAnswer.toString();
+                questionIndex++;
+            });
+        }
+
+        function updateProgressBar() {
+            const progressBar = document.getElementById("progress-bar");
+            const progress = (currentStage / stageCount) * 100;
+            progressBar.style.width = `${Math.round(progress)}%`;
+            progressBar.textContent = progress > 0 ? `${Math.round(progress)}%` : '';
+        }
+
+        function addAnimalsToFarm(count) {
+            const animalFarm = document.getElementById('animalFarm');
+            let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+            for (let i = 0; i < count; i++) {
+                if (availableAnimals.length === 0) break;
+
+                const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+                const chosenAnimal = availableAnimals[randomIndex];
+
+                const animalElement = document.createElement('li');
+                animalElement.textContent = chosenAnimal;
+                animalFarm.appendChild(animalElement);
+
+                farmAnimals.push(chosenAnimal);
+                availableAnimals.splice(randomIndex, 1);
+            }
+        }
+
+        function checkStage() {
+            attempts++;
+            document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+
+            let correctCount = 0;
+
+            // לעבור על כל 8 השאלות
+            for (let i = 1; i <= 8; i++) {
+                const input = document.getElementById(`q${i}`);
+                if (!input) continue; // לוודא שהשאלה קיימת
+
+                const userAnswer = input.value.replace(/,/g, '').trim();
+                const correctAnswer = correctAnswers[`q${i}`].replace(/,/g, '').trim();
+
+                if (userAnswer === correctAnswer) {
+                    input.style.backgroundColor = '#c8e6c9'; // ירוק
+                    correctCount++;
+                } else {
+                    input.style.backgroundColor = '#ffcdd2'; // אדום
+                }
+
+                if (attempts >= 10) {
+                    input.value = correctAnswer;
+                    input.disabled = true;
+                }
+            }
+
+            updateProgressBar();
+
+            if (correctCount === 8) {
+                addAnimalsToFarm(correctCount);
+				singleStageConfetti();
+                showModal("כל הכבוד! השלמת את השלב בהצלחה.");
+                currentStage++;
+                if (currentStage < stageCount) {
+                    setTimeout(() => {
+                        attempts = 0;
+                        initializeQuiz();
+                    }, 1500);
+                } else {
+                    showModal("כל הכבוד! השלמת את כל השלבים.");
+					allStagesConfetti();
+                }
+            } else if (attempts >= 10) {
+                showModal("הגעת למספר הניסיונות המקסימלי. התשובות הנכונות נחשפו.");
+            }
+        }
+
+        function showAllAnswers() {
+            for (let i = 1; i <= 8; i++) {
+                const input = document.getElementById(`q${i}`);
+                if (!input) continue;
+
+                const correctAnswer = correctAnswers[`q${i}`];
+                input.value = correctAnswer;
+                input.disabled = true;
+                input.style.backgroundColor = '#c8e6c9';
+            }
+        }
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = activeStates[activeStates.length - 1 - index];
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${activeLabel.offsetLeft}px`;
+                handle.style.width = `${activeLabel.offsetWidth}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+
+		function singleStageConfetti() {
+			confetti({
+				particleCount: 100,
+				spread: 70,
+				origin: { y: 0.6 }
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+		function showContent(state) {
+			const tabContent = document.getElementById('tabContent');
+			tabContent.innerHTML = stateContents[state] || '';
+
+			if (state === 'תרגול') {
+				initializeQuiz(); //
+
+				updateProgressBar();
+			}
+		}
+
+        function renderQuiz() {
+            selectRandomNumbers();
+            generateQuiz();
+        }
+
+        window.addEventListener('load', () => {
+            initializeSwitch();
+            adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+		function initializeQuiz() {
+			// First populate the table and select numbers
+			populateTable();
+			selectRandomNumbers();
+			
+			// Then generate the quiz questions
+			generateQuiz();
+			
+			// Update UI elements
+			updateProgressBar();
+			
+			// Update attempts and stage display
+			const attemptsElement = document.getElementById("attempts");
+			const stageElement = document.getElementById("stage-number");
+			
+			if (attemptsElement) {
+				attemptsElement.textContent = `ניסיונות: ${attempts}`;
+			}
+			
+			if (stageElement) {
+				stageElement.textContent = `שלב ${currentStage + 1} מתוך ${stageCount}`;
+			}
+		}
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+    </script>
+</body>
+</html>
