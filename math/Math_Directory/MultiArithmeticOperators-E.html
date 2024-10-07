@@ -12,208 +12,6 @@
     <title>✅ EZ42 LIVE - It's EZ</title>
     <!-- Include additional styles to adjust the game elements to match the template's design -->
     <style>
-        /* Adjusted styles for the game elements */
-        .game-area {
-            background-color: white;
-            border-radius: 0.625rem;
-            padding: 1rem;
-            box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
-            flex: 1;
-            min-width: 0;
-            transition: flex 0.3s ease;
-            min-height: 800px;
-        }
-        .options {
-            background-color: #00acc1;
-            color: white;
-            border-radius: 0.625rem;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-        }
-        .option-item, .operator-container {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .options label {
-            font-size: 1rem;
-        }
-        .options input[type="number"] {
-            width: 80px;
-            padding: 5px;
-            border: none;
-            border-bottom: 2px solid white;
-            background-color: transparent;
-            color: white;
-            outline: none;
-            text-align: center;
-            font-size: 1rem;
-        }
-        .operator-btn {
-            background-color: #0097a7;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 0.3125rem;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.1s;
-        }
-        .operator-btn.selected {
-            background-color: #ff7f50;
-        }
-        .generate-btn {
-            background-color: #ff7f50; /* Orange background */
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 0.3125rem;
-            cursor: pointer;
-            font-size: 1rem;
-            margin-top: 0.5rem;
-            transition: background-color 0.3s, box-shadow 0.3s;
-        }
-        .generate-btn:hover {
-            background-color: #ff5722; /* Darker orange on hover */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-        .check-btn {
-            background-color: #00acc1;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 0.3125rem;
-            cursor: pointer;
-            font-size: 1rem;
-            margin-top: 0.5rem;
-            transition: background-color 0.3s, box-shadow 0.3s;
-        }
-        .check-btn:hover {
-            background-color: #0097a7;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-        .exercise-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-        .exercise {
-            background-color: rgba(224, 247, 250, 0.8);
-            border-radius: 0.625rem;
-            padding: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-        .exercise:hover {
-            transform: translateY(-5px);
-        }
-        .whole-number, .operator {
-            margin: 0 0.2rem;
-            color: #ff7f50;
-        }
-        .fraction {
-            display: inline-block;
-            text-align: center;
-            vertical-align: middle;
-            margin: 0 0.2rem;
-            color: #ff7f50;
-        }
-        .fraction .numerator {
-            display: block;
-            border-bottom: 2px solid #ff7f50;
-        }
-        .fraction .denominator {
-            display: block;
-        }
-        .answer-area {
-            width: 90px; /* 10% larger than .answer */
-            height: 70px;  /* Maintain aspect ratio */
-            border: 3px dashed #00acc1;
-            background-color: #f0f0f0;
-            border-radius: 0.3125rem;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            margin-left: 0.5rem;
-        }
-        .cloud {
-            background-color: #e3f2fd;
-            border-radius: 0.625rem;
-            padding: 1rem;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-        .answer {
-            width: 80px; /* 10% smaller than .answer-area */
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0.5rem;
-            background-color: #ffffff;
-            border: 2px solid #00acc1;
-            border-radius: 0.3125rem;
-            cursor: move;
-            user-select: none;
-            font-size: 1.2rem;
-            transition: all 0.2s ease;
-        }
-        .answer:hover {
-            transform: scale(1.05);
-        }
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-        }
-        .feedback {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            font-size: 1.5rem;
-        }
-        .correct {
-            color: #4caf50;
-        }
-        .incorrect {
-            color: #f44336;
-        }
-        /* Progress Bar Styles */
-        .progress-bar-container {
-            width: 100%;
-            background-color: #e0e0e0;
-            border-radius: 25px;
-            overflow: hidden;
-            margin: 1rem 0;
-        }
-        .progress-bar {
-            height: 20px;
-            width: 0%;
-            background-color: #76c7c0;
-            text-align: center;
-            line-height: 20px;
-            color: white;
-            transition: width 0.3s ease;
-        }
-        /* Stage Number Styles */
-        .stage-number {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
@@ -295,12 +93,12 @@
                 <div id="attempts">Attempts: 0</div>
                 <!-- Include your game HTML here -->
                 <div class="game-area">
-                    <div class="options">
-                        <div class="option-item">
+                    <div class="cloud-options">
+                        <div class="cloud-option-item">
                             <label for="min-range">Minimum number:</label>
                             <input type="number" id="min-range" min="0" max="9999" value="0" oninput="adjustMaxRange()">
                         </div>
-                        <div class="option-item">
+                        <div class="cloud-option-item">
                             <label for="max-range">Maximum number:</label>
                             <input type="number" id="max-range" min="1" max="9999" value="20" oninput="validateMaxRange(this)">
                         </div>
@@ -723,7 +521,7 @@
                 `;
             }
             return `
-                <div class="answer" id="answer-${index}" draggable="true" ondragstart="drag(event)" data-answer='${JSON.stringify(answer)}'>
+                <div class="cloud-answer" id="answer-${index}" draggable="true" ondragstart="drag(event)" data-answer='${JSON.stringify(answer)}'>
                     ${answerHTML}
                 </div>
             `;

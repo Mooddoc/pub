@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-heb.css">
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - זה קל</title>
+    <style>
+
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+            <!-- Side Panel 1 -->
+            <div id="sidePanel1" class="side-panel">
+                <div class="logo-container">
+                    <a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+                        <img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+                    </a>
+                </div>
+                <h2>הוראות וחוקים</h2>
+                <ul>
+					<li>בחרו את טווח המספרים והפעולות שברצונכם לתרגל.</li>
+					<li>לחצו על "יצירת תרגילים".</li>
+					<li>גררו ושחררו את התשובות הנכונות מהסרגל הכחול לתיבות התרגיל.</li>
+					<li>תוכלו להזיז תשובות בין התיבות או בחזרה לסרגל הכחול.</li>
+					<li>לחצו על "בדקו תשובות" כשסיימתם כדי לראות איך הצלחתם!</li>
+					<li>עליכם לענות נכון על כל השאלות כדי לעבור לשלב הבא.</li>
+					<li>יש 20 שלבים, כל אחד עם 12 שאלות.</li>
+					<li>תהנו!</li>
+                </ul>
+            </div>
+
+            <!-- Quiz Panel -->
+            <div id="quizContainer" class="quiz-container">
+                <h1>🌈 תרגילי מתמטיקה כיפיים 🌈</h1>
+                <div id="stage-number" class="stage-number">שלב 1 מתוך 20</div>
+                <div class="progress-bar-container">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
+                <div id="attempts">ניסיונות: 0</div>
+                <div class="game-area">
+                    <div class="cloud-options">
+                        <div class="cloud-option-item">
+                            <label for="min-range">מספר מינימלי:</label>
+                            <input type="number" id="min-range" min="0" max="9999" value="0" oninput="adjustMaxRange()">
+                        </div>
+                        <div class="cloud-option-item">
+                            <label for="max-range">מספר מקסימלי:</label>
+                            <input type="number" id="max-range" min="1" max="9999" value="20" oninput="validateMaxRange(this)">
+                        </div>
+                        <div class="operator-container">
+                            <label>פעולות:</label>
+                            <button class="operator-btn selected" data-op="+">+</button>
+                            <button class="operator-btn selected" data-op="-">-</button>
+                            <button class="operator-btn" data-op="*">×</button>
+                            <button class="operator-btn" data-op="/">÷</button>
+                        </div>
+                        <button class="generate-btn" onclick="generateExercises()">יצירת תרגילים</button>
+                    </div>
+                    <div class="exercise-grid" id="exerciseGrid">
+                        <!-- Exercises will be dynamically inserted here -->
+                    </div>
+                    <div class="cloud" id="answerCloud">
+                        <!-- Answers will be dynamically inserted here -->
+                    </div>
+                    <div class="buttons">
+                        <button class="check-btn" onclick="checkAllAnswers()">בדיקת תשובות 🎉</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Side Panel 2 -->
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות החיות</h2>
+                <p>צפה בחווה שלך גדלה תוך כדי התקדמות! כל שלב שתשלים יוסיף חברים חדשים לאוסף החיות שלך.</p>
+                <ul id="animalFarm" class="emoji-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+
+<script>
+	// NewCalculusOperators-H.html?min=500&max=2000&operators=PL,MI,AS,DE  PL=(+) MI=(-) AS=(*) DE=(/)
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+        let attempts = 0;
+        let currentStage = 0;
+        const stageCount = 20;
+        let generatedExercisesSet = new Set();
+        let farmAnimals = [];
+        const animals = [
+            "🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+            "🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+            "🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+            "🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+            "🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+            "🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+            "🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+            "🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+            "🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+            "🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+            "🐷", "🐩", "🐘", "🐸", "🐝"
+        ];
+
+        function adjustMaxRange() {
+            const minRange = parseInt(document.getElementById('min-range').value, 10);
+            const maxRangeInput = document.getElementById('max-range');
+            maxRangeInput.min = minRange + 1;
+            let currentMax = parseInt(maxRangeInput.value, 10);
+            if (currentMax <= minRange) {
+                maxRangeInput.value = minRange + 1;
+            }
+        }
+
+        function validateMaxRange(element) {
+            let value = parseInt(element.value, 10);
+            if (isNaN(value)) {
+                element.value = 1;
+                return;
+            }
+            if (value > 9999) {
+                element.value = 9999;
+            } else if (value < 1) {
+                element.value = 1;
+            }
+            const minRange = parseInt(document.getElementById('min-range').value, 10);
+            if (value <= minRange) {
+                element.value = minRange + 1;
+            }
+        }
+
+        function generateExercises() {
+            const minRange = parseInt(document.getElementById('min-range').value);
+            const maxRange = parseInt(document.getElementById('max-range').value);
+            const operators = Array.from(document.querySelectorAll('.operator-btn.selected'))
+                .map(btn => btn.getAttribute('data-op'));
+
+            if (operators.length === 0) {
+                alert("אנא בחר לפחות פעולה אחת.");
+                return;
+            }
+
+            generatedExercisesSet.clear();
+            const exercises = [];
+            const maxExercises = 12;
+            const maxTotalAttempts = 1000;
+
+            let totalAttempts = 0;
+
+            while (exercises.length < maxExercises && totalAttempts < maxTotalAttempts) {
+                let exercise = generateValidExercise(minRange, maxRange, operators);
+                totalAttempts++;
+
+                if (!generatedExercisesSet.has(exercise.key)) {
+                    exercises.push(exercise.exercise);
+                    generatedExercisesSet.add(exercise.key);
+                }
+            }
+
+            if (exercises.length < maxExercises) {
+                console.warn(`רק ${exercises.length} תרגילים ייחודיים נוצרו לאחר ${totalAttempts} ניסיונות.`);
+            }
+
+            displayExercises(exercises);
+        }
+
+        function generateValidExercise(minRange, maxRange, operators) {
+            const operator = operators[Math.floor(Math.random() * operators.length)];
+            let num1, num2, answer;
+            let attempts = 0;
+            const maxAttempts = 1000;
+
+            do {
+                attempts++;
+                switch (operator) {
+                    case '+':
+                        num1 = Math.floor(Math.random() * (maxRange - minRange + 1)) + minRange;
+                        num2 = Math.floor(Math.random() * (maxRange - minRange + 1)) + minRange;
+                        answer = num1 + num2;
+                        break;
+                    case '-':
+                        num1 = Math.floor(Math.random() * (maxRange - minRange + 1)) + minRange;
+                        num2 = Math.floor(Math.random() * (num1 - minRange + 1)) + minRange;
+                        answer = num1 - num2;
+                        break;
+                    case '*':
+                        num1 = Math.floor(Math.random() * (Math.sqrt(maxRange) - 1)) + 2;
+                        num2 = Math.floor(Math.random() * (Math.floor(maxRange / num1))) + 1;
+                        answer = num1 * num2;
+                        break;
+                    case '/':
+                        num2 = Math.floor(Math.random() * (Math.sqrt(maxRange) - 1)) + 2;
+                        answer = Math.floor(Math.random() * Math.floor(maxRange / num2)) + 1;
+                        num1 = answer * num2;
+                        break;
+                }
+            } while ((answer < minRange || answer > maxRange) && attempts < maxAttempts);
+
+            if (attempts >= maxAttempts) {
+                num1 = minRange;
+                num2 = 0;
+                answer = minRange;
+            }
+
+            let key;
+            if (operator === '+' || operator === '*') {
+                key = `${operator}${Math.min(num1, num2)}_${Math.max(num1, num2)}`;
+            } else {
+                key = `${operator}${num1}_${num2}`;
+            }
+
+            return {
+                key: key,
+                exercise: {
+                    id: Math.random().toString(36).substr(2, 9),
+                    fraction1: { numerator: num1, denominator: 1 },
+                    fraction2: { numerator: num2, denominator: 1 },
+                    operator: operator,
+                    answer: { wholeNumber: answer, numerator: 0, denominator: 1 }
+                }
+            };
+        }
+
+        function displayExercises(exercises) {
+            const grid = document.getElementById('exerciseGrid');
+            grid.innerHTML = exercises.map(createExerciseHTML).join('');
+
+            const answerCloud = document.getElementById('answerCloud');
+            const answers = exercises.map(ex => ex.answer);
+            const shuffledAnswers = [...answers];
+            shuffleArray(shuffledAnswers);
+            answerCloud.innerHTML = shuffledAnswers.map((answer, index) => createAnswerHTML(answer, index)).join('');
+        }
+
+        function createExerciseHTML(exercise) {
+            return `
+                <div class="exercise" id="exercise-${exercise.id}" data-answer='${JSON.stringify(exercise.answer)}'>
+                    ${createFractionHTML(exercise.fraction1)}
+                    <span class="operator">${exercise.operator}</span>
+                    ${createFractionHTML(exercise.fraction2)}
+                    <span class="operator">=</span>
+                    <div class="answer-area" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    <div class="feedback"></div>
+                </div>
+            `;
+        }
+
+        function createFractionHTML(fraction) {
+            if (fraction.denominator === 1) {
+                return `<span class="whole-number">${fraction.numerator}</span>`;
+            } else {
+                return `<span class="fraction"><span class="numerator">${fraction.numerator}</span><span class="denominator">${fraction.denominator}</span></span>`;
+            }
+        }
+
+        function createAnswerHTML(answer, index) {
+            let answerHTML;
+            if (answer.denominator === 1) {
+                answerHTML = `<span class="whole-number">${answer.wholeNumber}</span>`;
+            } else {
+                answerHTML = `
+                    ${answer.wholeNumber ? `<span class="whole-number">${answer.wholeNumber}</span>` : ''}
+                    <span class="fraction">
+                        <span class="numerator">${answer.numerator}</span>
+                        <span class="denominator">${answer.denominator}</span>
+                    </span>
+                `;
+            }
+            return `
+                <div class="cloud-answer" id="answer-${index}" draggable="true" ondragstart="drag(event)" data-answer='${JSON.stringify(answer)}'>
+                    ${answerHTML}
+                </div>
+            `;
+        }
+
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text");
+            const draggedElement = document.getElementById(data);
+            let dropTarget = ev.target;
+            if (!dropTarget.classList.contains('answer-area')) {
+                dropTarget = dropTarget.closest('.answer-area');
+            }
+            if (dropTarget) {
+                if (dropTarget.firstChild) {
+                    document.getElementById('answerCloud').appendChild(dropTarget.firstChild);
+                }
+                dropTarget.appendChild(draggedElement);
+            }
+        }
+
+        function checkAllAnswers() {
+            let correctAnswers = 0;
+            const exercises = document.querySelectorAll('.exercise');
+
+            exercises.forEach(exercise => {
+                const answerArea = exercise.querySelector('.answer-area');
+                const answerElement = answerArea.firstChild;
+                const feedbackElement = exercise.querySelector('.feedback');
+
+                if (answerElement) {
+                    const givenAnswer = JSON.parse(answerElement.getAttribute('data-answer'));
+                    const correctAnswer = JSON.parse(exercise.getAttribute('data-answer'));
+
+                    if (JSON.stringify(givenAnswer) === JSON.stringify(correctAnswer)) {
+                        correctAnswers++;
+                        answerArea.style.backgroundColor = '#c8e6c9';
+                        feedbackElement.textContent = '😃';
+                        feedbackElement.className = 'feedback correct';
+                    } else {
+                        answerArea.style.backgroundColor = '#ffcdd2';
+                        feedbackElement.textContent = '❌';
+                        feedbackElement.className = 'feedback incorrect';
+                    }
+                } else {
+                    answerArea.style.backgroundColor = '#f0f0f0';
+                    feedbackElement.textContent = '';
+                    feedbackElement.className = 'feedback';
+                }
+            });
+
+            attempts++;
+            document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+
+            if (correctAnswers === exercises.length) {
+                addAnimalsToFarm(exercises.length);
+                if (currentStage < stageCount - 1) {
+                    singleStageConfetti();
+                    showEncouragingPopup(correctAnswers, exercises.length, true);
+                    currentStage++;
+                    updateProgressBar();
+                    updateStageNumber();
+                    setTimeout(() => {
+                        attempts = 0;
+                        generateExercises();
+                        document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+                    }, 1500);
+                } else {
+                    currentStage++;
+                    updateProgressBar();
+                    allStagesConfetti();
+                    showModal("כל הכבוד! סיימת את כל השלבים.");
+                }
+            } else {
+                showEncouragingPopup(correctAnswers, exercises.length, false);
+                if (attempts >= 10) {
+                    showModal("הגעת למספר הניסיונות המקסימלי. נסה שוב!");
+                }
+            }
+
+            scrollToTop();
+        }
+
+        function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+            const incorrectCount = totalQuestions - correctCount;
+            let message = `קיבלת ${correctCount} תשובות נכונות ו-${incorrectCount} לא נכונות.`;
+
+            if (correctCount === totalQuestions) {
+                message += " ציון מושלם!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+                message += " עבודה מצוינת! אתה באמת מתחיל להבין את זה!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+                message += " מאמץ טוב! המשך לתרגל ותשתפר בקרוב!";
+            } else {
+                message += " אל תוותר! כל ניסיון עוזר לך ללמוד. נסה שוב!";
+            }
+
+            if (isStageComplete) {
+                message += "\n\nסיימת את השלב הזה. עובר לשלב הבא.";
+            }
+
+            showModal(message);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+        function singleStageConfetti() {
+            confetti({
+                angle: Math.random() * (125 - 55) + 55,
+                spread: Math.random() * (70 - 50) + 50,
+                particleCount: Math.floor(Math.random() * (100 - 50) + 50),
+                origin: { y: 0.6 },
+            });
+        }
+
+        function allStagesConfetti() {
+            const defaults = {
+                spread: 360,
+                ticks: 50,
+                gravity: 0,
+                decay: 0.94,
+                startVelocity: 30,
+                shapes: ["star"],
+                colors: ["#FFE400", "#FFBD00", "#E89400", "#FFCA6C", "#FDFFB8"],
+            };
+
+            function shoot() {
+                confetti({
+                    ...defaults,
+                    particleCount: 40,
+                    scalar: 1.2,
+                    shapes: ["star"],
+                });
+
+                confetti({
+                    ...defaults,
+                    particleCount: 10,
+                    scalar: 0.75,
+                    shapes: ["circle"],
+                });
+            }
+
+            setTimeout(shoot, 0);
+            setTimeout(shoot, 100);
+            setTimeout(shoot, 200);
+        }
+
+        function addAnimalsToFarm(count) {
+            const animalFarm = document.getElementById('animalFarm');
+            let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+            for (let i = 0; i < count; i++) {
+                if (availableAnimals.length === 0) {
+                    break;
+                }
+
+                const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+                const chosenAnimal = availableAnimals[randomIndex];
+
+                const animalElement = document.createElement('li');
+                animalElement.textContent = chosenAnimal;
+                animalFarm.appendChild(animalElement);
+
+                farmAnimals.push(chosenAnimal);
+                availableAnimals.splice(randomIndex, 1);
+            }
+        }
+
+        function updateProgressBar() {
+            const progressBar = document.getElementById("progress-bar");
+            const completedStages = currentStage;
+            const progress = (completedStages / stageCount) * 100;
+            const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+            progressBar.style.width = `${roundedProgress}%`;
+            progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+        }
+
+        function updateStageNumber() {
+            const stageElement = document.getElementById("stage-number");
+            stageElement.textContent = `שלב ${currentStage + 1} מתוך ${stageCount}`;
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // Initialize the game when the page loads
+        window.addEventListener('load', () => {
+            generateExercises();
+            updateProgressBar();
+            updateStageNumber();
+            document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+
+            // Toggle operator buttons
+            document.querySelectorAll('.operator-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                });
+            });
+        });
+
+        // Load the copyright content
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+
+    </script>
+</body>
+</html>
