@@ -1259,3 +1259,80 @@
             background-color: #0097a7;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
+		
+																														/* Math Operators Cloud Styles */	
+        .vocabulary-table {
+            max-width: 800px; /* Set maximum width for the table */
+            width: 100%; /* Ensure table uses full width up to the max */
+            margin: 2rem auto; /* Center the table on the page with some top margin */
+            border-radius: 0.625rem; /* Rounded corners for the table */
+            overflow: hidden; /* To apply rounded corners properly */
+            box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            background-color: #ffffff; /* White background for overall table */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: #00acc1; /* Teal color for header */
+            color: white; /* White text for contrast */
+            font-weight: bold;
+            padding: 1rem; /* Increased padding for header */
+            text-align: left; /* Align header text to the left */
+            font-size: 1.1rem; /* Slightly larger font size for header */
+        }
+
+        td {
+            padding: 1rem; /* Adequate padding for readability */
+            background-color: white; /* White background for cells */
+            border: 2px solid #e0e0e0; /* Light gray border for subtle separation */
+            text-align: left; /* Default align for English column */
+            transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+        }
+
+        td.hebrew {
+            text-align: right; /* Align Hebrew column text to the right */
+        }
+
+        td:hover {
+            background-color: #ff7f50; /* Coral orange hover effect for interaction */
+            color: white; /* White text on hover for better contrast */
+        }
+
+        /* Additional responsiveness */
+        @media (max-width: 600px) {
+            .vocabulary-table {
+                margin: 1rem; /* Adjust margins for smaller screens */
+            }
+
+            td {
+                font-size: 0.9rem; /* Slightly smaller text for mobile */
+            }
+        }
+		
+																															/* Scroll To Top Bubble Arrow Styles */		
+		#scrollToTopBtn {
+		  display: none;
+		  position: fixed;
+		  bottom: 20px;
+		  right: 20px;
+		  z-index: 99;
+		  border: none;
+		  outline: none;
+		  background-color: #00acc1;
+		  color: white;
+		  cursor: pointer;
+		  padding: 15px;
+		  border-radius: 50%;
+		  font-size: 18px;
+		  width: 50px;
+		  height: 50px;
+		  transition: opacity 0.3s;
+		}
+
+		#scrollToTopBtn:hover {
+		  background-color: #005fa3;
+		}
