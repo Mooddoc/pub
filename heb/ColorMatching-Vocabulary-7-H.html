@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-heb.css">
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 - זה קל</title>
+<style>
+
+</style>
+
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+            <!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+                <div class="logo-container">
+                    <a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+                        <img src="http://www.ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+                    </a>
+                </div>
+                <h2>הוראות</h2>
+                <ul>
+																										<!--  PH1 - Instructions & Rules   -->    
+					<li>יש 20 שלבים במשחק, כל שלב מכיל 10 זוגות של מילים בעברית ובאנגלית.</li>
+					<li>יש לבחור מילה בעברית ולקרוא אותה בעיון.</li>
+					<li>מצאו את התרגום האנגלי המתאים למילה העברית.</li>
+					<li>לחצו על המילה באנגלית ועל התרגום העברי המתאים ליצירת התאמה.</li>
+					<li>ניתן גם לגרור את המילים זו לזו ליצירת התאמה.</li>
+					<li>יש ללחוץ על "בדיקת תשובות" כשסיימתם להתאים את כל 10 הזוגות.</li>
+					<li>יש להשלים את כל 10 ההתאמות בשלב כדי לעבור לשלב הבא.</li>
+					<li>לאחר 10 ניסיונות בשלב מסוים, התשובות הנכונות בשלב ייחשפו.</li>
+					<li>השלימו את כל 20 השלבים כדי לסיים את המשחק.</li>
+					<li>תהנו!</li>
+                </ul>
+            </div>
+            <!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->				
+                <h1>מילה במילה - מסע בין שתי שפות - 7</h1>
+				
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent">
+                </div>
+            </div>
+            <!--  Side Panel 2  -->
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות החיות</h2>
+                <p>החווה שלך גדלה תוך כדי התקדמות! כל שלב מוסיף חיות חדשות לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        // Template Elements
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+        let attempts = 0;
+        let currentStage = 0;
+        let selectedQuestion = null;
+        let selectedAnswer = null;
+
+        const manuallySetDefaultTab = 0;
+
+        const colors = ["#FF6B6B", "#4ECDC4", "#FFD93D", "#98FB98", "#87CEFA", "#FFA07A", "#DDA0DD", "#F0E68C", "#00CED1", "#FF69B4", "#AFE1AF", "#FFB347", "#40E0D0", "#DEA5A4", "#CCCCFF", "#F0DC82", "#FF6347", "#7FFFD4", "#FFE4E1", "#CFCFC4"];
+
+		const quizData = [
+
+
+							  {
+								"stage": "Stage 1",
+								"stageName": "Advanced Greetings - ברכות מתקדמות",
+								"direction": "rtl",
+								"questions": [
+								  { "question_id": 1, "question": "נעים להכיר" },
+								  { "question_id": 2, "question": "בהצלחה" },
+								  { "question_id": 3, "question": "תודה רבה מקרב לב" },
+								  { "question_id": 4, "question": "אני מצטער על אי הנוחות" },
+								  { "question_id": 5, "question": "אשמח לעזור" },
+								  { "question_id": 6, "question": "בבקשה, אל תהסס לפנות" },
+								  { "question_id": 7, "question": "חג שמח" },
+								  { "question_id": 8, "question": "שיהיה לך יום נפלא" },
+								  { "question_id": 9, "question": "תרגיש טוב" },
+								  { "question_id": 10, "question": "להתראות בקרוב" }
+								],
+								"answers": [
+								  { "answer_id": 1, "question_id": 1, "answer": "Pleased to make your acquaintance" },
+								  { "answer_id": 2, "question_id": 2, "answer": "Best of luck" },
+								  { "answer_id": 3, "question_id": 3, "answer": "Thank you very much from the bottom of my heart" },
+								  { "answer_id": 4, "question_id": 4, "answer": "I apologize for the inconvenience" },
+								  { "answer_id": 5, "question_id": 5, "answer": "I'd be glad to assist" },
+								  { "answer_id": 6, "question_id": 6, "answer": "Please don't hesitate to reach out" },
+								  { "answer_id": 7, "question_id": 7, "answer": "Happy holidays" },
+								  { "answer_id": 8, "question_id": 8, "answer": "Have a wonderful day" },
+								  { "answer_id": 9, "question_id": 9, "answer": "Get well soon" },
+								  { "answer_id": 10, "question_id": 10, "answer": "See you in the near future" }
+								]
+							  },
+							  {
+								"stage": "Stage 2",
+								"stageName": "Business Terms - מונחים עסקיים",
+								"direction": "rtl",
+								"questions": [
+								  { "question_id": 1, "question": "דוח רבעוני" },
+								  { "question_id": 2, "question": "מיזוג ורכישה" },
+								  { "question_id": 3, "question": "תזרים מזומנים" },
+								  { "question_id": 4, "question": "ניהול משאבי אנוש" },
+								  { "question_id": 5, "question": "אסטרטגיית שיווק" },
+								  { "question_id": 6, "question": "מחקר שוק" },
+								  { "question_id": 7, "question": "תכנית עסקית" },
+								  { "question_id": 8, "question": "יעדים ארוכי טווח" },
+								  { "question_id": 9, "question": "ניהול סיכונים" },
+								  { "question_id": 10, "question": "מודל עסקי" }
+								],
+								"answers": [
+								  { "answer_id": 1, "question_id": 1, "answer": "Quarterly report" },
+								  { "answer_id": 2, "question_id": 2, "answer": "Merger and acquisition" },
+								  { "answer_id": 3, "question_id": 3, "answer": "Cash flow" },
+								  { "answer_id": 4, "question_id": 4, "answer": "Human resource management" },
+								  { "answer_id": 5, "question_id": 5, "answer": "Marketing strategy" },
+								  { "answer_id": 6, "question_id": 6, "answer": "Market research" },
+								  { "answer_id": 7, "question_id": 7, "answer": "Business plan" },
+								  { "answer_id": 8, "question_id": 8, "answer": "Long-term objectives" },
+								  { "answer_id": 9, "question_id": 9, "answer": "Risk management" },
+								  { "answer_id": 10, "question_id": 10, "answer": "Business model" }
+								]
+							  },
+							  {
+								"stage": "Stage 3",
+								"stageName": "Technology and Science - טכנולוגיה ומדע",
+								"direction": "rtl",
+								"questions": [
+								  { "question_id": 1, "question": "בינה מלאכותית" },
+								  { "question_id": 2, "question": "מציאות מדומה" },
+								  { "question_id": 3, "question": "אנרגיה מתחדשת" },
+								  { "question_id": 4, "question": "הנדסה גנטית" },
+								  { "question_id": 5, "question": "אבטחת סייבר" },
+								  { "question_id": 6, "question": "מחשוב ענן" },
+								  { "question_id": 7, "question": "ביג דאטה" },
+								  { "question_id": 8, "question": "אינטרנט של הדברים" },
+								  { "question_id": 9, "question": "רובוטיקה מתקדמת" },
+								  { "question_id": 10, "question": "ננוטכנולוגיה" }
+								],
+								"answers": [
+								  { "answer_id": 1, "question_id": 1, "answer": "Artificial intelligence" },
+								  { "answer_id": 2, "question_id": 2, "answer": "Virtual reality" },
+								  { "answer_id": 3, "question_id": 3, "answer": "Renewable energy" },
+								  { "answer_id": 4, "question_id": 4, "answer": "Genetic engineering" },
+								  { "answer_id": 5, "question_id": 5, "answer": "Cybersecurity" },
+								  { "answer_id": 6, "question_id": 6, "answer": "Cloud computing" },
+								  { "answer_id": 7, "question_id": 7, "answer": "Big data" },
+								  { "answer_id": 8, "question_id": 8, "answer": "Internet of Things" },
+								  { "answer_id": 9, "question_id": 9, "answer": "Advanced robotics" },
+								  { "answer_id": 10, "question_id": 10, "answer": "Nanotechnology" }
+								]
+							  },
+							  {
+								"stage": "Stage 4",
+								"stageName": "Environment and Ecology - סביבה ואקולוגיה",
+								"direction": "rtl",
+								"questions": [
+								  { "question_id": 1, "question": "התחממות גלובלית" },
+								  { "question_id": 2, "question": "מגוון ביולוגי" },
+								  { "question_id": 3, "question": "פליטת גזי חממה" },
+								  { "question_id": 4, "question": "מיחזור והשבה" },
+								  { "question_id": 5, "question": "שימור משאבי טבע" },
+								  { "question_id": 6, "question": "זיהום אוויר" },
+								  { "question_id": 7, "question": "מערכת אקולוגית" },
+								  { "question_id": 8, "question": "פיתוח בר-קיימא" },
+								  { "question_id": 9, "question": "טביעת רגל פחמנית" },
+								  { "question_id": 10, "question": "מינים בסכנת הכחדה" }
+								],
+								"answers": [
+								  { "answer_id": 1, "question_id": 1, "answer": "Global warming" },
+								  { "answer_id": 2, "question_id": 2, "answer": "Biodiversity" },
+								  { "answer_id": 3, "question_id": 3, "answer": "Greenhouse gas emissions" },
+								  { "answer_id": 4, "question_id": 4, "answer": "Recycling and recovery" },
+								  { "answer_id": 5, "question_id": 5, "answer": "Natural resource conservation" },
+								  { "answer_id": 6, "question_id": 6, "answer": "Air pollution" },
+								  { "answer_id": 7, "question_id": 7, "answer": "Ecosystem" },
+								  { "answer_id": 8, "question_id": 8, "answer": "Sustainable development" },
+								  { "answer_id": 9, "question_id": 9, "answer": "Carbon footprint" },
+								  { "answer_id": 10, "question_id": 10, "answer": "Endangered species" }
+								]
+							  },
+							  {
+								"stage": "Stage 5",
+								"stageName": "Health and Medicine - בריאות ורפואה",
+								"direction": "rtl",
+								"questions": [
+								  { "question_id": 1, "question": "רפואה מונעת" },
+								  { "question_id": 2, "question": "ניתוח לפרוסקופי" },
+								  { "question_id": 3, "question": "טיפול גנטי" },
+								  { "question_id": 4, "question": "מערכת החיסון" },
+								  { "question_id": 5, "question": "תרופות ביולוגיות" },
+								  { "question_id": 6, "question": "רפואה מותאמת אישית" },
+								  { "question_id": 7, "question": "השתלת איברים" },
+								  { "question_id": 8, "question": "בריאות הנפש" },
+								  { "question_id": 9, "question": "תזונה מאוזנת" },
+								  { "question_id": 10, "question": "מחלות כרוניות" }
+								],
+								"answers": [
+								  { "answer_id": 1, "question_id": 1, "answer": "Preventive medicine" },
+								  { "answer_id": 2, "question_id": 2, "answer": "Laparoscopic surgery" },
+								  { "answer_id": 3, "question_id": 3, "answer": "Gene therapy" },
+								  { "answer_id": 4, "question_id": 4, "answer": "Immune system" },
+								  { "answer_id": 5, "question_id": 5, "answer": "Biological drugs" },
+								  { "answer_id": 6, "question_id": 6, "answer": "Personalized medicine" },
+								  { "answer_id": 7, "question_id": 7, "answer": "Organ transplantation" },
+								  { "answer_id": 8, "question_id": 8, "answer": "Mental health" },
+								  { "answer_id": 9, "question_id": 9, "answer": "Balanced nutrition" },
+								  { "answer_id": 10, "question_id": 10, "answer": "Chronic diseases" }
+								]
+							  },
+							  {
+								"stage": "Stage 6",
+								"stageName": "Law and Justice - משפט וצדק",
+								"direction": "rtl",
+								"questions": [
+								  { "question_id": 1, "question": "הליך משפטי" },
+								  { "question_id": 2, "question": "זכויות אדם" },
+								  { "question_id": 3, "question": "חקיקה" },
+								  { "question_id": 4, "question": "פסק דין" },
+								  { "question_id": 5, "question": "ערעור" },
+								  { "question_id": 6, "question": "עדות מומחה" },
+								  { "question_id": 7, "question": "חיסיון עורך דין-לקוח" },
+								  { "question_id": 8, "question": "הסכם גישור" },
+								  { "question_id": 9, "question": "צו מניעה" },
+								  { "question_id": 10, "question": "חוקה" }
+								],
+								"answers": [
+								  { "answer_id": 1, "question_id": 1, "answer": "Legal proceedings" },
+								  { "answer_id": 2, "question_id": 2, "answer": "Human rights" },
+								  { "answer_id": 3, "question_id": 3, "answer": "Legislation" },
+								  { "answer_id": 4, "question_id": 4, "answer": "Verdict" },
+								  { "answer_id": 5, "question_id": 5, "answer": "Appeal" },
+								  { "answer_id": 6, "question_id": 6, "answer": "Expert testimony" },
+								  { "answer_id": 7, "question_id": 7, "answer": "Attorney-client privilege" },
+								  { "answer_id": 8, "question_id": 8, "answer": "Mediation agreement" },
+								  { "answer_id": 9, "question_id": 9, "answer": "Injunction" },
+								  { "answer_id": 10, "question_id": 10, "answer": "Constitution" }
+								]
+							  },
+							  {
+								"stage": "Stage 7",
+								"stageName": "Economics and Finance - כלכלה ופיננסים",
+								"direction": "rtl",
+								"questions": [
+								  { "question_id": 1, "question": "שוק ההון" },
+								  { "question_id": 2, "question": "אינפלציה" },
+								  { "question_id": 3, "question": "מדיניות מוניטרית" },
+								  { "question_id": 4, "question": "תיק השקעות" },
+								  { "question_id": 5, "question": "שער חליפין" },
+								  { "question_id": 6, "question": "מיסוי פרוגרסיבי" },
+								  { "question_id": 7, "question": "הנפקה ראשונית לציבור" },
+								  { "question_id": 8, "question": "מאזן תשלומים" },
+								  { "question_id": 9, "question": "גירעון תקציבי" },
+								  { "question_id": 10, "question": "הלבנת הון" }
+								],
+								"answers": [
+								  { "answer_id": 1, "question_id": 1, "answer": "Stock market" },
+								  { "answer_id": 2, "question_id": 2, "answer": "Inflation" },
+								  { "answer_id": 3, "question_id": 3, "answer": "Monetary policy" },
+								  { "answer_id": 4, "question_id": 4, "answer": "Investment portfolio" },
+								  { "answer_id": 5, "question_id": 5, "answer": "Exchange rate" },
+								  { "answer_id": 6, "question_id": 6, "answer": "Progressive taxation" },
+								  { "answer_id": 7, "question_id": 7, "answer": "Initial public offering (IPO)" },
+								  { "answer_id": 8, "question_id": 8, "answer": "Balance of payments" },
+								  { "answer_id": 9, "question_id": 9, "answer": "Budget deficit" },
+								  { "answer_id": 10, "question_id": 10, "answer": "Money laundering" }
+								]
+							  },
+							  {
+								"stage": "Stage 8",
+								"stageName": "International Relations - יחסים בינלאומיים",
+								"direction": "rtl",
+								"questions": [
+								  { "question_id": 1, "question": "דיפלומטיה" },
+								  { "question_id": 2, "question": "ארגון האומות המאוחדות" },
+								  { "question_id": 3, "question": "הסכם סחר חופשי" },
+								  { "question_id": 4, "question": "סנקציות כלכליות" },
+								  { "question_id": 5, "question": "משא ומתן רב-צדדי" },
+								  { "question_id": 6, "question": "ריבונות" },
+								  { "question_id": 7, "question": "זכות וטו" },
+								  { "question_id": 8, "question": "שגריר" },
+								  { "question_id": 9, "question": "הסכם שלום" },
+								  { "question_id": 10, "question": "פליטים" }
+								],
+								"answers": [
+								  { "answer_id": 1, "question_id": 1, "answer": "Diplomacy" },
+								  { "answer_id": 2, "question_id": 2, "answer": "United Nations" },
+								  { "answer_id": 3, "question_id": 3, "answer": "Free trade agreement" },
+								  { "answer_id": 4, "question_id": 4, "answer": "Economic sanctions" },
+								  { "answer_id": 5, "question_id": 5, "answer": "Multilateral negotiations" },
+								  { "answer_id": 6, "question_id": 6, "answer": "Sovereignty" },
+								  { "answer_id": 7, "question_id": 7, "answer": "Veto power" },
+								  { "answer_id": 8, "question_id": 8, "answer": "Ambassador" },
+								  { "answer_id": 9, "question_id": 9, "answer": "Peace treaty" },
+								  { "answer_id": 10, "question_id": 10, "answer": "Refugees" }
+								]
+							  },
+							  {
+								"stage": "Stage 9",
+								"stageName": "Psychology and Behavior - פסיכולוגיה והתנהגות",
+								"direction": "rtl",
+								"questions": [
+								  { "question_id": 1, "question": "קוגניציה" },
+								  { "question_id": 2, "question": "הטיה קוגניטיבית" },
+								  { "question_id": 3, "question": "תת-מודע" },
+								  { "question_id": 4, "question": "דפוסי התנהגות" },
+								  { "question_id": 5, "question": "אינטליגנציה רגשית" },
+								  { "question_id": 6, "question": "פסיכותרפיה" },
+								  { "question_id": 7, "question": "תסמונת דחק פוסט-טראומטית" },
+								  { "question_id": 8, "question": "מנגנוני הגנה" },
+								  { "question_id": 9, "question": "אישיות" },
+								  { "question_id": 10, "question": "תיאוריית ההתקשרות" }
+								],
+								"answers": [
+								  { "answer_id": 1, "question_id": 1, "answer": "Cognition" },
+								  { "answer_id": 2, "question_id": 2, "answer": "Cognitive bias" },
+								  { "answer_id": 3, "question_id": 3, "answer": "Subconscious" },
+								  { "answer_id": 4, "question_id": 4, "answer": "Behavior patterns" },
+								  { "answer_id": 5, "question_id": 5, "answer": "Emotional intelligence" },
+								  { "answer_id": 6, "question_id": 6, "answer": "Psychotherapy" },
+								  { "answer_id": 7, "question_id": 7, "answer": "Post-traumatic stress disorder" },
+								  { "answer_id": 8, "question_id": 8, "answer": "Defense mechanisms" },
+								  { "answer_id": 9, "question_id": 9, "answer": "Personality" },
+								  { "answer_id": 10, "question_id": 10, "answer": "Attachment theory" }
+								]
+							  },
+							  {
+								"stage": "Stage 10",
+								"stageName": "Art and Culture - אמנות ותרבות",
+								"direction": "rtl",
+								"questions": [
+								  { "question_id": 1, "question": "אמנות מופשטת" },
+								  { "question_id": 2, "question": "תקופת הרנסנס" },
+								  { "question_id": 3, "question": "אוונגרד" },
+								  { "question_id": 4, "question": "סגנון ארכיטקטוני" },
+								  { "question_id": 5, "question": "מורשת תרבותית" },
+								  { "question_id": 6, "question": "אמנות רחוב" },
+								  { "question_id": 7, "question": "קומפוזיציה מוזיקלית" },
+								  { "question_id": 8, "question": "ביקורת ספרותית" },
+								  { "question_id": 9, "question": "אמנויות הבמה" },
+								  { "question_id": 10, "question": "תרבות פופולרית" }
+								],
+								"answers": [
+								  { "answer_id": 1, "question_id": 1, "answer": "Abstract art" },
+								  { "answer_id": 2, "question_id": 2, "answer": "Renaissance period" },
+								  { "answer_id": 3, "question_id": 3, "answer": "Avant-garde" },
+								  { "answer_id": 4, "question_id": 4, "answer": "Architectural style" },
+								  { "answer_id": 5, "question_id": 5, "answer": "Cultural heritage" },
+								  { "answer_id": 6, "question_id": 6, "answer": "Street art" },
+								  { "answer_id": 7, "question_id": 7, "answer": "Musical composition" },
+								  { "answer_id": 8, "question_id": 8, "answer": "Literary criticism" },
+								  { "answer_id": 9, "question_id": 9, "answer": "Performing arts" },
+								  { "answer_id": 10, "question_id": 10, "answer": "Popular culture" }
+								]
+							  },
+							  {
+								"stage": "Stage 11",
+								"stageName": "Philosophy and Ethics - פילוסופיה ואתיקה",
+								"direction": "rtl",
+								"questions": [
+								  { "question_id": 1, "question": "אפיסטמולוגיה" },
+								  { "question_id": 2, "question": "אתיקה דאונטולוגית" },
+								  { "question_id": 3, "question": "רלטיביזם מוסרי" },
+								  { "question_id": 4, "question": "דטרמיניזם" },
+								  { "question_id": 5, "question": "פרדוקס" },
+								  { "question_id": 6, "question": "אקזיסטנציאליזם" },
+								  { "question_id": 7, "question": "תועלתנות" },
+								  { "question_id": 8, "question": "אמפיריציזם" },
+								  { "question_id": 9, "question": "דיאלקטיקה" },
+								  { "question_id": 10, "question": "ניהיליזם" }
+								],
+								"answers": [
+								  { "answer_id": 1, "question_id": 1, "answer": "Epistemology" },
+								  { "answer_id": 2, "question_id": 2, "answer": "Deontological ethics" },
+								  { "answer_id": 3, "question_id": 3, "answer": "Moral relativism" },
+								  { "answer_id": 4, "question_id": 4, "answer": "Determinism" },
+								  { "answer_id": 5, "question_id": 5, "answer": "Paradox" },
+								  { "answer_id": 6, "question_id": 6, "answer": "Existentialism" },
+								  { "answer_id": 7, "question_id": 7, "answer": "Utilitarianism" },
+								  { "answer_id": 8, "question_id": 8, "answer": "Empiricism" },
+								  { "answer_id": 9, "question_id": 9, "answer": "Dialectic" },
+								  { "answer_id": 10, "question_id": 10, "answer": "Nihilism" }
+								]
+							  },
+							  {
+								"stage": "Stage 12",
+								"stageName": "Media and Communication - תקשורת ומדיה",
+								"direction": "rtl",
+								"questions": [
+								  { "question_id": 1, "question": "תקשורת המונים" },
+								  { "question_id": 2, "question": "מדיה חברתית" },
+								  { "question_id": 3, "question": "עיתונות חוקרת" },
+								  { "question_id": 4, "question": "אתיקה עיתונאית" },
+								  { "question_id": 5, "question": "תוכן שיווקי" },
+								  { "question_id": 6, "question": "צנזורה" },
+								  { "question_id": 7, "question": "קהל יעד" },
+								  { "question_id": 8, "question": "תקשורת בין-אישית" },
+								  { "question_id": 9, "question": "מניפולציה תקשורתית" },
+								  { "question_id": 10, "question": "אוריינות מדיה" }
+								],
+								"answers": [
+								  { "answer_id": 1, "question_id": 1, "answer": "Mass communication" },
+								  { "answer_id": 2, "question_id": 2, "answer": "Social media" },
+								  { "answer_id": 3, "question_id": 3, "answer": "Investigative journalism" },
+								  { "answer_id": 4, "question_id": 4, "answer": "Journalistic ethics" },
+								  { "answer_id": 5, "question_id": 5, "answer": "Content marketing" },
+								  { "answer_id": 6, "question_id": 6, "answer": "Censorship" },
+								  { "answer_id": 7, "question_id": 7, "answer": "Target audience" },
+								  { "answer_id": 8, "question_id": 8, "answer": "Interpersonal communication" },
+								  { "answer_id": 9, "question_id": 9, "answer": "Media manipulation" },
+								  { "answer_id": 10, "question_id": 10, "answer": "Media literacy" }
+								]
+							  },
+							  {
+								"stage": "Stage 13",
+								"stageName": "Sociology and Anthropology - סוציולוגיה ואנתרופולוגיה",
+								"direction": "rtl",
+								"questions": [
+								  { "question_id": 1, "question": "מבנה חברתי" },
+								  { "question_id": 2, "question": "תרבות חומרית" },
+								  { "question_id": 3, "question": "אתנוגרפיה" },
+								  { "question_id": 4, "question": "סטראוטיפים" },
+								  { "question_id": 5, "question": "ריבוד חברתי" },
+								  { "question_id": 6, "question": "אנומיה" },
+								  { "question_id": 7, "question": "תיאוריה פמיניסטית" },
+								  { "question_id": 8, "question": "גלובליזציה תרבותית" },
+								  { "question_id": 9, "question": "קבוצה אתנית" },
+								  { "question_id": 10, "question": "סוציאליזציה" }
+								],
+								"answers": [
+								  { "answer_id": 1, "question_id": 1, "answer": "Social structure" },
+								  { "answer_id": 2, "question_id": 2, "answer": "Material culture" },
+								  { "answer_id": 3, "question_id": 3, "answer": "Ethnography" },
+								  { "answer_id": 4, "question_id": 4, "answer": "Stereotypes" },
+								  { "answer_id": 5, "question_id": 5, "answer": "Social stratification" },
+								  { "answer_id": 6, "question_id": 6, "answer": "Anomie" },
+								  { "answer_id": 7, "question_id": 7, "answer": "Feminist theory" },
+								  { "answer_id": 8, "question_id": 8, "answer": "Cultural globalization" },
+								  { "answer_id": 9, "question_id": 9, "answer": "Ethnic group" },
+								  { "answer_id": 10, "question_id": 10, "answer": "Socialization" }
+								]
+							  },
+							  {
+								"stage": "Stage 14",
+								"stageName": "Literature and Literary Criticism - ספרות וביקורת ספרותית",
+								"direction": "rtl",
+								"questions": [
+								  { "question_id": 1, "question": "מטאפורה" },
+								  { "question_id": 2, "question": "נרטיב" },
+								  { "question_id": 3, "question": "זרם התודעה" },
+								  { "question_id": 4, "question": "אלגוריה" },
+								  { "question_id": 5, "question": "פוסט-מודרניזם" },
+								  { "question_id": 6, "question": "אינטרטקסטואליות" },
+								  { "question_id": 7, "question": "דמות ראשית" },
+								  { "question_id": 8, "question": "סאטירה" },
+								  { "question_id": 9, "question": "מונולוג פנימי" },
+								  { "question_id": 10, "question": "פרשנות ספרותית" }
+								],
+								"answers": [
+								  { "answer_id": 1, "question_id": 1, "answer": "Metaphor" },
+								  { "answer_id": 2, "question_id": 2, "answer": "Narrative" },
+								  { "answer_id": 3, "question_id": 3, "answer": "Stream of consciousness" },
+								  { "answer_id": 4, "question_id": 4, "answer": "Allegory" },
+								  { "answer_id": 5, "question_id": 5, "answer": "Post-modernism" },
+								  { "answer_id": 6, "question_id": 6, "answer": "Intertextuality" },
+								  { "answer_id": 7, "question_id": 7, "answer": "Protagonist" },
+								  { "answer_id": 8, "question_id": 8, "answer": "Satire" },
+								  { "answer_id": 9, "question_id": 9, "answer": "Interior monologue" },
+								  { "answer_id": 10, "question_id": 10, "answer": "Literary interpretation" }
+								]
+							  },
+							  {
+								"stage": "Stage 15",
+								"stageName": "Geography and Geology - גיאוגרפיה וגיאולוגיה",
+								"direction": "rtl",
+								"questions": [
+								  { "question_id": 1, "question": "טקטוניקת הלוחות" },
+								  { "question_id": 2, "question": "מערכת מידע גיאוגרפית" },
+								  { "question_id": 3, "question": "אקלים" },
+								  { "question_id": 4, "question": "גיאומורפולוגיה" },
+								  { "question_id": 5, "question": "אגן ניקוז" },
+								  { "question_id": 6, "question": "סטרטיגרפיה" },
+								  { "question_id": 7, "question": "תהליכי בלייה" },
+								  { "question_id": 8, "question": "מחזור הסלעים" },
+								  { "question_id": 9, "question": "תופעות קרסטיות" },
+								  { "question_id": 10, "question": "אזורי אקלים" }
+								],
+								"answers": [
+								  { "answer_id": 1, "question_id": 1, "answer": "Plate tectonics" },
+								  { "answer_id": 2, "question_id": 2, "answer": "Geographic Information System (GIS)" },
+								  { "answer_id": 3, "question_id": 3, "answer": "Climate" },
+								  { "answer_id": 4, "question_id": 4, "answer": "Geomorphology" },
+								  { "answer_id": 5, "question_id": 5, "answer": "Drainage basin" },
+								  { "answer_id": 6, "question_id": 6, "answer": "Stratigraphy" },
+								  { "answer_id": 7, "question_id": 7, "answer": "Weathering processes" },
+								  { "answer_id": 8, "question_id": 8, "answer": "Rock cycle" },
+								  { "answer_id": 9, "question_id": 9, "answer": "Karst phenomena" },
+								  { "answer_id": 10, "question_id": 10, "answer": "Climate zones" }
+								]
+							  },
+							  {
+								"stage": "Stage 16",
+								"stageName": "Mathematics and Logic - מתמטיקה ולוגיקה",
+								"direction": "rtl",
+								"questions": [
+								  { "question_id": 1, "question": "משפט פיתגורס" },
+								  { "question_id": 2, "question": "אלגברה לינארית" },
+								  { "question_id": 3, "question": "חשבון דיפרנציאלי ואינטגרלי" },
+								  { "question_id": 4, "question": "תורת הקבוצות" },
+								  { "question_id": 5, "question": "לוגיקה פורמלית" },
+								  { "question_id": 6, "question": "הסתברות" },
+								  { "question_id": 7, "question": "טופולוגיה" },
+								  { "question_id": 8, "question": "תורת המספרים" },
+								  { "question_id": 9, "question": "אנליזה נומרית" },
+								  { "question_id": 10, "question": "משוואות דיפרנציאליות" }
+								],
+								"answers": [
+								  { "answer_id": 1, "question_id": 1, "answer": "Pythagorean theorem" },
+								  { "answer_id": 2, "question_id": 2, "answer": "Linear algebra" },
+								  { "answer_id": 3, "question_id": 3, "answer": "Calculus" },
+								  { "answer_id": 4, "question_id": 4, "answer": "Set theory" },
+								  { "answer_id": 5, "question_id": 5, "answer": "Formal logic" },
+								  { "answer_id": 6, "question_id": 6, "answer": "Probability" },
+								  { "answer_id": 7, "question_id": 7, "answer": "Topology" },
+								  { "answer_id": 8, "question_id": 8, "answer": "Number theory" },
+								  { "answer_id": 9, "question_id": 9, "answer": "Numerical analysis" },
+								  { "answer_id": 10, "question_id": 10, "answer": "Differential equations" }
+								]
+							  },
+							  {
+								"stage": "Stage 17",
+								"stageName": "Astronomy and Space Science - אסטרונומיה ומדעי החלל",
+								"direction": "rtl",
+								"questions": [
+								  { "question_id": 1, "question": "חור שחור" },
+								  { "question_id": 2, "question": "ערפילית" },
+								  { "question_id": 3, "question": "גלקסיה" },
+								  { "question_id": 4, "question": "סופרנובה" },
+								  { "question_id": 5, "question": "כוכב לכת ננסי" },
+								  { "question_id": 6, "question": "חגורת קויפר" },
+								  { "question_id": 7, "question": "אפקט דופלר" },
+								  { "question_id": 8, "question": "קרינת רקע קוסמית" },
+								  { "question_id": 9, "question": "מטר מטאורים" },
+								  { "question_id": 10, "question": "תחנת חלל" }
+								],
+								"answers": [
+								  { "answer_id": 1, "question_id": 1, "answer": "Black hole" },
+								  { "answer_id": 2, "question_id": 2, "answer": "Nebula" },
+								  { "answer_id": 3, "question_id": 3, "answer": "Galaxy" },
+								  { "answer_id": 4, "question_id": 4, "answer": "Supernova" },
+								  { "answer_id": 5, "question_id": 5, "answer": "Dwarf planet" },
+								  { "answer_id": 6, "question_id": 6, "answer": "Kuiper belt" },
+								  { "answer_id": 7, "question_id": 7, "answer": "Doppler effect" },
+								  { "answer_id": 8, "question_id": 8, "answer": "Cosmic background radiation" },
+								  { "answer_id": 9, "question_id": 9, "answer": "Meteor shower" },
+								  { "answer_id": 10, "question_id": 10, "answer": "Space station" }
+								]
+							  },
+							{
+								"stage": "Stage 18",
+								"stageName": "Linguistics - בלשנות",
+								"direction": "rtl",
+								"questions": [
+								  { "question_id": 1, "question": "פונולוגיה" },
+								  { "question_id": 2, "question": "תחביר" },
+								  { "question_id": 3, "question": "סמנטיקה" },
+								  { "question_id": 4, "question": "מורפולוגיה" },
+								  { "question_id": 5, "question": "פרגמטיקה" },
+								  { "question_id": 6, "question": "אטימולוגיה" },
+								  { "question_id": 7, "question": "דו-לשוניות" },
+								  { "question_id": 8, "question": "בלשנות היסטורית" },
+								  { "question_id": 9, "question": "רכישת שפה" },
+								  { "question_id": 10, "question": "ניתוח שיח" }
+								],
+								"answers": [
+								  { "answer_id": 1, "question_id": 1, "answer": "Phonology" },
+								  { "answer_id": 2, "question_id": 2, "answer": "Syntax" },
+								  { "answer_id": 3, "question_id": 3, "answer": "Semantics" },
+								  { "answer_id": 4, "question_id": 4, "answer": "Morphology" },
+								  { "answer_id": 5, "question_id": 5, "answer": "Pragmatics" },
+								  { "answer_id": 6, "question_id": 6, "answer": "Etymology" },
+								  { "answer_id": 7, "question_id": 7, "answer": "Bilingualism" },
+								  { "answer_id": 8, "question_id": 8, "answer": "Historical linguistics" },
+								  { "answer_id": 9, "question_id": 9, "answer": "Language acquisition" },
+								  { "answer_id": 10, "question_id": 10, "answer": "Discourse analysis" }
+								]
+							  },
+							  {
+								"stage": "Stage 19",
+								"stageName": "Political Science - מדע המדינה",
+								"direction": "rtl",
+								"questions": [
+								  { "question_id": 1, "question": "פדרליזם" },
+								  { "question_id": 2, "question": "ריבונות" },
+								  { "question_id": 3, "question": "דמוקרטיה ייצוגית" },
+								  { "question_id": 4, "question": "מדיניות ציבורית" },
+								  { "question_id": 5, "question": "הפרדת רשויות" },
+								  { "question_id": 6, "question": "פופוליזם" },
+								  { "question_id": 7, "question": "אידיאולוגיה פוליטית" },
+								  { "question_id": 8, "question": "ביורוקרטיה" },
+								  { "question_id": 9, "question": "לאומיות" },
+								  { "question_id": 10, "question": "זכויות אזרח" }
+								],
+								"answers": [
+								  { "answer_id": 1, "question_id": 1, "answer": "Federalism" },
+								  { "answer_id": 2, "question_id": 2, "answer": "Sovereignty" },
+								  { "answer_id": 3, "question_id": 3, "answer": "Representative democracy" },
+								  { "answer_id": 4, "question_id": 4, "answer": "Public policy" },
+								  { "answer_id": 5, "question_id": 5, "answer": "Separation of powers" },
+								  { "answer_id": 6, "question_id": 6, "answer": "Populism" },
+								  { "answer_id": 7, "question_id": 7, "answer": "Political ideology" },
+								  { "answer_id": 8, "question_id": 8, "answer": "Bureaucracy" },
+								  { "answer_id": 9, "question_id": 9, "answer": "Nationalism" },
+								  { "answer_id": 10, "question_id": 10, "answer": "Civil rights" }
+								]
+							  },
+							  {
+								"stage": "Stage 20",
+								"stageName": "Computer Science and AI - מדעי המחשב ובינה מלאכותית",
+								"direction": "rtl",
+								"questions": [
+								  { "question_id": 1, "question": "למידת מכונה" },
+								  { "question_id": 2, "question": "רשתות נוירונים מלאכותיות" },
+								  { "question_id": 3, "question": "אלגוריתמיקה" },
+								  { "question_id": 4, "question": "מבני נתונים" },
+								  { "question_id": 5, "question": "אבטחת סייבר" },
+								  { "question_id": 6, "question": "ממשק משתמש" },
+								  { "question_id": 7, "question": "מסדי נתונים" },
+								  { "question_id": 8, "question": "עיבוד שפה טבעית" },
+								  { "question_id": 9, "question": "ראייה ממוחשבת" },
+								  { "question_id": 10, "question": "מחשוב קוונטי" }
+								],
+								"answers": [
+								  { "answer_id": 1, "question_id": 1, "answer": "Machine learning" },
+								  { "answer_id": 2, "question_id": 2, "answer": "Artificial neural networks" },
+								  { "answer_id": 3, "question_id": 3, "answer": "Algorithmics" },
+								  { "answer_id": 4, "question_id": 4, "answer": "Data structures" },
+								  { "answer_id": 5, "question_id": 5, "answer": "Cybersecurity" },
+								  { "answer_id": 6, "question_id": 6, "answer": "User interface" },
+								  { "answer_id": 7, "question_id": 7, "answer": "Databases" },
+								  { "answer_id": 8, "question_id": 8, "answer": "Natural language processing" },
+								  { "answer_id": 9, "question_id": 9, "answer": "Computer vision" },
+								  { "answer_id": 10, "question_id": 10, "answer": "Quantum computing" }
+								]
+							  }
+
+						];
+
+
+		const stateContents = {
+			'תרגול': `
+				<div id="stage-number" class="stage-number">שלב 1 מתוך ${quizData.length}</div>
+				<div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div>
+				<div id="attempts">ניסיונות: 0</div>
+				<div id="quiz-content"></div>
+				<div class="button-container">
+					<button class="center-button" onclick="showAllAnswers()" style="background-color: #00CED1">הצג הכל</button>
+					<button class="center-button" onclick="checkStage()">בדיקת תשובות</button>
+					<button class="center-button" onclick="clearAllAnswers()" style="background-color: #00CED1">נקה הכל</button>
+				</div>
+			`,
+			'אוצר המילים 🗝️': `<div class="page-container">         <div class="content-wrapper">             <table class="vocabulary-table">                 <thead>                     <tr>                         <th style="width: 50%;">English</th>                         <th class="hebrew" style="text-align: right;">עברית</th>                     </tr>                 </thead>                 <tbody> <tr><td>Abstract art</td><td class="hebrew">אמנות מופשטת</td></tr> <tr><td>Air pollution</td><td class="hebrew">זיהום אוויר</td></tr> <tr><td>Allegory</td><td class="hebrew">אלגוריה</td></tr> <tr><td>Ambassador</td><td class="hebrew">שגריר</td></tr> <tr><td>Anomie</td><td class="hebrew">אנומיה</td></tr> <tr><td>Appeal</td><td class="hebrew">ערעור</td></tr> <tr><td>Architectural style</td><td class="hebrew">סגנון ארכיטקטוני</td></tr> <tr><td>Artificial intelligence</td><td class="hebrew">בינה מלאכותית</td></tr> <tr><td>Artificial neural networks</td><td class="hebrew">רשתות נוירונים מלאכותיות</td></tr> <tr><td>Attachment theory</td><td class="hebrew">תיאוריית ההתקשרות</td></tr> <tr><td>Attorney-client privilege</td><td class="hebrew">חיסיון עורך דין-לקוח</td></tr> <tr><td>Avant-garde</td><td class="hebrew">אוונגרד</td></tr> <tr><td>Balance of payments</td><td class="hebrew">מאזן תשלומים</td></tr> <tr><td>Balanced nutrition</td><td class="hebrew">תזונה מאוזנת</td></tr> <tr><td>Behavior patterns</td><td class="hebrew">דפוסי התנהגות</td></tr> <tr><td>Best of luck</td><td class="hebrew">בהצלחה</td></tr> <tr><td>Big data</td><td class="hebrew">ביג דאטה</td></tr> <tr><td>Bilingualism</td><td class="hebrew">דו-לשוניות</td></tr> <tr><td>Biodiversity</td><td class="hebrew">מגוון ביולוגי</td></tr> <tr><td>Biological drugs</td><td class="hebrew">תרופות ביולוגיות</td></tr> <tr><td>Black hole</td><td class="hebrew">חור שחור</td></tr> <tr><td>Budget deficit</td><td class="hebrew">גירעון תקציבי</td></tr> <tr><td>Bureaucracy</td><td class="hebrew">ביורוקרטיה</td></tr> <tr><td>Business model</td><td class="hebrew">מודל עסקי</td></tr> <tr><td>Business plan</td><td class="hebrew">תכנית עסקית</td></tr> <tr><td>Calculus</td><td class="hebrew">חשבון דיפרנציאלי ואינטגרלי</td></tr> <tr><td>Carbon footprint</td><td class="hebrew">טביעת רגל פחמנית</td></tr> <tr><td>Cash flow</td><td class="hebrew">תזרים מזומנים</td></tr> <tr><td>Censorship</td><td class="hebrew">צנזורה</td></tr> <tr><td>Chronic diseases</td><td class="hebrew">מחלות כרוניות</td></tr> <tr><td>Civil rights</td><td class="hebrew">זכויות אזרח</td></tr> <tr><td>Climate</td><td class="hebrew">אקלים</td></tr> <tr><td>Climate zones</td><td class="hebrew">אזורי אקלים</td></tr> <tr><td>Cloud computing</td><td class="hebrew">מחשוב ענן</td></tr> <tr><td>Cognition</td><td class="hebrew">קוגניציה</td></tr> <tr><td>Cognitive bias</td><td class="hebrew">הטיה קוגניטיבית</td></tr> <tr><td>Computer vision</td><td class="hebrew">ראייה ממוחשבת</td></tr> <tr><td>Constitution</td><td class="hebrew">חוקה</td></tr> <tr><td>Content marketing</td><td class="hebrew">תוכן שיווקי</td></tr> <tr><td>Cosmic background radiation</td><td class="hebrew">קרינת רקע קוסמית</td></tr> <tr><td>Cultural globalization</td><td class="hebrew">גלובליזציה תרבותית</td></tr> <tr><td>Cultural heritage</td><td class="hebrew">מורשת תרבותית</td></tr> <tr><td>Cybersecurity</td><td class="hebrew">אבטחת סייבר</td></tr> <tr><td>Databases</td><td class="hebrew">מסדי נתונים</td></tr> <tr><td>Defense mechanisms</td><td class="hebrew">מנגנוני הגנה</td></tr> <tr><td>Deontological ethics</td><td class="hebrew">אתיקה דאונטולוגית</td></tr> <tr><td>Determinism</td><td class="hebrew">דטרמיניזם</td></tr> <tr><td>Dialectic</td><td class="hebrew">דיאלקטיקה</td></tr> <tr><td>Differential equations</td><td class="hebrew">משוואות דיפרנציאליות</td></tr> <tr><td>Diplomacy</td><td class="hebrew">דיפלומטיה</td></tr> <tr><td>Discourse analysis</td><td class="hebrew">ניתוח שיח</td></tr> <tr><td>Doppler effect</td><td class="hebrew">אפקט דופלר</td></tr> <tr><td>Drainage basin</td><td class="hebrew">אגן ניקוז</td></tr> <tr><td>Dwarf planet</td><td class="hebrew">כוכב לכת ננסי</td></tr> <tr><td>Economic sanctions</td><td class="hebrew">סנקציות כלכליות</td></tr> <tr><td>Ecosystem</td><td class="hebrew">מערכת אקולוגית</td></tr> <tr><td>Emotional intelligence</td><td class="hebrew">אינטליגנציה רגשית</td></tr> <tr><td>Empiricism</td><td class="hebrew">אמפיריציזם</td></tr> <tr><td>Endangered species</td><td class="hebrew">מינים בסכנת הכחדה</td></tr> <tr><td>Epistemology</td><td class="hebrew">אפיסטמולוגיה</td></tr> <tr><td>Ethnic group</td><td class="hebrew">קבוצה אתנית</td></tr> <tr><td>Ethnography</td><td class="hebrew">אתנוגרפיה</td></tr> <tr><td>Etymology</td><td class="hebrew">אטימולוגיה</td></tr> <tr><td>Exchange rate</td><td class="hebrew">שער חליפין</td></tr> <tr><td>Existentialism</td><td class="hebrew">אקזיסטנציאליזם</td></tr> <tr><td>Expert testimony</td><td class="hebrew">עדות מומחה</td></tr> <tr><td>Federalism</td><td class="hebrew">פדרליזם</td></tr> <tr><td>Feminist theory</td><td class="hebrew">תיאוריה פמיניסטית</td></tr> <tr><td>Formal logic</td><td class="hebrew">לוגיקה פורמלית</td></tr> <tr><td>Free trade agreement</td><td class="hebrew">הסכם סחר חופשי</td></tr> <tr><td>Galaxy</td><td class="hebrew">גלקסיה</td></tr> <tr><td>Gene therapy</td><td class="hebrew">טיפול גנטי</td></tr> <tr><td>Genetic engineering</td><td class="hebrew">הנדסה גנטית</td></tr> <tr><td>Geographic Information System (GIS)</td><td class="hebrew">מערכת מידע גיאוגרפית</td></tr> <tr><td>Geomorphology</td><td class="hebrew">גיאומורפולוגיה</td></tr> <tr><td>Get well soon</td><td class="hebrew">תרגיש טוב</td></tr> <tr><td>Global warming</td><td class="hebrew">התחממות גלובלית</td></tr> <tr><td>Greenhouse gas emissions</td><td class="hebrew">פליטת גזי חממה</td></tr> <tr><td>Happy holidays</td><td class="hebrew">חג שמח</td></tr> <tr><td>Have a wonderful day</td><td class="hebrew">שיהיה לך יום נפלא</td></tr> <tr><td>Historical linguistics</td><td class="hebrew">בלשנות היסטורית</td></tr> <tr><td>Human resource management</td><td class="hebrew">ניהול משאבי אנוש</td></tr> <tr><td>Human rights</td><td class="hebrew">זכויות אדם</td></tr> <tr><td>I apologize for the inconvenience</td><td class="hebrew">אני מצטער על אי הנוחות</td></tr> <tr><td>I'd be glad to assist</td><td class="hebrew">אשמח לעזור</td></tr> <tr><td>Immune system</td><td class="hebrew">מערכת החיסון</td></tr> <tr><td>Inflation</td><td class="hebrew">אינפלציה</td></tr> <tr><td>Initial public offering (IPO)</td><td class="hebrew">הנפקה ראשונית לציבור</td></tr> <tr><td>Injunction</td><td class="hebrew">צו מניעה</td></tr> <tr><td>Interior monologue</td><td class="hebrew">מונולוג פנימי</td></tr> <tr><td>Internet of Things</td><td class="hebrew">אינטרנט של הדברים</td></tr> <tr><td>Interpersonal communication</td><td class="hebrew">תקשורת בין-אישית</td></tr> <tr><td>Intertextuality</td><td class="hebrew">אינטרטקסטואליות</td></tr> <tr><td>Investment portfolio</td><td class="hebrew">תיק השקעות</td></tr> <tr><td>Investigative journalism</td><td class="hebrew">עיתונות חוקרת</td></tr> <tr><td>Journalistic ethics</td><td class="hebrew">אתיקה עיתונאית</td></tr> <tr><td>Karst phenomena</td><td class="hebrew">תופעות קרסטיות</td></tr> <tr><td>Kuiper belt</td><td class="hebrew">חגורת קויפר</td></tr> <tr><td>Language acquisition</td><td class="hebrew">רכישת שפה</td></tr> <tr><td>Laparoscopic surgery</td><td class="hebrew">ניתוח לפרוסקופי</td></tr> <tr><td>Legal proceedings</td><td class="hebrew">הליך משפטי</td></tr> <tr><td>Legislation</td><td class="hebrew">חקיקה</td></tr> <tr><td>Linear algebra</td><td class="hebrew">אלגברה לינארית</td></tr> <tr><td>Literary criticism</td><td class="hebrew">ביקורת ספרותית</td></tr> <tr><td>Literary interpretation</td><td class="hebrew">פרשנות ספרותית</td></tr> <tr><td>Long-term objectives</td><td class="hebrew">יעדים ארוכי טווח</td></tr> <tr><td>Machine learning</td><td class="hebrew">למידת מכונה</td></tr> <tr><td>Market research</td><td class="hebrew">מחקר שוק</td></tr> <tr><td>Marketing strategy</td><td class="hebrew">אסטרטגיית שיווק</td></tr> <tr><td>Mass communication</td><td class="hebrew">תקשורת המונים</td></tr> <tr><td>Material culture</td><td class="hebrew">תרבות חומרית</td></tr> <tr><td>Media literacy</td><td class="hebrew">אוריינות מדיה</td></tr> <tr><td>Media manipulation</td><td class="hebrew">מניפולציה תקשורתית</td></tr> <tr><td>Mediation agreement</td><td class="hebrew">הסכם גישור</td></tr> <tr><td>Mental health</td><td class="hebrew">בריאות הנפש</td></tr> <tr><td>Merger and acquisition</td><td class="hebrew">מיזוג ורכישה</td></tr> <tr><td>Metaphor</td><td class="hebrew">מטאפורה</td></tr> <tr><td>Meteor shower</td><td class="hebrew">מטר מטאורים</td></tr> <tr><td>Money laundering</td><td class="hebrew">הלבנת הון</td></tr> <tr><td>Monetary policy</td><td class="hebrew">מדיניות מוניטרית</td></tr> <tr><td>Moral relativism</td><td class="hebrew">רלטיביזם מוסרי</td></tr> <tr><td>Morphology</td><td class="hebrew">מורפולוגיה</td></tr> <tr><td>Multilateral negotiations</td><td class="hebrew">משא ומתן רב-צדדי</td></tr> <tr><td>Musical composition</td><td class="hebrew">קומפוזיציה מוזיקלית</td></tr> <tr><td>Nanotechnology</td><td class="hebrew">ננוטכנולוגיה</td></tr> <tr><td>Narrative</td><td class="hebrew">נרטיב</td></tr> <tr><td>Nationalism</td><td class="hebrew">לאומיות</td></tr> <tr><td>Natural language processing</td><td class="hebrew">עיבוד שפה טבעית</td></tr> <tr><td>Natural resource conservation</td><td class="hebrew">שימור משאבי טבע</td></tr> <tr><td>Nebula</td><td class="hebrew">ערפילית</td></tr> <tr><td>Nihilism</td><td class="hebrew">ניהיליזם</td></tr> <tr><td>Number theory</td><td class="hebrew">תורת המספרים</td></tr> <tr><td>Numerical analysis</td><td class="hebrew">אנליזה נומרית</td></tr> <tr><td>Organ transplantation</td><td class="hebrew">השתלת איברים</td></tr> <tr><td>Paradox</td><td class="hebrew">פרדוקס</td></tr> <tr><td>Peace treaty</td><td class="hebrew">הסכם שלום</td></tr> <tr><td>Performing arts</td><td class="hebrew">אמנויות הבמה</td></tr> <tr><td>Personality</td><td class="hebrew">אישיות</td></tr> <tr><td>Personalized medicine</td><td class="hebrew">רפואה מותאמת אישית</td></tr> <tr><td>Phonology</td><td class="hebrew">פונולוגיה</td></tr> <tr><td>Plate tectonics</td><td class="hebrew">טקטוניקת הלוחות</td></tr> <tr><td>Pleased to make your acquaintance</td><td class="hebrew">נעים להכיר</td></tr> <tr><td>Please don't hesitate to reach out</td><td class="hebrew">בבקשה, אל תהסס לפנות</td></tr> <tr><td>Political ideology</td><td class="hebrew">אידיאולוגיה פוליטית</td></tr> <tr><td>Popular culture</td><td class="hebrew">תרבות פופולרית</td></tr> <tr><td>Populism</td><td class="hebrew">פופוליזם</td></tr> <tr><td>Post-modernism</td><td class="hebrew">פוסט-מודרניזם</td></tr> <tr><td>Post-traumatic stress disorder</td><td class="hebrew">תסמונת דחק פוסט-טראומטית</td></tr> <tr><td>Pragmatics</td><td class="hebrew">פרגמטיקה</td></tr> <tr><td>Preventive medicine</td><td class="hebrew">רפואה מונעת</td></tr> <tr><td>Probability</td><td class="hebrew">הסתברות</td></tr> <tr><td>Progressive taxation</td><td class="hebrew">מיסוי פרוגרסיבי</td></tr> <tr><td>Protagonist</td><td class="hebrew">דמות ראשית</td></tr> <tr><td>Psychotherapy</td><td class="hebrew">פסיכותרפיה</td></tr> <tr><td>Public policy</td><td class="hebrew">מדיניות ציבורית</td></tr> <tr><td>Pythagorean theorem</td><td class="hebrew">משפט פיתגורס</td></tr> <tr><td>Quantum computing</td><td class="hebrew">מחשוב קוונטי</td></tr> <tr><td>Quarterly report</td><td class="hebrew">דוח רבעוני</td></tr> <tr><td>Recycling and recovery</td><td class="hebrew">מיחזור והשבה</td></tr> <tr><td>Refugees</td><td class="hebrew">פליטים</td></tr> <tr><td>Renaissance period</td><td class="hebrew">תקופת הרנסנס</td></tr> <tr><td>Renewable energy</td><td class="hebrew">אנרגיה מתחדשת</td></tr> <tr><td>Representative democracy</td><td class="hebrew">דמוקרטיה ייצוגית</td></tr> <tr><td>Risk management</td><td class="hebrew">ניהול סיכונים</td></tr> <tr><td>Rock cycle</td><td class="hebrew">מחזור הסלעים</td></tr> <tr><td>Satire</td><td class="hebrew">סאטירה</td></tr> <tr><td>See you in the near future</td><td class="hebrew">להתראות בקרוב</td></tr> <tr><td>Semantics</td><td class="hebrew">סמנטיקה</td></tr> <tr><td>Separation of powers</td><td class="hebrew">הפרדת רשויות</td></tr> <tr><td>Set theory</td><td class="hebrew">תורת הקבוצות</td></tr> <tr><td>Social media</td><td class="hebrew">מדיה חברתית</td></tr> <tr><td>Social stratification</td><td class="hebrew">ריבוד חברתי</td></tr> <tr><td>Social structure</td><td class="hebrew">מבנה חברתי</td></tr> <tr><td>Socialization</td><td class="hebrew">סוציאליזציה</td></tr> <tr><td>Sovereignty</td><td class="hebrew">ריבונות</td></tr> <tr><td>Space station</td><td class="hebrew">תחנת חלל</td></tr> <tr><td>Stereotypes</td><td class="hebrew">סטראוטיפים</td></tr> <tr><td>Stock market</td><td class="hebrew">שוק ההון</td></tr> <tr><td>Stratigraphy</td><td class="hebrew">סטרטיגרפיה</td></tr> <tr><td>Stream of consciousness</td><td class="hebrew">זרם התודעה</td></tr> <tr><td>Street art</td><td class="hebrew">אמנות רחוב</td></tr> <tr><td>Subconscious</td><td class="hebrew">תת-מודע</td></tr> <tr><td>Supernova</td><td class="hebrew">סופרנובה</td></tr> <tr><td>Sustainable development</td><td class="hebrew">פיתוח בר-קיימא</td></tr> <tr><td>Syntax</td><td class="hebrew">תחביר</td></tr> <tr><td>Target audience</td><td class="hebrew">קהל יעד</td></tr> <tr><td>Thank you very much from the bottom of my heart</td><td class="hebrew">תודה רבה מקרב לב</td></tr> <tr><td>Topology</td><td class="hebrew">טופולוגיה</td></tr> <tr><td>United Nations</td><td class="hebrew">ארגון האומות המאוחדות</td></tr> <tr><td>User interface</td><td class="hebrew">ממשק משתמש</td></tr> <tr><td>Utilitarianism</td><td class="hebrew">תועלתנות</td></tr> <tr><td>Verdict</td><td class="hebrew">פסק דין</td></tr> <tr><td>Veto power</td><td class="hebrew">זכות וטו</td></tr> <tr><td>Virtual reality</td><td class="hebrew">מציאות מדומה</td></tr> <tr><td>Weathering processes</td><td class="hebrew">תהליכי בלייה</td></tr>                 </tbody>             </table>         </div>     </div>`
+		};
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+		function showContent(state) {
+			const tabContent = document.getElementById('tabContent');
+			tabContent.innerHTML = stateContents[state] || '';
+
+			if (state === 'תרגול') {
+				const quizContent = document.getElementById('quiz-content');
+				if (quizContent) {
+					let columnsContainer = document.getElementById('columnsContainer');
+					if (!columnsContainer) {
+						columnsContainer = document.createElement('div');
+						columnsContainer.id = 'columnsContainer';
+						columnsContainer.className = 'columns-container';
+						columnsContainer.innerHTML = `
+							<div id="questionsColumn" class="questions-column"></div>
+							<div id="answersColumn" class="answers-column"></div>	
+						`;
+						quizContent.appendChild(columnsContainer);
+					}
+				}
+				renderQuiz();
+				updateProgressBar();
+			}
+		}
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+
+            switchContainer.style.display = 'flex';
+
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+function renderQuiz() {
+    console.log("Rendering quiz for Stage:", currentStage);
+    const quizContent = document.getElementById("quiz-content");
+
+    if (!quizContent) {
+        console.error("Quiz content not found");
+        return;
+    }
+
+    // Clear existing content to avoid retaining old columns
+    quizContent.innerHTML = '';
+
+    // Create a new columns container each time to avoid any conflicts
+    const columnsContainer = document.createElement("div");
+    columnsContainer.id = "columnsContainer";
+    columnsContainer.className = "columns-container";
+    columnsContainer.innerHTML = `
+        <div id="questionsColumn" class="questions-column"></div>
+        <div id="answersColumn" class="answers-column"></div>
+    `;
+    quizContent.appendChild(columnsContainer);
+
+    // Get references to the new columns
+    const questionsColumn = document.getElementById("questionsColumn");
+    const answersColumn = document.getElementById("answersColumn");
+
+    if (!questionsColumn || !answersColumn) {
+        console.error("Questions or answers column not found");
+        return;
+    }
+
+    const currentQuiz = quizData[currentStage];
+    console.log("Current Quiz Data:", currentQuiz);
+
+    // Apply the correct layout class
+    columnsContainer.className = `columns-container ${currentQuiz.direction}-layout`;
+
+    // Add stage name if it exists
+    if (currentQuiz.stageName) {
+        const stageNameElement = document.createElement("h2");
+        stageNameElement.textContent = currentQuiz.stageName;
+        stageNameElement.className = "stage-name";
+        quizContent.insertBefore(stageNameElement, columnsContainer);
+    }
+
+    const shuffledQuestions = shuffleArray([...currentQuiz.questions]);
+    const shuffledAnswers = shuffleArray([...currentQuiz.answers]);
+
+    questionsColumn.innerHTML = '';
+    answersColumn.innerHTML = '';
+
+    shuffledQuestions.forEach((question, index) => {
+        const questionWrapper = document.createElement("div");
+        const answerWrapper = document.createElement("div");
+        questionWrapper.className = "card-wrapper";
+        answerWrapper.className = "card-wrapper";
+
+        const questionElement = createQuestionElement(question);
+        const answerElement = createAnswerElement(shuffledAnswers[index]);
+
+        questionWrapper.appendChild(questionElement);
+        answerWrapper.appendChild(answerElement);
+
+        questionsColumn.appendChild(questionWrapper);
+        answersColumn.appendChild(answerWrapper);
+    });
+
+    // Set all cards to the height of the tallest card
+    const allCards = document.querySelectorAll('.question-item, .answer-item');
+    let maxHeight = 0;
+
+    // Find the tallest card
+    allCards.forEach(card => {
+        const height = card.offsetHeight;
+        if (height > maxHeight) {
+            maxHeight = height;
+        }
+    });
+
+    // Set all cards to the max height
+    allCards.forEach(card => {
+        card.style.height = `${maxHeight}px`;
+    });
+
+    // Re-enable "Show All" and "Clear All" buttons
+    document.querySelectorAll('.center-button').forEach(button => {
+        if (button.textContent === 'Show All' || button.textContent === 'Clear All') {
+            button.disabled = false;
+        }
+    });
+
+    updateStageNumber();
+
+    // Reset attempts for the new stage
+    attempts = 0;
+    document.getElementById("attempts").textContent = `נסיונות: ${attempts}`;
+
+    // Update progress bar
+    updateProgressBar();
+}
+
+
+		function createQuestionElement(question) {
+			const questionElement = document.createElement("div");
+			questionElement.classList.add("question-item");
+			questionElement.textContent = question.question;
+			questionElement.dataset.questionId = question.question_id;
+			questionElement.onclick = () => handleQuestionSelect(questionElement);
+			
+			// Add drag and drop event listeners
+			questionElement.ondragover = (e) => {
+				e.preventDefault();
+				questionElement.classList.add('drag-over');
+			};
+			questionElement.ondragleave = () => questionElement.classList.remove('drag-over');
+			questionElement.ondrop = (e) => handleDrop(e, questionElement);
+			
+			return questionElement;
+		}
+
+		function createAnswerElement(answer) {
+			const answerElement = document.createElement("div");
+			answerElement.classList.add("answer-item");
+			answerElement.style.backgroundColor = colors[answer.answer_id % colors.length];
+			answerElement.textContent = answer.answer;
+			answerElement.dataset.answerId = answer.answer_id;
+			answerElement.onclick = () => handleAnswerSelect(answerElement);
+			
+			// Make answer draggable
+			answerElement.draggable = true;
+			answerElement.ondragstart = (e) => handleDragStart(e, answerElement);
+			
+			return answerElement;
+		}
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+		function handleQuestionSelect(element) {
+			if (element.dataset.matchedAnswerId) {
+				// If the question is already matched, reset it
+				const matchedAnswer = document.querySelector(`.answer-item[data-answer-id="${element.dataset.matchedAnswerId}"]`);
+				if (matchedAnswer) {
+					matchedAnswer.classList.remove('matched');
+				}
+				element.style.backgroundColor = '';
+				delete element.dataset.matchedAnswerId;
+				selectedQuestion = null;
+			} else {
+				// If it's not matched, select it
+				if (selectedQuestion) selectedQuestion.classList.remove('selected');
+				selectedQuestion = element;
+				selectedQuestion.classList.add('selected');
+				if (selectedAnswer) matchCards();
+			}
+		}
+
+		function handleAnswerSelect(element) {
+			if (selectedAnswer) selectedAnswer.classList.remove('selected');
+			selectedAnswer = element;
+			selectedAnswer.classList.add('selected');
+			if (selectedQuestion) matchCards();
+		}
+
+		function matchCards() {
+			if (!selectedQuestion || !selectedAnswer) return;
+
+			// If the question was previously matched, reset the old match
+			if (selectedQuestion.dataset.matchedAnswerId) {
+				const oldMatchedAnswer = document.querySelector(`.answer-item[data-answer-id="${selectedQuestion.dataset.matchedAnswerId}"]`);
+				if (oldMatchedAnswer) {
+					oldMatchedAnswer.classList.remove('matched');
+				}
+			}
+
+			// If the answer was previously matched, reset the old match
+			const oldMatchedQuestion = document.querySelector(`.question-item[data-matched-answer-id="${selectedAnswer.dataset.answerId}"]`);
+			if (oldMatchedQuestion) {
+				oldMatchedQuestion.style.backgroundColor = '';
+				delete oldMatchedQuestion.dataset.matchedAnswerId;
+			}
+
+			// Make the new match
+			selectedQuestion.style.backgroundColor = selectedAnswer.style.backgroundColor;
+			selectedQuestion.dataset.matchedAnswerId = selectedAnswer.dataset.answerId;
+			selectedAnswer.classList.add('matched');
+
+			selectedQuestion.classList.remove('selected');
+			selectedAnswer.classList.remove('selected');
+			selectedQuestion = null;
+			selectedAnswer = null;
+		}
+				
+		function handleDragStart(e, answerElement) {
+			e.dataTransfer.setData('text/plain', answerElement.dataset.answerId);
+			selectedAnswer = answerElement;
+		}
+
+		function handleDrop(e, questionElement) {
+			e.preventDefault();
+			questionElement.classList.remove('drag-over');
+			const answerId = e.dataTransfer.getData('text');
+			const answerElement = document.querySelector(`.answer-item[data-answer-id="${answerId}"]`);
+			
+			if (answerElement) {
+				selectedQuestion = questionElement;
+				matchCards();
+			}
+		}
+		
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[currentStage].questions.length;
+
+    document.querySelectorAll('.question-item').forEach(questionCard => {
+        const questionId = questionCard.dataset.questionId;
+        const matchedAnswerId = questionCard.dataset.matchedAnswerId;
+        const correctAnswer = quizData[currentStage].answers.find(a => a.question_id == questionId);
+
+        if (matchedAnswerId == correctAnswer.answer_id) {
+            correctCount++;
+        } else {
+            // Clear the background color for incorrect answers
+            questionCard.style.backgroundColor = '';
+            // Remove the matched answer ID
+            delete questionCard.dataset.matchedAnswerId;
+        }
+    });
+
+    if (correctCount === totalQuestions) {
+        addAnimalsToFarm(totalQuestions);
+
+        // Disable "Show All" and "Clear All" buttons
+        document.querySelectorAll('.center-button').forEach(button => {
+            if (button.textContent === 'Show All' || button.textContent === 'Clear All') {
+                button.disabled = true;
+            }
+        });
+
+        singleStageConfetti();
+        showEncouragingPopup(correctCount, totalQuestions, true);
+
+        if (currentStage < quizData.length - 1) {
+            // Increment currentStage and update progress bar
+            currentStage++;
+            updateProgressBar();
+            
+            // Render the new stage after a short delay for better UX
+            setTimeout(() => {
+                attempts = 0;
+                // Remove the old stage name if it exists
+                const oldStageName = document.querySelector('.stage-name');
+                if (oldStageName) {
+                    oldStageName.remove();
+                }
+                renderQuiz(); // Render the next stage
+                document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+            }, 1500);
+        } else {
+            // If all stages are complete
+            allStagesConfetti();
+            showModal("Congratulations! You've completed all stages.");
+        }
+    } else {
+        showEncouragingPopup(correctCount, totalQuestions, false);
+        if (attempts >= 10) {
+            showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+            showAllAnswers(); // Reveal all correct answers
+
+            // Disable the check answers button
+            const checkAnswersButton = document.querySelector('.center-button.check-answers');
+            if (checkAnswersButton) {
+                checkAnswersButton.disabled = true;
+            }
+        }
+    }
+
+    scrollToTop();
+}
+
+
+		function showAllAnswers() {
+			const currentQuiz = quizData[currentStage];
+			document.querySelectorAll('.question-item').forEach(questionCard => {
+				const questionId = questionCard.dataset.questionId;
+				const correctAnswer = currentQuiz.answers.find(a => a.question_id == questionId);
+				const correctAnswerElement = document.querySelector(`.answer-item[data-answer-id="${correctAnswer.answer_id}"]`);
+				
+				if (correctAnswerElement) {
+					questionCard.style.backgroundColor = correctAnswerElement.style.backgroundColor;
+					questionCard.dataset.matchedAnswerId = correctAnswer.answer_id;
+				}
+			});
+
+			// Disable drag-and-drop and click events after revealing all answers
+			document.querySelectorAll('.question-item, .answer-item').forEach(item => {
+				item.onclick = null;
+				item.ondragstart = null;
+				item.ondragover = null;
+				item.ondrop = null;
+			});
+		}
+
+		function clearAllAnswers() {
+			// Clear question cards
+			document.querySelectorAll('.question-item').forEach(questionCard => {
+				questionCard.style.backgroundColor = '';
+				delete questionCard.dataset.matchedAnswerId;
+			});
+
+			// Clear answer cards
+			document.querySelectorAll('.answer-item').forEach(answerCard => {
+				answerCard.classList.remove('matched');
+			});
+
+			// Re-enable interactions
+			document.querySelectorAll('.question-item, .answer-item').forEach(item => {
+				item.onclick = item.classList.contains('question-item') ? 
+					() => handleQuestionSelect(item) : 
+					() => handleAnswerSelect(item);
+				
+				if (item.classList.contains('answer-item')) {
+					item.draggable = true;
+					item.ondragstart = (e) => handleDragStart(e, item);
+				} else {
+					item.ondragover = (e) => {
+						e.preventDefault();
+						item.classList.add('drag-over');
+					};
+					item.ondragleave = () => item.classList.remove('drag-over');
+					item.ondrop = (e) => handleDrop(e, item);
+				}
+			});
+		}
+
+        function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+            const incorrectCount = totalQuestions - correctCount;
+            let message = `קיבלת ${correctCount} נכונות ו-${incorrectCount} שגויות.`;
+
+            if (correctCount === totalQuestions) {
+                message += " ציון מושלם!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+                message += " עבודה מצוינת! רואים שהנושא מתחיל להיות מובן!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+                message += " מאמץ טוב! נמשיך לתרגל כי השיפור קרוב!";
+            } else {
+                message += " לא לוותר! כל נסיון עוזר לך ללמוד. ננסה שוב!";
+            }
+
+            if (isStageComplete) {
+                message += "\n\n השלב הזה הסתיים, עוברים לשלב הבא.";
+            }
+
+            showModal(message);
+        }
+
+        function updateProgressBar() {
+            const progressBar = document.getElementById("progress-bar");
+            const completedStages = currentStage;
+            const progress = (completedStages / quizData.length) * 100;
+            const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+            progressBar.style.width = `${roundedProgress}%`;
+            progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+        }
+
+        function updateStageNumber() {
+            const stageElement = document.getElementById("stage-number");
+            stageElement.textContent = `שלב ${currentStage + 1} מתוך ${quizData.length}`;
+        }
+
+        function singleStageConfetti() {
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+            confetti({
+                angle: randomInRange(55, 125),
+                spread: randomInRange(50, 70),
+                particleCount: randomInRange(50, 100),
+                origin: { y: 0.6 },
+            });
+        }
+
+        function allStagesConfetti() {
+            const defaults = {
+                spread: 360,
+                ticks: 50,
+                gravity: 0,
+                decay: 0.94,
+                startVelocity: 30,
+                shapes: ["star"],
+                colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+            };
+            function shoot() {
+                confetti({
+                    ...defaults,
+                    particleCount: 40,
+                    scalar: 1.2,
+                    shapes: ["star"],
+                });
+                confetti({
+                    ...defaults,
+                    particleCount: 10,
+                    scalar: 0.75,
+                    shapes: ["circle"],
+                });
+            }
+            setTimeout(shoot, 0);
+            setTimeout(shoot, 100);
+            setTimeout(shoot, 200);
+        }
+
+        let farmAnimals = [];
+
+        function addAnimalsToFarm(count) {
+            const animalFarm = document.getElementById('animalFarm');
+            let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+            console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+            for (let i = 0; i < count; i++) {
+                if (availableAnimals.length === 0) {
+                    console.log("No more unique animals available!");
+                    break;
+                }
+
+                const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+                const chosenAnimal = availableAnimals[randomIndex];
+
+                const animalElement = document.createElement('li');
+                animalElement.textContent = chosenAnimal;
+                animalFarm.appendChild(animalElement);
+
+                farmAnimals.push(chosenAnimal);
+                availableAnimals.splice(randomIndex, 1);
+                console.log(`Added animal: ${chosenAnimal}`);
+            }
+
+            console.log(`Farm size after addition: ${farmAnimals.length}`);
+            logAnimalFarmState();
+        }
+
+        function logAnimalFarmState() {
+            console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+            console.log(farmAnimals);
+        }
+
+        const animals = [
+            "🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+            "🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+            "🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+            "🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+            "🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+            "🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+            "🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+            "🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+            "🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+            "🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+            "🐷", "🐩", "🐘", "🐸", "🐝"
+        ];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+        function initializeQuiz() {
+            console.log("Initializing quiz");
+            currentStage = 0;
+            attempts = 0;
+            renderQuiz();
+            updateProgressBar();
+            const attemptsElement = document.getElementById("attempts");
+            if (attemptsElement) {
+                attemptsElement.textContent = `ניסיונות: ${attempts}`;
+            } else {
+                console.error("Attempts element not found");
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        window.addEventListener('load', () => {
+            console.log("Window loaded");
+            initializeSwitch();
+            initializeQuiz();
+            adjustLayout();
+            showContent('תרגול');
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>

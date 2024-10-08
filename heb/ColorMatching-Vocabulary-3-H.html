@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-heb.css">
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 - זה קל</title>
+<style>
+
+</style>
+
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+            <!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+                <div class="logo-container">
+                    <a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+                        <img src="http://www.ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+                    </a>
+                </div>
+                <h2>הוראות</h2>
+                <ul>
+																										<!--  PH1 - Instructions & Rules   -->    
+					<li>יש 20 שלבים במשחק, כל שלב מכיל 10 זוגות של מילים בעברית ובאנגלית.</li>
+					<li>יש לבחור מילה בעברית ולקרוא אותה בעיון.</li>
+					<li>מצאו את התרגום האנגלי המתאים למילה העברית.</li>
+					<li>לחצו על המילה באנגלית ועל התרגום העברי המתאים ליצירת התאמה.</li>
+					<li>ניתן גם לגרור את המילים זו לזו ליצירת התאמה.</li>
+					<li>יש ללחוץ על "בדיקת תשובות" כשסיימתם להתאים את כל 10 הזוגות.</li>
+					<li>יש להשלים את כל 10 ההתאמות בשלב כדי לעבור לשלב הבא.</li>
+					<li>לאחר 10 ניסיונות בשלב מסוים, התשובות הנכונות בשלב ייחשפו.</li>
+					<li>השלימו את כל 20 השלבים כדי לסיים את המשחק.</li>
+					<li>תהנו!</li>
+                </ul>
+            </div>
+            <!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->				
+                <h1>מילה במילה - מסע בין שתי שפות - 3</h1>
+				
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent">
+                </div>
+            </div>
+            <!--  Side Panel 2  -->
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות החיות</h2>
+                <p>החווה שלך גדלה תוך כדי התקדמות! כל שלב מוסיף חיות חדשות לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        // Template Elements
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+        let attempts = 0;
+        let currentStage = 0;
+        let selectedQuestion = null;
+        let selectedAnswer = null;
+
+        const manuallySetDefaultTab = 0;
+
+        const colors = ["#FF6B6B", "#4ECDC4", "#FFD93D", "#98FB98", "#87CEFA", "#FFA07A", "#DDA0DD", "#F0E68C", "#00CED1", "#FF69B4", "#AFE1AF", "#FFB347", "#40E0D0", "#DEA5A4", "#CCCCFF", "#F0DC82", "#FF6347", "#7FFFD4", "#FFE4E1", "#CFCFC4"];
+
+		const quizData = [
+
+						  {
+							"stage": "Stage 1",
+							"stageName": "Hobbies and Leisure - תחביבים ופנאי",
+							"direction": "rtl",
+							"questions": [
+							  { "question_id": 1, "question": "לקרוא ספר" },
+							  { "question_id": 2, "question": "לשחק כדורגל" },
+							  { "question_id": 3, "question": "לצייר" },
+							  { "question_id": 4, "question": "לבשל" },
+							  { "question_id": 5, "question": "לשמוע מוזיקה" },
+							  { "question_id": 6, "question": "לרקוד" },
+							  { "question_id": 7, "question": "לטייל בטבע" },
+							  { "question_id": 8, "question": "לצפות בסרטים" },
+							  { "question_id": 9, "question": "לשחק משחקי מחשב" },
+							  { "question_id": 10, "question": "לגדל צמחים" }
+							],
+							"answers": [
+							  { "answer_id": 1, "question_id": 1, "answer": "To read a book" },
+							  { "answer_id": 2, "question_id": 2, "answer": "To play soccer" },
+							  { "answer_id": 3, "question_id": 3, "answer": "To draw" },
+							  { "answer_id": 4, "question_id": 4, "answer": "To cook" },
+							  { "answer_id": 5, "question_id": 5, "answer": "To listen to music" },
+							  { "answer_id": 6, "question_id": 6, "answer": "To dance" },
+							  { "answer_id": 7, "question_id": 7, "answer": "To hike in nature" },
+							  { "answer_id": 8, "question_id": 8, "answer": "To watch movies" },
+							  { "answer_id": 9, "question_id": 9, "answer": "To play computer games" },
+							  { "answer_id": 10, "question_id": 10, "answer": "To grow plants" }
+							]
+						  },
+						  {
+							"stage": "Stage 2",
+							"stageName": "Sports and Games - ספורט ומשחקים",
+							"direction": "rtl",
+							"questions": [
+							  { "question_id": 1, "question": "כדורסל" },
+							  { "question_id": 2, "question": "טניס" },
+							  { "question_id": 3, "question": "שחייה" },
+							  { "question_id": 4, "question": "ריצה" },
+							  { "question_id": 5, "question": "שחמט" },
+							  { "question_id": 6, "question": "גולף" },
+							  { "question_id": 7, "question": "אתלטיקה" },
+							  { "question_id": 8, "question": "כדורעף" },
+							  { "question_id": 9, "question": "סקי" },
+							  { "question_id": 10, "question": "קלפים" }
+							],
+							"answers": [
+							  { "answer_id": 1, "question_id": 1, "answer": "Basketball" },
+							  { "answer_id": 2, "question_id": 2, "answer": "Tennis" },
+							  { "answer_id": 3, "question_id": 3, "answer": "Swimming" },
+							  { "answer_id": 4, "question_id": 4, "answer": "Running" },
+							  { "answer_id": 5, "question_id": 5, "answer": "Chess" },
+							  { "answer_id": 6, "question_id": 6, "answer": "Golf" },
+							  { "answer_id": 7, "question_id": 7, "answer": "Athletics" },
+							  { "answer_id": 8, "question_id": 8, "answer": "Volleyball" },
+							  { "answer_id": 9, "question_id": 9, "answer": "Skiing" },
+							  { "answer_id": 10, "question_id": 10, "answer": "Cards" }
+							]
+						  },
+						  {
+							"stage": "Stage 3",
+							"stageName": "City Places - מקומות בעיר",
+							"direction": "rtl",
+							"questions": [
+							  { "question_id": 1, "question": "מסעדה" },
+							  { "question_id": 2, "question": "בית קולנוע" },
+							  { "question_id": 3, "question": "מוזיאון" },
+							  { "question_id": 4, "question": "ספרייה" },
+							  { "question_id": 5, "question": "פארק" },
+							  { "question_id": 6, "question": "תחנת רכבת" },
+							  { "question_id": 7, "question": "בית חולים" },
+							  { "question_id": 8, "question": "כיכר העיר" },
+							  { "question_id": 9, "question": "בנק" },
+							  { "question_id": 10, "question": "תיאטרון" }
+							],
+							"answers": [
+							  { "answer_id": 1, "question_id": 1, "answer": "Restaurant" },
+							  { "answer_id": 2, "question_id": 2, "answer": "Cinema" },
+							  { "answer_id": 3, "question_id": 3, "answer": "Museum" },
+							  { "answer_id": 4, "question_id": 4, "answer": "Library" },
+							  { "answer_id": 5, "question_id": 5, "answer": "Park" },
+							  { "answer_id": 6, "question_id": 6, "answer": "Train station" },
+							  { "answer_id": 7, "question_id": 7, "answer": "Hospital" },
+							  { "answer_id": 8, "question_id": 8, "answer": "City square" },
+							  { "answer_id": 9, "question_id": 9, "answer": "Bank" },
+							  { "answer_id": 10, "question_id": 10, "answer": "Theater" }
+							]
+						  },
+						  {
+							"stage": "Stage 4",
+							"stageName": "Nature and Outdoors - טבע וחוץ",
+							"direction": "rtl",
+							"questions": [
+							  { "question_id": 1, "question": "הר" },
+							  { "question_id": 2, "question": "אגם" },
+							  { "question_id": 3, "question": "יער" },
+							  { "question_id": 4, "question": "חוף" },
+							  { "question_id": 5, "question": "מדבר" },
+							  { "question_id": 6, "question": "נהר" },
+							  { "question_id": 7, "question": "עמק" },
+							  { "question_id": 8, "question": "מפל" },
+							  { "question_id": 9, "question": "מערה" },
+							  { "question_id": 10, "question": "אי" }
+							],
+							"answers": [
+							  { "answer_id": 1, "question_id": 1, "answer": "Mountain" },
+							  { "answer_id": 2, "question_id": 2, "answer": "Lake" },
+							  { "answer_id": 3, "question_id": 3, "answer": "Forest" },
+							  { "answer_id": 4, "question_id": 4, "answer": "Beach" },
+							  { "answer_id": 5, "question_id": 5, "answer": "Desert" },
+							  { "answer_id": 6, "question_id": 6, "answer": "River" },
+							  { "answer_id": 7, "question_id": 7, "answer": "Valley" },
+							  { "answer_id": 8, "question_id": 8, "answer": "Waterfall" },
+							  { "answer_id": 9, "question_id": 9, "answer": "Cave" },
+							  { "answer_id": 10, "question_id": 10, "answer": "Island" }
+							]
+						  },
+						  {
+							"stage": "Stage 5",
+							"stageName": "Emotions and Feelings - רגשות ותחושות",
+							"direction": "rtl",
+							"questions": [
+							  { "question_id": 1, "question": "שמחה" },
+							  { "question_id": 2, "question": "עצב" },
+							  { "question_id": 3, "question": "כעס" },
+							  { "question_id": 4, "question": "פחד" },
+							  { "question_id": 5, "question": "הפתעה" },
+							  { "question_id": 6, "question": "גאווה" },
+							  { "question_id": 7, "question": "קנאה" },
+							  { "question_id": 8, "question": "אהבה" },
+							  { "question_id": 9, "question": "בושה" },
+							  { "question_id": 10, "question": "שעמום" }
+							],
+							"answers": [
+							  { "answer_id": 1, "question_id": 1, "answer": "Happiness" },
+							  { "answer_id": 2, "question_id": 2, "answer": "Sadness" },
+							  { "answer_id": 3, "question_id": 3, "answer": "Anger" },
+							  { "answer_id": 4, "question_id": 4, "answer": "Fear" },
+							  { "answer_id": 5, "question_id": 5, "answer": "Surprise" },
+							  { "answer_id": 6, "question_id": 6, "answer": "Pride" },
+							  { "answer_id": 7, "question_id": 7, "answer": "Jealousy" },
+							  { "answer_id": 8, "question_id": 8, "answer": "Love" },
+							  { "answer_id": 9, "question_id": 9, "answer": "Shame" },
+							  { "answer_id": 10, "question_id": 10, "answer": "Boredom" }
+							]
+						  },
+							{
+							"stage": "Stage 6",
+							"stageName": "Health and Illness - בריאות ומחלות",
+							"direction": "rtl",
+							"questions": [
+							  { "question_id": 1, "question": "כאב ראש" },
+							  { "question_id": 2, "question": "שפעת" },
+							  { "question_id": 3, "question": "תרופה" },
+							  { "question_id": 4, "question": "חום" },
+							  { "question_id": 5, "question": "אלרגיה" },
+							  { "question_id": 6, "question": "שבר" },
+							  { "question_id": 7, "question": "פצע" },
+							  { "question_id": 8, "question": "בדיקת דם" },
+							  { "question_id": 9, "question": "לחץ דם" },
+							  { "question_id": 10, "question": "חיסון" }
+							],
+							"answers": [
+							  { "answer_id": 1, "question_id": 1, "answer": "Headache" },
+							  { "answer_id": 2, "question_id": 2, "answer": "Flu" },
+							  { "answer_id": 3, "question_id": 3, "answer": "Medicine" },
+							  { "answer_id": 4, "question_id": 4, "answer": "Fever" },
+							  { "answer_id": 5, "question_id": 5, "answer": "Allergy" },
+							  { "answer_id": 6, "question_id": 6, "answer": "Fracture" },
+							  { "answer_id": 7, "question_id": 7, "answer": "Wound" },
+							  { "answer_id": 8, "question_id": 8, "answer": "Blood test" },
+							  { "answer_id": 9, "question_id": 9, "answer": "Blood pressure" },
+							  { "answer_id": 10, "question_id": 10, "answer": "Vaccination" }
+							]
+						  },
+						  {
+							"stage": "Stage 7",
+							"stageName": "Technology Basics - יסודות הטכנולוגיה",
+							"direction": "rtl",
+							"questions": [
+							  { "question_id": 1, "question": "מחשב" },
+							  { "question_id": 2, "question": "טלפון חכם" },
+							  { "question_id": 3, "question": "אינטרנט" },
+							  { "question_id": 4, "question": "רשת חברתית" },
+							  { "question_id": 5, "question": "אפליקציה" },
+							  { "question_id": 6, "question": "סיסמה" },
+							  { "question_id": 7, "question": "גיבוי" },
+							  { "question_id": 8, "question": "וירוס" },
+							  { "question_id": 9, "question": "הורדה" },
+							  { "question_id": 10, "question": "העלאה" }
+							],
+							"answers": [
+							  { "answer_id": 1, "question_id": 1, "answer": "Computer" },
+							  { "answer_id": 2, "question_id": 2, "answer": "Smartphone" },
+							  { "answer_id": 3, "question_id": 3, "answer": "Internet" },
+							  { "answer_id": 4, "question_id": 4, "answer": "Social network" },
+							  { "answer_id": 5, "question_id": 5, "answer": "Application" },
+							  { "answer_id": 6, "question_id": 6, "answer": "Password" },
+							  { "answer_id": 7, "question_id": 7, "answer": "Backup" },
+							  { "answer_id": 8, "question_id": 8, "answer": "Virus" },
+							  { "answer_id": 9, "question_id": 9, "answer": "Download" },
+							  { "answer_id": 10, "question_id": 10, "answer": "Upload" }
+							]
+						  },
+						  {
+							"stage": "Stage 8",
+							"stageName": "Travel and Vacation - נסיעות וחופשה",
+							"direction": "rtl",
+							"questions": [
+							  { "question_id": 1, "question": "דרכון" },
+							  { "question_id": 2, "question": "מזוודה" },
+							  { "question_id": 3, "question": "כרטיס טיסה" },
+							  { "question_id": 4, "question": "מלון" },
+							  { "question_id": 5, "question": "תיירות" },
+							  { "question_id": 6, "question": "מדריך טיולים" },
+							  { "question_id": 7, "question": "שער עלייה למטוס" },
+							  { "question_id": 8, "question": "שכירת רכב" },
+							  { "question_id": 9, "question": "מטבע זר" },
+							  { "question_id": 10, "question": "ביטוח נסיעות" }
+							],
+							"answers": [
+							  { "answer_id": 1, "question_id": 1, "answer": "Passport" },
+							  { "answer_id": 2, "question_id": 2, "answer": "Suitcase" },
+							  { "answer_id": 3, "question_id": 3, "answer": "Flight ticket" },
+							  { "answer_id": 4, "question_id": 4, "answer": "Hotel" },
+							  { "answer_id": 5, "question_id": 5, "answer": "Tourism" },
+							  { "answer_id": 6, "question_id": 6, "answer": "Tour guide" },
+							  { "answer_id": 7, "question_id": 7, "answer": "Boarding gate" },
+							  { "answer_id": 8, "question_id": 8, "answer": "Car rental" },
+							  { "answer_id": 9, "question_id": 9, "answer": "Foreign currency" },
+							  { "answer_id": 10, "question_id": 10, "answer": "Travel insurance" }
+							]
+						  },
+						  {
+							"stage": "Stage 9",
+							"stageName": "Personality Traits - תכונות אישיות",
+							"direction": "rtl",
+							"questions": [
+							  { "question_id": 1, "question": "חברותי" },
+							  { "question_id": 2, "question": "ביישן" },
+							  { "question_id": 3, "question": "אחראי" },
+							  { "question_id": 4, "question": "יצירתי" },
+							  { "question_id": 5, "question": "סבלני" },
+							  { "question_id": 6, "question": "אמביציוני" },
+							  { "question_id": 7, "question": "הגיוני" },
+							  { "question_id": 8, "question": "רגיש" },
+							  { "question_id": 9, "question": "מאורגן" },
+							  { "question_id": 10, "question": "גמיש" }
+							],
+							"answers": [
+							  { "answer_id": 1, "question_id": 1, "answer": "Friendly" },
+							  { "answer_id": 2, "question_id": 2, "answer": "Shy" },
+							  { "answer_id": 3, "question_id": 3, "answer": "Responsible" },
+							  { "answer_id": 4, "question_id": 4, "answer": "Creative" },
+							  { "answer_id": 5, "question_id": 5, "answer": "Patient" },
+							  { "answer_id": 6, "question_id": 6, "answer": "Ambitious" },
+							  { "answer_id": 7, "question_id": 7, "answer": "Logical" },
+							  { "answer_id": 8, "question_id": 8, "answer": "Sensitive" },
+							  { "answer_id": 9, "question_id": 9, "answer": "Organized" },
+							  { "answer_id": 10, "question_id": 10, "answer": "Flexible" }
+							]
+						  },
+						  {
+							"stage": "Stage 10",
+							"stageName": "Music and Instruments - מוזיקה וכלי נגינה",
+							"direction": "rtl",
+							"questions": [
+							  { "question_id": 1, "question": "פסנתר" },
+							  { "question_id": 2, "question": "גיטרה" },
+							  { "question_id": 3, "question": "כינור" },
+							  { "question_id": 4, "question": "תופים" },
+							  { "question_id": 5, "question": "חליל" },
+							  { "question_id": 6, "question": "זמר" },
+							  { "question_id": 7, "question": "מקהלה" },
+							  { "question_id": 8, "question": "תזמורת" },
+							  { "question_id": 9, "question": "מנצח" },
+							  { "question_id": 10, "question": "קונצרט" }
+							],
+							"answers": [
+							  { "answer_id": 1, "question_id": 1, "answer": "Piano" },
+							  { "answer_id": 2, "question_id": 2, "answer": "Guitar" },
+							  { "answer_id": 3, "question_id": 3, "answer": "Violin" },
+							  { "answer_id": 4, "question_id": 4, "answer": "Drums" },
+							  { "answer_id": 5, "question_id": 5, "answer": "Flute" },
+							  { "answer_id": 6, "question_id": 6, "answer": "Singer" },
+							  { "answer_id": 7, "question_id": 7, "answer": "Choir" },
+							  { "answer_id": 8, "question_id": 8, "answer": "Orchestra" },
+							  { "answer_id": 9, "question_id": 9, "answer": "Conductor" },
+							  { "answer_id": 10, "question_id": 10, "answer": "Concert" }
+							]
+						  },
+							{
+							"stage": "Stage 11",
+							"stageName": "Kitchen Utensils - כלי מטבח",
+							"direction": "rtl",
+							"questions": [
+							  { "question_id": 1, "question": "מחבת" },
+							  { "question_id": 2, "question": "סיר" },
+							  { "question_id": 3, "question": "מערוך" },
+							  { "question_id": 4, "question": "מסננת" },
+							  { "question_id": 5, "question": "קרש חיתוך" },
+							  { "question_id": 6, "question": "מצקת" },
+							  { "question_id": 7, "question": "פותחן" },
+							  { "question_id": 8, "question": "קולפן" },
+							  { "question_id": 9, "question": "מיקסר" },
+							  { "question_id": 10, "question": "תבנית אפייה" }
+							],
+							"answers": [
+							  { "answer_id": 1, "question_id": 1, "answer": "Frying pan" },
+							  { "answer_id": 2, "question_id": 2, "answer": "Pot" },
+							  { "answer_id": 3, "question_id": 3, "answer": "Rolling pin" },
+							  { "answer_id": 4, "question_id": 4, "answer": "Colander" },
+							  { "answer_id": 5, "question_id": 5, "answer": "Cutting board" },
+							  { "answer_id": 6, "question_id": 6, "answer": "Ladle" },
+							  { "answer_id": 7, "question_id": 7, "answer": "Can opener" },
+							  { "answer_id": 8, "question_id": 8, "answer": "Peeler" },
+							  { "answer_id": 9, "question_id": 9, "answer": "Mixer" },
+							  { "answer_id": 10, "question_id": 10, "answer": "Baking tray" }
+							]
+						  },
+						  {
+							"stage": "Stage 12",
+							"stageName": "Office Supplies - ציוד משרדי",
+							"direction": "rtl",
+							"questions": [
+							  { "question_id": 1, "question": "מהדק" },
+							  { "question_id": 2, "question": "דבק" },
+							  { "question_id": 3, "question": "מספריים" },
+							  { "question_id": 4, "question": "סרגל" },
+							  { "question_id": 5, "question": "טוש מדגיש" },
+							  { "question_id": 6, "question": "תיקייה" },
+							  { "question_id": 7, "question": "נייר דביק" },
+							  { "question_id": 8, "question": "חורר" },
+							  { "question_id": 9, "question": "גומייה" },
+							  { "question_id": 10, "question": "מחשבון" }
+							],
+							"answers": [
+							  { "answer_id": 1, "question_id": 1, "answer": "Stapler" },
+							  { "answer_id": 2, "question_id": 2, "answer": "Glue" },
+							  { "answer_id": 3, "question_id": 3, "answer": "Scissors" },
+							  { "answer_id": 4, "question_id": 4, "answer": "Ruler" },
+							  { "answer_id": 5, "question_id": 5, "answer": "Highlighter" },
+							  { "answer_id": 6, "question_id": 6, "answer": "Folder" },
+							  { "answer_id": 7, "question_id": 7, "answer": "Sticky note" },
+							  { "answer_id": 8, "question_id": 8, "answer": "Hole puncher" },
+							  { "answer_id": 9, "question_id": 9, "answer": "Rubber band" },
+							  { "answer_id": 10, "question_id": 10, "answer": "Calculator" }
+							]
+						  },
+						  {
+							"stage": "Stage 13",
+							"stageName": "Occupations and Workplaces - מקצועות ומקומות עבודה",
+							"direction": "rtl",
+							"questions": [
+							  { "question_id": 1, "question": "עורך דין" },
+							  { "question_id": 2, "question": "מהנדס" },
+							  { "question_id": 3, "question": "אדריכל" },
+							  { "question_id": 4, "question": "פסיכולוג" },
+							  { "question_id": 5, "question": "עיתונאי" },
+							  { "question_id": 6, "question": "משרד" },
+							  { "question_id": 7, "question": "מעבדה" },
+							  { "question_id": 8, "question": "בית משפט" },
+							  { "question_id": 9, "question": "אתר בנייה" },
+							  { "question_id": 10, "question": "סטודיו" }
+							],
+							"answers": [
+							  { "answer_id": 1, "question_id": 1, "answer": "Lawyer" },
+							  { "answer_id": 2, "question_id": 2, "answer": "Engineer" },
+							  { "answer_id": 3, "question_id": 3, "answer": "Architect" },
+							  { "answer_id": 4, "question_id": 4, "answer": "Psychologist" },
+							  { "answer_id": 5, "question_id": 5, "answer": "Journalist" },
+							  { "answer_id": 6, "question_id": 6, "answer": "Office" },
+							  { "answer_id": 7, "question_id": 7, "answer": "Laboratory" },
+							  { "answer_id": 8, "question_id": 8, "answer": "Courthouse" },
+							  { "answer_id": 9, "question_id": 9, "answer": "Construction site" },
+							  { "answer_id": 10, "question_id": 10, "answer": "Studio" }
+							]
+						  },
+						  {
+							"stage": "Stage 14",
+							"stageName": "Household Chores - עבודות בית",
+							"direction": "rtl",
+							"questions": [
+							  { "question_id": 1, "question": "לשטוף כלים" },
+							  { "question_id": 2, "question": "לכבס" },
+							  { "question_id": 3, "question": "לשאוב אבק" },
+							  { "question_id": 4, "question": "לגהץ" },
+							  { "question_id": 5, "question": "לנקות חלונות" },
+							  { "question_id": 6, "question": "לערוך את השולחן" },
+							  { "question_id": 7, "question": "לקפל בגדים" },
+							  { "question_id": 8, "question": "להשקות צמחים" },
+							  { "question_id": 9, "question": "לזרוק את הזבל" },
+							  { "question_id": 10, "question": "לסדר את המיטה" }
+							],
+							"answers": [
+							  { "answer_id": 1, "question_id": 1, "answer": "To wash dishes" },
+							  { "answer_id": 2, "question_id": 2, "answer": "To do laundry" },
+							  { "answer_id": 3, "question_id": 3, "answer": "To vacuum" },
+							  { "answer_id": 4, "question_id": 4, "answer": "To iron" },
+							  { "answer_id": 5, "question_id": 5, "answer": "To clean windows" },
+							  { "answer_id": 6, "question_id": 6, "answer": "To set the table" },
+							  { "answer_id": 7, "question_id": 7, "answer": "To fold clothes" },
+							  { "answer_id": 8, "question_id": 8, "answer": "To water plants" },
+							  { "answer_id": 9, "question_id": 9, "answer": "To take out the trash" },
+							  { "answer_id": 10, "question_id": 10, "answer": "To make the bed" }
+							]
+						  },
+						  {
+							"stage": "Stage 15",
+							"stageName": "Personal Hygiene - היגיינה אישית",
+							"direction": "rtl",
+							"questions": [
+							  { "question_id": 1, "question": "מברשת שיניים" },
+							  { "question_id": 2, "question": "משחת שיניים" },
+							  { "question_id": 3, "question": "סבון" },
+							  { "question_id": 4, "question": "שמפו" },
+							  { "question_id": 5, "question": "מסרק" },
+							  { "question_id": 6, "question": "דאודורנט" },
+							  { "question_id": 7, "question": "מגבת" },
+							  { "question_id": 8, "question": "קרם לחות" },
+							  { "question_id": 9, "question": "מראה" },
+							  { "question_id": 10, "question": "גוזז ציפורניים" }
+							],
+							"answers": [
+							  { "answer_id": 1, "question_id": 1, "answer": "Toothbrush" },
+							  { "answer_id": 2, "question_id": 2, "answer": "Toothpaste" },
+							  { "answer_id": 3, "question_id": 3, "answer": "Soap" },
+							  { "answer_id": 4, "question_id": 4, "answer": "Shampoo" },
+							  { "answer_id": 5, "question_id": 5, "answer": "Comb" },
+							  { "answer_id": 6, "question_id": 6, "answer": "Deodorant" },
+							  { "answer_id": 7, "question_id": 7, "answer": "Towel" },
+							  { "answer_id": 8, "question_id": 8, "answer": "Moisturizer" },
+							  { "answer_id": 9, "question_id": 9, "answer": "Mirror" },
+							  { "answer_id": 10, "question_id": 10, "answer": "Nail clipper" }
+							]
+						  },
+						  {
+							"stage": "Stage 16",
+							"stageName": "Restaurant and Dining - מסעדה ואוכל",
+							"direction": "rtl",
+							"questions": [
+							  { "question_id": 1, "question": "תפריט" },
+							  { "question_id": 2, "question": "מנה ראשונה" },
+							  { "question_id": 3, "question": "מנה עיקרית" },
+							  { "question_id": 4, "question": "קינוח" },
+							  { "question_id": 5, "question": "מלצר" },
+							  { "question_id": 6, "question": "חשבון" },
+							  { "question_id": 7, "question": "טיפ" },
+							  { "question_id": 8, "question": "הזמנה" },
+							  { "question_id": 9, "question": "שולחן" },
+							  { "question_id": 10, "question": "מפית" }
+							],
+							"answers": [
+							  { "answer_id": 1, "question_id": 1, "answer": "Menu" },
+							  { "answer_id": 2, "question_id": 2, "answer": "Appetizer" },
+							  { "answer_id": 3, "question_id": 3, "answer": "Main course" },
+							  { "answer_id": 4, "question_id": 4, "answer": "Dessert" },
+							  { "answer_id": 5, "question_id": 5, "answer": "Waiter" },
+							  { "answer_id": 6, "question_id": 6, "answer": "Bill" },
+							  { "answer_id": 7, "question_id": 7, "answer": "Tip" },
+							  { "answer_id": 8, "question_id": 8, "answer": "Order" },
+							  { "answer_id": 9, "question_id": 9, "answer": "Table" },
+							  { "answer_id": 10, "question_id": 10, "answer": "Napkin" }
+							]
+						  },
+						  {
+							"stage": "Stage 17",
+							"stageName": "Shopping and Money - קניות וכסף",
+							"direction": "rtl",
+							"questions": [
+							  { "question_id": 1, "question": "קניון" },
+							  { "question_id": 2, "question": "מבצע" },
+							  { "question_id": 3, "question": "עודף" },
+							  { "question_id": 4, "question": "קבלה" },
+							  { "question_id": 5, "question": "כרטיס אשראי" },
+							  { "question_id": 6, "question": "מחיר" },
+							  { "question_id": 7, "question": "הנחה" },
+							  { "question_id": 8, "question": "תור" },
+							  { "question_id": 9, "question": "מידה" },
+							  { "question_id": 10, "question": "החלפה" }
+							],
+							"answers": [
+							  { "answer_id": 1, "question_id": 1, "answer": "Mall" },
+							  { "answer_id": 2, "question_id": 2, "answer": "Sale" },
+							  { "answer_id": 3, "question_id": 3, "answer": "Change" },
+							  { "answer_id": 4, "question_id": 4, "answer": "Receipt" },
+							  { "answer_id": 5, "question_id": 5, "answer": "Credit card" },
+							  { "answer_id": 6, "question_id": 6, "answer": "Price" },
+							  { "answer_id": 7, "question_id": 7, "answer": "Discount" },
+							  { "answer_id": 8, "question_id": 8, "answer": "Queue" },
+							  { "answer_id": 9, "question_id": 9, "answer": "Size" },
+							  { "answer_id": 10, "question_id": 10, "answer": "Exchange" }
+							]
+						  },
+						  {
+							"stage": "Stage 18",
+							"stageName": "Directions and Location - כיוונים ומיקום",
+							"direction": "rtl",
+							"questions": [
+							  { "question_id": 1, "question": "צפון" },
+							  { "question_id": 2, "question": "דרום" },
+							  { "question_id": 3, "question": "מזרח" },
+							  { "question_id": 4, "question": "מערב" },
+							  { "question_id": 5, "question": "ימינה" },
+							  { "question_id": 6, "question": "שמאלה" },
+							  { "question_id": 7, "question": "ישר" },
+							  { "question_id": 8, "question": "פנייה" },
+							  { "question_id": 9, "question": "צומת" },
+							  { "question_id": 10, "question": "כיכר" }
+							],
+							"answers": [
+							  { "answer_id": 1, "question_id": 1, "answer": "North" },
+							  { "answer_id": 2, "question_id": 2, "answer": "South" },
+							  { "answer_id": 3, "question_id": 3, "answer": "East" },
+							  { "answer_id": 4, "question_id": 4, "answer": "West" },
+							  { "answer_id": 5, "question_id": 5, "answer": "Right" },
+							  { "answer_id": 6, "question_id": 6, "answer": "Left" },
+							  { "answer_id": 7, "question_id": 7, "answer": "Straight" },
+							  { "answer_id": 8, "question_id": 8, "answer": "Turn" },
+							  { "answer_id": 9, "question_id": 9, "answer": "Intersection" },
+							  { "answer_id": 10, "question_id": 10, "answer": "Roundabout" }
+							]
+						  },
+						  {
+							"stage": "Stage 19",
+							"stageName": "Parts of Speech - חלקי דיבר",
+							"direction": "rtl",
+							"questions": [
+							  { "question_id": 1, "question": "שם עצם" },
+							  { "question_id": 2, "question": "פועל" },
+							  { "question_id": 3, "question": "תואר" },
+							  { "question_id": 4, "question": "תואר הפועל" },
+							  { "question_id": 5, "question": "מילת יחס" },
+							  { "question_id": 6, "question": "כינוי גוף" },
+							  { "question_id": 7, "question": "מילת קישור" },
+							  { "question_id": 8, "question": "מילת שאלה" },
+							  { "question_id": 9, "question": "תואר הפעולה" },
+							  { "question_id": 10, "question": "מילת קריאה" }
+							],
+							"answers": [
+							  { "answer_id": 1, "question_id": 1, "answer": "Noun" },
+							  { "answer_id": 2, "question_id": 2, "answer": "Verb" },
+							  { "answer_id": 3, "question_id": 3, "answer": "Adjective" },
+							  { "answer_id": 4, "question_id": 4, "answer": "Adverb" },
+							  { "answer_id": 5, "question_id": 5, "answer": "Preposition" },
+							  { "answer_id": 6, "question_id": 6, "answer": "Pronoun" },
+							  { "answer_id": 7, "question_id": 7, "answer": "Conjunction" },
+							  { "answer_id": 8, "question_id": 8, "answer": "Interrogative" },
+							  { "answer_id": 9, "question_id": 9, "answer": "Gerund" },
+							  { "answer_id": 10, "question_id": 10, "answer": "Interjection" }
+							]
+						  },
+						  {
+							"stage": "Stage 20",
+							"stageName": "Common Phrasal Verbs - צירופי פעלים נפוצים",
+							"direction": "rtl",
+							"questions": [
+							  { "question_id": 1, "question": "להתעורר" },
+							  { "question_id": 2, "question": "להמשיך" },
+							  { "question_id": 3, "question": "לוותר" },
+							  { "question_id": 4, "question": "להסתדר" },
+							  { "question_id": 5, "question": "לחפש" },
+							  { "question_id": 6, "question": "להתגבר על" },
+							  { "question_id": 7, "question": "לדאוג ל-" },
+							  { "question_id": 8, "question": "להתרגש מ-" },
+							  { "question_id": 9, "question": "להסתמך על" },
+							  { "question_id": 10, "question": "להתמודד עם" }
+							],
+							"answers": [
+							  { "answer_id": 1, "question_id": 1, "answer": "Wake up" },
+							  { "answer_id": 2, "question_id": 2, "answer": "Go on" },
+							  { "answer_id": 3, "question_id": 3, "answer": "Give up" },
+							  { "answer_id": 4, "question_id": 4, "answer": "Get along" },
+							  { "answer_id": 5, "question_id": 5, "answer": "Look for" },
+							  { "answer_id": 6, "question_id": 6, "answer": "Get over" },
+							  { "answer_id": 7, "question_id": 7, "answer": "Take care of" },
+							  { "answer_id": 8, "question_id": 8, "answer": "Get excited about" },
+							  { "answer_id": 9, "question_id": 9, "answer": "Rely on" },
+							  { "answer_id": 10, "question_id": 10, "answer": "Deal with" }
+							]
+						  }
+						];
+
+
+		const stateContents = {
+			'תרגול': `
+				<div id="stage-number" class="stage-number">שלב 1 מתוך ${quizData.length}</div>
+				<div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div>
+				<div id="attempts">ניסיונות: 0</div>
+				<div id="quiz-content"></div>
+				<div class="button-container">
+					<button class="center-button" onclick="showAllAnswers()" style="background-color: #00CED1">הצג הכל</button>
+					<button class="center-button" onclick="checkStage()">בדיקת תשובות</button>
+					<button class="center-button" onclick="clearAllAnswers()" style="background-color: #00CED1">נקה הכל</button>
+				</div>
+			`,
+			'אוצר המילים 🗝️':     `    <div class="page-container">         <div class="content-wrapper">             <table class="vocabulary-table">                 <thead>                     <tr>                         <th style="width: 50%;">English</th>                         <th class="hebrew" style="text-align: right;">עברית</th>                     </tr>                 </thead>                 <tbody> <tr><td>Above</td><td class="hebrew">מעל</td></tr> <tr><td>Adjective</td><td class="hebrew">תואר</td></tr> <tr><td>Adverb</td><td class="hebrew">תואר הפועל</td></tr> <tr><td>After</td><td class="hebrew">אחרי</td></tr> <tr><td>Airplane</td><td class="hebrew">מטוס</td></tr> <tr><td>Allergy</td><td class="hebrew">אלרגיה</td></tr> <tr><td>Ambitious</td><td class="hebrew">אמביציוני</td></tr> <tr><td>Anger</td><td class="hebrew">כעס</td></tr> <tr><td>Appetizer</td><td class="hebrew">מנה ראשונה</td></tr> <tr><td>Apple</td><td class="hebrew">תפוח</td></tr> <tr><td>Application</td><td class="hebrew">אפליקציה</td></tr> <tr><td>April</td><td class="hebrew">אפריל</td></tr> <tr><td>Architect</td><td class="hebrew">אדריכל</td></tr> <tr><td>Athletics</td><td class="hebrew">אתלטיקה</td></tr> <tr><td>Aunt</td><td class="hebrew">דודה</td></tr> <tr><td>Autumn</td><td class="hebrew">סתיו</td></tr> <tr><td>Back</td><td class="hebrew">גב</td></tr> <tr><td>Backup</td><td class="hebrew">גיבוי</td></tr> <tr><td>Baking tray</td><td class="hebrew">תבנית אפייה</td></tr> <tr><td>Bank</td><td class="hebrew">בנק</td></tr> <tr><td>Basketball</td><td class="hebrew">כדורסל</td></tr> <tr><td>Beach</td><td class="hebrew">חוף</td></tr> <tr><td>Before</td><td class="hebrew">לפני</td></tr> <tr><td>Behind</td><td class="hebrew">מאחורי</td></tr> <tr><td>Between</td><td class="hebrew">בין</td></tr> <tr><td>Bill</td><td class="hebrew">חשבון</td></tr> <tr><td>Blood pressure</td><td class="hebrew">לחץ דם</td></tr> <tr><td>Blood test</td><td class="hebrew">בדיקת דם</td></tr> <tr><td>Blue</td><td class="hebrew">כחול</td></tr> <tr><td>Boarding gate</td><td class="hebrew">שער עלייה למטוס</td></tr> <tr><td>Boredom</td><td class="hebrew">שעמום</td></tr> <tr><td>Bus</td><td class="hebrew">אוטובוס</td></tr> <tr><td>Calculator</td><td class="hebrew">מחשבון</td></tr> <tr><td>Can opener</td><td class="hebrew">פותחן</td></tr> <tr><td>Car</td><td class="hebrew">מכונית</td></tr> <tr><td>Car rental</td><td class="hebrew">שכירת רכב</td></tr> <tr><td>Cards</td><td class="hebrew">קלפים</td></tr> <tr><td>Cave</td><td class="hebrew">מערה</td></tr> <tr><td>Change</td><td class="hebrew">עודף</td></tr> <tr><td>Chess</td><td class="hebrew">שחמט</td></tr> <tr><td>Choir</td><td class="hebrew">מקהלה</td></tr> <tr><td>Cinema</td><td class="hebrew">בית קולנוע</td></tr> <tr><td>City square</td><td class="hebrew">כיכר העיר</td></tr> <tr><td>Colander</td><td class="hebrew">מסננת</td></tr> <tr><td>Cold</td><td class="hebrew">קר</td></tr> <tr><td>Comb</td><td class="hebrew">מסרק</td></tr> <tr><td>Computer</td><td class="hebrew">מחשב</td></tr> <tr><td>Concert</td><td class="hebrew">קונצרט</td></tr> <tr><td>Conductor</td><td class="hebrew">מנצח</td></tr> <tr><td>Conjunction</td><td class="hebrew">מילת קישור</td></tr> <tr><td>Construction site</td><td class="hebrew">אתר בנייה</td></tr> <tr><td>Courthouse</td><td class="hebrew">בית משפט</td></tr> <tr><td>Creative</td><td class="hebrew">יצירתי</td></tr> <tr><td>Credit card</td><td class="hebrew">כרטיס אשראי</td></tr> <tr><td>Cutting board</td><td class="hebrew">קרש חיתוך</td></tr> <tr><td>Deal with</td><td class="hebrew">להתמודד עם</td></tr> <tr><td>Deodorant</td><td class="hebrew">דאודורנט</td></tr> <tr><td>Desert</td><td class="hebrew">מדבר</td></tr> <tr><td>Dessert</td><td class="hebrew">קינוח</td></tr> <tr><td>Discount</td><td class="hebrew">הנחה</td></tr> <tr><td>Download</td><td class="hebrew">הורדה</td></tr> <tr><td>Drums</td><td class="hebrew">תופים</td></tr> <tr><td>East</td><td class="hebrew">מזרח</td></tr> <tr><td>Exchange</td><td class="hebrew">החלפה</td></tr> <tr><td>Fear</td><td class="hebrew">פחד</td></tr> <tr><td>February</td><td class="hebrew">פברואר</td></tr> <tr><td>Fever</td><td class="hebrew">חום</td></tr> <tr><td>Flexible</td><td class="hebrew">גמיש</td></tr> <tr><td>Flight ticket</td><td class="hebrew">כרטיס טיסה</td></tr> <tr><td>Flu</td><td class="hebrew">שפעת</td></tr> <tr><td>Flute</td><td class="hebrew">חליל</td></tr> <tr><td>Folder</td><td class="hebrew">תיקייה</td></tr> <tr><td>Foreign currency</td><td class="hebrew">מטבע זר</td></tr> <tr><td>Forest</td><td class="hebrew">יער</td></tr> <tr><td>Fracture</td><td class="hebrew">שבר</td></tr> <tr><td>Friendly</td><td class="hebrew">חברותי</td></tr> <tr><td>Frying pan</td><td class="hebrew">מחבת</td></tr> <tr><td>Gerund</td><td class="hebrew">תואר הפעולה</td></tr> <tr><td>Get along</td><td class="hebrew">להסתדר</td></tr> <tr><td>Get excited about</td><td class="hebrew">להתרגש מ-</td></tr> <tr><td>Get over</td><td class="hebrew">להתגבר על</td></tr> <tr><td>Give up</td><td class="hebrew">לוותר</td></tr> <tr><td>Glue</td><td class="hebrew">דבק</td></tr> <tr><td>Go on</td><td class="hebrew">להמשיך</td></tr> <tr><td>Golf</td><td class="hebrew">גולף</td></tr> <tr><td>Green</td><td class="hebrew">ירוק</td></tr> <tr><td>Guitar</td><td class="hebrew">גיטרה</td></tr> <tr><td>Happiness</td><td class="hebrew">שמחה</td></tr> <tr><td>Headache</td><td class="hebrew">כאב ראש</td></tr> <tr><td>Highlighter</td><td class="hebrew">טוש מדגיש</td></tr> <tr><td>Hole puncher</td><td class="hebrew">חורר</td></tr> <tr><td>Hospital</td><td class="hebrew">בית חולים</td></tr> <tr><td>Hotel</td><td class="hebrew">מלון</td></tr> <tr><td>Internet</td><td class="hebrew">אינטרנט</td></tr> <tr><td>Intersection</td><td class="hebrew">צומת</td></tr> <tr><td>Interjection</td><td class="hebrew">מילת קריאה</td></tr> <tr><td>Interrogative</td><td class="hebrew">מילת שאלה</td></tr> <tr><td>Island</td><td class="hebrew">אי</td></tr> <tr><td>January</td><td class="hebrew">ינואר</td></tr> <tr><td>Jealousy</td><td class="hebrew">קנאה</td></tr> <tr><td>Journalist</td><td class="hebrew">עיתונאי</td></tr> <tr><td>June</td><td class="hebrew">יוני</td></tr> <tr><td>Laboratory</td><td class="hebrew">מעבדה</td></tr> <tr><td>Ladle</td><td class="hebrew">מצקת</td></tr> <tr><td>Lake</td><td class="hebrew">אגם</td></tr> <tr><td>Lawyer</td><td class="hebrew">עורך דין</td></tr> <tr><td>Left</td><td class="hebrew">שמאלה</td></tr> <tr><td>Library</td><td class="hebrew">ספרייה</td></tr> <tr><td>Logical</td><td class="hebrew">הגיוני</td></tr> <tr><td>Look for</td><td class="hebrew">לחפש</td></tr> <tr><td>Love</td><td class="hebrew">אהבה</td></tr> <tr><td>Main course</td><td class="hebrew">מנה עיקרית</td></tr> <tr><td>Mall</td><td class="hebrew">קניון</td></tr> <tr><td>March</td><td class="hebrew">מרץ</td></tr> <tr><td>May</td><td class="hebrew">מאי</td></tr> <tr><td>Medicine</td><td class="hebrew">תרופה</td></tr> <tr><td>Menu</td><td class="hebrew">תפריט</td></tr> <tr><td>Mirror</td><td class="hebrew">מראה</td></tr> <tr><td>Mixer</td><td class="hebrew">מיקסר</td></tr> <tr><td>Moisturizer</td><td class="hebrew">קרם לחות</td></tr> <tr><td>Mountain</td><td class="hebrew">הר</td></tr> <tr><td>Museum</td><td class="hebrew">מוזיאון</td></tr> <tr><td>Nail clipper</td><td class="hebrew">גוזז ציפורניים</td></tr> <tr><td>Napkin</td><td class="hebrew">מפית</td></tr> <tr><td>North</td><td class="hebrew">צפון</td></tr> <tr><td>Noun</td><td class="hebrew">שם עצם</td></tr> <tr><td>Office</td><td class="hebrew">משרד</td></tr> <tr><td>Order</td><td class="hebrew">הזמנה</td></tr> <tr><td>Orchestra</td><td class="hebrew">תזמורת</td></tr> <tr><td>Organized</td><td class="hebrew">מאורגן</td></tr> <tr><td>Park</td><td class="hebrew">פארק</td></tr> <tr><td>Passport</td><td class="hebrew">דרכון</td></tr> <tr><td>Password</td><td class="hebrew">סיסמה</td></tr> <tr><td>Patient</td><td class="hebrew">סבלני</td></tr> <tr><td>Peeler</td><td class="hebrew">קולפן</td></tr> <tr><td>Piano</td><td class="hebrew">פסנתר</td></tr> <tr><td>Pot</td><td class="hebrew">סיר</td></tr> <tr><td>Preposition</td><td class="hebrew">מילת יחס</td></tr> <tr><td>Price</td><td class="hebrew">מחיר</td></tr> <tr><td>Pride</td><td class="hebrew">גאווה</td></tr> <tr><td>Pronoun</td><td class="hebrew">כינוי גוף</td></tr> <tr><td>Psychologist</td><td class="hebrew">פסיכולוג</td></tr> <tr><td>Queue</td><td class="hebrew">תור</td></tr> <tr><td>Receipt</td><td class="hebrew">קבלה</td></tr> <tr><td>Red</td><td class="hebrew">אדום</td></tr> <tr><td>Rely on</td><td class="hebrew">להסתמך על</td></tr> <tr><td>Restaurant</td><td class="hebrew">מסעדה</td></tr> <tr><td>Right</td><td class="hebrew">ימינה</td></tr> <tr><td>River</td><td class="hebrew">נהר</td></tr> <tr><td>Rolling pin</td><td class="hebrew">מערוך</td></tr> <tr><td>Roundabout</td><td class="hebrew">כיכר</td></tr> <tr><td>Rubber band</td><td class="hebrew">גומייה</td></tr> <tr><td>Ruler</td><td class="hebrew">סרגל</td></tr> <tr><td>Running</td><td class="hebrew">ריצה</td></tr> <tr><td>Sadness</td><td class="hebrew">עצב</td></tr> <tr><td>Sale</td><td class="hebrew">מבצע</td></tr> <tr><td>Scissors</td><td class="hebrew">מספריים</td></tr> <tr><td>Sensitive</td><td class="hebrew">רגיש</td></tr> <tr><td>Shampoo</td><td class="hebrew">שמפו</td></tr> <tr><td>Shame</td><td class="hebrew">בושה</td></tr> <tr><td>Shy</td><td class="hebrew">ביישן</td></tr> <tr><td>Singer</td><td class="hebrew">זמר</td></tr> <tr><td>Size</td><td class="hebrew">מידה</td></tr> <tr><td>Skiing</td><td class="hebrew">סקי</td></tr> <tr><td>Smartphone</td><td class="hebrew">טלפון חכם</td></tr> <tr><td>Soap</td><td class="hebrew">סבון</td></tr> <tr><td>Social network</td><td class="hebrew">רשת חברתית</td></tr> <tr><td>South</td><td class="hebrew">דרום</td></tr> <tr><td>Stapler</td><td class="hebrew">מהדק</td></tr> <tr><td>Sticky note</td><td class="hebrew">נייר דביק</td></tr> <tr><td>Straight</td><td class="hebrew">ישר</td></tr> <tr><td>Studio</td><td class="hebrew">סטודיו</td></tr> <tr><td>Suitcase</td><td class="hebrew">מזוודה</td></tr> <tr><td>Surprise</td><td class="hebrew">הפתעה</td></tr> <tr><td>Swimming</td><td class="hebrew">שחייה</td></tr> <tr><td>Table</td><td class="hebrew">שולחן</td></tr> <tr><td>Take care of</td><td class="hebrew">לדאוג ל-</td></tr> <tr><td>Tennis</td><td class="hebrew">טניס</td></tr> <tr><td>Theater</td><td class="hebrew">תיאטרון</td></tr> <tr><td>Tip</td><td class="hebrew">טיפ</td></tr> <tr><td>To clean windows</td><td class="hebrew">לנקות חלונות</td></tr> <tr><td>To cook</td><td class="hebrew">לבשל</td></tr> <tr><td>To dance</td><td class="hebrew">לרקוד</td></tr> <tr><td>To do laundry</td><td class="hebrew">לכבס</td></tr> <tr><td>To draw</td><td class="hebrew">לצייר</td></tr> <tr><td>To fold clothes</td><td class="hebrew">לקפל בגדים</td></tr> <tr><td>To grow plants</td><td class="hebrew">לגדל צמחים</td></tr> <tr><td>To hike in nature</td><td class="hebrew">לטייל בטבע</td></tr> <tr><td>To iron</td><td class="hebrew">לגהץ</td></tr> <tr><td>To listen to music</td><td class="hebrew">לשמוע מוזיקה</td></tr> <tr><td>To make the bed</td><td class="hebrew">לסדר את המיטה</td></tr> <tr><td>To play computer games</td><td class="hebrew">לשחק משחקי מחשב</td></tr> <tr><td>To play soccer</td><td class="hebrew">לשחק כדורגל</td></tr> <tr><td>To read a book</td><td class="hebrew">לקרוא ספר</td></tr> <tr><td>To set the table</td><td class="hebrew">לערוך את השולחן</td></tr> <tr><td>To take out the trash</td><td class="hebrew">לזרוק את הזבל</td></tr> <tr><td>To vacuum</td><td class="hebrew">לשאוב אבק</td></tr> <tr><td>To wash dishes</td><td class="hebrew">לשטוף כלים</td></tr> <tr><td>To watch movies</td><td class="hebrew">לצפות בסרטים</td></tr> <tr><td>To water plants</td><td class="hebrew">להשקות צמחים</td></tr> <tr><td>Toothbrush</td><td class="hebrew">מברשת שיניים</td></tr> <tr><td>Toothpaste</td><td class="hebrew">משחת שיניים</td></tr> <tr><td>Tour guide</td><td class="hebrew">מדריך טיולים</td></tr> <tr><td>Tourism</td><td class="hebrew">תיירות</td></tr> <tr><td>Towel</td><td class="hebrew">מגבת</td></tr> <tr><td>Train station</td><td class="hebrew">תחנת רכבת</td></tr> <tr><td>Travel insurance</td><td class="hebrew">ביטוח נסיעות</td></tr> <tr><td>Turn</td><td class="hebrew">פנייה</td></tr> <tr><td>Upload</td><td class="hebrew">העלאה</td></tr> <tr><td>Vaccination</td><td class="hebrew">חיסון</td></tr> <tr><td>Valley</td><td class="hebrew">עמק</td></tr> <tr><td>Verb</td><td class="hebrew">פועל</td></tr> <tr><td>Violin</td><td class="hebrew">כינור</td></tr> <tr><td>Virus</td><td class="hebrew">וירוס</td></tr> <tr><td>Volleyball</td><td class="hebrew">כדורעף</td></tr> <tr><td>Waiter</td><td class="hebrew">מלצר</td></tr> <tr><td>Wake up</td><td class="hebrew">להתעורר</td></tr> <tr><td>Waterfall</td><td class="hebrew">מפל</td></tr> <tr><td>West</td><td class="hebrew">מערב</td></tr> <tr><td>Wound</td><td class="hebrew">פצע</td></tr> <tr><td>Yellow</td><td class="hebrew">צהוב</td></tr>                 </tbody>             </table>         </div>     </div>`
+		};
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+		function showContent(state) {
+			const tabContent = document.getElementById('tabContent');
+			tabContent.innerHTML = stateContents[state] || '';
+
+			if (state === 'תרגול') {
+				const quizContent = document.getElementById('quiz-content');
+				if (quizContent) {
+					let columnsContainer = document.getElementById('columnsContainer');
+					if (!columnsContainer) {
+						columnsContainer = document.createElement('div');
+						columnsContainer.id = 'columnsContainer';
+						columnsContainer.className = 'columns-container';
+						columnsContainer.innerHTML = `
+							<div id="questionsColumn" class="questions-column"></div>
+							<div id="answersColumn" class="answers-column"></div>	
+						`;
+						quizContent.appendChild(columnsContainer);
+					}
+				}
+				renderQuiz();
+				updateProgressBar();
+			}
+		}
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+
+            switchContainer.style.display = 'flex';
+
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+function renderQuiz() {
+    console.log("Rendering quiz for Stage:", currentStage);
+    const quizContent = document.getElementById("quiz-content");
+
+    if (!quizContent) {
+        console.error("Quiz content not found");
+        return;
+    }
+
+    // Clear existing content to avoid retaining old columns
+    quizContent.innerHTML = '';
+
+    // Create a new columns container each time to avoid any conflicts
+    const columnsContainer = document.createElement("div");
+    columnsContainer.id = "columnsContainer";
+    columnsContainer.className = "columns-container";
+    columnsContainer.innerHTML = `
+        <div id="questionsColumn" class="questions-column"></div>
+        <div id="answersColumn" class="answers-column"></div>
+    `;
+    quizContent.appendChild(columnsContainer);
+
+    // Get references to the new columns
+    const questionsColumn = document.getElementById("questionsColumn");
+    const answersColumn = document.getElementById("answersColumn");
+
+    if (!questionsColumn || !answersColumn) {
+        console.error("Questions or answers column not found");
+        return;
+    }
+
+    const currentQuiz = quizData[currentStage];
+    console.log("Current Quiz Data:", currentQuiz);
+
+    // Apply the correct layout class
+    columnsContainer.className = `columns-container ${currentQuiz.direction}-layout`;
+
+    // Add stage name if it exists
+    if (currentQuiz.stageName) {
+        const stageNameElement = document.createElement("h2");
+        stageNameElement.textContent = currentQuiz.stageName;
+        stageNameElement.className = "stage-name";
+        quizContent.insertBefore(stageNameElement, columnsContainer);
+    }
+
+    const shuffledQuestions = shuffleArray([...currentQuiz.questions]);
+    const shuffledAnswers = shuffleArray([...currentQuiz.answers]);
+
+    questionsColumn.innerHTML = '';
+    answersColumn.innerHTML = '';
+
+    shuffledQuestions.forEach((question, index) => {
+        const questionWrapper = document.createElement("div");
+        const answerWrapper = document.createElement("div");
+        questionWrapper.className = "card-wrapper";
+        answerWrapper.className = "card-wrapper";
+
+        const questionElement = createQuestionElement(question);
+        const answerElement = createAnswerElement(shuffledAnswers[index]);
+
+        questionWrapper.appendChild(questionElement);
+        answerWrapper.appendChild(answerElement);
+
+        questionsColumn.appendChild(questionWrapper);
+        answersColumn.appendChild(answerWrapper);
+    });
+
+    // Set all cards to the height of the tallest card
+    const allCards = document.querySelectorAll('.question-item, .answer-item');
+    let maxHeight = 0;
+
+    // Find the tallest card
+    allCards.forEach(card => {
+        const height = card.offsetHeight;
+        if (height > maxHeight) {
+            maxHeight = height;
+        }
+    });
+
+    // Set all cards to the max height
+    allCards.forEach(card => {
+        card.style.height = `${maxHeight}px`;
+    });
+
+    // Re-enable "Show All" and "Clear All" buttons
+    document.querySelectorAll('.center-button').forEach(button => {
+        if (button.textContent === 'Show All' || button.textContent === 'Clear All') {
+            button.disabled = false;
+        }
+    });
+
+    updateStageNumber();
+
+    // Reset attempts for the new stage
+    attempts = 0;
+    document.getElementById("attempts").textContent = `נסיונות: ${attempts}`;
+
+    // Update progress bar
+    updateProgressBar();
+}
+
+
+		function createQuestionElement(question) {
+			const questionElement = document.createElement("div");
+			questionElement.classList.add("question-item");
+			questionElement.textContent = question.question;
+			questionElement.dataset.questionId = question.question_id;
+			questionElement.onclick = () => handleQuestionSelect(questionElement);
+			
+			// Add drag and drop event listeners
+			questionElement.ondragover = (e) => {
+				e.preventDefault();
+				questionElement.classList.add('drag-over');
+			};
+			questionElement.ondragleave = () => questionElement.classList.remove('drag-over');
+			questionElement.ondrop = (e) => handleDrop(e, questionElement);
+			
+			return questionElement;
+		}
+
+		function createAnswerElement(answer) {
+			const answerElement = document.createElement("div");
+			answerElement.classList.add("answer-item");
+			answerElement.style.backgroundColor = colors[answer.answer_id % colors.length];
+			answerElement.textContent = answer.answer;
+			answerElement.dataset.answerId = answer.answer_id;
+			answerElement.onclick = () => handleAnswerSelect(answerElement);
+			
+			// Make answer draggable
+			answerElement.draggable = true;
+			answerElement.ondragstart = (e) => handleDragStart(e, answerElement);
+			
+			return answerElement;
+		}
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+		function handleQuestionSelect(element) {
+			if (element.dataset.matchedAnswerId) {
+				// If the question is already matched, reset it
+				const matchedAnswer = document.querySelector(`.answer-item[data-answer-id="${element.dataset.matchedAnswerId}"]`);
+				if (matchedAnswer) {
+					matchedAnswer.classList.remove('matched');
+				}
+				element.style.backgroundColor = '';
+				delete element.dataset.matchedAnswerId;
+				selectedQuestion = null;
+			} else {
+				// If it's not matched, select it
+				if (selectedQuestion) selectedQuestion.classList.remove('selected');
+				selectedQuestion = element;
+				selectedQuestion.classList.add('selected');
+				if (selectedAnswer) matchCards();
+			}
+		}
+
+		function handleAnswerSelect(element) {
+			if (selectedAnswer) selectedAnswer.classList.remove('selected');
+			selectedAnswer = element;
+			selectedAnswer.classList.add('selected');
+			if (selectedQuestion) matchCards();
+		}
+
+		function matchCards() {
+			if (!selectedQuestion || !selectedAnswer) return;
+
+			// If the question was previously matched, reset the old match
+			if (selectedQuestion.dataset.matchedAnswerId) {
+				const oldMatchedAnswer = document.querySelector(`.answer-item[data-answer-id="${selectedQuestion.dataset.matchedAnswerId}"]`);
+				if (oldMatchedAnswer) {
+					oldMatchedAnswer.classList.remove('matched');
+				}
+			}
+
+			// If the answer was previously matched, reset the old match
+			const oldMatchedQuestion = document.querySelector(`.question-item[data-matched-answer-id="${selectedAnswer.dataset.answerId}"]`);
+			if (oldMatchedQuestion) {
+				oldMatchedQuestion.style.backgroundColor = '';
+				delete oldMatchedQuestion.dataset.matchedAnswerId;
+			}
+
+			// Make the new match
+			selectedQuestion.style.backgroundColor = selectedAnswer.style.backgroundColor;
+			selectedQuestion.dataset.matchedAnswerId = selectedAnswer.dataset.answerId;
+			selectedAnswer.classList.add('matched');
+
+			selectedQuestion.classList.remove('selected');
+			selectedAnswer.classList.remove('selected');
+			selectedQuestion = null;
+			selectedAnswer = null;
+		}
+				
+		function handleDragStart(e, answerElement) {
+			e.dataTransfer.setData('text/plain', answerElement.dataset.answerId);
+			selectedAnswer = answerElement;
+		}
+
+		function handleDrop(e, questionElement) {
+			e.preventDefault();
+			questionElement.classList.remove('drag-over');
+			const answerId = e.dataTransfer.getData('text');
+			const answerElement = document.querySelector(`.answer-item[data-answer-id="${answerId}"]`);
+			
+			if (answerElement) {
+				selectedQuestion = questionElement;
+				matchCards();
+			}
+		}
+		
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[currentStage].questions.length;
+
+    document.querySelectorAll('.question-item').forEach(questionCard => {
+        const questionId = questionCard.dataset.questionId;
+        const matchedAnswerId = questionCard.dataset.matchedAnswerId;
+        const correctAnswer = quizData[currentStage].answers.find(a => a.question_id == questionId);
+
+        if (matchedAnswerId == correctAnswer.answer_id) {
+            correctCount++;
+        } else {
+            // Clear the background color for incorrect answers
+            questionCard.style.backgroundColor = '';
+            // Remove the matched answer ID
+            delete questionCard.dataset.matchedAnswerId;
+        }
+    });
+
+    if (correctCount === totalQuestions) {
+        addAnimalsToFarm(totalQuestions);
+
+        // Disable "Show All" and "Clear All" buttons
+        document.querySelectorAll('.center-button').forEach(button => {
+            if (button.textContent === 'Show All' || button.textContent === 'Clear All') {
+                button.disabled = true;
+            }
+        });
+
+        singleStageConfetti();
+        showEncouragingPopup(correctCount, totalQuestions, true);
+
+        if (currentStage < quizData.length - 1) {
+            // Increment currentStage and update progress bar
+            currentStage++;
+            updateProgressBar();
+            
+            // Render the new stage after a short delay for better UX
+            setTimeout(() => {
+                attempts = 0;
+                // Remove the old stage name if it exists
+                const oldStageName = document.querySelector('.stage-name');
+                if (oldStageName) {
+                    oldStageName.remove();
+                }
+                renderQuiz(); // Render the next stage
+                document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+            }, 1500);
+        } else {
+            // If all stages are complete
+            allStagesConfetti();
+            showModal("Congratulations! You've completed all stages.");
+        }
+    } else {
+        showEncouragingPopup(correctCount, totalQuestions, false);
+        if (attempts >= 10) {
+            showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+            showAllAnswers(); // Reveal all correct answers
+
+            // Disable the check answers button
+            const checkAnswersButton = document.querySelector('.center-button.check-answers');
+            if (checkAnswersButton) {
+                checkAnswersButton.disabled = true;
+            }
+        }
+    }
+
+    scrollToTop();
+}
+
+
+		function showAllAnswers() {
+			const currentQuiz = quizData[currentStage];
+			document.querySelectorAll('.question-item').forEach(questionCard => {
+				const questionId = questionCard.dataset.questionId;
+				const correctAnswer = currentQuiz.answers.find(a => a.question_id == questionId);
+				const correctAnswerElement = document.querySelector(`.answer-item[data-answer-id="${correctAnswer.answer_id}"]`);
+				
+				if (correctAnswerElement) {
+					questionCard.style.backgroundColor = correctAnswerElement.style.backgroundColor;
+					questionCard.dataset.matchedAnswerId = correctAnswer.answer_id;
+				}
+			});
+
+			// Disable drag-and-drop and click events after revealing all answers
+			document.querySelectorAll('.question-item, .answer-item').forEach(item => {
+				item.onclick = null;
+				item.ondragstart = null;
+				item.ondragover = null;
+				item.ondrop = null;
+			});
+		}
+
+		function clearAllAnswers() {
+			// Clear question cards
+			document.querySelectorAll('.question-item').forEach(questionCard => {
+				questionCard.style.backgroundColor = '';
+				delete questionCard.dataset.matchedAnswerId;
+			});
+
+			// Clear answer cards
+			document.querySelectorAll('.answer-item').forEach(answerCard => {
+				answerCard.classList.remove('matched');
+			});
+
+			// Re-enable interactions
+			document.querySelectorAll('.question-item, .answer-item').forEach(item => {
+				item.onclick = item.classList.contains('question-item') ? 
+					() => handleQuestionSelect(item) : 
+					() => handleAnswerSelect(item);
+				
+				if (item.classList.contains('answer-item')) {
+					item.draggable = true;
+					item.ondragstart = (e) => handleDragStart(e, item);
+				} else {
+					item.ondragover = (e) => {
+						e.preventDefault();
+						item.classList.add('drag-over');
+					};
+					item.ondragleave = () => item.classList.remove('drag-over');
+					item.ondrop = (e) => handleDrop(e, item);
+				}
+			});
+		}
+
+        function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+            const incorrectCount = totalQuestions - correctCount;
+            let message = `קיבלת ${correctCount} נכונות ו-${incorrectCount} שגויות.`;
+
+            if (correctCount === totalQuestions) {
+                message += " ציון מושלם!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+                message += " עבודה מצוינת! רואים שהנושא מתחיל להיות מובן!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+                message += " מאמץ טוב! נמשיך לתרגל כי השיפור קרוב!";
+            } else {
+                message += " לא לוותר! כל נסיון עוזר לך ללמוד. ננסה שוב!";
+            }
+
+            if (isStageComplete) {
+                message += "\n\n השלב הזה הסתיים, עוברים לשלב הבא.";
+            }
+
+            showModal(message);
+        }
+
+        function updateProgressBar() {
+            const progressBar = document.getElementById("progress-bar");
+            const completedStages = currentStage;
+            const progress = (completedStages / quizData.length) * 100;
+            const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+            progressBar.style.width = `${roundedProgress}%`;
+            progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+        }
+
+        function updateStageNumber() {
+            const stageElement = document.getElementById("stage-number");
+            stageElement.textContent = `שלב ${currentStage + 1} מתוך ${quizData.length}`;
+        }
+
+        function singleStageConfetti() {
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+            confetti({
+                angle: randomInRange(55, 125),
+                spread: randomInRange(50, 70),
+                particleCount: randomInRange(50, 100),
+                origin: { y: 0.6 },
+            });
+        }
+
+        function allStagesConfetti() {
+            const defaults = {
+                spread: 360,
+                ticks: 50,
+                gravity: 0,
+                decay: 0.94,
+                startVelocity: 30,
+                shapes: ["star"],
+                colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+            };
+            function shoot() {
+                confetti({
+                    ...defaults,
+                    particleCount: 40,
+                    scalar: 1.2,
+                    shapes: ["star"],
+                });
+                confetti({
+                    ...defaults,
+                    particleCount: 10,
+                    scalar: 0.75,
+                    shapes: ["circle"],
+                });
+            }
+            setTimeout(shoot, 0);
+            setTimeout(shoot, 100);
+            setTimeout(shoot, 200);
+        }
+
+        let farmAnimals = [];
+
+        function addAnimalsToFarm(count) {
+            const animalFarm = document.getElementById('animalFarm');
+            let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+            console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+            for (let i = 0; i < count; i++) {
+                if (availableAnimals.length === 0) {
+                    console.log("No more unique animals available!");
+                    break;
+                }
+
+                const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+                const chosenAnimal = availableAnimals[randomIndex];
+
+                const animalElement = document.createElement('li');
+                animalElement.textContent = chosenAnimal;
+                animalFarm.appendChild(animalElement);
+
+                farmAnimals.push(chosenAnimal);
+                availableAnimals.splice(randomIndex, 1);
+                console.log(`Added animal: ${chosenAnimal}`);
+            }
+
+            console.log(`Farm size after addition: ${farmAnimals.length}`);
+            logAnimalFarmState();
+        }
+
+        function logAnimalFarmState() {
+            console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+            console.log(farmAnimals);
+        }
+
+        const animals = [
+            "🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+            "🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+            "🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+            "🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+            "🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+            "🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+            "🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+            "🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+            "🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+            "🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+            "🐷", "🐩", "🐘", "🐸", "🐝"
+        ];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+        function initializeQuiz() {
+            console.log("Initializing quiz");
+            currentStage = 0;
+            attempts = 0;
+            renderQuiz();
+            updateProgressBar();
+            const attemptsElement = document.getElementById("attempts");
+            if (attemptsElement) {
+                attemptsElement.textContent = `ניסיונות: ${attempts}`;
+            } else {
+                console.error("Attempts element not found");
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        window.addEventListener('load', () => {
+            console.log("Window loaded");
+            initializeSwitch();
+            initializeQuiz();
+            adjustLayout();
+            showContent('תרגול');
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+    window.onscroll = function() {
+        // Check if the scroll distance is more than twice the height of the screen
+        if (document.body.scrollTop > window.innerHeight * 1.5 || 
+            document.documentElement.scrollTop > window.innerHeight * 1.5) {
+            scrollToTopBtn.style.display = "block";
+        } else {
+            scrollToTopBtn.style.display = "none";
+        }
+    };
+
+scrollToTopBtn.onclick = function() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+};		
+    </script>
+</body>
+</html>
