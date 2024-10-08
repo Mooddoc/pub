@@ -886,12 +886,12 @@
             margin-top: 1rem;
         }
 
-        td {
-            padding: 0.75rem 1rem;
-            background-color: #00acc1;
-            border: 1px solid #ffffff;
-            border-radius: 0.3rem;
-        }
+		.numbers-table-td { 
+			padding: 0.75rem 1rem;
+			background-color: #00acc1;
+			border: 1px solid #ffffff;
+			border-radius: 0.3rem;
+		}
 																				/* ------------ question in one row Styles --------------- */	
         .question-one-line {
             display: flex;
