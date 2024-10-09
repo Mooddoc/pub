@@ -1082,6 +1082,8 @@ function checkStage() {
             }, 1500);
         } else {
             // If all stages are complete
+			currentStage++;
+			updateProgressBar();
             allStagesConfetti();
             showModal("Congratulations! You've completed all stages.");
         }
