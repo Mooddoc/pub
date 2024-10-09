@@ -940,7 +940,16 @@
             autocomplete: off;
         }
 		
-
+		.question-one-line select {
+			width: 10rem;
+			padding: 0.5rem;
+			border-radius: 0.3rem;
+			border: 1px solid #ccc;
+			direction: rtl;
+			text-align: right;
+			background-color: white; /* Ensure the background is white */
+			color: black; /* Set text color if needed */
+		}
 		
 																				/* ------------ Matching Game Styles --------------- */		
 		.columns-container {
@@ -1393,4 +1402,57 @@
         }
 		.negative-sign {
 			margin-right: 2px;
+		}
+																																/* RTL Questions and Answers DDL Styles */			
+		.question-rtl {
+			text-align: right;
+			direction: rtl;
+			margin-bottom: 1rem;
+			background-color: rgba(224, 247, 250, 0.8);
+			padding: 0.8rem;
+			border-radius: 0.625rem;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-end;
+		}
+
+		/* Ensure paragraphs within questions are also RTL aligned */
+		.question-rtl p {
+			text-align: right;
+			direction: rtl;
+			width: 100%;
+			margin: 0;
+			padding: 0;
+		}
+
+		/* Ensure options container is full width and RTL aligned */
+		.question-rtl .options {
+			width: 100%;
+			text-align: right;
+			direction: rtl;
+		}
+
+		/* Maintain RTL alignment for select elements */
+		.answer-rtl {
+			direction: rtl;
+			text-align: right;
+			text-align-last: right;
+			background-position: right 0.625rem center;
+			padding-right: 1.5rem;
+			padding-left: 0.5rem;
+			width: 100%;
+			max-width: 9.375rem;
+		}
+
+		/* Ensure result messages are RTL aligned */
+		.question-rtl .result {
+			text-align: right;
+			direction: rtl;
+			width: 100%;
+		}
+
+		.result-rtl {
+			margin-left: 1rem;
+			margin-right: 1rem;
+			white-space: nowrap;
 		}
