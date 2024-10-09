@@ -1403,6 +1403,7 @@
 		.negative-sign {
 			margin-right: 2px;
 		}
+		
 																																/* RTL Questions and Answers DDL Styles */			
 		.question-rtl {
 			text-align: right;
@@ -1432,6 +1433,12 @@
 			direction: rtl;
 		}
 
+		.answer-container {
+			display: flex; /* Use flexbox for horizontal alignment */
+			align-items: center; /* Align items vertically centered */
+			margin-top: 0.5rem; /* Add some space above the container */
+		}
+		
 		/* Maintain RTL alignment for select elements */
 		.answer-rtl {
 			direction: rtl;
