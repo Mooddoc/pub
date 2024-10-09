@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-heb.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+	<title>✅ EZ42 - זה קל</title>
+	<style>
+	</style>
+	
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+			<div class="logo-container">
+				<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+					<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+				</a>
+			</div>
+                <h2>הוראות</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                    <li>יש לקרוא כל שאלה בעיון.</li>
+                    <li>בחר/י את התשובה הנכונה ביותר מתוך התפריט הנפתח.</li>
+                    <li>יש ללחוץ על בדיקת תשובות כשמוכנים!</li>
+                    <li>יש להשלים את כל השאלות כדי לעבור לשלב הבא.</li>
+                    <li>לאחר 10 ניסיונות, התשובות הנכונות יוצגו.</li>
+                    <li>שיהיה כיף!</li>
+                </ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->		
+                <h1>פתרון בעיות מילים הכוללות שברים</h1>
+				
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+
+                <div id="tabContent">
+                    <!--PLACHOLDERFORNEWGAME-START-->
+
+                    <!--PLACHOLDERFORNEWGAME-END-->
+                </div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות החיות</h2>
+				<p>החווה שלך גדלה תוך כדי התקדמות! כל שלב מוסיף חיות חדשות לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+        const quizData = [ 												//  PH3 - Quiz Data 
+					// Stage 1
+					[
+					  { question: "מיכל קנתה עוגה וחילקה אותה ל-8 חלקים שווים. היא אכלה 3 חלקים. איזה חלק מהעוגה היא אכלה?", options: ["1/2", "1/4", "5/8", "3/8", "3/4"], answer: 3 },
+					  { question: "אם יש לי 1/2 ליטר מיץ ואני מוסיף עוד 1/4 ליטר, כמה ליטרים של מיץ יש לי בסך הכל?", options: ["3/4 ליטר", "2/3 ליטר", "1 ליטר", "5/8 ליטר", "7/8 ליטר"], answer: 0 },
+					  { question: "רועי אכל 1/5 מהפיצה וטל אכל 2/5. איזה חלק מהפיצה נשאר?", options: ["1/5", "3/5", "2/5", "1/2", "4/5"], answer: 2 },
+					  { question: "גינה באורך 10 מטרים חולקה ל-4 חלקים שווים. מה האורך של כל חלק?", options: ["2 מטרים", "3 מטרים", "2 ו-1/4 מטרים", "2 ו-3/4 מטרים", "2 ו-1/2 מטרים"], answer: 4 },
+					  { question: "טל קראה 3/8 מהספר ביום ראשון ו-1/8 מהספר ביום שני. איזה חלק מהספר נשאר לקרוא?", options: ["1/4", "3/4", "1/2", "5/8", "3/8"], answer: 2 }
+					],
+
+					// Stage 2
+					[
+					  { question: "אבא חילק חבילה של 12 תפוזים בין ילדיו. רועי קיבל 1/4 מהתפוזים. כמה תפוזים הוא קיבל?", options: ["2", "4", "6", "3", "5"], answer: 3 },
+					  { question: "טל קנתה חבילת עפרונות עם 20 עפרונות. היא נתנה 1/2 מהם לחברה. כמה עפרונות היא נתנה?", options: ["10", "8", "12", "15", "5"], answer: 0 },
+					  { question: "אם שדה הוא בגודל של 100 דונם, ונטעו עצים על 3/5 ממנו, כמה דונם נטועים בעצים?", options: ["40 דונם", "50 דונם", "60 דונם", "70 דונם", "80 דונם"], answer: 2 },
+					  { question: "בספר יש 200 עמודים. אם קראתי 1/4 מהספר, כמה עמודים קראתי?", options: ["50 עמודים", "40 עמודים", "60 עמודים", "70 עמודים", "80 עמודים"], answer: 0 },
+					  { question: "גן ציבורי הוא בגודל של 90 מטרים רבועים. אם דשא מכסה 2/3 מהשטח, כמה מטרים רבועים מכוסים בדשא?", options: ["60 מטרים רבועים", "50 מטרים רבועים", "70 מטרים רבועים", "80 מטרים רבועים", "55 מטרים רבועים"], answer: 0 }
+					],
+
+					// Stage 3
+					[
+					  { question: "יש לך 2 ו-1/2 מטרים של סרט. אם כל קישוט דורש 1/2 מטר, כמה קישוטים תוכל להכין?", options: ["5", "4", "6", "3", "7"], answer: 0 },
+					  { question: "מיכל רצה 1 ו-1/4 ק\"מ ביום ראשון, 2 ו-1/2 ק\"מ ביום שני, ו-1 ו-1/4 ק\"מ ביום שלישי. מה המרחק הכולל שהיא רצה?", options: ["4.5 ק\"מ", "5 ק\"מ", "5.5 ק\"מ", "6 ק\"מ", "4 ק\"מ"], answer: 1 },
+					  { question: "אם 1/4 מהכיתה הלכה לספרייה, 1/3 לחדר מחשבים, ו-1/6 למעבדה, האם כל התלמידים נמצאים באחד המקומות האלה?", options: ["כן", "אולי", "לא ידוע", "ייתכן", "לא"], answer: 4 },
+					  { question: "רועי אכל 1/2 מהעוגה, ודן אכל 1/4 ממנה. איזה חלק מהעוגה נשאר?", options: ["1/4", "1/2", "1/8", "1/3", "3/4"], answer: 0 },
+					  { question: "בקבוק שמן מכיל 1 ליטר. אם משתמשים ב-1/5 ממנו למתכון אחד ו-2/5 למתכון אחר, כמה ליטרים נשארו בבקבוק?", options: ["1/5 ליטר", "1/2 ליטר", "2/5 ליטר", "3/5 ליטר", "1/4 ליטר"], answer: 2 }
+					],
+
+					// Stage 4
+					[
+					  { question: "גדר באורך 12 מטרים נצבעה ב-3 ימים. ביום הראשון נצבעו 3 ו-1/2 מטרים, ביום השני 4 ו-1/4 מטרים. כמה מטרים נצבעו ביום השלישי?", options: ["3 ו-1/2 מטרים", "4 ו-1/4 מטרים", "4 מטרים", "5 מטרים", "4 ו-1/2 מטרים"], answer: 1 },
+					  { question: "מתכון לעוגת שוקולד דורש 1 ו-3/4 כוסות קמח. אם יש לך רק 7/8 כוס קמח, איזה חלק מהמתכון תוכל להכין?", options: ["1/4", "1/3", "2/3", "3/4", "1/2"], answer: 4 },
+					  { question: "אם 2/5 מהתלמידים בכיתה הם בנות ויש 18 בנים בכיתה, כמה תלמידים יש בסך הכל בכיתה?", options: ["28", "30", "32", "34", "36"], answer: 1 },
+					  { question: "מכל דלק במכונית מכיל 80 ליטרים כשהוא מלא. אם נשארו 5/8 מהדלק במכל, כמה ליטרים של דלק יש להוסיף כדי למלא אותו?", options: ["20 ליטרים", "25 ליטרים", "28 ליטרים", "30 ליטרים", "35 ליטרים"], answer: 3 },
+					  { question: "אם 3/4 של מספר הוא 45, מהו המספר המלא?", options: ["50", "60", "70", "80", "90"], answer: 1 }
+					],
+
+					// Stage 5
+					[
+					  { question: "אורך חוט הוא 15 מטרים. אם משתמשים ב-2/3 ממנו, כמה מטרים נשארו?", options: ["3 מטרים", "4 מטרים", "5 מטרים", "6 מטרים", "10 מטרים"], answer: 4 },
+					  { question: "שטח של מגרש הוא 120 דונם. אם מכרו 1/4 מהמגרש, כמה דונם נמכרו?", options: ["20 דונם", "30 דונם", "40 דונם", "50 דונם", "60 דונם"], answer: 2 },
+					  { question: "אם 5/8 מהעובדים בחברה הם מהנדסים, והיתר הם מעצבים. אם יש 40 מעצבים, כמה עובדים יש בחברה?", options: ["80", "96", "100", "120", "64"], answer: 1 },
+					  { question: "בסל יש 24 תפוחים. אם אכלו 5/8 מהם, כמה תפוחים נשארו?", options: ["9", "10", "11", "12", "15"], answer: 1 },
+					  { question: "מתכון דורש 2 ו-1/2 כוסות סוכר. אם יש לך רק 1 ו-1/4 כוסות, איזה חלק מהמתכון תוכל להכין?", options: ["1/2", "1/3", "3/4", "2/3", "1/4"], answer: 2 }
+					],
+
+					// Stage 6
+					[
+					  { question: "בספרייה יש 360 ספרים. אם 2/5 מהם הושאלו, כמה ספרים נשארו בספרייה?", options: ["144", "180", "216", "200", "150"], answer: 4 },
+					  { question: "אורך כביש הוא 90 ק\"מ. אם סיימו לסלול 2/3 ממנו, כמה ק\"מ נשארו לסלול?", options: ["20 ק\"מ", "25 ק\"מ", "30 ק\"מ", "35 ק\"מ", "40 ק\"מ"], answer: 2 },
+					  { question: "אם 3/7 מהכיתה נסעה לטיול ויש 28 תלמידים בכיתה, כמה תלמידים לא נסעו?", options: ["12", "16", "18", "20", "22"], answer: 1 },
+					  { question: "בקבוק מים מכיל 1.5 ליטר. אם שתיתי 2/3 ממנו, כמה ליטרים נשארו?", options: ["0.5 ליטר", "0.75 ליטר", "1 ליטר", "0.6 ליטר", "0.9 ליטר"], answer: 4 },
+					  { question: "אם 80 הוא 4/5 של מספר כלשהו, מהו המספר?", options: ["60", "90", "100", "110", "120"], answer: 0 }
+					],
+
+					// Stage 7
+					[
+					  { question: "במשלוח יש 150 קופסאות. אם 2/5 מהקופסאות פגומות, כמה קופסאות תקינות יש?", options: ["60", "70", "80", "90", "100"], answer: 3 },
+					  { question: "שטח חקלאי הוא 500 דונם. אם נטעו גידולים על 3/5 מהשטח, כמה דונם נטועים?", options: ["200 דונם", "250 דונם", "300 דונם", "350 דונם", "400 דונם"], answer: 4 },
+					  { question: "אם 5/9 מהעוגה נאכלה, איזה חלק מהעוגה נשאר?", options: ["4/9", "5/9", "2/3", "1/3", "5/8"], answer: 1 },
+					  { question: "אורך מסלול הוא 2 ו-1/2 ק\"מ. אם רצתי 1 ו-3/4 ק\"מ, כמה ק\"מ נשארו לי לרוץ?", options: ["0.5 ק\"מ", "0.6 ק\"מ", "0.7 ק\"מ", "0.75 ק\"מ", "0.8 ק\"מ"], answer: 2 },
+					  { question: "אם 7/8 של מספר הוא 56, מהו המספר?", options: ["60", "62", "64", "66", "64"], answer: 4 }
+					],
+
+					// Stage 8
+					[
+					  { question: "במחסן יש 240 מוצרים. אם מכרו 5/8 מהם, כמה מוצרים נמכרו?", options: ["150", "120", "180", "160", "200"], answer: 0 },
+					  { question: "אם 2 ו-2/3 של מספר הוא 40, מהו המספר?", options: ["15", "20", "25", "30", "35"], answer: 1 },
+					  { question: "בכיתה יש 32 תלמידים. אם 3/8 מהם הצטיינו, כמה תלמידים הצטיינו?", options: ["10", "12", "14", "16", "18"], answer: 1 },
+					  { question: "אם 1 ו-1/2 שעות הם 3/4 ממשימה, כמה זמן לוקחת המשימה כולה?", options: ["1 שעה", "2 שעות", "2 ו-1/2 שעות", "3 שעות", "4 שעות"], answer: 1 },
+					  { question: "בסלון יש שטיח בגודל 3 ו-1/2 מטרים על 2 מטרים. מהו השטח של השטיח?", options: ["6 מ\"ר", "7 מ\"ר", "7 ו-1/2 מ\"ר", "8 מ\"ר", "7 מ\"ר"], answer: 4 }
+					],
+
+					// Stage 9
+					[
+					  { question: "אם 3/5 ממספר כלשהו הם 75, מהו המספר?", options: ["100", "110", "115", "120", "125"], answer: 3 },
+					  { question: "במשחק השתתפו 60 אנשים. אם 2/3 מהם זכו בפרס, כמה אנשים זכו?", options: ["30", "35", "40", "45", "50"], answer: 2 },
+					  { question: "אם 5/6 מהחומר נלמד, כמה אחוזים נשארו ללמידה?", options: ["10%", "15%", "16.66%", "20%", "25%"], answer: 2 },
+					  { question: "אורך חוט הוא 18 מטרים. אם חתכתי 2/3 ממנו, כמה מטרים חתכתי?", options: ["10 מטרים", "11 מטרים", "12 מטרים", "13 מטרים", "14 מטרים"], answer: 3 },
+					  { question: "אם 80 ק\"מ הם 4/5 מהמרחק, מהו המרחק הכולל?", options: ["90 ק\"מ", "95 ק\"מ", "100 ק\"מ", "105 ק\"מ", "110 ק\"מ"], answer: 0 }
+					],
+
+					// Stage 10
+					[
+					  { question: "בסקר השתתפו 250 אנשים. אם 3/5 מהם העדיפו מוצר מסוים, כמה אנשים העדיפו אותו?", options: ["100", "125", "150", "175", "200"], answer: 2 },
+					  { question: "אם 2 ו-1/2 שעות הן 5/8 ממשימה, כמה זמן לוקחת המשימה כולה?", options: ["3 שעות", "4 שעות", "4 ו-1/2 שעות", "5 שעות", "5 ו-1/2 שעות"], answer: 3 },
+					  { question: "שטח חקלאי הוא 600 דונם. אם 7/8 ממנו מעובד, כמה דונם אינם מעובדים?", options: ["50 דונם", "60 דונם", "70 דונם", "75 דונם", "80 דונם"], answer: 4 },
+					  { question: "אם 3/4 ממספר כלשהו הם 90, מהו המספר?", options: ["100", "110", "115", "120", "130"], answer: 3 },
+					  { question: "בסל יש 96 תפוחים. אם 5/8 מהם הם אדומים, כמה תפוחים אדומים יש?", options: ["50", "55", "60", "65", "70"], answer: 2 }
+					],
+
+					// Stage 11
+					[
+					  { question: "אם 7/9 מהכיתה הם תלמידים, והשאר תלמידות, מה היחס בין מספר התלמידים לתלמידות?", options: ["7:2", "2:7", "3:6", "6:3", "1:8"], answer: 3 },
+					  { question: "במבחן היו 80 שאלות. אם עניתי נכון על 3/4 מהן, כמה שאלות עניתי נכון?", options: ["60", "55", "65", "70", "75"], answer: 0 },
+					  { question: "אם 5/12 מהעובדים הם במשרה מלאה והשאר במשרה חלקית, איזה חלק הם במשרה חלקית?", options: ["7/12", "5/12", "1/2", "2/3", "3/4"], answer: 0 },
+					  { question: "מתכון דורש 1 ו-1/2 כוסות חלב. אם יש לי רק 3/4 כוס, איזה חלק מהמתכון אוכל להכין?", options: ["1/2", "1/3", "2/3", "3/4", "1/4"], answer: 0 },
+					  { question: "אם 120 הוא 3/5 של מספר כלשהו, מהו המספר?", options: ["180", "190", "200", "210", "220"], answer: 2 }
+					],
+
+					// Stage 12
+					[
+					  { question: "במחסן יש 500 מוצרים. אם 7/10 מהם נמכרו, כמה מוצרים נשארו?", options: ["150", "200", "250", "300", "350"], answer: 1 },
+					  { question: "אם 2 ו-1/4 שעות הן 3/5 ממשימה, כמה זמן לוקחת המשימה כולה?", options: ["3 שעות", "3 ו-3/4 שעות", "4 שעות", "4 ו-1/2 שעות", "5 שעות"], answer: 1 },
+					  { question: "אם 45 הוא 9/20 של מספר כלשהו, מהו המספר?", options: ["100", "90", "80", "70", "60"], answer: 0 },
+					  { question: "שטח חקלאי הוא 800 דונם. אם 5/8 ממנו מעובד, כמה דונם אינם מעובדים?", options: ["200 דונם", "250 דונם", "300 דונם", "350 דונם", "400 דונם"], answer: 4 },
+					  { question: "אם 3/7 מהעובדים הם נשים והשאר גברים, מה היחס בין נשים לגברים?", options: ["3:4", "4:3", "2:5", "5:2", "1:6"], answer: 3 }
+					],
+
+					// Stage 13
+					[
+					  { question: "בסקר השתתפו 840 אנשים. אם 5/7 מהם העדיפו מוצר מסוים, כמה אנשים העדיפו אותו?", options: ["500", "540", "600", "620", "600"], answer: 4 },
+					  { question: "אם 6 ו-2/3 שעות הן 5/6 ממשימה, כמה זמן לוקחת המשימה כולה?", options: ["7 שעות", "8 שעות", "8 ו-1/3 שעות", "9 שעות", "10 שעות"], answer: 0 },
+					  { question: "אם 180 הוא 9/10 של מספר כלשהו, מהו המספר?", options: ["190", "195", "200", "205", "210"], answer: 1 },
+					  { question: "במשלוח יש 720 פריטים. אם 2/5 מהם פגומים, כמה פריטים תקינים יש?", options: ["420", "430", "440", "450", "460"], answer: 1 },
+					  { question: "אם 7/12 מהכיתה הם בנים, איזה חלק הם בנות?", options: ["5/12", "7/12", "1/2", "2/3", "3/4"], answer: 1 }
+					],
+
+					// Stage 14
+					[
+					  { question: "אם 3/8 ממספר כלשהו הם 45, מהו המספר?", options: ["100", "110", "120", "130", "140"], answer: 2 },
+					  { question: "במפעל עובדים 360 עובדים. אם 5/9 מהם עובדים במשמרת לילה, כמה עובדים במשמרת לילה?", options: ["180", "190", "200", "210", "220"], answer: 3 },
+					  { question: "אם 4 ו-1/2 שעות הן 3/4 ממשימה, כמה זמן לוקחת המשימה כולה?", options: ["5 שעות", "5 ו-1/2 שעות", "6 שעות", "6 ו-1/2 שעות", "7 שעות"], answer: 2 },
+					  { question: "שטח מגרש הוא 1,200 דונם. אם מכרו 2/3 ממנו, כמה דונם נמכרו?", options: ["700 דונם", "750 דונם", "800 דונם", "850 דונם", "900 דונם"], answer: 3 },
+					  { question: "אם 270 הוא 9/10 של מספר כלשהו, מהו המספר?", options: ["280", "290", "300", "310", "320"], answer: 0 }
+					],
+
+					// Stage 15
+					[
+					  { question: "אם 5/6 ממספר כלשהו הם 250, מהו המספר?", options: ["280", "290", "300", "310", "320"], answer: 2 },
+					  { question: "במחסן יש 1,200 מוצרים. אם 7/8 מהם נמכרו, כמה מוצרים נמכרו?", options: ["1,000", "1,050", "1,100", "1,150", "1,200"], answer: 4 },
+					  { question: "אם 8/9 מהעבודה הושלמה, איזה חלק נשאר?", options: ["1/9", "1/8", "1/7", "1/6", "1/5"], answer: 3 },
+					  { question: "אם 6 ו-3/4 שעות הן 5/8 ממשימה, כמה זמן לוקחת המשימה כולה?", options: ["10 שעות", "10 ו-1/2 שעות", "11 שעות", "11 ו-1/4 שעות", "12 שעות"], answer: 3 },
+					  { question: "אם 360 הוא 4/5 של מספר כלשהו, מהו המספר?", options: ["400", "410", "420", "430", "440"], answer: 1 }
+					],
+
+					// Stage 16
+					[
+					  { question: "במבחן היו 120 שאלות. אם עניתי נכון על 7/8 מהן, כמה שאלות עניתי נכון?", options: ["100", "105", "110", "115", "120"], answer: 1 },
+					  { question: "אם 9/10 ממספר כלשהו הם 270, מהו המספר?", options: ["290", "300", "310", "320", "330"], answer: 2 },
+					  { question: "אם 7/9 מהפרויקט הושלם, איזה חלק נשאר?", options: ["1/9", "2/9", "1/3", "1/4", "2/3"], answer: 4 },
+					  { question: "במפעל ייצרו 1,500 מוצרים. אם 4/5 מהם תקינים, כמה מוצרים תקינים יש?", options: ["1,100", "1,150", "1,200", "1,250", "1,300"], answer: 3 },
+					  { question: "אם 480 הוא 6/7 של מספר כלשהו, מהו המספר?", options: ["500", "520", "540", "560", "580"], answer: 4 }
+					],
+
+					// Stage 17
+					[
+					  { question: "אם 11/12 ממספר כלשהו הם 275, מהו המספר?", options: ["290", "300", "310", "320", "330"], answer: 3 },
+					  { question: "במשלוח היו 1,800 פריטים. אם 2/3 מהם נמכרו, כמה פריטים נמכרו?", options: ["1,100", "1,150", "1,200", "1,250", "1,300"], answer: 2 },
+					  { question: "אם 5/8 מהשטח הם 500 דונם, מהו השטח הכולל?", options: ["700 דונם", "750 דונם", "800 דונם", "850 דונם", "900 דונם"], answer: 0 },
+					  { question: "אם 9 ו-3/4 שעות הן 3/4 ממשימה, כמה זמן לוקחת המשימה כולה?", options: ["12 שעות", "12 ו-1/2 שעות", "13 שעות", "13 שעות", "14 שעות"], answer: 3 },
+					  { question: "אם 540 הוא 9/10 של מספר כלשהו, מהו המספר?", options: ["580", "590", "600", "610", "620"], answer: 1 }
+					],
+
+					// Stage 18
+					[
+					  { question: "אם 7/8 ממספר כלשהו הם 560, מהו המספר?", options: ["600", "610", "620", "630", "640"], answer: 4 },
+					  { question: "במפעל ייצרו 2,400 מוצרים. אם 3/4 מהם נמכרו, כמה מוצרים נמכרו?", options: ["1,600", "1,700", "1,800", "1,900", "2,000"], answer: 2 },
+					  { question: "אם 11/12 מהמשימה הושלמה, איזה חלק נשאר?", options: ["1/12", "1/11", "1/10", "1/9", "1/8"], answer: 2 },
+					  { question: "אם 15 שעות הן 5/6 ממשימה, כמה זמן לוקחת המשימה כולה?", options: ["16 שעות", "17 שעות", "18 שעות", "18 שעות", "20 שעות"], answer: 3 },
+					  { question: "אם 720 הוא 8/9 של מספר כלשהו, מהו המספר?", options: ["800", "810", "820", "830", "840"], answer: 0 }
+					],
+
+					// Stage 19
+					[
+					  { question: "אם 13/14 ממספר כלשהו הם 780, מהו המספר?", options: ["840", "850", "860", "870", "880"], answer: 0 },
+					  { question: "במשלוח היו 3,000 פריטים. אם 4/5 מהם נמכרו, כמה פריטים נמכרו?", options: ["2,200", "2,300", "2,400", "2,400", "2,500"], answer: 3 },
+					  { question: "אם 9/10 מהשטח הם 900 דונם, מהו השטח הכולל?", options: ["1,000 דונם", "1,050 דונם", "1,100 דונם", "1,150 דונם", "1,200 דונם"], answer: 0 },
+					  { question: "אם 18 שעות הן 3/4 ממשימה, כמה זמן לוקחת המשימה כולה?", options: ["22 שעות", "23 שעות", "24 שעות", "24 שעות", "25 שעות"], answer: 4 },
+					  { question: "אם 810 הוא 9/10 של מספר כלשהו, מהו המספר?", options: ["880", "890", "900", "910", "920"], answer: 4 }
+					],
+
+					// Stage 20
+					[
+					  { question: "אם 14/15 ממספר כלשהו הם 980, מהו המספר?", options: ["1,000", "1,020", "1,040", "1,060", "1,050"], answer: 4 },
+					  { question: "במפעל ייצרו 3,600 מוצרים. אם 5/6 מהם נמכרו, כמה מוצרים נמכרו?", options: ["3,000", "3,050", "3,100", "3,150", "3,200"], answer: 0 },
+					  { question: "אם 13/14 מהמשימה הושלמה, איזה חלק נשאר?", options: ["1/14", "1/13", "1/7", "1/6", "1/5"], answer: 2 },
+					  { question: "אם 21 שעות הן 7/8 ממשימה, כמה זמן לוקחת המשימה כולה?", options: ["23 שעות", "24 שעות", "25 שעות", "24 שעות", "26 שעות"], answer: 1 },
+					  { question: "אם 900 הוא 9/10 של מספר כלשהו, מהו המספר?", options: ["950", "960", "970", "980", "1,000"], answer: 3 }
+					]
+
+
+        ];
+
+        const stageCount = quizData.length;
+
+		const stateContents = {
+			'תרגול': `
+				<div id="stage-number" class="stage-number">שלב 1 מתוך ${quizData.length}</div>
+				<div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div>
+				<div id="attempts">ניסיונות: 0</div>
+				<div id="quiz-content"></div>
+				<button class="center-button" onclick="checkStage()">בדיקת תשובות</button>
+			//`,
+			// 'לימוד הנושא': `<h2>משפטים חיוביים</h2>`
+		};
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'תרגול') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    quizData[currentStage].forEach((question, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+
+        questionElement.innerHTML = `
+            <label>${index + 1}. ${question.question}</label>
+            <div class="answer-container">
+                <div class="result-rtl" id="result${index}"></div>
+                <select id="q${index}">
+                    <option value="">בחר/י</option>
+                    ${question.options.map((option, i) => `
+                        <option value="${i}">${option}</option>
+                    `).join("")}
+                </select>
+            </div>
+        `;
+
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+
+		function checkStage() {
+			attempts++;
+			document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+
+			let correctCount = 0;
+			const totalQuestions = quizData[currentStage].length;
+
+			quizData[currentStage].forEach((question, index) => {
+				const resultElement = document.getElementById(`result${index}`);
+				const selectElement = document.getElementById(`q${index}`);
+				const selectedOption = selectElement.value;
+				const userAnswer = parseInt(selectedOption);
+
+				if (userAnswer === question.answer) {
+					resultElement.textContent = "נכון!";
+					resultElement.style.color = "green";
+					correctCount++;
+				} else {
+					resultElement.textContent = "תשובה שגויה.";
+					resultElement.style.color = "red";
+				}
+
+				if (attempts >= 10) {
+					selectElement.value = question.answer;
+					selectElement.disabled = true;
+					resultElement.textContent += ` התשובה הנכונה היא: ${question.options[question.answer]}`;
+				}
+			});
+
+			console.log(`שלב ${currentStage + 1}: ${correctCount} נכונות מתוך ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`שלב ${currentStage + 1} הושלם. מוסיף ${totalQuestions} חיות.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`עובר לשלב ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("כל הכבוד! השלמת את כל השלבים.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("הגעת למספר הניסיונות המקסימלי. התשובות הנכונות נחשפו.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+        function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+            const incorrectCount = totalQuestions - correctCount;
+            let message = `קיבלת ${correctCount} נכונות ו-${incorrectCount} שגויות.`;
+            
+            if (correctCount === totalQuestions) {
+                message += " ציון מושלם!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+                message += " עבודה מצוינת! רואים שהנושא מתחיל להיות מובן!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+                message += " מאמץ טוב! נמשיך לתרגל כי השיפור קרוב!";
+            } else {
+                message += " לא לוותר! כל נסיון עוזר לך ללמוד. ננסה שוב!";
+            }
+
+            if (isStageComplete) {
+                message += "\n\n השלב הזה הסתיים, עוברים לשלב הבא.";
+            }
+
+            showModal(message);
+        }
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `נסיונות: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+        function updateStageNumber() {
+            const stageElement = document.getElementById("stage-number");
+            stageElement.textContent = `שלב ${currentStage + 1} מתוך ${stageCount}`;
+        }
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>
