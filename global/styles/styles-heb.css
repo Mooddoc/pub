@@ -1370,11 +1370,26 @@
             display: block;
             padding: 0 5px;
         }
-        .fraction-whole-number {
-            margin: 0 5px;
-        }
+		.fraction-whole-number {
+			margin: 0 5px;
+			margin: 0 0.2rem;
+			color: #ff7f50;
+		}
         .fraction-cloud-answer {
             direction: ltr;
+            width: 80px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.5rem;
+            background-color: #ffffff;
+            border: 2px solid #00acc1;
+            border-radius: 0.3125rem;
+            cursor: move;
+            user-select: none;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
         }
 		.negative-sign {
 			margin-right: 2px;
