@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multi-stage Memory Game</title>
+    <style>
+        :root {
+            --primary-bg: #FFFFFF;
+            --secondary-bg: #F3F4F6;
+            --card-back: #2F7ED8;    
+            --card-matched: #73AF48;  
+            --text-primary: #1F2937;
+            --button-primary: #2F7ED8;
+            --button-hover: #1D4ED8;
+            --button-disabled: #9CA3AF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--secondary-bg);
+            padding: 20px;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        .controls-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            padding: 15px 20px;
+            background-color: var(--primary-bg);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .game-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .game-stats {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .controls-bar button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            background-color: var(--button-primary);
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .controls-bar button:hover {
+            background-color: var(--button-hover);
+        }
+
+        .controls-bar button:disabled {
+            background-color: var(--button-disabled);
+            cursor: not-allowed;
+        }
+
+        .moves-counter {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        #memory-game {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-width: 800px;
+            background-color: var(--primary-bg);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .card {
+            aspect-ratio: 1;
+            width: 100%;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .card .front,
+        .card .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backface-visibility: hidden;
+            transition: transform 0.5s ease;
+            border-radius: 8px;
+        }
+
+        .card .front {
+            background-color: var(--card-matched);
+            border: 2px solid #E5E7EB;
+            transform: rotateY(180deg);
+            font-size: 24px;
+            padding: 5px;
+            text-align: center;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .card .front.small-text {
+            font-size: 16px;
+        }
+
+        .card .back {
+            background-color: var(--card-back);
+            border: 2px solid transparent;
+        }
+
+        .card.flip .front {
+            transform: rotateY(0deg);
+        }
+
+        .card.flip .back {
+            transform: rotateY(180deg);
+        }
+
+        .card.matched .front {
+            background-color: var(--card-matched);
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: var(--primary-bg);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .modal-buttons {
+            margin-top: 15px;
+        }
+
+        .modal-buttons button {
+            margin: 0 10px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+            #memory-game {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .controls-bar {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .game-stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="controls-bar">
+        <div class="game-title" id="stage-title">בהצלחה</div>
+        <div class="game-stats">
+            <span class="moves-counter">מהלכים: <span id="moves">0</span></span>
+            <button id="hint-btn">רמז חד פעמי</button>
+            <button id="restart-btn">מהתחלה</button>
+        </div>
+    </div>
+
+    <div id="memory-game"></div>
+
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content">
+            <h2>מהתחלה?</h2>
+            <p>ההתקדמות שלך עד עכשיו תלך לאיבוד</p>
+            <div class="modal-buttons">
+                <button id="confirm-yes" style="background-color: var(--button-primary); color: white;">כן</button>
+                <button id="confirm-no" style="background-color: var(--button-disabled); color: white;">לא</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+// Multi-stage game data structure
+const gameStages = [
+  {
+    "id": 1,
+    "title": "שלב 1: א.ח.ל, ב.ר.כ, ע.ר.כ, ט.י.ל, ש.מ.ר, ל.מ.ד, ש.א.ל",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "אאחל" }, { "content": "יאחלו" }] },
+      { "id": 2, "pairs": [{ "content": "אברך" }, { "content": "יברכו" }] },
+      { "id": 3, "pairs": [{ "content": "אערוך" }, { "content": "יערכו" }] },
+      { "id": 4, "pairs": [{ "content": "אטייל" }, { "content": "יטיילו" }] },
+      { "id": 5, "pairs": [{ "content": "אשמור" }, { "content": "ישמרו" }] },
+      { "id": 6, "pairs": [{ "content": "אלמד" }, { "content": "ילמדו" }] },
+      { "id": 7, "pairs": [{ "content": "אשאל" }, { "content": "ישאלו" }] }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "שלב 2: ק.ר.א, ה.ל.כ, ע.ש.ה, ג.ד.ל, ח.ש.ב, י.ש.ב, כ.ת.ב",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "אקרא" }, { "content": "יקראו" }] },
+      { "id": 2, "pairs": [{ "content": "אלך" }, { "content": "ילכו" }] },
+      { "id": 3, "pairs": [{ "content": "אעשה" }, { "content": "יעשו" }] },
+      { "id": 4, "pairs": [{ "content": "אגדל" }, { "content": "יגדלו" }] },
+      { "id": 5, "pairs": [{ "content": "אחשוב" }, { "content": "יחשבו" }] },
+      { "id": 6, "pairs": [{ "content": "אשב" }, { "content": "ישבו" }] },
+      { "id": 7, "pairs": [{ "content": "אכתוב" }, { "content": "יכתבו" }] }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "שלב 3: ס.פ.ר, פ.ת.ח, ר.א.ה, ש.מ.ע, ת.פ.ס, ד.ב.ר, נ.ס.ע",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "סיפרתי" }, { "content": "סיפרו" }] },
+      { "id": 2, "pairs": [{ "content": "פתחתי" }, { "content": "פתחו" }] },
+      { "id": 3, "pairs": [{ "content": "ראיתי" }, { "content": "ראו" }] },
+      { "id": 4, "pairs": [{ "content": "שמעתי" }, { "content": "שמעו" }] },
+      { "id": 5, "pairs": [{ "content": "תפסתי" }, { "content": "תפסו" }] },
+      { "id": 6, "pairs": [{ "content": "דיברתי" }, { "content": "דיברו" }] },
+      { "id": 7, "pairs": [{ "content": "נסעתי" }, { "content": "נסעו" }] }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "שלב 4: א.מ.ר, ב.ח.ר, ח.ז.ר, ק.נ.ה, ע.ב.ד, ש.כ.ח, ת.ק.ן",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "אמרתי" }, { "content": "אמרו" }] },
+      { "id": 2, "pairs": [{ "content": "בחרתי" }, { "content": "בחרו" }] },
+      { "id": 3, "pairs": [{ "content": "חזרתי" }, { "content": "חזרו" }] },
+      { "id": 4, "pairs": [{ "content": "קניתי" }, { "content": "קנו" }] },
+      { "id": 5, "pairs": [{ "content": "עבדתי" }, { "content": "עבדו" }] },
+      { "id": 6, "pairs": [{ "content": "שכחתי" }, { "content": "שכחו" }] },
+      { "id": 7, "pairs": [{ "content": "תיקנתי" }, { "content": "תיקנו" }] }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "שלב 5: א.ח.ל, ב.ר.כ, ע.ר.כ, ט.י.ל, ש.מ.ר, ל.מ.ד, ש.א.ל",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "מאחל" }, { "content": "מאחלים" }] },
+      { "id": 2, "pairs": [{ "content": "מברך" }, { "content": "מברכים" }] },
+      { "id": 3, "pairs": [{ "content": "עורך" }, { "content": "עורכים" }] },
+      { "id": 4, "pairs": [{ "content": "מטייל" }, { "content": "מטיילים" }] },
+      { "id": 5, "pairs": [{ "content": "שומר" }, { "content": "שומרים" }] },
+      { "id": 6, "pairs": [{ "content": "לומד" }, { "content": "לומדים" }] },
+      { "id": 7, "pairs": [{ "content": "שואל" }, { "content": "שואלים" }] }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "שלב 6: ק.ר.א, ה.ל.כ, ע.ש.ה, ג.ד.ל, ח.ש.ב, י.ש.ב, כ.ת.ב",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "קורא" }, { "content": "קוראים" }] },
+      { "id": 2, "pairs": [{ "content": "הולך" }, { "content": "הולכים" }] },
+      { "id": 3, "pairs": [{ "content": "עושה" }, { "content": "עושים" }] },
+      { "id": 4, "pairs": [{ "content": "גדל" }, { "content": "גדלים" }] },
+      { "id": 5, "pairs": [{ "content": "חושב" }, { "content": "חושבים" }] },
+      { "id": 6, "pairs": [{ "content": "יושב" }, { "content": "יושבים" }] },
+      { "id": 7, "pairs": [{ "content": "כותב" }, { "content": "כותבים" }] }
+    ]
+  },
+  {
+    "id": 7,
+    "title": "שלב 7: ס.פ.ר, פ.ת.ח, ר.א.ה, ש.מ.ע, ת.פ.ס, ד.ב.ר, נ.ס.ע",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "סיפרנו" }, { "content": "תספרו" }] },
+      { "id": 2, "pairs": [{ "content": "פתחנו" }, { "content": "תפתחו" }] },
+      { "id": 3, "pairs": [{ "content": "ראינו" }, { "content": "תראו" }] },
+      { "id": 4, "pairs": [{ "content": "שמענו" }, { "content": "תשמעו" }] },
+      { "id": 5, "pairs": [{ "content": "תפסנו" }, { "content": "תתפסו" }] },
+      { "id": 6, "pairs": [{ "content": "דיברנו" }, { "content": "תדברו" }] },
+      { "id": 7, "pairs": [{ "content": "נסענו" }, { "content": "תסעו" }] }
+    ]
+  },
+  {
+    "id": 8,
+    "title": "שלב 8: א.מ.ר, ב.ח.ר, ח.ז.ר, ק.נ.ה, ע.ב.ד, ש.כ.ח, ת.ק.ן",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "אמרנו" }, { "content": "תאמרו" }] },
+      { "id": 2, "pairs": [{ "content": "בחרנו" }, { "content": "תבחרו" }] },
+      { "id": 3, "pairs": [{ "content": "חזרנו" }, { "content": "תחזרו" }] },
+      { "id": 4, "pairs": [{ "content": "קנינו" }, { "content": "תקנו" }] },
+      { "id": 5, "pairs": [{ "content": "עבדנו" }, { "content": "תעבדו" }] },
+      { "id": 6, "pairs": [{ "content": "שכחנו" }, { "content": "תשכחו" }] },
+      { "id": 7, "pairs": [{ "content": "תיקנו" }, { "content": "תתקנו" }] }
+    ]
+  },
+  {
+    "id": 9,
+    "title": "שלב 9: צ.ח.ק, ר.ק.ד, ב.ש.ל, ז.כ.ר, ל.ב.ש, מ.כ.ר, ס.ג.ר",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "צוחקת" }, { "content": "צוחקות" }] },
+      { "id": 2, "pairs": [{ "content": "רוקדת" }, { "content": "רוקדות" }] },
+      { "id": 3, "pairs": [{ "content": "מבשלת" }, { "content": "מבשלות" }] },
+      { "id": 4, "pairs": [{ "content": "זוכרת" }, { "content": "זוכרות" }] },
+      { "id": 5, "pairs": [{ "content": "לובשת" }, { "content": "לובשות" }] },
+      { "id": 6, "pairs": [{ "content": "מוכרת" }, { "content": "מוכרות" }] },
+      { "id": 7, "pairs": [{ "content": "סוגרת" }, { "content": "סוגרות" }] }
+    ]
+  },
+  {
+    "id": 10,
+    "title": "שלב 10: פ.ג.ש, ק.פ.צ, ר.ח.צ, ש.ת.ה, ת.פ.ר, א.ה.ב, ב.נ.ה",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "פוגשת" }, { "content": "פוגשות" }] },
+      { "id": 2, "pairs": [{ "content": "קופצת" }, { "content": "קופצות" }] },
+      { "id": 3, "pairs": [{ "content": "רוחצת" }, { "content": "רוחצות" }] },
+      { "id": 4, "pairs": [{ "content": "שותה" }, { "content": "שותות" }] },
+      { "id": 5, "pairs": [{ "content": "תופרת" }, { "content": "תופרות" }] },
+      { "id": 6, "pairs": [{ "content": "אוהבת" }, { "content": "אוהבות" }] },
+      { "id": 7, "pairs": [{ "content": "בונה" }, { "content": "בונות" }] }
+    ]
+  }
+];
+
+// Game state
+let gameState = {
+    currentStage: 0,
+    moves: 0,
+    hintUsed: false,
+    flippedCards: [],
+    matchedCount: 0,
+    isLocked: false
+};
+
+// Create a card element
+function createCard(pairId, cardData) {
+    const card = document.createElement('div');
+    card.classList.add('card');
+    card.dataset.pairId = pairId;
+
+    const front = document.createElement('div');
+    front.classList.add('front');
+    front.textContent = cardData.content;
+
+    const back = document.createElement('div');
+    back.classList.add('back');
+
+    card.appendChild(front);
+    card.appendChild(back);
+
+    return card;
+}
+
+function adjustFontSize(element) {
+    const maxWidth = element.offsetWidth;
+    const maxHeight = element.offsetHeight;
+    
+    // Start with the default font size
+    let fontSize = 24;
+    element.style.fontSize = `${fontSize}px`;
+
+    // Use requestAnimationFrame to ensure the browser has time to apply the initial font size
+    requestAnimationFrame(() => {
+        // Reduce font size until content fits or reaches minimum size
+        while ((element.scrollWidth > maxWidth || element.scrollHeight > maxHeight) && fontSize > 16) {
+            fontSize--;
+            element.style.fontSize = `${fontSize}px`;
+        }
+
+        // If we've reached the minimum font size and content still doesn't fit, add the small-text class
+        if (fontSize <= 16 && (element.scrollWidth > maxWidth || element.scrollHeight > maxHeight)) {
+            element.classList.add('small-text');
+        }
+    });
+}
+
+// Convert dataset to cards array
+function createCardsFromData(data) {
+    return data.flatMap(item => 
+        item.pairs.map(pair => ({
+            id: item.id,
+            type: pair.type,
+            content: pair.content
+        }))
+    );
+}
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function initStage(stageIndex) {
+    const gameContainer = document.getElementById('memory-game');
+    gameContainer.innerHTML = '';
+    
+    const currentStage = gameStages[stageIndex];
+    document.getElementById('stage-title').textContent = currentStage.title;
+    
+    const cards = currentStage.pairs.flatMap(pair => 
+        pair.pairs.map(cardData => ({
+            pairId: pair.id,
+            content: cardData.content
+        }))
+    );
+    const shuffledCards = shuffle([...cards]);
+    
+    shuffledCards.forEach(cardData => {
+        const card = createCard(cardData.pairId, cardData);
+        gameContainer.appendChild(card);
+    });
+
+    // Adjust font sizes after all cards have been added to the DOM
+    requestAnimationFrame(() => {
+        document.querySelectorAll('.card .front').forEach(adjustFontSize);
+    });
+
+    // Reset stage state
+    gameState = {
+        currentStage: stageIndex,
+        moves: 0,
+        hintUsed: false,
+        flippedCards: [],
+        matchedCount: 0,
+        isLocked: false
+    };
+
+    // Reset UI
+    document.getElementById('moves').textContent = '0';
+    document.getElementById('hint-btn').disabled = false;
+}
+
+function handleCardClick(e) {
+    const clicked = e.target.closest('.card');
+    
+    if (gameState.isLocked) return;
+    if (!clicked || clicked.classList.contains('flip') || clicked.classList.contains('matched')) return;
+
+    clicked.classList.add('flip');
+    gameState.flippedCards.push(clicked);
+
+    if (gameState.flippedCards.length === 2) {
+        gameState.moves++;
+        document.getElementById('moves').textContent = gameState.moves;
+        checkMatch();
+    }
+}
+
+function checkMatch() {
+    gameState.isLocked = true;
+    const [card1, card2] = gameState.flippedCards;
+    
+    const isMatch = card1.dataset.pairId === card2.dataset.pairId;
+
+    if (isMatch) {
+        card1.classList.add('matched');
+        card2.classList.add('matched');
+        gameState.matchedCount++;
+        gameState.flippedCards = [];
+        gameState.isLocked = false;
+
+        if (gameState.matchedCount === gameStages[gameState.currentStage].pairs.length) {
+            handleStageComplete();
+        }
+    } else {
+        setTimeout(() => {
+            card1.classList.remove('flip');
+            card2.classList.remove('flip');
+            gameState.flippedCards = [];
+            gameState.isLocked = false;
+        }, 1000);
+    }
+}
+
+function handleStageComplete() {
+    const nextStage = gameState.currentStage + 1;
+    if (nextStage < gameStages.length) {
+        setTimeout(() => {
+            alert('השלב הושלם בהצלחה! עוברים לשלב הבא...');
+            initStage(nextStage);
+        }, 500);
+    } else {
+        setTimeout(() => {
+            alert('מעולה ומדהים! סיימת את כל השלבים - אליפות!');
+        }, 500);
+    }
+}
+
+function handleHint() {
+    if (gameState.hintUsed) return;
+    
+    gameState.isLocked = true;
+    const cards = document.querySelectorAll('.card:not(.matched)');
+    
+    cards.forEach(card => card.classList.add('flip'));
+    
+    setTimeout(() => {
+        cards.forEach(card => card.classList.remove('flip'));
+        gameState.isLocked = false;
+    }, 1000);
+    
+    gameState.hintUsed = true;
+    document.getElementById('hint-btn').disabled = true;
+}
+
+function showRestartConfirmation() {
+    const modal = document.getElementById('confirm-modal');
+    modal.style.display = 'flex';
+}
+
+// Event listeners
+document.getElementById('memory-game').addEventListener('click', handleCardClick);
+document.getElementById('hint-btn').addEventListener('click', handleHint);
+document.getElementById('restart-btn').addEventListener('click', showRestartConfirmation);
+document.getElementById('confirm-yes').addEventListener('click', () => {
+    document.getElementById('confirm-modal').style.display = 'none';
+    initStage(gameState.currentStage);
+});
+document.getElementById('confirm-no').addEventListener('click', () => {
+    document.getElementById('confirm-modal').style.display = 'none';
+});
+
+// Initialize the first stage
+initStage(0);
+</script>
+
+</body>
+</html>
