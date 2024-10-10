@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <link rel="stylesheet" href="http://ez42.live/global/styles/styles-heb.css">
+    <title>✅ EZ42 - זה קל</title>
+	<style>
+
+	</style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+            <div id="sidePanel1" class="side-panel">
+                <div class="logo-container">
+                    <a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+                        <img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+                    </a>
+                </div>
+                <h2>הוראות</h2>
+                <ul>
+					<li>קראו כל שאלה בעיון.</li>
+					<li>בחרו את התשובה הנכונה.</li>
+					<li>הזינו את המספר המתאים.</li>
+					<li>לחצו על "בדקו תשובות" כשסיימתם.</li>
+					<li>תוכלו לנסות שוב אם טעיתם.</li>
+					<li>זכרו את ערך המקום של כל ספרה.</li>
+					<li>חשבו על ההבדל בין הספרה המקורית והחדשה.</li>
+					<li>שימו לב לכיוון השינוי: גדל או קטן.</li>
+					<li>חשבו את ההפרש המדויק בין המספרים.</li>
+                </ul>
+            </div>
+
+            <div id="quizContainer" class="quiz-container">
+                <h1>המבנה העשרוני - ערך המקום</h1>
+
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+
+                <div id="tabContent"></div>
+            </div>
+
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות החיות</h2>
+                <p>החווה שלך גדלה תוך כדי התקדמות! כל שלב מוסיף חיות חדשות לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+ <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+        let attempts = 0;
+const totalStages = 20;
+let currentStage = 0;
+        const manuallySetDefaultTab = 0;
+
+let baseNumber;
+let questions;
+
+function getBaseNumber() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const bn = parseInt(urlParams.get('bn'));
+    
+    if (bn && bn >= 10 && bn <= 10000000) {
+        return bn;
+    }
+    
+    const pl = urlParams.get('pl');
+    
+    switch (pl) {
+        case '1': return Math.floor(Math.random() * 10) + 1;
+        case '10': return Math.floor(Math.random() * 90) + 10;
+        case '100': return Math.floor(Math.random() * 900) + 100;
+        case '1000': return Math.floor(Math.random() * 9000) + 1000;
+        case '10000': return Math.floor(Math.random() * 90000) + 10000;
+        case '100000': return Math.floor(Math.random() * 900000) + 100000;
+        case '1000000': return Math.floor(Math.random() * 9000000) + 1000000;
+        default: return 345210;
+    }
+}
+
+function formatNumber(num) {
+    return num.toLocaleString('he-IL');
+}
+
+function generateStages() {
+    let stages = [];
+    for (let i = 0; i < totalStages; i++) {
+        const baseNumber = getBaseNumber();
+        stages.push({
+            baseNumber: baseNumber,
+            questions: generateQuestions(baseNumber)
+        });
+    }
+    return stages;
+}
+
+let stages = generateStages();
+
+function generateQuestions(number) {
+    const digits = number.toString().split('').map(Number);
+    const placeValueNames = ['מיליונים', 'מאות אלפים', 'עשרות אלפים', 'אלפים', 'מאות', 'עשרות', 'אחדות'];
+    const placeValues = [1000000, 100000, 10000, 1000, 100, 10, 1];
+    const questions = [];
+    const usedPlaceValues = new Set();
+
+    while (questions.length < 5 && usedPlaceValues.size < digits.length) {
+        const randomIndex = Math.floor(Math.random() * digits.length);
+        const placeValueName = placeValueNames[placeValueNames.length - digits.length + randomIndex];
+        
+        if (usedPlaceValues.has(placeValueName)) continue;
+        
+        usedPlaceValues.add(placeValueName);
+        const placeValue = placeValues[placeValues.length - digits.length + randomIndex];
+        
+        let newDigit;
+        do {
+            newDigit = Math.floor(Math.random() * 10);
+        } while (newDigit === digits[randomIndex]);
+
+        const difference = Math.abs(newDigit - digits[randomIndex]) * placeValue;
+
+        questions.push({
+            question: `מה יקרה למספר אם נחליף את ספרת ה${placeValueName} ל-${newDigit}? האם המספר יגדל או יקטן ובכמה?`,
+            answer1: newDigit > digits[randomIndex] ? "יגדל" : "יקטן",
+            answer2: difference
+        });
+    }
+
+    return questions;
+}
+
+		const stateContents = {
+					'תרגול': `<div id="stage-number" class="stage-number"></div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="quiz-content"></div>`,
+					'לימוד הנושא': `<div class="subject-overview-content subject-overview-content_heb">     <h1>מבנה המספר העשרוני</h1>     <p>המספר העשרוני הוא שיטה לייצוג מספרים באמצעות עשר ספרות בסיסיות: 0, 1, 2, 3, 4, 5, 6, 7, 8 ו-9. במבנה זה, כל ספרה במיקום מסוים מייצגת ערך שונה בהתאם למקום שבו היא נמצאת. הבנת מבנה המספר העשרוני היא בסיסית להבנה מתמטית ולחישובים יומיומיים.</p>     <p>נבחן את מבנה המספר העשרוני דרך דוגמאות ממספרים קטנים ועד למספרים גדולים יותר, עד מיליון.</p>         <h2 class="highlight_heb">מיקומי הספרות במערכת העשרונית</h2>     <p>במערכת המספרים העשרונית, כל ספרה במיקום מסוים מייצגת ערך שונה. נתחיל במיקומים הנמוכים ביותר ונמשיך עד למיקומים הגבוהים:</p>         <ul>         <li><span class="highlight_heb">ספרת היחידות:</span> הספרה במקום הראשון מימין. לדוגמה, במספר 7, ספרת היחידות היא 7.</li>         <li><span class="highlight_heb">ספרת העשרות:</span> הספרה במקום השני מימין. לדוגמה, במספר 45, ספרת העשרות היא 4.</li>         <li><span class="highlight_heb">ספרת המאות:</span> הספרה במקום השלישי מימין. לדוגמה, במספר 123, ספרת המאות היא 1.</li>         <li><span class="highlight_heb">ספרת האלפים:</span> הספרה במקום הרביעי מימין. לדוגמה, במספר 1,234, ספרת האלפים היא 1.</li>         <li><span class="highlight_heb">ספרת עשרות האלפים:</span> הספרה במקום החמישי מימין. לדוגמה, במספר 56,789, ספרת עשרות האלפים היא 5.</li>         <li><span class="highlight_heb">ספרת מאות האלפים:</span> הספרה במקום השישי מימין. לדוגמה, במספר 123,456, ספרת מאות האלפים היא 1.</li>         <li><span class="highlight_heb">ספרת המיליון:</span> הספרה במקום השביעי מימין. לדוגמה, במספר 1,000,000, ספרת המיליון היא 1.</li>     </ul>         <h2 class="highlight_heb">פירוק ספרות ומיקומן</h2>     <p>כדי להבין את ערך המספר, חשוב לדעת לפרק אותו לפי מיקומי הספרות השונים:</p>     <ul>         <li><span class="highlight_heb">מספר קטן:</span> מספר 432</li>         <li>פירוק:</li>         <ul>             <li>4 מאות</li>             <li>3 עשרות</li>             <li>2 יחידות</li>         </ul>         <li>סך הכל: 400 + 30 + 2 = 432</li>         <br>         <li><span class="highlight_heb">לדוגמה:</span> מספר 295,687</li>         <li>פירוק:</li>         <ul>             <li>2 מאות אלפים</li>             <li>9 עשרות אלפים</li>             <li>5 אלפים</li>             <li>6 מאות</li>             <li>8 עשרות</li>             <li>7 יחידות</li>         </ul>         <li>סך הכל: 200,000 + 90,000 + 5,000 + 600 + 80 + 7 = 295,687</li>     </ul>     <br>     <h2 class="highlight_heb">בניית מספרים ממיקומי ספרות</h2>     <p>בניית מספר מתוך מיקומי הספרות השונים עוזרת להבין כיצד הספרות משפיעות על ערך המספר:</p>     <ul>         <li><span class="highlight_heb">מספר קטן יותר:</span> ליצור את המספר 56 מתוך:</li>         <ul>             <li>5 עשרות</li>             <li>6 יחידות</li>         </ul>         <li>סך הכל: 50 + 6 = 56</li>         <br>         <li><span class="highlight_heb">לדוגמה:</span> ליצור את המספר 482,359 מתוך:</li>         <ul>             <li>4 מאות אלפים</li>             <li>8 עשרות אלפים</li>             <li>2 אלפים</li>             <li>3 מאות</li>             <li>5 עשרות</li>             <li>9 יחידות</li>         </ul>         <li>סך הכל: 400,000 + 80,000 + 2,000 + 300 + 50 + 9 = 482,359</li>     </ul>     <br>     <h2 class="highlight_heb">כתיבה וקריאה נכונה של מספרים</h2>     <p>כאשר כותבים מספרים בעברית, יש להקפיד על סדר הספרות מהימין לשמאל, כאשר היחידות נמצאות במקום הנמוך ביותר והגדולות ביותר משמאל:</p>     <ul>         <li><span class="highlight_heb">מספר קטן:</span> 95</li>         <li>פירוק:</li>         <ul>             <li>9 עשרות</li>             <li>5 יחידות</li>         </ul>         <li>סך הכל: 90 + 5 = 95</li>         <br>         <li><span class="highlight_heb">מספר גדול:</span> 345,678</li>         <li>פירוק:</li>         <ul>             <li>3 מאות אלפים</li>             <li>4 עשרות אלפים</li>             <li>5 אלפים</li>             <li>6 מאות</li>             <li>7 עשרות</li>             <li>8 יחידות</li>         </ul>         <li>סך הכל: 300,000 + 40,000 + 5,000 + 600 + 70 + 8 = 345,678</li>     </ul>     <br>     <h2 class="highlight_heb">תרגול והבנה מעמיקה</h2>     <p>להבנת מבנה המספר העשרוני באופן מעמיק, חשוב לתרגל פירוק ובניית מספרים שונים:</p>     <ul>         <li><span class="highlight_heb">לדוגמה:</span> מספר 58,321</li>         <li>פירוק:</li>         <ul>             <li>50,000 (5 עשרות אלפים)</li>             <li>8,000 (8 אלפים)</li>             <li>300 (3 מאות)</li>             <li>20 (2 עשרות)</li>             <li>1 (1 יחידה)</li>         </ul>         <li>סך הכל: 50,000 + 8,000 + 300 + 20 + 1 = 58,321</li>         <li>או בצורה מפורטת:</li>         <li>5 עשרות אלפים + 8 אלפים + 3 מאות + 2 עשרות + 1 יחידה</li>         <br>                 <li><span class="highlight_heb">לדוגמה:</span> מספר 999,999</li>         <li>פירוק:</li>         <ul>             <li>900,000 (9 מאות אלפים)</li>             <li>90,000 (9 עשרות אלפים)</li>             <li>9,000 (9 אלפים)</li>             <li>900 (9 מאות)</li>             <li>90 (9 עשרות)</li>             <li>9 (9 יחידות)</li>         </ul>         <li>סך הכל: 900,000 + 90,000 + 9,000 + 900 + 90 + 9 = 999,999</li>         <li>או בצורה מפורטת:</li>         <li>9 מאות אלפים + 9 עשרות אלפים + 9 אלפים + 9 מאות + 9 עשרות + 9 יחידות</li>         <br>                 <li><span class="highlight_heb">לדוגמה:</span> מספר 2,967,485</li>         <li>פירוק:</li>         <ul>             <li>2,000,000 (2 מיליון)</li>             <li>900,000 (9 מאות אלפים)</li>             <li>60,000 (6 עשרות אלפים)</li>             <li>7,000 (7 אלפים)</li>             <li>400 (4 מאות)</li>             <li>80 (8 עשרות)</li>             <li>5 (5 יחידות)</li>         </ul>         <li>סך הכל: 2,000,000 + 900,000 + 60,000 + 7,000 + 400 + 80 + 5 = 2,967,485</li>         <li>או בצורה מפורטת:</li>         <li>2 מיליון + 9 מאות אלפים + 6 עשרות אלפים + 7 אלפים + 4 מאות + 8 עשרות + 5 יחידות</li>     </ul>     <br>         <h2 class="highlight_heb">סיכום</h2>     <p>מבנה המספר העשרוני הוא הבסיס להבנה מתמטית נכונה. על ידי לימוד מיקומי הספרות והערכים שכל ספרה מייצגת, ניתן לקרוא, לכתוב ולחשב מספרים בצורה מדויקת. תרגול עם מספרים שונים, עד למספרים גדולים כמו מיליון, יעזור לבסס את ההבנה ולהפוך את השימוש במספרים לפשוט ויעיל.</p> </div>`,
+					'התאמת רמה': `<div class="subject-overview-content subject-overview-content_heb">
+    <h1>התאמת רמה באמצעות פרמטרים בכתובת האתר</h1>
+    <p>במשחק זה ניתן להתאים את רמת הקושי ואת המספר הבסיסי על ידי שימוש בפרמטרים <span class="highlight_heb">bn</span> ו-<span class="highlight_heb">pl</span> בכתובת האתר. פרמטרים אלו מאפשרים לקבוע את המספר הבסיסי או את טווח המספרים שיוצגו בשאלות המשחק.</p>
+    <p>באמצעות שימוש בפרמטרים אלו, ניתן להתאים את רמת המשחק לצרכים האישיים שלכם.</p>
+    
+    <h2 class="highlight_heb">כיצד להשתמש בפרמטרים</h2>
+    <p>ישנם שני פרמטרים עיקריים:</p>
+    <ul>
+        <li><span class="highlight_heb">bn (Base Number):</span> קובע מספר בסיסי ספציפי למשחק.</li>
+        <li><span class="highlight_heb">pl (Place Value):</span> קובע את טווח המספרים האפשריים.</li>
+    </ul>
+    <p>חשוב לציין: אם שני הפרמטרים מוגדרים, <span class="highlight_heb">bn</span> יקבל עדיפות.</p>
+
+    <h2 class="highlight_heb">דוגמאות לשימוש בפרמטרים</h2>
+    <ul>
+        <li><span class="highlight_heb">שימוש ב-bn:</span>
+            <div class="english_heb"><code>?bn=345210</code></div>
+            קובע את המספר הבסיסי ל-345,210.
+        </li>
+        <li><span class="highlight_heb">שימוש ב-pl:</span>
+            <div class="english_heb"><code>?pl=1000</code></div>
+            בוחר מספר אקראי בין 1,000 ל-9,999.
+        </li>
+    </ul>
+
+    <h2 class="highlight_heb">5 דוגמאות של רמות קושי שונות</h2>
+    <ul>
+        <li><span class="highlight_heb">רמת קושי גבוהה מאוד:</span>
+            <div class="english_heb"><code>?pl=1000000</code></div>
+            מספר אקראי בין 1,000,000 ל-9,999,999.
+        </li>
+        <li><span class="highlight_heb">רמת קושי בינונית:</span>
+            <div class="english_heb"><code>?pl=10000</code></div>
+            מספר אקראי בין 10,000 ל-99,999.
+        </li>
+        <li><span class="highlight_heb">רמת קושי נמוכה:</span>
+            <div class="english_heb"><code>?pl=100</code></div>
+            מספר אקראי בין 100 ל-999.
+        </li>
+        <li><span class="highlight_heb">רמת קושי למתחילים:</span>
+            <div class="english_heb"><code>?pl=10</code></div>
+            מספר אקראי בין 10 ל-99.
+        </li>
+        <li><span class="highlight_heb">מספר ספציפי:</span>
+            <div class="english_heb"><code>?bn=42500</code></div>
+            קובע את המספר הבסיסי ל-42,500.
+        </li>
+    </ul>
+
+    <h2 class="highlight_heb">שימוש משולב בפרמטרים</h2>
+    <p>אם תשתמשו בשני הפרמטרים יחד, <span class="highlight_heb">bn</span> יקבל עדיפות:</p>
+    <div class="english_heb"><code>?bn=50000&pl=100</code></div>
+    <p>במקרה זה, המשחק ישתמש במספר הבסיסי 50,000, ויתעלם מהפרמטר pl.</p>
+</div>
+								`
+
+
+		};
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.classList.toggle('expanded', isQuizExpanded && allowQuizExpansion);
+
+            if (isPanel1Visible) {
+                sidePanel1.classList.remove('hidden');
+                quizContainer.classList.remove('full-width');
+            } else {
+                sidePanel1.classList.add('hidden');
+                quizContainer.classList.add('full-width');
+            }
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.classList.toggle('hidden');
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.classList.remove('flex-grow');
+                label.classList.add('flex-none');
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.classList.remove('fixed-width');
+        }
+
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+function showContent(state) {
+    const tabContent = document.getElementById('tabContent');
+    tabContent.innerHTML = stateContents[state] || '';
+
+    if (state === 'תרגול') {
+        renderQuiz();
+        updateProgressBar();
+    }
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    const stage = stages[currentStage];
+    
+    // Display the stage number, attempts, and base number
+    const infoBox = document.createElement('div');
+    infoBox.className = 'game-board';
+    infoBox.style.textAlign = 'center';
+    infoBox.style.marginBottom = '20px';
+    infoBox.style.padding = '10px';
+    
+    infoBox.innerHTML = `
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+            <span>שלב ${currentStage + 1} מתוך ${totalStages}</span>
+            <span>נסיונות: ${attempts}</span>
+        </div>
+        <div style="font-weight: bold; font-size: 1.2em; margin-top: 10px;">המספר לשלב זה:</div>
+        <div style="font-size: 1.5em; font-weight: bold; margin-top: 5px;">${formatNumber(stage.baseNumber)}</div>
+    `;
+    
+    quizContainer.appendChild(infoBox);
+	
+    // Generate and display questions
+    stage.questions.forEach((question, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+
+        questionElement.innerHTML = `
+            <label style="display: block; margin-bottom: 10px; font-weight: bold;">${index + 1}. ${question.question}</label>
+            <div class="answer-container" style="margin-bottom: 10px;">
+                <span style="margin-right: 10px;">תוצאה: </span>
+                <select id="q${index}_1" data-answer='${JSON.stringify(question.answer1)}' class="answer-rtl" style="margin-right: 20px;">
+                    <option value="">בחר תשובה</option>
+                    <option value="יגדל">יגדל</option>
+                    <option value="יקטן">יקטן</option>
+                </select>
+            </div>
+            <div class="answer-container" style="margin-bottom: 10px;">
+                <span style="margin-right: 10px;">בכמה: </span>
+                <input type="text" id="q${index}_2" data-answer='${JSON.stringify(question.answer2)}' class="answer-rtl">
+            </div>
+        `;
+        quizContainer.appendChild(questionElement);
+    });
+
+    // Add check answers button
+    const checkButton = document.createElement('button');
+    checkButton.textContent = 'בדיקת תשובות';
+    checkButton.className = 'center-button';
+    checkButton.onclick = checkStage;
+    quizContainer.appendChild(checkButton);
+}
+
+
+function compareAnswers(userAnswer, correctAnswer) {
+    // If both can be parsed as numbers, compare them as numbers
+    if (!isNaN(userAnswer) && !isNaN(correctAnswer)) {
+        return parseFloat(userAnswer) === parseFloat(correctAnswer);
+    }
+    // Otherwise, compare them as case-insensitive strings
+    return userAnswer.toLowerCase() === correctAnswer.toString().toLowerCase();
+}
+
+function checkStage() {
+    attempts++;
+    
+    let correctCount = 0;
+    let results = [];
+    const stage = stages[currentStage];
+
+    stage.questions.forEach((question, index) => {
+        const selectElement = document.getElementById(`q${index}_1`);
+        const inputElement = document.getElementById(`q${index}_2`);
+
+        const userAnswer1 = selectElement.value;
+        const userAnswer2 = parseInt(inputElement.value.replace(/,/g, ''));
+
+        const correct1 = userAnswer1 === question.answer1;
+        const correct2 = userAnswer2 === question.answer2;
+
+        selectElement.className = correct1 ? "answer-rtl correct" : "answer-rtl incorrect";
+        inputElement.className = correct2 ? "answer-rtl correct" : "answer-rtl incorrect";
+
+        if (correct1) correctCount++;
+        if (correct2) correctCount++;
+
+        results.push({
+            questionNumber: index + 1,
+            correct: correct1 && correct2,
+            userAnswer: `${userAnswer1} ב-${formatNumber(userAnswer2)}`,
+            correctAnswer: `${question.answer1} ב-${formatNumber(question.answer2)}`
+        });
+
+        if (attempts >= 10) {
+            selectElement.value = question.answer1;
+            inputElement.value = formatNumber(question.answer2);
+            selectElement.disabled = true;
+            inputElement.disabled = true;
+        }
+    });
+
+    updateProgressBar();
+
+    const allCorrect = correctCount === stage.questions.length * 2;
+    let message = allCorrect ? 
+        `כל הכבוד! השלמת את שלב ${currentStage + 1} בהצלחה.` : 
+        `יש תשובות לא נכונות. קיבלת ${correctCount} נכונות מתוך ${stage.questions.length * 2} אפשריות.`;
+
+    showModal(message, results);
+
+    if (allCorrect) {
+        if (currentStage < totalStages - 1) {
+            addAnimalsToFarm(stage.questions.length);
+            currentStage++;
+            setTimeout(() => {
+                attempts = 0;
+                renderQuiz();
+                updateProgressBar();
+            }, 1500);
+        } else {
+            addAnimalsToFarm(stage.questions.length);
+            showModal("כל הכבוד! השלמת את כל השלבים!");
+            allStagesConfetti();
+        }
+    } else {
+        renderQuiz(); // Re-render to update the attempts count
+    }
+
+    scrollToTop();
+}
+
+function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+    const incorrectCount = totalQuestions - correctCount;
+    let message = `קיבלת ${correctCount} נכונות ו-${incorrectCount} שגויות.`;
+
+    if (correctCount === totalQuestions) {
+        message += " ציון מושלם!";
+    } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+        message += " עבודה מצוינת! רואים שהנושא מתחיל להיות מובן!";
+    } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+        message += " מאמץ טוב! נמשיך לתרגל כי השיפור קרוב!";
+    } else {
+        message += " לא לוותר! כל נסיון עוזר לך ללמוד. ננסה שוב!";
+    }
+
+    if (isStageComplete) {
+        message += "\n\n השלב הזה הסתיים, עוברים לשלב הבא.";
+    }
+
+    showModal(message);
+}
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+    
+    // Calculate total correct answers across all completed stages
+    let totalCorrect = 0;
+    let totalQuestions = 0;
+    
+    for (let i = 0; i < currentStage; i++) {
+        totalCorrect += stages[i].questions.length * 2; // All questions in completed stages are correct
+        totalQuestions += stages[i].questions.length * 2;
+    }
+    
+    // Add correct answers from the current stage
+    const currentStageCorrect = document.querySelectorAll('.answer-rtl.correct').length;
+    totalCorrect += currentStageCorrect;
+    totalQuestions += stages[currentStage].questions.length * 2;
+
+    // Calculate overall progress
+    const progress = (totalCorrect / (totalStages * 5 * 2)) * 100; // Assuming 5 questions per stage, 2 parts per question
+    const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+    
+    // Update progress bar
+    progressBar.style.width = `${roundedProgress}%`;
+    progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+
+    // Update stage progress
+    const stageBox = document.getElementById('stage-box');
+    if (stageBox) {
+        stageBox.textContent = `שלב ${currentStage + 1} מתוך ${totalStages}`;
+    }
+}
+
+        function allStagesConfetti() {
+            const defaults = {
+                spread: 360,
+                ticks: 50,
+                gravity: 0,
+                decay: 0.94,
+                startVelocity: 30,
+                shapes: ["star"],
+                colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+            };
+            function shoot() {
+                confetti({
+                    ...defaults,
+                    particleCount: 40,
+                    scalar: 1.2,
+                    shapes: ["star"],
+                });
+                confetti({
+                    ...defaults,
+                    particleCount: 10,
+                    scalar: 0.75,
+                    shapes: ["circle"],
+                });
+            }
+            setTimeout(shoot, 0);
+            setTimeout(shoot, 100);
+            setTimeout(shoot, 200);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+function initializeSwitch() {
+    const switchElement = document.getElementById('multiStateSwitch');
+    const labelsContainer = switchElement.querySelector('.switch-labels');
+    const switchContainer = document.getElementById('switchContainer');
+
+    const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+
+    if (activeStates.length <= 1) {
+        switchContainer.classList.add('hidden');
+        if (activeStates.length === 1) {
+            showContent(activeStates[0]);
+        }
+        return;
+    }
+
+    switchContainer.classList.remove('hidden');
+
+    activeStates.forEach((state, index) => {
+        const label = document.createElement('div');
+        label.className = 'switch-label';
+        label.textContent = state;
+        label.addEventListener('click', () => switchTab(index));
+        labelsContainer.appendChild(label);
+    });
+
+    const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+        ? manuallySetDefaultTab
+        : 0;
+
+    switchTab(defaultTab);
+}
+
+        let farmAnimals = [];
+
+        function addAnimalsToFarm(count) {
+            const animalFarm = document.getElementById('animalFarm');
+            let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+            console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+            for (let i = 0; i < count; i++) {
+                if (availableAnimals.length === 0) {
+                    console.log("No more unique animals available!");
+                    break;
+                }
+
+                const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+                const chosenAnimal = availableAnimals[randomIndex];
+
+                const animalElement = document.createElement('li');
+                animalElement.textContent = chosenAnimal;
+                animalFarm.appendChild(animalElement);
+
+                farmAnimals.push(chosenAnimal);
+                availableAnimals.splice(randomIndex, 1);
+                console.log(`Added animal: ${chosenAnimal}`);
+            }
+
+            console.log(`Farm size after addition: ${farmAnimals.length}`);
+            logAnimalFarmState();
+        }
+
+        function logAnimalFarmState() {
+            console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+            console.log(farmAnimals);
+        }
+
+        const animals = [
+            "🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+            "🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+            "🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+            "🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+            "🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+            "🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+            "🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+            "🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+            "🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+            "🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+            "🐷", "🐩", "🐘", "🐸", "🐝"
+        ];
+
+function showModal(message, results = []) {
+    const modal = document.getElementById("quizModal");
+    const modalMessage = document.getElementById("modalMessage");
+    const modalButton = document.getElementById("modalButton");
+    const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+    let resultsHtml = '';
+    if (results.length > 0) {
+        resultsHtml = `
+            <div style="max-height: 300px; overflow-y: auto;">
+                ${results.map((result, index) => `
+                    <div style="display: flex; align-items: center; margin-bottom: 10px; ${result.correct ? 'color: green;' : 'color: red;'}">
+                        <span style="margin-right: 10px;">${result.correct ? '✅' : '❌'}</span>
+                        <span>שאלה ${index + 1}: ${result.correct ? 'נכון' : 'לא נכון'}</span>
+                        ${!result.correct ? `<span style="margin-right: 10px;">התשובה הנכונה: ${result.correctAnswer}</span>` : ''}
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    modalMessage.innerHTML = `
+        <h2>${message}</h2>
+        ${resultsHtml}
+    `;
+
+    modal.style.display = "block";
+
+    modalButton.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    modalClose.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+}
+
+window.addEventListener('load', () => {
+    initializeSwitch();
+    stages = generateStages();
+    renderQuiz();
+    updateProgressBar();
+    adjustLayout();
+});
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Scroll to top button functionality
+        window.onscroll = function() {
+            const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                scrollToTopBtn.classList.add('show');
+            } else {
+                scrollToTopBtn.classList.remove('show');
+            }
+        };
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};		
+
+
+
+    </script>
+</body>
+</html>
