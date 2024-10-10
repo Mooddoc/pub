@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-heb.css">
     <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
     <title>✅ EZ42 - זה קל</title>
+	<style>
+
+	</style>
+	
 </head>
 <body>
     <div class="page-container">
@@ -155,6 +159,7 @@
                 }
                 const cell = row.insertCell();
                 cell.textContent = tableNumbers[i].toLocaleString('en-US');
+				cell.classList.add('numbers-table-td');
             }
             document.getElementById('numberRange').textContent = `טווח המספרים: מ-${minNumber.toLocaleString('en-US')} ועד ${maxNumber.toLocaleString('en-US')}`;
         }
@@ -247,6 +252,7 @@
 
             if (correctCount === selectedNumbers.length) {
                 addAnimalsToFarm(correctCount);
+				singleStageConfetti();
                 showModal("כל הכבוד! השלמת את השלב בהצלחה.");
                 currentStage++;
                 if (currentStage < stageCount) {
@@ -255,6 +261,7 @@
                         initializeQuiz();
                     }, 1500);
                 } else {
+					allStagesConfetti();
                     showModal("כל הכבוד! השלמת את כל השלבים.");
                 }
             } else if (attempts >= 10) {
@@ -379,7 +386,46 @@
             selectRandomNumbers();
             generateQuiz();
         }
+        function singleStageConfetti() {
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+            confetti({
+                angle: randomInRange(55, 125),
+                spread: randomInRange(50, 70),
+                particleCount: randomInRange(50, 100),
+                origin: { y: 0.6 },
+            });
+        }
 
+        function allStagesConfetti() {
+            const defaults = {
+                spread: 360,
+                ticks: 50,
+                gravity: 0,
+                decay: 0.94,
+                startVelocity: 30,
+                shapes: ["star"],
+                colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+            };
+            function shoot() {
+                confetti({
+                    ...defaults,
+                    particleCount: 40,
+                    scalar: 1.2,
+                    shapes: ["star"],
+                });
+                confetti({
+                    ...defaults,
+                    particleCount: 10,
+                    scalar: 0.75,
+                    shapes: ["circle"],
+                });
+            }
+            setTimeout(shoot, 0);
+            setTimeout(shoot, 100);
+            setTimeout(shoot, 200);
+        }
         window.addEventListener('load', () => {
             initializeSwitch();
             initializeQuiz();

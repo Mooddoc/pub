@@ -162,6 +162,7 @@
                 }
                 const cell = row.insertCell();
                 cell.textContent = tableNumbers[i].toLocaleString('en-US');
+				cell.classList.add('numbers-table-td');
             }
             document.getElementById('numberRange').textContent = `טווח המספרים: מ-${minNumber.toLocaleString('en-US')} ועד ${maxNumber.toLocaleString('en-US')}`;
         }
