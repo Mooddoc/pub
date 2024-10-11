@@ -920,6 +920,46 @@
             autocomplete: off;
         }
 		
+																					/* ------------ question in one row Styles DOUBLE SIZE INPUT BOX--------------- */		
+		.question-one-line-double-input {
+			display: flex;
+			align-items: center;
+			justify-content: flex-start;
+			padding: 0.5rem;
+			background-color: #f1f1f1;
+			border-radius: 0.5rem;
+			margin-bottom: 1rem;
+			direction: ltr;
+		}
+
+		.question-one-line-double-input label {
+			flex: 1;
+			text-align: left;
+			margin-left: 1rem;
+			margin-right: 1rem;
+		}
+
+		.question-one-line-double-input .input-wrapper {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		.question-one-line-double-input input[type="text"] {
+			width: 100%;
+			padding: 0.5rem;
+			border-radius: 0.3rem;
+			border: 1px solid #ccc;
+			margin-right: 1rem;
+			box-sizing: border-box;
+		}
+
+		.question-one-line-double-input .result {
+			margin-top: 0.5rem;
+			margin-left: 0.5rem;
+		}
+		
 																				/* ------------ Matching Game Styles --------------- */		
 		.columns-container {
 			display: flex;
