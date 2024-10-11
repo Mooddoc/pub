@@ -902,12 +902,12 @@
             background-color: #f1f1f1;
             border-radius: 0.5rem;
             margin-bottom: 1rem;
-            direction: rtl;
+            direction: ltr;
         }
 
         .question-one-line label {
             flex-grow: 1;
-            text-align: right;
+            text-align: left;
             margin-left: 1rem;
         }
 
@@ -1336,4 +1336,10 @@
 
 		#scrollToTopBtn:hover {
 		  background-color: #005fa3;
+		}
+		
+		.result-ltr {
+			margin-left: 1rem;
+			margin-right: 1rem;
+			white-space: nowrap;
 		}
