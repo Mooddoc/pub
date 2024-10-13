@@ -27,14 +27,15 @@
                 <h2>הוראות</h2>
                 <ul>
                     <!--  PH1 - Instructions & Rules   -->    
-                    <li>יש לבחור שאלה ולקרוא אותה בעיון.</li>
-                    <li>ביחרו את התשובה הנכונה לשאלה.</li>
-                    <li>ליחצו על השאלה והתשובה הנכונה להתאמה.</li>
-                    <li>ניתן גם לגרור להתאמה.</li>
-                    <li>יש ללחוץ על בדיקת תשובות כשמוכנים.</li>
-                    <li>יש להשלים את כל השאלות כדי לעבור לשלב הבא.</li>
-                    <li>לאחר 10 נסיונות בשלב מסוים, התשובות הנכונות בשלב ייתגלו.</li>
-                    <li>תהנו!</li>
+					<li>בחרו אימוג'י וקראו בעיון את שמו.</li>
+					<li>מצאו את השם שמתאים לאימוג'י ולחצו עליו.</li>
+					<li>לחצו על האימוג'י ועל השם המתאים כדי ליצור התאמה נכונה.</li>
+					<li>אפשר גם לגרור את השם אל האימוג'י המתאים לו.</li>
+					<li>סיימתם? לחצו על 'בדיקת תשובות' כדי לראות כמה צדקתם!</li>
+					<li>התאימו את כל האימוג'ים לשמות כדי לעבור לשלב הבא ולהוסיף חיות חדשות לחווה שלכם!</li>
+					<li>אחרי 10 ניסיונות, נגלה לכם את התשובות הנכונות, אז נסו קודם בעצמכם!</li>
+					<li>תיהנו מהמשחק – למידה היא כיף!</li>
+
                 </ul>
             </div>
             <!--  Quiz Panel   -->
@@ -70,7 +71,7 @@
             <button id="modalButton" class="modal-quiz-button">אישור</button>
         </div>
     </div>
-
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
     <script>
         // Template Elements
         let isQuizExpanded = false;
@@ -446,7 +447,7 @@
 									{ "question_id": 5, "question": "🦥" },
 									{ "question_id": 6, "question": "🪀" },
 									{ "question_id": 7, "question": "🌶️" },
-									{ "question_id": 8, "question": "👨‍🦽" },
+									{ "question_id": 8, "question": "🦽" },
 									{ "question_id": 9, "question": "🍂" },
 									{ "question_id": 10, "question": "🎲" }
 								  ],
@@ -640,7 +641,7 @@
 					<button class="center-button" onclick="clearAllAnswers()" style="background-color: #00CED1">נקה הכל</button>
 				</div>
 			`
-			//,'לימוד הנושא': `<h2>משפטים חיוביים</h2>`
+			,'אוצר המילים 🗝️': `<div class="page-container"> <div class="content-wrapper"> <table class="vocabulary-table"> <thead> <tr> <th style="width: 50%;">אימוג'י</th> <th class="hebrew" style="text-align: right;">עברית</th> </tr> </thead> <tbody> <tr><td>🥑</td><td class="hebrew">אַבּוֹקָדוֹ</td></tr> <tr><td>🍉</td><td class="hebrew">אֲבַטִּיחַ</td></tr> <tr><td>🌰</td><td class="hebrew">אֱגוֹז</td></tr> <tr><td>🏕️</td><td class="hebrew">אֹהֶל</td></tr> <tr><td>🚌</td><td class="hebrew">אוֹטוֹבּוּס</td></tr> <tr><td>🚲</td><td class="hebrew">אוֹפַנַּיִם</td></tr> <tr><td>🦁</td><td class="hebrew">אַרְיֵה</td></tr> <tr><td>🐰</td><td class="hebrew">אַרְנָב</td></tr> <tr><td>🍍</td><td class="hebrew">אֲנָנָס</td></tr> <tr><td>🪕</td><td class="hebrew">בַּנְג'וֹ</td></tr> <tr><td>🏠</td><td class="hebrew">בַּיִת</td></tr> <tr><td>🎈</td><td class="hebrew">בָּלוֹן</td></tr> <tr><td>🍌</td><td class="hebrew">בָּנָנָה</td></tr> <tr><td>🥯</td><td class="hebrew">בֵּייגְל</td></tr> <tr><td>🏫</td><td class="hebrew">בֵּית סֵפֶר</td></tr> <tr><td>🥚</td><td class="hebrew">בֵּיצָה</td></tr> <tr><td>🎳</td><td class="hebrew">בּוֹלִינְג</td></tr> <tr><td>🦨</td><td class="hebrew">בּוֹאָשׁ</td></tr> <tr><td>🥜</td><td class="hebrew">בּוֹטְנִים</td></tr> <tr><td>🧅</td><td class="hebrew">בָּצָל</td></tr> <tr><td>🚰</td><td class="hebrew">בֶּרֶז</td></tr> <tr><td>🥦</td><td class="hebrew">בְּרוֹקוֹלִי</td></tr> <tr><td>🧴</td><td class="hebrew">בַּקְבּוּק</td></tr> <tr><td>🦒</td><td class="hebrew">ג'ִירָף</td></tr> <tr><td>🧀</td><td class="hebrew">גְּבִינָה</td></tr> <tr><td>🥕</td><td class="hebrew">גֶּזֶר</td></tr> <tr><td>🎸</td><td class="hebrew">גִּיטָרָה</td></tr> <tr><td>🍦</td><td class="hebrew">גְּלִידָה</td></tr> <tr><td>🎡</td><td class="hebrew">גַּלְגַּל עֲנָק</td></tr> <tr><td>🦡</td><td class="hebrew">גָּרִית</td></tr> <tr><td>🐻</td><td class="hebrew">דֹּב</td></tr> <tr><td>🐟</td><td class="hebrew">דָּג</td></tr> <tr><td>🍯</td><td class="hebrew">דְּבַשׁ</td></tr> <tr><td>🦕</td><td class="hebrew">דִּינוֹזָאוּר</td></tr> <tr><td>🧬</td><td class="hebrew">דִּי אֶן אֵיי</td></tr> <tr><td>🚪</td><td class="hebrew">דֶּלֶת</td></tr> <tr><td>🐬</td><td class="hebrew">דּוֹלְפִין</td></tr> <tr><td>🧸</td><td class="hebrew">דֻּבִּי</td></tr> <tr><td>🌴</td><td class="hebrew">דֶּקֶל</td></tr> <tr><td>🦔</td><td class="hebrew">דָּרְבָּן</td></tr> <tr><td>🐝</td><td class="hebrew">דְּבוֹרָה</td></tr> <tr><td>🏴☠️</td><td class="hebrew">דֶּגֶל פִּירָטִים</td></tr> <tr><td>🪵</td><td class="hebrew">הֶגֶה</td></tr> <tr><td>🌺</td><td class="hebrew">הִיבִּיסְקוּס</td></tr> <tr><td>🦛</td><td class="hebrew">הִיפּוֹפּוֹטָם</td></tr> <tr><td>🏔️</td><td class="hebrew">הַר</td></tr> <tr><td>🐺</td><td class="hebrew">זְאֵב</td></tr> <tr><td>🦓</td><td class="hebrew">זֶבְרָה</td></tr> <tr><td>🕯️</td><td class="hebrew">זֵר</td></tr> <tr><td>🦾</td><td class="hebrew">זְרוֹעַ רוֹבּוֹטִית</td></tr> <tr><td>🪰</td><td class="hebrew">זְבוּב</td></tr> <tr><td>🐞</td><td class="hebrew">חִפּוּשִׁית</td></tr> <tr><td>🦗</td><td class="hebrew">חָגָב</td></tr> <tr><td>🧵</td><td class="hebrew">חוּט</td></tr> <tr><td>🌻</td><td class="hebrew">חַמָּנִיָּה</td></tr> <tr><td>🥛</td><td class="hebrew">חָלָב</td></tr> <tr><td>🪟</td><td class="hebrew">חַלּוֹן</td></tr> <tr><td>🦄</td><td class="hebrew">חַד קֶרֶן</td></tr> <tr><td>🐱</td><td class="hebrew">חָתוּל</td></tr> <tr><td>🍄</td><td class="hebrew">חֲזִירִית</td></tr> <tr><td>🎺</td><td class="hebrew">חֲצוֹצְרָה</td></tr> <tr><td>🌼</td><td class="hebrew">חֲרָצִית</td></tr> <tr><td>🥬</td><td class="hebrew">חַסָּה</td></tr> 				<tr><td>🦚</td><td class="hebrew">טָוָס</td></tr> <tr><td>🔭</td><td class="hebrew">טֵלֶסְקוֹפּ</td></tr> <tr><td>🏰</td><td class="hebrew">טִירָה</td></tr> <tr><td>🦖</td><td class="hebrew">טִירָנוֹזָאוּר</td></tr> <tr><td>🦉</td><td class="hebrew">יַנְשׁוּף</td></tr> <tr><td>🌙</td><td class="hebrew">יָרֵחַ</td></tr> <tr><td>🪑</td><td class="hebrew">כִּסֵּא</td></tr> <tr><td>🦽</td><td class="hebrew">כִּסֵּא גַּלְגַּלִּים</td></tr> <tr><td>🎻</td><td class="hebrew">כִּנּוֹר</td></tr> <tr><td>⭐</td><td class="hebrew">כּוֹכָב</td></tr> <tr><td>🐑</td><td class="hebrew">כֶּבֶשׂ</td></tr> <tr><td>⚽</td><td class="hebrew">כַּדּוּרֶגֶל</td></tr> <tr><td>🏀</td><td class="hebrew">כַּדּוּרְסַל</td></tr> <tr><td>🐶</td><td class="hebrew">כֶּלֶב</td></tr> <tr><td>🥨</td><td class="hebrew">כֵּיפָה</td></tr> <tr><td>🦙</td><td class="hebrew">לָמָה</td></tr> <tr><td>🍞</td><td class="hebrew">לֶחֶם</td></tr> <tr><td>🦁</td><td class="hebrew">לָבִיא</td></tr> <tr><td>🍋</td><td class="hebrew">לִימוֹן</td></tr> <tr><td>➰</td><td class="hebrew">לוּלָאָה</td></tr> <tr><td>🦦</td><td class="hebrew">לוּטְרָה</td></tr> <tr><td>🐳</td><td class="hebrew">לִוְיָתָן</td></tr> <tr><td>🧲</td><td class="hebrew">מַגְנֵט</td></tr> <tr><td>🔍</td><td class="hebrew">מַגְדֶּלֶת</td></tr> <tr><td>🎩</td><td class="hebrew">מִגְבַּעַת</td></tr> <tr><td>🧯</td><td class="hebrew">מַטֶּף</td></tr> <tr><td>✈️</td><td class="hebrew">מָטוֹס</td></tr> <tr><td>☂️</td><td class="hebrew">מִטְרִיָּה</td></tr> <tr><td>🥭</td><td class="hebrew">מַנְגּוֹ</td></tr> <tr><td>🗺️</td><td class="hebrew">מַפָּה</td></tr> <tr><td>🚁</td><td class="hebrew">מַסּוֹק</td></tr> <tr><td>🔢</td><td class="hebrew">מִסְפָּרִים</td></tr> <tr><td>🚗</td><td class="hebrew">מְכוֹנִית</td></tr> <tr><td>🥒</td><td class="hebrew">מְלָפְפוֹן</td></tr> <tr><td>🍹</td><td class="hebrew">מַשְׁקֶה</td></tr> <tr><td>🌱</td><td class="hebrew">נֵבֶט</td></tr> <tr><td>🐯</td><td class="hebrew">נָמֵר</td></tr> <tr><td>🦅</td><td class="hebrew">נֶשֶׁר</td></tr> <tr><td>🧺</td><td class="hebrew">סַל</td></tr> <tr><td>🐴</td><td class="hebrew">סוּס</td></tr> <tr><td>🎠</td><td class="hebrew">סוּס עֵץ</td></tr> <tr><td>🚣</td><td class="hebrew">סִירָה</td></tr> <tr><td>🎷</td><td class="hebrew">סַקְסוֹפוֹן</td></tr> <tr><td>🐿️</td><td class="hebrew">סְנַאִי</td></tr> <tr><td>🦜</td><td class="hebrew">עוּף</td></tr> <tr><td>🍇</td><td class="hebrew">עֲנָבִים</td></tr> <tr><td>✏️</td><td class="hebrew">עִפָּרוֹן</td></tr> <tr><td>🌰</td><td class="hebrew">עָרְמוֹן</td></tr> <tr><td>🦂</td><td class="hebrew">עַקְרָב</td></tr> <tr><td>🌳</td><td class="hebrew">עֵץ</td></tr> <tr><td>🦥</td><td class="hebrew">עַצְלָן</td></tr> <tr><td>🪁</td><td class="hebrew">עֲפִיפוֹן</td></tr> <tr><td>🍍</td><td class="hebrew">פִּינְגְוִין</td></tr> <tr><td>🐘</td><td class="hebrew">פִּיל</td></tr> <tr><td>🍕</td><td class="hebrew">פִּיצָה</td></tr> <tr><td>🌶️</td><td class="hebrew">פִּלְפֵּל</td></tr> <tr><td>🦩</td><td class="hebrew">פְלָמִינְגוֹ</td></tr> <tr><td>🍄</td><td class="hebrew">פִּטְרִיָּה</td></tr> <tr><td>🎹</td><td class="hebrew">פַּסְנְתֵר</td></tr> <tr><td>🦋</td><td class="hebrew">פַּרְפַּר</td></tr> <tr><td>🌸</td><td class="hebrew">פֶּרַח</td></tr> <tr><td>🐼</td><td class="hebrew">פַּנְדָּה</td></tr> <tr><td>🧩</td><td class="hebrew">פַּזֵּל</td></tr> <tr><td>❄️</td><td class="hebrew">פְּתִית שֶׁלֶג</td></tr> <tr><td>🌵</td><td class="hebrew">צַבָּר</td></tr> <tr><td>🐸</td><td class="hebrew">צְפַרְדֵּעַ</td></tr> <tr><td>🎨</td><td class="hebrew">צְבָעִים</td></tr> <tr><td>🦌</td><td class="hebrew">צְבִי</td></tr> <tr><td>🐢</td><td class="hebrew">צָב</td></tr> <tr><td>🧶</td><td class="hebrew">צֶמֶר</td></tr> <tr><td>🌷</td><td class="hebrew">צַבְעוֹנִי</td></tr> <tr><td>🐒</td><td class="hebrew">קוֹף</td></tr> <tr><td>🥥</td><td class="hebrew">קוֹקוֹס</td></tr> <tr><td>🦔</td><td class="hebrew">קִפּוֹד</td></tr> <tr><td>🎪</td><td class="hebrew">קִרְקָס</td></tr> <tr><td>🥝</td><td class="hebrew">קִיוִי</td></tr> <tr><td>🌈</td><td class="hebrew">קֶשֶׁת</td></tr> <tr><td>🏹</td><td class="hebrew">קֶשֶׁת</td></tr> <tr><td>🧊</td><td class="hebrew">קֶרַח</td></tr> <tr><td>🦘</td><td class="hebrew">קַנְגָּרוּ</td></tr> <tr><td>🧁</td><td class="hebrew">קַפְּקֵיְק</td></tr> <tr><td>🥐</td><td class="hebrew">קְרוּאָסוֹן</td></tr> <tr><td>🦏</td><td class="hebrew">קַרְנַף</td></tr> <tr><td>🎢</td><td class="hebrew">רַכֶּבֶת הָרִים</td></tr> <tr><td>🚂</td><td class="hebrew">רַכֶּבֶת</td></tr> <tr><td>🦿</td><td class="hebrew">רֶגֶל תּוֹתֶבֶת</td></tr> <tr><td>🐑</td><td class="hebrew">רָחֵל</td></tr> <tr><td>☀️</td><td class="hebrew">שֶׁמֶשׁ</td></tr> <tr><td>🌞</td><td class="hebrew">שֶׁמֶשׁ</td></tr> <tr><td>🎮</td><td class="hebrew">שַׁלְטָן</td></tr> <tr><td>🌾</td><td class="hebrew">שִׁבֹּלֶת</td></tr> <tr><td>🥤</td><td class="hebrew">שְׁתִיָּה</td></tr> <tr><td>🍎</td><td class="hebrew">תַּפּוּחַ</td></tr> <tr><td>🥔</td><td class="hebrew">תַּפּוּחַ אֲדָמָה</td></tr> <tr><td>🍊</td><td class="hebrew">תַּפּוּז</td></tr> <tr><td>🐓</td><td class="hebrew">תַּרְנְגוֹל</td></tr> <tr><td>🦜</td><td class="hebrew">תּוּכִּי</td></tr> <tr><td>🍓</td><td class="hebrew">תּוּת</td></tr> <tr><td>🐊</td><td class="hebrew">תַּנִּין</td></tr> <tr><td>🌽</td><td class="hebrew">תִּירָס</td></tr> <tr><td>🥁</td><td class="hebrew">תֹּף</td></tr> <tr><td>🎭</td><td class="hebrew">תֵּאַטְרוֹן</td></tr> <tr><td>🐃</td><td class="hebrew">תְּאוֹ</td></tr> <tr><td>🖼️</td><td class="hebrew">תְּמוּנָה</td></tr> <tr><td>🍵</td><td class="hebrew">תֵּה</td></tr> </tbody> </table> </div> </div>`
 		};
 
         function setQuizExpansion(allow) {
@@ -1283,6 +1284,7 @@ function checkStage() {
                 top: 0,
                 behavior: 'smooth'
             });
+			    scrollToTopBtn.style.display = "none";
         }
 
         window.addEventListener('load', () => {
@@ -1302,6 +1304,24 @@ function checkStage() {
                 document.getElementById('copyright-container').innerHTML = data;
             })
             .catch(error => console.error('Error loading copyright:', error));
+			
+let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+    window.onscroll = function() {
+        // Check if the scroll distance is more than twice the height of the screen
+        if (document.body.scrollTop > window.innerHeight * 1.5 || 
+            document.documentElement.scrollTop > window.innerHeight * 1.5) {
+            scrollToTopBtn.style.display = "block";
+        } else {
+            scrollToTopBtn.style.display = "none";
+        }
+    };
+
+scrollToTopBtn.onclick = function() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+};
+	
     </script>
 </body>
 </html>

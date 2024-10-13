@@ -1383,3 +1383,106 @@
 			margin-right: 1rem;
 			white-space: nowrap;
 		}
+		
+																										/* --- Quiz-Specific Styles with .match-single Prefix --- */
+
+/* Container for Quiz Columns */
+.match-single-columns-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 50px; /* 50px space between questions and answers columns */
+    flex-wrap: wrap;
+    align-items: stretch; /* Ensures both columns are the same height */
+}
+
+/* Questions Column */
+.match-single-questions-column {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensure vertical alignment */
+}
+
+/* Answers Column */
+.match-single-answers-column {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensure vertical alignment */
+}
+
+/* Question Card */
+.match-single-question-item {
+    padding: 20px;
+    background-color: #ffffff;
+    border: 2px solid #cccccc;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+    font-size: 250px; /* Set question text size to 250px */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Ensures square shape */
+    transition: background-color 0.3s;
+    word-wrap: break-word; /* Prevent overflow */
+}
+
+/* Ensure emoji does not stretch the card */
+.match-single-question-item.single-emoji {
+    padding: 10px;
+}
+
+/* Drag Over Effect */
+.match-single-question-item.drag-over {
+    border-color: #555555;
+    background-color: #f0f0f0;
+}
+
+/* Answer Cards */
+.match-single-answer-item {
+    padding: 15px;
+    background-color: #e0e0e0; /* Default color */
+    border: 2px solid #cccccc;
+    border-radius: 8px;
+    cursor: grab;
+    margin-bottom: 15px; /* Space between answer cards */
+    text-align: center;
+    font-size: 1.2rem;
+    user-select: none;
+    transition: background-color 0.3s, color 0.3s;
+    height: 75px; /* Fixed height for answer cards */
+    box-sizing: border-box; /* Include padding and border in the height */
+    display: flex; /* Flexbox to enable vertical alignment */
+    align-items: center; /* Vertically align content */
+    justify-content: center; /* Horizontally center content */
+}
+
+
+/* Matched Answer Styles */
+.match-single-answer-item.matched {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+/* Correct and Incorrect Styles */
+.match-single-answer-item.correct {
+    /* No color change after checking */
+}
+
+.match-single-answer-item.incorrect {
+    /* No color change after checking */
+}
+
+/* Optional: Selected States */
+.match-single-question-item.selected,
+.match-single-answer-item.selected {
+    border-color: #00acc1;
+    background-color: #b2ebf2;
+}
+
+																							/* --- End of Quiz-Specific Styles --- */
