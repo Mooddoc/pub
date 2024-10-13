@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <link rel="stylesheet" href="http://ez42.live/global/styles/styles-heb.css">
+    <title>✅ EZ42 - זה קל</title>
+	<style>
+
+	</style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+            <div id="sidePanel1" class="side-panel">
+                <div class="logo-container">
+                    <a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+                        <img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+                    </a>
+                </div>
+                <h2>הוראות</h2>
+                <ul>
+																			<!--  PH1 - Instructions & Rules   -->	
+                    <li>מוצגים לכם משפטים עם שגיאות כתיב, אחת או יותר.</li>
+					<li>יש לקרוא כל משפט בעיון.</li>
+                    <li>העתיקו למחברת את המשפט השגוי.</li>
+                    <li>כיתבו במחברת את המשפט המתוקן.</li>
+                    <li>הקלידו את המשפט המתוקן לתיבה במדויק.</li>
+                    <li>יש ללחוץ על בדיקת תשובות כשמוכנים!</li>
+                    <li>יש להשלים את כל השאלות כדי לעבור לשלב הבא.</li>
+                    <li>לאחר 10 ניסיונות, התשובות הנכונות יוצגו.</li>
+                    <li>שיהיה כיף!</li>
+                </ul>
+            </div>
+
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title : 1 - 📗 Green, 2 - 📘 Blue, 3 - 📒 Yellow, 4 - 📙 Orange, 5 - 📕 Red, 6 - 📔 Beige, 7 - 📓 Gray -->		
+                <h1>שגיאות כתיב - תיקון המשפט - 📒</h1>
+
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+
+                <div id="tabContent"></div>
+            </div>
+
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות החיות</h2>
+                <p>החווה שלך גדלה תוך כדי התקדמות! כל שלב מוסיף חיות חדשות לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+        let attempts = 0;
+        let currentStage = 0;
+        const manuallySetDefaultTab = 0;
+
+
+        const quizData = [
+							// Stage 1
+							{
+								"questions": [
+									{ "question": "במהלך החופשה המשפחתית, נסענו לטיל בהרים ונהנינו מהנופים המדהימימ.", "answer": "במהלך החופשה המשפחתית, נסענו לטייל בהרים ונהנינו מהנופים המדהימים." },
+									{ "question": "אחותי הגדולה התקבלה לתיכון היוקרטי בעיר, ואנחנו מאוד גאים בא.", "answer": "אחותי הגדולה התקבלה לתיכון היוקרתי בעיר, ואנחנו מאוד גאים בה." },
+									{ "question": "אני משתתף בחוג דרמא, ובקרוב נופיע בהצגה בפני ההורים והתלמידימ.", "answer": "אני משתתף בחוג דרמה, ובקרוב נופיע בהצגה בפני ההורים והתלמידים." },
+									{ "question": "בשיעור מדעים, למדנו על תופאות טבע מרתקות כמו רעידות אדמה והתפרצויות הרי גאש.", "answer": "בשיעור מדעים, למדנו על תופעות טבע מרתקות כמו רעידות אדמה והתפרצויות הרי געש." },
+									{ "question": "אנחנו מתכוננים למבחן בחשבון, ומתאמנים על פתרון תרגלים מסובכימ.", "answer": "אנחנו מתכוננים למבחן בחשבון, ומתאמנים על פתרון תרגילים מסובכים." }
+								]
+							},
+							// Stage 2
+							{
+								"questions": [
+									{ "question": "במהלך שיעור היסטוריא, המורה סיפרה לנו על תגליות חשובות מהעת העתיקא.", "answer": "במהלך שיעור היסטוריה, המורה סיפרה לנו על תגליות חשובות מהעת העתיקה." },
+									{ "question": "אני אוהב לקרוא ספרים מסוגי מדע בדיוני ופנטזיא.", "answer": "אני אוהב לקרוא ספרים מסוגי מדע בדיוני ופנטזיה." },
+									{ "question": "אבי לקח אותי למוזיאון האמנות, וראינו יצירות מדהימות של אמנימ מפורסמים.", "answer": "אבי לקח אותי למוזיאון האמנות, וראינו יצירות מדהימות של אמנים מפורסמים." },
+									{ "question": "בחופשת הקיץ, אנחנו מתכננים לנסוע לחול ולבקר במקומות חדשימ.", "answer": "בחופשת הקיץ, אנחנו מתכננים לנסוע לחו\"ל ולבקר במקומות חדשים." },
+									{ "question": "במסגרת פרויקט המדעים, בנינו דגם של תיל שמשוגר לחלל.", "answer": "במסגרת פרויקט המדעים, בנינו דגם של טיל שמשוגר לחלל." }
+								]
+							},
+							// Stage 3
+							{
+								"questions": [
+									{ "question": "סבתא שלי מלמדת אותי לסרוג צעיפימ וכובעים מחמימימ לקראת החורף.", "answer": "סבתא שלי מלמדת אותי לסרוג צעיפים וכובעים מחממים לקראת החורף." },
+									{ "question": "בשיעור גאוגרפיה, למדנו על יבשות ומדינות שונות ברחבי העלם.", "answer": "בשיעור גאוגרפיה, למדנו על יבשות ומדינות שונות ברחבי העולם." },
+									{ "question": "אנחנו משתתפים בקבוצת ריצה כדי לשפר את הקושר הגופני שלנו.", "answer": "אנחנו משתתפים בקבוצת ריצה כדי לשפר את הכושר הגופני שלנו." },
+									{ "question": "במהלך הטיול, ראינו בעלי חיימ מעניינים כמו צבאים וארנבים.", "answer": "במהלך הטיול, ראינו בעלי חיים מעניינים כמו צבאים וארנבים." },
+									{ "question": "אני אוהב להשתתף בתחרויות שחמת ולשפר את החשיבה האסטרטגית שלי.", "answer": "אני אוהב להשתתף בתחרויות שחמט ולשפר את החשיבה האסטרטגית שלי." }
+								]
+							},
+							// Stage 4
+							{
+								"questions": [
+									{ "question": "בחופשת הפסח, אנחנו נוסעים לבקר את סבא וסבתא בקיבוצ.", "answer": "בחופשת הפסח, אנחנו נוסעים לבקר את סבא וסבתא בקיבוץ." },
+									{ "question": "אחי הקטן התחיל ללמוד לנגן בפסתנר, והוא מתאמן בכל יום.", "answer": "אחי הקטן התחיל ללמוד לנגן בפסנתר, והוא מתאמן בכל יום." },
+									{ "question": "בכיתה למדנו על חשיבות השמירה על אכות הסביבה.", "answer": "בכיתה למדנו על חשיבות השמירה על איכות הסביבה." },
+									{ "question": "אנחנו מתכוננים להצגה בבית הספר, ואני משחק את הטפקיד הראשי.", "answer": "אנחנו מתכוננים להצגה בבית הספר, ואני משחק את התפקיד הראשי." },
+									{ "question": "אבא שלי עובד במישרד גדול במרכז העיר.", "answer": "אבא שלי עובד במשרד גדול במרכז העיר." }
+								]
+							},
+							// Stage 5
+							{
+								"questions": [
+									{ "question": "אני אוהב לצפות בתוכניות טבע ולהכיר בעלי חיימ חדשים.", "answer": "אני אוהב לצפות בתוכניות טבע ולהכיר בעלי חיים חדשים." },
+									{ "question": "בחוג האמנות, אנחנו לומדים לצייר בצבעי שמן ואקריליכ.", "answer": "בחוג האמנות, אנחנו לומדים לצייר בצבעי שמן ואקריליק." },
+									{ "question": "בשיעור אנגלית, אנחנו קוראים סיפורים קצרים ומשפרים את אוצאר המילים.", "answer": "בשיעור אנגלית, אנחנו קוראים סיפורים קצרים ומשפרים את אוצר המילים." },
+									{ "question": "אני אוהב לשחק במשחקי מחשב ולפתור חדות מורכבות.", "answer": "אני אוהב לשחק במשחקי מחשב ולפתור חידות מורכבות." },
+									{ "question": "אמא שלי מכינה אוגיות טעימות עם שוקולד ואגוזימ.", "answer": "אמא שלי מכינה עוגיות טעימות עם שוקולד ואגוזים." }
+								]
+							},
+							// Stage 6
+							{
+								"questions": [
+									{ "question": "בחוג התיאטרון, אנחנו מתכוננים להפקא גדולה לקראת סוף השנה.", "answer": "בחוג התיאטרון, אנחנו מתכוננים להפקה גדולה לקראת סוף השנה." },
+									{ "question": "אחותי הצעירה מתחילה ללמונד בתיכון החדש בעיר.", "answer": "אחותי הצעירה מתחילה ללמוד בתיכון החדש בעיר." },
+									{ "question": "אנחנו משתתפים בפרויקט קהילתי לשיפור אכות החים בשכונה.", "answer": "אנחנו משתתפים בפרויקט קהילתי לשיפור איכות החיים בשכונה." },
+									{ "question": "במהלך החופשה, טיילנו ביערות ונהנינו מהטבע הפראי.", "answer": "במהלך החופשה, טיילנו ביערות ונהנינו מהטבע הפראי." },
+									{ "question": "אני מתאמן בנגינה על גיטארה ומקווה להופיע בפני קהל.", "answer": "אני מתאמן בנגינה על גיטרה ומקווה להופיע בפני קהל." }
+								]
+							},
+							// Stage 7
+							{
+								"questions": [
+									{ "question": "בשיעור מדעים, ערכנו נישואים מעניינימ במעבדה.", "answer": "בשיעור מדעים, ערכנו ניסויים מעניינים במעבדה." },
+									{ "question": "אבא שלי מלמד אותי איך לתקן מכשירים חשמליים בבית.", "answer": "אבא שלי מלמד אותי איך לתקן מכשירים חשמליים בבית." },
+									{ "question": "אנחנו מתכננים לצאת לקמפינג ולישון באוהלימ בטבע.", "answer": "אנחנו מתכננים לצאת לקמפינג ולישון באוהלים בטבע." },
+									{ "question": "אמא שלי עובדת כטכנאית במעבדת מחשבים.", "answer": "אמא שלי עובדת כטכנאית במעבדת מחשבים." },
+									{ "question": "בחוג הצילום, אנחנו לומדים לצלם תמונות אמנותיות.", "answer": "בחוג הצילום, אנחנו לומדים לצלם תמונות אמנותיות." }
+								]
+							},
+							// Stage 8
+							{
+								"questions": [
+									{ "question": "במהלך הטיול השנתי, ביקרנו באתרים היסטוריים חשובים.", "answer": "במהלך הטיול השנתי, ביקרנו באתרים היסטוריים חשובים." },
+									{ "question": "אחי הגדול מתאמן בקראטא ומקווה להגיע לחגורה שחורה.", "answer": "אחי הגדול מתאמן בקראטה ומקווה להגיע לחגורה שחורה." },
+									{ "question": "אנחנו משתתפים בקבוצת כדורגל ומתאמנים שלוש פעמימ בשבוע.", "answer": "אנחנו משתתפים בקבוצת כדורגל ומתאמנים שלוש פעמים בשבוע." },
+									{ "question": "אבא שלי לקח אותי לתחרות ריצה ואני זכיתי במקום הראשונ.", "answer": "אבא שלי לקח אותי לתחרות ריצה ואני זכיתי במקום הראשון." },
+									{ "question": "בכיתה למדנו על טכנולוגיות חדשות שמשפיעות על חיינו.", "answer": "בכיתה למדנו על טכנולוגיות חדשות שמשפיעות על חיינו." }
+								]
+							},
+							// Stage 9
+							{
+								"questions": [
+									{ "question": "אני אוהב לשחק עם הכלב שלי בפארכ הקרוב לביתנו.", "answer": "אני אוהב לשחק עם הכלב שלי בפארק הקרוב לביתנו." },
+									{ "question": "בחוג המוזיקה, אנחנו לומדים לנגן בכלי נשיפה ותופימ.", "answer": "בחוג המוזיקה, אנחנו לומדים לנגן בכלי נשיפה ותופים." },
+									{ "question": "אמא שלי מכינה מטעמים מיוחדים לחג הקרב ובא.", "answer": "אמא שלי מכינה מטעמים מיוחדים לחג הקרב ובא." },
+									{ "question": "אנחנו מתכוננים לטקס סיום השנה ומתרגשים מאוד.", "answer": "אנחנו מתכוננים לטקס סיום השנה ומתרגשים מאוד." },
+									{ "question": "במהלך החופשה, נסענו ברכבת ליעדים שונים בארץ.", "answer": "במהלך החופשה, נסענו ברכבת ליעדים שונים בארץ." }
+								]
+							},
+							// Stage 10
+							{
+								"questions": [
+									{ "question": "בכיתה, אנחנו עובדים על פרויקט קבוצתי בנושא אנרגיה ירוקה.", "answer": "בכיתה, אנחנו עובדים על פרויקט קבוצתי בנושא אנרגיה ירוקה." },
+									{ "question": "אחי הקטן התחיל לקרוא ספרים בעצמו והוא מאוד שמח.", "answer": "אחי הקטן התחיל לקרוא ספרים בעצמו והוא מאוד שמח." },
+									{ "question": "אני אוהב לשחק במשחקי לוח כמו שחמת ודמקה.", "answer": "אני אוהב לשחק במשחקי לוח כמו שחמט ודמקה." },
+									{ "question": "אבא שלי לימד אותי איך להחליף גלגל באופנימ.", "answer": "אבא שלי לימד אותי איך להחליף גלגל באופניים." },
+									{ "question": "אנחנו מתכננים לטייל במדבר ולחוות את השקט והשלוה.", "answer": "אנחנו מתכננים לטייל במדבר ולחוות את השקט והשלווה." }
+								]
+							},
+							// Stage 11
+							{
+								"questions": [
+									{ "question": "במסגרת שיעור גאוגרפיא, למדנו על הרי גאש פעילים ברחבי העלם.", "answer": "במסגרת שיעור גאוגרפיה, למדנו על הרי געש פעילים ברחבי העולם." },
+									{ "question": "אחותי הגדולה עובדת ככתבת בעיתון מקומי.", "answer": "אחותי הגדולה עובדת ככתבת בעיתון מקומי." },
+									{ "question": "אנחנו אוהבים לצפות בסרטים דוקומנטריים על טבע וחחי.", "answer": "אנחנו אוהבים לצפות בסרטים דוקומנטריים על טבע וחי." },
+									{ "question": "במהלך החופשה, למדתי לשחות בסגנונות שונים.", "answer": "במהלך החופשה, למדתי לשחות בסגנונות שונים." },
+									{ "question": "סבתא שלי מספרת לי על ההיסטוריה המשפחתית שלנו.", "answer": "סבתא שלי מספרת לי על ההיסטוריה המשפחתית שלנו." }
+								]
+							},
+							// Stage 12
+							{
+								"questions": [
+									{ "question": "אנחנו מתכננים להקים גינת ירק קטנה בחצאר הבית.", "answer": "אנחנו מתכננים להקים גינת ירק קטנה בחצר הבית." },
+									{ "question": "אחותי הגדולה התקבלה לאוניברסיטא והיא מאוד נרגשת.", "answer": "אחותי הגדולה התקבלה לאוניברסיטה והיא מאוד נרגשת." },
+									{ "question": "במסגרת פרויקט המדעים, בנינו דגם של מערכת השמש.", "answer": "במסגרת פרויקט המדעים, בנינו דגם של מערכת השמש." },
+									{ "question": "אני אוהב לקרוא ספרי פנטזיה ולהיכנס לעולמות דמיונאים.", "answer": "אני אוהב לקרוא ספרי פנטזיה ולהיכנס לעולמות דמיוניים." },
+									{ "question": "אנחנו משתתפים בקבוצת ריצה ומשפרים את הקושר שלנו.", "answer": "אנחנו משתתפים בקבוצת ריצה ומשפרים את הכושר שלנו." }
+								]
+							},
+							// Stage 13
+							{
+								"questions": [
+									{ "question": "אבא שלי לקח אותי לתערוכת מדע והיה מאוד מענין.", "answer": "אבא שלי לקח אותי לתערוכת מדע והיה מאוד מעניין." },
+									{ "question": "בחוג האמנות, אנחנו מתנסים בציור בפסטל ובאקריליכ.", "answer": "בחוג האמנות, אנחנו מתנסים בציור בפסטל ובאקריליק." },
+									{ "question": "אני לומד לנגן על תוף ומצטרף להרכב המוזיקאלי.", "answer": "אני לומד לנגן על תוף ומצטרף להרכב המוזיקלי." },
+									{ "question": "במהלך הטיול, ראינו נופים מדהימים וצילמנו תמונות רבות.", "answer": "במהלך הטיול, ראינו נופים מדהימים וצילמנו תמונות רבות." },
+									{ "question": "אנחנו מתכוננים לחג הפסח ומנקים את הבית ביסודיות.", "answer": "אנחנו מתכוננים לחג הפסח ומנקים את הבית ביסודיות." }
+								]
+							},
+							// Stage 14
+							{
+								"questions": [
+									{ "question": "בחג הפורים, אנחנו מתחפשים לדמויות אהובות ומשתתפים בתהלוכא.", "answer": "בחג הפורים, אנחנו מתחפשים לדמויות אהובות ומשתתפים בתהלוכה." },
+									{ "question": "אני מתאמן בקביעות כדי להשתפר בקושר הגופני.", "answer": "אני מתאמן בקביעות כדי להשתפר בכושר הגופני." },
+									{ "question": "בשיעור אנגלית, אנחנו קוראים ספרים בשפא זרה.", "answer": "בשיעור אנגלית, אנחנו קוראים ספרים בשפה זרה." },
+									{ "question": "אמא שלי מלמדת אותי ליבשל מאכלים טעימימ.", "answer": "אמא שלי מלמדת אותי לבשל מאכלים טעימים." },
+									{ "question": "אנחנו מתכננים לצאת לקמפינג ולישון באוהלימ בטבע.", "answer": "אנחנו מתכננים לצאת לקמפינג ולישון באוהלים בטבע." }
+								]
+							},
+							// Stage 15
+							{
+								"questions": [
+									{ "question": "הספר שקראתי לאחרונה היה כל כך מרתק שלא יכולתי להפסיק לקרא.", "answer": "הספר שקראתי לאחרונה היה כל כך מרתק שלא יכולתי להפסיק לקרוא." },
+									{ "question": "במהלך החופשה, ביקרנו במוזיאון ולמדנו על האומנות המקומית.", "answer": "במהלך החופשה, ביקרנו במוזיאון ולמדנו על האמנות המקומית." },
+									{ "question": "אחי הצעיר התחיל ללמוד לנגן בכינור ומתקדם מהר מאוד.", "answer": "אחי הצעיר התחיל ללמוד לנגן בכינור ומתקדם מהר מאוד." },
+									{ "question": "אנחנו משתתפים בפרויקט קהילתי לשיפור הסביבה בשכונתנו.", "answer": "אנחנו משתתפים בפרויקט קהילתי לשיפור הסביבה בשכונתנו." },
+									{ "question": "סבתא שלי מלמדת אותי לסרוג צעיפימ וכובעים מחמימימ.", "answer": "סבתא שלי מלמדת אותי לסרוג צעיפים וכובעים מחממים." }
+								]
+							},
+							// Stage 16
+							{
+								"questions": [
+									{ "question": "בחוג הטכנולוגיה, בנינו רובוט שמסוגל להתכונן למכשולים.", "answer": "בחוג הטכנולוגיה, בנינו רובוט שמסוגל להתגונן ממכשולים." },
+									{ "question": "אבא שלי לקח אותי למשחק כדורגל באיצטדיון החדש בעיר.", "answer": "אבא שלי לקח אותי למשחק כדורגל באצטדיון החדש בעיר." },
+									{ "question": "אנחנו אוהבים לטיל בטבע ולגלות מקומות חדשים ויפים.", "answer": "אנחנו אוהבים לטייל בטבע ולגלות מקומות חדשים ויפים." },
+									{ "question": "בשיעור מדעים, ערכנו ניסויים מענינימ במעבדה.", "answer": "בשיעור מדעים, ערכנו ניסויים מעניינים במעבדה." },
+									{ "question": "אני מתרגש כי זכיתי במקום הראשונ בתחרות הכתיבה.", "answer": "אני מתרגש כי זכיתי במקום הראשון בתחרות הכתיבה." }
+								]
+							},
+							// Stage 17
+							{
+								"questions": [
+									{ "question": "במסיבת הסיום, הופענו בריקוד שהכנו במיוחד לאירוע.", "answer": "במסיבת הסיום, הופענו בריקוד שהכנו במיוחד לאירוע." },
+									{ "question": "אמא שלי קנתה לי ספר חדש בנושא חלל ואסטרונומיא.", "answer": "אמא שלי קנתה לי ספר חדש בנושא חלל ואסטרונומיה." },
+									{ "question": "אנחנו מתאמנים בנגינה על כלים שונים בתזמורת בית הספר.", "answer": "אנחנו מתאמנים בנגינה על כלים שונים בתזמורת בית הספר." },
+									{ "question": "במהלך החג, ביקרנו קרובי משפחה שלא ראינו זמן רב.", "answer": "במהלך החג, ביקרנו קרובי משפחה שלא ראינו זמן רב." },
+									{ "question": "אני אוהב להשתתף בדיונים בכיתה ולהביע את דעתי.", "answer": "אני אוהב להשתתף בדיונים בכיתה ולהביע את דעתי." }
+								]
+							},
+							// Stage 18
+							{
+								"questions": [
+									{ "question": "בזמן הפנוי, אני אוהב להרכיב פאזלים עם אלפי חתיכאות.", "answer": "בזמן הפנוי, אני אוהב להרכיב פאזלים עם אלפי חתיכות." },
+									{ "question": "אחי הקטן לומד לקרוא וכבר יודע הרבה אותיות ומילים.", "answer": "אחי הקטן לומד לקרוא וכבר יודע הרבה אותיות ומילים." },
+									{ "question": "אנחנו משתתפים בקורס שחמת כדי לשפר את החשיבה האסטרטגית.", "answer": "אנחנו משתתפים בקורס שחמט כדי לשפר את החשיבה האסטרטגית." },
+									{ "question": "אמא שלי מלמדת אותי איך להכין מאכלים מסורתיים טעימימ.", "answer": "אמא שלי מלמדת אותי איך להכין מאכלים מסורתיים טעימים." },
+									{ "question": "בחוג התיאטרון, אנחנו מתכוננים להצגה גדולה לקראת סוף השנה.", "answer": "בחוג התיאטרון, אנחנו מתכוננים להצגה גדולה לקראת סוף השנה." }
+								]
+							},
+							// Stage 19
+							{
+								"questions": [
+									{ "question": "אנחנו מתחננים להכים גינת ירק קטנה בחצר הבית.", "answer": "אנחנו מתכננים להקים גינת ירק קטנה בחצר הבית." },
+									{ "question": "אחותי הגדולה התכבלה להוניברסיטה והיא מאוד נרגשת.", "answer": "אחותי הגדולה התקבלה לאוניברסיטה והיא מאוד נרגשת." },
+									{ "question": "במסגרת פרויקת המדעים, בנינו דגם של מערכת השמש.", "answer": "במסגרת פרויקט המדעים, בנינו דגם של מערכת השמש." },
+									{ "question": "אני אוהב לקרוא ספרי פנטזיה ולאיכנס לעולמות דמיוניים.", "answer": "אני אוהב לקרוא ספרי פנטזיה ולהיכנס לעולמות דמיוניים." },
+									{ "question": "אנחנו משתתפים בקבוצת ריצה ומשפרים את הקושר שלנו.", "answer": "אנחנו משתתפים בקבוצת ריצה ומשפרים את הכושר שלנו." }
+								]
+							},
+							// Stage 20
+							{
+								"questions": [
+									{ "question": "אבא שלי לקח אותי לתארוכת מדע והיה מאוד מעניין.", "answer": "אבא שלי לקח אותי לתערוכת מדע והיה מאוד מעניין." },
+									{ "question": "בחוג ההמנות, אנחנו מתנסים בציור בפסטל ובאקריליק.", "answer": "בחוג האמנות, אנחנו מתנסים בציור בפסטל ובאקריליק." },
+									{ "question": "אני לומד לנגן על טוף ומצטרף להרכב המוזיקלי.", "answer": "אני לומד לנגן על תוף ומצטרף להרכב המוזיקלי." },
+									{ "question": "במהלך התיול, ראינו נופים מדהימים וצילמנו תמונות רבות.", "answer": "במהלך הטיול, ראינו נופים מדהימים וצילמנו תמונות רבות." },
+									{ "question": "אנחנו מתכוננים לחג הפסח ומנכים את הביט ביסודיות.", "answer": "אנחנו מתכוננים לחג הפסח ומנקים את הבית ביסודיות." }
+								]
+							}
+
+
+        ];
+
+        const stateContents = {
+	
+		'תרגול': `<div id="stage-number" class="stage-number">שלב 1 מתוך ${quizData.length}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">ניסיונות: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">בדיקת תשובות</button>`
+
+
+		};
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.classList.toggle('expanded', isQuizExpanded && allowQuizExpansion);
+
+            if (isPanel1Visible) {
+                sidePanel1.classList.remove('hidden');
+                quizContainer.classList.remove('full-width');
+            } else {
+                sidePanel1.classList.add('hidden');
+                quizContainer.classList.add('full-width');
+            }
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.classList.toggle('hidden');
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.classList.remove('flex-grow');
+                label.classList.add('flex-none');
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.classList.remove('fixed-width');
+        }
+
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'תרגול') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+
+    const stageData = quizData[currentStage];
+
+    stageData.questions.forEach((question, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line-double-input";
+
+        questionElement.innerHTML = `
+            <label>${question.question}</label>
+            <div class="input-wrapper">
+                <span class="result" id="result${index}"></span>
+                <input type="text" id="q${index}" data-answer="${encodeURIComponent(JSON.stringify(question.answer))}">
+            </div>
+        `;
+
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+
+        function checkAnswer(userAnswer, correctAnswer) {
+            if (Array.isArray(correctAnswer)) {
+                const userAnswerArray = userAnswer.split(',').map(item => parseInt(item.trim()));
+                return correctAnswer.length === userAnswerArray.length &&
+                    correctAnswer.every(item => userAnswerArray.includes(item));
+            } else {
+                return parseInt(userAnswer) === correctAnswer;
+            }
+        }
+
+function checkStage() {
+    console.log("checkStage function called");
+    attempts++;
+    document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+
+    let correctCount = 0;
+    const stageData = quizData[currentStage];
+    const totalQuestions = stageData.questions.length;
+
+    stageData.questions.forEach((question, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const inputElement = document.getElementById(`q${index}`);
+        if (!inputElement) {
+            console.error(`Input element for question ${index} not found`);
+            return;
+        }
+        let userAnswer = inputElement.value.trim();
+        let correctAnswer;
+        try {
+            correctAnswer = JSON.parse(decodeURIComponent(inputElement.dataset.answer));
+        } catch (error) {
+            console.error(`Error parsing answer for question ${index}:`, error);
+            console.log('Raw data-answer:', inputElement.dataset.answer);
+            return;
+        }
+
+        if (userAnswer === correctAnswer) {
+            resultElement.textContent = "נכון";
+            resultElement.style.color = "green";
+            inputElement.className = "correct";
+            correctCount++;
+        } else {
+            resultElement.textContent = "לא נכון";
+            resultElement.style.color = "red";
+            inputElement.className = "incorrect";
+        }
+
+        if (attempts >= 10) {
+            inputElement.value = correctAnswer;
+            inputElement.disabled = true;
+            resultElement.textContent += ` התשובה הנכונה היא: ${correctAnswer}`;
+        }
+    });
+
+    console.log(`שלב ${currentStage + 1}: ${correctCount} נכונות מתוך ${totalQuestions}`);
+
+    // Show the encouraging popup
+    const isStageComplete = correctCount === totalQuestions;
+    const message = getEncouragingMessage(correctCount, totalQuestions, isStageComplete);
+    console.log("Message for modal:", message);
+    showModal(message);
+
+    if (isStageComplete) {
+        console.log(`שלב ${currentStage + 1} הושלם. מוסיף ${totalQuestions} חיות.`);
+        addAnimalsToFarm(totalQuestions);
+
+        if (currentStage < quizData.length - 1) {
+            singleStageConfetti();
+            currentStage++;
+            updateProgressBar();
+            console.log(`עובר לשלב ${currentStage + 1}`);
+            setTimeout(() => {
+                attempts = 0;
+                renderQuiz();
+                document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+            }, 1500);
+        } else {
+            currentStage++;
+            updateProgressBar();
+            allStagesConfetti();
+            showModal("כל הכבוד! השלמת את כל השלבים.");
+        }
+    } else if (attempts >= 10) {
+        showModal("הגעת למספר הניסיונות המקסימלי. התשובות הנכונות נחשפו.");
+    }
+
+    scrollToTop();
+}
+
+function getEncouragingMessage(correctCount, totalQuestions, isStageComplete) {
+    const incorrectCount = totalQuestions - correctCount;
+    let message = `קיבלת ${correctCount} נכונות ו-${incorrectCount} שגויות.`;
+
+    if (correctCount === totalQuestions) {
+        message += " ציון מושלם!";
+    } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+        message += " עבודה מצוינת! רואים שהנושא מתחיל להיות מובן!";
+    } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+        message += " מאמץ טוב! נמשיך לתרגל כי השיפור קרוב!";
+    } else {
+        message += " לא לוותר! כל נסיון עוזר לך ללמוד. ננסה שוב!";
+    }
+
+    if (isStageComplete) {
+        message += "\n\n השלב הזה הסתיים, עוברים לשלב הבא.";
+    }
+
+    return message;
+}
+
+function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+    const incorrectCount = totalQuestions - correctCount;
+    let message = `קיבלת ${correctCount} נכונות ו-${incorrectCount} שגויות.`;
+
+    if (correctCount === totalQuestions) {
+        message += " ציון מושלם!";
+    } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+        message += " עבודה מצוינת! רואים שהנושא מתחיל להיות מובן!";
+    } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+        message += " מאמץ טוב! נמשיך לתרגל כי השיפור קרוב!";
+    } else {
+        message += " לא לוותר! כל נסיון עוזר לך ללמוד. ננסה שוב!";
+    }
+
+    if (isStageComplete) {
+        message += "\n\n השלב הזה הסתיים, עוברים לשלב הבא.";
+    }
+
+    showModal(message);
+}
+
+        function updateProgressBar() {
+            const progressBar = document.getElementById("progress-bar");
+            const completedStages = currentStage;
+            const progress = (completedStages / quizData.length) * 100;
+            const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+            progressBar.style.width = `${roundedProgress}%`;
+            progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+        }
+
+        function updateStageNumber() {
+            const stageElement = document.getElementById("stage-number");
+            stageElement.textContent = `שלב ${currentStage + 1} מתוך ${stageCount}`;
+        }
+
+        function singleStageConfetti() {
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+            confetti({
+                angle: randomInRange(55, 125),
+                spread: randomInRange(50, 70),
+                particleCount: randomInRange(50, 100),
+                origin: { y: 0.6 },
+            });
+        }
+
+        function allStagesConfetti() {
+            const defaults = {
+                spread: 360,
+                ticks: 50,
+                gravity: 0,
+                decay: 0.94,
+                startVelocity: 30,
+                shapes: ["star"],
+                colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+            };
+            function shoot() {
+                confetti({
+                    ...defaults,
+                    particleCount: 40,
+                    scalar: 1.2,
+                    shapes: ["star"],
+                });
+                confetti({
+                    ...defaults,
+                    particleCount: 10,
+                    scalar: 0.75,
+                    shapes: ["circle"],
+                });
+            }
+            setTimeout(shoot, 0);
+            setTimeout(shoot, 100);
+            setTimeout(shoot, 200);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+			const switchElement = document.getElementById('multiStateSwitch');
+			const labelsContainer = switchElement.querySelector('.switch-labels');
+			const switchContainer = document.getElementById('switchContainer');
+
+			const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+
+			if (activeStates.length <= 1) {
+				switchContainer.style.display = 'none';  // Hide the entire switch container
+				if (activeStates.length === 1) {
+					showContent(activeStates[0]);
+				}
+				return;
+			}
+
+            switchContainer.classList.remove('hidden');
+
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+        let farmAnimals = [];
+
+        function addAnimalsToFarm(count) {
+            const animalFarm = document.getElementById('animalFarm');
+            let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+            console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+            for (let i = 0; i < count; i++) {
+                if (availableAnimals.length === 0) {
+                    console.log("No more unique animals available!");
+                    break;
+                }
+
+                const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+                const chosenAnimal = availableAnimals[randomIndex];
+
+                const animalElement = document.createElement('li');
+                animalElement.textContent = chosenAnimal;
+                animalFarm.appendChild(animalElement);
+
+                farmAnimals.push(chosenAnimal);
+                availableAnimals.splice(randomIndex, 1);
+                console.log(`Added animal: ${chosenAnimal}`);
+            }
+
+            console.log(`Farm size after addition: ${farmAnimals.length}`);
+            logAnimalFarmState();
+        }
+
+        function logAnimalFarmState() {
+            console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+            console.log(farmAnimals);
+        }
+
+        const animals = [
+            "🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+            "🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+            "🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+            "🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+            "🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+            "🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+            "🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+            "🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+            "🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+            "🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+            "🐷", "🐩", "🐘", "🐸", "🐝"
+        ];
+
+function showModal(message) {
+    const modal = document.getElementById("quizModal");
+    const modalMessage = document.getElementById("modalMessage");
+    const modalButton = document.getElementById("modalButton");
+    const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+    modalMessage.textContent = message;
+    modal.style.display = "block";
+
+    modalButton.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    modalClose.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+}
+
+        window.addEventListener('load', () => {
+            initializeSwitch();
+            renderQuiz();
+            adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Scroll to top button functionality
+        window.onscroll = function() {
+            const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                scrollToTopBtn.classList.add('show');
+            } else {
+                scrollToTopBtn.classList.remove('show');
+            }
+        };
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};			
+    </script>
+</body>
+</html>
