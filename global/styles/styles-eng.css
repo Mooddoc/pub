@@ -1430,6 +1430,7 @@
     aspect-ratio: 1 / 1; /* Ensures square shape */
     transition: background-color 0.3s;
     word-wrap: break-word; /* Prevent overflow */
+	overflow: hidden;
 }
 
 /* Ensure emoji does not stretch the card */
