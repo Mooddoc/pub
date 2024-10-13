@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>משחק ישר המספרים לילדים - צבעי הקשת</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            direction: rtl;
+            text-align: center;
+            background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+            color: white;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: none;
+        }
+
+        .game-container {
+            width: 80%;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #00acc1;
+            margin-bottom: 20px;
+        }
+
+        .number-line {
+            margin: 30px auto;
+            width: 100%;
+            height: 150px;
+            position: relative;
+            background-color: #fff;
+            border: 3px solid #00acc1;
+            border-radius: 15px;
+            cursor: none;
+        }
+
+        .number-line::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: #00acc1;
+        }
+
+        .number {
+            position: absolute;
+            top: 60%;
+            transform: translateX(-50%);
+            font-weight: bold;
+            font-size: 24px;
+            color: #00acc1;
+        }
+
+        .tick {
+            position: absolute;
+            width: 3px;
+            height: 15px;
+            background-color: #00acc1;
+            top: 50%;
+            transform: translateX(-50%);
+        }
+
+        .instructions {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        #feedback {
+            font-size: 24px;
+            margin-top: 20px;
+            font-weight: bold;
+            min-height: 30px;
+        }
+
+        .animal-cursor {
+            pointer-events: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            font-size: 48px;
+            transform: translate(-50%, -50%);
+        }
+
+        #farm-container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f0f8ff;
+            border: 3px solid #00acc1;
+            border-radius: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            min-height: 150px;
+        }
+
+        .animal-icon {
+            font-size: 48px;
+            margin: 10px;
+            transition: transform 0.3s;
+        }
+
+        .animal-icon.special {
+            font-size: 96px;
+        }
+
+        .animal-icon:hover {
+            transform: scale(1.2);
+        }
+
+        .math-question {
+            direction: ltr;
+            unicode-bidi: bidi-override;
+            text-align: left;
+        }
+
+        #minigame-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #minigame-target {
+            font-size: 64px;
+            position: absolute;
+            animation: moveAnimal 10s ease-in-out infinite;
+            cursor: pointer;
+        }
+
+        #minigame-timer {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 30px;
+            color: white;
+        }
+
+        @keyframes moveAnimal {
+            0% { top: 0; left: 0; transform: translate(0, 0); }
+            25% { top: 20%; left: 70%; transform: translate(50px, -50px); }
+            50% { top: 70%; left: 50%; transform: translate(-50px, 50px); }
+            75% { top: 90%; left: 10%; transform: translate(-50px, -50px); }
+            100% { top: 0; left: 0; transform: translate(0, 0); }
+        }
+
+        #reload-btn {
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 24px;
+            background-color: #00acc1;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        #reload-btn:hover {
+            background-color: #0097a7;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .game-container {
+                width: 95%;
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .instructions {
+                font-size: 24px;
+            }
+
+            .number {
+                font-size: 20px;
+            }
+
+            #feedback {
+                font-size: 20px;
+            }
+
+            .animal-icon {
+                font-size: 40px;
+            }
+
+            .animal-icon.special {
+                font-size: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>משחק ישר המספרים לילדים - צבעי הקשת</h1>
+        <div id="game">
+            <div class="instructions" id="question"></div>
+            <div class="number-line" id="number-line">
+                <!-- Number ticks from 0 to 20 -->
+                <div class="tick" style="left: 0%;"></div>
+                <div class="number" style="left: 0%;">0</div>
+                <div class="tick" style="left: 5%;"></div>
+                <div class="number" style="left: 5%;">1</div>
+                <div class="tick" style="left: 10%;"></div>
+                <div class="number" style="left: 10%;">2</div>
+                <div class="tick" style="left: 15%;"></div>
+                <div class="number" style="left: 15%;">3</div>
+                <div class="tick" style="left: 20%;"></div>
+                <div class="number" style="left: 20%;">4</div>
+                <div class="tick" style="left: 25%;"></div>
+                <div class="number" style="left: 25%;">5</div>
+                <div class="tick" style="left: 30%;"></div>
+                <div class="number" style="left: 30%;">6</div>
+                <div class="tick" style="left: 35%;"></div>
+                <div class="number" style="left: 35%;">7</div>
+                <div class="tick" style="left: 40%;"></div>
+                <div class="number" style="left: 40%;">8</div>
+                <div class="tick" style="left: 45%;"></div>
+                <div class="number" style="left: 45%;">9</div>
+                <div class="tick" style="left: 50%;"></div>
+                <div class="number" style="left: 50%;">10</div>
+                <div class="tick" style="left: 55%;"></div>
+                <div class="number" style="left: 55%;">11</div>
+                <div class="tick" style="left: 60%;"></div>
+                <div class="number" style="left: 60%;">12</div>
+                <div class="tick" style="left: 65%;"></div>
+                <div class="number" style="left: 65%;">13</div>
+                <div class="tick" style="left: 70%;"></div>
+                <div class="number" style="left: 70%;">14</div>
+                <div class="tick" style="left: 75%;"></div>
+                <div class="number" style="left: 75%;">15</div>
+                <div class="tick" style="left: 80%;"></div>
+                <div class="number" style="left: 80%;">16</div>
+                <div class="tick" style="left: 85%;"></div>
+                <div class="number" style="left: 85%;">17</div>
+                <div class="tick" style="left: 90%;"></div>
+                <div class="number" style="left: 90%;">18</div>
+                <div class="tick" style="left: 95%;"></div>
+                <div class="number" style="left: 95%;">19</div>
+                <div class="tick" style="left: 100%;"></div>
+                <div class="number" style="left: 100%;">20</div>
+            </div>
+            <div id="feedback"></div>
+
+        </div>
+        <div id="farm-container"></div>
+            <button id="reload-btn" onclick="reloadGame()">התחל מחדש</button>
+    </div>
+    <div id="animal-cursor" class="animal-cursor"></div>
+    
+    <!-- Mini-game container -->
+    <div id="minigame-container">
+        <div id="minigame-timer">20</div>
+        <div id="minigame-target"></div>
+    </div>
+
+    <script>
+        const numbers = Array.from({ length: 20 }, (_, i) => i + 1);
+        const animals = [
+        "🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+        "🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+        "🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+        "🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+        "🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+        "🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+        "🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+        "🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+        "🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+        "🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+        "🐷", "🐩", "🐘", "🐸", "🐝"
+        ];
+        const specialAnimals = ["🐉", "🦁", "🦄", "🦢", "🦥", "🦩", "🦚", "🦍"];
+        let currentLevel = 0;
+        let farmAnimals = [];
+
+        // Fisher-Yates shuffle algorithm
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // Shuffle all numbers
+        shuffleArray(numbers);
+
+        const simpleMathQuestions = [
+            (num) => {
+                const addend = Math.floor(Math.random() * (21 - num));
+                return { question: `<span class="math-question">${num} + ${addend} = ?</span>`, answer: num + addend };
+            },
+            (num) => {
+                const subtrahend = Math.floor(Math.random() * (num + 1));
+                return { question: `<span class="math-question">${num} - ${subtrahend} = ?</span>`, answer: num - subtrahend };
+            }
+        ];
+
+        const complexMathQuestions = [
+            (num) => {
+                const subtrahend1 = Math.floor(Math.random() * (num + 1));
+                const addend = Math.floor(Math.random() * (21 - (num - subtrahend1)));
+                return { question: `<span class="math-question">${num} - ${subtrahend1} + ${addend} = ?</span>`, answer: num - subtrahend1 + addend };
+            },
+            (num) => {
+                const addend1 = Math.floor(Math.random() * (21 - num));
+                const subtrahend = Math.floor(Math.random() * (num + addend1 + 1));
+                return { question: `<span class="math-question">${num} + ${addend1} - ${subtrahend} = ?</span>`, answer: num + addend1 - subtrahend };
+            }
+        ];
+
+        function getRandomAnimal() {
+            return animals[Math.floor(Math.random() * animals.length)];
+        }
+
+        function generateLevels() {
+            return numbers.map((num, index) => {
+                const animal = getRandomAnimal();
+                if (index < 3) {
+                    return { question: `שים את ${animal} על המספר ${num}`, answer: num, animal: animal };
+                } else if (index >= 3 && index < 13) {
+                    const mathQuestion = simpleMathQuestions[index % simpleMathQuestions.length](num);
+                    return { question: mathQuestion.question, answer: mathQuestion.answer, animal: animal };
+                } else {
+                    const mathQuestion = complexMathQuestions[index % complexMathQuestions.length](num);
+                    return { question: mathQuestion.question, answer: mathQuestion.answer, animal: animal };
+                }
+            });
+        }
+
+        let levels = generateLevels();
+
+        function nextLevel() {
+            currentLevel++;
+            if (currentLevel < levels.length) {
+                document.getElementById('question').innerHTML = levels[currentLevel].question;
+                updateCursor(levels[currentLevel].animal);
+                document.getElementById('feedback').textContent = '';
+                if ((currentLevel + 1) % 5 === 0) {
+                    startMiniGame();
+                }
+            } else {
+                document.getElementById('game').innerHTML = '<h2>כל הכבוד! סיימת את כל השלבים!</h2>';
+                document.getElementById('animal-cursor').style.display = 'none';
+            }
+        }
+
+        function updateCursor(animal) {
+            const cursorElement = document.getElementById('animal-cursor');
+            cursorElement.textContent = animal;
+            cursorElement.style.display = 'block';
+        }
+
+        function addAnimalToFarm(animal, isSpecial = false) {
+            farmAnimals.push({ animal, isSpecial });
+            updateFarmDisplay();
+        }
+
+        function updateFarmDisplay() {
+            const farmContainer = document.getElementById('farm-container');
+            farmContainer.innerHTML = '';
+            farmAnimals.forEach(({ animal, isSpecial }) => {
+                const animalIcon = document.createElement('div');
+                animalIcon.className = 'animal-icon';
+                if (isSpecial) {
+                    animalIcon.classList.add('special');
+                }
+                animalIcon.textContent = animal;
+                farmContainer.appendChild(animalIcon);
+            });
+        }
+
+        document.addEventListener('mousemove', function(event) {
+            const cursorElement = document.getElementById('animal-cursor');
+            cursorElement.style.left = event.clientX + 'px';
+            cursorElement.style.top = event.clientY + 'px';
+        });
+
+        document.getElementById('number-line').addEventListener('click', function(event) {
+            const rect = this.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const numberLineWidth = rect.width;
+            const tickWidth = numberLineWidth / 20;
+            const selectedNumber = Math.round(x / tickWidth);
+
+            if (selectedNumber === levels[currentLevel].answer) {
+                document.getElementById('feedback').textContent = "כל הכבוד! התשובה נכונה!";
+                document.getElementById('feedback').style.color = "#4CAF50";
+                addAnimalToFarm(levels[currentLevel].animal);
+                
+                // Wait for a short time before moving to the next level
+                setTimeout(() => {
+                    nextLevel();
+                }, 1000); // Wait for 1 second before moving to the next level
+            } else {
+                document.getElementById('feedback').textContent = "לא נכון, נסה שוב.";
+                document.getElementById('feedback').style.color = "#FF5722";
+            }
+        });
+
+        function startMiniGame() {
+            const minigameContainer = document.getElementById('minigame-container');
+            const minigameTarget = document.getElementById('minigame-target');
+            const minigameTimer = document.getElementById('minigame-timer');
+            let timer = 20;
+
+            minigameTarget.textContent = specialAnimals[Math.floor(Math.random() * specialAnimals.length)];
+            minigameContainer.style.display = 'flex';
+
+            const countdown = setInterval(() => {
+                timer--;
+                minigameTimer.textContent = timer;
+                if (timer <= 0) {
+                    clearInterval(countdown);
+                    minigameContainer.style.display = 'none';
+                    nextLevel(); // Automatically move to the next level if time runs out
+                }
+            }, 1000);
+
+            minigameTarget.addEventListener('click', function() {
+                clearInterval(countdown);
+                minigameContainer.style.display = 'none';
+                addAnimalToFarm(minigameTarget.textContent, true);
+                nextLevel(); // Automatically move to the next level after catching the animal
+            });
+        }
+
+        function reloadGame() {
+            currentLevel = 0;
+            // Reshuffle all numbers
+            shuffleArray(numbers);
+            
+            // Regenerate levels with new shuffled numbers and random animals
+            levels = generateLevels();
+
+            document.getElementById('question').innerHTML = levels[currentLevel].question;
+            updateCursor(levels[currentLevel].animal);
+            document.getElementById('feedback').textContent = '';
+        }
+
+        function init() {
+            document.getElementById('question').innerHTML = levels[currentLevel].question;
+            updateCursor(levels[currentLevel].animal);
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
