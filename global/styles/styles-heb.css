@@ -913,8 +913,10 @@
 			border-radius: 0.3rem;
 			text-align: center;
 		}
-																				/* ------------ question in one row Styles --------------- */	
-        .question-one-line {
+																				/* ------------ question in one row Styles - RTL --------------- */	
+ 
+		
+		.question-one-line {
             display: flex;
             align-items: center;
             justify-content: flex-start;
@@ -947,8 +949,47 @@
 			border: 1px solid #ccc;
 			direction: rtl;
 			text-align: right;
-			background-color: white; /* Ensure the background is white */
-			color: black; /* Set text color if needed */
+			background-color: white; 
+			color: black; 
+		}
+																				/* ------------ question in one row Styles - LTR --------------- */	
+ 
+		
+		.question-one-line-ltr {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0.5rem;
+            background-color: #f1f1f1;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            direction: ltr;
+        }
+
+        .question-one-line-ltr label {
+            flex-grow: 1;
+            text-align: left;
+            margin-left: 1rem;
+        }
+
+        .question-one-line-ltr input[type="text"] {
+            width: 10rem;
+            padding: 0.5rem;
+            border-radius: 0.3rem;
+            border: 1px solid #ccc;
+            margin-right: 1rem;
+            autocomplete: off;
+        }
+		
+		.question-one-line-ltr select {
+			width: 10rem;
+			padding: 0.5rem;
+			border-radius: 0.3rem;
+			border: 1px solid #ccc;
+			direction: ltr;
+			text-align: left;
+			background-color: white; 
+			color: black; 
 		}
 
 		
