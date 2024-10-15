@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+	<style>
+
+	</style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read each sentence/question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->  
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>Auxiliary Verbs - Negative Form - A1 A2</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+        const quizData = [ 												//  PH3 - Quiz Data   	
+
+  // Stage 1
+  [
+    { question: "I ___ happy.", options: ["am not", "is not", "are not", "do not", "does not"], answer: "am not" },
+    { question: "She ___ here.", options: ["is not", "am not", "are not", "do not", "does not"], answer: "is not" },
+    { question: "They ___ ready.", options: ["are not", "am not", "is not", "do not", "does not"], answer: "are not" },
+    { question: "I ___ like coffee.", options: ["do not", "am not", "is not", "are not", "does not"], answer: "do not" },
+    { question: "He ___ speak French.", options: ["does not", "do not", "am not", "is not", "are not"], answer: "does not" },
+  ],
+  // Stage 2
+  [
+    { question: "I ___ at school yesterday.", options: ["was not", "were not", "have not", "has not", "had not"], answer: "was not" },
+    { question: "They ___ at the party.", options: ["were not", "was not", "have not", "has not", "had not"], answer: "were not" },
+    { question: "I ___ seen that movie.", options: ["have not", "has not", "had not", "am not", "is not"], answer: "have not" },
+    { question: "She ___ finished her work.", options: ["has not", "have not", "had not", "is not", "are not"], answer: "has not" },
+    { question: "We ___ eaten lunch when you called.", options: ["had not", "have not", "has not", "were not", "was not"], answer: "had not" },
+  ],
+  // Stage 3
+  [
+    { question: "I ___ go to the party tomorrow.", options: ["will not", "would not", "shall not", "should not", "may not"], answer: "will not" },
+    { question: "She ___ be happy about that.", options: ["would not", "will not", "shall not", "should not", "may not"], answer: "would not" },
+    { question: "We ___ be late.", options: ["shall not", "will not", "would not", "should not", "may not"], answer: "shall not" },
+    { question: "You ___ forget your keys.", options: ["should not", "will not", "would not", "shall not", "may not"], answer: "should not" },
+    { question: "It ___ rain tomorrow.", options: ["may not", "will not", "would not", "shall not", "should not"], answer: "may not" },
+  ],
+  // Stage 4
+  [
+    { question: "I ___ swim very well.", options: ["cannot", "could not", "might not", "must not", "need not"], answer: "cannot" },
+    { question: "She ___ come to the party last night.", options: ["could not", "cannot", "might not", "must not", "need not"], answer: "could not" },
+    { question: "It ___ be true!", options: ["might not", "cannot", "could not", "must not", "need not"], answer: "might not" },
+    { question: "You ___ be late for work.", options: ["must not", "cannot", "could not", "might not", "need not"], answer: "must not" },
+    { question: "We ___ go if you don't want to.", options: ["need not", "cannot", "could not", "might not", "must not"], answer: "need not" },
+  ],
+  // Stage 5
+  [
+    { question: "The cake ___ ready yet.", options: ["is not", "am not", "are not", "was not", "were not"], answer: "is not" },
+    { question: "We ___ going to the party.", options: ["are not", "am not", "is not", "was not", "were not"], answer: "are not" },
+    { question: "I ___ feeling well yesterday.", options: ["was not", "am not", "is not", "are not", "were not"], answer: "was not" },
+    { question: "The children ___ at school last week.", options: ["were not", "am not", "is not", "are not", "was not"], answer: "were not" },
+    { question: "She ___ been to Paris.", options: ["has not", "have not", "had not", "do not", "does not"], answer: "has not" },
+  ],
+  // Stage 6
+  [
+    { question: "They ___ finished their homework.", options: ["have not", "has not", "had not", "do not", "does not"], answer: "have not" },
+    { question: "He ___ eaten breakfast when I called.", options: ["had not", "have not", "has not", "do not", "does not"], answer: "had not" },
+    { question: "I ___ understand this question.", options: ["do not", "does not", "did not", "am not", "is not"], answer: "do not" },
+    { question: "She ___ like spicy food.", options: ["does not", "do not", "did not", "is not", "are not"], answer: "does not" },
+    { question: "We ___ go to the beach yesterday.", options: ["did not", "do not", "does not", "were not", "was not"], answer: "did not" },
+  ],
+  // Stage 7
+  [
+    { question: "I ___ be able to attend the meeting.", options: ["will not", "would not", "shall not", "should not", "may not"], answer: "will not" },
+    { question: "She ___ want to join us for dinner.", options: ["would not", "will not", "shall not", "should not", "may not"], answer: "would not" },
+    { question: "We ___ be late for the train.", options: ["shall not", "will not", "would not", "should not", "may not"], answer: "shall not" },
+    { question: "You ___ forget to lock the door.", options: ["should not", "will not", "would not", "shall not", "may not"], answer: "should not" },
+    { question: "It ___ be necessary to bring a jacket.", options: ["may not", "will not", "would not", "shall not", "should not"], answer: "may not" },
+  ],
+  // Stage 8
+  [
+    { question: "I ___ reach the top shelf.", options: ["cannot", "could not", "might not", "must not", "need not"], answer: "cannot" },
+    { question: "She ___ find her keys this morning.", options: ["could not", "cannot", "might not", "must not", "need not"], answer: "could not" },
+    { question: "It ___ rain today, but take an umbrella just in case.", options: ["might not", "cannot", "could not", "must not", "need not"], answer: "might not" },
+    { question: "You ___ be late for your interview.", options: ["must not", "cannot", "could not", "might not", "need not"], answer: "must not" },
+    { question: "We ___ rush, we have plenty of time.", options: ["need not", "cannot", "could not", "might not", "must not"], answer: "need not" },
+  ],
+  // Stage 9
+  [
+    { question: "I ___ ready to leave yet.", options: ["am not", "is not", "are not", "was not", "were not"], answer: "am not" },
+    { question: "The restaurant ___ open on Mondays.", options: ["is not", "am not", "are not", "was not", "were not"], answer: "is not" },
+    { question: "We ___ interested in that movie.", options: ["are not", "am not", "is not", "was not", "were not"], answer: "are not" },
+    { question: "She ___ at home when I called.", options: ["was not", "am not", "is not", "are not", "were not"], answer: "was not" },
+    { question: "They ___ invited to the party last week.", options: ["were not", "am not", "is not", "are not", "was not"], answer: "were not" },
+  ],
+  // Stage 10
+  [
+    { question: "I ___ seen that movie before.", options: ["have not", "has not", "had not", "do not", "does not"], answer: "have not" },
+    { question: "He ___ finished his homework yet.", options: ["has not", "have not", "had not", "do not", "does not"], answer: "has not" },
+    { question: "They ___ arrived when we left the party.", options: ["had not", "have not", "has not", "do not", "does not"], answer: "had not" },
+    { question: "We ___ usually eat breakfast.", options: ["do not", "does not", "did not", "have not", "has not"], answer: "do not" },
+    { question: "She ___ speak German.", options: ["does not", "do not", "did not", "have not", "has not"], answer: "does not" },
+  ],
+  // Stage 11
+  [
+    { question: "I ___ go to the party last night.", options: ["did not", "do not", "does not", "am not", "is not"], answer: "did not" },
+    { question: "We ___ be late for our flight.", options: ["will not", "would not", "shall not", "should not", "may not"], answer: "will not" },
+    { question: "She ___ accept our invitation.", options: ["would not", "will not", "shall not", "should not", "may not"], answer: "would not" },
+    { question: "You ___ forget to bring your passport.", options: ["shall not", "will not", "would not", "should not", "may not"], answer: "shall not" },
+    { question: "They ___ be allowed to enter without tickets.", options: ["should not", "will not", "would not", "shall not", "may not"], answer: "should not" },
+  ],
+  // Stage 12
+  [
+    { question: "It ___ rain tomorrow, but I'm not sure.", options: ["may not", "will not", "would not", "shall not", "should not"], answer: "may not" },
+    { question: "I ___ lift this heavy box by myself.", options: ["cannot", "could not", "might not", "must not", "need not"], answer: "cannot" },
+    { question: "She ___ find her way home in the dark.", options: ["could not", "cannot", "might not", "must not", "need not"], answer: "could not" },
+    { question: "We ___ need to bring food to the picnic.", options: ["might not", "cannot", "could not", "must not", "need not"], answer: "might not" },
+    { question: "You ___ forget to call your mother on her birthday.", options: ["must not", "cannot", "could not", "might not", "need not"], answer: "must not" },
+  ],
+  // Stage 13
+  [
+    { question: "They ___ to hurry, there's plenty of time.", options: ["need not", "cannot", "could not", "might not", "must not"], answer: "need not" },
+    { question: "I ___ feeling well today.", options: ["am not", "is not", "are not", "was not", "were not"], answer: "am not" },
+    { question: "The store ___ open on Sundays.", options: ["is not", "am not", "are not", "was not", "were not"], answer: "is not" },
+    { question: "We ___ going to the beach this weekend.", options: ["are not", "am not", "is not", "was not", "were not"], answer: "are not" },
+    { question: "She ___ at home when I called yesterday.", options: ["was not", "am not", "is not", "are not", "were not"], answer: "was not" },
+  ],
+  // Stage 14
+  [
+    { question: "They ___ invited to the wedding last month.", options: ["were not", "am not", "is not", "are not", "was not"], answer: "were not" },
+    { question: "I ___ seen that movie yet.", options: ["have not", "has not", "had not", "do not", "does not"], answer: "have not" },
+    { question: "He ___ finished his homework.", options: ["has not", "have not", "had not", "do not", "does not"], answer: "has not" },
+    { question: "We ___ eaten dinner when they arrived.", options: ["had not", "have not", "has not", "do not", "does not"], answer: "had not" },
+    { question: "She ___ like spicy food.", options: ["does not", "do not", "did not", "have not", "has not"], answer: "does not" },
+  ],
+  // Stage 15
+  [
+    { question: "I ___ understand this math problem.", options: ["do not", "does not", "did not", "have not", "has not"], answer: "do not" },
+    { question: "They ___ go to the cinema last weekend.", options: ["did not", "do not", "does not", "have not", "has not"], answer: "did not" },
+    { question: "We ___ be able to attend the concert next month.", options: ["will not", "would not", "shall not", "should not", "may not"], answer: "will not" },
+    { question: "She ___ want to join us for dinner tonight.", options: ["would not", "will not", "shall not", "should not", "may not"], answer: "would not" },
+    { question: "You ___ be late for the meeting.", options: ["shall not", "will not", "would not", "should not", "may not"], answer: "should not" },
+  ],
+  // Stage 16
+  [
+    { question: "They ___ forget to bring their passports.", options: ["should not", "will not", "would not", "shall not", "may not"], answer: "should not" },
+    { question: "It ___ be necessary to wear a coat today.", options: ["may not", "will not", "would not", "shall not", "should not"], answer: "may not" },
+    { question: "I ___ swim across the entire lake.", options: ["cannot", "could not", "might not", "must not", "need not"], answer: "cannot" },
+    { question: "She ___ find her car keys this morning.", options: ["could not", "cannot", "might not", "must not", "need not"], answer: "could not" },
+    { question: "We ___ need to buy groceries today.", options: ["might not", "cannot", "could not", "must not", "need not"], answer: "might not" },
+  ],
+  // Stage 17
+  [
+    { question: "You ___ be late for your job interview.", options: ["must not", "cannot", "could not", "might not", "need not"], answer: "must not" },
+    { question: "They ___ hurry, there's still plenty of time.", options: ["need not", "cannot", "could not", "might not", "must not"], answer: "need not" },
+    { question: "I ___ ready to leave yet.", options: ["am not", "is not", "are not", "was not", "were not"], answer: "am not" },
+    { question: "The museum ___ open on Mondays.", options: ["is not", "am not", "are not", "was not", "were not"], answer: "is not" },
+    { question: "We ___ interested in watching that movie.", options: ["are not", "am not", "is not", "was not", "were not"], answer: "are not" },
+  ],
+  // Stage 18
+  [
+    { question: "She ___ feeling well yesterday.", options: ["was not", "am not", "is not", "are not", "were not"], answer: "was not" },
+    { question: "They ___ at school last week due to the holiday.", options: ["were not", "am not", "is not", "are not", "was not"], answer: "were not" },
+    { question: "I ___ visited Paris before.", options: ["have not", "has not", "had not", "do not", "does not"], answer: "have not" },
+    { question: "He ___ completed the assignment yet.", options: ["has not", "have not", "had not", "do not", "does not"], answer: "has not" },
+    { question: "We ___ received the invitation when we made other plans.", options: ["had not", "have not", "has not", "do not", "does not"], answer: "had not" },
+  ],
+  // Stage 19
+  [
+    { question: "She ___ eat meat because she's vegetarian.", options: ["does not", "do not", "did not", "have not", "has not"], answer: "does not" },
+    { question: "I ___ usually wake up early on weekends.", options: ["do not", "does not", "did not", "have not", "has not"], answer: "do not" },
+    { question: "They ___ attend the meeting last week.", options: ["did not", "do not", "does not", "have not", "has not"], answer: "did not" },
+    { question: "We ___ be able to finish the project by Friday.", options: ["will not", "would not", "shall not", "should not", "may not"], answer: "will not" },
+    { question: "She ___ accept the job offer if it was too far from home.", options: ["would not", "will not", "shall not", "should not", "may not"], answer: "would not" },
+  ],
+  // Stage 20
+  [
+    { question: "You ___ be late for the exam.", options: ["shall not", "will not", "would not", "should not", "may not"], answer: "shall not" },
+    { question: "They ___ forget to bring warm clothes for the trip.", options: ["should not", "will not", "would not", "shall not", "may not"], answer: "should not" },
+    { question: "It ___ be necessary to bring an umbrella.", options: ["may not", "will not", "would not", "shall not", "should not"], answer: "may not" },
+    { question: "I ___ reach the top shelf without a ladder.", options: ["cannot", "could not", "might not", "must not", "need not"], answer: "cannot" },
+    { question: "She ___ attend the party last night due to illness.", options: ["could not", "cannot", "might not", "must not", "need not"], answer: "could not" },
+  ],
+  // Stage 21
+  [
+    { question: "We ___ need to book a table at the restaurant.", options: ["might not", "cannot", "could not", "must not", "need not"], answer: "might not" },
+    { question: "You ___ forget to take your medication.", options: ["must not", "cannot", "could not", "might not", "need not"], answer: "must not" },
+    { question: "They ___ worry about the exam, it's been postponed.", options: ["need not", "cannot", "could not", "might not", "must not"], answer: "need not" },
+    { question: "I ___ feeling well enough to go to work today.", options: ["am not", "is not", "are not", "was not", "were not"], answer: "am not" },
+    { question: "The office ___ open during the holidays.", options: ["is not", "am not", "are not", "was not", "were not"], answer: "is not" },
+  ],
+  // Stage 22
+  [
+    { question: "We ___ planning to travel this summer.", options: ["are not", "am not", "is not", "was not", "were not"], answer: "are not" },
+    { question: "She ___ at the library when I looked for her yesterday.", options: ["was not", "am not", "is not", "are not", "were not"], answer: "was not" },
+    { question: "They ___ prepared for the presentation last week.", options: ["were not", "am not", "is not", "are not", "was not"], answer: "were not" },
+    { question: "I ___ seen that movie before.", options: ["have not", "has not", "had not", "do not", "does not"], answer: "have not" },
+    { question: "He ___ finished his homework yet.", options: ["has not", "have not", "had not", "do not", "does not"], answer: "has not" },
+  ],
+  // Stage 23
+  [
+    { question: "We ___ received the package when we left for vacation.", options: ["had not", "have not", "has not", "do not", "does not"], answer: "had not" },
+    { question: "She ___ speak French fluently.", options: ["does not", "do not", "did not", "have not", "has not"], answer: "does not" },
+    { question: "I ___ usually drink coffee in the evening.", options: ["do not", "does not", "did not", "have not", "has not"], answer: "do not" },
+    { question: "They ___ attend the conference last month.", options: ["did not", "do not", "does not", "have not", "has not"], answer: "did not" },
+    { question: "We ___ be able to meet the deadline.", options: ["will not", "would not", "shall not", "should not", "may not"], answer: "will not" },
+  ],
+  // Stage 24
+  [
+    { question: "She ___ accept the invitation if she was busy.", options: ["would not", "will not", "shall not", "should not", "may not"], answer: "would not" },
+    { question: "You ___ be late for the interview.", options: ["shall not", "will not", "would not", "should not", "may not"], answer: "shall not" },
+    { question: "They ___ forget to bring their ID cards.", options: ["should not", "will not", "would not", "shall not", "may not"], answer: "should not" },
+    { question: "It ___ be necessary to wear formal clothes to the event.", options: ["may not", "will not", "would not", "shall not", "should not"], answer: "may not" },
+    { question: "I ___ open this jar, it's too tight.", options: ["cannot", "could not", "might not", "must not", "need not"], answer: "cannot" },
+  ],
+  // Stage 25
+  [
+    { question: "She ___ attend the meeting yesterday due to illness.", options: ["could not", "cannot", "might not", "must not", "need not"], answer: "could not" },
+    { question: "We ___ need to bring our own food to the party.", options: ["might not", "cannot", "could not", "must not", "need not"], answer: "might not" },
+    { question: "You ___ forget to lock the door when you leave.", options: ["must not", "cannot", "could not", "might not", "need not"], answer: "must not" },
+    { question: "They ___ worry about the results, they did their best.", options: ["need not", "cannot", "could not", "might not", "must not"], answer: "need not" },
+    { question: "I ___ prepared for the test today.", options: ["am not", "is not", "are not", "was not", "were not"], answer: "am not" },
+  ],
+  // Stage 26
+  [
+    { question: "The restaurant ___ open on Mondays.", options: ["is not", "am not", "are not", "was not", "were not"], answer: "is not" },
+    { question: "We ___ going to the beach this weekend.", options: ["are not", "am not", "is not", "was not", "were not"], answer: "are not" },
+    { question: "She ___ at home when I called last night.", options: ["was not", "am not", "is not", "are not", "were not"], answer: "was not" },
+    { question: "They ___ invited to the wedding last month.", options: ["were not", "am not", "is not", "are not", "was not"], answer: "were not" },
+    { question: "I ___ visited New York before.", options: ["have not", "has not", "had not", "do not", "does not"], answer: "have not" },
+  ],
+  // Stage 27
+  [
+    { question: "He ___ completed the assignment yet.", options: ["has not", "have not", "had not", "do not", "does not"], answer: "has not" },
+    { question: "We ___ received the invitation when we made other plans.", options: ["had not", "have not", "has not", "do not", "does not"], answer: "had not" },
+    { question: "She ___ eat meat because she's vegetarian.", options: ["does not", "do not", "did not", "have not", "has not"], answer: "does not" },
+    { question: "I ___ usually wake up early on weekends.", options: ["do not", "does not", "did not", "have not", "has not"], answer: "do not" },
+    { question: "They ___ attend the meeting last week.", options: ["did not", "do not", "does not", "have not", "has not"], answer: "did not" },
+  ],
+  // Stage 28
+  [
+    { question: "We ___ be able to finish the project by Friday.", options: ["will not", "would not", "shall not", "should not", "may not"], answer: "will not" },
+    { question: "She ___ accept the job offer if it was too far from home.", options: ["would not", "will not", "shall not", "should not", "may not"], answer: "would not" },
+    { question: "You ___ be late for the exam.", options: ["shall not", "will not", "would not", "should not", "may not"], answer: "shall not" },
+    { question: "They ___ forget to bring warm clothes for the trip.", options: ["should not", "will not", "would not", "shall not", "may not"], answer: "should not" },
+    { question: "It ___ be necessary to bring an umbrella.", options: ["may not", "will not", "would not", "shall not", "should not"], answer: "may not" },
+  ],
+  // Stage 29
+  [
+    { question: "I ___ reach the top shelf without a ladder.", options: ["cannot", "could not", "might not", "must not", "need not"], answer: "cannot" },
+    { question: "She ___ attend the party last night due to illness.", options: ["could not", "cannot", "might not", "must not", "need not"], answer: "could not" },
+    { question: "We ___ need to book a table at the restaurant.", options: ["might not", "cannot", "could not", "must not", "need not"], answer: "might not" },
+    { question: "You ___ forget to take your medication.", options: ["must not", "cannot", "could not", "might not", "need not"], answer: "must not" },
+    { question: "They ___ worry about the exam, it's been postponed.", options: ["need not", "cannot", "could not", "might not", "must not"], answer: "need not" },
+  ],
+  // Stage 30
+  [
+    { question: "I ___ feeling well enough to go to work today.", options: ["am not", "is not", "are not", "was not", "were not"], answer: "am not" },
+    { question: "The office ___ open during the holidays.", options: ["is not", "am not", "are not", "was not", "were not"], answer: "is not" },
+    { question: "We ___ planning to travel this summer.", options: ["are not", "am not", "is not", "was not", "were not"], answer: "are not" },
+    { question: "She ___ at the library when I looked for her yesterday.", options: ["was not", "am not", "is not", "are not", "were not"], answer: "was not" },
+    { question: "They ___ prepared for the presentation last week.", options: ["were not", "am not", "is not", "are not", "was not"], answer: "were not" },
+  ],
+  // Stage 31
+  [
+    { question: "I ___ seen that movie before.", options: ["have not", "has not", "had not", "do not", "does not"], answer: "have not" },
+    { question: "He ___ finished his homework yet.", options: ["has not", "have not", "had not", "do not", "does not"], answer: "has not" },
+    { question: "We ___ received the package when we left for vacation.", options: ["had not", "have not", "has not", "do not", "does not"], answer: "had not" },
+    { question: "She ___ speak Spanish fluently.", options: ["does not", "do not", "did not", "have not", "has not"], answer: "does not" },
+    { question: "I ___ usually eat breakfast on weekdays.", options: ["do not", "does not", "did not", "have not", "has not"], answer: "do not" },
+  ],
+  // Stage 32
+  [
+    { question: "They ___ go to the beach last weekend.", options: ["did not", "do not", "does not", "have not", "has not"], answer: "did not" },
+    { question: "We ___ be able to attend the concert next month.", options: ["will not", "would not", "shall not", "should not", "may not"], answer: "will not" },
+    { question: "She ___ want to join us for dinner tonight.", options: ["would not", "will not", "shall not", "should not", "may not"], answer: "would not" },
+    { question: "You ___ be late for the meeting.", options: ["shall not", "will not", "would not", "should not", "may not"], answer: "shall not" },
+    { question: "They ___ forget to bring their passports.", options: ["should not", "will not", "would not", "shall not", "may not"], answer: "should not" },
+  ],
+  // Stage 33
+  [
+    { question: "It ___ be necessary to wear a coat today.", options: ["may not", "will not", "would not", "shall not", "should not"], answer: "may not" },
+    { question: "I ___ swim across the entire lake.", options: ["cannot", "could not", "might not", "must not", "need not"], answer: "cannot" },
+    { question: "She ___ find her car keys this morning.", options: ["could not", "cannot", "might not", "must not", "need not"], answer: "could not" },
+    { question: "We ___ need to buy groceries today.", options: ["might not", "cannot", "could not", "must not", "need not"], answer: "might not" },
+    { question: "You ___ be late for your job interview.", options: ["must not", "cannot", "could not", "might not", "need not"], answer: "must not" },
+  ],
+  // Stage 34
+  [
+    { question: "They ___ hurry, there's still plenty of time.", options: ["need not", "cannot", "could not", "might not", "must not"], answer: "need not" },
+    { question: "I ___ ready to leave yet.", options: ["am not", "is not", "are not", "was not", "were not"], answer: "am not" },
+    { question: "The museum ___ open on Mondays.", options: ["is not", "am not", "are not", "was not", "were not"], answer: "is not" },
+    { question: "We ___ interested in watching that movie.", options: ["are not", "am not", "is not", "was not", "were not"], answer: "are not" },
+    { question: "She ___ feeling well yesterday.", options: ["was not", "am not", "is not", "are not", "were not"], answer: "was not" },
+  ],
+  // Stage 35
+  [
+    { question: "They ___ at school last week due to the holiday.", options: ["were not", "am not", "is not", "are not", "was not"], answer: "were not" },
+    { question: "I ___ visited Paris before.", options: ["have not", "has not", "had not", "do not", "does not"], answer: "have not" },
+    { question: "He ___ completed the assignment yet.", options: ["has not", "have not", "had not", "do not", "does not"], answer: "has not" },
+    { question: "We ___ received the invitation when we made other plans.", options: ["had not", "have not", "has not", "do not", "does not"], answer: "had not" },
+    { question: "She ___ eat meat because she's vegetarian.", options: ["does not", "do not", "did not", "have not", "has not"], answer: "does not" },
+  ],
+  // Stage 36
+  [
+    { question: "I ___ usually wake up early on weekends.", options: ["do not", "does not", "did not", "have not", "has not"], answer: "do not" },
+    { question: "They ___ attend the meeting last week.", options: ["did not", "do not", "does not", "have not", "has not"], answer: "did not" },
+    { question: "We ___ be able to finish the project by Friday.", options: ["will not", "would not", "shall not", "should not", "may not"], answer: "will not" },
+    { question: "She ___ accept the job offer if it was too far from home.", options: ["would not", "will not", "shall not", "should not", "may not"], answer: "would not" },
+    { question: "You ___ be late for the exam.", options: ["shall not", "will not", "would not", "should not", "may not"], answer: "shall not" },
+  ],
+  // Stage 37
+  [
+    { question: "They ___ forget to bring warm clothes for the trip.", options: ["should not", "will not", "would not", "shall not", "may not"], answer: "should not" },
+    { question: "It ___ be necessary to bring an umbrella.", options: ["may not", "will not", "would not", "shall not", "should not"], answer: "may not" },
+    { question: "I ___ reach the top shelf without a ladder.", options: ["cannot", "could not", "might not", "must not", "need not"], answer: "cannot" },
+    { question: "She ___ attend the party last night due to illness.", options: ["could not", "cannot", "might not", "must not", "need not"], answer: "could not" },
+    { question: "We ___ need to book a table at the restaurant.", options: ["might not", "cannot", "could not", "must not", "need not"], answer: "might not" },
+  ],
+  // Stage 38
+  [
+    { question: "You ___ forget to take your medication.", options: ["must not", "cannot", "could not", "might not", "need not"], answer: "must not" },
+    { question: "They ___ worry about the exam, it's been postponed.", options: ["need not", "cannot", "could not", "might not", "must not"], answer: "need not" },
+    { question: "I ___ feeling well enough to go to work today.", options: ["am not", "is not", "are not", "was not", "were not"], answer: "am not" },
+    { question: "The office ___ open during the holidays.", options: ["is not", "am not", "are not", "was not", "were not"], answer: "is not" },
+    { question: "We ___ planning to travel this summer.", options: ["are not", "am not", "is not", "was not", "were not"], answer: "are not" },
+  ],
+  // Stage 39
+  [
+    { question: "She ___ at the library when I looked for her yesterday.", options: ["was not", "am not", "is not", "are not", "were not"], answer: "was not" },
+    { question: "They ___ prepared for the presentation last week.", options: ["were not", "am not", "is not", "are not", "was not"], answer: "were not" },
+    { question: "I ___ seen that movie before.", options: ["have not", "has not", "had not", "do not", "does not"], answer: "have not" },
+    { question: "He ___ finished his homework yet.", options: ["has not", "have not", "had not", "do not", "does not"], answer: "has not" },
+    { question: "We ___ received the package when we left for vacation.", options: ["had not", "have not", "has not", "do not", "does not"], answer: "had not" },
+  ],
+  // Stage 40
+  [
+    { question: "She ___ speak French fluently.", options: ["does not", "do not", "did not", "have not", "has not"], answer: "does not" },
+    { question: "I ___ usually drink coffee in the evening.", options: ["do not", "does not", "did not", "have not", "has not"], answer: "do not" },
+    { question: "They ___ attend the conference last month.", options: ["did not", "do not", "does not", "have not", "has not"], answer: "did not" },
+    { question: "We ___ be able to meet the deadline.", options: ["will not", "would not", "shall not", "should not", "may not"], answer: "will not" },
+    { question: "She ___ accept the invitation if she was busy.", options: ["would not", "will not", "shall not", "should not", "may not"], answer: "would not" },
+  ],
+  // Stage 41
+  [
+    { question: "You ___ be late for the interview.", options: ["shall not", "will not", "would not", "should not", "may not"], answer: "shall not" },
+    { question: "They ___ forget to bring their ID cards.", options: ["should not", "will not", "would not", "shall not", "may not"], answer: "should not" },
+    { question: "It ___ be necessary to wear formal clothes to the event.", options: ["may not", "will not", "would not", "shall not", "should not"], answer: "may not" },
+    { question: "I ___ open this jar, it's too tight.", options: ["cannot", "could not", "might not", "must not", "need not"], answer: "cannot" },
+    { question: "She ___ attend the meeting yesterday due to illness.", options: ["could not", "cannot", "might not", "must not", "need not"], answer: "could not" },
+  ],
+  // Stage 42
+  [
+    { question: "We ___ need to bring our own food to the party.", options: ["might not", "cannot", "could not", "must not", "need not"], answer: "might not" },
+    { question: "You ___ forget to lock the door when you leave.", options: ["must not", "cannot", "could not", "might not", "need not"], answer: "must not" },
+    { question: "They ___ worry about the results, they did their best.", options: ["need not", "cannot", "could not", "might not", "must not"], answer: "need not" },
+    { question: "I ___ prepared for the test today.", options: ["am not", "is not", "are not", "was not", "were not"], answer: "am not" },
+    { question: "The restaurant ___ open on Mondays.", options: ["is not", "am not", "are not", "was not", "were not"], answer: "is not" },
+  ],
+  // Stage 43
+  [
+    { question: "We ___ going to the beach this weekend.", options: ["are not", "am not", "is not", "was not", "were not"], answer: "are not" },
+    { question: "She ___ at home when I called last night.", options: ["was not", "am not", "is not", "are not", "were not"], answer: "was not" },
+    { question: "They ___ invited to the wedding last month.", options: ["were not", "am not", "is not", "are not", "was not"], answer: "were not" },
+    { question: "I ___ visited New York before.", options: ["have not", "has not", "had not", "do not", "does not"], answer: "have not" },
+    { question: "He ___ completed the assignment yet.", options: ["has not", "have not", "had not", "do not", "does not"], answer: "has not" },
+  ],
+  // Stage 44
+  [
+    { question: "We ___ received the invitation when we made other plans.", options: ["had not", "have not", "has not", "do not", "does not"], answer: "had not" },
+    { question: "She ___ eat meat because she's vegetarian.", options: ["does not", "do not", "did not", "have not", "has not"], answer: "does not" },
+    { question: "I ___ usually wake up early on weekends.", options: ["do not", "does not", "did not", "have not", "has not"], answer: "do not" },
+    { question: "They ___ attend the meeting last week.", options: ["did not", "do not", "does not", "have not", "has not"], answer: "did not" },
+    { question: "We ___ be able to finish the project by Friday.", options: ["will not", "would not", "shall not", "should not", "may not"], answer: "will not" },
+  ],
+  // Stage 45
+  [
+    { question: "She ___ accept the job offer if it was too far from home.", options: ["would not", "will not", "shall not", "should not", "may not"], answer: "would not" },
+    { question: "You ___ be late for the exam.", options: ["shall not", "will not", "would not", "should not", "may not"], answer: "shall not" },
+    { question: "They ___ forget to bring warm clothes for the trip.", options: ["should not", "will not", "would not", "shall not", "may not"], answer: "should not" },
+    { question: "It ___ be necessary to bring an umbrella.", options: ["may not", "will not", "would not", "shall not", "should not"], answer: "may not" },
+    { question: "I ___ reach the top shelf without a ladder.", options: ["cannot", "could not", "might not", "must not", "need not"], answer: "cannot" },
+  ],
+  // Stage 46
+  [
+    { question: "She ___ attend the party last night due to illness.", options: ["could not", "cannot", "might not", "must not", "need not"], answer: "could not" },
+    { question: "We ___ need to book a table at the restaurant.", options: ["might not", "cannot", "could not", "must not", "need not"], answer: "might not" },
+    { question: "You ___ forget to take your medication.", options: ["must not", "cannot", "could not", "might not", "need not"], answer: "must not" },
+    { question: "They ___ worry about the exam, it's been postponed.", options: ["need not", "cannot", "could not", "might not", "must not"], answer: "need not" },
+    { question: "I ___ feeling well enough to go to work today.", options: ["am not", "is not", "are not", "was not", "were not"], answer: "am not" },
+  ],
+  // Stage 47
+  [
+    { question: "The office ___ open during the holidays.", options: ["is not", "am not", "are not", "was not", "were not"], answer: "is not" },
+    { question: "We ___ planning to travel this summer.", options: ["are not", "am not", "is not", "was not", "were not"], answer: "are not" },
+    { question: "She ___ at the library when I looked for her yesterday.", options: ["was not", "am not", "is not", "are not", "were not"], answer: "was not" },
+    { question: "They ___ prepared for the presentation last week.", options: ["were not", "am not", "is not", "are not", "was not"], answer: "were not" },
+    { question: "I ___ seen that movie before.", options: ["have not", "has not", "had not", "do not", "does not"], answer: "have not" },
+  ],
+  // Stage 48
+  [
+    { question: "He ___ finished his homework yet.", options: ["has not", "have not", "had not", "do not", "does not"], answer: "has not" },
+    { question: "We ___ received the package when we left for vacation.", options: ["had not", "have not", "has not", "do not", "does not"], answer: "had not" },
+    { question: "She ___ speak Italian fluently.", options: ["does not", "do not", "did not", "have not", "has not"], answer: "does not" },
+    { question: "I ___ usually eat lunch at work.", options: ["do not", "does not", "did not", "have not", "has not"], answer: "do not" },
+    { question: "They ___ go to the cinema last weekend.", options: ["did not", "do not", "does not", "have not", "has not"], answer: "did not" },
+  ],
+  // Stage 49
+  [
+    { question: "We ___ be able to attend the wedding next month.", options: ["will not", "would not", "shall not", "should not", "may not"], answer: "will not" },
+    { question: "She ___ want to move to a different city.", options: ["would not", "will not", "shall not", "should not", "may not"], answer: "would not" },
+    { question: "You ___ be disrespectful to your elders.", options: ["shall not", "will not", "would not", "should not", "may not"], answer: "shall not" },
+    { question: "They ___ forget to bring their passports for the trip.", options: ["should not", "will not", "would not", "shall not", "may not"], answer: "should not" },
+    { question: "It ___ be necessary to bring a gift to the party.", options: ["may not", "will not", "would not", "shall not", "should not"], answer: "may not" },
+  ],
+  // Stage 50
+  [
+    { question: "I ___ solve this math problem without a calculator.", options: ["cannot", "could not", "might not", "must not", "need not"], answer: "cannot" },
+    { question: "She ___ find her way home in the dark last night.", options: ["could not", "cannot", "might not", "must not", "need not"], answer: "could not" },
+    { question: "We ___ need to bring our own food to the picnic.", options: ["might not", "cannot", "could not", "must not", "need not"], answer: "might not" },
+    { question: "You ___ forget to call your grandmother on her birthday.", options: ["must not", "cannot", "could not", "might not", "need not"], answer: "must not" },
+    { question: "They ___ rush, there's plenty of time before the movie starts.", options: ["need not", "cannot", "could not", "might not", "must not"], answer: "need not" },
+  ]
+
+
+
+
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+
+
+		   'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+           ,'Subject Overview 🗝️': `<div class="container mx-auto px-4 py-8">   <h1 class="text-3xl font-bold mb-6">Auxiliary Verbs: Comprehensive Guide</h1>     <div class="bg-white shadow-md rounded-lg p-6 mb-6">     <h2 class="text-xl font-semibold mb-4">What are Auxiliary Verbs?</h2>     <p class="mb-4">Auxiliary verbs, also known as helping verbs, are used alongside main verbs to express tense, mood, or voice. They "help" the main verb by adding functional or grammatical meaning.</p>     <p>Common auxiliary verbs include:</p>     <ul class="list-disc list-inside mb-4">       <li>Be verbs: be, am, is, are, was, were, being, been</li>       <li>Have verbs: have, has, had</li>       <li>Do verbs: do, does, did</li>       <li>Modal auxiliaries: will, would, shall, should, can, could, may, might, must</li>     </ul>   </div>   <div class="bg-white shadow-md rounded-lg p-6 mb-6">     <h2 class="text-xl font-semibold mb-4">1. Be Verbs</h2>         <h3 class="text-lg font-medium mb-2">Past Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive:</p>       <ul class="list-disc list-inside mb-2">         <li>I <span class="text-blue-600">was</span> studying when you called.</li>         <li>They <span class="text-blue-600">were</span> playing tennis all afternoon.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>I <span class="text-blue-600">was not</span> (wasn't) sleeping when the phone rang.</li>         <li>They <span class="text-blue-600">were not</span> (weren't) working yesterday.</li>       </ul>     </div>     <h3 class="text-lg font-medium mb-2">Present Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive:</p>       <ul class="list-disc list-inside mb-2">         <li>She <span class="text-blue-600">is</span> working on a new project.</li>         <li>We <span class="text-blue-600">are</span> living in New York City.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>He <span class="text-blue-600">is not</span> (isn't) feeling well today.</li>         <li>They <span class="text-blue-600">are not</span> (aren't) attending the meeting.</li>       </ul>     </div>     <h3 class="text-lg font-medium mb-2">Future Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive:</p>       <ul class="list-disc list-inside mb-2">         <li>I <span class="text-blue-600">will be</span> traveling next week.</li>         <li>She <span class="text-blue-600">is going to be</span> studying abroad next semester.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>We <span class="text-blue-600">will not be</span> (won't be) attending the conference.</li>         <li>They <span class="text-blue-600">are not going to be</span> (aren't going to be) working this weekend.</li>       </ul>     </div>   </div>   <div class="bg-white shadow-md rounded-lg p-6 mb-6">     <h2 class="text-xl font-semibold mb-4">2. Have Verbs</h2>         <h3 class="text-lg font-medium mb-2">Past Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive:</p>       <ul class="list-disc list-inside mb-2">         <li>She <span class="text-blue-600">had</span> finished her homework before dinner.</li>         <li>We <span class="text-blue-600">had been</span> waiting for an hour when he arrived.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>I <span class="text-blue-600">had not</span> (hadn't) seen that movie before last night.</li>         <li>They <span class="text-blue-600">had not been</span> (hadn't been) living here long when we met.</li>       </ul>     </div>     <h3 class="text-lg font-medium mb-2">Present Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive:</p>       <ul class="list-disc list-inside mb-2">         <li>I <span class="text-blue-600">have</span> lived here for five years.</li>         <li>He <span class="text-blue-600">has been</span> working on this project since last month.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>We <span class="text-blue-600">have not</span> (haven't) received any news yet.</li>         <li>She <span class="text-blue-600">has not been</span> (hasn't been) feeling well lately.</li>       </ul>     </div>     <h3 class="text-lg font-medium mb-2">Future Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive:</p>       <ul class="list-disc list-inside mb-2">         <li>By next week, I <span class="text-blue-600">will have</span> completed the course.</li>         <li>She <span class="text-blue-600">will have been</span> teaching for 20 years next May.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>They <span class="text-blue-600">will not have</span> (won't have) finished the project by the deadline.</li>         <li>We <span class="text-blue-600">will not have been</span> (won't have been) working here for long when the changes are implemented.</li>       </ul>     </div>   </div>   <div class="bg-white shadow-md rounded-lg p-6 mb-6">     <h2 class="text-xl font-semibold mb-4">3. Do Verbs</h2>         <h3 class="text-lg font-medium mb-2">Past Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive (for emphasis):</p>       <ul class="list-disc list-inside mb-2">         <li>I <span class="text-blue-600">did</span> finish the report on time.</li>         <li>She <span class="text-blue-600">did</span> win the competition last year.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>We <span class="text-blue-600">did not</span> (didn't) go to the party last night.</li>         <li>He <span class="text-blue-600">did not</span> (didn't) understand the instructions.</li>       </ul>     </div>     <h3 class="text-lg font-medium mb-2">Present Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive (for emphasis):</p>       <ul class="list-disc list-inside mb-2">         <li>We <span class="text-blue-600">do</span> enjoy hiking on weekends.</li>         <li>He <span class="text-blue-600">does</span> practice piano every day.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>I <span class="text-blue-600">do not</span> (don't) like spicy food.</li>         <li>She <span class="text-blue-600">does not</span> (doesn't) speak French.</li>       </ul>     </div>     <h3 class="text-lg font-medium mb-2">Future Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive:</p>       <ul class="list-disc list-inside mb-2">         <li>We <span class="text-blue-600">will do</span> our best to meet the deadline.</li>         <li>She <span class="text-blue-600">is going to do</span> extra credit work next semester.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>They <span class="text-blue-600">will not do</span> (won't do) the presentation next week.</li>         <li>I <span class="text-blue-600">am not going to do</span> any overtime this month.</li>       </ul>     </div>   </div>   <div class="bg-white shadow-md rounded-lg p-6 mb-6">     <h2 class="text-xl font-semibold mb-4">4. Modal Auxiliaries</h2>         <h3 class="text-lg font-medium mb-2">Past Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive:</p>       <ul class="list-disc list-inside mb-2">         <li>I <span class="text-blue-600">could</span> swim well when I was younger.</li>         <li>She <span class="text-blue-600">might have</span> left early yesterday.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>They <span class="text-blue-600">could not</span> (couldn't) attend the meeting last week.</li>         <li>He <span class="text-blue-600">might not have</span> received our message.</li>       </ul>     </div>     <h3 class="text-lg font-medium mb-2">Present Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive:</p>       <ul class="list-disc list-inside mb-2">         <li>We <span class="text-blue-600">can</span> hear the music from here.</li>         <li>You <span class="text-blue-600">may</span> use my pen if you need it.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>I <span class="text-blue-600">cannot</span> (can't) understand this concept.</li>         <li>She <span class="text-blue-600">may not</span> be available right now.</li>       </ul>     </div>     <h3 class="text-lg font-medium mb-2">Future Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive:</p>       <ul class="list-disc list-inside mb-2">         <li>I <span class="text-blue-600">will</span> help you with your project tomorrow.</li>         <li>They <span class="text-blue-600">should</span> arrive by 6 PM tonight.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>We <span class="text-blue-600">will not</span> (won't) be able to finish on time.</li>         <li>She <span class="text-blue-600">should not</span> (shouldn't) travel alone next week.</li>       </ul>     </div>   </div>   <div class="bg-white shadow-md rounded-lg p-6">     <h2 class="text-xl font-semibold mb-4">Complex Tense Constructions</h2>     <p class="mb-4">Auxiliary verbs can be combined to create complex tense constructions:</p>     <div class="bg-gray-100 p-4 rounded-md">       <p class="font-semibold">Positive:</p>       <ul class="list-disc list-inside mb-4">         <li>By next month, she <span class="text-blue-600">will have been working</span> here for 10 years. (Future Perfect Continuous)</li>         <li>They <span class="text-blue-600">must have been practicing</span> for months to perform so well. (Modal Perfect Continuous)</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>We <span class="text-blue-600">should not have been studying</span> (shouldn't have been studying) all night. (Modal Perfect Continuous Negative)</li>         <li>The package <span class="text-blue-600">might not have been delivered</span> while we were out. (Modal Perfect Passive Negative)</li>       </ul>     </div>   </div> </div>`
+	
+		};
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    quizData[currentStage].forEach((question, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+        
+        // Create label for the question text
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${question.question}`;
+        
+        // Create div for result feedback
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+        
+        // Create select element for answers
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        
+        // Add default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+        
+        // Shuffle and add answer options
+        const shuffledOptions = shuffleArray([...question.options]);
+        shuffledOptions.forEach((option, optionIndex) => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        // Append elements to questionElement in the desired order
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv); // Feedback before dropdown
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+		function checkStage() {
+   attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[currentStage].length;
+
+    quizData[currentStage].forEach((question, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === question.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect answer.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 10) {
+            selectElement.value = question.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` The correct answer is: ${question.answer}`;
+        }
+    });
+
+    console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`Stage ${currentStage + 1} completed. Adding ${totalQuestions} animals.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`Moving to stage ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("Congratulations! You've completed all stages.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+		function updateStageNumber() {
+			const stageElement = document.getElementById("stage-number");
+			stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+		}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>

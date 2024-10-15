@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+	<style>
+
+	</style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read each sentence/question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>Auxiliary Verbs - Positive Form - A1 A2</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  --> 
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+        const quizData = [ 												//  PH3 - Quiz Data   	
+
+ 
+  // Stage 1
+  [
+    { question: "I ___ happy.", options: ["am", "is", "are", "was", "were"], answer: "am" },
+    { question: "She ___ a teacher.", options: ["is", "am", "are", "was", "were"], answer: "is" },
+    { question: "They ___ at home.", options: ["are", "am", "is", "was", "were"], answer: "are" },
+    { question: "I ___ at school yesterday.", options: ["was", "am", "is", "are", "were"], answer: "was" },
+    { question: "You ___ late last week.", options: ["were", "am", "is", "are", "was"], answer: "were" },
+  ],
+  // Stage 2
+  [
+    { question: "He ___ been to Paris.", options: ["has", "have", "had", "do", "does"], answer: "has" },
+    { question: "I ___ visited London before.", options: ["have", "has", "had", "do", "does"], answer: "have" },
+    { question: "They ___ already left when we arrived.", options: ["had", "have", "has", "do", "does"], answer: "had" },
+    { question: "She ___ like coffee.", options: ["does", "do", "did", "have", "has"], answer: "does" },
+    { question: "I ___ go to the gym regularly.", options: ["do", "does", "did", "have", "has"], answer: "do" },
+  ],
+  // Stage 3
+  [
+    { question: "We ___ study English last night.", options: ["did", "do", "does", "have", "has"], answer: "did" },
+    { question: "I ___ go to the party tomorrow.", options: ["will", "would", "shall", "should", "may"], answer: "will" },
+    { question: "She ___ like to visit Japan someday.", options: ["would", "will", "shall", "should", "may"], answer: "would" },
+    { question: "We ___ meet at 6 PM.", options: ["shall", "will", "would", "should", "may"], answer: "shall" },
+    { question: "You ___ study for the test.", options: ["should", "will", "would", "shall", "may"], answer: "should" },
+  ],
+  // Stage 4
+  [
+    { question: "It ___ rain later today.", options: ["may", "will", "would", "shall", "should"], answer: "may" },
+    { question: "I ___ speak French when I was young.", options: ["could", "can", "may", "might", "must"], answer: "could" },
+    { question: "She ___ be at home now.", options: ["might", "can", "could", "may", "must"], answer: "might" },
+    { question: "You ___ finish your homework before playing.", options: ["must", "can", "could", "may", "might"], answer: "must" },
+    { question: "We ___ see the mountains from here.", options: ["can", "could", "may", "might", "must"], answer: "can" },
+  ],
+  // Stage 5
+  [
+    { question: "I ___ studying English now.", options: ["am", "is", "are", "was", "were"], answer: "am" },
+    { question: "He ___ working on a new project.", options: ["is", "am", "are", "was", "were"], answer: "is" },
+    { question: "They ___ playing football in the park.", options: ["are", "am", "is", "was", "were"], answer: "are" },
+    { question: "She ___ reading a book when I called.", options: ["was", "am", "is", "are", "were"], answer: "was" },
+    { question: "We ___ watching TV when the power went out.", options: ["were", "am", "is", "are", "was"], answer: "were" },
+  ],
+  // Stage 6
+  [
+    { question: "He ___ been working here for five years.", options: ["has", "have", "had", "do", "does"], answer: "has" },
+    { question: "I ___ lived in this city since 2010.", options: ["have", "has", "had", "do", "does"], answer: "have" },
+    { question: "They ___ already eaten when we arrived.", options: ["had", "have", "has", "do", "does"], answer: "had" },
+    { question: "She ___ speak three languages.", options: ["does", "do", "did", "have", "has"], answer: "does" },
+    { question: "We ___ often go to the beach in summer.", options: ["do", "does", "did", "have", "has"], answer: "do" },
+  ],
+  // Stage 7
+  [
+    { question: "I ___ visit my grandmother last weekend.", options: ["did", "do", "does", "have", "has"], answer: "did" },
+    { question: "They ___ arrive tomorrow morning.", options: ["will", "would", "shall", "should", "may"], answer: "will" },
+    { question: "He ___ prefer tea over coffee.", options: ["would", "will", "shall", "should", "may"], answer: "would" },
+    { question: "I ___ help you with your homework.", options: ["shall", "will", "would", "should", "may"], answer: "shall" },
+    { question: "You ___ eat more vegetables.", options: ["should", "will", "would", "shall", "may"], answer: "should" },
+  ],
+  // Stage 8
+  [
+    { question: "It ___ be sunny tomorrow.", options: ["may", "will", "would", "shall", "should"], answer: "may" },
+    { question: "She ___ swim very well when she was younger.", options: ["could", "can", "may", "might", "must"], answer: "could" },
+    { question: "He ___ be at the library, I'm not sure.", options: ["might", "can", "could", "may", "must"], answer: "might" },
+    { question: "We ___ leave now to catch the train.", options: ["must", "can", "could", "may", "might"], answer: "must" },
+    { question: "I ___ speak English fluently.", options: ["can", "could", "may", "might", "must"], answer: "can" },
+  ],
+  // Stage 9
+  [
+    { question: "She ___ a doctor.", options: ["is", "am", "are", "was", "were"], answer: "is" },
+    { question: "We ___ happy to help you.", options: ["are", "am", "is", "was", "were"], answer: "are" },
+    { question: "I ___ busy yesterday.", options: ["was", "am", "is", "are", "were"], answer: "was" },
+    { question: "They ___ late for the meeting last week.", options: ["were", "am", "is", "are", "was"], answer: "were" },
+    { question: "He ___ studying for his exam now.", options: ["is", "am", "are", "was", "were"], answer: "is" },
+  ],
+  // Stage 10
+  [
+    { question: "She ___ finished her homework.", options: ["has", "have", "had", "do", "does"], answer: "has" },
+    { question: "We ___ been to Paris twice.", options: ["have", "has", "had", "do", "does"], answer: "have" },
+    { question: "I ___ already eaten when they arrived.", options: ["had", "have", "has", "do", "does"], answer: "had" },
+    { question: "He ___ play the guitar very well.", options: ["does", "do", "did", "have", "has"], answer: "does" },
+    { question: "They ___ go to the gym every day.", options: ["do", "does", "did", "have", "has"], answer: "do" },
+  ],
+  // Stage 11
+  [
+    { question: "I ___ visit my grandparents last month.", options: ["did", "do", "does", "have", "has"], answer: "did" },
+    { question: "She ___ arrive tomorrow evening.", options: ["will", "would", "shall", "should", "may"], answer: "will" },
+    { question: "He ___ like to travel more often.", options: ["would", "will", "shall", "should", "may"], answer: "would" },
+    { question: "We ___ discuss this matter later.", options: ["shall", "will", "would", "should", "may"], answer: "shall" },
+    { question: "You ___ always tell the truth.", options: ["should", "will", "would", "shall", "may"], answer: "should" },
+  ],
+  // Stage 12
+  [
+    { question: "It ___ rain this afternoon.", options: ["may", "will", "would", "shall", "should"], answer: "may" },
+    { question: "I ___ ride a bike when I was six.", options: ["could", "can", "may", "might", "must"], answer: "could" },
+    { question: "She ___ be at the store, I'm not certain.", options: ["might", "can", "could", "may", "must"], answer: "might" },
+    { question: "We ___ follow the rules at all times.", options: ["must", "can", "could", "may", "might"], answer: "must" },
+    { question: "They ___ speak three languages fluently.", options: ["can", "could", "may", "might", "must"], answer: "can" },
+  ],
+  // Stage 13
+  [
+    { question: "I ___ excited about the upcoming vacation.", options: ["am", "is", "are", "was", "were"], answer: "am" },
+    { question: "He ___ a talented musician.", options: ["is", "am", "are", "was", "were"], answer: "is" },
+    { question: "They ___ ready for the presentation.", options: ["are", "am", "is", "was", "were"], answer: "are" },
+    { question: "She ___ nervous before the interview yesterday.", options: ["was", "am", "is", "are", "were"], answer: "was" },
+    { question: "We ___ surprised by the unexpected gift.", options: ["were", "am", "is", "are", "was"], answer: "were" },
+  ],
+  // Stage 14
+  [
+    { question: "He ___ lived in this city for ten years.", options: ["has", "have", "had", "do", "does"], answer: "has" },
+    { question: "I ___ never seen that movie before.", options: ["have", "has", "had", "do", "does"], answer: "have" },
+    { question: "They ___ already left when we arrived at the party.", options: ["had", "have", "has", "do", "does"], answer: "had" },
+    { question: "She ___ practice piano every day.", options: ["does", "do", "did", "have", "has"], answer: "does" },
+    { question: "We ___ often go for walks in the evening.", options: ["do", "does", "did", "have", "has"], answer: "do" },
+  ],
+  // Stage 15
+  [
+    { question: "I ___ finish my homework before dinner.", options: ["will", "would", "shall", "should", "may"], answer: "will" },
+    { question: "She ___ prefer to stay home tonight.", options: ["would", "will", "shall", "should", "may"], answer: "would" },
+    { question: "We ___ meet again next week.", options: ["shall", "will", "would", "should", "may"], answer: "shall" },
+    { question: "You ___ eat more fruits and vegetables.", options: ["should", "will", "would", "shall", "may"], answer: "should" },
+    { question: "It ___ be possible to reschedule the meeting.", options: ["may", "will", "would", "shall", "should"], answer: "may" },
+  ],
+  // Stage 16
+  [
+    { question: "I ___ swim across the lake when I was younger.", options: ["could", "can", "may", "might", "must"], answer: "could" },
+    { question: "She ___ be running late, the traffic is bad.", options: ["might", "can", "could", "may", "must"], answer: "might" },
+    { question: "We ___ arrive on time for the concert.", options: ["must", "can", "could", "may", "might"], answer: "must" },
+    { question: "They ___ speak English very well.", options: ["can", "could", "may", "might", "must"], answer: "can" },
+    { question: "It ___ rain tomorrow, according to the forecast.", options: ["may", "will", "would", "shall", "should"], answer: "may" },
+  ],
+  // Stage 17
+  [
+    { question: "I ___ studying for my exam right now.", options: ["am", "is", "are", "was", "were"], answer: "am" },
+    { question: "She ___ working on a new project.", options: ["is", "am", "are", "was", "were"], answer: "is" },
+    { question: "They ___ planning their vacation.", options: ["are", "am", "is", "was", "were"], answer: "are" },
+    { question: "He ___ reading a book when I called.", options: ["was", "am", "is", "are", "were"], answer: "was" },
+    { question: "We ___ watching TV when the power went out.", options: ["were", "am", "is", "are", "was"], answer: "were" },
+  ],
+  // Stage 18
+  [
+    { question: "She ___ finished her project ahead of schedule.", options: ["has", "have", "had", "do", "does"], answer: "has" },
+    { question: "I ___ been to that restaurant before.", options: ["have", "has", "had", "do", "does"], answer: "have" },
+    { question: "They ___ already eaten when we arrived.", options: ["had", "have", "has", "do", "does"], answer: "had" },
+    { question: "He ___ play the guitar beautifully.", options: ["does", "do", "did", "have", "has"], answer: "does" },
+    { question: "We ___ usually have dinner at 7 PM.", options: ["do", "does", "did", "have", "has"], answer: "do" },
+  ],
+  // Stage 19
+  [
+    { question: "I ___ visit my cousin last summer.", options: ["did", "do", "does", "have", "has"], answer: "did" },
+    { question: "She ___ graduate next month.", options: ["will", "would", "shall", "should", "may"], answer: "will" },
+    { question: "He ___ like to learn a new language.", options: ["would", "will", "shall", "should", "may"], answer: "would" },
+    { question: "We ___ discuss this matter in private.", options: ["shall", "will", "would", "should", "may"], answer: "shall" },
+    { question: "You ___ always respect your elders.", options: ["should", "will", "would", "shall", "may"], answer: "should" },
+  ],
+  // Stage 20
+  [
+    { question: "It ___ be sunny this weekend.", options: ["may", "will", "would", "shall", "should"], answer: "may" },
+    { question: "I ___ run very fast when I was in school.", options: ["could", "can", "may", "might", "must"], answer: "could" },
+    { question: "She ___ be at the library studying.", options: ["might", "can", "could", "may", "must"], answer: "might" },
+    { question: "We ___ submit our assignments on time.", options: ["must", "can", "could", "may", "might"], answer: "must" },
+    { question: "They ___ swim very well.", options: ["can", "could", "may", "might", "must"], answer: "can" },
+  ],
+  // Stage 21
+  [
+    { question: "I ___ excited about learning English.", options: ["am", "is", "are", "was", "were"], answer: "am" },
+    { question: "He ___ a skilled carpenter.", options: ["is", "am", "are", "was", "were"], answer: "is" },
+    { question: "They ___ eager to start the new project.", options: ["are", "am", "is", "was", "were"], answer: "are" },
+    { question: "She ___ happy with her test results yesterday.", options: ["was", "am", "is", "are", "were"], answer: "was" },
+    { question: "We ___ impressed by the new technology.", options: ["were", "am", "is", "are", "was"], answer: "were" },
+  ],
+  // Stage 22
+  [
+    { question: "He ___ worked here for five years.", options: ["has", "have", "had", "do", "does"], answer: "has" },
+    { question: "I ___ never tried sushi before.", options: ["have", "has", "had", "do", "does"], answer: "have" },
+    { question: "They ___ finished their meal when we arrived.", options: ["had", "have", "has", "do", "does"], answer: "had" },
+    { question: "She ___ speak four languages fluently.", options: ["does", "do", "did", "have", "has"], answer: "does" },
+    { question: "We ___ usually go to the beach on weekends.", options: ["do", "does", "did", "have", "has"], answer: "do" },
+  ],
+  // Stage 23
+  [
+    { question: "I ___ attend the conference last week.", options: ["did", "do", "does", "have", "has"], answer: "did" },
+    { question: "She ___ start her new job next month.", options: ["will", "would", "shall", "should", "may"], answer: "will" },
+    { question: "He ___ prefer to eat at home tonight.", options: ["would", "will", "shall", "should", "may"], answer: "would" },
+    { question: "We ___ meet again soon.", options: ["shall", "will", "would", "should", "may"], answer: "shall" },
+    { question: "You ___ always be honest with your friends.", options: ["should", "will", "would", "shall", "may"], answer: "should" },
+  ],
+  // Stage 24
+  [
+    { question: "It ___ rain later today.", options: ["may", "will", "would", "shall", "should"], answer: "may" },
+    { question: "I ___ play the piano when I was younger.", options: ["could", "can", "may", "might", "must"], answer: "could" },
+    { question: "She ___ be late for the meeting.", options: ["might", "can", "could", "may", "must"], answer: "might" },
+    { question: "We ___ follow the safety guidelines.", options: ["must", "can", "could", "may", "might"], answer: "must" },
+    { question: "They ___ speak three languages fluently.", options: ["can", "could", "may", "might", "must"], answer: "can" },
+  ],
+  // Stage 25
+  [
+    { question: "I ___ working on an important project.", options: ["am", "is", "are", "was", "were"], answer: "am" },
+    { question: "He ___ studying for his final exams.", options: ["is", "am", "are", "was", "were"], answer: "is" },
+    { question: "They ___ preparing for the upcoming competition.", options: ["are", "am", "is", "was", "were"], answer: "are" },
+    { question: "She ___ cooking dinner when the guests arrived.", options: ["was", "am", "is", "are", "were"], answer: "was" },
+    { question: "We ___ discussing the plan when the boss walked in.", options: ["were", "am", "is", "are", "was"], answer: "were" },
+  ],
+  // Stage 26
+  [
+    { question: "She ___ completed her degree.", options: ["has", "have", "had", "do", "does"], answer: "has" },
+    { question: "I ___ visited many countries in Europe.", options: ["have", "has", "had", "do", "does"], answer: "have" },
+    { question: "They ___ already left when we reached the airport.", options: ["had", "have", "has", "do", "does"], answer: "had" },
+    { question: "He ___ exercise every morning.", options: ["does", "do", "did", "have", "has"], answer: "does" },
+    { question: "We ___ often eat out on Fridays.", options: ["do", "does", "did", "have", "has"], answer: "do" },
+  ],
+  // Stage 27
+  [
+    { question: "I ___ finish this book last night.", options: ["did", "do", "does", "have", "has"], answer: "did" },
+    { question: "She ___ travel to Japan next year.", options: ["will", "would", "shall", "should", "may"], answer: "will" },
+    { question: "He ___ like to learn how to dance.", options: ["would", "will", "shall", "should", "may"], answer: "would" },
+    { question: "We ___ meet again next Monday.", options: ["shall", "will", "would", "should", "may"], answer: "shall" },
+    { question: "You ___ always wear a seatbelt while driving.", options: ["should", "will", "would", "shall", "may"], answer: "should" },
+  ],
+  // Stage 28
+  [
+    { question: "It ___ be possible to reschedule the meeting.", options: ["may", "will", "would", "shall", "should"], answer: "may" },
+    { question: "I ___ solve complex math problems in high school.", options: ["could", "can", "may", "might", "must"], answer: "could" },
+    { question: "She ___ be working late tonight.", options: ["might", "can", "could", "may", "must"], answer: "might" },
+    { question: "We ___ respect the rules of the library.", options: ["must", "can", "could", "may", "might"], answer: "must" },
+    { question: "They ___ speak English fluently now.", options: ["can", "could", "may", "might", "must"], answer: "can" },
+  ],
+  // Stage 29
+  [
+    { question: "I ___ feeling much better today.", options: ["am", "is", "are", "was", "were"], answer: "am" },
+    { question: "He ___ an experienced teacher.", options: ["is", "am", "are", "was", "were"], answer: "is" },
+    { question: "They ___ excited about the upcoming concert.", options: ["are", "am", "is", "was", "were"], answer: "are" },
+    { question: "She ___ tired after the long journey yesterday.", options: ["was", "am", "is", "are", "were"], answer: "was" },
+    { question: "We ___ surprised by the unexpected news.", options: ["were", "am", "is", "are", "was"], answer: "were" },
+  ],
+  // Stage 30
+  [
+    { question: "He ___ lived in this city for over a decade.", options: ["has", "have", "had", "do", "does"], answer: "has" },
+    { question: "I ___ traveled to many countries.", options: ["have", "has", "had", "do", "does"], answer: "have" },
+    { question: "They ___ finished their homework before dinner.", options: ["had", "have", "has", "do", "does"], answer: "had" },
+    { question: "She ___ practice yoga every morning.", options: ["does", "do", "did", "have", "has"], answer: "does" },
+    { question: "We ___ usually have lunch at 1 PM.", options: ["do", "does", "did", "have", "has"], answer: "do" },
+  ],
+  // Stage 31
+  [
+    { question: "I ___ watch that movie last weekend.", options: ["did", "do", "does", "have", "has"], answer: "did" },
+    { question: "She ___ graduate from university next year.", options: ["will", "would", "shall", "should", "may"], answer: "will" },
+    { question: "He ___ like to visit Australia someday.", options: ["would", "will", "shall", "should", "may"], answer: "would" },
+    { question: "We ___ discuss this matter further tomorrow.", options: ["shall", "will", "would", "should", "may"], answer: "shall" },
+    { question: "You ___ always be punctual for meetings.", options: ["should", "will", "would", "shall", "may"], answer: "should" },
+  ],
+  // Stage 32
+  [
+    { question: "It ___ be sunny this afternoon.", options: ["may", "will", "would", "shall", "should"], answer: "may" },
+    { question: "I ___ speak three languages when I was in college.", options: ["could", "can", "may", "might", "must"], answer: "could" },
+    { question: "She ___ be at the coffee shop, I'm not sure.", options: ["might", "can", "could", "may", "must"], answer: "might" },
+    { question: "We ___ follow the traffic rules at all times.", options: ["must", "can", "could", "may", "might"], answer: "must" },
+    { question: "They ___ run very fast.", options: ["can", "could", "may", "might", "must"], answer: "can" },
+  ],
+  // Stage 33
+  [
+    { question: "I ___ happy with my new job.", options: ["am", "is", "are", "was", "were"], answer: "am" },
+    { question: "He ___ a talented artist.", options: ["is", "am", "are", "was", "were"], answer: "is" },
+    { question: "They ___ excited about the upcoming vacation.", options: ["are", "am", "is", "was", "were"], answer: "are" },
+    { question: "She ___ nervous before her presentation yesterday.", options: ["was", "am", "is", "are", "were"], answer: "was" },
+    { question: "We ___ impressed by the fireworks display.", options: ["were", "am", "is", "are", "was"], answer: "were" },
+  ],
+  // Stage 34
+  [
+    { question: "He ___ worked on this project for months.", options: ["has", "have", "had", "do", "does"], answer: "has" },
+    { question: "I ___ never eaten sushi before.", options: ["have", "has", "had", "do", "does"], answer: "have" },
+    { question: "They ___ already left when we arrived at the party.", options: ["had", "have", "has", "do", "does"], answer: "had" },
+    { question: "She ___ speak French fluently.", options: ["does", "do", "did", "have", "has"], answer: "does" },
+    { question: "We ___ often go hiking on weekends.", options: ["do", "does", "did", "have", "has"], answer: "do" },
+  ],
+  // Stage 35
+  [
+    { question: "I ___ visit my grandparents last month.", options: ["did", "do", "does", "have", "has"], answer: "did" },
+    { question: "She ___ start her new job next week.", options: ["will", "would", "shall", "should", "may"], answer: "will" },
+    { question: "He ___ prefer to eat at home tonight.", options: ["would", "will", "shall", "should", "may"], answer: "would" },
+    { question: "We ___ meet again soon to discuss the project.", options: ["shall", "will", "would", "should", "may"], answer: "shall" },
+    { question: "You ___ always be kind to others.", options: ["should", "will", "would", "shall", "may"], answer: "should" },
+  ],
+  // Stage 36
+  [
+    { question: "It ___ rain tomorrow, according to the forecast.", options: ["may", "will", "would", "shall", "should"], answer: "may" },
+    { question: "I ___ play the guitar when I was younger.", options: ["could", "can", "may", "might", "must"], answer: "could" },
+    { question: "She ___ be running late due to traffic.", options: ["might", "can", "could", "may", "must"], answer: "might" },
+    { question: "We ___ finish this project by Friday.", options: ["must", "can", "could", "may", "might"], answer: "must" },
+    { question: "They ___ speak English very well now.", options: ["can", "could", "may", "might", "must"], answer: "can" },
+  ],
+  // Stage 37
+  [
+    { question: "I ___ studying for my final exams.", options: ["am", "is", "are", "was", "were"], answer: "am" },
+    { question: "He ___ working on a new novel.", options: ["is", "am", "are", "was", "were"], answer: "is" },
+    { question: "They ___ preparing for the big presentation.", options: ["are", "am", "is", "was", "were"], answer: "are" },
+    { question: "She ___ cooking dinner when the phone rang.", options: ["was", "am", "is", "are", "were"], answer: "was" },
+    { question: "We ___ watching a movie when the power went out.", options: ["were", "am", "is", "are", "was"], answer: "were" },
+  ],
+  // Stage 38
+  [
+    { question: "He ___ completed his degree in record time.", options: ["has", "have", "had", "do", "does"], answer: "has" },
+    { question: "I ___ visited Paris twice.", options: ["have", "has", "had", "do", "does"], answer: "have" },
+    { question: "They ___ finished their meal before we arrived.", options: ["had", "have", "has", "do", "does"], answer: "had" },
+    { question: "She ___ practice piano every day.", options: ["does", "do", "did", "have", "has"], answer: "does" },
+    { question: "We ___ usually have dinner at 7 PM.", options: ["do", "does", "did", "have", "has"], answer: "do" },
+  ],
+  // Stage 39
+  [
+    { question: "I ___ complete the assignment last night.", options: ["did", "do", "does", "have", "has"], answer: "did" },
+    { question: "She ___ travel to Europe next summer.", options: ["will", "would", "shall", "should", "may"], answer: "will" },
+    { question: "He ___ like to learn how to cook.", options: ["would", "will", "shall", "should", "may"], answer: "would" },
+    { question: "We ___ meet again next week to finalize the plans.", options: ["shall", "will", "would", "should", "may"], answer: "shall" },
+    { question: "You ___ always respect your parents.", options: ["should", "will", "would", "shall", "may"], answer: "should" },
+  ],
+  // Stage 40
+  [
+    { question: "It ___ be possible to reschedule the meeting.", options: ["may", "will", "would", "shall", "should"], answer: "may" },
+    { question: "I ___ swim across the lake when I was younger.", options: ["could", "can", "may", "might", "must"], answer: "could" },
+    { question: "She ___ be at the library studying.", options: ["might", "can", "could", "may", "must"], answer: "might" },
+    { question: "We ___ submit our reports by Friday.", options: ["must", "can", "could", "may", "might"], answer: "must" },
+    { question: "They ___ speak three languages fluently.", options: ["can", "could", "may", "might", "must"], answer: "can" },
+  ],
+  // Stage 41
+  [
+    { question: "I ___ excited about the upcoming concert.", options: ["am", "is", "are", "was", "were"], answer: "am" },
+    { question: "He ___ a skilled chef.", options: ["is", "am", "are", "was", "were"], answer: "is" },
+    { question: "They ___ ready for the big game tomorrow.", options: ["are", "am", "is", "was", "were"], answer: "are" },
+    { question: "She ___ happy with her test results yesterday.", options: ["was", "am", "is", "are", "were"], answer: "was" },
+    { question: "We ___ surprised by the unexpected gift.", options: ["were", "am", "is", "are", "was"], answer: "were" },
+  ],
+  // Stage 42
+  [
+    { question: "He ___ lived in this city for over a decade.", options: ["has", "have", "had", "do", "does"], answer: "has" },
+    { question: "I ___ never tried skydiving before.", options: ["have", "has", "had", "do", "does"], answer: "have" },
+    { question: "They ___ already left when we reached the venue.", options: ["had", "have", "has", "do", "does"], answer: "had" },
+    { question: "She ___ speak four languages fluently.", options: ["does", "do", "did", "have", "has"], answer: "does" },
+    { question: "We ___ often go for walks in the evening.", options: ["do", "does", "did", "have", "has"], answer: "do" },
+  ],
+  // Stage 43
+  [
+    { question: "I ___ attend the conference last week.", options: ["did", "do", "does", "have", "has"], answer: "did" },
+    { question: "She ___ graduate from university next month.", options: ["will", "would", "shall", "should", "may"], answer: "will" },
+    { question: "He ___ prefer to eat vegetarian food.", options: ["would", "will", "shall", "should", "may"], answer: "would" },
+    { question: "We ___ meet again tomorrow to continue our discussion.", options: ["shall", "will", "would", "should", "may"], answer: "shall" },
+    { question: "You ___ always be honest in your work.", options: ["should", "will", "would", "shall", "may"], answer: "should" },
+  ],
+  // Stage 44
+  [
+    { question: "It ___ snow later today.", options: ["may", "will", "would", "shall", "should"], answer: "may" },
+    { question: "I ___ run very fast when I was in school.", options: ["could", "can", "may", "might", "must"], answer: "could" },
+    { question: "She ___ be at the doctor's office now.", options: ["might", "can", "could", "may", "must"], answer: "might" },
+    { question: "We ___ follow the safety guidelines at all times.", options: ["must", "can", "could", "may", "might"], answer: "must" },
+    { question: "They ___ solve complex math problems easily.", options: ["can", "could", "may", "might", "must"], answer: "can" },
+  ],
+  // Stage 45
+  [
+    { question: "I ___ working on an important project now.", options: ["am", "is", "are", "was", "were"], answer: "am" },
+    { question: "He ___ studying for his final exams this week.", options: ["is", "am", "are", "was", "were"], answer: "is" },
+    { question: "They ___ preparing for the upcoming wedding.", options: ["are", "am", "is", "was", "were"], answer: "are" },
+    { question: "She ___ reading a book when I called her yesterday.", options: ["was", "am", "is", "are", "were"], answer: "was" },
+    { question: "We ___ watching the sunset when it started to rain.", options: ["were", "am", "is", "are", "was"], answer: "were" },
+  ],
+  // Stage 46
+  [
+    { question: "He ___ completed his master's degree.", options: ["has", "have", "had", "do", "does"], answer: "has" },
+    { question: "I ___ visited many countries in Asia.", options: ["have", "has", "had", "do", "does"], answer: "have" },
+    { question: "They ___ finished their lunch when we arrived.", options: ["had", "have", "has", "do", "does"], answer: "had" },
+    { question: "She ___ practice yoga every morning.", options: ["does", "do", "did", "have", "has"], answer: "does" },
+    { question: "We ___ usually have a family dinner on Sundays.", options: ["do", "does", "did", "have", "has"], answer: "do" },
+  ],
+  // Stage 47
+  [
+    { question: "I ___ finish this book last night.", options: ["did", "do", "does", "have", "has"], answer: "did" },
+    { question: "She ___ start her new job next Monday.", options: ["will", "would", "shall", "should", "may"], answer: "will" },
+    { question: "He ___ like to travel around the world.", options: ["would", "will", "shall", "should", "may"], answer: "would" },
+    { question: "We ___ meet again next month to review the progress.", options: ["shall", "will", "would", "should", "may"], answer: "shall" },
+    { question: "You ___ always be careful while driving.", options: ["should", "will", "would", "shall", "may"], answer: "should" },
+  ],
+  // Stage 48
+  [
+    { question: "It ___ be possible to complete the project early.", options: ["may", "will", "would", "shall", "should"], answer: "may" },
+    { question: "I ___ speak French fluently when I lived in Paris.", options: ["could", "can", "may", "might", "must"], answer: "could" },
+    { question: "She ___ be working late tonight.", options: ["might", "can", "could", "may", "must"], answer: "might" },
+    { question: "We ___ submit our applications before the deadline.", options: ["must", "can", "could", "may", "might"], answer: "must" },
+    { question: "They ___ play several musical instruments.", options: ["can", "could", "may", "might", "must"], answer: "can" },
+  ],
+  // Stage 49
+  [
+    { question: "I ___ feeling much better today.", options: ["am", "is", "are", "was", "were"], answer: "am" },
+    { question: "He ___ an experienced doctor.", options: ["is", "am", "are", "was", "were"], answer: "is" },
+    { question: "They ___ excited about the upcoming holiday.", options: ["are", "am", "is", "was", "were"], answer: "are" },
+    { question: "She ___ very happy with her exam results yesterday.", options: ["was", "am", "is", "are", "were"], answer: "was" },
+    { question: "We ___ surprised by the unexpected party last night.", options: ["were", "am", "is", "are", "was"], answer: "were" },
+  ],
+  // Stage 50
+  [
+    { question: "He ___ worked in this company for 20 years.", options: ["has", "have", "had", "do", "does"], answer: "has" },
+    { question: "I ___ traveled to every continent except Antarctica.", options: ["have", "has", "had", "do", "does"], answer: "have" },
+    { question: "They ___ already eaten dinner when we called.", options: ["had", "have", "has", "do", "does"], answer: "had" },
+    { question: "She ___ exercise every morning before work.", options: ["does", "do", "did", "have", "has"], answer: "does" },
+    { question: "We ___ often watch movies on Friday nights.", options: ["do", "does", "did", "have", "has"], answer: "do" },
+  ],
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+
+
+		   'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+           ,'Subject Overview 🗝️': `<div class="container mx-auto px-4 py-8">   <h1 class="text-3xl font-bold mb-6">Auxiliary Verbs: Comprehensive Guide</h1>     <div class="bg-white shadow-md rounded-lg p-6 mb-6">     <h2 class="text-xl font-semibold mb-4">What are Auxiliary Verbs?</h2>     <p class="mb-4">Auxiliary verbs, also known as helping verbs, are used alongside main verbs to express tense, mood, or voice. They "help" the main verb by adding functional or grammatical meaning.</p>     <p>Common auxiliary verbs include:</p>     <ul class="list-disc list-inside mb-4">       <li>Be verbs: be, am, is, are, was, were, being, been</li>       <li>Have verbs: have, has, had</li>       <li>Do verbs: do, does, did</li>       <li>Modal auxiliaries: will, would, shall, should, can, could, may, might, must</li>     </ul>   </div>   <div class="bg-white shadow-md rounded-lg p-6 mb-6">     <h2 class="text-xl font-semibold mb-4">1. Be Verbs</h2>         <h3 class="text-lg font-medium mb-2">Past Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive:</p>       <ul class="list-disc list-inside mb-2">         <li>I <span class="text-blue-600">was</span> studying when you called.</li>         <li>They <span class="text-blue-600">were</span> playing tennis all afternoon.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>I <span class="text-blue-600">was not</span> (wasn't) sleeping when the phone rang.</li>         <li>They <span class="text-blue-600">were not</span> (weren't) working yesterday.</li>       </ul>     </div>     <h3 class="text-lg font-medium mb-2">Present Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive:</p>       <ul class="list-disc list-inside mb-2">         <li>She <span class="text-blue-600">is</span> working on a new project.</li>         <li>We <span class="text-blue-600">are</span> living in New York City.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>He <span class="text-blue-600">is not</span> (isn't) feeling well today.</li>         <li>They <span class="text-blue-600">are not</span> (aren't) attending the meeting.</li>       </ul>     </div>     <h3 class="text-lg font-medium mb-2">Future Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive:</p>       <ul class="list-disc list-inside mb-2">         <li>I <span class="text-blue-600">will be</span> traveling next week.</li>         <li>She <span class="text-blue-600">is going to be</span> studying abroad next semester.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>We <span class="text-blue-600">will not be</span> (won't be) attending the conference.</li>         <li>They <span class="text-blue-600">are not going to be</span> (aren't going to be) working this weekend.</li>       </ul>     </div>   </div>   <div class="bg-white shadow-md rounded-lg p-6 mb-6">     <h2 class="text-xl font-semibold mb-4">2. Have Verbs</h2>         <h3 class="text-lg font-medium mb-2">Past Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive:</p>       <ul class="list-disc list-inside mb-2">         <li>She <span class="text-blue-600">had</span> finished her homework before dinner.</li>         <li>We <span class="text-blue-600">had been</span> waiting for an hour when he arrived.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>I <span class="text-blue-600">had not</span> (hadn't) seen that movie before last night.</li>         <li>They <span class="text-blue-600">had not been</span> (hadn't been) living here long when we met.</li>       </ul>     </div>     <h3 class="text-lg font-medium mb-2">Present Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive:</p>       <ul class="list-disc list-inside mb-2">         <li>I <span class="text-blue-600">have</span> lived here for five years.</li>         <li>He <span class="text-blue-600">has been</span> working on this project since last month.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>We <span class="text-blue-600">have not</span> (haven't) received any news yet.</li>         <li>She <span class="text-blue-600">has not been</span> (hasn't been) feeling well lately.</li>       </ul>     </div>     <h3 class="text-lg font-medium mb-2">Future Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive:</p>       <ul class="list-disc list-inside mb-2">         <li>By next week, I <span class="text-blue-600">will have</span> completed the course.</li>         <li>She <span class="text-blue-600">will have been</span> teaching for 20 years next May.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>They <span class="text-blue-600">will not have</span> (won't have) finished the project by the deadline.</li>         <li>We <span class="text-blue-600">will not have been</span> (won't have been) working here for long when the changes are implemented.</li>       </ul>     </div>   </div>   <div class="bg-white shadow-md rounded-lg p-6 mb-6">     <h2 class="text-xl font-semibold mb-4">3. Do Verbs</h2>         <h3 class="text-lg font-medium mb-2">Past Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive (for emphasis):</p>       <ul class="list-disc list-inside mb-2">         <li>I <span class="text-blue-600">did</span> finish the report on time.</li>         <li>She <span class="text-blue-600">did</span> win the competition last year.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>We <span class="text-blue-600">did not</span> (didn't) go to the party last night.</li>         <li>He <span class="text-blue-600">did not</span> (didn't) understand the instructions.</li>       </ul>     </div>     <h3 class="text-lg font-medium mb-2">Present Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive (for emphasis):</p>       <ul class="list-disc list-inside mb-2">         <li>We <span class="text-blue-600">do</span> enjoy hiking on weekends.</li>         <li>He <span class="text-blue-600">does</span> practice piano every day.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>I <span class="text-blue-600">do not</span> (don't) like spicy food.</li>         <li>She <span class="text-blue-600">does not</span> (doesn't) speak French.</li>       </ul>     </div>     <h3 class="text-lg font-medium mb-2">Future Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive:</p>       <ul class="list-disc list-inside mb-2">         <li>We <span class="text-blue-600">will do</span> our best to meet the deadline.</li>         <li>She <span class="text-blue-600">is going to do</span> extra credit work next semester.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>They <span class="text-blue-600">will not do</span> (won't do) the presentation next week.</li>         <li>I <span class="text-blue-600">am not going to do</span> any overtime this month.</li>       </ul>     </div>   </div>   <div class="bg-white shadow-md rounded-lg p-6 mb-6">     <h2 class="text-xl font-semibold mb-4">4. Modal Auxiliaries</h2>         <h3 class="text-lg font-medium mb-2">Past Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive:</p>       <ul class="list-disc list-inside mb-2">         <li>I <span class="text-blue-600">could</span> swim well when I was younger.</li>         <li>She <span class="text-blue-600">might have</span> left early yesterday.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>They <span class="text-blue-600">could not</span> (couldn't) attend the meeting last week.</li>         <li>He <span class="text-blue-600">might not have</span> received our message.</li>       </ul>     </div>     <h3 class="text-lg font-medium mb-2">Present Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive:</p>       <ul class="list-disc list-inside mb-2">         <li>We <span class="text-blue-600">can</span> hear the music from here.</li>         <li>You <span class="text-blue-600">may</span> use my pen if you need it.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>I <span class="text-blue-600">cannot</span> (can't) understand this concept.</li>         <li>She <span class="text-blue-600">may not</span> be available right now.</li>       </ul>     </div>     <h3 class="text-lg font-medium mb-2">Future Tense</h3>     <div class="bg-gray-100 p-4 rounded-md mb-4">       <p class="font-semibold">Positive:</p>       <ul class="list-disc list-inside mb-2">         <li>I <span class="text-blue-600">will</span> help you with your project tomorrow.</li>         <li>They <span class="text-blue-600">should</span> arrive by 6 PM tonight.</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>We <span class="text-blue-600">will not</span> (won't) be able to finish on time.</li>         <li>She <span class="text-blue-600">should not</span> (shouldn't) travel alone next week.</li>       </ul>     </div>   </div>   <div class="bg-white shadow-md rounded-lg p-6">     <h2 class="text-xl font-semibold mb-4">Complex Tense Constructions</h2>     <p class="mb-4">Auxiliary verbs can be combined to create complex tense constructions:</p>     <div class="bg-gray-100 p-4 rounded-md">       <p class="font-semibold">Positive:</p>       <ul class="list-disc list-inside mb-4">         <li>By next month, she <span class="text-blue-600">will have been working</span> here for 10 years. (Future Perfect Continuous)</li>         <li>They <span class="text-blue-600">must have been practicing</span> for months to perform so well. (Modal Perfect Continuous)</li>       </ul>       <p class="font-semibold">Negative:</p>       <ul class="list-disc list-inside">         <li>We <span class="text-blue-600">should not have been studying</span> (shouldn't have been studying) all night. (Modal Perfect Continuous Negative)</li>         <li>The package <span class="text-blue-600">might not have been delivered</span> while we were out. (Modal Perfect Passive Negative)</li>       </ul>     </div>   </div> </div>`
+	
+		};
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    quizData[currentStage].forEach((question, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+        
+        // Create label for the question text
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${question.question}`;
+        
+        // Create div for result feedback
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+        
+        // Create select element for answers
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        
+        // Add default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+        
+        // Shuffle and add answer options
+        const shuffledOptions = shuffleArray([...question.options]);
+        shuffledOptions.forEach((option, optionIndex) => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        // Append elements to questionElement in the desired order
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv); // Feedback before dropdown
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+		function checkStage() {
+   attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[currentStage].length;
+
+    quizData[currentStage].forEach((question, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === question.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect answer.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 10) {
+            selectElement.value = question.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` The correct answer is: ${question.answer}`;
+        }
+    });
+
+    console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`Stage ${currentStage + 1} completed. Adding ${totalQuestions} animals.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`Moving to stage ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("Congratulations! You've completed all stages.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+		function updateStageNumber() {
+			const stageElement = document.getElementById("stage-number");
+			stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+		}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>

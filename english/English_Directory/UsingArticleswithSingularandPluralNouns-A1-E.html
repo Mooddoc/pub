@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+	<style>
+
+	</style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read each sentence/question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>Using Articles with Singular and Plural Nouns - A1</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+        const quizData = [ 												//  PH3 - Quiz Data   	
+// Stage 1
+[
+  { question: "Pick the correct article: 'She bought ___ book from the library.'", options: ["a", "an", "the", "some", "a backpack"], answer: "a" },
+  { question: "Choose the article: 'They found ___ apples in the basket.'", options: ["a", "an", "the", "some", "a plate"], answer: "the" },
+  { question: "Fill in the blank: '___ chairs are in the living room.'", options: ["a", "an", "the", "some", "a bed"], answer: "the" },
+  { question: "Pick the correct article: 'He saw ___ dog at the park.'", options: ["a", "an", "the", "some", "a lion"], answer: "a" },
+  { question: "Choose the article: '___ flowers are blooming in the garden.'", options: ["a", "an", "the", "some", "a tree"], answer: "the" }
+],
+// Stage 2
+[
+  { question: "Pick the correct article: 'She found ___ orange in the fridge.'", options: ["a", "an", "the", "some", "a banana"], answer: "an" },
+  { question: "Choose the article: 'They adopted ___ cats from the shelter.'", options: ["a", "an", "the", "some", "a dog"], answer: "some" },
+  { question: "Fill in the blank: '___ cars are parked outside.'", options: ["a", "an", "the", "some", "a bicycle"], answer: "the" },
+  { question: "Pick the correct article: 'He ate ___ apple during lunch.'", options: ["a", "an", "the", "some", "a sandwich"], answer: "an" },
+  { question: "Choose the article: 'She gave ___ cookies to her friends.'", options: ["a", "an", "the", "some", "a cupcake"], answer: "some" }
+],
+// Stage 3
+[
+  { question: "Pick the correct article: 'They saw ___ birds flying in the sky.'", options: ["a", "an", "the", "some", "a kite"], answer: "some" },
+  { question: "Choose the article: 'He found ___ interesting magazines at the store.'", options: ["a", "an", "the", "some", "a puzzle"], answer: "some" },
+  { question: "Fill in the blank: '___ bike is leaning against the wall.'", options: ["a", "an", "the", "some", "a scooter"], answer: "the" },
+  { question: "Pick the correct article: 'She brought ___ sandwich to work.'", options: ["a", "an", "the", "some", "a slice of pizza"], answer: "a" },
+  { question: "Choose the article: 'They saw ___ stars in the sky tonight.'", options: ["a", "an", "the", "some", "a shooting star"], answer: "some" }
+],
+// Stage 4
+[
+  { question: "Pick the correct article: '___ apples on the table are fresh.'", options: ["a", "an", "the", "some", "a pie"], answer: "the" },
+  { question: "Choose the article: 'She found ___ puppies in the park.'", options: ["a", "an", "the", "some", "a kitten"], answer: "some" },
+  { question: "Fill in the blank: 'He bought ___ pair of shoes from the store.'", options: ["a", "an", "the", "some", "a hat"], answer: "a" },
+  { question: "Pick the correct article: '___ books on the shelf are old.'", options: ["a", "an", "the", "some", "a notebook"], answer: "the" },
+  { question: "Choose the article: 'They saw ___ bird on the fence.'", options: ["a", "an", "the", "some", "a squirrel"], answer: "a" }
+],
+// Stage 5
+[
+  { question: "Pick the correct article: 'She gave ___ pencils to her classmates.'", options: ["a", "an", "the", "some", "a ruler"], answer: "some" },
+  { question: "Choose the article: 'He found ___ ball under the bed.'", options: ["a", "an", "the", "some", "a pair of socks"], answer: "a" },
+  { question: "Fill in the blank: 'They ate ___ oranges after dinner.'", options: ["a", "an", "the", "some", "a cupcake"], answer: "some" },
+  { question: "Pick the correct article: '___ chair in the corner is broken.'", options: ["a", "an", "the", "some", "a table"], answer: "the" },
+  { question: "Choose the article: 'She bought ___ interesting books from the library.'", options: ["a", "an", "the", "some", "a painting"], answer: "some" }
+],
+// Stage 6
+[
+  { question: "Pick the correct article: 'They played with ___ toys at the daycare.'", options: ["a", "an", "the", "some", "a puzzle"], answer: "some" },
+  { question: "Choose the article: 'He found ___ old coin on the sidewalk.'", options: ["a", "an", "the", "some", "a leaf"], answer: "an" },
+  { question: "Fill in the blank: 'She baked ___ cake for her birthday.'", options: ["a", "an", "the", "some", "a loaf of bread"], answer: "a" },
+  { question: "Pick the correct article: '___ clouds in the sky look like animals.'", options: ["a", "an", "the", "some", "a rainbow"], answer: "the" },
+  { question: "Choose the article: 'He drank ___ glasses of water.'", options: ["a", "an", "the", "some", "a bottle"], answer: "some" }
+],
+// Stage 7
+[
+  { question: "Pick the correct article: 'She found ___ interesting picture at the gallery.'", options: ["a", "an", "the", "some", "a chair"], answer: "an" },
+  { question: "Choose the article: 'They found ___ rocks on the beach.'", options: ["a", "an", "the", "some", "a fish"], answer: "some" },
+  { question: "Fill in the blank: 'He adopted ___ puppies from the shelter.'", options: ["a", "an", "the", "some", "a parrot"], answer: "some" },
+  { question: "Pick the correct article: 'She saw ___ interesting plant in the garden.'", options: ["a", "an", "the", "some", "a bug"], answer: "an" },
+  { question: "Choose the article: 'They bought ___ new chairs for the dining room.'", options: ["a", "an", "the", "some", "a table"], answer: "some" }
+],
+// Stage 8
+[
+  { question: "Pick the correct article: '___ stars in the sky are beautiful tonight.'", options: ["a", "an", "the", "some", "a moon"], answer: "the" },
+  { question: "Choose the article: 'She bought ___ loaf of bread from the bakery.'", options: ["a", "an", "the", "some", "a pizza"], answer: "a" },
+  { question: "Fill in the blank: 'They adopted ___ cats from the animal shelter.'", options: ["a", "an", "the", "some", "a rabbit"], answer: "some" },
+  { question: "Pick the correct article: '___ cups on the table are empty.'", options: ["a", "an", "the", "some", "a plate"], answer: "the" },
+  { question: "Choose the article: 'She found ___ flowers in the park.'", options: ["a", "an", "the", "some", "a bush"], answer: "some" }
+],
+// Stage 9
+[
+  { question: "Pick the correct article: 'He saw ___ rainbow after the rain.'", options: ["a", "an", "the", "some", "a cloud"], answer: "a" },
+  { question: "Choose the article: '___ children are playing in the yard.'", options: ["a", "an", "the", "some", "a child"], answer: "the" },
+  { question: "Fill in the blank: 'She gave ___ pens to her coworkers.'", options: ["a", "an", "the", "some", "a notebook"], answer: "some" },
+  { question: "Pick the correct article: 'They found ___ interesting rocks at the beach.'", options: ["a", "an", "the", "some", "a seashell"], answer: "some" },
+  { question: "Choose the article: 'He found ___ interesting coin in the sand.'", options: ["a", "an", "the", "some", "a piece of jewelry"], answer: "an" }
+],
+// Stage 10
+[
+  { question: "Pick the correct article: 'They saw ___ birds flying south.'", options: ["a", "an", "the", "some", "a bat"], answer: "some" },
+  { question: "Choose the article: 'She bought ___ watermelon from the market.'", options: ["a", "an", "the", "some", "a pineapple"], answer: "a" },
+  { question: "Fill in the blank: '___ chairs around the table are new.'", options: ["a", "an", "the", "some", "a sofa"], answer: "the" },
+  { question: "Pick the correct article: 'He found ___ egg in the nest.'", options: ["a", "an", "the", "some", "a pebble"], answer: "an" },
+  { question: "Choose the article: 'They found ___ leaves on the ground.'", options: ["a", "an", "the", "some", "a branch"], answer: "some" }
+],
+// Stage 11
+[
+  { question: "Pick the correct article: '___ books on the table are new.'", options: ["a", "an", "the", "some", "a notebook"], answer: "the" },
+  { question: "Choose the article: 'She gave ___ pencils to her friends.'", options: ["a", "an", "the", "some", "a ruler"], answer: "some" },
+  { question: "Fill in the blank: 'They saw ___ dog running in the yard.'", options: ["a", "an", "the", "some", "a robot"], answer: "a" },
+  { question: "Pick the correct article: '___ chairs in the living room are broken.'", options: ["a", "an", "the", "some", "a sofa"], answer: "the" },
+  { question: "Choose the article: 'He found ___ interesting plant in the garden.'", options: ["a", "an", "the", "some", "a tree"], answer: "an" }
+],
+// Stage 12
+[
+  { question: "Pick the correct article: '___ houses in the neighborhood are very old.'", options: ["a", "an", "the", "some", "a treehouse"], answer: "the" },
+  { question: "Choose the article: 'She found ___ shoes at the store.'", options: ["a", "an", "the", "some", "a bag"], answer: "some" },
+  { question: "Fill in the blank: '___ cat in the window is sleeping.'", options: ["a", "an", "the", "some", "a bird"], answer: "the" },
+  { question: "Pick the correct article: 'He gave ___ apples to his sister.'", options: ["a", "an", "the", "some", "a banana"], answer: "some" },
+  { question: "Choose the article: 'She ate ___ interesting dessert at the party.'", options: ["a", "an", "the", "some", "a pizza"], answer: "an" }
+],
+// Stage 13
+[
+  { question: "Pick the correct article: 'They brought ___ chairs to the picnic.'", options: ["a", "an", "the", "some", "a blanket"], answer: "some" },
+  { question: "Choose the article: 'He found ___ pencil under the desk.'", options: ["a", "an", "the", "some", "a notebook"], answer: "a" },
+  { question: "Fill in the blank: '___ books on the shelf are mine.'", options: ["a", "an", "the", "some", "a photo frame"], answer: "the" },
+  { question: "Pick the correct article: 'She gave ___ cupcakes to her classmates.'", options: ["a", "an", "the", "some", "a cookie"], answer: "some" },
+  { question: "Choose the article: 'They saw ___ interesting bird in the tree.'", options: ["a", "an", "the", "some", "a lizard"], answer: "an" }
+],
+// Stage 14
+[
+  { question: "Pick the correct article: '___ cars on the street are new.'", options: ["a", "an", "the", "some", "a motorcycle"], answer: "the" },
+  { question: "Choose the article: 'She found ___ chair at the yard sale.'", options: ["a", "an", "the", "some", "a table"], answer: "a" },
+  { question: "Fill in the blank: 'He gave ___ flowers to his mother.'", options: ["a", "an", "the", "some", "a gift"], answer: "some" },
+  { question: "Pick the correct article: 'They found ___ interesting rocks by the river.'", options: ["a", "an", "the", "some", "a tree branch"], answer: "some" },
+  { question: "Choose the article: 'She saw ___ rainbow after the storm.'", options: ["a", "an", "the", "some", "a cloud"], answer: "a" }
+],
+// Stage 15
+[
+  { question: "Pick the correct article: 'They found ___ books in the library.'", options: ["a", "an", "the", "some", "a map"], answer: "some" },
+  { question: "Choose the article: 'He saw ___ interesting plant in the garden.'", options: ["a", "an", "the", "some", "a flower pot"], answer: "an" },
+  { question: "Fill in the blank: '___ chairs around the table are broken.'", options: ["a", "an", "the", "some", "a sofa"], answer: "the" },
+  { question: "Pick the correct article: 'She brought ___ oranges to the picnic.'", options: ["a", "an", "the", "some", "a watermelon"], answer: "some" },
+  { question: "Choose the article: 'They adopted ___ dogs from the shelter.'", options: ["a", "an", "the", "some", "a rabbit"], answer: "some" }
+],
+// Stage 16
+[
+  { question: "Pick the correct article: '___ books on the table are new.'", options: ["a", "an", "the", "some", "a cup"], answer: "the" },
+  { question: "Choose the article: 'She gave ___ pens to her coworkers.'", options: ["a", "an", "the", "some", "a notebook"], answer: "some" },
+  { question: "Fill in the blank: 'They found ___ interesting rock by the lake.'", options: ["a", "an", "the", "some", "a tree branch"], answer: "an" },
+  { question: "Pick the correct article: '___ chairs in the living room are comfortable.'", options: ["a", "an", "the", "some", "a sofa"], answer: "the" },
+  { question: "Choose the article: 'She brought ___ snacks to the party.'", options: ["a", "an", "the", "some", "a cake"], answer: "some" }
+],
+// Stage 17
+[
+  { question: "Pick the correct article: 'They found ___ wallet on the street.'", options: ["a", "an", "the", "some", "a book"], answer: "a" },
+  { question: "Choose the article: 'He ate ___ apple during class.'", options: ["a", "an", "the", "some", "a sandwich"], answer: "an" },
+  { question: "Fill in the blank: '___ books on the desk belong to me.'", options: ["a", "an", "the", "some", "a pen"], answer: "the" },
+  { question: "Pick the correct article: 'She found ___ interesting plant at the store.'", options: ["a", "an", "the", "some", "a toy"], answer: "an" },
+  { question: "Choose the article: 'They bought ___ new chairs for the patio.'", options: ["a", "an", "the", "some", "a table"], answer: "some" }
+],
+// Stage 18
+[
+  { question: "Pick the correct article: 'He found ___ egg in the nest.'", options: ["a", "an", "the", "some", "a stone"], answer: "an" },
+  { question: "Choose the article: 'They brought ___ sandwiches to the party.'", options: ["a", "an", "the", "some", "a cake"], answer: "some" },
+  { question: "Fill in the blank: 'She found ___ interesting book in the library.'", options: ["a", "an", "the", "some", "a map"], answer: "an" },
+  { question: "Pick the correct article: '___ stars in the sky are bright tonight.'", options: ["a", "an", "the", "some", "a moon"], answer: "the" },
+  { question: "Choose the article: 'He found ___ interesting coin on the ground.'", options: ["a", "an", "the", "some", "a leaf"], answer: "an" }
+],
+// Stage 19
+[
+  { question: "Pick the correct article: 'They found ___ cups in the cupboard.'", options: ["a", "an", "the", "some", "a plate"], answer: "some" },
+  { question: "Choose the article: 'He saw ___ bird on the windowsill.'", options: ["a", "an", "the", "some", "a cat"], answer: "a" },
+  { question: "Fill in the blank: '___ children in the yard are playing soccer.'", options: ["a", "an", "the", "some", "a dog"], answer: "the" },
+  { question: "Pick the correct article: 'She found ___ interesting shells on the beach.'", options: ["a", "an", "the", "some", "a rock"], answer: "some" },
+  { question: "Choose the article: 'They gave ___ gifts to their teachers.'", options: ["a", "an", "the", "some", "a flower"], answer: "some" }
+],
+// Stage 20
+[
+  { question: "Pick the correct article: '___ stars in the sky are beautiful tonight.'", options: ["a", "an", "the", "some", "a planet"], answer: "the" },
+  { question: "Choose the article: 'He gave ___ oranges to his friend.'", options: ["a", "an", "the", "some", "a watermelon"], answer: "some" },
+  { question: "Fill in the blank: 'They found ___ interesting rock on the path.'", options: ["a", "an", "the", "some", "a flower"], answer: "an" },
+  { question: "Pick the correct article: '___ children in the park are playing hide and seek.'", options: ["a", "an", "the", "some", "a kite"], answer: "the" },
+  { question: "Choose the article: 'She bought ___ new shoes for the event.'", options: ["a", "an", "the", "some", "a dress"], answer: "some" }
+]
+
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+
+
+		   'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+           ,'Subject Overview 🗝️': `MA need to incorporate the use of "some" as well in this explanation Certainly. I'll incorporate the use of "some" into the explanation, as it's an important concept when discussing articles and their usage with singular and plural nouns. I'll update the content to include this information: <div class="subject-overview-content"> <h1>Using Articles and "Some" with Singular and Plural Nouns: A Comprehensive Guide</h1> <p>Articles and the quantifier "some" are essential components of English grammar, used to specify the definiteness and quantity of nouns. Understanding how to use these correctly with singular and plural nouns is crucial for clear and effective communication. This guide will explore the three types of articles in English: <strong>a</strong>, <strong>an</strong>, and <strong>the</strong>, as well as the use of <strong>some</strong>, and their usage with different types of nouns. We'll provide detailed explanations and numerous examples to help you master this fundamental aspect of English grammar.</p> <hr> <h2>Table of Contents</h2> <ol> <li><a href="#what-are-articles">What Are Articles and "Some"?</a></li> <li><a href="#types-of-articles">Types of Articles and "Some"</a></li> <li><a href="#using-articles-with-nouns">Using Articles and "Some" with Nouns</a> <ul> <li><a href="#indefinite-articles">Indefinite Articles (A/An)</a></li> <li><a href="#definite-article">Definite Article (The)</a></li> <li><a href="#some">Using "Some"</a></li> <li><a href="#zero-article">Zero Article</a></li> </ul> </li> <li><a href="#special-cases">Special Cases and Exceptions</a></li> <li><a href="#conclusion">Conclusion</a></li> </ol> <hr> <h2 id="what-are-articles">What Are Articles and "Some"?</h2> <p>Articles are words that define a noun as specific or unspecific. They are a type of adjective that provides context about the noun they precede. "Some" is a quantifier that can function similarly to an article in certain contexts, indicating an unspecified amount or number.</p> <hr> <h2 id="types-of-articles">Types of Articles and "Some"</h2> <p>There are two types of articles in English, plus the quantifier "some":</p> <ol> <li><strong>Indefinite Articles</strong>: "a" and "an"</li> <li><strong>Definite Article</strong>: "the"</li> <li><strong>Quantifier</strong>: "some"</li> </ol> <p>Additionally, we sometimes use no article at all, which is referred to as the "zero article."</p> <hr> <h2 id="using-articles-with-nouns">Using Articles and "Some" with Nouns</h2> <h3 id="indefinite-articles">Indefinite Articles (A/An)</h3> <p><strong>Usage:</strong></p> <ol> <li><strong>With Singular Countable Nouns</strong>: Used when referring to a general or non-specific item. <ul> <li><em>I need a pen.</em> (Any pen will do)</li> <li><em>She bought an apple.</em> (One apple, not a specific one)</li> </ul> </li> <li><strong>Choice between A and An</strong>: Use "a" before consonant sounds and "an" before vowel sounds. <ul> <li><em>a book</em>, <em>a university</em> (sounds like "you-niversity")</li> <li><em>an apple</em>, <em>an hour</em> (silent 'h')</li> </ul> </li> </ol> <p><strong>Examples:</strong></p> <ul> <li><em>I saw a movie last night.</em></li> <li><em>Can you lend me an umbrella?</em></li> <li><em>She's an honest person.</em></li> </ul> <h3 id="definite-article">Definite Article (The)</h3> <p><strong>Usage:</strong></p> <ol> <li><strong>With Specific Nouns</strong>: Used when referring to a particular item or items, regardless of whether they are singular or plural. <ul> <li><em>The book on the table is mine.</em> (A specific book)</li> <li><em>The dogs in the park are friendly.</em> (Specific dogs)</li> </ul> </li> <li><strong>With Unique Nouns</strong>: Used with nouns that are one of a kind. <ul> <li><em>The sun is bright today.</em></li> <li><em>The Eiffel Tower is in Paris.</em></li> </ul> </li> </ol> <p><strong>Examples:</strong></p> <ul> <li><em>The car I bought last year is very reliable.</em></li> <li><em>Please pass me the salt.</em></li> <li><em>The children in my class are very creative.</em></li> </ul> <h3 id="some">Using "Some"</h3> <p><strong>Usage:</strong></p> <ol> <li><strong>With Plural Countable Nouns</strong>: Indicates an unspecified number or amount. <ul> <li><em>I bought some books.</em> (More than one, but not specifying how many)</li> </ul> </li> <li><strong>With Uncountable Nouns</strong>: Indicates an unspecified amount. <ul> <li><em>Would you like some water?</em></li> </ul> </li> <li><strong>In Positive Statements and Questions</strong>: Generally used in affirmative contexts or to make offers/requests. <ul> <li><em>There are some apples in the fridge.</em></li> <li><em>Could I have some coffee, please?</em></li> </ul> </li> </ol> <p><strong>Examples:</strong></p> <ul> <li><em>We need to buy some milk.</em></li> <li><em>Some students prefer online classes.</em></li> <li><em>Can I borrow some money?</em></li> </ul> <h3 id="zero-article">Zero Article</h3> <p><strong>Usage:</strong></p> <ol> <li><strong>With Plural Countable Nouns</strong>: When making general statements about a category. <ul> <li><em>Dogs are loyal animals.</em> (Dogs in general)</li> </ul> </li> <li><strong>With Uncountable Nouns</strong>: When referring to the noun in general. <ul> <li><em>Water is essential for life.</em></li> </ul> </li> </ol> <p><strong>Examples:</strong></p> <ul> <li><em>Cats make great pets.</em></li> <li><em>Love conquers all.</em></li> <li><em>She drinks coffee every morning.</em></li> </ul> <hr> <h2 id="special-cases">Special Cases and Exceptions</h2> <p>There are several special cases and exceptions when using articles and "some":</p> <ol> <li><strong>Names and Proper Nouns</strong>: Generally, don't use articles with names of people, continents, countries, cities, or languages. <ul> <li><em>Sarah lives in London.</em> (Not "the Sarah" or "the London")</li> <li><em>I'm learning Japanese.</em> (Not "the Japanese")</li> </ul> </li> <li><strong>Meals</strong>: Often used without articles in general contexts, but "some" can be used for emphasis. <ul> <li><em>We usually have dinner at 7 PM.</em></li> <li><em>I had some lunch earlier.</em> (Emphasizing that you ate, but not specifying what or how much)</li> </ul> </li> <li><strong>Academic Subjects</strong>: Usually used without articles, but "some" can indicate partial knowledge. <ul> <li><em>She excels in mathematics.</em></li> <li><em>I know some chemistry, but I'm not an expert.</em></li> </ul> </li> </ol> <hr> <h2 id="conclusion">Conclusion</h2> <p>Understanding how to use articles and "some" with singular and plural nouns is crucial for mastering English grammar. Here's a quick recap:</p> <ul> <li><strong>A/An</strong>: Use with singular countable nouns when referring to non-specific items.</li> <li><strong>The</strong>: Use with specific nouns (singular or plural) or unique items.</li> <li><strong>Some</strong>: Use with plural countable nouns or uncountable nouns to indicate an unspecified quantity.</li> <li><strong>Zero Article</strong>: Use with plural countable nouns or uncountable nouns in general statements.</li> </ul> <p><strong>Remember</strong>: Context is key when deciding which article or quantifier to use. The choice between "a/an," "the," "some," or no article can significantly change the meaning of a sentence.</p> <hr> <p>By mastering the use of articles and "some" with singular and plural nouns, you'll significantly improve your English grammar skills. Keep practicing and don't hesitate to review this guide whenever you need a refresher!</p> </div>`
+	
+		};
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    quizData[currentStage].forEach((question, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+        
+        // Create label for the question text
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${question.question}`;
+        
+        // Create div for result feedback
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+        
+        // Create select element for answers
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        
+        // Add default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+        
+        // Shuffle and add answer options
+        const shuffledOptions = shuffleArray([...question.options]);
+        shuffledOptions.forEach((option, optionIndex) => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        // Append elements to questionElement in the desired order
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv); // Feedback before dropdown
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+		function checkStage() {
+   attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[currentStage].length;
+
+    quizData[currentStage].forEach((question, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === question.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect answer.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 10) {
+            selectElement.value = question.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` The correct answer is: ${question.answer}`;
+        }
+    });
+
+    console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`Stage ${currentStage + 1} completed. Adding ${totalQuestions} animals.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`Moving to stage ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("Congratulations! You've completed all stages.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+		function updateStageNumber() {
+			const stageElement = document.getElementById("stage-number");
+			stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+		}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>
