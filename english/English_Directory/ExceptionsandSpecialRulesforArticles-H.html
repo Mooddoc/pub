@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-heb.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+	<title>✅ EZ42 - זה קל</title>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel" style="display:none">
+			<div class="logo-container">
+				<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+					<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+				</a>
+			</div>
+                <h2>הוראות</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                    <li>יש לקרוא כל שאלה/משפט בתשומת לב.</li>
+                    <li>בחר/י את התשובה הנכונה ביותר מתוך התפריט הנפתח.</li>
+                    <li>יש ללחוץ על בדיקת תשובות כשמוכנים!</li>
+                    <li>יש להשלים את כל השאלות כדי לעבור לשלב הבא.</li>
+                    <li>לאחר 10 ניסיונות, התשובות הנכונות יוצגו.</li>
+                    <li>שיהיה כיף!</li>
+                </ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->		
+                <h1></h1>
+				<h1></h1>
+				
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+
+                <div id="tabContent">
+                    <!--PLACHOLDERFORNEWGAME-START-->
+
+                    <!--PLACHOLDERFORNEWGAME-END-->
+                </div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+            <div id="sidePanel2" class="side-panel" style="display:none">
+                <h2>חוות החיות</h2>
+				<p>החווה שלך גדלה תוך כדי התקדמות! כל שלב מוסיף חיות חדשות לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+        const quizData = [ 												//  PH3 - Quiz Data 
+
+        ];
+
+        const stageCount = quizData.length;
+
+		const stateContents = {
+			//'תרגול': `		<div id="stage-number" class="stage-number">שלב 1 מתוך ${quizData.length}</div>	<div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">ניסיונות: 0</div>				<div id="quiz-content"></div>				<button class="center-button" onclick="checkStage()">בדיקת תשובות</button>`
+           'לימוד הנושא 🗝️': `<div class="subject-overview-content subject-overview-content_heb">   <h1>Exceptions and Special Rules for Articles: חריגים וכללים מיוחדים לשימוש במילות יחוס באנגלית</h1>   <p>מילות היחוס באנגלית, כמו <strong>"a," "an"</strong> ו-<strong>"the"</strong>, לרוב משמשות לפי דפוסים ברורים. עם זאת, ישנם חריגים וכללים מיוחדים שבהם השימוש במילות היחוס אינו עוקב אחר הכללים הרגילים. מדריך זה יסביר את החריגים הללו ויעזור לכם להבין כיצד ליישם אותם נכון.</p>   <hr>   <h2 class="highlight_heb">תוכן העניינים</h2>   <ol>     <li><a href="#proper-nouns" class="highlight_heb">שמות פרטיים</a></li>     <li><a href="#general-use-uncountable-nouns" class="highlight_heb">שמות עצם בלתי ספירים בשימוש כללי</a></li>     <li><a href="#unique-objects" class="highlight_heb">חפצים ייחודיים</a></li>     <li><a href="#nouns-in-plural-form" class="highlight_heb">שמות עצם בצורת רבים</a></li>     <li><a href="#adjectives-representing-groups" class="highlight_heb">תארים המייצגים קבוצות</a></li>     <li><a href="#musical-instruments" class="highlight_heb">כלי נגינה</a></li>     <li><a href="#no-article-abstract-nouns" class="highlight_heb">שמות עצם מופשטים ללא מילת יחוס</a></li>     <li><a href="#languages-sports-subjects" class="highlight_heb">שפות, ספורט ונושאים אקדמיים</a></li>     <li><a href="#superlatives" class="highlight_heb">סופרלטיבים</a></li>     <li><a href="#conclusion" class="highlight_heb">סיכום</a></li>   </ol>   <hr>     <h2 id="proper-nouns" class="highlight_heb">שמות פרטיים</h2>   <p>בדרך כלל, שמות פרטיים (שמות אנשים, מקומות וכו') אינם לוקחים מילת יחוס. עם זאת, ישנם שמות פרטיים שבהם כן משתמשים במילת היחוס <strong>"the"</strong>. לדוגמה:</p>   <ul>     <li><strong>ללא מילת יחוס</strong> בשמות <em>מדינות</em> או <em>ערים</em>: "France", "Paris".</li>     <li><strong>עם מילת יחוס</strong> בשמות <em>מדינות מסוימות</em>: "The United States", "The United Kingdom".</li>     <li><strong>עם מילת יחוס</strong> ב<em>נהרות, ימים, אוקיינוסים</em>: "The Nile", "The Pacific".</li>   </ul>   <hr>     <h2 id="general-use-uncountable-nouns" class="highlight_heb">שמות עצם בלתי ספירים בשימוש כללי</h2>   <p>כאשר שמות עצם בלתי ספירים כמו <em>מים</em>, <em>מידע</em>, או <em>אושר</em> משמשים במובן כללי, לא משתמשים במילת יחוס:</p>   <ul>     <li><em>Information</em> is key to success. (ללא מילת יחוס)</li>     <li>עם זאת, כשמדובר במשהו ספציפי, השתמשו ב-<strong>"the"</strong>: "The information I received was helpful."</li>   </ul>   <hr>     <h2 id="unique-objects" class="highlight_heb">חפצים ייחודיים</h2>   <p><strong>"The"</strong> משמשת לפני חפצים ייחודיים או דברים שהם יחידים במינם בעולם או בהקשר מסוים, כמו:</p>   <ul>     <li><strong>The</strong> sun, <strong>the</strong> moon, <strong>the</strong> internet.</li>   </ul>   <hr>     <h2 id="nouns-in-plural-form" class="highlight_heb">שמות עצם בצורת רבים</h2>   <p>כאשר שמות עצם רבים משמשים בהקשר כללי, לא משתמשים במילת יחוס:</p>   <ul>     <li>Cats make great pets. (לא <em>the</em> cats)</li>     <li>לשמות עצם רבים ספציפיים, השתמשו ב-<strong>"the"</strong>: "The cats in the yard are noisy."</li>   </ul>   <hr>     <h2 id="adjectives-representing-groups" class="highlight_heb">תארים המייצגים קבוצות</h2>   <p>כאשר תארים מייצגים קבוצות אנשים, משתמשים ב-<strong>"the"</strong>:</p>   <ul>     <li><strong>The</strong> rich, <strong>the</strong> elderly, <strong>the</strong> unemployed.</li>   </ul>   <hr>     <h2 id="musical-instruments" class="highlight_heb">כלי נגינה</h2>   <p>כאשר מדברים על נגינה בכלי נגינה, תמיד משתמשים ב-<strong>"the"</strong>:</p>   <ul>     <li>She plays <strong>the</strong> piano.</li>     <li>He is learning <strong>the</strong> violin.</li>   </ul>   <hr>     <h2 id="no-article-abstract-nouns" class="highlight_heb">שמות עצם מופשטים ללא מילת יחוס</h2>   <p>שמות עצם מופשטים כמו <em>אושר</em> ו-<em>חופש</em> בדרך כלל אינם לוקחים מילת יחוס כאשר הם משמשים במובן כללי:</p>   <ul>     <li><em>Happiness</em> is important. (ללא מילת יחוס)</li>     <li>עם זאת, השתמשו ב-<strong>"the"</strong> אם הכוונה למשהו ספציפי: "The happiness I felt was overwhelming."</li>   </ul>   <hr>     <h2 id="languages-sports-subjects" class="highlight_heb">שפות, ספורט ונושאים אקדמיים</h2>   <p>לא משתמשים במילות יחוס לפני שמות של שפות, ספורט, או נושאים אקדמיים:</p>   <ul>     <li>She speaks <em>Spanish</em>. (ללא מילת יחוס)</li>     <li>He plays <em>football</em>. (ללא מילת יחוס)</li>     <li>I study <em>biology</em>. (ללא מילת יחוס)</li>   </ul>   <hr>     <h2 id="superlatives" class="highlight_heb">סופרלטיבים</h2>   <p>משתמשים ב-<strong>"the"</strong> לפני סופרלטיבים כדי לציין את המידה הגבוהה ביותר של משהו:</p>   <ul>     <li>She is <strong>the</strong> best student in the class.</li>     <li>This is <strong>the</strong> most exciting book I’ve read.</li>   </ul>   <hr>     <h2 id="conclusion" class="highlight_heb">סיכום</h2>   <p>שליטה בחריגים ובכללים המיוחדים לשימוש במילות יחוס היא חיונית לשיפור הדקדוק האנגלי שלכם. הבנת המקרים שבהם יש להשמיט מילות יחוס וכיצד להתמודד עם מקרים ייחודיים תעזור לכם להשתמש במילות יחוס בצורה נכונה.</p>   <ul>     <li>שמות פרטיים בדרך כלל אינם לוקחים מילות יחוס אלא אם כן הם מתייחסים למקום מסוים.</li>     <li>שמות עצם מופשטים ובלתי ספירים לרוב אינם לוקחים מילות יחוס אלא אם הם ספציפיים.</li>     <li>שמות עצם ברבים ותארים המייצגים קבוצות עוקבים אחר כללים מיוחדים.</li>   </ul>   <p>המשיכו לתרגל את החריגים הללו, ותוכלו לשלוט בשימוש במילות יחוס בזמן קצר!</p> </div>
+`
+			
+			};
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'תרגול') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    quizData[currentStage].forEach((question, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line-ltr";  // Use the new LTR class from the remote styles
+
+        // Create label for the question text
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${question.question}`;
+
+        // Create div for result feedback
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result";
+        resultDiv.id = `result${index}`;
+        resultDiv.style.marginRight = "5px";  
+
+        // Create select element for answers
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        select.style.marginLeft = "5px"; 
+
+        // Add default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+
+        // Shuffle and add answer options
+        const shuffledOptions = shuffleArray([...question.options]);
+        shuffledOptions.forEach((option) => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+
+        // Append elements to questionElement in the desired order
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv); // Feedback before dropdown
+        questionElement.appendChild(select);
+
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+
+
+		function checkStage() {
+   attempts++;
+    document.getElementById("attempts").textContent = `נסיונות: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[currentStage].length;
+
+    quizData[currentStage].forEach((question, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === question.answer) {
+            resultElement.textContent = "נכון!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "תשובה לא נכונה.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 10) {
+            selectElement.value = question.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` התשובה הנכונה היא: ${question.answer}`;
+        }
+    });
+
+			if (correctCount === totalQuestions) {
+				console.log(`שלב ${currentStage + 1} הושלם. מוסיף ${totalQuestions} חיות.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`עובר לשלב ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("כל הכבוד! השלמת את כל השלבים.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("הגעת למספר הניסיונות המקסימלי. התשובות הנכונות נחשפו.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+        function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+            const incorrectCount = totalQuestions - correctCount;
+            let message = `קיבלת ${correctCount} נכונות ו-${incorrectCount} שגויות.`;
+            
+            if (correctCount === totalQuestions) {
+                message += " ציון מושלם!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+                message += " עבודה מצוינת! רואים שהנושא מתחיל להיות מובן!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+                message += " מאמץ טוב! נמשיך לתרגל כי השיפור קרוב!";
+            } else {
+                message += " לא לוותר! כל נסיון עוזר לך ללמוד. ננסה שוב!";
+            }
+
+            if (isStageComplete) {
+                message += "\n\n השלב הזה הסתיים, עוברים לשלב הבא.";
+            }
+
+            showModal(message);
+        }
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `נסיונות: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+        function updateStageNumber() {
+            const stageElement = document.getElementById("stage-number");
+            stageElement.textContent = `שלב ${currentStage + 1} מתוך ${stageCount}`;
+        }
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>
