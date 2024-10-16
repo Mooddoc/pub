@@ -1,2941 +1,3606 @@
-{
-	"version": "20241003_114116",
-	"data": [
-		{
-			"page_id": 17,
-			"page_name_eng": "Letter Recognition",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "www.ynet.co.il",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 4,
-					"skill_name_eng": "Letter Recognition",
-					"section_id": 30,
-					"section_emoji": "🦑",
-					"section_name_eng": "Alphabet",
-					"category_id": 25,
-					"category_emoji": "🔍",
-					"category_name_eng": "Foundational Skills"
-				},
-				{
-					"skill_id": 7,
-					"skill_name_eng": "Present Progressive",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 36,
-					"skill_name_eng": "Basic Phrases",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 39,
-					"skill_name_eng": "Relevant subjects",
-					"section_id": 53,
-					"section_emoji": "🐝",
-					"section_name_eng": "Everyday Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 41,
-					"skill_name_eng": "Basic Synonyms and Opposites",
-					"section_id": 54,
-					"section_emoji": "🦎",
-					"section_name_eng": "Expanded Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 42,
-					"skill_name_eng": "Advanced Synonyms and Opposites",
-					"section_id": 55,
-					"section_emoji": "🦐",
-					"section_name_eng": "Synonyms and Antonyms",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 18,
-					"subject_level_name_eng": "Grade 3",
-					"subject_level_name_heb": "כיתה ג - A1",
-					"level_emoji": "🚜"
-				},
-				{
-					"subject_level_id": 19,
-					"subject_level_name_eng": "Grade 4",
-					"subject_level_name_heb": "כיתה ד - A1",
-					"level_emoji": "🚗"
-				}
-			]
-		},
-		{
-			"page_id": 296,
-			"page_name_eng": "Identify The Main Idea A1",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/IdentifyMainIdeas-1-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 26,
-					"skill_name_eng": "Identifying Key Information",
-					"section_id": 37,
-					"section_emoji": "🦆",
-					"section_name_eng": "Listening for Details",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				},
-				{
-					"skill_id": 29,
-					"skill_name_eng": "Reading Short Sentences",
-					"section_id": 39,
-					"section_emoji": "🦢",
-					"section_name_eng": "Reading Practice",
-					"category_id": 28,
-					"category_emoji": "🧫",
-					"category_name_eng": "Reading Comprehension"
-				},
-				{
-					"skill_id": 30,
-					"skill_name_eng": "Reading Simple Stories",
-					"section_id": 39,
-					"section_emoji": "🦢",
-					"section_name_eng": "Reading Practice",
-					"category_id": 28,
-					"category_emoji": "🧫",
-					"category_name_eng": "Reading Comprehension"
-				},
-				{
-					"skill_id": 31,
-					"skill_name_eng": "Reading Short Dialogs",
-					"section_id": 41,
-					"section_emoji": "🐸",
-					"section_name_eng": "Reading Dialogs",
-					"category_id": 28,
-					"category_emoji": "🧫",
-					"category_name_eng": "Reading Comprehension"
-				},
-				{
-					"skill_id": 32,
-					"skill_name_eng": "Summarizing Short Paragraphs",
-					"section_id": 42,
-					"section_emoji": "🐊",
-					"section_name_eng": "Summarizing Texts",
-					"category_id": 28,
-					"category_emoji": "🧫",
-					"category_name_eng": "Reading Comprehension"
-				},
-				{
-					"skill_id": 33,
-					"skill_name_eng": "Summarizing Stories",
-					"section_id": 42,
-					"section_emoji": "🐊",
-					"section_name_eng": "Summarizing Texts",
-					"category_id": 28,
-					"category_emoji": "🧫",
-					"category_name_eng": "Reading Comprehension"
-				},
-				{
-					"skill_id": 34,
-					"skill_name_eng": "Character and Plot Analysis",
-					"section_id": 43,
-					"section_emoji": "🐢",
-					"section_name_eng": "Analyzing Texts",
-					"category_id": 28,
-					"category_emoji": "🧫",
-					"category_name_eng": "Reading Comprehension"
-				},
-				{
-					"skill_id": 61,
-					"skill_name_eng": "Reading Short Paragraphs",
-					"section_id": 40,
-					"section_emoji": "🐧",
-					"section_name_eng": "Reading Texts",
-					"category_id": 28,
-					"category_emoji": "🧫",
-					"category_name_eng": "Reading Comprehension"
-				},
-				{
-					"skill_id": 62,
-					"skill_name_eng": "Reading Common Dialogs",
-					"section_id": 41,
-					"section_emoji": "🐸",
-					"section_name_eng": "Reading Dialogs",
-					"category_id": 28,
-					"category_emoji": "🧫",
-					"category_name_eng": "Reading Comprehension"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 19,
-					"subject_level_name_eng": "Grade 4",
-					"subject_level_name_heb": "כיתה ד - A1",
-					"level_emoji": "🚗"
-				}
-			]
-		},
-		{
-			"page_id": 297,
-			"page_name_eng": "Identify The Main Idea A2",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/IdentifyMainIdeas-2-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 26,
-					"skill_name_eng": "Identifying Key Information",
-					"section_id": 37,
-					"section_emoji": "🦆",
-					"section_name_eng": "Listening for Details",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				},
-				{
-					"skill_id": 29,
-					"skill_name_eng": "Reading Short Sentences",
-					"section_id": 39,
-					"section_emoji": "🦢",
-					"section_name_eng": "Reading Practice",
-					"category_id": 28,
-					"category_emoji": "🧫",
-					"category_name_eng": "Reading Comprehension"
-				},
-				{
-					"skill_id": 30,
-					"skill_name_eng": "Reading Simple Stories",
-					"section_id": 39,
-					"section_emoji": "🦢",
-					"section_name_eng": "Reading Practice",
-					"category_id": 28,
-					"category_emoji": "🧫",
-					"category_name_eng": "Reading Comprehension"
-				},
-				{
-					"skill_id": 31,
-					"skill_name_eng": "Reading Short Dialogs",
-					"section_id": 41,
-					"section_emoji": "🐸",
-					"section_name_eng": "Reading Dialogs",
-					"category_id": 28,
-					"category_emoji": "🧫",
-					"category_name_eng": "Reading Comprehension"
-				},
-				{
-					"skill_id": 32,
-					"skill_name_eng": "Summarizing Short Paragraphs",
-					"section_id": 42,
-					"section_emoji": "🐊",
-					"section_name_eng": "Summarizing Texts",
-					"category_id": 28,
-					"category_emoji": "🧫",
-					"category_name_eng": "Reading Comprehension"
-				},
-				{
-					"skill_id": 33,
-					"skill_name_eng": "Summarizing Stories",
-					"section_id": 42,
-					"section_emoji": "🐊",
-					"section_name_eng": "Summarizing Texts",
-					"category_id": 28,
-					"category_emoji": "🧫",
-					"category_name_eng": "Reading Comprehension"
-				},
-				{
-					"skill_id": 34,
-					"skill_name_eng": "Character and Plot Analysis",
-					"section_id": 43,
-					"section_emoji": "🐢",
-					"section_name_eng": "Analyzing Texts",
-					"category_id": 28,
-					"category_emoji": "🧫",
-					"category_name_eng": "Reading Comprehension"
-				},
-				{
-					"skill_id": 61,
-					"skill_name_eng": "Reading Short Paragraphs",
-					"section_id": 40,
-					"section_emoji": "🐧",
-					"section_name_eng": "Reading Texts",
-					"category_id": 28,
-					"category_emoji": "🧫",
-					"category_name_eng": "Reading Comprehension"
-				},
-				{
-					"skill_id": 62,
-					"skill_name_eng": "Reading Common Dialogs",
-					"section_id": 41,
-					"section_emoji": "🐸",
-					"section_name_eng": "Reading Dialogs",
-					"category_id": 28,
-					"category_emoji": "🧫",
-					"category_name_eng": "Reading Comprehension"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				},
-				{
-					"subject_level_id": 21,
-					"subject_level_name_eng": "Grade 6",
-					"subject_level_name_heb": "כיתה ו - A2",
-					"level_emoji": "🚁"
-				}
-			]
-		},
-		{
-			"page_id": 300,
-			"page_name_eng": "Modal Verbs A2",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/ModalVerbs-2-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 6,
-					"skill_name_eng": "Present Simple",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 7,
-					"skill_name_eng": "Present Progressive",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 8,
-					"skill_name_eng": "Simple Past",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 9,
-					"skill_name_eng": "Future Simple",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 10,
-					"skill_name_eng": "Past Simple",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 11,
-					"skill_name_eng": "Past Progressive",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 12,
-					"skill_name_eng": "Basic Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 17,
-					"skill_name_eng": "Compound Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 18,
-					"skill_name_eng": "Complex Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				},
-				{
-					"subject_level_id": 21,
-					"subject_level_name_eng": "Grade 6",
-					"subject_level_name_heb": "כיתה ו - A2",
-					"level_emoji": "🚁"
-				},
-				{
-					"subject_level_id": 22,
-					"subject_level_name_eng": "Grade 7",
-					"subject_level_name_heb": "כיתה ז - B1",
-					"level_emoji": "✈️"
-				}
-			]
-		},
-		{
-			"page_id": 302,
-			"page_name_eng": "Positive, Negative & Interrogative A1",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/PositiveNegativeInterrogative-1-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 6,
-					"skill_name_eng": "Present Simple",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 7,
-					"skill_name_eng": "Present Progressive",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 8,
-					"skill_name_eng": "Simple Past",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 9,
-					"skill_name_eng": "Future Simple",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 10,
-					"skill_name_eng": "Past Simple",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 12,
-					"skill_name_eng": "Basic Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				},
-				{
-					"subject_level_id": 21,
-					"subject_level_name_eng": "Grade 6",
-					"subject_level_name_heb": "כיתה ו - A2",
-					"level_emoji": "🚁"
-				},
-				{
-					"subject_level_id": 22,
-					"subject_level_name_eng": "Grade 7",
-					"subject_level_name_heb": "כיתה ז - B1",
-					"level_emoji": "✈️"
-				}
-			]
-		},
-		{
-			"page_id": 303,
-			"page_name_eng": "Positive Negative & Interrogative A2",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/PositiveNegativeInterrogative-2-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 6,
-					"skill_name_eng": "Present Simple",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 7,
-					"skill_name_eng": "Present Progressive",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 8,
-					"skill_name_eng": "Simple Past",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 9,
-					"skill_name_eng": "Future Simple",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 10,
-					"skill_name_eng": "Past Simple",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 12,
-					"skill_name_eng": "Basic Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				},
-				{
-					"subject_level_id": 21,
-					"subject_level_name_eng": "Grade 6",
-					"subject_level_name_heb": "כיתה ו - A2",
-					"level_emoji": "🚁"
-				},
-				{
-					"subject_level_id": 22,
-					"subject_level_name_eng": "Grade 7",
-					"subject_level_name_heb": "כיתה ז - B1",
-					"level_emoji": "✈️"
-				}
-			]
-		},
-		{
-			"page_id": 306,
-			"page_name_eng": "Dialog Completion - A1",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/DialogCompletion-1-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 6,
-					"skill_name_eng": "Present Simple",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 7,
-					"skill_name_eng": "Present Progressive",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 12,
-					"skill_name_eng": "Basic Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 17,
-					"skill_name_eng": "Compound Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 18,
-					"skill_name_eng": "Complex Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 19,
-					"subject_level_name_eng": "Grade 4",
-					"subject_level_name_heb": "כיתה ד - A1",
-					"level_emoji": "🚗"
-				},
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				}
-			]
-		},
-		{
-			"page_id": 307,
-			"page_name_eng": "Dialog Completion - A2",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/DialogCompletion-2-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 6,
-					"skill_name_eng": "Present Simple",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 7,
-					"skill_name_eng": "Present Progressive",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 12,
-					"skill_name_eng": "Basic Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 17,
-					"skill_name_eng": "Compound Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 18,
-					"skill_name_eng": "Complex Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				},
-				{
-					"subject_level_id": 21,
-					"subject_level_name_eng": "Grade 6",
-					"subject_level_name_heb": "כיתה ו - A2",
-					"level_emoji": "🚁"
-				},
-				{
-					"subject_level_id": 22,
-					"subject_level_name_eng": "Grade 7",
-					"subject_level_name_heb": "כיתה ז - B1",
-					"level_emoji": "✈️"
-				}
-			]
-		},
-		{
-			"page_id": 310,
-			"page_name_eng": "Complex Sentences - A1",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/ComplexSentences-1-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 6,
-					"skill_name_eng": "Present Simple",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 7,
-					"skill_name_eng": "Present Progressive",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 8,
-					"skill_name_eng": "Simple Past",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 9,
-					"skill_name_eng": "Future Simple",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 10,
-					"skill_name_eng": "Past Simple",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 12,
-					"skill_name_eng": "Basic Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 17,
-					"skill_name_eng": "Compound Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 18,
-					"skill_name_eng": "Complex Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 19,
-					"subject_level_name_eng": "Grade 4",
-					"subject_level_name_heb": "כיתה ד - A1",
-					"level_emoji": "🚗"
-				},
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				}
-			]
-		},
-		{
-			"page_id": 311,
-			"page_name_eng": "Complex Sentences - A2",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/ComplexSentences-2-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 6,
-					"skill_name_eng": "Present Simple",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 7,
-					"skill_name_eng": "Present Progressive",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 8,
-					"skill_name_eng": "Simple Past",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 9,
-					"skill_name_eng": "Future Simple",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 10,
-					"skill_name_eng": "Past Simple",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 12,
-					"skill_name_eng": "Basic Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 17,
-					"skill_name_eng": "Compound Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 18,
-					"skill_name_eng": "Complex Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				},
-				{
-					"subject_level_id": 21,
-					"subject_level_name_eng": "Grade 6",
-					"subject_level_name_heb": "כיתה ו - A2",
-					"level_emoji": "🚁"
-				},
-				{
-					"subject_level_id": 22,
-					"subject_level_name_eng": "Grade 7",
-					"subject_level_name_heb": "כיתה ז - B1",
-					"level_emoji": "✈️"
-				}
-			]
-		},
-		{
-			"page_id": 314,
-			"page_name_eng": "Daily Routines Vocabulary - A1",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/DailyRoutinesVocabulary-1-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 12,
-					"skill_name_eng": "Basic Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 18,
-					"skill_name_eng": "Complex Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 36,
-					"skill_name_eng": "Basic Phrases",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 38,
-					"skill_name_eng": "Family, Food, School",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 39,
-					"skill_name_eng": "Relevant subjects",
-					"section_id": 53,
-					"section_emoji": "🐝",
-					"section_name_eng": "Everyday Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 40,
-					"skill_name_eng": "Hobbies, Places, Weather",
-					"section_id": 53,
-					"section_emoji": "🐝",
-					"section_name_eng": "Everyday Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 19,
-					"subject_level_name_eng": "Grade 4",
-					"subject_level_name_heb": "כיתה ד - A1",
-					"level_emoji": "🚗"
-				},
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				}
-			]
-		},
-		{
-			"page_id": 318,
-			"page_name_eng": "Food and Meals Vocabulary - A1",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/FoodandMealsVocabulary-1-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 36,
-					"skill_name_eng": "Basic Phrases",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 38,
-					"skill_name_eng": "Family, Food, School",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 39,
-					"skill_name_eng": "Relevant subjects",
-					"section_id": 53,
-					"section_emoji": "🐝",
-					"section_name_eng": "Everyday Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 19,
-					"subject_level_name_eng": "Grade 4",
-					"subject_level_name_heb": "כיתה ד - A1",
-					"level_emoji": "🚗"
-				},
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				}
-			]
-		},
-		{
-			"page_id": 319,
-			"page_name_eng": "Food and Meals Vocabulary - A2",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/FoodandMealsVocabulary-2-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 36,
-					"skill_name_eng": "Basic Phrases",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 38,
-					"skill_name_eng": "Family, Food, School",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 39,
-					"skill_name_eng": "Relevant subjects",
-					"section_id": 53,
-					"section_emoji": "🐝",
-					"section_name_eng": "Everyday Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 21,
-					"subject_level_name_eng": "Grade 6",
-					"subject_level_name_heb": "כיתה ו - A2",
-					"level_emoji": "🚁"
-				},
-				{
-					"subject_level_id": 22,
-					"subject_level_name_eng": "Grade 7",
-					"subject_level_name_heb": "כיתה ז - B1",
-					"level_emoji": "✈️"
-				}
-			]
-		},
-		{
-			"page_id": 322,
-			"page_name_eng": "Animals and Nature Vocabulary - A1",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/AnimalsandNatureVocabulary-1-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 36,
-					"skill_name_eng": "Basic Phrases",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 37,
-					"skill_name_eng": "Colors, Numbers, Animals",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 39,
-					"skill_name_eng": "Relevant subjects",
-					"section_id": 53,
-					"section_emoji": "🐝",
-					"section_name_eng": "Everyday Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 40,
-					"skill_name_eng": "Hobbies, Places, Weather",
-					"section_id": 53,
-					"section_emoji": "🐝",
-					"section_name_eng": "Everyday Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 19,
-					"subject_level_name_eng": "Grade 4",
-					"subject_level_name_heb": "כיתה ד - A1",
-					"level_emoji": "🚗"
-				},
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				}
-			]
-		},
-		{
-			"page_id": 323,
-			"page_name_eng": "Animals and Nature Vocabulary - A2",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/AnimalsandNatureVocabulary-2-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 36,
-					"skill_name_eng": "Basic Phrases",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 37,
-					"skill_name_eng": "Colors, Numbers, Animals",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 39,
-					"skill_name_eng": "Relevant subjects",
-					"section_id": 53,
-					"section_emoji": "🐝",
-					"section_name_eng": "Everyday Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 40,
-					"skill_name_eng": "Hobbies, Places, Weather",
-					"section_id": 53,
-					"section_emoji": "🐝",
-					"section_name_eng": "Everyday Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 21,
-					"subject_level_name_eng": "Grade 6",
-					"subject_level_name_heb": "כיתה ו - A2",
-					"level_emoji": "🚁"
-				},
-				{
-					"subject_level_id": 22,
-					"subject_level_name_eng": "Grade 7",
-					"subject_level_name_heb": "כיתה ז - B1",
-					"level_emoji": "✈️"
-				}
-			]
-		},
-		{
-			"page_id": 326,
-			"page_name_eng": "Conditional Sentences - A1",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/ConditionalSentences-1-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 6,
-					"skill_name_eng": "Present Simple",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 7,
-					"skill_name_eng": "Present Progressive",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 8,
-					"skill_name_eng": "Simple Past",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 10,
-					"skill_name_eng": "Past Simple",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 12,
-					"skill_name_eng": "Basic Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 17,
-					"skill_name_eng": "Compound Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 19,
-					"subject_level_name_eng": "Grade 4",
-					"subject_level_name_heb": "כיתה ד - A1",
-					"level_emoji": "🚗"
-				},
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				}
-			]
-		},
-		{
-			"page_id": 327,
-			"page_name_eng": "Conditional Sentences - A2",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/ConditionalSentences-2-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 6,
-					"skill_name_eng": "Present Simple",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 7,
-					"skill_name_eng": "Present Progressive",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 8,
-					"skill_name_eng": "Simple Past",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 10,
-					"skill_name_eng": "Past Simple",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 12,
-					"skill_name_eng": "Basic Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 17,
-					"skill_name_eng": "Compound Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				},
-				{
-					"subject_level_id": 21,
-					"subject_level_name_eng": "Grade 6",
-					"subject_level_name_heb": "כיתה ו - A2",
-					"level_emoji": "🚁"
-				}
-			]
-		},
-		{
-			"page_id": 330,
-			"page_name_eng": "Synonyms and Antonyms - A1",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/SynonymsandAntonyms-1-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 36,
-					"skill_name_eng": "Basic Phrases",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 39,
-					"skill_name_eng": "Relevant subjects",
-					"section_id": 53,
-					"section_emoji": "🐝",
-					"section_name_eng": "Everyday Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 41,
-					"skill_name_eng": "Basic Synonyms and Opposites",
-					"section_id": 54,
-					"section_emoji": "🦎",
-					"section_name_eng": "Expanded Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 42,
-					"skill_name_eng": "Advanced Synonyms and Opposites",
-					"section_id": 55,
-					"section_emoji": "🦐",
-					"section_name_eng": "Synonyms and Antonyms",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				},
-				{
-					"subject_level_id": 21,
-					"subject_level_name_eng": "Grade 6",
-					"subject_level_name_heb": "כיתה ו - A2",
-					"level_emoji": "🚁"
-				}
-			]
-		},
-		{
-			"page_id": 331,
-			"page_name_eng": "Synonyms and Antonyms - A2",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/SynonymsandAntonyms-2-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 36,
-					"skill_name_eng": "Basic Phrases",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 39,
-					"skill_name_eng": "Relevant subjects",
-					"section_id": 53,
-					"section_emoji": "🐝",
-					"section_name_eng": "Everyday Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 41,
-					"skill_name_eng": "Basic Synonyms and Opposites",
-					"section_id": 54,
-					"section_emoji": "🦎",
-					"section_name_eng": "Expanded Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 42,
-					"skill_name_eng": "Advanced Synonyms and Opposites",
-					"section_id": 55,
-					"section_emoji": "🦐",
-					"section_name_eng": "Synonyms and Antonyms",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 21,
-					"subject_level_name_eng": "Grade 6",
-					"subject_level_name_heb": "כיתה ו - A2",
-					"level_emoji": "🚁"
-				},
-				{
-					"subject_level_id": 22,
-					"subject_level_name_eng": "Grade 7",
-					"subject_level_name_heb": "כיתה ז - B1",
-					"level_emoji": "✈️"
-				}
-			]
-		},
-		{
-			"page_id": 334,
-			"page_name_eng": "General Knowledge - B1",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/GeneralKnowledge-3-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 19,
-					"skill_name_eng": "Learning Simple Words",
-					"section_id": 49,
-					"section_emoji": "🦟",
-					"section_name_eng": "Basic Spelling",
-					"category_id": 30,
-					"category_emoji": "🧰",
-					"category_name_eng": "Spelling and Punctuation"
-				},
-				{
-					"skill_id": 20,
-					"skill_name_eng": "Common Exceptions",
-					"section_id": 49,
-					"section_emoji": "🦟",
-					"section_name_eng": "Basic Spelling",
-					"category_id": 30,
-					"category_emoji": "🧰",
-					"category_name_eng": "Spelling and Punctuation"
-				},
-				{
-					"skill_id": 36,
-					"skill_name_eng": "Basic Phrases",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 37,
-					"skill_name_eng": "Colors, Numbers, Animals",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 38,
-					"skill_name_eng": "Family, Food, School",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 39,
-					"skill_name_eng": "Relevant subjects",
-					"section_id": 53,
-					"section_emoji": "🐝",
-					"section_name_eng": "Everyday Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 40,
-					"skill_name_eng": "Hobbies, Places, Weather",
-					"section_id": 53,
-					"section_emoji": "🐝",
-					"section_name_eng": "Everyday Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 43,
-					"skill_name_eng": "Practicing Basic Sounds",
-					"section_id": 46,
-					"section_emoji": "🦈",
-					"section_name_eng": "Basic Speaking",
-					"category_id": 29,
-					"category_emoji": "🧬",
-					"category_name_eng": "Speaking"
-				},
-				{
-					"skill_id": 44,
-					"skill_name_eng": "Practicing Difficult Sounds",
-					"section_id": 46,
-					"section_emoji": "🦈",
-					"section_name_eng": "Basic Speaking",
-					"category_id": 29,
-					"category_emoji": "🧬",
-					"category_name_eng": "Speaking"
-				},
-				{
-					"skill_id": 45,
-					"skill_name_eng": "Practicing Common Sounds",
-					"section_id": 46,
-					"section_emoji": "🦈",
-					"section_name_eng": "Basic Speaking",
-					"category_id": 29,
-					"category_emoji": "🧬",
-					"category_name_eng": "Speaking"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 23,
-					"subject_level_name_eng": "Grade 8",
-					"subject_level_name_heb": "כיתה ח - B1",
-					"level_emoji": "🚀"
-				},
-				{
-					"subject_level_id": 24,
-					"subject_level_name_eng": "Grade 9",
-					"subject_level_name_heb": "כיתה ט - B2",
-					"level_emoji": "🚢"
-				},
-				{
-					"subject_level_id": 25,
-					"subject_level_name_eng": "Grade 10",
-					"subject_level_name_heb": "כיתה י - B2",
-					"level_emoji": "🚂"
-				}
-			]
-		},
-		{
-			"page_id": 338,
-			"page_name_eng": "General Knowledge - 1 - A2",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/GeneralKnowledge-1-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 19,
-					"skill_name_eng": "Learning Simple Words",
-					"section_id": 49,
-					"section_emoji": "🦟",
-					"section_name_eng": "Basic Spelling",
-					"category_id": 30,
-					"category_emoji": "🧰",
-					"category_name_eng": "Spelling and Punctuation"
-				},
-				{
-					"skill_id": 20,
-					"skill_name_eng": "Common Exceptions",
-					"section_id": 49,
-					"section_emoji": "🦟",
-					"section_name_eng": "Basic Spelling",
-					"category_id": 30,
-					"category_emoji": "🧰",
-					"category_name_eng": "Spelling and Punctuation"
-				},
-				{
-					"skill_id": 36,
-					"skill_name_eng": "Basic Phrases",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 37,
-					"skill_name_eng": "Colors, Numbers, Animals",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 38,
-					"skill_name_eng": "Family, Food, School",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 39,
-					"skill_name_eng": "Relevant subjects",
-					"section_id": 53,
-					"section_emoji": "🐝",
-					"section_name_eng": "Everyday Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 40,
-					"skill_name_eng": "Hobbies, Places, Weather",
-					"section_id": 53,
-					"section_emoji": "🐝",
-					"section_name_eng": "Everyday Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 43,
-					"skill_name_eng": "Practicing Basic Sounds",
-					"section_id": 46,
-					"section_emoji": "🦈",
-					"section_name_eng": "Basic Speaking",
-					"category_id": 29,
-					"category_emoji": "🧬",
-					"category_name_eng": "Speaking"
-				},
-				{
-					"skill_id": 44,
-					"skill_name_eng": "Practicing Difficult Sounds",
-					"section_id": 46,
-					"section_emoji": "🦈",
-					"section_name_eng": "Basic Speaking",
-					"category_id": 29,
-					"category_emoji": "🧬",
-					"category_name_eng": "Speaking"
-				},
-				{
-					"skill_id": 45,
-					"skill_name_eng": "Practicing Common Sounds",
-					"section_id": 46,
-					"section_emoji": "🦈",
-					"section_name_eng": "Basic Speaking",
-					"category_id": 29,
-					"category_emoji": "🧬",
-					"category_name_eng": "Speaking"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				},
-				{
-					"subject_level_id": 21,
-					"subject_level_name_eng": "Grade 6",
-					"subject_level_name_heb": "כיתה ו - A2",
-					"level_emoji": "🚁"
-				},
-				{
-					"subject_level_id": 22,
-					"subject_level_name_eng": "Grade 7",
-					"subject_level_name_heb": "כיתה ז - B1",
-					"level_emoji": "✈️"
-				}
-			]
-		},
-		{
-			"page_id": 339,
-			"page_name_eng": "General Knowledge - 1 - A1",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/GeneralKnowledge-1-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 19,
-					"skill_name_eng": "Learning Simple Words",
-					"section_id": 49,
-					"section_emoji": "🦟",
-					"section_name_eng": "Basic Spelling",
-					"category_id": 30,
-					"category_emoji": "🧰",
-					"category_name_eng": "Spelling and Punctuation"
-				},
-				{
-					"skill_id": 20,
-					"skill_name_eng": "Common Exceptions",
-					"section_id": 49,
-					"section_emoji": "🦟",
-					"section_name_eng": "Basic Spelling",
-					"category_id": 30,
-					"category_emoji": "🧰",
-					"category_name_eng": "Spelling and Punctuation"
-				},
-				{
-					"skill_id": 36,
-					"skill_name_eng": "Basic Phrases",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 37,
-					"skill_name_eng": "Colors, Numbers, Animals",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 38,
-					"skill_name_eng": "Family, Food, School",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 39,
-					"skill_name_eng": "Relevant subjects",
-					"section_id": 53,
-					"section_emoji": "🐝",
-					"section_name_eng": "Everyday Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 40,
-					"skill_name_eng": "Hobbies, Places, Weather",
-					"section_id": 53,
-					"section_emoji": "🐝",
-					"section_name_eng": "Everyday Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 43,
-					"skill_name_eng": "Practicing Basic Sounds",
-					"section_id": 46,
-					"section_emoji": "🦈",
-					"section_name_eng": "Basic Speaking",
-					"category_id": 29,
-					"category_emoji": "🧬",
-					"category_name_eng": "Speaking"
-				},
-				{
-					"skill_id": 44,
-					"skill_name_eng": "Practicing Difficult Sounds",
-					"section_id": 46,
-					"section_emoji": "🦈",
-					"section_name_eng": "Basic Speaking",
-					"category_id": 29,
-					"category_emoji": "🧬",
-					"category_name_eng": "Speaking"
-				},
-				{
-					"skill_id": 45,
-					"skill_name_eng": "Practicing Common Sounds",
-					"section_id": 46,
-					"section_emoji": "🦈",
-					"section_name_eng": "Basic Speaking",
-					"category_id": 29,
-					"category_emoji": "🧬",
-					"category_name_eng": "Speaking"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 19,
-					"subject_level_name_eng": "Grade 4",
-					"subject_level_name_heb": "כיתה ד - A1",
-					"level_emoji": "🚗"
-				},
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				}
-			]
-		},
-		{
-			"page_id": 340,
-			"page_name_eng": "General Knowledge - 2 - A1",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/GeneralKnowledge-2-1-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 19,
-					"skill_name_eng": "Learning Simple Words",
-					"section_id": 49,
-					"section_emoji": "🦟",
-					"section_name_eng": "Basic Spelling",
-					"category_id": 30,
-					"category_emoji": "🧰",
-					"category_name_eng": "Spelling and Punctuation"
-				},
-				{
-					"skill_id": 20,
-					"skill_name_eng": "Common Exceptions",
-					"section_id": 49,
-					"section_emoji": "🦟",
-					"section_name_eng": "Basic Spelling",
-					"category_id": 30,
-					"category_emoji": "🧰",
-					"category_name_eng": "Spelling and Punctuation"
-				},
-				{
-					"skill_id": 36,
-					"skill_name_eng": "Basic Phrases",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 37,
-					"skill_name_eng": "Colors, Numbers, Animals",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 38,
-					"skill_name_eng": "Family, Food, School",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 39,
-					"skill_name_eng": "Relevant subjects",
-					"section_id": 53,
-					"section_emoji": "🐝",
-					"section_name_eng": "Everyday Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 40,
-					"skill_name_eng": "Hobbies, Places, Weather",
-					"section_id": 53,
-					"section_emoji": "🐝",
-					"section_name_eng": "Everyday Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 43,
-					"skill_name_eng": "Practicing Basic Sounds",
-					"section_id": 46,
-					"section_emoji": "🦈",
-					"section_name_eng": "Basic Speaking",
-					"category_id": 29,
-					"category_emoji": "🧬",
-					"category_name_eng": "Speaking"
-				},
-				{
-					"skill_id": 44,
-					"skill_name_eng": "Practicing Difficult Sounds",
-					"section_id": 46,
-					"section_emoji": "🦈",
-					"section_name_eng": "Basic Speaking",
-					"category_id": 29,
-					"category_emoji": "🧬",
-					"category_name_eng": "Speaking"
-				},
-				{
-					"skill_id": 45,
-					"skill_name_eng": "Practicing Common Sounds",
-					"section_id": 46,
-					"section_emoji": "🦈",
-					"section_name_eng": "Basic Speaking",
-					"category_id": 29,
-					"category_emoji": "🧬",
-					"category_name_eng": "Speaking"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 19,
-					"subject_level_name_eng": "Grade 4",
-					"subject_level_name_heb": "כיתה ד - A1",
-					"level_emoji": "🚗"
-				},
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				}
-			]
-		},
-		{
-			"page_id": 341,
-			"page_name_eng": "General Knowledge - 2 - A2",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/GeneralKnowledge-2-2-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 19,
-					"skill_name_eng": "Learning Simple Words",
-					"section_id": 49,
-					"section_emoji": "🦟",
-					"section_name_eng": "Basic Spelling",
-					"category_id": 30,
-					"category_emoji": "🧰",
-					"category_name_eng": "Spelling and Punctuation"
-				},
-				{
-					"skill_id": 20,
-					"skill_name_eng": "Common Exceptions",
-					"section_id": 49,
-					"section_emoji": "🦟",
-					"section_name_eng": "Basic Spelling",
-					"category_id": 30,
-					"category_emoji": "🧰",
-					"category_name_eng": "Spelling and Punctuation"
-				},
-				{
-					"skill_id": 36,
-					"skill_name_eng": "Basic Phrases",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 37,
-					"skill_name_eng": "Colors, Numbers, Animals",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 38,
-					"skill_name_eng": "Family, Food, School",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 39,
-					"skill_name_eng": "Relevant subjects",
-					"section_id": 53,
-					"section_emoji": "🐝",
-					"section_name_eng": "Everyday Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 40,
-					"skill_name_eng": "Hobbies, Places, Weather",
-					"section_id": 53,
-					"section_emoji": "🐝",
-					"section_name_eng": "Everyday Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 43,
-					"skill_name_eng": "Practicing Basic Sounds",
-					"section_id": 46,
-					"section_emoji": "🦈",
-					"section_name_eng": "Basic Speaking",
-					"category_id": 29,
-					"category_emoji": "🧬",
-					"category_name_eng": "Speaking"
-				},
-				{
-					"skill_id": 44,
-					"skill_name_eng": "Practicing Difficult Sounds",
-					"section_id": 46,
-					"section_emoji": "🦈",
-					"section_name_eng": "Basic Speaking",
-					"category_id": 29,
-					"category_emoji": "🧬",
-					"category_name_eng": "Speaking"
-				},
-				{
-					"skill_id": 45,
-					"skill_name_eng": "Practicing Common Sounds",
-					"section_id": 46,
-					"section_emoji": "🦈",
-					"section_name_eng": "Basic Speaking",
-					"category_id": 29,
-					"category_emoji": "🧬",
-					"category_name_eng": "Speaking"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 21,
-					"subject_level_name_eng": "Grade 6",
-					"subject_level_name_heb": "כיתה ו - A2",
-					"level_emoji": "🚁"
-				},
-				{
-					"subject_level_id": 22,
-					"subject_level_name_eng": "Grade 7",
-					"subject_level_name_heb": "כיתה ז - B1",
-					"level_emoji": "✈️"
-				}
-			]
-		},
-		{
-			"page_id": 344,
-			"page_name_eng": "Times Vocabulary",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/Times Vocabulary-1-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 12,
-					"skill_name_eng": "Basic Sentences",
-					"section_id": 33,
-					"section_emoji": "🐜",
-					"section_name_eng": "Sentence Structure",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 36,
-					"skill_name_eng": "Basic Phrases",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 39,
-					"skill_name_eng": "Relevant subjects",
-					"section_id": 53,
-					"section_emoji": "🐝",
-					"section_name_eng": "Everyday Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 46,
-					"skill_name_eng": "Everyday Dialogues",
-					"section_id": 47,
-					"section_emoji": "🐌",
-					"section_name_eng": "Role-Playing",
-					"category_id": 29,
-					"category_emoji": "🧬",
-					"category_name_eng": "Speaking"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 19,
-					"subject_level_name_eng": "Grade 4",
-					"subject_level_name_heb": "כיתה ד - A1",
-					"level_emoji": "🚗"
-				},
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				},
-				{
-					"subject_level_id": 21,
-					"subject_level_name_eng": "Grade 6",
-					"subject_level_name_heb": "כיתה ו - A2",
-					"level_emoji": "🚁"
-				}
-			]
-		},
-		{
-			"page_id": 348,
-			"page_name_eng": "Days and Months",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/DaysandMonths-1-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 36,
-					"skill_name_eng": "Basic Phrases",
-					"section_id": 52,
-					"section_emoji": "🐛",
-					"section_name_eng": "Basic Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				},
-				{
-					"skill_id": 39,
-					"skill_name_eng": "Relevant subjects",
-					"section_id": 53,
-					"section_emoji": "🐝",
-					"section_name_eng": "Everyday Vocabulary",
-					"category_id": 31,
-					"category_emoji": "💡",
-					"category_name_eng": "Vocabulary"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 19,
-					"subject_level_name_eng": "Grade 4",
-					"subject_level_name_heb": "כיתה ד - A1",
-					"level_emoji": "🚗"
-				},
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				}
-			]
-		},
-		{
-			"page_id": 350,
-			"page_name_eng": "The Happy Cat - Audio Quiz",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/aTheHappyCat-1-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 23,
-					"skill_name_eng": "Listening to Short Stories",
-					"section_id": 36,
-					"section_emoji": "🦅",
-					"section_name_eng": "Basic Listening",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				},
-				{
-					"skill_id": 24,
-					"skill_name_eng": "Understanding Simple Instructions",
-					"section_id": 37,
-					"section_emoji": "🦆",
-					"section_name_eng": "Listening for Details",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				},
-				{
-					"skill_id": 25,
-					"skill_name_eng": "Listening to Conversations",
-					"section_id": 37,
-					"section_emoji": "🦆",
-					"section_name_eng": "Listening for Details",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				},
-				{
-					"skill_id": 26,
-					"skill_name_eng": "Identifying Key Information",
-					"section_id": 37,
-					"section_emoji": "🦆",
-					"section_name_eng": "Listening for Details",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				},
-				{
-					"skill_id": 27,
-					"skill_name_eng": "Intermediate Listening Comprehension",
-					"section_id": 37,
-					"section_emoji": "🦆",
-					"section_name_eng": "Listening for Details",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 19,
-					"subject_level_name_eng": "Grade 4",
-					"subject_level_name_heb": "כיתה ד - A1",
-					"level_emoji": "🚗"
-				},
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				},
-				{
-					"subject_level_id": 21,
-					"subject_level_name_eng": "Grade 6",
-					"subject_level_name_heb": "כיתה ו - A2",
-					"level_emoji": "🚁"
-				}
-			]
-		},
-		{
-			"page_id": 352,
-			"page_name_eng": "The Camping Trip - Audio Quiz",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/aTheCampingTrip-1-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 23,
-					"skill_name_eng": "Listening to Short Stories",
-					"section_id": 36,
-					"section_emoji": "🦅",
-					"section_name_eng": "Basic Listening",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				},
-				{
-					"skill_id": 24,
-					"skill_name_eng": "Understanding Simple Instructions",
-					"section_id": 37,
-					"section_emoji": "🦆",
-					"section_name_eng": "Listening for Details",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				},
-				{
-					"skill_id": 25,
-					"skill_name_eng": "Listening to Conversations",
-					"section_id": 37,
-					"section_emoji": "🦆",
-					"section_name_eng": "Listening for Details",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				},
-				{
-					"skill_id": 26,
-					"skill_name_eng": "Identifying Key Information",
-					"section_id": 37,
-					"section_emoji": "🦆",
-					"section_name_eng": "Listening for Details",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				},
-				{
-					"skill_id": 27,
-					"skill_name_eng": "Intermediate Listening Comprehension",
-					"section_id": 37,
-					"section_emoji": "🦆",
-					"section_name_eng": "Listening for Details",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 19,
-					"subject_level_name_eng": "Grade 4",
-					"subject_level_name_heb": "כיתה ד - A1",
-					"level_emoji": "🚗"
-				},
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				},
-				{
-					"subject_level_id": 21,
-					"subject_level_name_eng": "Grade 6",
-					"subject_level_name_heb": "כיתה ו - A2",
-					"level_emoji": "🚁"
-				}
-			]
-		},
-		{
-			"page_id": 354,
-			"page_name_eng": "The Mysterious Forest - Audio Quiz",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/aTheMysteriousForest-1-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 23,
-					"skill_name_eng": "Listening to Short Stories",
-					"section_id": 36,
-					"section_emoji": "🦅",
-					"section_name_eng": "Basic Listening",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				},
-				{
-					"skill_id": 24,
-					"skill_name_eng": "Understanding Simple Instructions",
-					"section_id": 37,
-					"section_emoji": "🦆",
-					"section_name_eng": "Listening for Details",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				},
-				{
-					"skill_id": 25,
-					"skill_name_eng": "Listening to Conversations",
-					"section_id": 37,
-					"section_emoji": "🦆",
-					"section_name_eng": "Listening for Details",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				},
-				{
-					"skill_id": 26,
-					"skill_name_eng": "Identifying Key Information",
-					"section_id": 37,
-					"section_emoji": "🦆",
-					"section_name_eng": "Listening for Details",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				},
-				{
-					"skill_id": 27,
-					"skill_name_eng": "Intermediate Listening Comprehension",
-					"section_id": 37,
-					"section_emoji": "🦆",
-					"section_name_eng": "Listening for Details",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 19,
-					"subject_level_name_eng": "Grade 4",
-					"subject_level_name_heb": "כיתה ד - A1",
-					"level_emoji": "🚗"
-				},
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				},
-				{
-					"subject_level_id": 21,
-					"subject_level_name_eng": "Grade 6",
-					"subject_level_name_heb": "כיתה ו - A2",
-					"level_emoji": "🚁"
-				}
-			]
-		},
-		{
-			"page_id": 356,
-			"page_name_eng": "PresentSimpleandPresentProgressive - A2",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/PresentSimpleandPresentProgressive-1-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 6,
-					"skill_name_eng": "Present Simple",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				},
-				{
-					"skill_id": 7,
-					"skill_name_eng": "Present Progressive",
-					"section_id": 32,
-					"section_emoji": "🦎",
-					"section_name_eng": "Tenses",
-					"category_id": 26,
-					"category_emoji": "🔬",
-					"category_name_eng": "Grammar"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				},
-				{
-					"subject_level_id": 21,
-					"subject_level_name_eng": "Grade 6",
-					"subject_level_name_heb": "כיתה ו - A2",
-					"level_emoji": "🚁"
-				}
-			]
-		},
-		{
-			"page_id": 358,
-			"page_name_eng": "Listening to Emojis - 😎🔊 - A1",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/SpellingEmojis-1-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 19,
-					"skill_name_eng": "Learning Simple Words",
-					"section_id": 49,
-					"section_emoji": "🦟",
-					"section_name_eng": "Basic Spelling",
-					"category_id": 30,
-					"category_emoji": "🧰",
-					"category_name_eng": "Spelling and Punctuation"
-				},
-				{
-					"skill_id": 20,
-					"skill_name_eng": "Common Exceptions",
-					"section_id": 49,
-					"section_emoji": "🦟",
-					"section_name_eng": "Basic Spelling",
-					"category_id": 30,
-					"category_emoji": "🧰",
-					"category_name_eng": "Spelling and Punctuation"
-				},
-				{
-					"skill_id": 23,
-					"skill_name_eng": "Listening to Short Stories",
-					"section_id": 36,
-					"section_emoji": "🦅",
-					"section_name_eng": "Basic Listening",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				},
-				{
-					"skill_id": 24,
-					"skill_name_eng": "Understanding Simple Instructions",
-					"section_id": 37,
-					"section_emoji": "🦆",
-					"section_name_eng": "Listening for Details",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				},
-				{
-					"skill_id": 25,
-					"skill_name_eng": "Listening to Conversations",
-					"section_id": 37,
-					"section_emoji": "🦆",
-					"section_name_eng": "Listening for Details",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				},
-				{
-					"skill_id": 26,
-					"skill_name_eng": "Identifying Key Information",
-					"section_id": 37,
-					"section_emoji": "🦆",
-					"section_name_eng": "Listening for Details",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				},
-				{
-					"skill_id": 27,
-					"skill_name_eng": "Intermediate Listening Comprehension",
-					"section_id": 37,
-					"section_emoji": "🦆",
-					"section_name_eng": "Listening for Details",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				},
-				{
-					"subject_level_id": 21,
-					"subject_level_name_eng": "Grade 6",
-					"subject_level_name_heb": "כיתה ו - A2",
-					"level_emoji": "🚁"
-				},
-				{
-					"subject_level_id": 22,
-					"subject_level_name_eng": "Grade 7",
-					"subject_level_name_heb": "כיתה ז - B1",
-					"level_emoji": "✈️"
-				}
-			]
-		},
-		{
-			"page_id": 360,
-			"page_name_eng": "Short Story-The Brave Girl and the Dragons - A1",
-			"page_is_featured": 0,
-			"subject_id": 1,
-			"subject_name_eng": "English",
-			"language_id": 2,
-			"portal_url_path": "http://ez42.live/english/English_Directory/ShortStory-TheBraveGirlandtheDragons-1-E.html",
-			"is_created": 1,
-			"is_published": 1,
-			"skills": [
-				{
-					"skill_id": 23,
-					"skill_name_eng": "Listening to Short Stories",
-					"section_id": 36,
-					"section_emoji": "🦅",
-					"section_name_eng": "Basic Listening",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				},
-				{
-					"skill_id": 25,
-					"skill_name_eng": "Listening to Conversations",
-					"section_id": 37,
-					"section_emoji": "🦆",
-					"section_name_eng": "Listening for Details",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				},
-				{
-					"skill_id": 26,
-					"skill_name_eng": "Identifying Key Information",
-					"section_id": 37,
-					"section_emoji": "🦆",
-					"section_name_eng": "Listening for Details",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				},
-				{
-					"skill_id": 27,
-					"skill_name_eng": "Intermediate Listening Comprehension",
-					"section_id": 37,
-					"section_emoji": "🦆",
-					"section_name_eng": "Listening for Details",
-					"category_id": 27,
-					"category_emoji": "🔭",
-					"category_name_eng": "Listening"
-				},
-				{
-					"skill_id": 29,
-					"skill_name_eng": "Reading Short Sentences",
-					"section_id": 39,
-					"section_emoji": "🦢",
-					"section_name_eng": "Reading Practice",
-					"category_id": 28,
-					"category_emoji": "🧫",
-					"category_name_eng": "Reading Comprehension"
-				},
-				{
-					"skill_id": 30,
-					"skill_name_eng": "Reading Simple Stories",
-					"section_id": 39,
-					"section_emoji": "🦢",
-					"section_name_eng": "Reading Practice",
-					"category_id": 28,
-					"category_emoji": "🧫",
-					"category_name_eng": "Reading Comprehension"
-				},
-				{
-					"skill_id": 31,
-					"skill_name_eng": "Reading Short Dialogs",
-					"section_id": 41,
-					"section_emoji": "🐸",
-					"section_name_eng": "Reading Dialogs",
-					"category_id": 28,
-					"category_emoji": "🧫",
-					"category_name_eng": "Reading Comprehension"
-				},
-				{
-					"skill_id": 60,
-					"skill_name_eng": "Reading Stories",
-					"section_id": 39,
-					"section_emoji": "🦢",
-					"section_name_eng": "Reading Practice",
-					"category_id": 28,
-					"category_emoji": "🧫",
-					"category_name_eng": "Reading Comprehension"
-				},
-				{
-					"skill_id": 61,
-					"skill_name_eng": "Reading Short Paragraphs",
-					"section_id": 40,
-					"section_emoji": "🐧",
-					"section_name_eng": "Reading Texts",
-					"category_id": 28,
-					"category_emoji": "🧫",
-					"category_name_eng": "Reading Comprehension"
-				}
-			],
-			"subject_levels": [
-				{
-					"subject_level_id": 20,
-					"subject_level_name_eng": "Grade 5",
-					"subject_level_name_heb": "כיתה ה - A2",
-					"level_emoji": "🚌"
-				},
-				{
-					"subject_level_id": 21,
-					"subject_level_name_eng": "Grade 6",
-					"subject_level_name_heb": "כיתה ו - A2",
-					"level_emoji": "🚁"
-				},
-				{
-					"subject_level_id": 22,
-					"subject_level_name_eng": "Grade 7",
-					"subject_level_name_heb": "כיתה ז - B1",
-					"level_emoji": "✈️"
-				}
-			]
-		}
-	]
-}
+[
+	{
+		"page_id": 49,
+		"page_name_eng": "Using Question Marks and Exclamations",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/UsingQuestionMarksandExclamations-A1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 22,
+				"skill_name_eng": "Using Question Marks and Exclamations",
+				"section_id": 50,
+				"section_emoji": "🦂",
+				"section_name_eng": "Punctuation Rules",
+				"category_id": 30,
+				"category_emoji": "🧰",
+				"category_name_eng": "Spelling and Punctuation"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 18,
+				"subject_level_name_eng": "Grade 3",
+				"subject_level_name_heb": "כיתה ג - A1",
+				"level_emoji": "🚜"
+			},
+			{
+				"subject_level_id": 19,
+				"subject_level_name_eng": "Grade 4",
+				"subject_level_name_heb": "כיתה ד - A1",
+				"level_emoji": "🚗"
+			}
+		]
+	},
+	{
+		"page_id": 296,
+		"page_name_eng": "Identify The Main Idea A1",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/IdentifyMainIdeas-1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 26,
+				"skill_name_eng": "Identifying Key Information",
+				"section_id": 37,
+				"section_emoji": "🦆",
+				"section_name_eng": "Listening for Details",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			},
+			{
+				"skill_id": 29,
+				"skill_name_eng": "Reading Short Sentences",
+				"section_id": 39,
+				"section_emoji": "🦢",
+				"section_name_eng": "Reading Practice",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			},
+			{
+				"skill_id": 30,
+				"skill_name_eng": "Reading Simple Stories",
+				"section_id": 39,
+				"section_emoji": "🦢",
+				"section_name_eng": "Reading Practice",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			},
+			{
+				"skill_id": 31,
+				"skill_name_eng": "Reading Short Dialogs",
+				"section_id": 41,
+				"section_emoji": "🐸",
+				"section_name_eng": "Reading Dialogs",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			},
+			{
+				"skill_id": 32,
+				"skill_name_eng": "Summarizing Short Paragraphs",
+				"section_id": 42,
+				"section_emoji": "🐊",
+				"section_name_eng": "Summarizing Texts",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			},
+			{
+				"skill_id": 33,
+				"skill_name_eng": "Summarizing Stories",
+				"section_id": 42,
+				"section_emoji": "🐊",
+				"section_name_eng": "Summarizing Texts",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			},
+			{
+				"skill_id": 34,
+				"skill_name_eng": "Character and Plot Analysis",
+				"section_id": 43,
+				"section_emoji": "🐢",
+				"section_name_eng": "Analyzing Texts",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			},
+			{
+				"skill_id": 61,
+				"skill_name_eng": "Reading Short Paragraphs",
+				"section_id": 40,
+				"section_emoji": "🐧",
+				"section_name_eng": "Reading Texts",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			},
+			{
+				"skill_id": 62,
+				"skill_name_eng": "Reading Common Dialogs",
+				"section_id": 41,
+				"section_emoji": "🐸",
+				"section_name_eng": "Reading Dialogs",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 19,
+				"subject_level_name_eng": "Grade 4",
+				"subject_level_name_heb": "כיתה ד - A1",
+				"level_emoji": "🚗"
+			}
+		]
+	},
+	{
+		"page_id": 297,
+		"page_name_eng": "Identify The Main Idea A2",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/IdentifyMainIdeas-2-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 26,
+				"skill_name_eng": "Identifying Key Information",
+				"section_id": 37,
+				"section_emoji": "🦆",
+				"section_name_eng": "Listening for Details",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			},
+			{
+				"skill_id": 29,
+				"skill_name_eng": "Reading Short Sentences",
+				"section_id": 39,
+				"section_emoji": "🦢",
+				"section_name_eng": "Reading Practice",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			},
+			{
+				"skill_id": 30,
+				"skill_name_eng": "Reading Simple Stories",
+				"section_id": 39,
+				"section_emoji": "🦢",
+				"section_name_eng": "Reading Practice",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			},
+			{
+				"skill_id": 31,
+				"skill_name_eng": "Reading Short Dialogs",
+				"section_id": 41,
+				"section_emoji": "🐸",
+				"section_name_eng": "Reading Dialogs",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			},
+			{
+				"skill_id": 32,
+				"skill_name_eng": "Summarizing Short Paragraphs",
+				"section_id": 42,
+				"section_emoji": "🐊",
+				"section_name_eng": "Summarizing Texts",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			},
+			{
+				"skill_id": 33,
+				"skill_name_eng": "Summarizing Stories",
+				"section_id": 42,
+				"section_emoji": "🐊",
+				"section_name_eng": "Summarizing Texts",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			},
+			{
+				"skill_id": 34,
+				"skill_name_eng": "Character and Plot Analysis",
+				"section_id": 43,
+				"section_emoji": "🐢",
+				"section_name_eng": "Analyzing Texts",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			},
+			{
+				"skill_id": 61,
+				"skill_name_eng": "Reading Short Paragraphs",
+				"section_id": 40,
+				"section_emoji": "🐧",
+				"section_name_eng": "Reading Texts",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			},
+			{
+				"skill_id": 62,
+				"skill_name_eng": "Reading Common Dialogs",
+				"section_id": 41,
+				"section_emoji": "🐸",
+				"section_name_eng": "Reading Dialogs",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			},
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			}
+		]
+	},
+	{
+		"page_id": 300,
+		"page_name_eng": "Modal Verbs A2",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/ModalVerbs-2-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 6,
+				"skill_name_eng": "Present Simple",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 7,
+				"skill_name_eng": "Present Progressive",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 8,
+				"skill_name_eng": "Simple Past",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 9,
+				"skill_name_eng": "Future Simple",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 10,
+				"skill_name_eng": "Past Simple",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 11,
+				"skill_name_eng": "Past Progressive",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 12,
+				"skill_name_eng": "Basic Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 17,
+				"skill_name_eng": "Compound Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 18,
+				"skill_name_eng": "Complex Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			},
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			},
+			{
+				"subject_level_id": 22,
+				"subject_level_name_eng": "Grade 7",
+				"subject_level_name_heb": "כיתה ז - B1",
+				"level_emoji": "✈️"
+			}
+		]
+	},
+	{
+		"page_id": 302,
+		"page_name_eng": "Positive, Negative & Interrogative A1",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/PositiveNegativeInterrogative-1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 6,
+				"skill_name_eng": "Present Simple",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 7,
+				"skill_name_eng": "Present Progressive",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 8,
+				"skill_name_eng": "Simple Past",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 9,
+				"skill_name_eng": "Future Simple",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 10,
+				"skill_name_eng": "Past Simple",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 12,
+				"skill_name_eng": "Basic Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			},
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			},
+			{
+				"subject_level_id": 22,
+				"subject_level_name_eng": "Grade 7",
+				"subject_level_name_heb": "כיתה ז - B1",
+				"level_emoji": "✈️"
+			}
+		]
+	},
+	{
+		"page_id": 303,
+		"page_name_eng": "Positive Negative & Interrogative A2",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/PositiveNegativeInterrogative-2-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 6,
+				"skill_name_eng": "Present Simple",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 7,
+				"skill_name_eng": "Present Progressive",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 8,
+				"skill_name_eng": "Simple Past",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 9,
+				"skill_name_eng": "Future Simple",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 10,
+				"skill_name_eng": "Past Simple",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 12,
+				"skill_name_eng": "Basic Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			},
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			},
+			{
+				"subject_level_id": 22,
+				"subject_level_name_eng": "Grade 7",
+				"subject_level_name_heb": "כיתה ז - B1",
+				"level_emoji": "✈️"
+			}
+		]
+	},
+	{
+		"page_id": 306,
+		"page_name_eng": "Dialog Completion - A1",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/DialogCompletion-1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 6,
+				"skill_name_eng": "Present Simple",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 7,
+				"skill_name_eng": "Present Progressive",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 12,
+				"skill_name_eng": "Basic Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 17,
+				"skill_name_eng": "Compound Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 18,
+				"skill_name_eng": "Complex Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 19,
+				"subject_level_name_eng": "Grade 4",
+				"subject_level_name_heb": "כיתה ד - A1",
+				"level_emoji": "🚗"
+			},
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			}
+		]
+	},
+	{
+		"page_id": 307,
+		"page_name_eng": "Dialog Completion - A2",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/DialogCompletion-2-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 6,
+				"skill_name_eng": "Present Simple",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 7,
+				"skill_name_eng": "Present Progressive",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 12,
+				"skill_name_eng": "Basic Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 17,
+				"skill_name_eng": "Compound Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 18,
+				"skill_name_eng": "Complex Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			},
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			},
+			{
+				"subject_level_id": 22,
+				"subject_level_name_eng": "Grade 7",
+				"subject_level_name_heb": "כיתה ז - B1",
+				"level_emoji": "✈️"
+			}
+		]
+	},
+	{
+		"page_id": 310,
+		"page_name_eng": "Complex Sentences - A1",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/ComplexSentences-1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 6,
+				"skill_name_eng": "Present Simple",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 7,
+				"skill_name_eng": "Present Progressive",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 8,
+				"skill_name_eng": "Simple Past",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 9,
+				"skill_name_eng": "Future Simple",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 10,
+				"skill_name_eng": "Past Simple",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 12,
+				"skill_name_eng": "Basic Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 17,
+				"skill_name_eng": "Compound Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 18,
+				"skill_name_eng": "Complex Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 19,
+				"subject_level_name_eng": "Grade 4",
+				"subject_level_name_heb": "כיתה ד - A1",
+				"level_emoji": "🚗"
+			},
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			}
+		]
+	},
+	{
+		"page_id": 311,
+		"page_name_eng": "Complex Sentences - A2",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/ComplexSentences-2-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 6,
+				"skill_name_eng": "Present Simple",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 7,
+				"skill_name_eng": "Present Progressive",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 8,
+				"skill_name_eng": "Simple Past",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 9,
+				"skill_name_eng": "Future Simple",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 10,
+				"skill_name_eng": "Past Simple",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 12,
+				"skill_name_eng": "Basic Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 17,
+				"skill_name_eng": "Compound Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 18,
+				"skill_name_eng": "Complex Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			},
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			},
+			{
+				"subject_level_id": 22,
+				"subject_level_name_eng": "Grade 7",
+				"subject_level_name_heb": "כיתה ז - B1",
+				"level_emoji": "✈️"
+			}
+		]
+	},
+	{
+		"page_id": 314,
+		"page_name_eng": "Daily Routines Vocabulary - A1",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/DailyRoutinesVocabulary-1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 12,
+				"skill_name_eng": "Basic Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 18,
+				"skill_name_eng": "Complex Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 36,
+				"skill_name_eng": "Basic Phrases",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 38,
+				"skill_name_eng": "Family, Food, School",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 39,
+				"skill_name_eng": "Relevant subjects",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 40,
+				"skill_name_eng": "Hobbies, Places, Weather",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 19,
+				"subject_level_name_eng": "Grade 4",
+				"subject_level_name_heb": "כיתה ד - A1",
+				"level_emoji": "🚗"
+			},
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			}
+		]
+	},
+	{
+		"page_id": 318,
+		"page_name_eng": "Food and Meals Vocabulary - A1",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/FoodandMealsVocabulary-1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 36,
+				"skill_name_eng": "Basic Phrases",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 38,
+				"skill_name_eng": "Family, Food, School",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 39,
+				"skill_name_eng": "Relevant subjects",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 19,
+				"subject_level_name_eng": "Grade 4",
+				"subject_level_name_heb": "כיתה ד - A1",
+				"level_emoji": "🚗"
+			},
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			}
+		]
+	},
+	{
+		"page_id": 319,
+		"page_name_eng": "Food and Meals Vocabulary - A2",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/FoodandMealsVocabulary-2-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 36,
+				"skill_name_eng": "Basic Phrases",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 38,
+				"skill_name_eng": "Family, Food, School",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 39,
+				"skill_name_eng": "Relevant subjects",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			},
+			{
+				"subject_level_id": 22,
+				"subject_level_name_eng": "Grade 7",
+				"subject_level_name_heb": "כיתה ז - B1",
+				"level_emoji": "✈️"
+			}
+		]
+	},
+	{
+		"page_id": 322,
+		"page_name_eng": "Animals and Nature Vocabulary - A1",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/AnimalsandNatureVocabulary-1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 36,
+				"skill_name_eng": "Basic Phrases",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 37,
+				"skill_name_eng": "Colors, Numbers, Animals",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 39,
+				"skill_name_eng": "Relevant subjects",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 40,
+				"skill_name_eng": "Hobbies, Places, Weather",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 19,
+				"subject_level_name_eng": "Grade 4",
+				"subject_level_name_heb": "כיתה ד - A1",
+				"level_emoji": "🚗"
+			},
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			}
+		]
+	},
+	{
+		"page_id": 323,
+		"page_name_eng": "Animals and Nature Vocabulary - A2",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/AnimalsandNatureVocabulary-2-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 36,
+				"skill_name_eng": "Basic Phrases",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 37,
+				"skill_name_eng": "Colors, Numbers, Animals",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 39,
+				"skill_name_eng": "Relevant subjects",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 40,
+				"skill_name_eng": "Hobbies, Places, Weather",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			},
+			{
+				"subject_level_id": 22,
+				"subject_level_name_eng": "Grade 7",
+				"subject_level_name_heb": "כיתה ז - B1",
+				"level_emoji": "✈️"
+			}
+		]
+	},
+	{
+		"page_id": 326,
+		"page_name_eng": "Conditional Sentences - A1",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/ConditionalSentences-1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 6,
+				"skill_name_eng": "Present Simple",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 7,
+				"skill_name_eng": "Present Progressive",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 8,
+				"skill_name_eng": "Simple Past",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 10,
+				"skill_name_eng": "Past Simple",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 12,
+				"skill_name_eng": "Basic Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 17,
+				"skill_name_eng": "Compound Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 19,
+				"subject_level_name_eng": "Grade 4",
+				"subject_level_name_heb": "כיתה ד - A1",
+				"level_emoji": "🚗"
+			},
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			}
+		]
+	},
+	{
+		"page_id": 327,
+		"page_name_eng": "Conditional Sentences - A2",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/ConditionalSentences-2-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 6,
+				"skill_name_eng": "Present Simple",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 7,
+				"skill_name_eng": "Present Progressive",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 8,
+				"skill_name_eng": "Simple Past",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 10,
+				"skill_name_eng": "Past Simple",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 12,
+				"skill_name_eng": "Basic Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 17,
+				"skill_name_eng": "Compound Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			},
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			}
+		]
+	},
+	{
+		"page_id": 330,
+		"page_name_eng": "Synonyms and Antonyms - A1",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/SynonymsandAntonyms-1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 36,
+				"skill_name_eng": "Basic Phrases",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 39,
+				"skill_name_eng": "Relevant subjects",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 41,
+				"skill_name_eng": "Basic Synonyms and Opposites",
+				"section_id": 54,
+				"section_emoji": "🦎",
+				"section_name_eng": "Expanded Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 42,
+				"skill_name_eng": "Advanced Synonyms and Opposites",
+				"section_id": 55,
+				"section_emoji": "🦐",
+				"section_name_eng": "Synonyms and Antonyms",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			},
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			}
+		]
+	},
+	{
+		"page_id": 331,
+		"page_name_eng": "Synonyms and Antonyms - A2",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/SynonymsandAntonyms-2-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 36,
+				"skill_name_eng": "Basic Phrases",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 39,
+				"skill_name_eng": "Relevant subjects",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 41,
+				"skill_name_eng": "Basic Synonyms and Opposites",
+				"section_id": 54,
+				"section_emoji": "🦎",
+				"section_name_eng": "Expanded Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 42,
+				"skill_name_eng": "Advanced Synonyms and Opposites",
+				"section_id": 55,
+				"section_emoji": "🦐",
+				"section_name_eng": "Synonyms and Antonyms",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			},
+			{
+				"subject_level_id": 22,
+				"subject_level_name_eng": "Grade 7",
+				"subject_level_name_heb": "כיתה ז - B1",
+				"level_emoji": "✈️"
+			}
+		]
+	},
+	{
+		"page_id": 334,
+		"page_name_eng": "General Knowledge - B1",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/GeneralKnowledge-3-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 19,
+				"skill_name_eng": "Learning Simple Words",
+				"section_id": 49,
+				"section_emoji": "🦟",
+				"section_name_eng": "Basic Spelling",
+				"category_id": 30,
+				"category_emoji": "🧰",
+				"category_name_eng": "Spelling and Punctuation"
+			},
+			{
+				"skill_id": 20,
+				"skill_name_eng": "Common Exceptions",
+				"section_id": 49,
+				"section_emoji": "🦟",
+				"section_name_eng": "Basic Spelling",
+				"category_id": 30,
+				"category_emoji": "🧰",
+				"category_name_eng": "Spelling and Punctuation"
+			},
+			{
+				"skill_id": 36,
+				"skill_name_eng": "Basic Phrases",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 37,
+				"skill_name_eng": "Colors, Numbers, Animals",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 38,
+				"skill_name_eng": "Family, Food, School",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 39,
+				"skill_name_eng": "Relevant subjects",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 40,
+				"skill_name_eng": "Hobbies, Places, Weather",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 43,
+				"skill_name_eng": "Practicing Basic Sounds",
+				"section_id": 46,
+				"section_emoji": "🦈",
+				"section_name_eng": "Basic Speaking",
+				"category_id": 29,
+				"category_emoji": "🧬",
+				"category_name_eng": "Speaking"
+			},
+			{
+				"skill_id": 44,
+				"skill_name_eng": "Practicing Difficult Sounds",
+				"section_id": 46,
+				"section_emoji": "🦈",
+				"section_name_eng": "Basic Speaking",
+				"category_id": 29,
+				"category_emoji": "🧬",
+				"category_name_eng": "Speaking"
+			},
+			{
+				"skill_id": 45,
+				"skill_name_eng": "Practicing Common Sounds",
+				"section_id": 46,
+				"section_emoji": "🦈",
+				"section_name_eng": "Basic Speaking",
+				"category_id": 29,
+				"category_emoji": "🧬",
+				"category_name_eng": "Speaking"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 23,
+				"subject_level_name_eng": "Grade 8",
+				"subject_level_name_heb": "כיתה ח - B1",
+				"level_emoji": "🚀"
+			},
+			{
+				"subject_level_id": 24,
+				"subject_level_name_eng": "Grade 9",
+				"subject_level_name_heb": "כיתה ט - B2",
+				"level_emoji": "🚢"
+			},
+			{
+				"subject_level_id": 25,
+				"subject_level_name_eng": "Grade 10",
+				"subject_level_name_heb": "כיתה י - B2",
+				"level_emoji": "🚂"
+			}
+		]
+	},
+	{
+		"page_id": 338,
+		"page_name_eng": "General Knowledge - 1 - A2",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/GeneralKnowledge-1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 19,
+				"skill_name_eng": "Learning Simple Words",
+				"section_id": 49,
+				"section_emoji": "🦟",
+				"section_name_eng": "Basic Spelling",
+				"category_id": 30,
+				"category_emoji": "🧰",
+				"category_name_eng": "Spelling and Punctuation"
+			},
+			{
+				"skill_id": 20,
+				"skill_name_eng": "Common Exceptions",
+				"section_id": 49,
+				"section_emoji": "🦟",
+				"section_name_eng": "Basic Spelling",
+				"category_id": 30,
+				"category_emoji": "🧰",
+				"category_name_eng": "Spelling and Punctuation"
+			},
+			{
+				"skill_id": 36,
+				"skill_name_eng": "Basic Phrases",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 37,
+				"skill_name_eng": "Colors, Numbers, Animals",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 38,
+				"skill_name_eng": "Family, Food, School",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 39,
+				"skill_name_eng": "Relevant subjects",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 40,
+				"skill_name_eng": "Hobbies, Places, Weather",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 43,
+				"skill_name_eng": "Practicing Basic Sounds",
+				"section_id": 46,
+				"section_emoji": "🦈",
+				"section_name_eng": "Basic Speaking",
+				"category_id": 29,
+				"category_emoji": "🧬",
+				"category_name_eng": "Speaking"
+			},
+			{
+				"skill_id": 44,
+				"skill_name_eng": "Practicing Difficult Sounds",
+				"section_id": 46,
+				"section_emoji": "🦈",
+				"section_name_eng": "Basic Speaking",
+				"category_id": 29,
+				"category_emoji": "🧬",
+				"category_name_eng": "Speaking"
+			},
+			{
+				"skill_id": 45,
+				"skill_name_eng": "Practicing Common Sounds",
+				"section_id": 46,
+				"section_emoji": "🦈",
+				"section_name_eng": "Basic Speaking",
+				"category_id": 29,
+				"category_emoji": "🧬",
+				"category_name_eng": "Speaking"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			},
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			},
+			{
+				"subject_level_id": 22,
+				"subject_level_name_eng": "Grade 7",
+				"subject_level_name_heb": "כיתה ז - B1",
+				"level_emoji": "✈️"
+			}
+		]
+	},
+	{
+		"page_id": 339,
+		"page_name_eng": "General Knowledge - 1 - A1",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/GeneralKnowledge-1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 19,
+				"skill_name_eng": "Learning Simple Words",
+				"section_id": 49,
+				"section_emoji": "🦟",
+				"section_name_eng": "Basic Spelling",
+				"category_id": 30,
+				"category_emoji": "🧰",
+				"category_name_eng": "Spelling and Punctuation"
+			},
+			{
+				"skill_id": 20,
+				"skill_name_eng": "Common Exceptions",
+				"section_id": 49,
+				"section_emoji": "🦟",
+				"section_name_eng": "Basic Spelling",
+				"category_id": 30,
+				"category_emoji": "🧰",
+				"category_name_eng": "Spelling and Punctuation"
+			},
+			{
+				"skill_id": 36,
+				"skill_name_eng": "Basic Phrases",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 37,
+				"skill_name_eng": "Colors, Numbers, Animals",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 38,
+				"skill_name_eng": "Family, Food, School",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 39,
+				"skill_name_eng": "Relevant subjects",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 40,
+				"skill_name_eng": "Hobbies, Places, Weather",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 43,
+				"skill_name_eng": "Practicing Basic Sounds",
+				"section_id": 46,
+				"section_emoji": "🦈",
+				"section_name_eng": "Basic Speaking",
+				"category_id": 29,
+				"category_emoji": "🧬",
+				"category_name_eng": "Speaking"
+			},
+			{
+				"skill_id": 44,
+				"skill_name_eng": "Practicing Difficult Sounds",
+				"section_id": 46,
+				"section_emoji": "🦈",
+				"section_name_eng": "Basic Speaking",
+				"category_id": 29,
+				"category_emoji": "🧬",
+				"category_name_eng": "Speaking"
+			},
+			{
+				"skill_id": 45,
+				"skill_name_eng": "Practicing Common Sounds",
+				"section_id": 46,
+				"section_emoji": "🦈",
+				"section_name_eng": "Basic Speaking",
+				"category_id": 29,
+				"category_emoji": "🧬",
+				"category_name_eng": "Speaking"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 19,
+				"subject_level_name_eng": "Grade 4",
+				"subject_level_name_heb": "כיתה ד - A1",
+				"level_emoji": "🚗"
+			},
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			}
+		]
+	},
+	{
+		"page_id": 340,
+		"page_name_eng": "General Knowledge - 2 - A1",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/GeneralKnowledge-2-1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 19,
+				"skill_name_eng": "Learning Simple Words",
+				"section_id": 49,
+				"section_emoji": "🦟",
+				"section_name_eng": "Basic Spelling",
+				"category_id": 30,
+				"category_emoji": "🧰",
+				"category_name_eng": "Spelling and Punctuation"
+			},
+			{
+				"skill_id": 20,
+				"skill_name_eng": "Common Exceptions",
+				"section_id": 49,
+				"section_emoji": "🦟",
+				"section_name_eng": "Basic Spelling",
+				"category_id": 30,
+				"category_emoji": "🧰",
+				"category_name_eng": "Spelling and Punctuation"
+			},
+			{
+				"skill_id": 36,
+				"skill_name_eng": "Basic Phrases",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 37,
+				"skill_name_eng": "Colors, Numbers, Animals",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 38,
+				"skill_name_eng": "Family, Food, School",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 39,
+				"skill_name_eng": "Relevant subjects",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 40,
+				"skill_name_eng": "Hobbies, Places, Weather",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 43,
+				"skill_name_eng": "Practicing Basic Sounds",
+				"section_id": 46,
+				"section_emoji": "🦈",
+				"section_name_eng": "Basic Speaking",
+				"category_id": 29,
+				"category_emoji": "🧬",
+				"category_name_eng": "Speaking"
+			},
+			{
+				"skill_id": 44,
+				"skill_name_eng": "Practicing Difficult Sounds",
+				"section_id": 46,
+				"section_emoji": "🦈",
+				"section_name_eng": "Basic Speaking",
+				"category_id": 29,
+				"category_emoji": "🧬",
+				"category_name_eng": "Speaking"
+			},
+			{
+				"skill_id": 45,
+				"skill_name_eng": "Practicing Common Sounds",
+				"section_id": 46,
+				"section_emoji": "🦈",
+				"section_name_eng": "Basic Speaking",
+				"category_id": 29,
+				"category_emoji": "🧬",
+				"category_name_eng": "Speaking"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 19,
+				"subject_level_name_eng": "Grade 4",
+				"subject_level_name_heb": "כיתה ד - A1",
+				"level_emoji": "🚗"
+			},
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			}
+		]
+	},
+	{
+		"page_id": 341,
+		"page_name_eng": "General Knowledge - 2 - A2",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/GeneralKnowledge-2-2-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 19,
+				"skill_name_eng": "Learning Simple Words",
+				"section_id": 49,
+				"section_emoji": "🦟",
+				"section_name_eng": "Basic Spelling",
+				"category_id": 30,
+				"category_emoji": "🧰",
+				"category_name_eng": "Spelling and Punctuation"
+			},
+			{
+				"skill_id": 20,
+				"skill_name_eng": "Common Exceptions",
+				"section_id": 49,
+				"section_emoji": "🦟",
+				"section_name_eng": "Basic Spelling",
+				"category_id": 30,
+				"category_emoji": "🧰",
+				"category_name_eng": "Spelling and Punctuation"
+			},
+			{
+				"skill_id": 36,
+				"skill_name_eng": "Basic Phrases",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 37,
+				"skill_name_eng": "Colors, Numbers, Animals",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 38,
+				"skill_name_eng": "Family, Food, School",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 39,
+				"skill_name_eng": "Relevant subjects",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 40,
+				"skill_name_eng": "Hobbies, Places, Weather",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 43,
+				"skill_name_eng": "Practicing Basic Sounds",
+				"section_id": 46,
+				"section_emoji": "🦈",
+				"section_name_eng": "Basic Speaking",
+				"category_id": 29,
+				"category_emoji": "🧬",
+				"category_name_eng": "Speaking"
+			},
+			{
+				"skill_id": 44,
+				"skill_name_eng": "Practicing Difficult Sounds",
+				"section_id": 46,
+				"section_emoji": "🦈",
+				"section_name_eng": "Basic Speaking",
+				"category_id": 29,
+				"category_emoji": "🧬",
+				"category_name_eng": "Speaking"
+			},
+			{
+				"skill_id": 45,
+				"skill_name_eng": "Practicing Common Sounds",
+				"section_id": 46,
+				"section_emoji": "🦈",
+				"section_name_eng": "Basic Speaking",
+				"category_id": 29,
+				"category_emoji": "🧬",
+				"category_name_eng": "Speaking"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			},
+			{
+				"subject_level_id": 22,
+				"subject_level_name_eng": "Grade 7",
+				"subject_level_name_heb": "כיתה ז - B1",
+				"level_emoji": "✈️"
+			}
+		]
+	},
+	{
+		"page_id": 344,
+		"page_name_eng": "Times Vocabulary",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/Times Vocabulary-1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 12,
+				"skill_name_eng": "Basic Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 36,
+				"skill_name_eng": "Basic Phrases",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 39,
+				"skill_name_eng": "Relevant subjects",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 46,
+				"skill_name_eng": "Everyday Dialogues",
+				"section_id": 47,
+				"section_emoji": "🐌",
+				"section_name_eng": "Role-Playing",
+				"category_id": 29,
+				"category_emoji": "🧬",
+				"category_name_eng": "Speaking"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 19,
+				"subject_level_name_eng": "Grade 4",
+				"subject_level_name_heb": "כיתה ד - A1",
+				"level_emoji": "🚗"
+			},
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			},
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			}
+		]
+	},
+	{
+		"page_id": 348,
+		"page_name_eng": "Days and Months",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/DaysandMonths-1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 36,
+				"skill_name_eng": "Basic Phrases",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 39,
+				"skill_name_eng": "Relevant subjects",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 19,
+				"subject_level_name_eng": "Grade 4",
+				"subject_level_name_heb": "כיתה ד - A1",
+				"level_emoji": "🚗"
+			},
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			}
+		]
+	},
+	{
+		"page_id": 350,
+		"page_name_eng": "The Happy Cat - Audio Quiz",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/aTheHappyCat-1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 23,
+				"skill_name_eng": "Listening to Short Stories",
+				"section_id": 36,
+				"section_emoji": "🦅",
+				"section_name_eng": "Basic Listening",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			},
+			{
+				"skill_id": 24,
+				"skill_name_eng": "Understanding Simple Instructions",
+				"section_id": 37,
+				"section_emoji": "🦆",
+				"section_name_eng": "Listening for Details",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			},
+			{
+				"skill_id": 25,
+				"skill_name_eng": "Listening to Conversations",
+				"section_id": 37,
+				"section_emoji": "🦆",
+				"section_name_eng": "Listening for Details",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			},
+			{
+				"skill_id": 26,
+				"skill_name_eng": "Identifying Key Information",
+				"section_id": 37,
+				"section_emoji": "🦆",
+				"section_name_eng": "Listening for Details",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			},
+			{
+				"skill_id": 27,
+				"skill_name_eng": "Intermediate Listening Comprehension",
+				"section_id": 37,
+				"section_emoji": "🦆",
+				"section_name_eng": "Listening for Details",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 19,
+				"subject_level_name_eng": "Grade 4",
+				"subject_level_name_heb": "כיתה ד - A1",
+				"level_emoji": "🚗"
+			},
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			},
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			}
+		]
+	},
+	{
+		"page_id": 352,
+		"page_name_eng": "The Camping Trip - Audio Quiz",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/aTheCampingTrip-1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 23,
+				"skill_name_eng": "Listening to Short Stories",
+				"section_id": 36,
+				"section_emoji": "🦅",
+				"section_name_eng": "Basic Listening",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			},
+			{
+				"skill_id": 24,
+				"skill_name_eng": "Understanding Simple Instructions",
+				"section_id": 37,
+				"section_emoji": "🦆",
+				"section_name_eng": "Listening for Details",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			},
+			{
+				"skill_id": 25,
+				"skill_name_eng": "Listening to Conversations",
+				"section_id": 37,
+				"section_emoji": "🦆",
+				"section_name_eng": "Listening for Details",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			},
+			{
+				"skill_id": 26,
+				"skill_name_eng": "Identifying Key Information",
+				"section_id": 37,
+				"section_emoji": "🦆",
+				"section_name_eng": "Listening for Details",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			},
+			{
+				"skill_id": 27,
+				"skill_name_eng": "Intermediate Listening Comprehension",
+				"section_id": 37,
+				"section_emoji": "🦆",
+				"section_name_eng": "Listening for Details",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 19,
+				"subject_level_name_eng": "Grade 4",
+				"subject_level_name_heb": "כיתה ד - A1",
+				"level_emoji": "🚗"
+			},
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			},
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			}
+		]
+	},
+	{
+		"page_id": 354,
+		"page_name_eng": "The Mysterious Forest - Audio Quiz",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/aTheMysteriousForest-1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 23,
+				"skill_name_eng": "Listening to Short Stories",
+				"section_id": 36,
+				"section_emoji": "🦅",
+				"section_name_eng": "Basic Listening",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			},
+			{
+				"skill_id": 24,
+				"skill_name_eng": "Understanding Simple Instructions",
+				"section_id": 37,
+				"section_emoji": "🦆",
+				"section_name_eng": "Listening for Details",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			},
+			{
+				"skill_id": 25,
+				"skill_name_eng": "Listening to Conversations",
+				"section_id": 37,
+				"section_emoji": "🦆",
+				"section_name_eng": "Listening for Details",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			},
+			{
+				"skill_id": 26,
+				"skill_name_eng": "Identifying Key Information",
+				"section_id": 37,
+				"section_emoji": "🦆",
+				"section_name_eng": "Listening for Details",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			},
+			{
+				"skill_id": 27,
+				"skill_name_eng": "Intermediate Listening Comprehension",
+				"section_id": 37,
+				"section_emoji": "🦆",
+				"section_name_eng": "Listening for Details",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 19,
+				"subject_level_name_eng": "Grade 4",
+				"subject_level_name_heb": "כיתה ד - A1",
+				"level_emoji": "🚗"
+			},
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			},
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			}
+		]
+	},
+	{
+		"page_id": 356,
+		"page_name_eng": "Present Simple and Present Progressive - A2",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/PresentSimpleandPresentProgressive-1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 6,
+				"skill_name_eng": "Present Simple",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 7,
+				"skill_name_eng": "Present Progressive",
+				"section_id": 32,
+				"section_emoji": "🦎",
+				"section_name_eng": "Tenses",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			},
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			}
+		]
+	},
+	{
+		"page_id": 358,
+		"page_name_eng": "Listening to Emojis - 😎🔊 - A1",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/SpellingEmojis-1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 19,
+				"skill_name_eng": "Learning Simple Words",
+				"section_id": 49,
+				"section_emoji": "🦟",
+				"section_name_eng": "Basic Spelling",
+				"category_id": 30,
+				"category_emoji": "🧰",
+				"category_name_eng": "Spelling and Punctuation"
+			},
+			{
+				"skill_id": 20,
+				"skill_name_eng": "Common Exceptions",
+				"section_id": 49,
+				"section_emoji": "🦟",
+				"section_name_eng": "Basic Spelling",
+				"category_id": 30,
+				"category_emoji": "🧰",
+				"category_name_eng": "Spelling and Punctuation"
+			},
+			{
+				"skill_id": 23,
+				"skill_name_eng": "Listening to Short Stories",
+				"section_id": 36,
+				"section_emoji": "🦅",
+				"section_name_eng": "Basic Listening",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			},
+			{
+				"skill_id": 24,
+				"skill_name_eng": "Understanding Simple Instructions",
+				"section_id": 37,
+				"section_emoji": "🦆",
+				"section_name_eng": "Listening for Details",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			},
+			{
+				"skill_id": 25,
+				"skill_name_eng": "Listening to Conversations",
+				"section_id": 37,
+				"section_emoji": "🦆",
+				"section_name_eng": "Listening for Details",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			},
+			{
+				"skill_id": 26,
+				"skill_name_eng": "Identifying Key Information",
+				"section_id": 37,
+				"section_emoji": "🦆",
+				"section_name_eng": "Listening for Details",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			},
+			{
+				"skill_id": 27,
+				"skill_name_eng": "Intermediate Listening Comprehension",
+				"section_id": 37,
+				"section_emoji": "🦆",
+				"section_name_eng": "Listening for Details",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			},
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			},
+			{
+				"subject_level_id": 22,
+				"subject_level_name_eng": "Grade 7",
+				"subject_level_name_heb": "כיתה ז - B1",
+				"level_emoji": "✈️"
+			}
+		]
+	},
+	{
+		"page_id": 360,
+		"page_name_eng": "Short Story-The Brave Girl and the Dragons - A1",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/ShortStory-TheBraveGirlandtheDragons-1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 23,
+				"skill_name_eng": "Listening to Short Stories",
+				"section_id": 36,
+				"section_emoji": "🦅",
+				"section_name_eng": "Basic Listening",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			},
+			{
+				"skill_id": 25,
+				"skill_name_eng": "Listening to Conversations",
+				"section_id": 37,
+				"section_emoji": "🦆",
+				"section_name_eng": "Listening for Details",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			},
+			{
+				"skill_id": 26,
+				"skill_name_eng": "Identifying Key Information",
+				"section_id": 37,
+				"section_emoji": "🦆",
+				"section_name_eng": "Listening for Details",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			},
+			{
+				"skill_id": 27,
+				"skill_name_eng": "Intermediate Listening Comprehension",
+				"section_id": 37,
+				"section_emoji": "🦆",
+				"section_name_eng": "Listening for Details",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			},
+			{
+				"skill_id": 29,
+				"skill_name_eng": "Reading Short Sentences",
+				"section_id": 39,
+				"section_emoji": "🦢",
+				"section_name_eng": "Reading Practice",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			},
+			{
+				"skill_id": 30,
+				"skill_name_eng": "Reading Simple Stories",
+				"section_id": 39,
+				"section_emoji": "🦢",
+				"section_name_eng": "Reading Practice",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			},
+			{
+				"skill_id": 31,
+				"skill_name_eng": "Reading Short Dialogs",
+				"section_id": 41,
+				"section_emoji": "🐸",
+				"section_name_eng": "Reading Dialogs",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			},
+			{
+				"skill_id": 60,
+				"skill_name_eng": "Reading Stories",
+				"section_id": 39,
+				"section_emoji": "🦢",
+				"section_name_eng": "Reading Practice",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			},
+			{
+				"skill_id": 61,
+				"skill_name_eng": "Reading Short Paragraphs",
+				"section_id": 40,
+				"section_emoji": "🐧",
+				"section_name_eng": "Reading Texts",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			},
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			},
+			{
+				"subject_level_id": 22,
+				"subject_level_name_eng": "Grade 7",
+				"subject_level_name_heb": "כיתה ז - B1",
+				"level_emoji": "✈️"
+			}
+		]
+	},
+	{
+		"page_id": 362,
+		"page_name_eng": "Sentence Ordering - A1",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/SentenceOrdering-1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 12,
+				"skill_name_eng": "Basic Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 17,
+				"skill_name_eng": "Compound Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 18,
+				"skill_name_eng": "Complex Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 29,
+				"skill_name_eng": "Reading Short Sentences",
+				"section_id": 39,
+				"section_emoji": "🦢",
+				"section_name_eng": "Reading Practice",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			},
+			{
+				"skill_id": 48,
+				"skill_name_eng": "Basic Sentence Writing",
+				"section_id": 57,
+				"section_emoji": "🦛",
+				"section_name_eng": "Writing Sentences",
+				"category_id": 32,
+				"category_emoji": "🔋",
+				"category_name_eng": "Writing"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 19,
+				"subject_level_name_eng": "Grade 4",
+				"subject_level_name_heb": "כיתה ד - A1",
+				"level_emoji": "🚗"
+			},
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			}
+		]
+	},
+	{
+		"page_id": 363,
+		"page_name_eng": "Sentence Ordering - A2",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/SentenceOrdering-2-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 12,
+				"skill_name_eng": "Basic Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 17,
+				"skill_name_eng": "Compound Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 18,
+				"skill_name_eng": "Complex Sentences",
+				"section_id": 33,
+				"section_emoji": "🐜",
+				"section_name_eng": "Sentence Structure",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 29,
+				"skill_name_eng": "Reading Short Sentences",
+				"section_id": 39,
+				"section_emoji": "🦢",
+				"section_name_eng": "Reading Practice",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			},
+			{
+				"skill_id": 48,
+				"skill_name_eng": "Basic Sentence Writing",
+				"section_id": 57,
+				"section_emoji": "🦛",
+				"section_name_eng": "Writing Sentences",
+				"category_id": 32,
+				"category_emoji": "🔋",
+				"category_name_eng": "Writing"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			},
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			},
+			{
+				"subject_level_id": 22,
+				"subject_level_name_eng": "Grade 7",
+				"subject_level_name_heb": "כיתה ז - B1",
+				"level_emoji": "✈️"
+			}
+		]
+	},
+	{
+		"page_id": 366,
+		"page_name_eng": "Word Search Puzzle - A1",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/wordPuzzle-1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 19,
+				"skill_name_eng": "Learning Simple Words",
+				"section_id": 49,
+				"section_emoji": "🦟",
+				"section_name_eng": "Basic Spelling",
+				"category_id": 30,
+				"category_emoji": "🧰",
+				"category_name_eng": "Spelling and Punctuation"
+			},
+			{
+				"skill_id": 37,
+				"skill_name_eng": "Colors, Numbers, Animals",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 38,
+				"skill_name_eng": "Family, Food, School",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 39,
+				"skill_name_eng": "Relevant subjects",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 40,
+				"skill_name_eng": "Hobbies, Places, Weather",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 19,
+				"subject_level_name_eng": "Grade 4",
+				"subject_level_name_heb": "כיתה ד - A1",
+				"level_emoji": "🚗"
+			},
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			}
+		]
+	},
+	{
+		"page_id": 367,
+		"page_name_eng": "Word Search Puzzle - A2",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/wordPuzzle-2-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 19,
+				"skill_name_eng": "Learning Simple Words",
+				"section_id": 49,
+				"section_emoji": "🦟",
+				"section_name_eng": "Basic Spelling",
+				"category_id": 30,
+				"category_emoji": "🧰",
+				"category_name_eng": "Spelling and Punctuation"
+			},
+			{
+				"skill_id": 37,
+				"skill_name_eng": "Colors, Numbers, Animals",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 38,
+				"skill_name_eng": "Family, Food, School",
+				"section_id": 52,
+				"section_emoji": "🐛",
+				"section_name_eng": "Basic Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 39,
+				"skill_name_eng": "Relevant subjects",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			},
+			{
+				"skill_id": 40,
+				"skill_name_eng": "Hobbies, Places, Weather",
+				"section_id": 53,
+				"section_emoji": "🐝",
+				"section_name_eng": "Everyday Vocabulary",
+				"category_id": 31,
+				"category_emoji": "💡",
+				"category_name_eng": "Vocabulary"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			},
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			},
+			{
+				"subject_level_id": 22,
+				"subject_level_name_eng": "Grade 7",
+				"subject_level_name_heb": "כיתה ז - B1",
+				"level_emoji": "✈️"
+			}
+		]
+	},
+	{
+		"page_id": 371,
+		"page_name_eng": "Multi-Operators Arithmetic  Practice",
+		"page_is_featured": 0,
+		"subject_id": 2,
+		"subject_name_eng": "Math",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/math/Math_Directory/MultiArithmeticOperators-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 81,
+				"skill_name_eng": "Basic Addition and Subtraction Concepts",
+				"section_id": 144,
+				"section_emoji": "🐘",
+				"section_name_eng": "Addition and Subtraction",
+				"category_id": 34,
+				"category_emoji": "🍕",
+				"category_name_eng": "Arithmetic"
+			},
+			{
+				"skill_id": 84,
+				"skill_name_eng": "Speed and Fluency Drills",
+				"section_id": 144,
+				"section_emoji": "🐘",
+				"section_name_eng": "Addition and Subtraction",
+				"category_id": 34,
+				"category_emoji": "🍕",
+				"category_name_eng": "Arithmetic"
+			},
+			{
+				"skill_id": 85,
+				"skill_name_eng": "Adding Multi-Digit Numbers",
+				"section_id": 144,
+				"section_emoji": "🐘",
+				"section_name_eng": "Addition and Subtraction",
+				"category_id": 34,
+				"category_emoji": "🍕",
+				"category_name_eng": "Arithmetic"
+			},
+			{
+				"skill_id": 86,
+				"skill_name_eng": "Subtracting Multi-Digit Numbers",
+				"section_id": 144,
+				"section_emoji": "🐘",
+				"section_name_eng": "Addition and Subtraction",
+				"category_id": 34,
+				"category_emoji": "🍕",
+				"category_name_eng": "Arithmetic"
+			},
+			{
+				"skill_id": 99,
+				"skill_name_eng": "Multiplying Multi-Digit Numbers by Single-Digit Numbers",
+				"section_id": 146,
+				"section_emoji": "🐇",
+				"section_name_eng": "Multiplication",
+				"category_id": 34,
+				"category_emoji": "🍕",
+				"category_name_eng": "Arithmetic"
+			},
+			{
+				"skill_id": 100,
+				"skill_name_eng": "Multiplying Multi-Digit Numbers by Multi-Digit Numbers",
+				"section_id": 146,
+				"section_emoji": "🐇",
+				"section_name_eng": "Multiplication",
+				"category_id": 34,
+				"category_emoji": "🍕",
+				"category_name_eng": "Arithmetic"
+			},
+			{
+				"skill_id": 148,
+				"skill_name_eng": "Adding small numbers",
+				"section_id": 152,
+				"section_emoji": "🐠",
+				"section_name_eng": "Simple Addition",
+				"category_id": 34,
+				"category_emoji": "🍕",
+				"category_name_eng": "Arithmetic"
+			},
+			{
+				"skill_id": 218,
+				"skill_name_eng": "Using odd and even numbers in addition and subtraction",
+				"section_id": 192,
+				"section_emoji": "🐉",
+				"section_name_eng": "Odd and Even Numbers",
+				"category_id": 42,
+				"category_emoji": "🍌",
+				"category_name_eng": "Number Theory"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 5,
+				"subject_level_name_eng": "Grade 1",
+				"subject_level_name_heb": "כיתה א",
+				"level_emoji": "🛵"
+			},
+			{
+				"subject_level_id": 6,
+				"subject_level_name_eng": "Grade 2",
+				"subject_level_name_heb": "כיתה ב",
+				"level_emoji": "🚲"
+			},
+			{
+				"subject_level_id": 7,
+				"subject_level_name_eng": "Grade 3",
+				"subject_level_name_heb": "כיתה ג",
+				"level_emoji": "🚜"
+			},
+			{
+				"subject_level_id": 8,
+				"subject_level_name_eng": "Grade 4",
+				"subject_level_name_heb": "כיתה ד",
+				"level_emoji": "🚗"
+			},
+			{
+				"subject_level_id": 9,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה",
+				"level_emoji": "🚌"
+			},
+			{
+				"subject_level_id": 10,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו",
+				"level_emoji": "🚁"
+			}
+		]
+	},
+	{
+		"page_id": 381,
+		"page_name_eng": "Indefinite Articles (a, an)",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/IndefiniteandDefiniteArticles-A1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 230,
+				"skill_name_eng": "Indefinite Articles (a, an)",
+				"section_id": 200,
+				"section_emoji": "🛶",
+				"section_name_eng": "Articles",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 231,
+				"skill_name_eng": "Definite Article (the)",
+				"section_id": 200,
+				"section_emoji": "🛶",
+				"section_name_eng": "Articles",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			},
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			},
+			{
+				"subject_level_id": 22,
+				"subject_level_name_eng": "Grade 7",
+				"subject_level_name_heb": "כיתה ז - B1",
+				"level_emoji": "✈️"
+			}
+		]
+	},
+	{
+		"page_id": 383,
+		"page_name_eng": "Using Articles with Singular and Plural Nouns",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/UsingArticleswithSingularandPluralNouns-A1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 230,
+				"skill_name_eng": "Indefinite Articles (a, an)",
+				"section_id": 200,
+				"section_emoji": "🛶",
+				"section_name_eng": "Articles",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 231,
+				"skill_name_eng": "Definite Article (the)",
+				"section_id": 200,
+				"section_emoji": "🛶",
+				"section_name_eng": "Articles",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 232,
+				"skill_name_eng": "Using Articles with Singular and Plural Nouns",
+				"section_id": 200,
+				"section_emoji": "🛶",
+				"section_name_eng": "Articles",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 20,
+				"subject_level_name_eng": "Grade 5",
+				"subject_level_name_heb": "כיתה ה - A2",
+				"level_emoji": "🚌"
+			},
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			},
+			{
+				"subject_level_id": 22,
+				"subject_level_name_eng": "Grade 7",
+				"subject_level_name_heb": "כיתה ז - B1",
+				"level_emoji": "✈️"
+			}
+		]
+	},
+	{
+		"page_id": 387,
+		"page_name_eng": "Exceptions and Special Rules for Articles",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/ExceptionsandSpecialRulesforArticles-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 230,
+				"skill_name_eng": "Indefinite Articles (a, an)",
+				"section_id": 200,
+				"section_emoji": "🛶",
+				"section_name_eng": "Articles",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 231,
+				"skill_name_eng": "Definite Article (the)",
+				"section_id": 200,
+				"section_emoji": "🛶",
+				"section_name_eng": "Articles",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 232,
+				"skill_name_eng": "Using Articles with Singular and Plural Nouns",
+				"section_id": 200,
+				"section_emoji": "🛶",
+				"section_name_eng": "Articles",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			},
+			{
+				"skill_id": 236,
+				"skill_name_eng": "Exceptions and Special Rules for Articles",
+				"section_id": 200,
+				"section_emoji": "🛶",
+				"section_name_eng": "Articles",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			},
+			{
+				"subject_level_id": 22,
+				"subject_level_name_eng": "Grade 7",
+				"subject_level_name_heb": "כיתה ז - B1",
+				"level_emoji": "✈️"
+			}
+		]
+	},
+	{
+		"page_id": 391,
+		"page_name_eng": "Auxiliary Verbs - Positive - A1 A2",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/AuxiliaryVerbsPositive-A1-A2-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 237,
+				"skill_name_eng": "Auxiliary Verbs",
+				"section_id": 200,
+				"section_emoji": "🛶",
+				"section_name_eng": "Articles",
+				"category_id": 26,
+				"category_emoji": "🔬",
+				"category_name_eng": "Grammar"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 21,
+				"subject_level_name_eng": "Grade 6",
+				"subject_level_name_heb": "כיתה ו - A2",
+				"level_emoji": "🚁"
+			},
+			{
+				"subject_level_id": 22,
+				"subject_level_name_eng": "Grade 7",
+				"subject_level_name_heb": "כיתה ז - B1",
+				"level_emoji": "✈️"
+			}
+		]
+	},
+	{
+		"page_id": 395,
+		"page_name_eng": "Understanding Simple Instructions",
+		"page_is_featured": 0,
+		"subject_id": 1,
+		"subject_name_eng": "English",
+		"language_id": 2,
+		"portal_url_path": "http://ez42.live/english/English_Directory/UnderstandingSimpleInstructions-A1-E.html",
+		"is_created": 1,
+		"is_published": 1,
+		"skills": [
+			{
+				"skill_id": 24,
+				"skill_name_eng": "Understanding Simple Instructions",
+				"section_id": 37,
+				"section_emoji": "🦆",
+				"section_name_eng": "Listening for Details",
+				"category_id": 27,
+				"category_emoji": "🔭",
+				"category_name_eng": "Listening"
+			},
+			{
+				"skill_id": 29,
+				"skill_name_eng": "Reading Short Sentences",
+				"section_id": 39,
+				"section_emoji": "🦢",
+				"section_name_eng": "Reading Practice",
+				"category_id": 28,
+				"category_emoji": "👌",
+				"category_name_eng": "Reading Comprehension"
+			}
+		],
+		"subject_levels": [
+			{
+				"subject_level_id": 18,
+				"subject_level_name_eng": "Grade 3",
+				"subject_level_name_heb": "כיתה ג - A1",
+				"level_emoji": "🚜"
+			},
+			{
+				"subject_level_id": 19,
+				"subject_level_name_eng": "Grade 4",
+				"subject_level_name_heb": "כיתה ד - A1",
+				"level_emoji": "🚗"
+			}
+		]
+	}
+]
