@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-heb.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+	<title>✅ EZ42 - זה קל</title>
+	
+	<style>
+	
+	</style>
+	
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+			<div class="logo-container">
+				<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+					<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+				</a>
+			</div>
+                <h2>הוראות</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                    <li>יש לקרוא כל שאלה בעיון.</li>
+                    <li>בחר/י את התשובה הנכונה ביותר מתוך התפריט הנפתח.</li>
+                    <li>יש ללחוץ על בדיקת תשובות כשמוכנים!</li>
+                    <li>יש להשלים את כל השאלות כדי לעבור לשלב הבא.</li>
+                    <li>לאחר 10 ניסיונות, התשובות הנכונות יוצגו.</li>
+                    <li>שיהיה כיף!</li>
+                </ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->		
+                <h1>פונקציות ריבועיות</h1>
+				
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+
+                <div id="tabContent">
+                    <!--PLACHOLDERFORNEWGAME-START-->
+
+                    <!--PLACHOLDERFORNEWGAME-END-->
+                </div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות החיות</h2>
+				<p>החווה שלך גדלה תוך כדי התקדמות! כל שלב מוסיף חיות חדשות לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+        const quizData = [ 												//  PH3 - Quiz Data 
+// Stage 1 (Quadratic Functions)
+[
+  { question: "מה הערך של f(2) אם f(x) = x² + 3x + 2?", options: ["12", "10", "8", "6"], answer: "12" },
+  { question: "מה הערך של f(-1) אם f(x) = x² - 2x + 1?", options: ["4", "2", "1", "0"], answer: "4" },
+  { question: "מה הערך של f(3) אם f(x) = x² - x + 1?", options: ["7", "6", "9", "8"], answer: "7" },
+  { question: "מה הערך של f(0) אם f(x) = x² + 4x + 4?", options: ["0", "4", "8", "16"], answer: "4" },
+  { question: "מה הערך של f(-2) אם f(x) = x² + x + 1?", options: ["1", "3", "5", "7"], answer: "3" },
+],
+
+// Stage 2 (Quadratic Functions)
+[
+  { question: "מה הערך של f(1) אם f(x) = 2x² - 3x + 1?", options: ["0", "1", "2", "3"], answer: "0" },
+  { question: "מה הערך של f(-3) אם f(x) = x² + 6x + 9?", options: ["0", "1", "3", "9"], answer: "0" },
+  { question: "מה הערך של f(2) אם f(x) = x² - 2x + 1?", options: ["0", "1", "2", "4"], answer: "1" },
+  { question: "מה הערך של f(0) אם f(x) = x² - 5x + 6?", options: ["6", "5", "0", "1"], answer: "6" },
+  { question: "מה הערך של f(-1) אם f(x) = 3x² + 2x - 1?", options: ["-6", "0", "2", "1"], answer: "0" },
+],
+
+// Stage 3 (Quadratic Functions)
+[
+  { question: "מה הערך של f(4) אם f(x) = x² - 4x + 4?", options: ["0", "4", "8", "12"], answer: "4" },
+  { question: "מה הערך של f(5) אם f(x) = 2x² - 5x + 3?", options: ["28", "23", "25", "20"], answer: "28" },
+  { question: "מה הערך של f(-2) אם f(x) = x² + 2x - 3?", options: ["1", "3", "-1", "-3"], answer: "-3" },
+  { question: "מה הערך של f(0) אם f(x) = 4x² - 2x + 1?", options: ["1", "2", "0", "4"], answer: "1" },
+  { question: "מה הערך של f(-3) אם f(x) = x² + 3x + 2?", options: ["-4", "1", "0", "2"], answer: "2" },
+],
+
+// Stage 4 (Quadratic Functions)
+[
+  { question: "מה הערך של f(2) אם f(x) = x² - 2x?", options: ["0", "1", "2", "4"], answer: "0" },
+  { question: "מה הערך של f(3) אם f(x) = x² - 6x + 9?", options: ["9", "0", "6", "3"], answer: "0" },
+  { question: "מה הערך של f(1) אם f(x) = x² + 2x + 1?", options: ["0", "1", "2", "4"], answer: "4" },
+  { question: "מה הערך של f(0) אם f(x) = x² - 4x + 4?", options: ["4", "0", "2", "-2"], answer: "4" },
+  { question: "מה הערך של f(-2) אם f(x) = 2x² + 3x - 1?", options: ["1", "3", "0", "-1"], answer: "1" },
+],
+
+// Stage 5 (Quadratic Functions)
+[
+  { question: "מה הערך של f(5) אם f(x) = x² + 2x - 3?", options: ["32", "28", "23", "25"], answer: "32" },
+  { question: "מה הערך של f(-1) אם f(x) = 2x² - 3x + 4?", options: ["5", "6", "9", "8"], answer: "9" }, 
+  { question: "מה הערך של f(0) אם f(x) = 3x² - x + 1?", options: ["1", "2", "0", "3"], answer: "1" },
+  { question: "מה הערך של f(2) אם f(x) = x² - x - 6?", options: ["-4", "-2", "0", "2"], answer: "-4" }, 
+  { question: "מה הערך של f(-3) אם f(x) = 4x² + 3x - 1?", options: ["28", "26", "31", "19"], answer: "26" }, 
+],
+
+// Stage 6 (Quadratic Functions)
+[
+  { question: "מה הערך של f(4) אם f(x) = x² - 4x?", options: ["0", "4", "8", "16"], answer: "0" },
+  { question: "מה הערך של f(-1) אם f(x) = 3x² + 2x?", options: ["1", "0", "3", "2"], answer: "1" },
+  { question: "מה הערך של f(0) אם f(x) = x² + 2x + 1?", options: ["1", "2", "0", "3"], answer: "1" },
+  { question: "מה הערך של f(3) אם f(x) = 2x² - 3x + 1?", options: ["10", "9", "12", "7"], answer: "10" },
+  { question: "מה הערך של f(-2) אם f(x) = x² - 2x + 3?", options: ["7", "11", "2", "5"], answer: "11" },
+],
+
+// Stage 7 (Quadratic Functions)
+[
+  { question: "מה הערך של f(2) אם f(x) = x² + 3x + 1?", options: ["11", "8", "7", "10"], answer: "11" },
+  { question: "מה הערך של f(0) אם f(x) = 4x² - 2x + 5?", options: ["1", "3", "5", "7"], answer: "5" },
+  { question: "מה הערך של f(4) אם f(x) = 3x² + 4x - 2?", options: ["54", "62", "52", "49"], answer: "62" }, 
+  { question: "מה הערך של f(-1) אם f(x) = x² + x - 1?", options: ["-1", "0", "-2", "-3"], answer: "-1" },
+  { question: "מה הערך של f(3) אם f(x) = x² - 3x + 2?", options: ["2", "1", "4", "0"], answer: "2" },
+],
+
+// Stage 8 (Quadratic Functions)
+[
+  { question: "מה הערך של f(-2) אם f(x) = 2x² + 4x + 1?", options: ["0", "3", "1", "4"], answer: "1" },
+  { question: "מה הערך של f(5) אם f(x) = x² + 5x + 6?", options: ["56", "65", "66", "41"], answer: "56" },
+  { question: "מה הערך של f(3) אם f(x) = x² + 2x + 1?", options: ["16", "17", "18", "19"], answer: "16" },
+  { question: "מה הערך של f(-1) אם f(x) = 2x² + 3x - 4?", options: ["0", "-2", "-1", "-5"], answer: "-5" },
+  { question: "מה הערך של f(0) אם f(x) = x² + x + 5?", options: ["5", "3", "6", "1"], answer: "5" },
+],
+
+// Stage 9 (Quadratic Functions)
+[
+  { question: "מה הערך של f(4) אם f(x) = x² - 3x + 5?", options: ["9", "7", "5", "4"], answer: "9" },
+  { question: "מה הערך של f(-3) אם f(x) = x² + 2x + 1?", options: ["7", "9", "6", "4"], answer: "4" }, 
+  { question: "מה הערך של f(1) אם f(x) = 2x² - x + 4?", options: ["5", "6", "7", "8"], answer: "5" },
+  { question: "מה הערך של f(0) אם f(x) = 4x² + 3x - 2?", options: ["-1", "-2", "0", "-3"], answer: "-2" },
+  { question: "מה הערך של f(3) אם f(x) = x² + 3x + 1?", options: ["19", "13", "11", "10"], answer: "19" },
+],
+
+// Stage 10 (Quadratic Functions)
+[
+  { question: "מה הערך של f(5) אם f(x) = 2x² + 3x + 4?", options: ["69", "56", "57", "59"], answer: "69" },
+  { question: "מה הערך של f(2) אם f(x) = x² - x + 2?", options: ["4", "2", "5", "3"], answer: "4" }, 
+  { question: "מה הערך של f(-1) אם f(x) = 2x² + 4x + 3?", options: ["0", "1", "3", "5"], answer: "1" },
+  { question: "מה הערך של f(4) אם f(x) = x² - 2x - 1?", options: ["7", "9", "8", "11"], answer: "7" },
+  { question: "מה הערך של f(0) אם f(x) = 3x² - x + 6?", options: ["6", "3", "9", "0"], answer: "6" },
+],
+
+// Stage 11 (Quadratic Functions)
+[
+  { question: "מה הערך של f(3) אם f(x) = 2x² - x + 1?", options: ["16", "17", "19", "15"], answer: "16" },
+  { question: "מה הערך של f(0) אם f(x) = 5x² + 2x + 4?", options: ["4", "6", "2", "1"], answer: "4" },
+  { question: "מה הערך של f(-2) אם f(x) = 3x² + 4x - 1?", options: ["11", "9", "8", "3"], answer: "3" },
+  { question: "מה הערך של f(1) אם f(x) = 4x² + x + 5?", options: ["9", "10", "12", "11"], answer: "10" },
+  { question: "מה הערך של f(5) אם f(x) = x² + 2x + 6?", options: ["41", "37", "39", "43"], answer: "41" },
+],
+
+// Stage 12 (Quadratic Functions)
+[
+  { question: "מה הערך של f(-1) אם f(x) = 6x² + 3x + 2?", options: ["5", "7", "9", "11"], answer: "5" },
+  { question: "מה הערך של f(0) אם f(x) = 3x² - 2x + 1?", options: ["1", "0", "-1", "3"], answer: "1" },
+  { question: "מה הערך של f(4) אם f(x) = x² + 6x + 5?", options: ["45", "35", "33", "41"], answer: "45" },
+  { question: "מה הערך של f(2) אם f(x) = 2x² + x - 3?", options: ["5", "7", "9", "8"], answer: "7" },
+  { question: "מה הערך של f(-3) אם f(x) = x² + 5x + 6?", options: ["0", "1", "-1", "-3"], answer: "0" },
+],
+
+// Stage 13 (Quadratic Functions)
+[
+  { question: "מה הערך של f(2) אם f(x) = x² + 4x + 4?", options: ["12", "8", "4", "16"], answer: "16" },
+  { question: "מה הערך של f(-4) אם f(x) = 3x² + 2x - 1?", options: ["27", "39", "45", "37"], answer: "39" },
+  { question: "מה הערך של f(1) אם f(x) = 2x² + 5x + 3?", options: ["10", "7", "8", "9"], answer: "10" },
+  { question: "מה הערך של f(3) אם f(x) = 5x² + 4x - 2?", options: ["55", "47", "49", "38"], answer: "55" },
+  { question: "מה הערך של f(0) אם f(x) = 3x² - x + 1?", options: ["1", "0", "3", "4"], answer: "1" },
+],
+
+// Stage 14 (Quadratic Functions)
+[
+  { question: "מה הערך של f(-1) אם f(x) = 4x² + 3x + 2?", options: ["-1", "0", "1", "3"], answer: "3" }, 
+  { question: "מה הערך של f(0) אם f(x) = 5x² - x + 3?", options: ["3", "5", "0", "1"], answer: "3" },
+  { question: "מה הערך של f(4) אם f(x) = x² + 3x + 1?", options: ["27", "24", "29", "21"], answer: "29" },
+  { question: "מה הערך של f(2) אם f(x) = 3x² - 2x + 4?", options: ["10", "12", "9", "11"], answer: "12" },
+  { question: "מה הערך של f(-2) אם f(x) = 2x² + 4x - 3?", options: ["-3", "0", "-1", "-2"], answer: "-3" },
+],
+
+// Stage 15 (Quadratic Functions)
+[
+  { question: "מה הערך של f(3) אם f(x) = x² + 3x + 5?", options: ["23", "22", "25", "21"], answer: "23" },
+  { question: "מה הערך של f(5) אם f(x) = 4x² + x - 2?", options: ["107", "99", "103", "102"], answer: "103" }, 
+  { question: "מה הערך של f(-3) אם f(x) = 3x² + 5x - 1?", options: ["23", "11", "20", "21"], answer: "11" },
+  { question: "מה הערך של f(0) אם f(x) = 2x² + 3x + 4?", options: ["4", "5", "3", "0"], answer: "4" },
+  { question: "מה הערך של f(-1) אם f(x) = 4x² - 2x + 1?", options: ["7", "2", "1", "4"], answer: "7" }, 
+],
+
+// Stage 16 (Quadratic Functions)
+[
+  { question: "מה הערך של f(1) אם f(x) = x² + 5x + 4?", options: ["10", "8", "6", "5"], answer: "10" },
+  { question: "מה הערך של f(-2) אם f(x) = 2x² + 3x + 1?", options: ["3", "6", "5", "8"], answer: "3" },
+  { question: "מה הערך של f(0) אם f(x) = 5x² + 4x + 3?", options: ["3", "5", "1", "4"], answer: "3" },
+  { question: "מה הערך של f(4) אם f(x) = 2x² - 3x + 1?", options: ["22", "21", "20", "19"], answer: "21" },
+  { question: "מה הערך של f(2) אם f(x) = x² - 4x + 4?", options: ["-1", "0", "2", "4"], answer: "0" },
+],
+
+// Stage 17 (Quadratic Functions)
+[
+  { question: "מה הערך של f(-3) אם f(x) = 3x² - 2x + 4?", options: ["25", "30", "28", "37"], answer: "37" },
+  { question: "מה הערך של f(1) אם f(x) = 5x² + 6x + 4?", options: ["16", "15", "14", "18"], answer: "15" },
+  { question: "מה הערך של f(0) אם f(x) = x² + 2x + 5?", options: ["3", "2", "5", "1"], answer: "5" },
+  { question: "מה הערך של f(4) אם f(x) = 2x² + 3x - 2?", options: ["42", "39", "40", "41"], answer: "42" },
+  { question: "מה הערך של f(-1) אם f(x) = x² - 3x + 2?", options: ["6", "4", "3", "2"], answer: "6" },
+],
+
+// Stage 18 (Quadratic Functions)
+[
+  { question: "מה הערך של f(3) אם f(x) = x² + 5x + 4?", options: ["28", "35", "36", "31"], answer: "28" },
+  { question: "מה הערך של f(-4) אם f(x) = 4x² + 2x + 1?", options: ["55", "54", "57", "52"], answer: "57" },
+  { question: "מה הערך של f(2) אם f(x) = 3x² + 6x + 4?", options: ["32", "30", "28", "31"], answer: "28" },
+  { question: "מה הערך של f(-3) אם f(x) = x² + 4x + 3?", options: ["10", "2", "0", "15"], answer: "0" },
+  { question: "מה הערך של f(0) אם f(x) = 3x² - x + 5?", options: ["5", "3", "4", "2"], answer: "5" },
+],
+
+// Stage 19 (Quadratic Functions)
+[
+  { question: "מה הערך של f(-2) אם f(x) = 5x² + 3x - 4?", options: ["10", "15", "12", "11"], answer: "10" },
+  { question: "מה הערך של f(5) אם f(x) = x² - 6x + 8?", options: ["3", "8", "9", "10"], answer: "3" },
+  { question: "מה הערך של f(-3) אם f(x) = 2x² + 4x + 6?", options: ["16", "12", "18", "19"], answer: "12" },
+  { question: "מה הערך של f(0) אם f(x) = 4x² + 3x - 5?", options: ["-5", "-4", "-3", "-2"], answer: "-5" },
+  { question: "מה הערך של f(1) אם f(x) = x² + 3x + 2?", options: ["6", "7", "8", "9"], answer: "6" },
+],
+
+// Stage 20 (Quadratic Functions)
+[
+  { question: "מה הערך של f(4) אם f(x) = 3x² + 5x + 2?", options: ["56", "70", "78", "59"], answer: "70" },
+  { question: "מה הערך של f(0) אם f(x) = 2x² + 4x + 6?", options: ["6", "7", "5", "4"], answer: "6" },
+  { question: "מה הערך של f(-5) אם f(x) = x² + 2x - 1?", options: ["24", "14", "22", "21"], answer: "14" },
+  { question: "מה הערך של f(3) אם f(x) = 4x² - x + 3?", options: ["44", "36", "42", "43"], answer: "36" },
+  { question: "מה הערך של f(-1) אם f(x) = 5x² + 3x - 4?", options: ["-7", "-2", "-8", "-5"], answer: "-2" },
+],
+
+
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+	
+		'תרגול': `<div id="stage-number" class="stage-number">שלב 1 מתוך ${quizData.length}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">ניסיונות: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">בדיקת תשובות</button>`
+		,'לימוד הנושא 🗝️': 
+		`
+<div class="subject-overview-content subject-overview-content_heb">     <h1>פונקציות ריבועיות במתמטיקה: מדריך מקיף</h1>     <p>פונקציות ריבועיות הן מושג יסודי באלגברה, המייצגות יחסים שבהם המשתנה מועלה בריבוע. הן משמשות בתחומים רבים כמו פיזיקה, הנדסה וכלכלה. פונקציה ריבועית היא בצורת הכללית <em>f(x) = ax² + bx + c</em>, כאשר <em>a</em>, <em>b</em> ו-<em>c</em> הם קבועים ו-<em>a ≠ 0</em>. מדריך זה מתמקד בהבנת פונקציות ריבועיות ולמידה כיצד להעריך אותן עבור ערכים ספציפיים של <em>x</em>. על ידי שליטה במיומנות זו, תוכלו לפתור בעיות כמו "מהו הערך של <em>f(0)</em> אם <em>f(x) = 3x² - x + 6</em>?"</p>     <hr>     <h2 class="highlight_heb">תוכן העניינים</h2>     <ol>         <li><a href="#what-is-a-quadratic-function" class="highlight_heb">מהי פונקציה ריבועית?</a></li>         <li><a href="#evaluating-quadratic-functions" class="highlight_heb">הערכת פונקציות ריבועיות</a></li>         <li><a href="#examples" class="highlight_heb">דוגמאות</a>             <ul>                 <li><a href="#example-1" class="highlight_heb">דוגמה 1: הערכה בסיסית</a></li>                 <li><a href="#example-2" class="highlight_heb">דוגמה 2: הערכה בנקודת האפס</a></li>                 <li><a href="#example-3" class="highlight_heb">דוגמה 3: ערכי קלט שליליים</a></li>                 <li><a href="#example-4" class="highlight_heb">דוגמה 4: ערכי קלט שבריים</a></li>                 <li><a href="#example-5" class="highlight_heb">דוגמה 5: שימוש בבעיות מילוליות</a></li>             </ul>         </li>         <li><a href="#practice-problems" class="highlight_heb">תרגילי תרגול</a></li>         <li><a href="#conclusion" class="highlight_heb">סיכום</a></li>     </ol>     <hr>     <h2 id="what-is-a-quadratic-function" class="highlight_heb">מהי פונקציה ריבועית?</h2>     <p>פונקציה ריבועית היא סוג של פונקציה פולינומית שבה המעריך הגבוה ביותר של המשתנה <em>x</em> הוא 2. ניתן לכתוב אותה בצורה הסטנדרטית:</p>     <p><em>f(x) = ax² + bx + c</em></p>     <p>כאן:</p>     <ul>         <li><em>a</em>, <em>b</em> ו-<em>c</em> הם קבועים (מספרים ממשיים).</li>         <li><em>a</em> אינו יכול להיות אפס; אחרת, הפונקציה תהפוך ללינארית.</li>     </ul>     <p>פונקציות ריבועיות מדגמנות מצבים שבהם יש קשר ריבועי בין המשתנה התלוי <em>f(x)</em> למשתנה הבלתי תלוי <em>x</em>.</p>     <hr>     <h2 id="evaluating-quadratic-functions" class="highlight_heb">הערכת פונקציות ריבועיות</h2>     <p>הערכת פונקציה ריבועית פירושה מציאת הערך של <em>f(x)</em> עבור ערך ספציפי של <em>x</em>. זה נעשה על ידי הצבת הערך הנתון של <em>x</em> בפונקציה וביצוע הפעולות האריתמטיות.</p>     <p><strong>שלבים להערכת פונקציה ריבועית:</strong></p>     <ol>         <li>רשמו את הפונקציה הריבועית.</li>         <li>החליפו כל מופע של <em>x</em> בערך הנתון.</li>         <li>בצעו את סדר הפעולות (סוגריים, חזקות, כפל וחילוק, חיבור וחיסור) כדי לפשט.</li>     </ol>     <hr>     <h2 id="examples" class="highlight_heb">דוגמאות</h2>     <h3 id="example-1" class="highlight_heb">דוגמה 1: הערכה בסיסית</h3>     <p><strong>בעיה:</strong> העריכו את <em>f(2)</em> אם <em>f(x) = x² + 3x + 2</em>.</p>     <p><strong>פתרון:</strong></p>     <ol>         <li>רשמו את הפונקציה: <em>f(x) = x² + 3x + 2</em>.</li>         <li>הציבו <em>x = 2</em>: <em>f(2) = (2)² + 3*(2) + 2</em>.</li>         <li>חשבנו:             <ul>                 <li><em>(2)² = 4</em></li>                 <li><em>3*(2) = 6</em></li>                 <li>סכום: <em>4 + 6 + 2 = 12</em></li>             </ul>         </li>         <li><strong>תשובה:</strong> <em>f(2) = 12</em>.</li>     </ol>     <h3 id="example-2" class="highlight_heb">דוגמה 2: הערכה בנקודת האפס</h3>     <p><strong>בעיה:</strong> מצאו את הערך של <em>f(0)</em> אם <em>f(x) = 3x² - x + 6</em>.</p>     <p><strong>פתרון:</strong></p>     <ol>         <li>רשמו את הפונקציה: <em>f(x) = 3x² - x + 6</em>.</li>         <li>הציבו <em>x = 0</em>: <em>f(0) = 3*(0)² - (0) + 6</em>.</li>         <li>חשבנו:             <ul>                 <li><em>(0)² = 0</em></li>                 <li><em>3*(0) = 0</em></li>                 <li><em>- (0) = 0</em></li>                 <li>סכום: <em>0 - 0 + 6 = 6</em></li>             </ul>         </li>         <li><strong>תשובה:</strong> <em>f(0) = 6</em>.</li>     </ol>     <h3 id="example-3" class="highlight_heb">דוגמה 3: ערכי קלט שליליים</h3>     <p><strong>בעיה:</strong> חשבו את <em>f(-3)</em> אם <em>f(x) = 2x² + x - 5</em>.</p>     <p><strong>פתרון:</strong></p>     <ol>         <li>רשמו את הפונקציה: <em>f(x) = 2x² + x - 5</em>.</li>         <li>הציבו <em>x = -3</em>: <em>f(-3) = 2*(-3)² + (-3) - 5</em>.</li>         <li>חשבנו:             <ul>                 <li><em>(-3)² = 9</em></li>                 <li><em>2*(9) = 18</em></li>                 <li><em>-3 - 5 = -8</em></li>                 <li>סכום: <em>18 + (-3) - 5 = 10</em></li>             </ul>         </li>         <li><strong>תשובה:</strong> <em>f(-3) = 10</em>.</li>     </ol>     <h3 id="example-4" class="highlight_heb">דוגמה 4: ערכי קלט שבריים</h3>     <p><strong>בעיה:</strong> קבעו את הערך של <em>f(0.5)</em> אם <em>f(x) = x² - 2x + 1</em>.</p>     <p><strong>פתרון:</strong></p>     <ol>         <li>רשמו את הפונקציה: <em>f(x) = x² - 2x + 1</em>.</li>         <li>הציבו <em>x = 0.5</em>: <em>f(0.5) = (0.5)² - 2*(0.5) + 1</em>.</li>         <li>חשבנו:             <ul>                 <li><em>(0.5)² = 0.25</em></li>                 <li><em>2*(0.5) = 1</em></li>                 <li>סכום: <em>0.25 - 1 + 1 = 0.25</em></li>             </ul>         </li>         <li><strong>תשובה:</strong> <em>f(0.5) = 0.25</em>.</li>     </ol>     <h3 id="example-5" class="highlight_heb">דוגמה 5: שימוש בבעיות מילוליות</h3>     <p><strong>בעיה:</strong> כדור נזרק כלפי מעלה, וגובהו במטרים לאחר <em>t</em> שניות נתון על ידי <em>h(t) = -4.9t² + 19.6t + 1.5</em>. מהו גובה הכדור לאחר 2 שניות?</p>     <p><strong>פתרון:</strong></p>     <ol>         <li>רשמו את הפונקציה: <em>h(t) = -4.9t² + 19.6t + 1.5</em>.</li>         <li>הציבו <em>t = 2</em>: <em>h(2) = -4.9*(2)² + 19.6*(2) + 1.5</em>.</li>         <li>חשבנו:             <ul>                 <li><em>(2)² = 4</em></li>                 <li><em>-4.9*(4) = -19.6</em></li>                 <li><em>19.6*(2) = 39.2</em></li>                 <li>סכום: <em>-19.6 + 39.2 + 1.5 = 21.1</em></li>             </ul>         </li>         <li><strong>תשובה:</strong> גובה הכדור לאחר 2 שניות הוא 21.1 מטרים.</li>     </ol>     <hr>     <h2 id="practice-problems" class="highlight_heb">תרגילי תרגול</h2>     <p>נסו להעריך את הפונקציות הריבועיות הבאות עבור הערכים הנתונים:</p>     <ol>         <li>מצאו את <em>f(4)</em> אם <em>f(x) = x² - 2x + 3</em>.</li>         <li>חשבו את <em>f(-2)</em> עבור <em>f(x) = -x² + 4x - 1</em>.</li>         <li>קבעו את <em>f(1.5)</em> כאשר <em>f(x) = 2x² - 3x + 2</em>.</li>         <li>העריכו את <em>f(0)</em> אם <em>f(x) = 5x² - x + 7</em>.</li>         <li>מצאו את הערך של <em>f(-1)</em> עבור <em>f(x) = x² + x + 1</em>.</li>     </ol>     <hr>     <h2 id="conclusion" class="highlight_heb">סיכום</h2>     <p>הערכת פונקציות ריבועיות עבור ערכים ספציפיים היא מיומנות בסיסית באלגברה. היא כוללת הצבת הערך הנתון בפונקציה וביצוע פעולות אריתמטיות בזהירות. על ידי שליטה בטכניקה זו, תוכלו לפתור מגוון בעיות ולהבין כיצד פונקציות ריבועיות מדגמנות מצבים בעולם האמיתי. המשיכו לתרגל עם פונקציות וערכי קלט שונים כדי לחזק את המיומנות שלכם.</p> </div>
+
+		`
+
+		};
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'תרגול') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    quizData[currentStage].forEach((question, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+        
+        // Create label for the question text
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${question.question}`;
+        
+        // Create div for result feedback
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+        
+        // Create select element for answers
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        
+        // Add default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+        
+        // Shuffle and add answer options
+        const shuffledOptions = shuffleArray([...question.options]);
+        shuffledOptions.forEach((option, optionIndex) => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        // Append elements to questionElement in the desired order
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv); // Feedback before dropdown
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+
+
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[currentStage].length;
+
+    quizData[currentStage].forEach((question, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === question.answer) {
+            resultElement.textContent = "נכון!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "תשובה שגויה.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 10) {
+            selectElement.value = question.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` התשובה הנכונה היא: ${question.answer}`;
+        }
+    });
+
+			console.log(`שלב ${currentStage + 1}: ${correctCount} נכונות מתוך ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`שלב ${currentStage + 1} הושלם. מוסיף ${totalQuestions} חיות.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`עובר לשלב ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("כל הכבוד! השלמת את כל השלבים.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("הגעת למספר הניסיונות המקסימלי. התשובות הנכונות נחשפו.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+        function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+            const incorrectCount = totalQuestions - correctCount;
+            let message = `קיבלת ${correctCount} נכונות ו-${incorrectCount} שגויות.`;
+            
+            if (correctCount === totalQuestions) {
+                message += " ציון מושלם!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+                message += " עבודה מצוינת! רואים שהנושא מתחיל להיות מובן!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+                message += " מאמץ טוב! נמשיך לתרגל כי השיפור קרוב!";
+            } else {
+                message += " לא לוותר! כל נסיון עוזר לך ללמוד. ננסה שוב!";
+            }
+
+            if (isStageComplete) {
+                message += "\n\n השלב הזה הסתיים, עוברים לשלב הבא.";
+            }
+
+            showModal(message);
+        }
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `נסיונות: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+        function updateStageNumber() {
+            const stageElement = document.getElementById("stage-number");
+            stageElement.textContent = `שלב ${currentStage + 1} מתוך ${stageCount}`;
+        }
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>
