@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <link rel="stylesheet" href="http://ez42.live/global/styles/styles-heb.css">
+    <title>✅ EZ42 - זה קל</title>
+	<style>
+
+	</style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+            <div id="sidePanel1" class="side-panel">
+                <div class="logo-container">
+                    <a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+                        <img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+                    </a>
+                </div>
+                <h2>הוראות</h2>
+                <ul>
+                    <li>יש לקרוא את הדיאלוג בתשומת לב ולעבור לעמוד התרגול.</li>
+                    <li>הקלידו את התשובה הנכונה בתיבה.</li>
+                    <li>התשובה הנכונה היא תמיד מילה אחת באנגלית.</li>					
+                    <li>יש ללחוץ על בדיקת תשובות כשמוכנים!</li>
+                    <li>יש להשלים את כל השאלות כדי לעבור לשלב הבא.</li>
+                    <li>לאחר 10 ניסיונות, התשובות הנכונות יוצגו.</li>
+                    <li>שיהיה כיף!</li>
+                </ul>
+            </div>
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+            <div id="quizContainer" class="quiz-container">
+                <h1>דיאלוגים יומיומיים 1 - 📘</h1>
+                <h1>Everyday Dialogues</h1>
+				
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+
+                <div id="tabContent"></div>
+            </div>
+
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות החיות</h2>
+                <p>החווה שלך גדלה תוך כדי התקדמות! כל שלב מוסיף חיות חדשות לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+        let attempts = 0;
+        let currentStage = 0;
+        const manuallySetDefaultTab = 1;
+
+
+        const quizData = [
+	
+// Stage 1
+{
+    questions: [
+        { question: "What's the name of Mike's pet?", answer: "Luna" },
+        { question: "On which street is Mike's new apartment?", answer: "Elm" },
+        { question: "What's the café known for?", answer: "muffins" },
+        { question: "How old is Mike's cat?", answer: "3" },
+        { question: "What's Sarah's new profession?", answer: "designer" },
+    ]
+},
+// Stage 2
+{
+    questions: [
+        { question: "Where will Sarah's wedding be held?", answer: "Gardens" },
+        { question: "What's the name of the movie Mike's seeing?", answer: "Crusaders" },
+        { question: "What day is Mike helping his sister?", answer: "Saturday" },
+        { question: "How often does Mike visit the café?", answer: "twice" },
+        { question: "What's the name of Sarah's fiancé?", answer: "Alex" },
+    ]
+},
+// Stage 3
+{
+    questions: [
+        { question: "What kind of restaurant did Sarah mention?", answer: "Thai" },
+        { question: "What's Mike's favorite drink at the café?", answer: "cappuccinos" },
+        { question: "In which month is Sarah getting married?", answer: "May" },
+        { question: "What's the first word of the Thai restaurant's name?", answer: "Green" },
+        { question: "How long ago did Sarah change jobs?", answer: "6" },
+    ]
+},
+// Stage 4
+{
+    questions: [
+        { question: "What kind of animal did Mike adopt?", answer: "cat" },
+        { question: "Where did Sarah previously work?", answer: "library" },
+        { question: "What's the genre of the movie Mike's seeing?", answer: "superhero" },
+        { question: "How many years have Sarah and Alex been dating?", answer: "2" },
+        { question: "What day is Sarah's wedding?", answer: "15th" },
+    ]
+}
+
+        ];
+
+        const stateContents = {
+	
+		'תרגול': `<div id="stage-number" class="stage-number">שלב 1 מתוך ${quizData.length}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">ניסיונות: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">בדיקת תשובות</button>`
+		,'הדיאלוג 🗝️': `<div style="text-align: left; direction: ltr;">
+			<h1 style="text-align: left;"></h1>
+			
+				<p style="text-align: left;">Sarah: Hey Mike, how's it going? I haven't seen you in ages!</p>
+				<p style="text-align: left;">Mike: Sarah! Great to see you. I've been pretty busy lately. Just moved into a new apartment last month.</p>
+				<p style="text-align: left;">Sarah: Oh, that's exciting! How are you liking the new place?</p>
+				<p style="text-align: left;">Mike: It's fantastic. It's on Elm Street, just a few blocks from that little café we used to frequent. Remember the one with the amazing blueberry muffins?</p>
+				<p style="text-align: left;">Sarah: Of course! Café Bliss, right? I still go there sometimes. Their cappuccinos are unbeatable.</p>
+				<p style="text-align: left;">Mike: Absolutely. I'm there at least twice a week now. It's dangerous living so close!</p>
+				<p style="text-align: left;">Sarah: I bet. So, what else is new with you?</p>
+				<p style="text-align: left;">Mike: Well, I recently adopted a cat from the local shelter. Her name's Luna, and she's about 3 years old.</p>
+				<p style="text-align: left;">Sarah: Aw, that's wonderful! I didn't know you were a cat person.</p>
+				<p style="text-align: left;">Mike: Neither did I, but she stole my heart. What about you? Still working at the library?</p>
+				<p style="text-align: left;">Sarah: Actually, I switched jobs about six months ago. I'm now working as a graphic designer for a small marketing firm.</p>
+				<p style="text-align: left;">Mike: Wow, that's quite a change! How do you like it?</p>
+				<p style="text-align: left;">Sarah: I love it. It's challenging, but in a good way. I'm learning so much. Oh, and guess what? I'm getting married next spring!</p>
+				<p style="text-align: left;">Mike: Congratulations! That's incredible news. Who's the lucky person?</p>
+				<p style="text-align: left;">Sarah: Thanks! It's Alex, we've been dating for about two years now. The wedding will be at Sunset Gardens on May 15th.</p>
+				<p style="text-align: left;">Mike: That sounds beautiful. I'm so happy for you, Sarah.</p>
+				<p style="text-align: left;">Sarah: Thank you, Mike. We should definitely catch up properly sometime. Are you free this weekend?</p>
+				<p style="text-align: left;">Mike: This weekend is a bit tricky. I'm helping my sister move on Saturday, and on Sunday, I have tickets to see the new superhero movie, "Cosmic Crusaders."</p>
+				<p style="text-align: left;">Sarah: No worries, we'll figure something out. Oh, before I forget, have you tried that new Thai restaurant on Main Street? The Green Elephant?</p>
+				<p style="text-align: left;">Mike: Not yet, but I've heard great things about it. Maybe we could go there when we meet up?</p>
+				<p style="text-align: left;">Sarah: Sounds like a plan. I'll text you later to set something up. It was great running into you, Mike!</p>
+				<p style="text-align: left;">Mike: You too, Sarah. Take care!</p>
+
+		</div>`
+
+
+
+		};
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.classList.toggle('expanded', isQuizExpanded && allowQuizExpansion);
+
+            if (isPanel1Visible) {
+                sidePanel1.classList.remove('hidden');
+                quizContainer.classList.remove('full-width');
+            } else {
+                sidePanel1.classList.add('hidden');
+                quizContainer.classList.add('full-width');
+            }
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.classList.toggle('hidden');
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.classList.remove('flex-grow');
+                label.classList.add('flex-none');
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.classList.remove('fixed-width');
+        }
+
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'תרגול') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+		function renderQuiz() {
+			const quizContainer = document.getElementById("quiz-content");
+			quizContainer.innerHTML = '';
+
+			const stageData = quizData[currentStage];
+
+			stageData.questions.forEach((question, index) => {
+				const questionElement = document.createElement("div");
+				questionElement.className = "question-one-line-ltr";
+				questionElement.style.cssText = "display: flex; align-items: center; width: 100%;";
+
+				questionElement.innerHTML = `
+					<label style="flex: 1; min-width: 0; padding-right: 10px; white-space: normal; word-wrap: break-word;">${question.question}</label>
+					<div class="input-wrapper" style="display: flex; align-items: center; white-space: nowrap;">
+						<span class="result" id="result${index}" style="margin-right: 5px;"></span>
+						<input type="text" id="q${index}" data-answer="${JSON.stringify(question.answer)}">
+					</div>
+				`;
+
+				quizContainer.appendChild(questionElement);
+			});
+
+			updateStageNumber();
+		}
+
+        function checkAnswer(userAnswer, correctAnswer) {
+            if (Array.isArray(correctAnswer)) {
+                const userAnswerArray = userAnswer.split(',').map(item => parseInt(item.trim()));
+                return correctAnswer.length === userAnswerArray.length &&
+                    correctAnswer.every(item => userAnswerArray.includes(item));
+            } else {
+                return parseInt(userAnswer) === correctAnswer;
+            }
+        }
+
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `נסיונות: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[currentStage].questions.length;
+
+    quizData[currentStage].questions.forEach((question, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const inputElement = document.getElementById(`q${index}`);
+        const userAnswer = inputElement.value.trim().toLowerCase();
+        const correctAnswer = question.answer.toLowerCase();
+
+        if (userAnswer === correctAnswer) {
+            resultElement.textContent = "נכון!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            if (attempts >= 10) {
+                resultElement.textContent = `תשובה לא נכונה. התשובה הנכונה היא: ${question.answer}`;
+                resultElement.style.color = "red";
+                inputElement.value = question.answer;
+                inputElement.disabled = true;
+            } else {
+                resultElement.textContent = "תשובה לא נכונה.";
+                resultElement.style.color = "red";
+            }
+        }
+    });
+
+    // Always show the encouraging popup after checking
+    showEncouragingPopup(correctCount, totalQuestions, correctCount === totalQuestions);
+
+    if (correctCount === totalQuestions) {
+        console.log(`שלב ${currentStage + 1} הושלם. מוסיף ${totalQuestions} חיות.`);
+        addAnimalsToFarm(totalQuestions);
+
+        if (currentStage < quizData.length - 1) {
+            singleStageConfetti();
+            currentStage++;
+            updateProgressBar();
+            console.log(`עובר לשלב ${currentStage + 1}`);
+            setTimeout(() => {
+                attempts = 0;
+                renderQuiz();
+                document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+            }, 1500);
+        } else {
+            currentStage++;
+            updateProgressBar();
+            allStagesConfetti();
+            showModal("כל הכבוד! השלמת את כל השלבים.");
+        }
+    } else {
+        if (attempts >= 10) {
+            showModal("הגעת למספר הניסיונות המקסימלי. התשובות הנכונות נחשפו.");
+        }
+    }
+
+    scrollToTop();
+}
+
+function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+    const incorrectCount = totalQuestions - correctCount;
+    let message = `קיבלת ${correctCount} נכונות ו-${incorrectCount} שגויות.`;
+
+    if (correctCount === totalQuestions) {
+        message += " ציון מושלם!";
+    } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+        message += " עבודה מצוינת! רואים שהנושא מתחיל להיות מובן!";
+    } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+        message += " מאמץ טוב! נמשיך לתרגל כי השיפור קרוב!";
+    } else {
+        message += " לא לוותר! כל נסיון עוזר לך ללמוד. ננסה שוב!";
+    }
+
+    if (isStageComplete) {
+        message += "\n\n השלב הזה הסתיים, עוברים לשלב הבא.";
+    }
+
+    showModal(message);
+}
+
+        function updateProgressBar() {
+            const progressBar = document.getElementById("progress-bar");
+            const completedStages = currentStage;
+            const progress = (completedStages / quizData.length) * 100;
+            const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+            progressBar.style.width = `${roundedProgress}%`;
+            progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+        }
+
+        function updateStageNumber() {
+            const stageElement = document.getElementById("stage-number");
+            stageElement.textContent = `שלב ${currentStage + 1} מתוך ${stageCount}`;
+        }
+
+        function singleStageConfetti() {
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+            confetti({
+                angle: randomInRange(55, 125),
+                spread: randomInRange(50, 70),
+                particleCount: randomInRange(50, 100),
+                origin: { y: 0.6 },
+            });
+        }
+
+        function allStagesConfetti() {
+            const defaults = {
+                spread: 360,
+                ticks: 50,
+                gravity: 0,
+                decay: 0.94,
+                startVelocity: 30,
+                shapes: ["star"],
+                colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+            };
+            function shoot() {
+                confetti({
+                    ...defaults,
+                    particleCount: 40,
+                    scalar: 1.2,
+                    shapes: ["star"],
+                });
+                confetti({
+                    ...defaults,
+                    particleCount: 10,
+                    scalar: 0.75,
+                    shapes: ["circle"],
+                });
+            }
+            setTimeout(shoot, 0);
+            setTimeout(shoot, 100);
+            setTimeout(shoot, 200);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+		function initializeSwitch() {
+			const switchElement = document.getElementById('multiStateSwitch');
+			const labelsContainer = switchElement.querySelector('.switch-labels');
+			const switchContainer = document.getElementById('switchContainer');
+
+			const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+
+			if (activeStates.length <= 1) {
+				switchContainer.style.display = 'none';  // Use style.display instead of classList
+				if (activeStates.length === 1) {
+					showContent(activeStates[0]);
+				}
+				return;
+			}
+
+            switchContainer.classList.remove('hidden');
+
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+        let farmAnimals = [];
+
+        function addAnimalsToFarm(count) {
+            const animalFarm = document.getElementById('animalFarm');
+            let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+            console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+            for (let i = 0; i < count; i++) {
+                if (availableAnimals.length === 0) {
+                    console.log("No more unique animals available!");
+                    break;
+                }
+
+                const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+                const chosenAnimal = availableAnimals[randomIndex];
+
+                const animalElement = document.createElement('li');
+                animalElement.textContent = chosenAnimal;
+                animalFarm.appendChild(animalElement);
+
+                farmAnimals.push(chosenAnimal);
+                availableAnimals.splice(randomIndex, 1);
+                console.log(`Added animal: ${chosenAnimal}`);
+            }
+
+            console.log(`Farm size after addition: ${farmAnimals.length}`);
+            logAnimalFarmState();
+        }
+
+        function logAnimalFarmState() {
+            console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+            console.log(farmAnimals);
+        }
+
+        const animals = [
+            "🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+            "🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+            "🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+            "🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+            "🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+            "🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+            "🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+            "🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+            "🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+            "🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+            "🐷", "🐩", "🐘", "🐸", "🐝"
+        ];
+
+function showModal(message) {
+    const modal = document.getElementById("quizModal");
+    const modalMessage = document.getElementById("modalMessage");
+    const modalButton = document.getElementById("modalButton");
+    const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+    modalMessage.textContent = message;
+    modal.style.display = "block";
+
+    modalButton.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    modalClose.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+}
+
+        window.addEventListener('load', () => {
+            initializeSwitch();
+            renderQuiz();
+            adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Scroll to top button functionality
+        window.onscroll = function() {
+            const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                scrollToTopBtn.classList.add('show');
+            } else {
+                scrollToTopBtn.classList.remove('show');
+            }
+        };
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};			
+    </script>
+</body>
+</html>
