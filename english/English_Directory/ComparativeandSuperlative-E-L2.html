@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+	<style>
+
+	</style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read each question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>Comparative and Superlative - A2</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+        const quizData = [ 												//  PH3 - Quiz Data   	
+// Stage 1
+[
+  { question: "Tom is ___ than Jerry.", options: ["taller", "tallest", "tall", "more tall", "most tall"], answer: "taller" },
+  { question: "Mount Everest is the ___ mountain in the world.", options: ["highest", "higher", "high", "most high", "more high"], answer: "highest" },
+  { question: "This book is ___ than that one.", options: ["shorter", "shortest", "short", "more short", "most short"], answer: "shorter" },
+  { question: "She is the ___ student in the class.", options: ["smartest", "smarter", "smart", "most smart", "more smart"], answer: "smartest" },
+  { question: "My car is ___ than yours.", options: ["faster", "fastest", "fast", "more fast", "most fast"], answer: "faster" },
+],
+
+// Stage 2
+[
+  { question: "She is ___ than her brother.", options: ["younger", "youngest", "young", "more young", "most young"], answer: "younger" },
+  { question: "This is the ___ film I've ever seen.", options: ["best", "better", "good", "most good", "more good"], answer: "best" },
+  { question: "Today is ___ than yesterday.", options: ["colder", "coldest", "cold", "more cold", "most cold"], answer: "colder" },
+  { question: "That was the ___ day of my life.", options: ["happiest", "happier", "happy", "most happy", "more happy"], answer: "happiest" },
+  { question: "This puzzle is ___ than the last one.", options: ["easier", "easiest", "easy", "more easy", "most easy"], answer: "easier" },
+],
+
+// Stage 3
+[
+  { question: "Her hair is ___ than mine.", options: ["longer", "longest", "long", "more long", "most long"], answer: "longer" },
+  { question: "He is the ___ player on the team.", options: ["strongest", "stronger", "strong", "most strong", "more strong"], answer: "strongest" },
+  { question: "He runs ___ than his friend.", options: ["faster", "fastest", "fast", "more fast", "most fast"], answer: "faster" },
+  { question: "This is the ___ way to solve the problem.", options: ["easiest", "easier", "easy", "most easy", "more easy"], answer: "easiest" },
+  { question: "They arrived ___ than we did.", options: ["earlier", "earliest", "early", "more early", "most early"], answer: "earlier" },
+],
+
+// Stage 4
+[
+  { question: "This road is ___ than that one.", options: ["narrower", "narrowest", "narrow", "more narrow", "most narrow"], answer: "narrower" },
+  { question: "She sings ___ than her sister.", options: ["better", "best", "good", "more good", "most good"], answer: "better" },
+  { question: "Today is the ___ day of the year.", options: ["coldest", "colder", "cold", "most cold", "more cold"], answer: "coldest" },
+  { question: "He finished the test ___ than anyone else.", options: ["faster", "fastest", "fast", "more fast", "most fast"], answer: "faster" },
+  { question: "This puzzle is the ___ of all.", options: ["hardest", "harder", "hard", "most hard", "more hard"], answer: "hardest" },
+],
+
+// Stage 5
+[
+  { question: "Among the three brothers, John is the ___.", options: ["tallest", "taller", "tall", "more tall", "most tall"], answer: "tallest" },
+  { question: "This problem is ___ than I expected.", options: ["more difficult", "most difficult", "difficult", "difficulter", "difficultest"], answer: "more difficult" },
+  { question: "She is ___ at math than science.", options: ["better", "best", "good", "more good", "most good"], answer: "better" },
+  { question: "He is ___ than his brother.", options: ["more intelligent", "most intelligent", "intelligent", "intelligenter", "intelligentest"], answer: "more intelligent" },
+  { question: "This is the ___ movie in the series.", options: ["most exciting", "more exciting", "exciting", "excitinger", "excitingest"], answer: "most exciting" },
+],
+
+// Stage 6
+[
+  { question: "This is the ___ book I've ever read.", options: ["most interesting", "more interesting", "interesting", "interestinger", "interestingest"], answer: "most interesting" },
+  { question: "Out of all the students, Maria speaks English the ___.", options: ["most fluently", "more fluently", "fluent", "fluenter", "fluentest"], answer: "most fluently" },
+  { question: "He works ___ than his colleagues.", options: ["harder", "hardest", "hard", "more hard", "most hard"], answer: "harder" },
+  { question: "He is ___ than he appears.", options: ["more powerful", "most powerful", "powerful", "powerfuller", "powerfullest"], answer: "more powerful" },
+  { question: "She is the ___ of the twins.", options: ["older", "oldest", "old", "more old", "most old"], answer: "older" },
+],
+
+// Stage 7
+[
+  { question: "She danced ___ than anyone else at the party.", options: ["more gracefully", "most gracefully", "graceful", "gracefuller", "gracefullest"], answer: "more gracefully" },
+  { question: "This is the ___ restaurant I've ever been to.", options: ["best", "better", "good", "most good", "more good"], answer: "best" },
+  { question: "Of all the runners, he ran the ___.", options: ["fastest", "faster", "fast", "most fast", "more fast"], answer: "fastest" },
+  { question: "She is ___ at solving puzzles than her brother.", options: ["better", "best", "good", "more good", "most good"], answer: "better" },
+  { question: "This task is ___ than the previous one.", options: ["less complicated", "least complicated", "complicated", "more complicated", "most complicated"], answer: "less complicated" },
+],
+
+// Stage 8
+[
+  { question: "This painting is ___ than that one.", options: ["more beautiful", "most beautiful", "beautiful", "beautifuller", "beautifullest"], answer: "more beautiful" },
+  { question: "He is the ___ candidate for the job.", options: ["most suitable", "more suitable", "suitable", "suitabler", "suitablest"], answer: "most suitable" },
+  { question: "Her explanation was ___ than the teacher's.", options: ["clearer", "clearest", "clear", "more clear", "most clear"], answer: "clearer" },
+  { question: "He is ___ interested in sports than music.", options: ["more", "most", "much", "many", "mostest"], answer: "more" },
+  { question: "He drives ___ than his brother.", options: ["more carefully", "most carefully", "careful", "carefuller", "carefullest"], answer: "more carefully" },
+],
+
+// Stage 9
+[
+  { question: "This is the ___ route to the city.", options: ["shortest", "shorter", "short", "most short", "more short"], answer: "shortest" },
+  { question: "He is ___ than he used to be.", options: ["more cautious", "most cautious", "cautious", "cautiouser", "cautiousest"], answer: "more cautious" },
+  { question: "He arrived ___ than expected.", options: ["later", "latest", "late", "more late", "most late"], answer: "later" },
+  { question: "She dances ___ than her sister.", options: ["more gracefully", "most gracefully", "graceful", "gracefuller", "gracefullest"], answer: "more gracefully" },
+  { question: "She is ___ at chess than I am.", options: ["better", "best", "good", "more good", "most good"], answer: "better" },
+],
+
+// Stage 10
+[
+  { question: "He is the ___ of the three brothers.", options: ["youngest", "younger", "young", "most young", "more young"], answer: "youngest" },
+  { question: "This problem is ___ than we thought.", options: ["more complex", "most complex", "complex", "complexer", "complexest"], answer: "more complex" },
+  { question: "She sings ___ of all the contestants.", options: ["most beautifully", "more beautifully", "beautiful", "beautifuller", "beautifullest"], answer: "most beautifully" },
+  { question: "This is the ___ city I've ever been to.", options: ["most crowded", "more crowded", "crowded", "crowdeder", "crowdedest"], answer: "most crowded" },
+  { question: "He solved the puzzle ___ than anyone else.", options: ["more quickly", "most quickly", "quick", "quicker", "quickest"], answer: "more quickly" },
+],
+
+// Stage 11
+[
+  { question: "This is the ___ I've ever paid for a meal.", options: ["most expensive", "more expensive", "expensive", "expensiver", "expensivest"], answer: "most expensive" },
+  { question: "He works ___ than his colleagues.", options: ["harder", "hardest", "hard", "more hard", "most hard"], answer: "harder" },
+  { question: "He is the ___ player on the team.", options: ["strongest", "stronger", "strong", "most strong", "more strong"], answer: "strongest" },
+  { question: "She is ___ interested in history than geography.", options: ["less", "least", "few", "fewer", "fewest"], answer: "less" },
+  { question: "He can run ___ than any other athlete.", options: ["faster", "fastest", "fast", "more fast", "most fast"], answer: "faster" },
+],
+
+// Stage 12
+[
+  { question: "This route is the ___ of all.", options: ["safest", "safer", "safe", "most safe", "more safe"], answer: "safest" },
+  { question: "She plays the piano ___ than her sister.", options: ["better", "best", "good", "more good", "most good"], answer: "better" },
+  { question: "He is the ___ person I've ever met.", options: ["most generous", "more generous", "generous", "generouser", "generousest"], answer: "most generous" },
+  { question: "He spoke ___ than necessary.", options: ["less", "least", "few", "fewer", "fewest"], answer: "less" },
+  { question: "This is the ___ song on the album.", options: ["longest", "longer", "long", "most long", "more long"], answer: "longest" },
+],
+
+// Stage 13
+[
+  { question: "She arrived ___ than anyone else.", options: ["earlier", "earliest", "early", "more early", "most early"], answer: "earlier" },
+  { question: "This is the ___ challenge I've faced.", options: ["greatest", "greater", "great", "most great", "more great"], answer: "greatest" },
+  { question: "He performed ___ than his last attempt.", options: ["better", "best", "good", "more good", "most good"], answer: "better" },
+  { question: "Out of all the options, this is the ___ expensive.", options: ["least", "less", "few", "fewer", "fewest"], answer: "least" },
+  { question: "He is the ___ member of the team.", options: ["most experienced", "more experienced", "experienced", "experienceder", "experiencedest"], answer: "most experienced" },
+],
+
+// Stage 14
+[
+  { question: "He is ___ to succeed than his competitors.", options: ["more likely", "most likely", "likely", "likelier", "likeliest"], answer: "more likely" },
+  { question: "She speaks Spanish ___ than English.", options: ["more fluently", "most fluently", "fluent", "fluentlier", "fluentliest"], answer: "more fluently" },
+  { question: "This puzzle is ___ difficult than that one.", options: ["less", "least", "fewer", "few", "fewest"], answer: "less" },
+  { question: "She is ___ confident now than before.", options: ["more", "most", "much", "many", "mostest"], answer: "more" },
+  { question: "This is the ___ technology available.", options: ["latest", "later", "late", "most late", "more late"], answer: "latest" },
+],
+
+// Stage 15
+[
+  { question: "He is the ___ member of the committee.", options: ["longest-serving", "longer-serving", "long-serving", "most long-serving", "more long-serving"], answer: "longest-serving" },
+  { question: "She is the ___ person in the room.", options: ["most knowledgeable", "more knowledgeable", "knowledgeable", "knowledgeabler", "knowledgeablest"], answer: "most knowledgeable" },
+  { question: "She is the ___ athlete on the team.", options: ["most dedicated", "more dedicated", "dedicated", "dedicateder", "dedicatedest"], answer: "most dedicated" },
+  { question: "He is ___ than he appears.", options: ["more insightful", "most insightful", "insightful", "insightfuller", "insightfullest"], answer: "more insightful" },
+  { question: "This solution is the ___ practical of all options.", options: ["least", "less", "few", "fewer", "fewest"], answer: "least" },
+],
+
+// Stage 16
+[
+  { question: "He is ___ to win the award than anyone else.", options: ["more likely", "most likely", "likely", "likelier", "likeliest"], answer: "more likely" },
+  { question: "This is the ___ building in the city.", options: ["tallest", "taller", "tall", "most tall", "more tall"], answer: "tallest" },
+  { question: "She handled the situation ___ than anyone could have.", options: ["more gracefully", "most gracefully", "graceful", "gracefuller", "gracefullest"], answer: "more gracefully" },
+  { question: "Among all the options, this is the ___ feasible.", options: ["most", "more", "much", "many", "mostest"], answer: "most" },
+  { question: "This method is ___ effective than the previous one.", options: ["less", "least", "few", "fewer", "fewest"], answer: "less" },
+],
+
+// Stage 17
+[
+  { question: "She solved the puzzle with ___ effort than I did.", options: ["less", "least", "few", "fewer", "fewest"], answer: "less" },
+  { question: "He completed the task with the ___ amount of resources.", options: ["least", "less", "few", "fewer", "fewest"], answer: "least" },
+  { question: "She is ___ of the two sisters.", options: ["the elder", "elder", "eldest", "oldest", "older"], answer: "the elder" },
+  { question: "He reacted ___ than I anticipated.", options: ["more calmly", "most calmly", "calm", "calmer", "calmest"], answer: "more calmly" },
+  { question: "This is the ___ complex problem we've encountered.", options: ["most", "more", "much", "many", "mostest"], answer: "most" },
+],
+
+// Stage 18
+[
+  { question: "He is the ___ candidate for the position.", options: ["most qualified", "more qualified", "qualified", "qualifier", "qualifiest"], answer: "most qualified" },
+  { question: "Among all the cars, this one is the ___.", options: ["most efficient", "more efficient", "efficient", "efficienter", "efficientest"], answer: "most efficient" },
+  { question: "She responded ___ than I expected.", options: ["more quickly", "most quickly", "quick", "quicker", "quickest"], answer: "more quickly" },
+  { question: "This path is ___ than the other one.", options: ["less dangerous", "least dangerous", "dangerous", "more dangerous", "most dangerous"], answer: "less dangerous" },
+  { question: "He spoke ___ than necessary.", options: ["less", "least", "few", "fewer", "fewest"], answer: "less" },
+],
+
+// Stage 19
+[
+  { question: "She is the ___ person in the room.", options: ["most knowledgeable", "more knowledgeable", "knowledgeable", "knowledgeabler", "knowledgeablest"], answer: "most knowledgeable" },
+  { question: "Of all the participants, he was the ___.", options: ["most accomplished", "more accomplished", "accomplished", "accomplisheder", "accomplishedest"], answer: "most accomplished" },
+  { question: "She is ___ than she appears.", options: ["more insightful", "most insightful", "insightful", "insightfuller", "insightfullest"], answer: "more insightful" },
+  { question: "He is the ___ renowned expert in the field.", options: ["most", "more", "much", "many", "mostest"], answer: "most" },
+  { question: "He completed the task with the ___ amount of resources.", options: ["least", "less", "few", "fewer", "fewest"], answer: "least" },
+],
+
+// Stage 20
+[
+  { question: "This is the ___ I've ever felt.", options: ["happiest", "happier", "happy", "most happy", "more happy"], answer: "happiest" },
+  { question: "She arrived ___ than everyone else.", options: ["earlier", "earliest", "early", "more early", "most early"], answer: "earlier" },
+  { question: "This is the ___ significant discovery of the decade.", options: ["most", "more", "much", "many", "mostest"], answer: "most" },
+  { question: "He is the ___ member of the committee.", options: ["longest-serving", "longer-serving", "long-serving", "most long-serving", "more long-serving"], answer: "longest-serving" },
+  { question: "This is the ___ technology available.", options: ["latest", "later", "late", "most late", "more late"], answer: "latest" },
+],
+
+
+
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+
+
+		   'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+           ,'Subject Overview 🗝️': `<div class="subject-overview-content">   <h1>Comparative and Superlative in English: A Comprehensive Guide</h1>   <p>Comparative and superlative forms are essential components of English grammar, allowing us to compare two or more entities and express the highest degree of a quality. Mastering these forms enhances your ability to describe differences and similarities with precision. This guide will explore the rules, usage, and provide numerous examples to help you effectively use comparative and superlative adjectives in various contexts.</p>   <hr>   <h2>Table of Contents</h2>   <ol>     <li><a href="#what-are-comparative-and-superlative">What Are Comparative and Superlative Forms?</a></li>     <li><a href="#general-rules-for-comparative-and-superlative">General Rules for Comparative and Superlative</a></li>     <li><a href="#detailed-explanation-of-comparative-and-superlative">Detailed Explanation of Comparative and Superlative</a>       <ul>         <li><a href="#comparative">Comparative</a></li>         <li><a href="#superlative">Superlative</a></li>       </ul>     </li>     <li><a href="#exceptions-and-irregular-forms">Exceptions and Irregular Forms</a></li>     <li><a href="#conclusion">Conclusion</a></li>   </ol>   <hr>   <h2 id="what-are-comparative-and-superlative">What Are Comparative and Superlative Forms?</h2>   <p>Comparative and superlative forms are used to compare two or more things, highlighting differences and extremes in qualities. While the comparative form compares two entities, the superlative form compares three or more, indicating the highest degree of a particular quality.</p>   <p>For example:</p>   <ul>     <li><strong>Comparative:</strong> "She is taller than her brother."</li>     <li><strong>Superlative:</strong> "He is the tallest student in the class."</li>   </ul>   <hr>   <h2 id="general-rules-for-comparative-and-superlative">General Rules for Comparative and Superlative</h2>   <p>Understanding the formation of comparative and superlative adjectives is crucial for correct usage. Here are the general rules:</p>   <ol>     <li>       <strong>One-Syllable Adjectives:</strong>       <ul>         <li>Add <em>-er</em> for the comparative and <em>-est</em> for the superlative.</li>         <li>Example: <em>fast</em> → <em>faster</em> → <em>fastest</em></li>       </ul>     </li>     <li>       <strong>Two-Syllable Adjectives Ending in -y:</strong>       <ul>         <li>Change the <em>-y</em> to <em>-i</em> and add <em>-er</em> or <em>-est</em>.</li>         <li>Example: <em>happy</em> → <em>happier</em> → <em>happiest</em></li>       </ul>     </li>     <li>       <strong>Two-Syllable Adjectives Not Ending in -y and Longer Adjectives:</strong>       <ul>         <li>Use "more" for the comparative and "most" for the superlative.</li>         <li>Example: <em>beautiful</em> → <em>more beautiful</em> → <em>most beautiful</em></li>       </ul>     </li>     <li>       <strong>Irregular Adjectives:</strong>       <ul>         <li>Some adjectives have unique comparative and superlative forms.</li>         <li>Example: <em>good</em> → <em>better</em> → <em>best</em></li>       </ul>     </li>   </ol>   <hr>   <h2 id="detailed-explanation-of-comparative-and-superlative">Detailed Explanation of Comparative and Superlative</h2>     <h3 id="comparative">Comparative</h3>   <p><strong>Meaning and Use:</strong></p>   <ol>     <li>       <strong>Comparing Two Entities:</strong> The comparative form is used to highlight differences between two nouns.       <ul>         <li><em>This book is more interesting than the last one.</em></li>         <li><em>She is taller than her sister.</em></li>       </ul>     </li>     <li>       <strong>Expressing Degree:</strong> Indicates a higher degree of a quality.       <ul>         <li><em>The weather is getting colder.</em></li>         <li><em>He is more diligent in his studies now.</em></li>       </ul>     </li>     <li>       <strong>Using "Than" with Comparatives:</strong> Comparatives are often followed by "than" to introduce the second element.       <ul>         <li><em>My car is faster than yours.</em></li>         <li><em>Living in the city is more expensive than in the countryside.</em></li>       </ul>     </li>   </ol>   <p><strong>Examples:</strong></p>   <ul>     <li><em>Cold → colder</em></li>     <li><em>Happy → happier</em></li>     <li><em>Beautiful → more beautiful</em></li>     <li><em>Good → better</em></li>   </ul>   <p><strong>Negative Form:</strong></p>   <ul>     <li>Instead of using a negative form, express the lack of comparison.       <ul>         <li><em>This task is not as difficult as the previous one.</em></li>       </ul>     </li>   </ul>     <hr>     <h3 id="superlative">Superlative</h3>   <p><strong>Meaning and Use:</strong></p>   <ol>     <li>       <strong>Comparing Three or More Entities:</strong> The superlative form is used to highlight the extreme quality among three or more nouns.       <ul>         <li><em>She is the tallest in her family.</em></li>         <li><em>This is the most interesting book I have ever read.</em></li>       </ul>     </li>     <li>       <strong>Expressing the Highest Degree:</strong> Indicates the highest level of a particular quality.       <ul>         <li><em>It was the coldest winter in decades.</em></li>         <li><em>He is the most dedicated employee in the company.</em></li>       </ul>     </li>     <li>       <strong>Using "The" with Superlatives:</strong> Superlative adjectives are usually preceded by "the."       <ul>         <li><em>The best solution is yet to be found.</em></li>         <li><em>She gave the most compelling argument.</em></li>       </ul>     </li>   </ol>   <p><strong>Examples:</strong></p>   <ul>     <li><em>Cold → coldest</em></li>     <li><em>Happy → happiest</em></li>     <li><em>Beautiful → most beautiful</em></li>     <li><em>Good → best</em></li>   </ul>   <p><strong>Negative Form:</strong></p>   <ul>     <li>Instead of using a negative form, express the absence of the highest degree.       <ul>         <li><em>He is not the smartest in the class.</em></li>       </ul>     </li>   </ul>     <hr>     <h2 id="exceptions-and-irregular-forms">Exceptions and Irregular Forms</h2>   <p>While most adjectives follow the standard rules for forming comparatives and superlatives, some adjectives are irregular and do not follow these patterns.</p>   <ul>     <li><strong>Good → better → best</strong></li>     <li><strong>Bad → worse → worst</strong></li>     <li><strong>Far → farther/further → farthest/furthest</strong></li>     <li><strong>Little → less → least</strong></li>     <li><strong>Many/Much → more → most</strong></li>   </ul>   <p>Additionally, some adjectives have the same form for both comparative and superlative.</p>   <ul>     <li><strong>Unique → unique → unique</strong></li>     <li><strong>Perfect → perfect → perfect</strong></li>   </ul>   <hr>     <h2 id="conclusion">Conclusion</h2>   <p>Understanding comparative and superlative forms is fundamental for effective communication in English. By applying the correct rules and recognizing exceptions, you can accurately describe and compare various qualities. Here's a quick recap:</p>   <ul>     <li><strong>Comparative:</strong> Used to compare two entities, typically formed by adding <em>-er</em> or using "more."</li>     <li><strong>Superlative:</strong> Used to compare three or more entities, typically formed by adding <em>-est</em> or using "most."</li>     <li><strong>Irregular Forms:</strong> Some adjectives have unique comparative and superlative forms that must be memorized.</li>   </ul>   <p><strong>Remember</strong>: Always consider the number of syllables and the ending of the adjective when forming comparative and superlative forms, and be aware of irregular adjectives that deviate from standard patterns.</p>   <hr>   <p>By mastering comparative and superlative forms, you'll enhance your descriptive language skills, making your communication more precise and effective. Practice regularly by comparing different objects, people, and experiences to reinforce your understanding and usage of these essential grammatical structures.</p> </div>
+`
+
+		
+		};
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    quizData[currentStage].forEach((question, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+        
+        // Create label for the question text
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${question.question}`;
+        
+        // Create div for result feedback
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+        
+        // Create select element for answers
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        
+        // Add default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+        
+        // Shuffle and add answer options
+        const shuffledOptions = shuffleArray([...question.options]);
+        shuffledOptions.forEach((option, optionIndex) => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        // Append elements to questionElement in the desired order
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv); // Feedback before dropdown
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+		function checkStage() {
+   attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[currentStage].length;
+
+    quizData[currentStage].forEach((question, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === question.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect answer.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 10) {
+            selectElement.value = question.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` The correct answer is: ${question.answer}`;
+        }
+    });
+
+    console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`Stage ${currentStage + 1} completed. Adding ${totalQuestions} animals.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`Moving to stage ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("Congratulations! You've completed all stages.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+		function updateStageNumber() {
+			const stageElement = document.getElementById("stage-number");
+			stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+		}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>
