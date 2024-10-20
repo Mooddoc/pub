@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+	<style>
+
+	</style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read each sentence/question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>Using Commas and Periods - A1</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+        const quizData = [ 												//  PH3 - Quiz Data   	
+
+  // Stage 1
+  [
+    { question: "Choose the correct sentence:", options: ["My name is Tom, I am 8 years old.", "My name is Tom. I am 8 years old.", "My name is Tom I am 8 years old", "My name is Tom, I am 8 years old,", "My name is Tom? I am 8 years old?"], answer: "My name is Tom. I am 8 years old." },
+    { question: "Which sentence uses commas correctly?", options: ["I like apples oranges and bananas.", "I like apples, oranges and bananas.", "I like apples, oranges, and bananas.", "I like, apples, oranges, and bananas.", "I like apples, oranges, and, bananas."], answer: "I like apples, oranges, and bananas." },
+    { question: "Select the sentence with correct punctuation:", options: ["The cat is black, The dog is brown.", "The cat is black. The dog is brown.", "The cat is black The dog is brown", "The cat is black, the dog is brown.", "The cat is black? The dog is brown?"], answer: "The cat is black. The dog is brown." },
+    { question: "Which sentence is punctuated correctly?", options: ["On Monday I go to school.", "On Monday, I go to school.", "On Monday. I go to school.", "On Monday I go to school,", "On, Monday, I go to school."], answer: "On Monday, I go to school." },
+    { question: "Choose the correct sentence ending:", options: ["It is sunny today", "It is sunny today,", "It is sunny today.", "It is sunny today?", "It is sunny today!"], answer: "It is sunny today." },
+  ],
+  // Stage 2
+  [
+    { question: "Which sentence uses commas correctly?", options: ["I have a pen a book and a pencil.", "I have a pen, a book and a pencil.", "I have a pen, a book, and a pencil.", "I have a pen, a book, and, a pencil.", "I have, a pen, a book, and a pencil."], answer: "I have a pen, a book, and a pencil." },
+    { question: "Select the sentence with correct punctuation:", options: ["The sky is blue, The grass is green.", "The sky is blue. The grass is green.", "The sky is blue The grass is green", "The sky is blue, the grass is green.", "The sky is blue? The grass is green?"], answer: "The sky is blue. The grass is green." },
+    { question: "Which sentence is punctuated correctly?", options: ["My friend is tall kind and funny.", "My friend is tall, kind and funny.", "My friend is tall, kind, and funny.", "My friend is tall, kind, and, funny.", "My friend is, tall, kind, and funny."], answer: "My friend is tall, kind, and funny." },
+    { question: "Choose the correct sentence:", options: ["After school I play with my friends.", "After school, I play with my friends.", "After school. I play with my friends.", "After school I play with my friends,", "After, school, I play with my friends."], answer: "After school, I play with my friends." },
+    { question: "Which sentence ending is correct?", options: ["It is cold outside", "It is cold outside,", "It is cold outside.", "It is cold outside?", "It is cold outside!"], answer: "It is cold outside." },
+  ],
+  // Stage 3
+  [
+    { question: "Which sentence uses commas correctly?", options: ["I eat breakfast lunch and dinner.", "I eat breakfast, lunch and dinner.", "I eat breakfast, lunch, and dinner.", "I eat breakfast, lunch, and, dinner.", "I eat, breakfast, lunch, and dinner."], answer: "I eat breakfast, lunch, and dinner." },
+    { question: "Select the sentence with correct punctuation:", options: ["The mouse is small, The elephant is big.", "The mouse is small. The elephant is big.", "The mouse is small The elephant is big", "The mouse is small, the elephant is big.", "The mouse is small? The elephant is big?"], answer: "The mouse is small. The elephant is big." },
+    { question: "Which sentence is punctuated correctly?", options: ["On Tuesday we have art class.", "On Tuesday, we have art class.", "On Tuesday. we have art class.", "On Tuesday we have art class,", "On, Tuesday, we have art class."], answer: "On Tuesday, we have art class." },
+    { question: "Choose the correct sentence ending:", options: ["I like to read books", "I like to read books,", "I like to read books.", "I like to read books?", "I like to read books!"], answer: "I like to read books." },
+    { question: "Which sentence uses commas correctly?", options: ["My sister brother and I play together.", "My sister, brother and I play together.", "My sister, brother, and I play together.", "My sister, brother, and, I play together.", "My, sister, brother, and I play together."], answer: "My sister, brother, and I play together." },
+  ],
+  // Stage 4
+  [
+    { question: "Select the sentence with correct punctuation:", options: ["The ball is round, The box is square.", "The ball is round. The box is square.", "The ball is round The box is square", "The ball is round, the box is square.", "The ball is round? The box is square?"], answer: "The ball is round. The box is square." },
+    { question: "Which sentence uses commas correctly?", options: ["I have a cat a dog and a fish.", "I have a cat, a dog and a fish.", "I have a cat, a dog, and a fish.", "I have a cat, a dog, and, a fish.", "I have, a cat, a dog, and a fish."], answer: "I have a cat, a dog, and a fish." },
+    { question: "Choose the correct sentence:", options: ["In summer it is hot.", "In summer, it is hot.", "In summer. it is hot.", "In summer it is hot,", "In, summer, it is hot."], answer: "In summer, it is hot." },
+    { question: "Which sentence ending is correct?", options: ["She likes to sing", "She likes to sing,", "She likes to sing.", "She likes to sing?", "She likes to sing!"], answer: "She likes to sing." },
+    { question: "Which sentence uses commas correctly?", options: ["Tom Mary and Sue are friends.", "Tom, Mary and Sue are friends.", "Tom, Mary, and Sue are friends.", "Tom, Mary, and, Sue are friends.", "Tom, Mary, and Sue, are friends."], answer: "Tom, Mary, and Sue are friends." },
+  ],
+  // Stage 5
+  [
+    { question: "Select the sentence with correct punctuation:", options: ["I wake up I brush my teeth I eat breakfast.", "I wake up, I brush my teeth, I eat breakfast.", "I wake up. I brush my teeth. I eat breakfast.", "I wake up, I brush my teeth. I eat breakfast.", "I wake up? I brush my teeth? I eat breakfast?"], answer: "I wake up. I brush my teeth. I eat breakfast." },
+    { question: "Which sentence uses commas correctly?", options: ["The car is red fast and new.", "The car is red, fast and new.", "The car is red, fast, and new.", "The car is red, fast, and, new.", "The car is, red, fast, and new."], answer: "The car is red, fast, and new." },
+    { question: "Choose the correct sentence:", options: ["On weekends I visit my grandparents.", "On weekends, I visit my grandparents.", "On weekends. I visit my grandparents.", "On weekends I visit my grandparents,", "On, weekends, I visit my grandparents."], answer: "On weekends, I visit my grandparents." },
+    { question: "Which sentence ending is correct?", options: ["It is raining today", "It is raining today,", "It is raining today.", "It is raining today?", "It is raining today!"], answer: "It is raining today." },
+    { question: "Which sentence uses commas correctly?", options: ["I like pizza pasta and salad.", "I like pizza, pasta and salad.", "I like pizza, pasta, and salad.", "I like pizza, pasta, and, salad.", "I like, pizza, pasta, and salad."], answer: "I like pizza, pasta, and salad." },
+  ],
+    // Stage 6
+  [
+    { question: "Choose the correct sentence:", options: ["The tree is tall, The flower is small.", "The tree is tall. The flower is small.", "The tree is tall The flower is small", "The tree is tall, the flower is small.", "The tree is tall? The flower is small?"], answer: "The tree is tall. The flower is small." },
+    { question: "Which sentence uses commas correctly?", options: ["I study English math and science.", "I study English, math and science.", "I study English, math, and science.", "I study English, math, and, science.", "I study, English, math, and science."], answer: "I study English, math, and science." },
+    { question: "Select the sentence with correct punctuation:", options: ["At night I sleep in my bed.", "At night, I sleep in my bed.", "At night. I sleep in my bed.", "At night I sleep in my bed,", "At, night, I sleep in my bed."], answer: "At night, I sleep in my bed." },
+    { question: "Which sentence ending is correct?", options: ["He plays football very well", "He plays football very well,", "He plays football very well.", "He plays football very well?", "He plays football very well!"], answer: "He plays football very well." },
+    { question: "Which sentence uses commas correctly?", options: ["Monday Tuesday and Wednesday are weekdays.", "Monday, Tuesday and Wednesday are weekdays.", "Monday, Tuesday, and Wednesday are weekdays.", "Monday, Tuesday, and, Wednesday are weekdays.", "Monday, Tuesday, and Wednesday, are weekdays."], answer: "Monday, Tuesday, and Wednesday are weekdays." },
+  ],
+  // Stage 7
+  [
+    { question: "Select the sentence with correct punctuation:", options: ["I go to school, I learn new things, I make friends.", "I go to school. I learn new things. I make friends.", "I go to school I learn new things I make friends", "I go to school, I learn new things. I make friends.", "I go to school? I learn new things? I make friends?"], answer: "I go to school. I learn new things. I make friends." },
+    { question: "Which sentence is punctuated correctly?", options: ["The bird can fly, The fish can swim.", "The bird can fly. The fish can swim.", "The bird can fly The fish can swim", "The bird can fly, the fish can swim.", "The bird can fly? The fish can swim?"], answer: "The bird can fly. The fish can swim." },
+    { question: "Choose the correct sentence:", options: ["For breakfast I eat cereal.", "For breakfast, I eat cereal.", "For breakfast. I eat cereal.", "For breakfast I eat cereal,", "For, breakfast, I eat cereal."], answer: "For breakfast, I eat cereal." },
+    { question: "Which sentence ending is correct?", options: ["She lives in a big house", "She lives in a big house,", "She lives in a big house.", "She lives in a big house?", "She lives in a big house!"], answer: "She lives in a big house." },
+    { question: "Which sentence uses commas correctly?", options: ["I need a pen paper and a ruler.", "I need a pen, paper and a ruler.", "I need a pen, paper, and a ruler.", "I need a pen, paper, and, a ruler.", "I need, a pen, paper, and a ruler."], answer: "I need a pen, paper, and a ruler." },
+  ],
+  // Stage 8
+  [
+    { question: "Select the sentence with correct punctuation:", options: ["The sun is yellow, The moon is white.", "The sun is yellow. The moon is white.", "The sun is yellow The moon is white", "The sun is yellow, the moon is white.", "The sun is yellow? The moon is white?"], answer: "The sun is yellow. The moon is white." },
+    { question: "Which sentence uses commas correctly?", options: ["I like to swim run and cycle.", "I like to swim, run and cycle.", "I like to swim, run, and cycle.", "I like to swim, run, and, cycle.", "I like to, swim, run, and cycle."], answer: "I like to swim, run, and cycle." },
+    { question: "Choose the correct sentence:", options: ["In winter it snows a lot.", "In winter, it snows a lot.", "In winter. it snows a lot.", "In winter it snows a lot,", "In, winter, it snows a lot."], answer: "In winter, it snows a lot." },
+    { question: "Which sentence ending is correct?", options: ["They play in the park", "They play in the park,", "They play in the park.", "They play in the park?", "They play in the park!"], answer: "They play in the park." },
+    { question: "Which sentence uses commas correctly?", options: ["Red blue and green are colors.", "Red, blue and green are colors.", "Red, blue, and green are colors.", "Red, blue, and, green are colors.", "Red, blue, and green, are colors."], answer: "Red, blue, and green are colors." },
+  ],
+  // Stage 9
+  [
+    { question: "Which sentence uses commas correctly?", options: ["I have a nose two eyes and two ears.", "I have a nose, two eyes and two ears.", "I have a nose, two eyes, and two ears.", "I have a nose, two eyes, and, two ears.", "I have, a nose, two eyes, and two ears."], answer: "I have a nose, two eyes, and two ears." },
+    { question: "Select the sentence with correct punctuation:", options: ["The car stops, The bus goes.", "The car stops. The bus goes.", "The car stops The bus goes", "The car stops, the bus goes.", "The car stops? The bus goes?"], answer: "The car stops. The bus goes." },
+    { question: "Choose the correct sentence:", options: ["On Friday we watch a movie.", "On Friday, we watch a movie.", "On Friday. we watch a movie.", "On Friday we watch a movie,", "On, Friday, we watch a movie."], answer: "On Friday, we watch a movie." },
+    { question: "Which sentence ending is correct?", options: ["It is cloudy outside", "It is cloudy outside,", "It is cloudy outside.", "It is cloudy outside?", "It is cloudy outside!"], answer: "It is cloudy outside." },
+    { question: "Which sentence uses commas correctly?", options: ["I drink water juice and milk.", "I drink water, juice and milk.", "I drink water, juice, and milk.", "I drink water, juice, and, milk.", "I drink, water, juice, and milk."], answer: "I drink water, juice, and milk." },
+  ],
+  // Stage 10
+  [
+    { question: "Select the sentence with correct punctuation:", options: ["The book is on the table, The pen is in the bag.", "The book is on the table. The pen is in the bag.", "The book is on the table The pen is in the bag", "The book is on the table, the pen is in the bag.", "The book is on the table? The pen is in the bag?"], answer: "The book is on the table. The pen is in the bag." },
+    { question: "Which sentence uses commas correctly?", options: ["I like cats dogs and rabbits.", "I like cats, dogs and rabbits.", "I like cats, dogs, and rabbits.", "I like cats, dogs, and, rabbits.", "I like, cats, dogs, and rabbits."], answer: "I like cats, dogs, and rabbits." },
+    { question: "Choose the correct sentence:", options: ["After dinner I do my homework.", "After dinner, I do my homework.", "After dinner. I do my homework.", "After dinner I do my homework,", "After, dinner, I do my homework."], answer: "After dinner, I do my homework." },
+    { question: "Which sentence ending is correct?", options: ["She speaks English very well", "She speaks English very well,", "She speaks English very well.", "She speaks English very well?", "She speaks English very well!"], answer: "She speaks English very well." },
+    { question: "Which sentence uses commas correctly?", options: ["Spring summer and fall are seasons.", "Spring, summer and fall are seasons.", "Spring, summer, and fall are seasons.", "Spring, summer, and, fall are seasons.", "Spring, summer, and fall, are seasons."], answer: "Spring, summer, and fall are seasons." },
+  ],
+  // Stage 11
+  [
+    { question: "Choose the correct sentence:", options: ["My dog is brown, It has a long tail.", "My dog is brown. It has a long tail.", "My dog is brown It has a long tail", "My dog is brown, it has a long tail.", "My dog is brown? It has a long tail?"], answer: "My dog is brown. It has a long tail." },
+    { question: "Which sentence uses commas correctly?", options: ["I need shoes socks and a hat.", "I need shoes, socks and a hat.", "I need shoes, socks, and a hat.", "I need shoes, socks, and, a hat.", "I need, shoes, socks, and a hat."], answer: "I need shoes, socks, and a hat." },
+    { question: "Select the sentence with correct punctuation:", options: ["In the morning I brush my teeth.", "In the morning, I brush my teeth.", "In the morning. I brush my teeth.", "In the morning I brush my teeth,", "In, the morning, I brush my teeth."], answer: "In the morning, I brush my teeth." },
+    { question: "Which sentence ending is correct?", options: ["The children are playing outside", "The children are playing outside,", "The children are playing outside.", "The children are playing outside?", "The children are playing outside!"], answer: "The children are playing outside." },
+    { question: "Which sentence uses commas correctly?", options: ["I can sing dance and play the piano.", "I can sing, dance and play the piano.", "I can sing, dance, and play the piano.", "I can sing, dance, and, play the piano.", "I can, sing, dance, and play the piano."], answer: "I can sing, dance, and play the piano." },
+  ],
+  // Stage 12
+  [
+    { question: "Select the sentence with correct punctuation:", options: ["The phone is ringing, Someone is calling.", "The phone is ringing. Someone is calling.", "The phone is ringing Someone is calling", "The phone is ringing, someone is calling.", "The phone is ringing? Someone is calling?"], answer: "The phone is ringing. Someone is calling." },
+    { question: "Which sentence uses commas correctly?", options: ["I eat fruit vegetables and bread.", "I eat fruit, vegetables and bread.", "I eat fruit, vegetables, and bread.", "I eat fruit, vegetables, and, bread.", "I eat, fruit, vegetables, and bread."], answer: "I eat fruit, vegetables, and bread." },
+    { question: "Choose the correct sentence:", options: ["On Saturdays I go to the park.", "On Saturdays, I go to the park.", "On Saturdays. I go to the park.", "On Saturdays I go to the park,", "On, Saturdays, I go to the park."], answer: "On Saturdays, I go to the park." },
+    { question: "Which sentence ending is correct?", options: ["The museum is closed today", "The museum is closed today,", "The museum is closed today.", "The museum is closed today?", "The museum is closed today!"], answer: "The museum is closed today." },
+    { question: "Which sentence uses commas correctly?", options: ["My favorite colors are blue green and yellow.", "My favorite colors are blue, green and yellow.", "My favorite colors are blue, green, and yellow.", "My favorite colors are blue, green, and, yellow.", "My favorite colors are, blue, green, and yellow."], answer: "My favorite colors are blue, green, and yellow." },
+  ],
+  // Stage 13
+  [
+    { question: "Choose the correct sentence:", options: ["The movie was long, It was also interesting.", "The movie was long. It was also interesting.", "The movie was long It was also interesting", "The movie was long, it was also interesting.", "The movie was long? It was also interesting?"], answer: "The movie was long. It was also interesting." },
+    { question: "Which sentence uses commas correctly?", options: ["I packed clothes books and snacks.", "I packed clothes, books and snacks.", "I packed clothes, books, and snacks.", "I packed clothes, books, and, snacks.", "I packed, clothes, books, and snacks."], answer: "I packed clothes, books, and snacks." },
+    { question: "Select the sentence with correct punctuation:", options: ["Before bed I read a story.", "Before bed, I read a story.", "Before bed. I read a story.", "Before bed I read a story,", "Before, bed, I read a story."], answer: "Before bed, I read a story." },
+    { question: "Which sentence ending is correct?", options: ["The baby is sleeping", "The baby is sleeping,", "The baby is sleeping.", "The baby is sleeping?", "The baby is sleeping!"], answer: "The baby is sleeping." },
+    { question: "Which sentence uses commas correctly?", options: ["We need paper pencils and erasers.", "We need paper, pencils and erasers.", "We need paper, pencils, and erasers.", "We need paper, pencils, and, erasers.", "We need, paper, pencils, and erasers."], answer: "We need paper, pencils, and erasers." },
+  ],
+  // Stage 14
+  [
+    { question: "Select the sentence with correct punctuation:", options: ["The car is fast, The bike is slow.", "The car is fast. The bike is slow.", "The car is fast The bike is slow", "The car is fast, the bike is slow.", "The car is fast? The bike is slow?"], answer: "The car is fast. The bike is slow." },
+    { question: "Which sentence uses commas correctly?", options: ["I like reading writing and drawing.", "I like reading, writing and drawing.", "I like reading, writing, and drawing.", "I like reading, writing, and, drawing.", "I like, reading, writing, and drawing."], answer: "I like reading, writing, and drawing." },
+    { question: "Choose the correct sentence:", options: ["At the beach we swim in the ocean.", "At the beach, we swim in the ocean.", "At the beach. we swim in the ocean.", "At the beach we swim in the ocean,", "At, the beach, we swim in the ocean."], answer: "At the beach, we swim in the ocean." },
+    { question: "Which sentence ending is correct?", options: ["The flowers smell nice", "The flowers smell nice,", "The flowers smell nice.", "The flowers smell nice?", "The flowers smell nice!"], answer: "The flowers smell nice." },
+    { question: "Which sentence uses commas correctly?", options: ["He speaks English French and Spanish.", "He speaks English, French and Spanish.", "He speaks English, French, and Spanish.", "He speaks English, French, and, Spanish.", "He speaks, English, French, and Spanish."], answer: "He speaks English, French, and Spanish." },
+  ],
+  // Stage 15
+  [
+    { question: "Choose the correct sentence:", options: ["The party was fun, We danced all night.", "The party was fun. We danced all night.", "The party was fun We danced all night", "The party was fun, we danced all night.", "The party was fun? We danced all night?"], answer: "The party was fun. We danced all night." },
+    { question: "Which sentence uses commas correctly?", options: ["I bought milk eggs and bread.", "I bought milk, eggs and bread.", "I bought milk, eggs, and bread.", "I bought milk, eggs, and, bread.", "I bought, milk, eggs, and bread."], answer: "I bought milk, eggs, and bread." },
+    { question: "Select the sentence with correct punctuation:", options: ["During lunch I eat a sandwich.", "During lunch, I eat a sandwich.", "During lunch. I eat a sandwich.", "During lunch I eat a sandwich,", "During, lunch, I eat a sandwich."], answer: "During lunch, I eat a sandwich." },
+    { question: "Which sentence ending is correct?", options: ["The dog is barking", "The dog is barking,", "The dog is barking.", "The dog is barking?", "The dog is barking!"], answer: "The dog is barking." },
+    { question: "Which sentence uses commas correctly?", options: ["She likes chocolate vanilla and strawberry ice cream.", "She likes chocolate, vanilla and strawberry ice cream.", "She likes chocolate, vanilla, and strawberry ice cream.", "She likes chocolate, vanilla, and, strawberry ice cream.", "She likes, chocolate, vanilla, and strawberry ice cream."], answer: "She likes chocolate, vanilla, and strawberry ice cream." },
+  ],
+  // Stage 16
+  [
+    { question: "Choose the correct sentence:", options: ["The sun is shining, The birds are singing.", "The sun is shining. The birds are singing.", "The sun is shining The birds are singing", "The sun is shining, the birds are singing.", "The sun is shining? The birds are singing?"], answer: "The sun is shining. The birds are singing." },
+    { question: "Which sentence uses commas correctly?", options: ["I need a shirt pants and shoes.", "I need a shirt, pants and shoes.", "I need a shirt, pants, and shoes.", "I need a shirt, pants, and, shoes.", "I need, a shirt, pants, and shoes."], answer: "I need a shirt, pants, and shoes." },
+    { question: "Select the sentence with correct punctuation:", options: ["In the evening we watch TV.", "In the evening, we watch TV.", "In the evening. we watch TV.", "In the evening we watch TV,", "In, the evening, we watch TV."], answer: "In the evening, we watch TV." },
+    { question: "Which sentence ending is correct?", options: ["The cake tastes delicious", "The cake tastes delicious,", "The cake tastes delicious.", "The cake tastes delicious?", "The cake tastes delicious!"], answer: "The cake tastes delicious." },
+    { question: "Which sentence uses commas correctly?", options: ["He plays soccer basketball and tennis.", "He plays soccer, basketball and tennis.", "He plays soccer, basketball, and tennis.", "He plays soccer, basketball, and, tennis.", "He plays, soccer, basketball, and tennis."], answer: "He plays soccer, basketball, and tennis." },
+  ],
+  // Stage 17
+  [
+    { question: "Choose the correct sentence:", options: ["The train is late, We have to wait.", "The train is late. We have to wait.", "The train is late We have to wait", "The train is late, we have to wait.", "The train is late? We have to wait?"], answer: "The train is late. We have to wait." },
+    { question: "Which sentence uses commas correctly?", options: ["I see trees flowers and grass in the park.", "I see trees, flowers and grass in the park.", "I see trees, flowers, and grass in the park.", "I see trees, flowers, and, grass in the park.", "I see, trees, flowers, and grass in the park."], answer: "I see trees, flowers, and grass in the park." },
+    { question: "Select the sentence with correct punctuation:", options: ["After school I do my homework.", "After school, I do my homework.", "After school. I do my homework.", "After school I do my homework,", "After, school, I do my homework."], answer: "After school, I do my homework." },
+    { question: "Which sentence ending is correct?", options: ["The movie starts at 8 PM", "The movie starts at 8 PM,", "The movie starts at 8 PM.", "The movie starts at 8 PM?", "The movie starts at 8 PM!"], answer: "The movie starts at 8 PM." },
+    { question: "Which sentence uses commas correctly?", options: ["We need to buy apples bananas and oranges.", "We need to buy apples, bananas and oranges.", "We need to buy apples, bananas, and oranges.", "We need to buy apples, bananas, and, oranges.", "We need to buy, apples, bananas, and oranges."], answer: "We need to buy apples, bananas, and oranges." },
+  ],
+  // Stage 18
+  [
+    { question: "Choose the correct sentence:", options: ["The book is interesting, I can't stop reading.", "The book is interesting. I can't stop reading.", "The book is interesting I can't stop reading", "The book is interesting, i can't stop reading.", "The book is interesting? I can't stop reading?"], answer: "The book is interesting. I can't stop reading." },
+    { question: "Which sentence uses commas correctly?", options: ["She has a cat a dog and a hamster.", "She has a cat, a dog and a hamster.", "She has a cat, a dog, and a hamster.", "She has a cat, a dog, and, a hamster.", "She has, a cat, a dog, and a hamster."], answer: "She has a cat, a dog, and a hamster." },
+    { question: "Select the sentence with correct punctuation:", options: ["On Sundays we go to the park.", "On Sundays, we go to the park.", "On Sundays. we go to the park.", "On Sundays we go to the park,", "On, Sundays, we go to the park."], answer: "On Sundays, we go to the park." },
+    { question: "Which sentence ending is correct?", options: ["The children are laughing", "The children are laughing,", "The children are laughing.", "The children are laughing?", "The children are laughing!"], answer: "The children are laughing." },
+    { question: "Which sentence uses commas correctly?", options: ["I like to read books magazines and newspapers.", "I like to read books, magazines and newspapers.", "I like to read books, magazines, and newspapers.", "I like to read books, magazines, and, newspapers.", "I like to read, books, magazines, and newspapers."], answer: "I like to read books, magazines, and newspapers." },
+  ],
+  // Stage 19
+  [
+    { question: "Choose the correct sentence:", options: ["The weather is nice, Let's go for a walk.", "The weather is nice. Let's go for a walk.", "The weather is nice Let's go for a walk", "The weather is nice, let's go for a walk.", "The weather is nice? Let's go for a walk?"], answer: "The weather is nice. Let's go for a walk." },
+    { question: "Which sentence uses commas correctly?", options: ["We learn math science and history at school.", "We learn math, science and history at school.", "We learn math, science, and history at school.", "We learn math, science, and, history at school.", "We learn, math, science, and history at school."], answer: "We learn math, science, and history at school." },
+    { question: "Select the sentence with correct punctuation:", options: ["In the morning I drink coffee.", "In the morning, I drink coffee.", "In the morning. I drink coffee.", "In the morning I drink coffee,", "In, the morning, I drink coffee."], answer: "In the morning, I drink coffee." },
+    { question: "Which sentence ending is correct?", options: ["The bell is ringing", "The bell is ringing,", "The bell is ringing.", "The bell is ringing?", "The bell is ringing!"], answer: "The bell is ringing." },
+    { question: "Which sentence uses commas correctly?", options: ["He bought a shirt a hat and shoes.", "He bought a shirt, a hat and shoes.", "He bought a shirt, a hat, and shoes.", "He bought a shirt, a hat, and, shoes.", "He bought, a shirt, a hat, and shoes."], answer: "He bought a shirt, a hat, and shoes." },
+  ],
+  // Stage 20
+  [
+    { question: "Choose the correct sentence:", options: ["The exam is tomorrow, I need to study.", "The exam is tomorrow. I need to study.", "The exam is tomorrow I need to study", "The exam is tomorrow, i need to study.", "The exam is tomorrow? I need to study?"], answer: "The exam is tomorrow. I need to study." },
+    { question: "Which sentence uses commas correctly?", options: ["We visited Paris Rome and London.", "We visited Paris, Rome and London.", "We visited Paris, Rome, and London.", "We visited Paris, Rome, and, London.", "We visited, Paris, Rome, and London."], answer: "We visited Paris, Rome, and London." },
+    { question: "Select the sentence with correct punctuation:", options: ["Before dinner I set the table.", "Before dinner, I set the table.", "Before dinner. I set the table.", "Before dinner I set the table,", "Before, dinner, I set the table."], answer: "Before dinner, I set the table." },
+    { question: "Which sentence ending is correct?", options: ["The concert begins at 7 PM", "The concert begins at 7 PM,", "The concert begins at 7 PM.", "The concert begins at 7 PM?", "The concert begins at 7 PM!"], answer: "The concert begins at 7 PM." },
+    { question: "Which sentence uses commas correctly?", options: ["I need to buy milk bread and cheese.", "I need to buy milk, bread and cheese.", "I need to buy milk, bread, and cheese.", "I need to buy milk, bread, and, cheese.", "I need to buy, milk, bread, and cheese."], answer: "I need to buy milk, bread, and cheese." },
+  ]
+
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+
+
+		   'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+           ,'Subject Overview 🗝️': `<div class="subject-overview-content"> <h1>Using Commas and Periods: A Comprehensive Guide</h1> <p>Commas and periods are fundamental punctuation marks in English. They help structure sentences, clarify meaning, and guide readers through text. This guide will explore the various uses of commas and periods, providing rules and examples to help you use them correctly in your writing.</p> <hr> <h2>Table of Contents</h2> <ol> <li><a href="#what-are-commas-and-periods">What Are Commas and Periods?</a></li> <li><a href="#general-characteristics">General Characteristics</a></li> <li><a href="#detailed-explanation">Detailed Explanation</a> <ul> <li><a href="#commas">Commas</a></li> <li><a href="#periods">Periods</a></li> </ul> </li> <li><a href="#common-mistakes">Common Mistakes</a></li> <li><a href="#conclusion">Conclusion</a></li> </ol> <hr> <h2 id="what-are-commas-and-periods">What Are Commas and Periods?</h2> <p>Commas (,) and periods (.) are punctuation marks used to structure and organize written text:</p> <ul> <li><strong>Commas</strong> separate elements within a sentence, indicating brief pauses and helping to clarify relationships between words and clauses.</li> <li><strong>Periods</strong> mark the end of a complete thought or sentence, signaling a full stop in reading.</li> </ul> <hr> <h2 id="general-characteristics">General Characteristics</h2> <p>Before diving into specific uses, let's consider some general rules for commas and periods:</p> <ol> <li><strong>Spacing</strong>: Always place a single space after a comma or period, but not before.</li> <li><strong>Frequency</strong>: Periods are used more frequently than any other punctuation mark.</li> <li><strong>Sentence Structure</strong>: Commas often work within sentences, while periods typically end them.</li> <li><strong>Clarity</strong>: Both commas and periods contribute to the overall clarity and readability of text.</li> </ol> <hr> <h2 id="detailed-explanation">Detailed Explanation</h2> <h3 id="commas">Commas</h3> <p><strong>Uses of Commas:</strong></p> <ol> <li><strong>Separating Items in a List</strong>: Use commas to separate three or more items in a series. <ul> <li><em>I need to buy milk, bread, and eggs.</em></li> </ul> </li> <li><strong>Joining Independent Clauses</strong>: Use a comma before coordinating conjunctions (and, but, or, nor, for, so, yet) when joining independent clauses. <ul> <li><em>She finished her work, and then she went home.</em></li> </ul> </li> <li><strong>Setting Off Introductory Elements</strong>: Use a comma after introductory clauses, phrases, or words that come before the main clause. <ul> <li><em>After the movie ended, we went for dinner.</em></li> </ul> </li> <li><strong>Surrounding Non-essential Information</strong>: Use commas to enclose non-essential clauses or phrases. <ul> <li><em>My sister, who lives in Paris, is visiting next month.</em></li> </ul> </li> </ol> <p><strong>Examples:</strong></p> <ul> <li><em>Despite the rain, the game continued as scheduled.</em></li> <li><em>The restaurant offers pasta, pizza, salads, and desserts.</em></li> <li><em>He studied hard for the exam, but he still didn't pass.</em></li> </ul> <hr> <h3 id="periods">Periods</h3> <p><strong>Uses of Periods:</strong></p> <ol> <li><strong>Ending Sentences</strong>: Use periods to mark the end of declarative and imperative sentences. <ul> <li><em>The sun sets in the west.</em></li> <li><em>Please close the door.</em></li> </ul> </li> <li><strong>Abbreviations</strong>: Use periods in some abbreviations, especially in American English. <ul> <li><em>Dr.</em> (Doctor), <em>St.</em> (Street), <em>etc.</em> (et cetera)</li> </ul> </li> <li><strong>Initials</strong>: Use periods between initials in names. <ul> <li><em>J.K. Rowling</em></li> </ul> </li> <li><strong>Ellipsis</strong>: Use three periods (...) to indicate an omission in quoted text. <ul> <li><em>The document stated, "The parties agree ... to the terms set forth."</em></li> </ul> </li> </ol> <p><strong>Examples:</strong></p> <ul> <li><em>I love reading books. It's my favorite hobby.</em></li> <li><em>She works for NASA. Her job is very interesting.</em></li> <li><em>Mr. Smith arrived at 9 a.m. for the meeting.</em></li> </ul> <hr> <h2 id="common-mistakes">Common Mistakes</h2> <p>Be aware of these common punctuation errors:</p> <ul> <li><strong>Comma Splices</strong>: Incorrectly using a comma to join two independent clauses without a conjunction. <ul> <li>Incorrect: <em>It's raining, we can't go to the park.</em></li> <li>Correct: <em>It's raining, so we can't go to the park.</em> or <em>It's raining. We can't go to the park.</em></li> </ul> </li> <li><strong>Missing Comma After Introductory Elements</strong>: <ul> <li>Incorrect: <em>In conclusion the evidence supports the hypothesis.</em></li> <li>Correct: <em>In conclusion, the evidence supports the hypothesis.</em></li> </ul> </li> <li><strong>Overuse of Periods</strong>: Creating choppy, disconnected sentences. <ul> <li>Choppy: <em>I went to the store. I bought milk. I came home.</em></li> <li>Improved: <em>I went to the store, bought milk, and came home.</em></li> </ul> </li> </ul> <hr> <h2 id="conclusion">Conclusion</h2> <p>Understanding how to use commas and periods correctly is crucial for clear, effective writing. Here's a quick recap:</p> <ul> <li><strong>Commas</strong>: Use for lists, joining clauses, setting off introductory elements, and enclosing non-essential information.</li> <li><strong>Periods</strong>: Use to end sentences, in abbreviations, with initials, and for ellipses.</li> </ul> <p><strong>Remember</strong>: Punctuation serves to clarify meaning and guide readers. When in doubt, read your sentence aloud to hear where natural pauses and full stops occur.</p> <hr> <p>By mastering the use of commas and periods, you'll significantly improve the clarity and professionalism of your writing. Practice regularly and don't hesitate to refer back to this guide whenever you need a refresher!</p> </div>`
+
+		
+		};
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    quizData[currentStage].forEach((question, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+        
+        // Create label for the question text
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${question.question}`;
+        
+        // Create div for result feedback
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+        
+        // Create select element for answers
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        
+        // Add default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+        
+        // Shuffle and add answer options
+        const shuffledOptions = shuffleArray([...question.options]);
+        shuffledOptions.forEach((option, optionIndex) => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        // Append elements to questionElement in the desired order
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv); // Feedback before dropdown
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+		function checkStage() {
+   attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[currentStage].length;
+
+    quizData[currentStage].forEach((question, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === question.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect answer.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 10) {
+            selectElement.value = question.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` The correct answer is: ${question.answer}`;
+        }
+    });
+
+    console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`Stage ${currentStage + 1} completed. Adding ${totalQuestions} animals.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`Moving to stage ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("Congratulations! You've completed all stages.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+		function updateStageNumber() {
+			const stageElement = document.getElementById("stage-number");
+			stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+		}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>
