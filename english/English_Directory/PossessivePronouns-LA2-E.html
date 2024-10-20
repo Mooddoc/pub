@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+	<style>
+
+	</style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read each sentence/question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>Possessive Pronouns - A2</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+        const quizData = [ 												//  PH3 - Quiz Data   	
+
+			  // Stage 1
+			  [
+				{ question: "Sarah couldn't find ___ car keys, so she was late for work.", options: ["her", "she", "hers", "herself", "she's"], answer: "her" },
+				{ question: "The students forgot to bring ___ textbooks to class today.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "___ new apartment is much bigger than our old one.", options: ["Our", "We", "Us", "Ours", "We're"], answer: "Our" },
+				{ question: "The cat spent hours grooming ___ fur after playing outside.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "I couldn't attend the party because ___ car broke down.", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 2
+			  [
+				{ question: "They're excited about ___ upcoming vacation to Spain.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The company celebrated ___ 25th anniversary last month.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ brother is a talented musician who plays in a band.", options: ["Her", "She", "Hers", "Herself", "She's"], answer: "Her" },
+				{ question: "We need to improve ___ time management skills for better productivity.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I lent John ___ laptop because his was being repaired.", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 3
+			  [
+				{ question: "The dog wagged ___ tail excitedly when it saw its owner.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "Mary and Tom forgot ___ passports at home and missed their flight.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "___ new colleagues seem very friendly and helpful.", options: ["Our", "We", "Us", "Ours", "We're"], answer: "Our" },
+				{ question: "He couldn't remember where he had parked ___ car in the big lot.", options: ["his", "he", "him", "himself", "he's"], answer: "his" },
+				{ question: "I'm sorry, but I think you're sitting in ___ seat.", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 4
+			  [
+				{ question: "The children were excited to show ___ parents their art projects.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The restaurant is famous for ___ delicious homemade pasta.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new hairstyle really suits her face shape.", options: ["Her", "She", "Hers", "Herself", "She's"], answer: "Her" },
+				{ question: "We should review ___ notes before the important meeting tomorrow.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I can't find ___ glasses anywhere. Have you seen them?", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 5
+			  [
+				{ question: "The team celebrated ___ victory with a party at the local pub.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The old clock stopped working, and ___ hands fell off.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new job involves a lot of international travel.", options: ["His", "He", "Him", "Himself", "He's"], answer: "His" },
+				{ question: "We need to finish ___ project before the deadline next week.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I've lost ___ voice after cheering too loudly at the concert.", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 6
+			  [
+				{ question: "The students submitted ___ assignments before leaving for the holiday.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The company needs to improve ___ customer service to retain clients.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new recipe for chocolate cake is absolutely delicious.", options: ["Her", "She", "Hers", "Herself", "She's"], answer: "Her" },
+				{ question: "We should clean ___ house before our guests arrive this evening.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I need to renew ___ passport before our trip next month.", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 7
+			  [
+				{ question: "The hikers lost ___ way in the dense forest and had to call for help.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The museum displayed ___ most valuable artifacts in a special exhibition.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new novel has become a bestseller in just a few weeks.", options: ["His", "He", "Him", "Himself", "He's"], answer: "His" },
+				{ question: "We need to improve ___ communication skills to work better as a team.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I can't attend the meeting because ___ car is at the mechanic's.", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 8
+			  [
+				{ question: "The children forgot ___ lunch boxes at home and had to buy food.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The restaurant changed ___ menu to include more vegetarian options.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new colleagues seem very friendly and helpful.", options: ["Her", "She", "Hers", "Herself", "She's"], answer: "Her" },
+				{ question: "We should review ___ presentation one more time before the meeting.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I need to update ___ resume before applying for the new job.", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 9
+			  [
+				{ question: "The team members shared ___ ideas during the brainstorming session.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The cat spent hours cleaning ___ fur after playing in the garden.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new smartphone has an excellent camera and long battery life.", options: ["His", "He", "Him", "Himself", "He's"], answer: "His" },
+				{ question: "We need to improve ___ time management skills to meet deadlines.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I forgot ___ umbrella at home, so I got wet in the rain.", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 10
+			  [
+				{ question: "The students presented ___ projects to the class last week.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The company needs to update ___ website with the latest information.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new paintings will be displayed at the art gallery next month.", options: ["Her", "She", "Hers", "Herself", "She's"], answer: "Her" },
+				{ question: "We should clean ___ apartment before the landlord's inspection.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I need to charge ___ phone before leaving for the trip.", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 11
+			  [
+				{ question: "The athletes trained hard to improve ___ performance for the competition.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The library extended ___ opening hours during the exam period.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new book about climate change has received great reviews.", options: ["His", "He", "Him", "Himself", "He's"], answer: "His" },
+				{ question: "We need to reschedule ___ meeting due to a conflict.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I can't find ___ keys. Could you help me look for them?", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 12
+			  [
+				{ question: "The students forgot to bring ___ completed homework to class.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The restaurant is known for ___ delicious homemade desserts.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new car is very fuel-efficient and environmentally friendly.", options: ["Her", "She", "Hers", "Herself", "She's"], answer: "Her" },
+				{ question: "We should review ___ notes before the important exam next week.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I need to update ___ resume before applying for the new job.", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 13
+			  [
+				{ question: "The team members shared ___ ideas during the brainstorming session.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The company celebrated ___ 50th anniversary with a big party.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new apartment has a beautiful view of the city skyline.", options: ["His", "He", "Him", "Himself", "He's"], answer: "His" },
+				{ question: "We need to improve ___ communication skills to work better as a team.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I forgot ___ umbrella at home, so I got wet in the rain.", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 14
+			  [
+				{ question: "The children were excited to show ___ parents their art projects.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The museum displayed ___ most valuable artifacts in a special exhibition.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new recipe for vegetarian lasagna is absolutely delicious.", options: ["Her", "She", "Hers", "Herself", "She's"], answer: "Her" },
+				{ question: "We should clean ___ house before our guests arrive this evening.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I need to renew ___ driver's license before it expires next month.", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 15
+			  [
+				{ question: "The students submitted ___ assignments before the deadline yesterday.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The restaurant changed ___ menu to include more vegetarian options.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new business venture has been very successful so far.", options: ["His", "He", "Him", "Himself", "He's"], answer: "His" },
+				{ question: "We need to update ___ emergency contact information at work.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I can't find ___ glasses anywhere. Have you seen them?", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 16
+			  [
+				{ question: "The hikers lost ___ way in the dense forest and had to call for help.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The hotel upgraded ___ facilities to attract more customers.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new photography exhibition has received great reviews.", options: ["Her", "She", "Hers", "Herself", "She's"], answer: "Her" },
+				{ question: "We should review ___ budget before making any big purchases.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I need to practice ___ presentation skills before the job interview.", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 17
+			  [
+				{ question: "The team celebrated ___ victory with a party at the local restaurant.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The company needs to improve ___ customer service to retain clients.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new novel has become a bestseller in just a few weeks.", options: ["His", "He", "Him", "Himself", "He's"], answer: "His" },
+				{ question: "We need to reschedule ___ dentist appointments for next week.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I've lost ___ voice after cheering too loudly at the concert.", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 18
+			  [
+				{ question: "The students forgot ___ textbooks at home and had to share with classmates.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The zoo expanded ___ elephant enclosure to provide more space for the animals.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new fashion line has been very popular among young adults.", options: ["Her", "She", "Hers", "Herself", "She's"], answer: "Her" },
+				{ question: "We should back up ___ important files before updating the computer.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I need to improve ___ time management skills to be more productive.", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 19
+			  [
+				{ question: "The musicians tuned ___ instruments before the concert began.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The airline apologized for ___ delay and offered compensation to passengers.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new research paper on climate change has been widely cited.", options: ["His", "He", "Him", "Himself", "He's"], answer: "His" },
+				{ question: "We need to update ___ travel insurance before going on vacation.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I can't remember where I put ___ passport. Can you help me find it?", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 20
+			  [
+				{ question: "The athletes trained hard to improve ___ performance for the Olympics.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The restaurant is famous for ___ homemade pasta and fresh ingredients.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new documentary about marine life has won several awards.", options: ["Her", "She", "Hers", "Herself", "She's"], answer: "Her" },
+				{ question: "We should review ___ company policies to ensure they're up to date.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I need to charge ___ phone before we leave for the airport.", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 21
+			  [
+				{ question: "The students presented ___ research findings to the class last week.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The hotel upgraded ___ wi-fi system to provide better internet access.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new invention could revolutionize the way we recycle plastics.", options: ["His", "He", "Him", "Himself", "He's"], answer: "His" },
+				{ question: "We need to improve ___ teamwork skills to complete this project successfully.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I forgot ___ laptop charger at home, so I need to borrow one.", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 22
+			  [
+				{ question: "The company employees received ___ annual bonuses last month.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The library extended ___ opening hours during the exam period.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ latest film has been nominated for several awards.", options: ["Her", "She", "Hers", "Herself", "She's"], answer: "Her" },
+				{ question: "We should update ___ emergency contact information at work.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I need to renew ___ gym membership before it expires next week.", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 23
+			  [
+				{ question: "The children forgot ___ swimsuits for the school pool party.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The museum improved ___ security system to protect valuable artifacts.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new cookbook features recipes from around the world.", options: ["His", "He", "Him", "Himself", "He's"], answer: "His" },
+				{ question: "We need to clean ___ apartment before the landlord's inspection tomorrow.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I can't find ___ car keys. Have you seen them anywhere?", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 24
+			  [
+				{ question: "The band members wrote ___ own songs for the new album.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The company celebrated ___ 100th anniversary with a big party.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new research project focuses on renewable energy sources.", options: ["Her", "She", "Hers", "Herself", "She's"], answer: "Her" },
+				{ question: "We should review ___ travel itinerary before booking the flights.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I need to update ___ resume with my recent work experience.", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 25
+			  [
+				{ question: "The hikers filled ___ water bottles before starting the long trek.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The restaurant changed ___ menu to include more local ingredients.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new painting will be displayed at the art gallery next month.", options: ["His", "He", "Him", "Himself", "He's"], answer: "His" },
+				{ question: "We need to improve ___ project management skills to meet deadlines.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I forgot ___ umbrella, so I got wet in the sudden rain shower.", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 26
+			  [
+				{ question: "The students submitted ___ final projects before the deadline.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The hotel upgraded ___ facilities to attract more business travelers.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new novel is based on true events from World War II.", options: ["Her", "She", "Hers", "Herself", "She's"], answer: "Her" },
+				{ question: "We should review ___ budget to see if we can afford a vacation this year.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I need to practice ___ presentation before the important meeting tomorrow.", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 27
+			  [
+				{ question: "The team members shared ___ ideas for improving the company's efficiency.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The zoo expanded ___ reptile exhibit to house more species.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ latest scientific discovery could change our understanding of the universe.", options: ["His", "He", "Him", "Himself", "He's"], answer: "His" },
+				{ question: "We need to update ___ contact information in the company directory.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I can't find ___ glasses case. Have you seen it anywhere?", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+				// Stage 28
+			  [
+				{ question: "The musicians tuned ___ instruments carefully before the concert began.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The airline apologized for ___ delay and offered compensation to passengers.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new research on climate change has been published in a prestigious journal.", options: ["Her", "She", "Hers", "Herself", "She's"], answer: "Her" },
+				{ question: "We should update ___ emergency contact information before the school trip.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I need to renew ___ driver's license before it expires next month.", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 29
+			  [
+				{ question: "The students forgot ___ homework assignments and had to call their parents.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The restaurant improved ___ menu by adding more vegetarian options.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ new invention could revolutionize the way we use renewable energy.", options: ["His", "He", "Him", "Himself", "He's"], answer: "His" },
+				{ question: "We need to clean ___ apartment before the landlord's inspection tomorrow.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I can't remember where I put ___ car keys. Can you help me look for them?", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ],
+			  // Stage 30
+			  [
+				{ question: "The athletes improved ___ performance through rigorous training and diet.", options: ["their", "they", "them", "theirs", "they're"], answer: "their" },
+				{ question: "The library extended ___ opening hours during the busy exam period.", options: ["its", "it", "it's", "itself", "his"], answer: "its" },
+				{ question: "___ latest film has been nominated for several international awards.", options: ["Her", "She", "Hers", "Herself", "She's"], answer: "Her" },
+				{ question: "We should review ___ company policies to ensure they're up to date.", options: ["our", "we", "us", "ours", "ourselves"], answer: "our" },
+				{ question: "I need to update ___ resume before applying for the new job position.", options: ["my", "I", "me", "mine", "myself"], answer: "my" },
+			  ]
+
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+
+
+		   'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+           ,'Subject Overview 🗝️': `<div class="subject-overview-content"> <h1>Possessive Pronouns in English: A Comprehensive Guide</h1> <p>Possessive pronouns are words used to show ownership or possession. They play a crucial role in English grammar, helping us express relationships between people and things. This guide will explore possessive pronouns in detail, focusing on their uses, rules, and providing numerous examples to help you understand when and how to use them correctly.</p> <hr> <h2>Table of Contents</h2> <ol> <li><a href="#what-are-possessive-pronouns">What Are Possessive Pronouns?</a></li> <li><a href="#types-of-possessive-pronouns">Types of Possessive Pronouns</a></li> <li><a href="#detailed-explanation">Detailed Explanation of Possessive Pronouns</a> <ul> <li><a href="#dependent">Dependent Possessive Pronouns</a></li> <li><a href="#independent">Independent Possessive Pronouns</a></li> </ul> </li> <li><a href="#common-mistakes">Common Mistakes and How to Avoid Them</a></li> <li><a href="#conclusion">Conclusion</a></li> </ol> <hr> <h2 id="what-are-possessive-pronouns">What Are Possessive Pronouns?</h2> <p>Possessive pronouns are words that replace nouns to show ownership or possession. They help us avoid repetition and make our sentences more concise and clear. In English, possessive pronouns change depending on the person (first, second, or third) and number (singular or plural) they refer to.</p> <hr> <h2 id="types-of-possessive-pronouns">Types of Possessive Pronouns</h2> <p>There are two main types of possessive pronouns in English:</p> <ol> <li><strong>Dependent Possessive Pronouns</strong> (also called possessive adjectives): my, your, his, her, its, our, their</li> <li><strong>Independent Possessive Pronouns</strong>: mine, yours, his, hers, its, ours, theirs</li> </ol> <hr> <h2 id="detailed-explanation">Detailed Explanation of Possessive Pronouns</h2> <h3 id="dependent">Dependent Possessive Pronouns</h3> <p><strong>Meaning and Use:</strong></p> <p>Dependent possessive pronouns (or possessive adjectives) are used before nouns to show ownership. They always precede a noun and cannot stand alone in a sentence.</p> <p><strong>Examples:</strong></p> <ul> <li><em>My</em> book is on the table. (First person singular)</li> <li>Is this <em>your</em> car? (Second person singular/plural)</li> <li><em>His</em> phone is ringing. (Third person singular masculine)</li> <li><em>Her</em> dress is beautiful. (Third person singular feminine)</li> <li>The cat licked <em>its</em> paw. (Third person singular neuter)</li> <li><em>Our</em> house is down the street. (First person plural)</li> <li><em>Their</em> children are very well-behaved. (Third person plural)</li> </ul> <h3 id="independent">Independent Possessive Pronouns</h3> <p><strong>Meaning and Use:</strong></p> <p>Independent possessive pronouns can stand alone and replace nouns in a sentence. They are used to avoid repetition and make sentences more concise.</p> <p><strong>Examples:</strong></p> <ul> <li>This book is <em>mine</em>. (First person singular)</li> <li>Is that car <em>yours</em>? (Second person singular/plural)</li> <li>The blue shirt is <em>his</em>. (Third person singular masculine)</li> <li>The red dress is <em>hers</em>. (Third person singular feminine)</li> <li>The dog wagged <em>its</em> tail. (Third person singular neuter - note that "its" is rarely used as an independent possessive pronoun)</li> <li>This house is <em>ours</em>. (First person plural)</li> <li>Those bicycles are <em>theirs</em>. (Third person plural)</li> </ul> <hr> <h2 id="common-mistakes">Common Mistakes and How to Avoid Them</h2> <ol> <li><strong>Confusing "Its" and "It's"</strong> <ul> <li>Correct: The dog wagged <em>its</em> tail. ("Its" is the possessive form)</li> <li>Incorrect: The dog wagged it's tail. ("It's" is a contraction of "it is" or "it has")</li> </ul> </li> <li><strong>Using Apostrophes with Possessive Pronouns</strong> <ul> <li>Correct: That book is <em>hers</em>.</li> <li>Incorrect: That book is her's.</li> </ul> </li> <li><strong>Confusing "Your" and "You're"</strong> <ul> <li>Correct: Is this <em>your</em> coat? ("Your" is the possessive form)</li> <li>Incorrect: Is this you're coat? ("You're" is a contraction of "you are")</li> </ul> </li> <li><strong>Using Possessive Pronouns with Gerunds</strong> <ul> <li>Correct: I appreciate <em>your</em> helping me.</li> <li>Incorrect: I appreciate you helping me.</li> </ul> </li> </ol> <hr> <h2 id="conclusion">Conclusion</h2> <p>Understanding possessive pronouns is essential for mastering English grammar. They help us express ownership and relationships clearly and concisely. Here's a quick recap:</p> <ul> <li><strong>Dependent possessive pronouns</strong> (my, your, his, her, its, our, their) are used before nouns.</li> <li><strong>Independent possessive pronouns</strong> (mine, yours, his, hers, its, ours, theirs) can stand alone and replace nouns.</li> </ul> <p><strong>Remember</strong>: Pay attention to the context and the noun being replaced to choose the correct possessive pronoun. Also, be careful not to confuse possessive pronouns with contractions (its vs. it's, your vs. you're).</p> <hr> <p>By familiarizing yourself with possessive pronouns and their uses, you'll be able to communicate more effectively and understand the nuances of English sentences. Keep practicing, and don't hesitate to revisit this guide whenever you need a refresher!</p> </div>`
+
+		
+		
+		};
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    quizData[currentStage].forEach((question, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+        
+        // Create label for the question text
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${question.question}`;
+        
+        // Create div for result feedback
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+        
+        // Create select element for answers
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        
+        // Add default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+        
+        // Shuffle and add answer options
+        const shuffledOptions = shuffleArray([...question.options]);
+        shuffledOptions.forEach((option, optionIndex) => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        // Append elements to questionElement in the desired order
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv); // Feedback before dropdown
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+		function checkStage() {
+   attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[currentStage].length;
+
+    quizData[currentStage].forEach((question, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === question.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect answer.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 10) {
+            selectElement.value = question.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` The correct answer is: ${question.answer}`;
+        }
+    });
+
+    console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`Stage ${currentStage + 1} completed. Adding ${totalQuestions} animals.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`Moving to stage ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("Congratulations! You've completed all stages.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+		function updateStageNumber() {
+			const stageElement = document.getElementById("stage-number");
+			stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+		}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>
