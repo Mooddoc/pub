@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="http://ez42.live/global/logo/tab-logo-emo.svg">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <!-- Link to the remote Hebrew stylesheet provided by the user -->
+    <link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-heb.css">
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - משחק זיכרון</title>
+    <style>
+        /* Additional inline styles can be added here if necessary */
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+            <div id="sidePanel1" class="side-panel">
+                <div class="logo-container">
+                    <a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+                        <img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+                    </a>
+                </div>
+                <h2>הוראות וכללים</h2>
+                <ul>
+                    <li>לחץ על קלפים כדי להפוך אותם ולמצוא זוגות תואמים.</li>
+                    <li>השלם כל שלב על ידי התאמת כל הזוגות.</li>
+                    <li>השתמש ברמז חד פעמי כדי לחשוף בקצרה את כל הקלפים.</li>
+                    <li>נסה להשלים כל שלב עם כמה שפחות ניסיונות אפשריים.</li>
+                    <li>התקדם דרך כל השלבים כדי לנצח את המשחק.</li>
+                    <li>צפה בחוות החיות שלך גדלה ככל שתשלים שלבים!</li>
+                </ul>
+            </div>
+
+            <div id="quizContainer" class="quiz-container">
+                <h1>⛱️ אתגר ABC: התאמת אותיות גדולות וקטנות 📚</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות חיות</h2>
+                <p>צפה בחווה שלך גדלה ככל שאתה מתקדם! כל שלב שהושלם מוסיף חברי חיות חדשים לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+
+    <script>
+    let isQuizExpanded = false;
+    let allowQuizExpansion = true;
+
+    let attempts = 0;
+    let currentStage = 0;
+
+    const manuallySetDefaultTab = 1;
+
+    const gameStages = [
+ 
+  {
+    "id": 1,
+    "title": "Stage 1",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "H 🏠" }, { "content": "h" }] },
+      { "id": 2, "pairs": [{ "content": "S 🌟" }, { "content": "s" }] },
+      { "id": 3, "pairs": [{ "content": "C 🐈" }, { "content": "c" }] },
+      { "id": 4, "pairs": [{ "content": "E 🦅" }, { "content": "e" }] },
+      { "id": 5, "pairs": [{ "content": "B 🍌" }, { "content": "b" }] },
+      { "id": 6, "pairs": [{ "content": "A 🍎" }, { "content": "a" }] }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Stage 2",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "F 🐟" }, { "content": "f" }] },
+      { "id": 2, "pairs": [{ "content": "K 🔑" }, { "content": "k" }] },
+      { "id": 3, "pairs": [{ "content": "D 🦕" }, { "content": "d" }] },
+      { "id": 4, "pairs": [{ "content": "M 🍄" }, { "content": "m" }] },
+      { "id": 5, "pairs": [{ "content": "G 🐐" }, { "content": "g" }] },
+      { "id": 6, "pairs": [{ "content": "L 🦁" }, { "content": "l" }] }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Stage 3",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "N 📰" }, { "content": "n" }] },
+      { "id": 2, "pairs": [{ "content": "O 🐙" }, { "content": "o" }] },
+      { "id": 3, "pairs": [{ "content": "T 🐯" }, { "content": "t" }] },
+      { "id": 4, "pairs": [{ "content": "P 🍍" }, { "content": "p" }] },
+      { "id": 5, "pairs": [{ "content": "J 👖" }, { "content": "j" }] },
+      { "id": 6, "pairs": [{ "content": "I 🍦" }, { "content": "i" }] }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Stage 4",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "V 🎻" }, { "content": "v" }] },
+      { "id": 2, "pairs": [{ "content": "U 🦄" }, { "content": "u" }] },
+      { "id": 3, "pairs": [{ "content": "Y 🛳️" }, { "content": "y" }] },
+      { "id": 4, "pairs": [{ "content": "R 🤖" }, { "content": "r" }] },
+      { "id": 5, "pairs": [{ "content": "Z 🦓" }, { "content": "z" }] },
+      { "id": 6, "pairs": [{ "content": "Q" }, { "content": "q" }] }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Stage 5",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "W 🌊" }, { "content": "w" }] },
+      { "id": 2, "pairs": [{ "content": "S 🐍" }, { "content": "s" }] },
+      { "id": 3, "pairs": [{ "content": "E 🐘" }, { "content": "e" }] },
+      { "id": 4, "pairs": [{ "content": "B 🐝" }, { "content": "b" }] },
+      { "id": 5, "pairs": [{ "content": "G 🦍" }, { "content": "g" }] },
+      { "id": 6, "pairs": [{ "content": "D 🍩" }, { "content": "d" }] }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Stage 6",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "H 🍯" }, { "content": "h" }] },
+      { "id": 2, "pairs": [{ "content": "I 🧊" }, { "content": "i" }] },
+      { "id": 3, "pairs": [{ "content": "M 🎹" }, { "content": "m" }] },
+      { "id": 4, "pairs": [{ "content": "K 🥝" }, { "content": "k" }] },
+      { "id": 5, "pairs": [{ "content": "L 🦎" }, { "content": "l" }] },
+      { "id": 6, "pairs": [{ "content": "F 🐸" }, { "content": "f" }] },
+      { "id": 7, "pairs": [{ "content": "C 🎄" }, { "content": "c" }] }
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Stage 7",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "O 🦉" }, { "content": "o" }] },
+      { "id": 2, "pairs": [{ "content": "J 🤹" }, { "content": "j" }] },
+      { "id": 3, "pairs": [{ "content": "P 🥞" }, { "content": "p" }] },
+      { "id": 4, "pairs": [{ "content": "N 👃" }, { "content": "n" }] },
+      { "id": 5, "pairs": [{ "content": "G 🐐" }, { "content": "g" }] },
+      { "id": 6, "pairs": [{ "content": "V 🧛" }, { "content": "v" }] },
+      { "id": 7, "pairs": [{ "content": "A 🥑" }, { "content": "a" }] }
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Stage 8",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "Y 🧶" }, { "content": "y" }] },
+      { "id": 2, "pairs": [{ "content": "S ☀️" }, { "content": "s" }] },
+      { "id": 3, "pairs": [{ "content": "B 🦋" }, { "content": "b" }] },
+      { "id": 4, "pairs": [{ "content": "U ☂️" }, { "content": "u" }] },
+      { "id": 5, "pairs": [{ "content": "T 🌮" }, { "content": "t" }] },
+      { "id": 6, "pairs": [{ "content": "E 🌍" }, { "content": "e" }] },
+      { "id": 7, "pairs": [{ "content": "Z 🤐" }, { "content": "z" }] }
+    ]
+  },
+  {
+    "id": 9,
+    "title": "Stage 9",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "W 🚶" }, { "content": "w" }] },
+      { "id": 2, "pairs": [{ "content": "L 🦙" }, { "content": "l" }] },
+      { "id": 3, "pairs": [{ "content": "K 🦘" }, { "content": "k" }] },
+      { "id": 4, "pairs": [{ "content": "R 🚀" }, { "content": "r" }] },
+      { "id": 5, "pairs": [{ "content": "H 🐹" }, { "content": "h" }] },
+      { "id": 6, "pairs": [{ "content": "F 🎣" }, { "content": "f" }] },
+      { "id": 7, "pairs": [{ "content": "C 🎪" }, { "content": "c" }] }
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Stage 10",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "G 🎸" }, { "content": "g" }] },
+      { "id": 2, "pairs": [{ "content": "D 🦌" }, { "content": "d" }] },
+      { "id": 3, "pairs": [{ "content": "M 🐁" }, { "content": "m" }] },
+      { "id": 4, "pairs": [{ "content": "P 🍑" }, { "content": "p" }] },
+      { "id": 5, "pairs": [{ "content": "I 🏝️" }, { "content": "i" }] },
+      { "id": 6, "pairs": [{ "content": "J 😂" }, { "content": "j" }] },
+      { "id": 7, "pairs": [{ "content": "N 🎶" }, { "content": "n" }] }
+    ]
+  },
+  {
+    "id": 11,
+    "title": "Stage 11",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "E 🥚" }, { "content": "e" }] },
+      { "id": 2, "pairs": [{ "content": "T 🚕" }, { "content": "t" }] },
+      { "id": 3, "pairs": [{ "content": "A 🚗" }, { "content": "a" }] },
+      { "id": 4, "pairs": [{ "content": "S 🍓" }, { "content": "s" }] },
+      { "id": 5, "pairs": [{ "content": "Y ☯️" }, { "content": "y" }] },
+      { "id": 6, "pairs": [{ "content": "G 👻" }, { "content": "g" }] },
+      { "id": 7, "pairs": [{ "content": "Q" }, { "content": "q" }] },
+      { "id": 8, "pairs": [{ "content": "O 🐂" }, { "content": "o" }] }
+    ]
+  },
+  {
+    "id": 12,
+    "title": "Stage 12",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "V 🌋" }, { "content": "v" }] },
+      { "id": 2, "pairs": [{ "content": "B 🎈" }, { "content": "b" }] },
+      { "id": 3, "pairs": [{ "content": "U 🦄" }, { "content": "u" }] },
+      { "id": 4, "pairs": [{ "content": "H 🎩" }, { "content": "h" }] },
+      { "id": 5, "pairs": [{ "content": "L 🍋" }, { "content": "l" }] },
+      { "id": 6, "pairs": [{ "content": "F 🦊" }, { "content": "f" }] },
+      { "id": 7, "pairs": [{ "content": "D 🦕" }, { "content": "d" }] },
+      { "id": 8, "pairs": [{ "content": "W 🍉" }, { "content": "w" }] }
+    ]
+  },
+  {
+    "id": 13,
+    "title": "Stage 13",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "Z 💤" }, { "content": "z" }] },
+      { "id": 2, "pairs": [{ "content": "P 🍕" }, { "content": "p" }] },
+      { "id": 3, "pairs": [{ "content": "K 🪁" }, { "content": "k" }] },
+      { "id": 4, "pairs": [{ "content": "I 🧊" }, { "content": "i" }] },
+      { "id": 5, "pairs": [{ "content": "C 🎄" }, { "content": "c" }] },
+      { "id": 6, "pairs": [{ "content": "N 🎶" }, { "content": "n" }] },
+      { "id": 7, "pairs": [{ "content": "G 🦒" }, { "content": "g" }] },
+      { "id": 8, "pairs": [{ "content": "M 🌝" }, { "content": "m" }] }
+    ]
+  },
+  {
+    "id": 14,
+    "title": "Stage 14",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "J 🕹️" }, { "content": "j" }] },
+      { "id": 2, "pairs": [{ "content": "E ✉️" }, { "content": "e" }] },
+      { "id": 3, "pairs": [{ "content": "B 🚲" }, { "content": "b" }] },
+      { "id": 4, "pairs": [{ "content": "T 🚜" }, { "content": "t" }] },
+      { "id": 5, "pairs": [{ "content": "A 👽" }, { "content": "a" }] },
+      { "id": 6, "pairs": [{ "content": "S 🌟" }, { "content": "s" }] },
+      { "id": 7, "pairs": [{ "content": "R 🌈" }, { "content": "r" }] },
+      { "id": 8, "pairs": [{ "content": "O 🐂" }, { "content": "o" }] }
+    ]
+  },
+  {
+    "id": 15,
+    "title": "Stage 15",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "Q" }, { "content": "q" }] },
+      { "id": 2, "pairs": [{ "content": "Y 🪀" }, { "content": "y" }] },
+      { "id": 3, "pairs": [{ "content": "D 🍩" }, { "content": "d" }] },
+      { "id": 4, "pairs": [{ "content": "F 🐟" }, { "content": "f" }] },
+      { "id": 5, "pairs": [{ "content": "H 🍯" }, { "content": "h" }] },
+      { "id": 6, "pairs": [{ "content": "V 🚐" }, { "content": "v" }] },
+      { "id": 7, "pairs": [{ "content": "L 🦎" }, { "content": "l" }] },
+      { "id": 8, "pairs": [{ "content": "K 👘" }, { "content": "k" }] }
+    ]
+  },
+ {
+    "id": 16,
+    "title": "Stage 16",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "N 🎶" }, { "content": "n" }] },
+      { "id": 2, "pairs": [{ "content": "I 🧊" }, { "content": "i" }] },
+      { "id": 3, "pairs": [{ "content": "E 🦅" }, { "content": "e" }] },
+      { "id": 4, "pairs": [{ "content": "Q" }, { "content": "q" }] },
+      { "id": 5, "pairs": [{ "content": "B 🎈" }, { "content": "b" }] },
+      { "id": 6, "pairs": [{ "content": "M 🍄" }, { "content": "m" }] },
+      { "id": 7, "pairs": [{ "content": "S ☀️" }, { "content": "s" }] },
+      { "id": 8, "pairs": [{ "content": "D 🦕" }, { "content": "d" }] },
+      { "id": 9, "pairs": [{ "content": "W 🚶" }, { "content": "w" }] },
+      { "id": 10, "pairs": [{ "content": "G 🎸" }, { "content": "g" }] }
+    ]
+  },
+  {
+    "id": 17,
+    "title": "Stage 17",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "Z 🦓" }, { "content": "z" }] },
+      { "id": 2, "pairs": [{ "content": "R 🤖" }, { "content": "r" }] },
+      { "id": 3, "pairs": [{ "content": "P 🍕" }, { "content": "p" }] },
+      { "id": 4, "pairs": [{ "content": "H 🐹" }, { "content": "h" }] },
+      { "id": 5, "pairs": [{ "content": "F 🎣" }, { "content": "f" }] },
+      { "id": 6, "pairs": [{ "content": "A 🚗" }, { "content": "a" }] },
+      { "id": 7, "pairs": [{ "content": "Y 💴" }, { "content": "y" }] },
+      { "id": 8, "pairs": [{ "content": "V 🌋" }, { "content": "v" }] },
+      { "id": 9, "pairs": [{ "content": "L 🍋" }, { "content": "l" }] },
+      { "id": 10, "pairs": [{ "content": "O 🦉" }, { "content": "o" }] }
+    ]
+  },
+  {
+    "id": 18,
+    "title": "Stage 18",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "K 🦘" }, { "content": "k" }] },
+      { "id": 2, "pairs": [{ "content": "U ☂️" }, { "content": "u" }] },
+      { "id": 3, "pairs": [{ "content": "C 🐄" }, { "content": "c" }] },
+      { "id": 4, "pairs": [{ "content": "T 🌮" }, { "content": "t" }] },
+      { "id": 5, "pairs": [{ "content": "J 🕹️" }, { "content": "j" }] },
+      { "id": 6, "pairs": [{ "content": "G 🐐" }, { "content": "g" }] },
+      { "id": 7, "pairs": [{ "content": "S 🌟" }, { "content": "s" }] },
+      { "id": 8, "pairs": [{ "content": "N 📰" }, { "content": "n" }] },
+      { "id": 9, "pairs": [{ "content": "E ✉️" }, { "content": "e" }] },
+      { "id": 10, "pairs": [{ "content": "Q" }, { "content": "q" }] }
+    ]
+  },
+  {
+    "id": 19,
+    "title": "Stage 19",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "D 🦌" }, { "content": "d" }] },
+      { "id": 2, "pairs": [{ "content": "M 🐁" }, { "content": "m" }] },
+      { "id": 3, "pairs": [{ "content": "B 🍌" }, { "content": "b" }] },
+      { "id": 4, "pairs": [{ "content": "W 🍉" }, { "content": "w" }] },
+      { "id": 5, "pairs": [{ "content": "I 🧊" }, { "content": "i" }] },
+      { "id": 6, "pairs": [{ "content": "K 🥝" }, { "content": "k" }] },
+      { "id": 7, "pairs": [{ "content": "O 🐂" }, { "content": "o" }] },
+      { "id": 8, "pairs": [{ "content": "H 🍯" }, { "content": "h" }] },
+      { "id": 9, "pairs": [{ "content": "P 🐧" }, { "content": "p" }] },
+      { "id": 10, "pairs": [{ "content": "F 🐸" }, { "content": "f" }] }
+    ]
+  },
+  {
+    "id": 20,
+    "title": "Stage 20",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "Y 🧶" }, { "content": "y" }] },
+      { "id": 2, "pairs": [{ "content": "A 🎨" }, { "content": "a" }] },
+      { "id": 3, "pairs": [{ "content": "R 🌈" }, { "content": "r" }] },
+      { "id": 4, "pairs": [{ "content": "V 🎻" }, { "content": "v" }] },
+      { "id": 5, "pairs": [{ "content": "C 🎪" }, { "content": "c" }] },
+      { "id": 6, "pairs": [{ "content": "T 🐢" }, { "content": "t" }] },
+      { "id": 7, "pairs": [{ "content": "G 🦒" }, { "content": "g" }] },
+      { "id": 8, "pairs": [{ "content": "E 🥚" }, { "content": "e" }] },
+      { "id": 9, "pairs": [{ "content": "N 👃" }, { "content": "n" }] },
+      { "id": 10, "pairs": [{ "content": "L 🦙" }, { "content": "l" }] }
+    ]
+  },
+  {
+    "id": 21,
+    "title": "Stage 21",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "S 🍓" }, { "content": "s" }] },
+      { "id": 2, "pairs": [{ "content": "D 🐶" }, { "content": "d" }] },
+      { "id": 3, "pairs": [{ "content": "I 🍦" }, { "content": "i" }] },
+      { "id": 4, "pairs": [{ "content": "F 🐟" }, { "content": "f" }] },
+      { "id": 5, "pairs": [{ "content": "Z 🤐" }, { "content": "z" }] },
+      { "id": 6, "pairs": [{ "content": "U 🦄" }, { "content": "u" }] },
+      { "id": 7, "pairs": [{ "content": "B 🚲" }, { "content": "b" }] },
+      { "id": 8, "pairs": [{ "content": "J 😂" }, { "content": "j" }] },
+      { "id": 9, "pairs": [{ "content": "M 🌝" }, { "content": "m" }] },
+      { "id": 10, "pairs": [{ "content": "H 🎩" }, { "content": "h" }] },
+      { "id": 11, "pairs": [{ "content": "O 🐙" }, { "content": "o" }] },
+      { "id": 12, "pairs": [{ "content": "G 🐐" }, { "content": "g" }] }
+    ]
+  },
+  {
+    "id": 22,
+    "title": "Stage 22",
+    "pairs": [
+      { "id": 1, "pairs": [{ "content": "Q" }, { "content": "q" }] },
+      { "id": 2, "pairs": [{ "content": "C 🎄" }, { "content": "c" }] },
+      { "id": 3, "pairs": [{ "content": "L 🦎" }, { "content": "l" }] },
+      { "id": 4, "pairs": [{ "content": "P 🥞" }, { "content": "p" }] },
+      { "id": 5, "pairs": [{ "content": "W ⌚️" }, { "content": "w" }] },
+      { "id": 6, "pairs": [{ "content": "A 🐜" }, { "content": "a" }] },
+      { "id": 7, "pairs": [{ "content": "T 🚜" }, { "content": "t" }] },
+      { "id": 8, "pairs": [{ "content": "V 🚐" }, { "content": "v" }] },
+      { "id": 9, "pairs": [{ "content": "R 🚀" }, { "content": "r" }] },
+      { "id": 10, "pairs": [{ "content": "Y ☯️" }, { "content": "y" }] },
+      { "id": 11, "pairs": [{ "content": "S 🍓" }, { "content": "s" }] },
+      { "id": 12, "pairs": [{ "content": "E 🌍" }, { "content": "e" }] }
+    ]
+  },
+  {
+  "id": 23,
+  "title": "Stage 23",
+  "pairs": [
+    { "id": 1,  "pairs": [{ "content": "K 🪁" }, { "content": "k" }] },
+    { "id": 2,  "pairs": [{ "content": "F 🦊" }, { "content": "f" }] },
+    { "id": 3,  "pairs": [{ "content": "G 🎁" }, { "content": "g" }] },
+    { "id": 4,  "pairs": [{ "content": "A ⚓️" }, { "content": "a" }] },
+    { "id": 5,  "pairs": [{ "content": "D 💎" }, { "content": "d" }] },
+    { "id": 6,  "pairs": [{ "content": "E ✉️" }, { "content": "e" }] },
+    { "id": 7,  "pairs": [{ "content": "H 🏥" }, { "content": "h" }] },
+    { "id": 8,  "pairs": [{ "content": "B 🎳" }, { "content": "b" }] },
+    { "id": 9,  "pairs": [{ "content": "C ☕️" }, { "content": "c" }] },
+    { "id": 10, "pairs": [{ "content": "M 🎤" }, { "content": "m" }] },
+    { "id": 11, "pairs": [{ "content": "L 🐆" }, { "content": "l" }] },
+    { "id": 12, "pairs": [{ "content": "I 🍦" }, { "content": "i" }] }
+  ]
+},
+{
+  "id": 24,
+  "title": "Stage 24",
+  "pairs": [
+    { "id": 1,  "pairs": [{ "content": "P 🦚" }, { "content": "p" }] },
+    { "id": 2,  "pairs": [{ "content": "S 🐌" }, { "content": "s" }] },
+    { "id": 3,  "pairs": [{ "content": "T 🎾" }, { "content": "t" }] },
+    { "id": 4,  "pairs": [{ "content": "N 🎄" }, { "content": "n" }] },
+    { "id": 5,  "pairs": [{ "content": "Q" }, { "content": "q" }] },
+    { "id": 6,  "pairs": [{ "content": "W 🌬️" }, { "content": "w" }] },
+    { "id": 7,  "pairs": [{ "content": "Z 🧟" }, { "content": "z" }] },
+    { "id": 8,  "pairs": [{ "content": "U ☂️" }, { "content": "u" }] },
+    { "id": 9,  "pairs": [{ "content": "O 🦦" }, { "content": "o" }] },
+    { "id": 10, "pairs": [{ "content": "R 🦝" }, { "content": "r" }] },
+    { "id": 11, "pairs": [{ "content": "Y 🪀" }, { "content": "y" }] },
+    { "id": 12, "pairs": [{ "content": "V 🎮" }, { "content": "v" }] }
+  ]
+},
+{
+  "id": 25,
+  "title": "Stage 25",
+  "pairs": [
+    { "id": 1,  "pairs": [{ "content": "X" }, { "content": "x" }] },
+    { "id": 2,  "pairs": [{ "content": "A 🎨" }, { "content": "a" }] },
+    { "id": 3,  "pairs": [{ "content": "L 🍃" }, { "content": "l" }] },
+    { "id": 4,  "pairs": [{ "content": "K 🧒" }, { "content": "k" }] },
+    { "id": 5,  "pairs": [{ "content": "D 🥁" }, { "content": "d" }] },
+    { "id": 6,  "pairs": [{ "content": "C 🎄" }, { "content": "c" }] },
+    { "id": 7,  "pairs": [{ "content": "B 🎈" }, { "content": "b" }] },
+    { "id": 8,  "pairs": [{ "content": "E 🌍" }, { "content": "e" }] },
+    { "id": 9,  "pairs": [{ "content": "M 🐒" }, { "content": "m" }] },
+    { "id": 10, "pairs": [{ "content": "G 👻" }, { "content": "g" }] },
+    { "id": 11, "pairs": [{ "content": "H 🌺" }, { "content": "h" }] },
+    { "id": 12, "pairs": [{ "content": "F 🌼" }, { "content": "f" }] }
+  ]
+},
+{
+  "id": 26,
+  "title": "Stage 26",
+  "pairs": [
+    { "id": 1,  "pairs": [{ "content": "P 🍍" }, { "content": "p" }] },
+    { "id": 2,  "pairs": [{ "content": "S 🍓" }, { "content": "s" }] },
+    { "id": 3,  "pairs": [{ "content": "T 🌴" }, { "content": "t" }] },
+    { "id": 4,  "pairs": [{ "content": "N 👃" }, { "content": "n" }] },
+    { "id": 5,  "pairs": [{ "content": "Q" }, { "content": "q" }] },
+    { "id": 6,  "pairs": [{ "content": "W 🌬️" }, { "content": "w" }] },
+    { "id": 7,  "pairs": [{ "content": "Z 🧟" }, { "content": "z" }] },
+    { "id": 8,  "pairs": [{ "content": "U 🦄" }, { "content": "u" }] },
+    { "id": 9,  "pairs": [{ "content": "O 🍊" }, { "content": "o" }] },
+    { "id": 10, "pairs": [{ "content": "R 🦝" }, { "content": "r" }] },
+    { "id": 11, "pairs": [{ "content": "Y 🪀" }, { "content": "y" }] },
+    { "id": 12, "pairs": [{ "content": "V 🎮" }, { "content": "v" }] }
+  ]
+},
+{
+  "id": 27,
+  "title": "Stage 27",
+  "pairs": [
+    { "id": 1,  "pairs": [{ "content": "H 🏥" }, { "content": "h" }] },
+    { "id": 2,  "pairs": [{ "content": "K 🧒" }, { "content": "k" }] },
+    { "id": 3,  "pairs": [{ "content": "A ⚓️" }, { "content": "a" }] },
+    { "id": 4,  "pairs": [{ "content": "D 💎" }, { "content": "d" }] },
+    { "id": 5,  "pairs": [{ "content": "E ✉️" }, { "content": "e" }] },
+    { "id": 6,  "pairs": [{ "content": "B 🎳" }, { "content": "b" }] },
+    { "id": 7,  "pairs": [{ "content": "G 🎁" }, { "content": "g" }] },
+    { "id": 8,  "pairs": [{ "content": "L 🐆" }, { "content": "l" }] },
+    { "id": 9,  "pairs": [{ "content": "C ☕️" }, { "content": "c" }] },
+    { "id": 10, "pairs": [{ "content": "F 🌼" }, { "content": "f" }] },
+    { "id": 11, "pairs": [{ "content": "M 🎤" }, { "content": "m" }] },
+    { "id": 12, "pairs": [{ "content": "I 🧊" }, { "content": "i" }] }
+  ]
+},
+{
+  "id": 28,
+  "title": "Stage 28",
+  "pairs": [
+    { "id": 1,  "pairs": [{ "content": "P 🦚" }, { "content": "p" }] },
+    { "id": 2,  "pairs": [{ "content": "S 🐌" }, { "content": "s" }] },
+    { "id": 3,  "pairs": [{ "content": "T 🎾" }, { "content": "t" }] },
+    { "id": 4,  "pairs": [{ "content": "N 🎄" }, { "content": "n" }] },
+    { "id": 5,  "pairs": [{ "content": "Q" }, { "content": "q" }] },
+    { "id": 6,  "pairs": [{ "content": "W 🌬️" }, { "content": "w" }] },
+    { "id": 7,  "pairs": [{ "content": "Z 🧟" }, { "content": "z" }] },
+    { "id": 8,  "pairs": [{ "content": "U ☂️" }, { "content": "u" }] },
+    { "id": 9,  "pairs": [{ "content": "O 🦦" }, { "content": "o" }] },
+    { "id": 10, "pairs": [{ "content": "R 🦝" }, { "content": "r" }] },
+    { "id": 11, "pairs": [{ "content": "Y 🪀" }, { "content": "y" }] },
+    { "id": 12, "pairs": [{ "content": "V 🎮" }, { "content": "v" }] }
+  ]
+},
+{
+  "id": 29,
+  "title": "Stage 29",
+  "pairs": [
+    { "id": 1,  "pairs": [{ "content": "H 🌺" }, { "content": "h" }] },
+    { "id": 2,  "pairs": [{ "content": "K 🧒" }, { "content": "k" }] },
+    { "id": 3,  "pairs": [{ "content": "A 🎨" }, { "content": "a" }] },
+    { "id": 4,  "pairs": [{ "content": "D 🥁" }, { "content": "d" }] },
+    { "id": 5,  "pairs": [{ "content": "E 🌍" }, { "content": "e" }] },
+    { "id": 6,  "pairs": [{ "content": "B 🎳" }, { "content": "b" }] },
+    { "id": 7,  "pairs": [{ "content": "G 🦍" }, { "content": "g" }] },
+    { "id": 8,  "pairs": [{ "content": "L 🍃" }, { "content": "l" }] },
+    { "id": 9,  "pairs": [{ "content": "C 🎄" }, { "content": "c" }] },
+    { "id": 10, "pairs": [{ "content": "F 🌼" }, { "content": "f" }] },
+    { "id": 11, "pairs": [{ "content": "M 🎤" }, { "content": "m" }] },
+    { "id": 12, "pairs": [{ "content": "I 🍦" }, { "content": "i" }] }
+  ]
+},
+{
+  "id": 30,
+  "title": "Stage 30",
+  "pairs": [
+    { "id": 1,  "pairs": [{ "content": "P 🦚" }, { "content": "p" }] },
+    { "id": 2,  "pairs": [{ "content": "S 🐌" }, { "content": "s" }] },
+    { "id": 3,  "pairs": [{ "content": "T 🎾" }, { "content": "t" }] },
+    { "id": 4,  "pairs": [{ "content": "N 💅" }, { "content": "n" }] },
+    { "id": 5,  "pairs": [{ "content": "Q" }, { "content": "q" }] },
+    { "id": 6,  "pairs": [{ "content": "W 🌬️" }, { "content": "w" }] },
+    { "id": 7,  "pairs": [{ "content": "Z 🧟" }, { "content": "z" }] },
+    { "id": 8,  "pairs": [{ "content": "U ☂️" }, { "content": "u" }] },
+    { "id": 9,  "pairs": [{ "content": "O 🦦" }, { "content": "o" }] },
+    { "id": 10, "pairs": [{ "content": "R 🦝" }, { "content": "r" }] },
+    { "id": 11, "pairs": [{ "content": "Y 🪀" }, { "content": "y" }] },
+    { "id": 12, "pairs": [{ "content": "V 🎮" }, { "content": "v" }] }
+  ]
+}
+
+    ];
+
+    const stageCount = gameStages.length;
+
+    const stateContents = {
+        'תרגול': `<div id="stage-number" class="stage-number">שלב 1 מתוך ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">ניסיונות: 0</div><div id="quiz-content"></div>`
+    };
+
+    // Game state
+    let gameState = {
+        currentStage: 0,
+        moves: 0,
+        hintUsed: false,
+        flippedCards: [],
+        matchedCount: 0,
+        isLocked: false
+    };
+
+    function setQuizExpansion(allow) {
+        allowQuizExpansion = allow;
+        adjustLayout();
+    }
+
+    function adjustLayout() {
+        const wrapper = document.querySelector('.content-wrapper');
+        const quizContainer = document.getElementById('quizContainer');
+        const sidePanel1 = document.getElementById('sidePanel1');
+        
+        const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+        wrapper.style.justifyContent = 'space-between';
+
+        if (isPanel1Visible) {
+            sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+            sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+            quizContainer.style.flex = '1';
+        } else {
+            quizContainer.style.flex = '1';
+            wrapper.style.justifyContent = 'center';
+        }
+
+        [sidePanel1, quizContainer].forEach(el => {
+            el.style.display = 'block';
+        });
+    }
+
+    function togglePanel(panelId) {
+        const panel = document.getElementById(panelId);
+        panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        adjustLayout();
+    }
+
+    function updateSwitcherLayout() {
+        const switchElement = document.getElementById('multiStateSwitch');
+        const labels = switchElement.querySelectorAll('.switch-label');
+        const handle = switchElement.querySelector('.switch-handle');
+
+        labels.forEach(label => {
+            label.style.flex = 'none';
+            label.style.padding = '0 20px';
+        });
+
+        const activeLabel = switchElement.querySelector('.switch-label.active');
+        if (activeLabel) {
+            const switchRect = switchElement.getBoundingClientRect();
+            const labelRect = activeLabel.getBoundingClientRect();
+
+            handle.style.left = `${labelRect.left - switchRect.left}px`;
+            handle.style.width = `${labelRect.width}px`;
+        }
+
+        switchElement.style.width = 'auto';
+    }
+
+    function switchTab(index) {
+        const switchElement = document.getElementById('multiStateSwitch');
+        const labels = switchElement.querySelectorAll('.switch-label');
+        const activeStates = Array.from(labels).map(label => label.textContent);
+
+        labels.forEach((label, i) => {
+            label.classList.toggle('active', i === index);
+        });
+
+        updateSwitcherLayout();
+        showContent(activeStates[index]);
+
+        adjustLayout();
+    }
+
+    function showContent(state) {
+        const tabContent = document.getElementById('tabContent');
+        tabContent.innerHTML = stateContents[state] || '';
+
+        if (state === 'תרגול') {
+            renderQuiz();
+            updateProgressBar();
+        }
+    }
+        
+    function showModal(message, onConfirm = null) {
+        const modalMessage = document.getElementById("modalMessage");
+        const modalButton = document.getElementById("modalButton");
+        const modal = document.getElementById("quizModal");
+
+        modalMessage.textContent = message;
+        modal.style.display = "block";
+
+        modalButton.onclick = function() {
+            modal.style.display = "none";
+            if (onConfirm) onConfirm();
+        };
+
+        document.getElementsByClassName("modal-quiz-close")[0].onclick = function() {
+            modal.style.display = "none";
+        };
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+    }
+
+    function renderQuiz() {
+        const quizContainer = document.getElementById("quiz-content");
+        quizContainer.innerHTML = `
+            <div id="stage-number" class="stage-number"></div>
+            <div id="memory-game" class="memory-game"></div>
+            <div class="controls-bar">
+                <button id="hint-btn" class="center-button">רמז חד פעמי</button>
+                <button id="restart-btn" class="center-button">התחל מחדש</button>
+            </div>
+        `;
+        initStage(gameState.currentStage);
+    }
+
+    function createCard(pairId, cardData) {
+        const card = document.createElement('div');
+        card.classList.add('memory-card'); // Changed from 'card'
+        card.dataset.pairId = pairId;
+
+        const front = document.createElement('div');
+        front.classList.add('front');
+        front.textContent = cardData.content;
+
+        const back = document.createElement('div');
+        back.classList.add('back');
+
+        card.appendChild(front);
+        card.appendChild(back);
+
+        return card;
+    }
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    function initStage(stageIndex) {
+        const gameContainer = document.getElementById('memory-game');
+        gameContainer.innerHTML = '';
+        
+        const currentStage = gameStages[stageIndex];
+        const stageNumberElement = document.getElementById('stage-number');
+        
+        // Remove the "Stage X:" prefix from the title if it exists
+        const cleanTitle = currentStage.title.replace(/^שלב \d+:\s*/, '');
+        
+        // Combine stage number, total stages, and cleaned stage title into one line
+        stageNumberElement.textContent = `שלב ${stageIndex + 1} (מתוך ${stageCount}): ${cleanTitle}`;
+
+        const cards = currentStage.pairs.flatMap(pair => 
+            pair.pairs.map(cardData => ({
+                pairId: pair.id,
+                content: cardData.content
+            }))
+        );
+        const shuffledCards = shuffle([...cards]);
+        
+        shuffledCards.forEach(cardData => {
+            const card = createCard(cardData.pairId, cardData);
+            gameContainer.appendChild(card);
+        });
+
+        gameState = {
+            currentStage: stageIndex,
+            moves: 0,
+            hintUsed: false,  // Reset hintUsed for each new stage
+            flippedCards: [],
+            matchedCount: 0,
+            isLocked: false
+        };
+
+        document.getElementById('attempts').textContent = `ניסיונות: 0`;
+        const hintBtn = document.getElementById('hint-btn');
+        if (hintBtn) {
+            hintBtn.disabled = false;  // Enable the hint button for the new stage
+            hintBtn.textContent = 'רמז חד פעמי';  // Reset the button text
+        }
+            
+        updateProgressBar();
+
+        // Ensure all cards are unflipped at the start of each stage
+        document.querySelectorAll('.memory-card').forEach(card => { // Changed from '.card'
+            card.classList.remove('flip', 'matched');
+        });
+
+        // Remove existing event listener to prevent duplicates
+        gameContainer.removeEventListener('click', handleCardClick);
+        // Add the event listener
+        gameContainer.addEventListener('click', handleCardClick);
+
+        console.log(`Initialized Stage ${stageIndex + 1}: ${cleanTitle}`);
+
+        // Adjust card font size based on content length
+        adjustCardFontSizes();
+    }
+
+    function adjustCardFontSizes() {
+        document.querySelectorAll('.memory-card .front').forEach(front => { // Changed from '.card .front'
+            const content = front.textContent;
+            let fontSize = 60;
+            front.style.fontSize = `${fontSize}px`;
+            while (front.scrollHeight > front.clientHeight && fontSize > 8) {
+                fontSize--;
+                front.style.fontSize = `${fontSize}px`;
+            }
+        });
+    }
+
+    function handleCardClick(e) {
+        const clicked = e.target.closest('.memory-card'); // Changed from '.card'
+        
+        if (gameState.isLocked || !clicked || clicked.classList.contains('flip') || clicked.classList.contains('matched')) return;
+
+        clicked.classList.add('flip');
+        gameState.flippedCards.push(clicked);
+
+        if (gameState.flippedCards.length === 2) {
+            gameState.moves++;
+            document.getElementById('attempts').textContent = `ניסיונות: ${gameState.moves}`;
+            checkMatch();
+        }
+    }
+
+    function checkMatch() {
+        gameState.isLocked = true;
+        const [card1, card2] = gameState.flippedCards;
+        
+        const isMatch = card1.dataset.pairId === card2.dataset.pairId;
+
+        if (isMatch) {
+            card1.classList.add('matched');
+            card2.classList.add('matched');
+            gameState.matchedCount++;
+            gameState.flippedCards = [];
+            gameState.isLocked = false;
+
+            if (gameState.matchedCount === gameStages[gameState.currentStage].pairs.length) {
+                handleStageComplete();
+            }
+        } else {
+            setTimeout(() => {
+                card1.classList.remove('flip');
+                card2.classList.remove('flip');
+                gameState.flippedCards = [];
+                gameState.isLocked = false;
+            }, 1000);
+        }
+    }
+
+    function handleStageComplete() {
+        const currentStage = gameState.currentStage;
+        const nextStage = currentStage + 1;
+        
+        // Add animals for the completed stage
+        addAnimalsToFarm(gameStages[currentStage].pairs.length);
+
+        if (nextStage < gameStages.length) {
+            setTimeout(() => {
+                singleStageConfetti(); // Celebrate completion of a non-final stage
+                showModal('השלב הושלם בהצלחה! עובר לשלב הבא...', () => {
+                    gameState.currentStage = nextStage;
+                    renderQuiz();
+                    updateProgressBar();
+                });
+            }, 500);
+        } else {
+            setTimeout(() => {
+                gameState.currentStage = nextStage; // Ensure this is set to the final stage index
+                updateProgressBar(); // This will now show 100%
+                showModal('מזל טוב! השלמת את כל השלבים!');
+                allStagesConfetti(); // Grand celebration for completing all stages
+            }, 500);
+        }
+    }
+
+    function handleHint() {
+        if (gameState.hintUsed) return;
+        
+        gameState.isLocked = true;
+        const cards = document.querySelectorAll('.memory-card:not(.matched)'); // Changed from '.card:not(.matched)'
+        
+        cards.forEach(card => card.classList.add('flip'));
+        
+        setTimeout(() => {
+            cards.forEach(card => card.classList.remove('flip'));
+            gameState.isLocked = false;
+        }, 2000); // Show cards for 2 seconds
+        
+        gameState.hintUsed = true;
+        const hintBtn = document.getElementById('hint-btn');
+        if (hintBtn) {
+            hintBtn.disabled = true;
+            hintBtn.textContent = 'רמז בשימוש';  // Update button text to indicate it's been used
+        }
+    }
+
+    function showRestartConfirmation() {
+        showModal('האם אתה בטוח שברצונך להתחיל מחדש? ההתקדמות שלך תיאבד.', () => {
+            gameState.currentStage = 0;
+            renderQuiz();
+        });
+    }
+
+    function updateProgressBar() {
+        const progressBar = document.getElementById("progress-bar");
+        const completedStages = gameState.currentStage; // Use gameState.currentStage instead of currentStage
+        const progress = (completedStages / stageCount) * 100;
+        const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+        progressBar.style.width = `${roundedProgress}%`;
+        progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+        console.log(`Progress updated: ${roundedProgress}% (Stage ${gameState.currentStage + 1} of ${stageCount})`);
+    }
+    
+    function addAnimalsToFarm(count) {
+        const animalFarm = document.getElementById('animalFarm');
+        for (let i = 0; i < count; i++) {
+            const animalEmoji = getRandomAnimal();
+            const animalElement = document.createElement('li');
+            animalElement.textContent = animalEmoji;
+            animalFarm.appendChild(animalElement);
+        }
+    }
+
+    function getRandomAnimal() {
+        const animals = [
+            "🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+            "🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+            "🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+            "🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+            "🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+            "🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+            "🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+            "🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+            "🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+            "🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+            "🐷", "🐩", "🐘", "🐸", "🐝"
+        ];
+        return animals[Math.floor(Math.random() * animals.length)];
+    }
+
+    function singleStageConfetti() {
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+    }
+
+    function allStagesConfetti() {
+        const defaults = {
+            spread: 360,
+            ticks: 50,
+            gravity: 0,
+            decay: 0.94,
+            startVelocity: 30,
+            shapes: ["star"],
+            colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+        };
+        function shoot() {
+            confetti({
+                ...defaults,
+                particleCount: 40,
+                scalar: 1.2,
+                shapes: ["star"],
+            });
+            confetti({
+                ...defaults,
+                particleCount: 10,
+                scalar: 0.75,
+                shapes: ["circle"],
+            });
+        }
+        setTimeout(shoot, 0);
+        setTimeout(shoot, 100);
+        setTimeout(shoot, 200);
+    }
+
+    function initializeSwitch() {
+        const switchElement = document.getElementById('multiStateSwitch');
+        const labelsContainer = switchElement.querySelector('.switch-labels');
+        const switchContainer = document.getElementById('switchContainer');
+        
+        const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+        
+        if (activeStates.length <= 1) {
+            switchContainer.style.display = 'none';
+            if (activeStates.length === 1) {
+                showContent(activeStates[0]);
+            }
+            return;
+        }
+        
+        switchContainer.style.display = 'flex';
+        
+        activeStates.forEach((state, index) => {
+            const label = document.createElement('div');
+            label.className = 'switch-label';
+            label.textContent = state;
+            label.addEventListener('click', () => switchTab(index));
+            labelsContainer.appendChild(label);
+        });
+
+        const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+            ? manuallySetDefaultTab
+            : 0;
+
+        switchTab(defaultTab);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeSwitch();
+        adjustLayout();
+
+        // Initialize the game
+        renderQuiz();
+
+        // Load the copyright content
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+
+        // Add event listener for window resize
+        window.addEventListener('resize', adjustLayout);
+
+        // Set up event delegation for dynamically created elements
+        document.getElementById('tabContent').addEventListener('click', function(e) {
+            if (e.target.id === 'hint-btn') {
+                handleHint();
+            } else if (e.target.id === 'restart-btn') {
+                showRestartConfirmation();
+            }
+        });
+    });
+
+    // Initialize the game
+    initStage(0);
+    </script>
+</body>
+</html>
