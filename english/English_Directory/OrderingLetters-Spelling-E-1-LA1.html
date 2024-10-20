@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="http://ez42.live/global/logo/tab-logo-emo.svg">
+  <script src="https://ez42.live/global/analytics.js"></script>
+  <script src="https://ez42.live/global/ads.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+  <link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+  <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+  <title>✅ EZ42 LIVE - It's EZ</title>
+  
+  <style>
+
+  </style>
+  
+</head>
+<body>
+  <div class="page-container">
+    <div class="content-wrapper">
+    
+      <!--  Side Panel 1  -->
+      <div id="sidePanel1" class="side-panel">
+        <div class="logo-container">
+          <a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+            <img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+          </a>
+        </div>
+        <h2>Instructions & Rules</h2>
+        <ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+          <li>Look at the emoji and the question to figure out the word to spell.</li>
+          <li>Drag and drop the letters to arrange them into the correct word.</li>
+          <li>Click "Check Answers" when you're ready to see how you did!</li>
+          <li>After 10 attempts, the correct answer will be revealed.</li>
+          <li>There are 30 stages, each with 5 questions.</li>
+          <li>Have fun!</li>
+        </ul>
+      </div>
+      
+      <!--  Quiz Panel   -->
+      <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+        <h1>Emoji Word Spelling Game - A1 📗</h1>
+        <div id="switchContainer" class="switch-container">
+          <div id="multiStateSwitch" class="switch">
+            <div class="switch-labels"></div>
+            <div class="switch-handle"></div>
+          </div>
+        </div>
+        <div id="tabContent"></div>
+      </div>
+      
+      <!--  Side Panel 2  -->
+      <div id="sidePanel2" class="side-panel">
+        <h2>Animal Farm</h2>
+        <p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+        <ul id="animalFarm" class="emoji-list">
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div id="copyright-container"></div>
+
+  <!-- Modal -->
+  <div id="quizModal" class="modal-quiz">
+    <div class="modal-quiz-content">
+      <span class="modal-quiz-close">&times;</span>
+      <p id="modalMessage"></p>
+      <button id="modalButton" class="modal-quiz-button">OK</button>
+    </div>
+  </div>
+
+  <script>
+    let isQuizExpanded = false;
+    let allowQuizExpansion = true;
+
+    let attempts = 0;
+    let currentStage = 0;
+
+    const manuallySetDefaultTab = 1;
+
+    const quizData = [
+		  // Stage 1 - Fruits
+		  [
+			{ question: "I'm red and crunchy. What am I? 🍎", letters: "A / P / P / L / E", correctAnswer: "APPLE" },
+			{ question: "Monkeys love me! What fruit am I? 🍌", letters: "B / A / N / A / N / A", correctAnswer: "BANANA" },
+			{ question: "I'm orange and juicy. Who am I? 🍊", letters: "O / R / A / N / G / E", correctAnswer: "ORANGE" },
+			{ question: "I'm small, red, and sweet. Guess me! 🍓", letters: "B / E / R / R / Y", correctAnswer: "BERRY" },
+			{ question: "I grow in bunches. What fruit am I? 🍇", letters: "G / R / A / P / E", correctAnswer: "GRAPE" }
+		  ],
+		  // Stage 2 - Animals
+		  [
+			{ question: "I say 'meow'. Who am I? 🐱", letters: "C / A / T", correctAnswer: "CAT" },
+			{ question: "I'm man's best friend. Guess me! 🐶", letters: "D / O / G", correctAnswer: "DOG" },
+			{ question: "I'm small and like cheese. Who am I? 🐭", letters: "M / O / U / S / E", correctAnswer: "MOUSE" },
+			{ question: "I hop and have long ears. Who am I? 🐰", letters: "B / U / N / N / Y", correctAnswer: "BUNNY" },
+			{ question: "I'm big and live in the forest. Guess me! 🐻", letters: "B / E / A / R", correctAnswer: "BEAR" }
+		  ],
+		  // Stage 3 - Colors
+		  [
+			{ question: "I'm the color of fire. What am I? 🔴", letters: "R / E / D", correctAnswer: "RED" },
+			{ question: "I'm the color of the sky. Guess me! 🔵", letters: "B / L / U / E", correctAnswer: "BLUE" },
+			{ question: "I'm the color of grass. Who am I? 🟢", letters: "G / R / E / E / N", correctAnswer: "GREEN" },
+			{ question: "I'm bright like the sun. What color am I? 🟡", letters: "Y / E / L / L / O / W", correctAnswer: "YELLOW" },
+			{ question: "I'm the color of snow. Guess me! ⚪", letters: "W / H / I / T / E", correctAnswer: "WHITE" }
+		  ],
+		  // Stage 4 - Numbers
+		  [
+			{ question: "I'm the loneliest number. Who am I? 1️⃣", letters: "O / N / E", correctAnswer: "ONE" },
+			{ question: "It takes two to tango. What number am I? 2️⃣", letters: "T / W / O", correctAnswer: "TWO" },
+			{ question: "I'm a crowd. Guess me! 3️⃣", letters: "T / H / R / E / E", correctAnswer: "THREE" },
+			{ question: "I'm in a car's wheels. What number am I? 4️⃣", letters: "F / O / U / R", correctAnswer: "FOUR" },
+			{ question: "I'm the fingers on one hand. Who am I? 5️⃣", letters: "F / I / V / E", correctAnswer: "FIVE" }
+		  ],
+		  // Stage 5 - Food
+		  [
+			{ question: "I'm round and cheesy. What food am I? 🍕", letters: "P / I / Z / Z / A", correctAnswer: "PIZZA" },
+			{ question: "I'm between two buns. Guess me! 🍔", letters: "B / U / R / G / E / R", correctAnswer: "BURGER" },
+			{ question: "I'm long and salty. What am I? 🍟", letters: "F / R / I / E / S", correctAnswer: "FRIES" },
+			{ question: "I'm cold and sweet. Who am I? 🍦", letters: "I / C / E / C / R / E / A / M", correctAnswer: "ICECREAM" },
+			{ question: "I come from a chicken. What am I? 🥚", letters: "E / G / G", correctAnswer: "EGG" }
+		  ],
+		  // Stage 6 - Drinks
+		  [
+			{ question: "Cats love me. What drink am I? 🥛", letters: "M / I / L / K", correctAnswer: "MILK" },
+			{ question: "I come from fruit. Guess me! 🧃", letters: "J / U / I / C / E", correctAnswer: "JUICE" },
+			{ question: "I wake you up in the morning. Who am I? ☕", letters: "C / O / F / F / E / E", correctAnswer: "COFFEE" },
+			{ question: "I'm hot and British. What drink am I? 🍵", letters: "T / E / A", correctAnswer: "TEA" },
+			{ question: "I fall from the sky. Guess me! 💧", letters: "W / A / T / E / R", correctAnswer: "WATER" }
+		  ],
+		  // Stage 7 - Clothes
+		  [
+			{ question: "I cover your top. What am I? 👕", letters: "S / H / I / R / T", correctAnswer: "SHIRT" },
+			{ question: "I have two legs. Guess me! 👖", letters: "P / A / N / T / S", correctAnswer: "PANTS" },
+			{ question: "Girls wear me. Who am I? 👗", letters: "D / R / E / S / S", correctAnswer: "DRESS" },
+			{ question: "I keep your feet warm. What am I? 🧦", letters: "S / O / C / K / S", correctAnswer: "SOCKS" },
+			{ question: "I protect your feet outside. Guess me! 👟", letters: "S / H / O / E / S", correctAnswer: "SHOES" }
+		  ],
+		  // Stage 8 - Body Parts
+		  [
+			{ question: "I help you see. What body part am I? 👁️", letters: "E / Y / E", correctAnswer: "EYE" },
+			{ question: "I help you smell. Guess me! 👃", letters: "N / O / S / E", correctAnswer: "NOSE" },
+			{ question: "I help you speak. Who am I? 👄", letters: "M / O / U / T / H", correctAnswer: "MOUTH" },
+			{ question: "I help you hear. What am I? 👂", letters: "E / A / R", correctAnswer: "EAR" },
+			{ question: "I help you chew. Guess me! 🦷", letters: "T / O / O / T / H", correctAnswer: "TOOTH" }
+		  ],
+		  // Stage 9 - Weather
+		  [
+			{ question: "I make the day bright. What weather am I? ☀️", letters: "S / U / N / N / Y", correctAnswer: "SUNNY" },
+			{ question: "I make you wet. Guess me! 🌧️", letters: "R / A / I / N / Y", correctAnswer: "RAINY" },
+			{ question: "I'm cold and white. Who am I? ❄️", letters: "S / N / O / W / Y", correctAnswer: "SNOWY" },
+			{ question: "I block the sun. What weather am I? ☁️", letters: "C / L / O / U / D / Y", correctAnswer: "CLOUDY" },
+			{ question: "I make trees dance. Guess me! 🌪️", letters: "W / I / N / D / Y", correctAnswer: "WINDY" }
+		  ],
+		  // Stage 10 - Time
+		  [
+			{ question: "I'm the day of rest. What day am I? 🌞", letters: "S / U / N / D / A / Y", correctAnswer: "SUNDAY" },
+			{ question: "I'm the first workday. Guess me! 🌙", letters: "M / O / N / D / A / Y", correctAnswer: "MONDAY" },
+			{ question: "I'm the start of the weekend. Who am I? 📅", letters: "F / R / I / D / A / Y", correctAnswer: "FRIDAY" },
+			{ question: "I have Christmas. What month am I? 🎄", letters: "D / E / C / E / M / B / E / R", correctAnswer: "DECEMBER" },
+			{ question: "I have colorful leaves. What season am I? 🍁", letters: "A / U / T / U / M / N", correctAnswer: "AUTUMN" }
+		  ],
+		  // Stage 11 - Places
+		  [
+			{ question: "I'm where you sleep. What place am I? 🏠", letters: "H / O / U / S / E", correctAnswer: "HOUSE" },
+			{ question: "I'm where you learn. Guess me! 🏫", letters: "S / C / H / O / O / L", correctAnswer: "SCHOOL" },
+			{ question: "I'm where doctors work. Who am I? 🏥", letters: "H / O / S / P / I / T / A / L", correctAnswer: "HOSPITAL" },
+			{ question: "I'm where you buy things. What am I? 🏬", letters: "S / H / O / P", correctAnswer: "SHOP" },
+			{ question: "I'm full of trees and grass. Guess me! 🏞️", letters: "P / A / R / K", correctAnswer: "PARK" }
+		  ],
+		  // Stage 12 - Jobs
+		  [
+			{ question: "I help sick people. What job am I? ⚕️", letters: "D / O / C / T / O / R", correctAnswer: "DOCTOR" },
+			{ question: "I work in a school. Guess me! 👩", letters: "T / E / A / C / H / E / R", correctAnswer: "TEACHER" },
+			{ question: "I make food in a restaurant. Who am I? 🍳", letters: "C / O / O / K", correctAnswer: "COOK" },
+			{ question: "I keep people safe. What job am I? 👮", letters: "P / O / L / I / C / E", correctAnswer: "POLICE" },
+			{ question: "I fight fires. Guess me! 🚒", letters: "F / I / R / E / M / A / N", correctAnswer: "FIREMAN" }
+		  ],
+		  // Stage 13 - Transport
+		  [
+			{ question: "I have four wheels. What am I? 🚗", letters: "C / A / R", correctAnswer: "CAR" },
+			{ question: "I'm big and yellow. Guess me! 🚌", letters: "B / U / S", correctAnswer: "BUS" },
+			{ question: "I run on tracks. Who am I? 🚂", letters: "T / R / A / I / N", correctAnswer: "TRAIN" },
+			{ question: "I fly in the sky. What am I? ✈️", letters: "P / L / A / N / E", correctAnswer: "PLANE" },
+			{ question: "I have two wheels. Guess me! 🚲", letters: "B / I / K / E", correctAnswer: "BIKE" }
+		  ],
+		  // Stage 14 - Sports
+		  [
+			{ question: "I use a round ball. What sport am I? ⚽", letters: "S / O / C / C / E / R", correctAnswer: "SOCCER" },
+			{ question: "I'm done in water. Guess me! 🏊", letters: "S / W / I / M", correctAnswer: "SWIM" },
+			{ question: "I use your legs fast. Who am I? 🏃", letters: "R / U / N", correctAnswer: "RUN" },
+			{ question: "I use a bicycle. What am I? 🚴", letters: "C / Y / C / L / E", correctAnswer: "CYCLE" },
+			{ question: "I use a racket. Guess me! 🎾", letters: "T / E / N / N / I / S", correctAnswer: "TENNIS" }
+		  ],
+		  // Stage 15 - Rooms
+		  [
+			{ question: "I'm where you sleep. What room am I? 🛏️", letters: "B / E / D / R / O / O / M", correctAnswer: "BEDROOM" },
+			{ question: "I have a shower. Guess me! 🚽", letters: "B / A / T / H / R / O / O / M", correctAnswer: "BATHROOM" },
+			{ question: "I'm where you cook. Who am I? 🍽️", letters: "K / I / T / C / H / E / N", correctAnswer: "KITCHEN" },
+			{ question: "I have a TV. What room am I? 🛋️", letters: "L / I / V / I / N / G / R / O / O / M", correctAnswer: "LIVINGROOM" },
+			{ question: "I have exercise equipment. Guess me! 🏋️", letters: "G / Y / M", correctAnswer: "GYM" }
+		  ],
+		  // Stage 16 - Furniture
+		  [
+			{ question: "You sleep on me. What am I? 🛏️", letters: "B / E / D", correctAnswer: "BED" },
+			{ question: "You sit on me. Guess me! 🪑", letters: "C / H / A / I / R", correctAnswer: "CHAIR" },
+			{ question: "I'm comfy and in the living room. Who am I? 🛋️", letters: "S / O / F / A", correctAnswer: "SOFA" },
+			{ question: "I make toast. What am I? 🍞", letters: "T / O / A / S / T / E / R", correctAnswer: "TOASTER" },
+			{ question: "I open and close. Guess me! 🚪", letters: "D / O / O / R", correctAnswer: "DOOR" }
+		  ],
+		  // Stage 17 - Feelings
+		  [
+			{ question: "I smile when I feel this. What am I? 😀", letters: "H / A / P / P / Y", correctAnswer: "HAPPY" },
+			{ question: "I cry when I feel this. Guess me! 😢", letters: "S / A / D", correctAnswer: "SAD" },
+			{ question: "I shout when I feel this. Who am I? 😠", letters: "A / N / G / R / Y", correctAnswer: "ANGRY" },
+			{ question: "I yawn when I feel this. What am I? 😴", letters: "S / L / E / E / P / Y", correctAnswer: "SLEEPY" },
+			{ question: "I shake when I feel this. Guess me! 😨", letters: "S / C / A / R / E / D", correctAnswer: "SCARED" }
+		  ],
+		  // Stage 18 - Family
+		  [
+			{ question: "I'm a man with children. Who am I? 👨", letters: "F / A / T / H / E / R", correctAnswer: "FATHER" },
+			{ question: "I'm a woman with children. Guess me! 👩", letters: "M / O / T / H / E / R", correctAnswer: "MOTHER" },
+			{ question: "I'm a boy in the family. Who am I? 👦", letters: "S / O / N", correctAnswer: "SON" },
+			{ question: "I'm a girl in the family. What am I? 👧", letters: "D / A / U / G / H / T / E / R", correctAnswer: "DAUGHTER" },
+			{ question: "I'm the youngest in the family. Guess me! 👶", letters: "B / A / B / Y", correctAnswer: "BABY" }
+		  ],
+		  // Stage 19 - Activities
+		  [
+			{ question: "I move fast with my legs. What am I doing? 🏃", letters: "R / U / N / N / I / N / G", correctAnswer: "RUNNING" },
+			{ question: "I put food in my mouth. Guess me! 🍽️", letters: "E / A / T / I / N / G", correctAnswer: "EATING" },
+			{ question: "I look at words in a book. Who am I? 📚", letters: "R / E / A / D / I / N / G", correctAnswer: "READING" },
+			{ question: "I make music with my voice. What am I doing? 🎵", letters: "S / I / N / G / I / N / G", correctAnswer: "SINGING" },
+			{ question: "I close my eyes at night. Guess me! 💤", letters: "S / L / E / E / P / I / N / G", correctAnswer: "SLEEPING" }
+		  ],
+		  // Stage 20 - Tools
+		  [
+			{ question: "I hit nails. What tool am I? 🔨", letters: "H / A / M / M / E / R", correctAnswer: "HAMMER" },
+			{ question: "I turn nuts and bolts. Guess me! 🔧", letters: "W / R / E / N / C / H", correctAnswer: "WRENCH" },
+			{ question: "I cut food. Who am I? 🔪", letters: "K / N / I / F / E", correctAnswer: "KNIFE" },
+			{ question: "I write with ink. What am I? 🖊️", letters: "P / E / N", correctAnswer: "PEN" },
+			{ question: "I write and can be erased. Guess me! ✏️", letters: "P / E / N / C / I / L", correctAnswer: "PENCIL" }
+		  ],
+		  // Stage 21 - Shapes
+		  [
+			{ question: "I'm round like a ball. What shape am I? 🔴", letters: "C / I / R / C / L / E", correctAnswer: "CIRCLE" },
+			{ question: "I have four equal sides. Guess me! 🔶", letters: "S / Q / U / A / R / E", correctAnswer: "SQUARE" },
+			{ question: "I have three sides. Who am I? 🔺", letters: "T / R / I / A / N / G / L / E", correctAnswer: "TRIANGLE" },
+			{ question: "I'm a 3D circle. Guess me! 🟠", letters: "S / P / H / E / R / E", correctAnswer: "SPHERE" },
+			{ question: "I'm soft and fluffy, and you sleep on me. Guess me! 🛏️", letters: "P / I / L / L / O / W", correctAnswer: "PILLOW" }
+		  ],
+		  // Stage 22 - Nature
+		  [
+			{ question: "I'm tall with leaves. What am I? 🌳", letters: "T / R / E / E", correctAnswer: "TREE" },
+			{ question: "I'm pretty and smell nice. Guess me! 🌸", letters: "F / L / O / W / E / R", correctAnswer: "FLOWER" },
+			{ question: "I'm green and grow in gardens. Who am I? 🌿", letters: "P / L / A / N / T", correctAnswer: "PLANT" },
+			{ question: "I'm wet and in oceans. What am I? 🌊", letters: "W / A / V / E", correctAnswer: "WAVE" },
+			{ question: "I'm hot and in volcanoes. Guess me! 🌋", letters: "L / A / V / A", correctAnswer: "LAVA" }
+		  ],
+		  // Stage 23 - School Subjects
+		  [
+			{ question: "I use numbers. What subject am I? 🔢", letters: "M / A / T / H", correctAnswer: "MATH" },
+			{ question: "I study living things. Guess me! 🧬", letters: "S / C / I / E / N / C / E", correctAnswer: "SCIENCE" },
+			{ question: "I learn about the past. Who am I? 📜", letters: "H / I / S / T / O / R / Y", correctAnswer: "HISTORY" },
+			{ question: "I study languages. What am I? 📚", letters: "E / N / G / L / I / S / H", correctAnswer: "ENGLISH" },
+			{ question: "I make beautiful things. Guess me! 🎨", letters: "A / R / T", correctAnswer: "ART" }
+		  ],
+		  // Stage 24 - Technology
+		  [
+			{ question: "I'm smart and in your pocket. What am I? 📱", letters: "P / H / O / N / E", correctAnswer: "PHONE" },
+			{ question: "I'm like a TV but you type on me. Guess me! 💻", letters: "C / O / M / P / U / T / E / R", correctAnswer: "COMPUTER" },
+			{ question: "I take pictures. Who am I? 📷", letters: "C / A / M / E / R / A", correctAnswer: "CAMERA" },
+			{ question: "I play music loudly. What am I? 🔊", letters: "S / P / E / A / K / E / R", correctAnswer: "SPEAKER" },
+			{ question: "I show moving pictures. Guess me! 📺", letters: "T / E / L / E / V / I / S / I / O / N", correctAnswer: "TELEVISION" }
+		  ],
+		  // Stage 25 - Occupations
+		  [
+			{ question: "I fly planes. What job am I? ✈️", letters: "P / I / L / O / T", correctAnswer: "PILOT" },
+			{ question: "I cut and style hair. Guess me! 💇", letters: "H / A / I / R / D / R / E / S / S / E / R", correctAnswer: "HAIRDRESSER" },
+			{ question: "I deliver letters. Who am I? 📮", letters: "P / O / S / T / M / A / N", correctAnswer: "POSTMAN" },
+			{ question: "I make buildings. What job am I? 👷", letters: "B / U / I / L / D / E / R", correctAnswer: "BUILDER" },
+			{ question: "I help sick animals. Guess me! 🐾", letters: "V / E / T", correctAnswer: "VET" }
+		  ],
+		  // Stage 26 - Hobbies
+		  [
+			{ question: "I'm sticky and hold papers together. Guess me! 🩹", letters: "T / A / P / E", correctAnswer: "TAPE" },
+			{ question: "I make things with yarn. Guess me! 🧶", letters: "K / N / I / T / T / I / N / G", correctAnswer: "KNITTING" },
+			{ question: "I grow plants for fun. Who am I? 🌱", letters: "G / A / R / D / E / N / I / N / G", correctAnswer: "GARDENING" },
+			{ question: "I take pictures as a hobby. What am I? 📸", letters: "P / H / O / T / O / G / R / A / P / H / Y", correctAnswer: "PHOTOGRAPHY" },
+			{ question: "I paint pictures. Guess me! 🎨", letters: "P / A / I / N / T / I / N / G", correctAnswer: "PAINTING" }
+		  ],
+		  // Stage 27 - Countries
+		  [
+			{ question: "I'm round and help you see better. Who am I? 👓", letters: "G / L / A / S / S / E / S", correctAnswer: "GLASSES" },
+			{ question: "I'm long and help you walk in the snow. What am I? ⛷️", letters: "S / K / I / S", correctAnswer: "SKIS" },
+			{ question: "I'm small, metal, and open doors. Guess me! 🔑", letters: "K / E / Y", correctAnswer: "KEY" },
+			{ question: "I'm round and you wear me on your wrist. Who am I? ⌚", letters: "W / A / T / C / H", correctAnswer: "WATCH" },
+			{ question: "I'm soft and keep your neck warm. What am I? 🧣", letters: "S / C / A / R / F", correctAnswer: "SCARF" }
+		  ],
+		  // Stage 28 - Musical Instruments
+		  [
+			{ question: "I have strings and a long neck. What am I? 🎸", letters: "G / U / I / T / A / R", correctAnswer: "GUITAR" },
+			{ question: "I'm big and have 88 keys. Guess me! 🎹", letters: "P / I / A / N / O", correctAnswer: "PIANO" },
+			{ question: "I'm round and you hit me. Who am I? 🥁", letters: "D / R / U / M", correctAnswer: "DRUM" },
+			{ question: "I'm long and you blow into me. What am I? 🎺", letters: "T / R / U / M / P / E / T", correctAnswer: "TRUMPET" },
+			{ question: "I'm cold and you put food inside me. Who am I? 🧊", letters: "F / R / E / E / Z / E / R", correctAnswer: "FREEZER" }
+		  ],
+		  // Stage 29 - Desserts
+		  [
+			{ question: "I'm sweet and have candles on my birthday. What am I? 🎂", letters: "C / A / K / E", correctAnswer: "CAKE" },
+			{ question: "I'm cold, sweet, and in a cone. Guess me! 🍦", letters: "I / C / E / C / R / E / A / M", correctAnswer: "ICECREAM" },
+			{ question: "I'm round with a hole in the middle. Who am I? 🍩", letters: "D / O / N / U / T", correctAnswer: "DONUT" },
+			{ question: "I'm made of chocolate chips. What am I? 🍪", letters: "C / O / O / K / I / E", correctAnswer: "COOKIE" },
+			{ question: "I'm like cake but smaller. Guess me! 🧁", letters: "C / U / P / C / A / K / E", correctAnswer: "CUPCAKE" }
+		  ],
+		  // Stage 30 - Ocean Life
+		  [
+			{ question: "I'm big, blue, and spray water. What am I? 🐳", letters: "W / H / A / L / E", correctAnswer: "WHALE" },
+			{ question: "I have eight legs. Guess me! 🐙", letters: "O / C / T / O / P / U / S", correctAnswer: "OCTOPUS" },
+			{ question: "I'm small, orange, and live in coral. Who am I? 🐠", letters: "C / L / O / W / N / F / I / S / H", correctAnswer: "CLOWNFISH" },
+			{ question: "I have a shell and move slowly. What am I? 🐢", letters: "T / U / R / T / L / E", correctAnswer: "TURTLE" },
+			{ question: "I'm tall and wave in the ocean. Guess me! 🌿", letters: "S / E / A / W / E / E / D", correctAnswer: "SEAWEED" }
+		  ]
+  ];
+
+    // Ensure we have 30 stages in total
+    while (quizData.length < 30) {
+      // Placeholder stages with emojis in the questions
+      quizData.push([
+        { question: "What's this object? 🔑", letters: "K / E / Y", correctAnswer: "KEY" },
+        { question: "What's this object? 📚", letters: "B / O / O / K / S", correctAnswer: "BOOKS" },
+        { question: "What's this activity? 🎨", letters: "P / A / I / N / T / I / N / G", correctAnswer: "PAINTING" },
+        { question: "What's this sport? ⚽", letters: "S / O / C / C / E / R", correctAnswer: "SOCCER" },
+        { question: "What's this instrument? 🎸", letters: "G / U / I / T / A / R", correctAnswer: "GUITAR" },
+      ]);
+    }
+
+    const stageCount = quizData.length;
+
+    const stateContents = {
+      'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+    };
+
+    function setQuizExpansion(allow) {
+      allowQuizExpansion = allow;
+      adjustLayout();
+    }
+
+    function adjustLayout() {
+      const wrapper = document.querySelector('.content-wrapper');
+      const quizContainer = document.getElementById('quizContainer');
+      const sidePanel1 = document.getElementById('sidePanel1');
+      
+      const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+      wrapper.style.justifyContent = 'space-between';
+
+      if (isPanel1Visible) {
+        sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+        sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+        quizContainer.style.flex = '1';
+      } else {
+        quizContainer.style.flex = '1';
+        wrapper.style.justifyContent = 'center';
+      }
+
+      [sidePanel1, quizContainer].forEach(el => {
+        el.style.display = 'block';
+      });
+    }
+
+    function togglePanel(panelId) {
+      const panel = document.getElementById(panelId);
+      panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+      adjustLayout();
+    }
+
+    function updateSwitcherLayout() {
+      const switchElement = document.getElementById('multiStateSwitch');
+      const labels = switchElement.querySelectorAll('.switch-label');
+      const handle = switchElement.querySelector('.switch-handle');
+
+      labels.forEach(label => {
+        label.style.flex = 'none';
+        label.style.padding = '0 20px';
+      });
+
+      const activeLabel = switchElement.querySelector('.switch-label.active');
+      if (activeLabel) {
+        const switchRect = switchElement.getBoundingClientRect();
+        const labelRect = activeLabel.getBoundingClientRect();
+
+        handle.style.left = `${labelRect.left - switchRect.left}px`;
+        handle.style.width = `${labelRect.width}px`;
+      }
+
+      switchElement.style.width = 'auto';
+    }
+    
+    function switchTab(index) {
+      const switchElement = document.getElementById('multiStateSwitch');
+      const labels = switchElement.querySelectorAll('.switch-label');
+      const activeStates = Array.from(labels).map(label => label.textContent);
+
+      labels.forEach((label, i) => {
+        label.classList.toggle('active', i === index);
+      });
+
+      updateSwitcherLayout();
+      showContent(activeStates[index]);
+
+      adjustLayout();
+    }
+
+    function showContent(state) {
+      const tabContent = document.getElementById('tabContent');
+      tabContent.innerHTML = stateContents[state] || '';
+
+      if (state === 'Practice') {
+        renderQuiz();
+        updateProgressBar();
+      }
+    }
+
+    function renderQuiz() {
+      const quizContainer = document.getElementById("quiz-content");
+      quizContainer.innerHTML = '';
+
+      quizData[currentStage].forEach((question, index) => {
+        const letters = shuffleArray(question.letters.split(" / "));
+        const letterBubbles = letters.map(letter => `<div class="word-bubble" draggable="true">${letter}</div>`).join('');
+        const questionElement = document.createElement("div");
+        questionElement.className = "question";
+        
+        questionElement.innerHTML = `
+          <p>${question.question}</p>
+          <div class="word-container" id="word-container${index}">${letterBubbles}</div>
+          <div class="result" id="result${index}"></div>
+        `;
+
+        quizContainer.appendChild(questionElement);
+      });
+
+      setupDragAndDrop();
+      updateStageNumber();
+    }
+
+    function setupDragAndDrop() {
+      const wordBubbles = document.querySelectorAll('.word-bubble');
+      wordBubbles.forEach(bubble => {
+        bubble.addEventListener('dragstart', dragStart);
+        bubble.addEventListener('dragover', dragOver);
+        bubble.addEventListener('drop', drop);
+        bubble.addEventListener('dragend', dragEnd);
+      });
+    }
+
+    function dragStart(e) {
+      e.dataTransfer.setData('text/plain', e.target.textContent);
+      e.dataTransfer.setData('sourceContainer', e.target.closest('.word-container').id);
+      e.dataTransfer.effectAllowed = "move";
+      this.style.opacity = "0.5";
+    }
+
+    function dragOver(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
+    }
+
+    function drop(event) {
+      event.preventDefault();
+      const draggedText = event.dataTransfer.getData('text/plain');
+      const sourceContainerId = event.dataTransfer.getData('sourceContainer');
+      const targetContainer = event.target.closest('.word-container');
+
+      if (targetContainer && targetContainer.id === sourceContainerId) {
+        const targetWord = event.target.closest('.word-bubble');
+        if (targetWord) {
+          const draggedWord = Array.from(targetContainer.getElementsByClassName('word-bubble'))
+              .find(word => word.textContent === draggedText);
+          
+          const tempText = targetWord.textContent;
+          targetWord.textContent = draggedText;
+          draggedWord.textContent = tempText;
+        }
+      }
+
+      document.querySelectorAll('.word-bubble').forEach(word => word.style.opacity = "1");
+    }
+
+    function dragEnd(e) {
+      e.target.style.opacity = "1";
+    }
+
+    function checkStage() {
+      attempts++;
+      document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+      let correctCount = 0;
+      const totalQuestions = quizData[currentStage].length;
+
+      quizData[currentStage].forEach((question, index) => {
+        const wordContainer = document.getElementById(`word-container${index}`);
+        const letters = Array.from(wordContainer.getElementsByClassName('word-bubble'));
+        const userAnswer = letters.map(letter => letter.textContent).join('');
+        const resultElement = document.getElementById(`result${index}`);
+        if (userAnswer.toLowerCase() === question.correctAnswer.toLowerCase()) {
+          resultElement.textContent = "Correct!";
+          resultElement.style.color = "green";
+          correctCount++;
+        } else {
+          resultElement.textContent = "Incorrect. Try again!";
+          resultElement.style.color = "red";
+          if (attempts >= 10) {
+            resultElement.textContent += ` The correct answer is: ${question.correctAnswer}`;
+          }
+        }
+      });
+
+      if (correctCount === totalQuestions) {
+        addAnimalsToFarm(totalQuestions); 
+
+        if (currentStage < stageCount - 1) {
+          singleStageConfetti();
+          showEncouragingPopup(correctCount, totalQuestions, true);
+          currentStage++; 
+          updateProgressBar(); 
+          setTimeout(() => {
+            attempts = 0;
+            renderQuiz();
+            document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+          }, 1500);
+        } else {
+
+          currentStage++;
+          updateProgressBar(); 
+          allStagesConfetti();
+          showModal("Congratulations! You've completed all stages.");
+        }
+      } else {
+        showEncouragingPopup(correctCount, totalQuestions, false);
+        if (attempts >= 10) {
+          showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+        }
+      }
+
+      scrollToTop();
+    }
+    
+    function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+      const incorrectCount = totalQuestions - correctCount;
+      let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+      
+      // Add encouraging message based on performance
+      if (correctCount === totalQuestions) {
+        message += " Perfect score!";
+      } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+        message += " Great job! You're really getting the hang of this!";
+      } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+        message += " Good effort! Keep practicing and you'll improve in no time!";
+      } else {
+        message += " Don't give up! Every attempt helps you learn. Try again!";
+      }
+
+      // Add stage completion message if applicable
+      if (isStageComplete) {
+        message += "\n\n You've completed this stage. Moving to the next stage.";
+      }
+
+      showModal(message);
+    }
+
+    function initializeQuiz() {
+      currentStage = 0;
+      attempts = 0;
+      updateProgressBar();
+      renderQuiz();
+      document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+      updateStageNumber();
+    }
+    
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+    
+    function updateProgressBar() {
+      const progressBar = document.getElementById("progress-bar");
+      const completedStages = currentStage;
+      const progress = (completedStages / stageCount) * 100;
+      const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+      progressBar.style.width = `${roundedProgress}%`;
+      progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+    }
+
+    function updateStageNumber() {
+      const stageElement = document.getElementById("stage-number");
+      stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+    }
+
+    function singleStageConfetti() {
+      function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+      confetti({
+        angle: randomInRange(55, 125),
+        spread: randomInRange(50, 70),
+        particleCount: randomInRange(50, 100),
+        origin: { y: 0.6 },
+      });
+    }
+
+    function allStagesConfetti() {
+      const defaults = {
+        spread: 360,
+        ticks: 50,
+        gravity: 0,
+        decay: 0.94,
+        startVelocity: 30,
+        shapes: ["star"],
+        colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+      };
+      function shoot() {
+        confetti({
+          ...defaults,
+          particleCount: 40,
+          scalar: 1.2,
+          shapes: ["star"],
+        });
+        confetti({
+          ...defaults,
+          particleCount: 10,
+          scalar: 0.75,
+          shapes: ["circle"],
+        });
+      }
+      setTimeout(shoot, 0);
+      setTimeout(shoot, 100);
+      setTimeout(shoot, 200);
+    }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function initializeSwitch() {
+      const switchElement = document.getElementById('multiStateSwitch');
+      const labelsContainer = switchElement.querySelector('.switch-labels');
+      const switchContainer = document.getElementById('switchContainer');
+      
+      const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+      
+      if (activeStates.length <= 1) {
+        switchContainer.style.display = 'none';
+        if (activeStates.length === 1) {
+          showContent(activeStates[0]);
+        }
+        return;
+      }
+      
+      switchContainer.style.display = 'flex';
+      
+      activeStates.forEach((state, index) => {
+        const label = document.createElement('div');
+        label.className = 'switch-label';
+        label.textContent = state;
+        label.addEventListener('click', () => switchTab(index));
+        labelsContainer.appendChild(label);
+      });
+ 
+      const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+          ? manuallySetDefaultTab
+          : 0;
+
+      switchTab(defaultTab);
+    }
+
+    let farmAnimals = [];
+
+    function addAnimalsToFarm(count) {
+      const animalFarm = document.getElementById('animalFarm');
+      let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+      for (let i = 0; i < count; i++) {
+        if (availableAnimals.length === 0) {
+          break;
+        }
+
+        const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+        const chosenAnimal = availableAnimals[randomIndex];
+
+        const animalElement = document.createElement('li');
+        animalElement.textContent = chosenAnimal;
+        animalFarm.appendChild(animalElement);
+
+        farmAnimals.push(chosenAnimal);
+        availableAnimals.splice(randomIndex, 1);
+      }
+    }
+
+    const animals = [
+      "🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+      "🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+      "🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+      "🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+      "🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+      "🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+      "🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+      "🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+      "🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+      "🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+      "🐷", "🐩", "🐘", "🐸", "🐝"
+    ];
+
+    function showModal(message) {
+      const modal = document.getElementById("quizModal");
+      const modalMessage = document.getElementById("modalMessage");
+      const modalButton = document.getElementById("modalButton");
+      const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+      modalMessage.textContent = message;
+      modal.style.display = "block";
+
+      modalButton.onclick = function() {
+        modal.style.display = "none";
+      }
+
+      modalClose.onclick = function() {
+        modal.style.display = "none";
+      }
+
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
+    }
+
+    window.addEventListener('load', () => {
+      initializeSwitch();
+      initializeQuiz();
+      adjustLayout();
+    });
+
+    window.addEventListener('resize', adjustLayout);
+
+    // Load the copyright content from the external URL and insert it into the div
+    fetch('http://ez42.live/global/copyright.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('copyright-container').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading copyright:', error));
+  </script>
+</body>
+</html>

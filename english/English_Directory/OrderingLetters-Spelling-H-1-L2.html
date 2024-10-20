@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-heb.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 - זה קל</title>
+    <style>
+
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+    
+        <!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+                <div class="logo-container">
+                    <a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+                        <img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+                    </a>
+                </div>
+                <h2>הוראות</h2>
+                <ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                    <li>קיראו את השאלה כדי לזהות את המילה שיש לאיית.</li>
+                    <li>גררו ושחררו את האותיות כדי לסדר אותן בסדר הנכון.</li>
+                    <li>לחצו על "בדיקת תשובות" כשאתם מוכנים!</li>
+                    <li>לאחר 10 ניסיונות, התשובה הנכונה תתגלה.</li>
+                    <li>ישנם 30 שלבים, כל אחד עם 5 שאלות.</li>
+                    <li>תהנו!</li>
+                </ul>
+            </div>
+            
+        <!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>משחק איות מילים - 📘</h1>
+
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+
+                <div id="tabContent"></div>
+            </div>
+            
+        <!--  Side Panel 2  -->
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות החיות</h2>
+                <p>החווה שלך גדלה תוך כדי התקדמות! כל שלב מוסיף חיות חדשות לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 1;
+
+        const quizData = [
+
+			  // Stage 1
+			  [
+				{ question: "What do you call a place where you borrow books?", letters: "L / I / B / R / A / R / Y", correctAnswer: "LIBRARY" },
+				{ question: "What's the word for a person who plays a sport?", letters: "A / T / H / L / E / T / E", correctAnswer: "ATHLETE" },
+				{ question: "What do you call the meal you eat in the morning?", letters: "B / R / E / A / K / F / A / S / T", correctAnswer: "BREAKFAST" },
+				{ question: "What's the word for a building where movies are shown?", letters: "C / I / N / E / M / A", correctAnswer: "CINEMA" },
+				{ question: "What do you call a person who fixes teeth?", letters: "D / E / N / T / I / S / T", correctAnswer: "DENTIST" }
+			  ],
+			  // Stage 2
+			  [
+				{ question: "What's the word for a place where you buy medicine?", letters: "P / H / A / R / M / A / C / Y", correctAnswer: "PHARMACY" },
+				{ question: "What do you call a person who delivers mail?", letters: "P / O / S / T / M / A / N", correctAnswer: "POSTMAN" },
+				{ question: "What's the word for a building where you deposit money?", letters: "B / A / N / K", correctAnswer: "BANK" },
+				{ question: "What do you call a person who cuts and styles hair?", letters: "H / A / I / R / D / R / E / S / S / E / R", correctAnswer: "HAIRDRESSER" },
+				{ question: "What's the word for a place where you buy groceries?", letters: "S / U / P / E / R / M / A / R / K / E / T", correctAnswer: "SUPERMARKET" }
+			  ],
+			  // Stage 3
+			  [
+				{ question: "What do you call a person who plays music?", letters: "M / U / S / I / C / I / A / N", correctAnswer: "MUSICIAN" },
+				{ question: "What's the word for a room where you cook food?", letters: "K / I / T / C / H / E / N", correctAnswer: "KITCHEN" },
+				{ question: "What do you call a person who paints pictures?", letters: "A / R / T / I / S / T", correctAnswer: "ARTIST" },
+				{ question: "What's the word for a place where you work out?", letters: "G / Y / M", correctAnswer: "GYM" },
+				{ question: "What do you call a person who writes news articles?", letters: "J / O / U / R / N / A / L / I / S / T", correctAnswer: "JOURNALIST" }
+			  ],
+			  // Stage 4
+			  [
+				{ question: "What's the word for a machine that washes clothes?", letters: "W / A / S / H / I / N / G / M / A / C / H / I / N / E", correctAnswer: "WASHINGMACHINE" },
+				{ question: "What do you call a person who flies a plane?", letters: "P / I / L / O / T", correctAnswer: "PILOT" },
+				{ question: "What's the word for a place where you buy tickets for a train?", letters: "S / T / A / T / I / O / N", correctAnswer: "STATION" },
+				{ question: "What do you call a person who serves food in a restaurant?", letters: "W / A / I / T / E / R", correctAnswer: "WAITER" },
+				{ question: "What's the word for a building where you see art?", letters: "M / U / S / E / U / M", correctAnswer: "MUSEUM" }
+			  ],
+			  // Stage 5
+			  [
+				{ question: "What do you call a person who repairs cars?", letters: "M / E / C / H / A / N / I / C", correctAnswer: "MECHANIC" },
+				{ question: "What's the word for a place where you buy medicine?", letters: "P / H / A / R / M / A / C / Y", correctAnswer: "PHARMACY" },
+				{ question: "What do you call a person who designs buildings?", letters: "A / R / C / H / I / T / E / C / T", correctAnswer: "ARCHITECT" },
+				{ question: "What's the word for a place where you study?", letters: "U / N / I / V / E / R / S / I / T / Y", correctAnswer: "UNIVERSITY" },
+				{ question: "What do you call a person who takes care of your eyes?", letters: "O / P / T / I / C / I / A / N", correctAnswer: "OPTICIAN" }
+			  ],
+			  // Stage 6
+			  [
+				{ question: "What's the word for a person who takes photos?", letters: "P / H / O / T / O / G / R / A / P / H / E / R", correctAnswer: "PHOTOGRAPHER" },
+				{ question: "What do you call a place where you go to see plays?", letters: "T / H / E / A / T / E / R", correctAnswer: "THEATER" },
+				{ question: "What's the word for a person who fixes pipes and water systems?", letters: "P / L / U / M / B / E / R", correctAnswer: "PLUMBER" },
+				{ question: "What do you call a building where you can borrow DVDs?", letters: "V / I / D / E / O / S / T / O / R / E", correctAnswer: "VIDEOSTORE" },
+				{ question: "What's the word for a person who cuts and styles men's hair?", letters: "B / A / R / B / E / R", correctAnswer: "BARBER" }
+			  ],
+			  // Stage 7
+			  [
+				{ question: "What do you call a place where you buy flowers?", letters: "F / L / O / R / I / S / T", correctAnswer: "FLORIST" },
+				{ question: "What's the word for a person who designs clothes?", letters: "F / A / S / H / I / O / N / D / E / S / I / G / N / E / R", correctAnswer: "FASHIONDESIGNER" },
+				{ question: "What do you call a building where scientists do experiments?", letters: "L / A / B / O / R / A / T / O / R / Y", correctAnswer: "LABORATORY" },
+				{ question: "What's the word for a person who helps lawyers in court?", letters: "P / A / R / A / L / E / G / A / L", correctAnswer: "PARALEGAL" },
+				{ question: "What do you call a place where you buy meat?", letters: "B / U / T / C / H / E / R", correctAnswer: "BUTCHER" }
+			  ],
+			  // Stage 8
+			  [
+				{ question: "What's the word for a person who designs websites?", letters: "W / E / B / D / E / S / I / G / N / E / R", correctAnswer: "WEBDESIGNER" },
+				{ question: "What do you call a place where you exercise and swim?", letters: "S / P / O / R / T / S / C / E / N / T / E / R", correctAnswer: "SPORTSCENTER" },
+				{ question: "What's the word for a person who makes and repairs shoes?", letters: "C / O / B / B / L / E / R", correctAnswer: "COBBLER" },
+				{ question: "What do you call a room where you wash clothes?", letters: "L / A / U / N / D / R / Y", correctAnswer: "LAUNDRY" },
+				{ question: "What's the word for a person who helps sick animals?", letters: "V / E / T / E / R / I / N / A / R / I / A / N", correctAnswer: "VETERINARIAN" }
+			  ],
+			  // Stage 9
+			  [
+				{ question: "What do you call a place where you rent movies?", letters: "V / I / D / E / O / S / T / O / R / E", correctAnswer: "VIDEOSTORE" },
+				{ question: "What's the word for a person who fixes electrical problems?", letters: "E / L / E / C / T / R / I / C / I / A / N", correctAnswer: "ELECTRICIAN" },
+				{ question: "What do you call a building where you watch sports games?", letters: "S / T / A / D / I / U / M", correctAnswer: "STADIUM" },
+				{ question: "What's the word for a person who helps you exercise?", letters: "P / E / R / S / O / N / A / L / T / R / A / I / N / E / R", correctAnswer: "PERSONALTRAINER" },
+				{ question: "What do you call a place where you buy bread?", letters: "B / A / K / E / R / Y", correctAnswer: "BAKERY" }
+			  ],
+			  // Stage 10
+			  [
+				{ question: "What's the word for a person who studies weather patterns?", letters: "M / E / T / E / O / R / O / L / O / G / I / S / T", correctAnswer: "METEOROLOGIST" },
+				{ question: "What do you call a place where you go camping?", letters: "C / A / M / P / S / I / T / E", correctAnswer: "CAMPSITE" },
+				{ question: "What's the word for a person who works with wood?", letters: "C / A / R / P / E / N / T / E / R", correctAnswer: "CARPENTER" },
+				{ question: "What do you call a room where you keep books?", letters: "S / T / U / D / Y", correctAnswer: "STUDY" },
+				{ question: "What's the word for a person who designs gardens?", letters: "L / A / N / D / S / C / A / P / E / R", correctAnswer: "LANDSCAPER" }
+			  ],
+			  // Stage 11
+			  [
+				{ question: "What's the word for a person who fixes broken bones?", letters: "O / R / T / H / O / P / E / D / I / S / T", correctAnswer: "ORTHOPEDIST" },
+				{ question: "What do you call a place where you buy medications?", letters: "D / R / U / G / S / T / O / R / E", correctAnswer: "DRUGSTORE" },
+				{ question: "What's the word for a person who helps you buy a house?", letters: "R / E / A / L / E / S / T / A / T / E / A / G / E / N / T", correctAnswer: "REALESTATEAGENT" },
+				{ question: "What do you call a room where you keep clothes?", letters: "W / A / R / D / R / O / B / E", correctAnswer: "WARDROBE" },
+				{ question: "What's the word for a person who translates spoken words?", letters: "I / N / T / E / R / P / R / E / T / E / R", correctAnswer: "INTERPRETER" }
+			  ],
+			  // Stage 12
+			  [
+				{ question: "What do you call a place where you board a plane?", letters: "A / I / R / P / O / R / T", correctAnswer: "AIRPORT" },
+				{ question: "What's the word for a person who designs the inside of buildings?", letters: "I / N / T / E / R / I / O / R / D / E / S / I / G / N / E / R", correctAnswer: "INTERIORDESIGNER" },
+				{ question: "What do you call a building where you can see old things?", letters: "M / U / S / E / U / M", correctAnswer: "MUSEUM" },
+				{ question: "What's the word for a person who helps you with legal issues?", letters: "L / A / W / Y / E / R", correctAnswer: "LAWYER" },
+				{ question: "What do you call a place where you go to work out?", letters: "F / I / T / N / E / S / S / C / E / N / T / E / R", correctAnswer: "FITNESSCENTER" }
+			  ],
+			  // Stage 13
+			  [
+				{ question: "What's the word for a person who performs operations?", letters: "S / U / R / G / E / O / N", correctAnswer: "SURGEON" },
+				{ question: "What do you call a place where you watch horse races?", letters: "R / A / C / E / T / R / A / C / K", correctAnswer: "RACETRACK" },
+				{ question: "What's the word for a person who writes computer programs?", letters: "P / R / O / G / R / A / M / M / E / R", correctAnswer: "PROGRAMMER" },
+				{ question: "What do you call a room where you have meetings at work?", letters: "C / O / N / F / E / R / E / N / C / E / R / O / O / M", correctAnswer: "CONFERENCEROOM" },
+				{ question: "What's the word for a person who fixes teeth alignment?", letters: "O / R / T / H / O / D / O / N / T / I / S / T", correctAnswer: "ORTHODONTIST" }
+			  ],
+			  // Stage 14
+			  [
+				{ question: "What do you call a place where you mail packages?", letters: "P / O / S / T / O / F / F / I / C / E", correctAnswer: "POSTOFFICE" },
+				{ question: "What's the word for a person who helps you at a hotel?", letters: "R / E / C / E / P / T / I / O / N / I / S / T", correctAnswer: "RECEPTIONIST" },
+				{ question: "What do you call a building where you watch plays?", letters: "T / H / E / A / T / E / R", correctAnswer: "THEATER" },
+				{ question: "What's the word for a person who designs buildings?", letters: "A / R / C / H / I / T / E / C / T", correctAnswer: "ARCHITECT" },
+				{ question: "What do you call a place where you buy eyeglasses?", letters: "O / P / T / I / C / I / A / N", correctAnswer: "OPTICIAN" }
+			  ],
+			  // Stage 15
+			  [
+				{ question: "What's the word for a person who studies the past?", letters: "H / I / S / T / O / R / I / A / N", correctAnswer: "HISTORIAN" },
+				{ question: "What do you call a place where you go for a picnic?", letters: "P / A / R / K", correctAnswer: "PARK" },
+				{ question: "What's the word for a person who fixes roofs?", letters: "R / O / O / F / E / R", correctAnswer: "ROOFER" },
+				{ question: "What do you call a room where you store food?", letters: "P / A / N / T / R / Y", correctAnswer: "PANTRY" },
+				{ question: "What's the word for a person who delivers food to your home?", letters: "D / E / L / I / V / E / R / Y / D / R / I / V / E / R", correctAnswer: "DELIVERYDRIVER" }
+			  ],
+			  // Stage 16
+			  [
+				{ question: "What's the word for a person who studies stars and planets?", letters: "A / S / T / R / O / N / O / M / E / R", correctAnswer: "ASTRONOMER" },
+				{ question: "What do you call a place where you buy fresh vegetables?", letters: "G / R / E / E / N / G / R / O / C / E / R", correctAnswer: "GREENGROCER" },
+				{ question: "What's the word for a person who installs electrical wiring?", letters: "E / L / E / C / T / R / I / C / I / A / N", correctAnswer: "ELECTRICIAN" },
+				{ question: "What do you call a room where you wash dishes?", letters: "S / C / U / L / L / E / R / Y", correctAnswer: "SCULLERY" },
+				{ question: "What's the word for a person who designs book covers?", letters: "G / R / A / P / H / I / C / D / E / S / I / G / N / E / R", correctAnswer: "GRAPHICDESIGNER" }
+			  ],
+			  // Stage 17
+			  [
+				{ question: "What do you call a place where you watch fish swimming?", letters: "A / Q / U / A / R / I / U / M", correctAnswer: "AQUARIUM" },
+				{ question: "What's the word for a person who helps you plan your finances?", letters: "A / C / C / O / U / N / T / A / N / T", correctAnswer: "ACCOUNTANT" },
+				{ question: "What do you call a building where scientists study plants?", letters: "G / R / E / E / N / H / O / U / S / E", correctAnswer: "GREENHOUSE" },
+				{ question: "What's the word for a person who designs parks and gardens?", letters: "L / A / N / D / S / C / A / P / E / A / R / C / H / I / T / E / C / T", correctAnswer: "LANDSCAPEARCHITECT" },
+				{ question: "What do you call a place where you buy medicine late at night?", letters: "A / L / L / N / I / G / H / T / P / H / A / R / M / A / C / Y", correctAnswer: "ALLNIGHTPHARMACY" }
+			  ],
+			  // Stage 18
+			  [
+				{ question: "What's the word for a person who fixes and tunes pianos?", letters: "P / I / A / N / O / T / U / N / E / R", correctAnswer: "PIANOTUNER" },
+				{ question: "What do you call a place where you learn to cook?", letters: "C / U / L / I / N / A / R / Y / S / C / H / O / O / L", correctAnswer: "CULINARYSCHOOL" },
+				{ question: "What's the word for a person who studies earthquakes?", letters: "S / E / I / S / M / O / L / O / G / I / S / T", correctAnswer: "SEISMOLOGIST" },
+				{ question: "What do you call a room in a museum with prehistoric animals?", letters: "D / I / N / O / S / A / U / R / H / A / L / L", correctAnswer: "DINOSAURHALL" },
+				{ question: "What's the word for a person who designs bridges?", letters: "C / I / V / I / L / E / N / G / I / N / E / E / R", correctAnswer: "CIVILENGINEER" }
+			  ],
+			  // Stage 19
+			  [
+				{ question: "What do you call a place where you go to see exotic animals?", letters: "W / I / L / D / L / I / F / E / P / A / R / K", correctAnswer: "WILDLIFEPARK" },
+				{ question: "What's the word for a person who studies human behavior?", letters: "P / S / Y / C / H / O / L / O / G / I / S / T", correctAnswer: "PSYCHOLOGIST" },
+				{ question: "What do you call a building where fire engines are kept?", letters: "F / I / R / E / S / T / A / T / I / O / N", correctAnswer: "FIRESTATION" },
+				{ question: "What's the word for a person who designs women's hats?", letters: "M / I / L / L / I / N / E / R", correctAnswer: "MILLINER" },
+				{ question: "What do you call a place where you go to practice golf?", letters: "D / R / I / V / I / N / G / R / A / N / G / E", correctAnswer: "DRIVINGRANGE" }
+			  ],
+			  // Stage 20
+			  [
+				{ question: "What's the word for a person who studies fossils?", letters: "P / A / L / E / O / N / T / O / L / O / G / I / S / T", correctAnswer: "PALEONTOLOGIST" },
+				{ question: "What do you call a place where you go to play arcade games?", letters: "G / A / M / E / C / E / N / T / E / R", correctAnswer: "GAMECENTER" },
+				{ question: "What's the word for a person who designs and makes jewelry?", letters: "J / E / W / E / L / E / R", correctAnswer: "JEWELER" },
+				{ question: "What do you call a room in a house for relaxing and hobbies?", letters: "R / E / C / R / E / A / T / I / O / N / R / O / O / M", correctAnswer: "RECREATIONROOM" },
+				{ question: "What's the word for a person who studies and forecasts the weather?", letters: "M / E / T / E / O / R / O / L / O / G / I / S / T", correctAnswer: "METEOROLOGIST" }
+			  ],
+			  // Stage 21
+			  [
+				{ question: "What's the word for a person who designs and creates furniture?", letters: "C / A / B / I / N / E / T / M / A / K / E / R", correctAnswer: "CABINETMAKER" },
+				{ question: "What do you call a place where you go to see butterflies?", letters: "B / U / T / T / E / R / F / L / Y / H / O / U / S / E", correctAnswer: "BUTTERFLYHOUSE" },
+				{ question: "What's the word for a person who studies volcanoes?", letters: "V / O / L / C / A / N / O / L / O / G / I / S / T", correctAnswer: "VOLCANOLOGIST" },
+				{ question: "What do you call a room where scientists do experiments?", letters: "L / A / B / O / R / A / T / O / R / Y", correctAnswer: "LABORATORY" },
+				{ question: "What's the word for a person who designs and creates perfumes?", letters: "P / E / R / F / U / M / E / R", correctAnswer: "PERFUMER" }
+			  ],
+			  // Stage 22
+			  [
+				{ question: "What do you call a place where you go to see stars at night?", letters: "O / B / S / E / R / V / A / T / O / R / Y", correctAnswer: "OBSERVATORY" },
+				{ question: "What's the word for a person who studies ancient civilizations?", letters: "A / R / C / H / A / E / O / L / O / G / I / S / T", correctAnswer: "ARCHAEOLOGIST" },
+				{ question: "What do you call a building where court cases are held?", letters: "C / O / U / R / T / H / O / U / S / E", correctAnswer: "COURTHOUSE" },
+				{ question: "What's the word for a person who designs and creates shoes?", letters: "S / H / O / E / M / A / K / E / R", correctAnswer: "SHOEMAKER" },
+				{ question: "What do you call a place where people go ice skating?", letters: "I / C / E / R / I / N / K", correctAnswer: "ICERINK" }
+			  ],
+			  // Stage 23
+			  [
+				{ question: "What's the word for a person who studies and cares for trees?", letters: "A / R / B / O / R / I / S / T", correctAnswer: "ARBORIST" },
+				{ question: "What do you call a place where you go to mail packages?", letters: "P / O / S / T / O / F / F / I / C / E", correctAnswer: "POSTOFFICE" },
+				{ question: "What's the word for a person who designs and creates maps?", letters: "C / A / R / T / O / G / R / A / P / H / E / R", correctAnswer: "CARTOGRAPHER" },
+				{ question: "What do you call a room where you store wine?", letters: "W / I / N / E / C / E / L / L / A / R", correctAnswer: "WINECELLAR" },
+				{ question: "What's the word for a person who studies and treats skin?", letters: "D / E / R / M / A / T / O / L / O / G / I / S / T", correctAnswer: "DERMATOLOGIST" }
+			  ],
+			  // Stage 24
+			  [
+				{ question: "What do you call a place where you go to buy fresh fish?", letters: "F / I / S / H / M / O / N / G / E / R", correctAnswer: "FISHMONGER" },
+				{ question: "What's the word for a person who studies and predicts elections?", letters: "P / O / L / L / S / T / E / R", correctAnswer: "POLLSTER" },
+				{ question: "What do you call a building where people go to worship?", letters: "C / H / U / R / C / H", correctAnswer: "CHURCH" },
+				{ question: "What's the word for a person who designs and creates costumes?", letters: "C / O / S / T / U / M / E / D / E / S / I / G / N / E / R", correctAnswer: "COSTUMEDESIGNER" },
+				{ question: "What do you call a place where you go to buy glasses?", letters: "O / P / T / I / C / I / A / N", correctAnswer: "OPTICIAN" }
+			  ],
+			  // Stage 25
+			  [
+				{ question: "What's the word for a person who studies and treats the feet?", letters: "P / O / D / I / A / T / R / I / S / T", correctAnswer: "PODIATRIST" },
+				{ question: "What do you call a place where you go to buy plants?", letters: "N / U / R / S / E / R / Y", correctAnswer: "NURSERY" },
+				{ question: "What's the word for a person who repairs and maintains bicycles?", letters: "B / I / C / Y / C / L / E / M / E / C / H / A / N / I / C", correctAnswer: "BICYCLEMECHANIC" },
+				{ question: "What do you call a room where you keep your tools?", letters: "W / O / R / K / S / H / O / P", correctAnswer: "WORKSHOP" },
+				{ question: "What's the word for a person who studies and treats the nervous system?", letters: "N / E / U / R / O / L / O / G / I / S / T", correctAnswer: "NEUROLOGIST" }
+			  ],
+			  // Stage 26
+			  [
+				{ question: "What do you call a place where you go to buy meat?", letters: "B / U / T / C / H / E / R", correctAnswer: "BUTCHER" },
+				{ question: "What's the word for a person who designs and creates sculptures?", letters: "S / C / U / L / P / T / O / R", correctAnswer: "SCULPTOR" },
+				{ question: "What do you call a building where planes are stored?", letters: "H / A / N / G / A / R", correctAnswer: "HANGAR" },
+				{ question: "What's the word for a person who studies and interprets dreams?", letters: "D / R / E / A / M / A / N / A / L / Y / S / T", correctAnswer: "DREAMANALYST" },
+				{ question: "What do you call a place where you go to buy pastries?", letters: "P / A / T / I / S / S / E / R / I / E", correctAnswer: "PATISSERIE" }
+			  ],
+			  // Stage 27
+			  [
+				{ question: "What's the word for a person who studies and treats speech disorders?", letters: "S / P / E / E / C / H / T / H / E / R / A / P / I / S / T", correctAnswer: "SPEECHTHERAPIST" },
+				{ question: "What do you call a place where you go to play tennis?", letters: "T / E / N / N / I / S / C / O / U / R / T", correctAnswer: "TENNISCOURT" },
+				{ question: "What's the word for a person who designs and creates pottery?", letters: "C / E / R / A / M / I / C / I / S / T", correctAnswer: "CERAMICIST" },
+				{ question: "What do you call a room where you develop photographs?", letters: "D / A / R / K / R / O / O / M", correctAnswer: "DARKROOM" },
+				{ question: "What's the word for a person who studies and interprets handwriting?", letters: "G / R / A / P / H / O / L / O / G / I / S / T", correctAnswer: "GRAPHOLOGIST" }
+			  ],
+			  // Stage 28
+			  [
+				{ question: "What do you call a place where you go to buy coffee?", letters: "C / O / F / F / E / E / S / H / O / P", correctAnswer: "COFFEESHOP" },
+				{ question: "What's the word for a person who designs and creates hats?", letters: "M / I / L / L / I / N / E / R", correctAnswer: "MILLINER" },
+				{ question: "What do you call a building where books are published?", letters: "P / U / B / L / I / S / H / I / N / G / H / O / U / S / E", correctAnswer: "PUBLISHINGHOUSE" },
+				{ question: "What's the word for a person who studies and treats the heart?", letters: "C / A / R / D / I / O / L / O / G / I / S / T", correctAnswer: "CARDIOLOGIST" },
+				{ question: "What do you call a place where you go to practice archery?", letters: "A / R / C / H / E / R / Y / R / A / N / G / E", correctAnswer: "ARCHERYRANGE" }
+			  ],
+			  // Stage 29
+			  [
+				{ question: "What's the word for a person who studies and forecasts the economy?", letters: "E / C / O / N / O / M / I / S / T", correctAnswer: "ECONOMIST" },
+				{ question: "What do you call a place where you go to buy herbs and spices?", letters: "S / P / I / C / E / S / H / O / P", correctAnswer: "SPICESHOP" },
+				{ question: "What's the word for a person who designs and creates stained glass?", letters: "G / L / A / S / S / A / R / T / I / S / T", correctAnswer: "GLASSARTIST" },
+				{ question: "What do you call a room where you keep your clothes?", letters: "C / L / O / S / E / T", correctAnswer: "CLOSET" },
+				{ question: "What's the word for a person who studies and treats allergies?", letters: "A / L / L / E / R / G / I / S / T", correctAnswer: "ALLERGIST" }
+			  ],
+			  // Stage 30
+			  [
+				{ question: "What do you call a place where you go to buy musical instruments?", letters: "M / U / S / I / C / S / T / O / R / E", correctAnswer: "MUSICSTORE" },
+				{ question: "What's the word for a person who designs and creates puppets?", letters: "P / U / P / P / E / T / E / E / R", correctAnswer: "PUPPETEER" },
+				{ question: "What do you call a building where people go to pray in Islam?", letters: "M / O / S / Q / U / E", correctAnswer: "MOSQUE" },
+				{ question: "What's the word for a person who studies and interprets body language?", letters: "K / I / N / E / S / I / O / L / O / G / I / S / T", correctAnswer: "KINESIOLOGIST" },
+				{ question: "What do you call a place where you go to buy eyeglasses?", letters: "O / P / T / O / M / E / T / R / I / S / T", correctAnswer: "OPTOMETRIST" }
+			  ]
+      ];
+
+        // Ensure we have 30 stages
+        while (quizData.length < 30) {
+            quizData.push([
+				{ question: "What's this object? 🔑", letters: "K / E / Y", correctAnswer: "KEY" },
+				{ question: "What's this object? 📚", letters: "B / O / O / K / S", correctAnswer: "BOOKS" },
+				{ question: "What's this activity? 🎨", letters: "P / A / I / N / T / I / N / G", correctAnswer: "PAINTING" },
+				{ question: "What's this sport? ⚽", letters: "S / O / C / C / E / R", correctAnswer: "SOCCER" },
+				{ question: "What's this instrument? 🎸", letters: "G / U / I / T / A / R", correctAnswer: "GUITAR" },
+            ]);
+        }
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+            'תרגול': `<div id="stage-number" class="stage-number">שלב 1 מתוך ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">ניסיונות: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">בדיקת תשובות</button>`
+        };
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.right = `${switchRect.right - labelRect.right}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'תרגול') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+        function renderQuiz() {
+            const quizContainer = document.getElementById("quiz-content");
+            quizContainer.innerHTML = '';
+
+            quizData[currentStage].forEach((question, index) => {
+                const letters = shuffleArray(question.letters.split(" / "));
+                const letterBubbles = letters.map(letter => `<div class="word-bubble" draggable="true">${letter}</div>`).join('');
+                const questionElement = document.createElement("div");
+                questionElement.className = "question";
+                
+                questionElement.innerHTML = `
+                    <p>${question.question}</p>
+                    <div class="word-container" id="word-container${index}">${letterBubbles}</div>
+                    <div class="result" id="result${index}"></div>
+                `;
+
+                quizContainer.appendChild(questionElement);
+            });
+
+            setupDragAndDrop();
+            updateStageNumber();
+        }
+
+        function setupDragAndDrop() {
+            const wordBubbles = document.querySelectorAll('.word-bubble');
+            wordBubbles.forEach(bubble => {
+                bubble.addEventListener('dragstart', dragStart);
+                bubble.addEventListener('dragover', dragOver);
+                bubble.addEventListener('drop', drop);
+                bubble.addEventListener('dragend', dragEnd);
+            });
+        }
+
+        function dragStart(e) {
+            e.dataTransfer.setData('text/plain', e.target.textContent);
+            e.dataTransfer.setData('sourceContainer', e.target.closest('.word-container').id);
+            e.dataTransfer.effectAllowed = "move";
+            this.style.opacity = "0.5";
+        }
+
+        function dragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = "move";
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            const draggedText = event.dataTransfer.getData('text/plain');
+            const sourceContainerId = event.dataTransfer.getData('sourceContainer');
+            const targetContainer = event.target.closest('.word-container');
+
+            if (targetContainer && targetContainer.id === sourceContainerId) {
+                const targetWord = event.target.closest('.word-bubble');
+                if (targetWord) {
+                    const draggedWord = Array.from(targetContainer.getElementsByClassName('word-bubble'))
+                        .find(word => word.textContent === draggedText);
+                    
+                    const tempText = targetWord.textContent;
+                    targetWord.textContent = draggedText;
+                    draggedWord.textContent = tempText;
+                }
+            }
+
+            document.querySelectorAll('.word-bubble').forEach(word => word.style.opacity = "1");
+        }
+
+        function dragEnd(e) {
+            e.target.style.opacity = "1";
+        }
+
+        function checkStage() {
+            attempts++;
+            document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+
+            let correctCount = 0;
+            const totalQuestions = quizData[currentStage].length;
+
+            quizData[currentStage].forEach((question, index) => {
+                const wordContainer = document.getElementById(`word-container${index}`);
+                const letters = Array.from(wordContainer.getElementsByClassName('word-bubble'));
+                const userAnswer = letters.map(letter => letter.textContent).join('');
+                const resultElement = document.getElementById(`result${index}`);
+                if (userAnswer === question.correctAnswer) {
+                    resultElement.textContent = "נכון!";
+                    resultElement.style.color = "green";
+                    correctCount++;
+                } else {
+                    resultElement.textContent = "תשובה לא נכונה.";
+                    resultElement.style.color = "red";
+                    if (attempts >= 10) {
+                        resultElement.textContent += ` התשובה הנכונה היא: ${question.correctAnswer}`;
+                    }
+                }
+            });
+
+            if (correctCount === totalQuestions) {
+                addAnimalsToFarm(totalQuestions); 
+
+                if (currentStage < stageCount - 1) {
+                    singleStageConfetti();
+                    showEncouragingPopup(correctCount, totalQuestions, true);
+                    currentStage++; 
+                    updateProgressBar(); 
+                    setTimeout(() => {
+                        attempts = 0;
+                        renderQuiz();
+                        document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+                    }, 1500);
+                } else {
+                    currentStage++;
+                    updateProgressBar(); 
+                    allStagesConfetti();
+                    showModal("כל הכבוד! השלמת את כל השלבים.");
+                }
+            } else {
+                showEncouragingPopup(correctCount, totalQuestions, false);
+                if (attempts >= 10) {
+                    showModal("הגעת למספר הניסיונות המקסימלי. התשובות הנכונות נחשפו.");
+                }
+            }
+
+            scrollToTop();
+        }
+        
+        function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+            const incorrectCount = totalQuestions - correctCount;
+            let message = `קיבלת ${correctCount} נכונות ו-${incorrectCount} שגויות.`;
+            
+            if (correctCount === totalQuestions) {
+                message += " ציון מושלם!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+                message += " עבודה מצוינת! רואים שהנושא מתחיל להיות מובן!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+                message += " מאמץ טוב! נמשיך לתרגל כי השיפור קרוב!";
+            } else {
+                message += " לא לוותר! כל נסיון עוזר לך ללמוד. ננסה שוב!";
+            }
+
+            if (isStageComplete) {
+                message += "\n\n השלב הזה הסתיים, עוברים לשלב הבא.";
+            }
+
+            showModal(message);
+        }
+
+        function initializeQuiz() {
+            currentStage = 0;
+            attempts = 0;
+            updateProgressBar();
+            renderQuiz();
+            document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+            updateStageNumber();
+        }
+        
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        
+        function updateProgressBar() {
+            const progressBar = document.getElementById("progress-bar");
+            const completedStages = currentStage;
+            const progress = (completedStages / stageCount) * 100;
+            const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+            progressBar.style.width = `${roundedProgress}%`;
+            progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+        }
+
+        function updateStageNumber() {
+            const stageElement = document.getElementById("stage-number");
+            stageElement.textContent = `שלב ${currentStage + 1} מתוך ${stageCount}`;
+        }
+
+        function singleStageConfetti() {
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+            confetti({
+                angle: randomInRange(55, 125),
+                spread: randomInRange(50, 70),
+                particleCount: randomInRange(50, 100),
+                origin: { y: 0.6 },
+            });
+        }
+
+        function allStagesConfetti() {
+            const defaults = {
+                spread: 360,
+                ticks: 50,
+                gravity: 0,
+                decay: 0.94,
+                startVelocity: 30,
+                shapes: ["star"],
+                colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+            };
+            function shoot() {
+                confetti({
+                    ...defaults,
+                    particleCount: 40,
+                    scalar: 1.2,
+                    shapes: ["star"],
+                });
+                confetti({
+                    ...defaults,
+                    particleCount: 10,
+                    scalar: 0.75,
+                    shapes: ["circle"],
+                });
+            }
+            setTimeout(shoot, 0);
+            setTimeout(shoot, 100);
+            setTimeout(shoot, 200);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+    
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+        let farmAnimals = [];
+
+        function addAnimalsToFarm(count) {
+            const animalFarm = document.getElementById('animalFarm');
+            let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+            for (let i = 0; i < count; i++) {
+                if (availableAnimals.length === 0) {
+                    break;
+                }
+
+                const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+                const chosenAnimal = availableAnimals[randomIndex];
+
+                const animalElement = document.createElement('li');
+                animalElement.textContent = chosenAnimal;
+                animalFarm.appendChild(animalElement);
+
+                farmAnimals.push(chosenAnimal);
+                availableAnimals.splice(randomIndex, 1);
+            }
+        }
+
+        const animals = [
+            "🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+            "🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+            "🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+            "🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+            "🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+            "🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+            "🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+            "🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+            "🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+            "🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+            "🐷", "🐩", "🐘", "🐸", "🐝"
+        ];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+        window.addEventListener('load', () => {
+            initializeSwitch();
+            initializeQuiz();
+            adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+    </script>
+</body>
+</html>
