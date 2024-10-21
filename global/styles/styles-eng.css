@@ -1485,5 +1485,33 @@
     border-color: #00acc1;
     background-color: #b2ebf2;
 }
-
 																							/* --- End of Quiz-Specific Styles --- */
+
+																							/* --- Graphs and Charts Styles START --- */
+        #chart {
+            max-width: 650px;
+            margin: 35px auto;
+        }
+        .apexcharts-canvas {
+            position: relative;
+            user-select: none;
+        }
+        .apexcharts-tooltip {
+            border-radius: 5px;
+            box-shadow: 2px 2px 6px -4px #999;
+            cursor: default;
+            font-size: 14px;
+            opacity: 0;
+            position: absolute;
+            z-index: 12;
+            transition: .15s;
+        }
+        .apexcharts-tooltip.apexcharts-active {
+            opacity: 1;
+        }
+        .apexcharts-xaxistooltip {
+            padding: 9px 10px;
+            background: #eceff1;
+            border: 1px solid #90a4ae;
+        }
+																							/* --- END Graphs and Charts Styles  --- */
