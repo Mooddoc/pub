@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-heb.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+	<title>✅ EZ42 - זה קל</title>
+	
+	<style>
+	
+	</style>
+	
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+			<div class="logo-container">
+				<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+					<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+				</a>
+			</div>
+                <h2>הוראות</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                    <li>יש לקרוא כל שאלה בעיון.</li>
+                    <li>בחר/י את התשובה הנכונה ביותר מתוך התפריט הנפתח.</li>
+                    <li>יש ללחוץ על בדיקת תשובות כשמוכנים!</li>
+                    <li>יש להשלים את כל השאלות כדי לעבור לשלב הבא.</li>
+                    <li>לאחר 10 ניסיונות, התשובות הנכונות יוצגו.</li>
+                    <li>שיהיה כיף!</li>
+                </ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->		
+                <h1>זיהוי איברים, מקדמים וקבועים בביטויים</h1>
+				
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+
+                <div id="tabContent">
+                    <!--PLACHOLDERFORNEWGAME-START-->
+
+                    <!--PLACHOLDERFORNEWGAME-END-->
+                </div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות החיות</h2>
+				<p>החווה שלך גדלה תוך כדי התקדמות! כל שלב מוסיף חיות חדשות לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+        const quizData = [ 												//  PH3 - Quiz Data 
+				// שלב 1
+				[
+				  { question: "בביטוי 3x² + 2y - 5, מהו המקדם של x²?", options: ["3", "2", "5", "-5", "x²"], answer: "3" },
+				  { question: "כמה איברים יש בביטוי 4a - 2b + 7?", options: ["1", "2", "3", "4", "כמו מספר המטלות הבלתי גמורות שלי"], answer: "3" },
+				  { question: "מהו האיבר החופשי בביטוי 5m + 3n - 8?", options: ["5", "3", "8", "-8", "ה-'מ' ב'מתמטיקה משגעת'"], answer: "-8" },
+				  { question: "בביטוי 6y - 4z + 2, מהו המקדם של z?", options: ["6", "4", "-4", "2", "z כמו 'זה לא ברור לי'"], answer: "-4" },
+				  { question: "מהו המשתנה באיבר 9x?", options: ["9", "x", "9x", "אין", "ה-'ל' ב'למה צריך את זה'"], answer: "x" },
+				],
+				// שלב 2
+				[
+				  { question: "בפולינום 2p³ - 5p² + 3p - 1, מהי דרגת הפולינום?", options: ["1", "2", "3", "4", "גבוה כמו מגדל הפיצות שלי"], answer: "3" },
+				  { question: "איזה סוג של איבר הוא -7 בביטוי 3q² + 2q - 7?", options: ["משתנה", "מקדם", "קבוע", "חזקה", "המספר המזל שלי"], answer: "קבוע" },
+				  { question: "בביטוי 4r² - 6r + 9, מהו המקדם של r?", options: ["4", "6", "-6", "9", "r כמו 'ראש מבולבל'"], answer: "-6" },
+				  { question: "כמה קבועים יש בביטוי 3s + t - 2u?", options: ["0", "1", "2", "3", "כמספר תאי המוח שנשארו לי אחרי המבחן הזה"], answer: "0" },
+				  { question: "מהו המקדם של האיבר בעל הדרגה הגבוהה ביותר בביטוי 5v³ + v² - 2v + 8?", options: ["5", "1", "-2", "8", "v כמו 'ואוו, זה מסובך'"], answer: "5" },
+				],
+				// שלב 3
+				[
+				  { question: "בביטוי 7x² - 3xy + 2y², כמה משתנים יש?", options: ["1", "2", "3", "4", "מספיק כדי לסחרר לי את הראש"], answer: "2" },
+				  { question: "מהי הדרגה של האיבר 4ab² בפולינום?", options: ["1", "2", "3", "4", "גבוה כמו הערימה של ספרי המתמטיקה שלי"], answer: "3" },
+				  { question: "בביטוי 6m³n² - 2mn + 5, מהו המקדם של m³n²?", options: ["6", "2", "5", "3", "m³n² כמו 'מוח שלי כואב'"], answer: "6" },
+				  { question: "כמה איברים יש בביטוי 3x - 4y + 2z - 7?", options: ["2", "3", "4", "5", "כמספר התירוצים שלי לאיחורים"], answer: "4" },
+				  { question: "מהו האיבר החופשי בביטוי 2p² + 5p - 3q + 8?", options: ["2", "5", "-3", "8", "ה-'אכל' ב'אכלתי את שיעורי הבית'"], answer: "8" },
+				],
+				// שלב 4
+				[
+				  { question: "בביטוי 4x³y² - 2xy + y, מהי דרגת הפולינום?", options: ["3", "4", "5", "6", "גבוה יותר מהתקוות שלי לעבור את המבחן הזה"], answer: "5" },
+				  { question: "איזה סוג של ביטוי הוא 3a + 2b - 5c?", options: ["חד-איברי", "דו-איברי", "תלת-איברי", "רב-איברי", "כאב-ראש-איברי"], answer: "תלת-איברי" },
+				  { question: "בביטוי 5s² - 7st + 3t², מהו המקדם של st?", options: ["5", "7", "-7", "3", "st כמו 'סתם תוהה'"], answer: "-7" },
+				  { question: "כמה איברים דומים יש בביטוי 3x + 2y - 4x + 5y - 2?", options: ["0", "1", "2", "3", "כמספר הניסיונות שלי להבין את זה"], answer: "2" },
+				  { question: "מהי הדרגה של האיבר הקבוע 9 בפולינום?", options: ["0", "1", "2", "9", "דרגת הבלבול שלי"], answer: "0" },
+				],
+				// שלב 5
+				[
+				  { question: "בביטוי 6u⁴v³ - 3u²v + 2uv² - 5, מהי הדרגה של האיבר בעל הדרגה הגבוהה ביותר?", options: ["4", "6", "7", "9", "גבוה כמו ערימת שיעורי הבית הבלתי גמורים שלי"], answer: "7" },
+				  { question: "מהו המקדם של w² בביטוי 3w³ - w² + 5w - 2?", options: ["3", "1", "-1", "5", "w² כמו 'ואי, שוב זה'"], answer: "-1" },
+				  { question: "כמה משתנים יש באיבר 7x²y³z?", options: ["1", "2", "3", "4", "מספיק למלא מרק אותיות"], answer: "3" },
+				  { question: "בביטוי 4a²b - 3ab² + 2ab - 1, מהו האיבר החופשי?", options: ["4", "3", "2", "-1", "מספר תאי המוח שנשארו לי"], answer: "-1" },
+				  { question: "איזה סוג של פולינום הוא x² + 3x + 2?", options: ["לינארי", "ריבועי", "מעוקב", "מרובע", "פנטסטי"], answer: "ריבועי" },
+				],
+				// שלב 6
+				[
+				  { question: "בביטוי 5x³ - 2x²y + 3xy² - 4y³, מהי הדרגה הכוללת?", options: ["2", "3", "4", "5", "מסובך כמו היחסים שלי עם מתמטיקה"], answer: "3" },
+				  { question: "מהו המקדם המוביל בביטוי 2p⁴ - 5p³ + p² - 7?", options: ["2", "-5", "1", "-7", "p כמו 'פוס, שיהיה נכון'"], answer: "2" },
+				  { question: "כמה איברים יש בביטוי (a + b)³ כשהוא מורחב?", options: ["3", "4", "8", "9", "יותר ממה שאני יכול לספור על האצבעות"], answer: "4" },
+				  { question: "בביטוי 3x² - 4xy + 2y² + 5, מהי הדרגה של האיבר הקבוע?", options: ["0", "1", "2", "5", "דרגת הייאוש שלי"], answer: "0" },
+				  { question: "איזה סוג של ביטוי הוא 2m - 3n?", options: ["חד-איברי", "דו-איברי", "תלת-איברי", "רב-איברי", "בינארי-נומי"], answer: "דו-איברי" },
+				],
+				// שלב 7
+				[
+				  { question: "בביטוי 4x³y² - 2x²y³ + 3xy - 5, מהו המקדם של xy?", options: ["4", "-2", "3", "-5", "xy כמו 'אקסטרה ייאוש'"], answer: "3" },
+				  { question: "מהי דרגת הפולינום x⁵ + 2x³ - 4x + 7?", options: ["3", "4", "5", "7", "גבוה כמו רמת הלחץ שלי"], answer: "5" },
+				  { question: "כמה איברים דומים יש בביטוי 2a²b + 3ab² - 4a²b + ab² - 2?", options: ["0", "1", "2", "3", "כמספר המבחנים במתמטיקה שנכשלתי בהם"], answer: "2" },
+				  { question: "בביטוי 5p³q² - 3p²q³ + 2pq - 8, מהו האיבר החופשי?", options: ["5", "-3", "2", "-8", "כמות השעות שאני ישן בשבוע המבחנים"], answer: "-8" },
+				  { question: "איזה סוג של פולינום הוא x³ - 2x² + 4x - 1?", options: ["לינארי", "ריבועי", "מעוקב", "מרובע", "מעוקב (כמו הקרח האהוב עלי)"], answer: "מעוקב" },
+				],
+				// שלב 8
+				[
+				  { question: "בביטוי 3x⁴y³ - 2x³y² + 5x²y - 7, מהי הדרגה של האיבר x²y?", options: ["2", "3", "4", "5", "y כמו 'יאללה, למה אני עדיין סופר'"], answer: "3" },
+				  { question: "מהו האיבר המוביל בביטוי 2a³b² - 5a²b³ + 3ab - 1?", options: ["2a³b²", "-5a²b³", "3ab", "-1", "האיבר שמוביל אותי לבלבול"], answer: "2a³b²" },
+				  { question: "כמה משתנים יש בפולינום 4x² + 3y² - 2z² + 5?", options: ["1", "2", "3", "4", "כמספר הממדים שאני אבוד בהם"], answer: "3" },
+				  { question: "בביטוי 6m²n - 3mn² + 2mn - 4, מהו המקדם של mn?", options: ["6", "-3", "2", "-4", "mn כמו 'מוח נשרף'"], answer: "2" },
+				  { question: "מהי דרגת הפולינום 7x⁶ - 2x⁴ + 3x² - 5?", options: ["2", "4", "6", "7", "גבוה יותר מהתקוות שלי להבין את זה"], answer: "6" },
+				],
+				// שלב 9
+				[
+				  { question: "בביטוי 5u³v² - 2u²v³ + 4uv - 3, מהי הדרגה הכוללת של האיבר u²v³?", options: ["2", "3", "5", "6", "uv כמו 'אוי ואבוי'"], answer: "5" },
+				  { question: "איזה סוג של ביטוי הוא 3x² + 2x + 1?", options: ["לינארי", "ריבועי", "מעוקב", "מרובע", "פולינום ריקוד מרובע"], answer: "ריבועי" },
+				  { question: "כמה איברים יש בביטוי (x - 2)⁴ כשהוא מורחב?", options: ["4", "5", "8", "16", "יותר ממה שהמוח שלי יכול להכיל"], answer: "5" },
+				  { question: "בביטוי 4a³b² - 3a²b³ + 2ab⁴ - 5, מהי דרגת הפולינום?", options: ["3", "4", "5", "6", "גבוה כמו ערימת הבעיות המתמטיות הבלתי פתורות שלי"], answer: "5" },
+				  { question: "מהו האיבר החופשי בביטוי (x + 2)(x - 3)?", options: ["-1", "-6", "5", "6", "מספר הפעמים שנאנחתי במהלך המבחן הזה"], answer: "-6" },
+				],
+				// שלב 10
+				[
+				  { question: "בביטוי 2x³y² - 4x²y³ + 3xy⁴ - 5y, מהו המקדם של xy⁴?", options: ["2", "-4", "3", "-5", "xy⁴ כמו 'אקסטרה יאוש מרובע'"], answer: "3" },
+				  { question: "מהי דרגת הפולינום x⁸ - 2x⁵ + 3x² - 7?", options: ["2", "5", "7", "8", "גבוה יותר מהאיי-קיו שלי אחרי המבחן הזה"], answer: "8" },
+				  { question: "כמה איברים דומים יש בביטוי 3p²q + 2pq² - 4p²q + pq² - 3?", options: ["0", "1", "2", "3", "כמספר תאי המוח שנותרו לי"], answer: "2" },
+				  { question: "בביטוי 5r⁴s³ - 2r³s² + r²s - 6, מהי הדרגה הכוללת של הפולינום?", options: ["4", "5", "6", "7", "rs כמו 'ראש שבור'"], answer: "7" },
+				  { question: "איזה סוג של ביטוי הוא a³ - b³?", options: ["חד-איברי", "דו-איברי", "תלת-איברי", "רב-איברי", "קוביה-איברי (כמו הצורה האהובה עלי)"], answer: "דו-איברי" },
+				]
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+	
+		'תרגול': `<div id="stage-number" class="stage-number">שלב 1 מתוך ${quizData.length}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">ניסיונות: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">בדיקת תשובות</button>`
+		,'לימוד הנושא 🗝️': 
+		`<div class="subject-overview-content subject-overview-content_heb">   <h1>זיהוי איברים, מקדמים וקבועים בביטויים</h1>   <p>הבנת ביטויים מתמטיים היא בסיסית לשליטה באלגברה ובנושאים מתקדמים נוספים במתמטיקה. רכיבים מרכזיים בביטויים כוללים <strong>איברים</strong>, <strong>מקדמים</strong> ו<strong>קבועים</strong>. מדריך זה יעמיק בהגדרות, כללים ודוגמאות רבות שיעזרו לכם לזהות ולעבוד עם רכיבים אלו בהקשרים מתמטיים שונים.</p>   <hr>   <h2 class="highlight_heb">תוכן העניינים</h2>   <ol>     <li><a href="#what-are-terms-coefficients-constants" class="highlight_heb">מהם איברים, מקדמים וקבועים?</a></li>     <li><a href="#general-characteristics" class="highlight_heb">מאפיינים כלליים</a></li>     <li><a href="#detailed-explanation" class="highlight_heb">הסבר מפורט</a>       <ul>         <li><a href="#terms" class="highlight_heb">איברים</a></li>         <li><a href="#coefficients" class="highlight_heb">מקדמים</a></li>         <li><a href="#constants" class="highlight_heb">קבועים</a></li>       </ul>     </li>     <li><a href="#conclusion" class="highlight_heb">סיכום</a></li>   </ol>   <hr>   <h2 id="what-are-terms-coefficients-constants" class="highlight_heb">מהם איברים, מקדמים וקבועים?</h2>   <p>במתמטיקה, ובמיוחד באלגברה, ביטויים הם שילובים של מספרים, משתנים ומפעילים. כדי לפשט ולבצע פעולות על ביטויים בצורה יעילה, חשוב להבין את הרכיבים הבסיסיים שלהם:</p>   <ul>     <li><strong>איברים</strong>: החלקים השונים של ביטוי המופרדים על ידי פעולות חיבור (+) או חיסור (−).</li>     <li><strong>מקדמים</strong>: גורמים מספריים שמכפילים את המשתנים באיבר.</li>     <li><strong>קבועים</strong>: ערכים מספריים קבועים שאינם משתנים.</li>   </ul>   <p>על ידי זיהוי רכיבים אלו, ניתן לפשט ביטויים, לפתור משוואות ולבצע פעולות אלגבריות שונות בצורה קלה יותר.</p>   <hr>   <h2 id="general-characteristics" class="highlight_heb">מאפיינים כלליים</h2>   <p>לפני שנעמיק בפרטים של איברים, מקדמים וקבועים, חשוב לזהות כמה מאפיינים כלליים החלים על כולם:</p>   <ol>     <li><strong>שילוב בביטויים</strong>: איברים, מקדמים וקבועים משתלבים ליצירת ביטויים אלגבריים.</li>     <li><strong>תפקיד במשוואות</strong>: הם משחקים תפקיד מרכזי ביצירת פתרון למשוואות.</li>     <li><strong>פעולות</strong>: הבנה של רכיבים אלו מסייעת בביצוע פעולות כמו חיבור, חיסור, כפל וחילוק על ביטויים.</li>     <li><strong>פישוט</strong>: זיהוי ושילוב איברים דומים מפשט ביטויים, מה שהופך אותם לקלים יותר לעבודה.</li>   </ol>   <hr>   <h2 id="detailed-explanation" class="highlight_heb">הסבר מפורט</h2>     <h3 id="terms" class="highlight_heb">איברים</h3>   <p><strong>הגדרה:</strong> <em>איבר</em> הוא ביטוי מתמטי יחיד או שילוב של מספרים ומשתנים שמוכפלים יחד. איברים מופרדים בפעולות חיבור (+) או חיסור (−) בביטוי אלגברי.</p>   <p><strong>דוגמאות:</strong></p>   <ul>     <li><em>3x</em> הוא איבר.</li>     <li><em>−5y²</em> הוא איבר.</li>     <li><em>7</em> הוא איבר (איבר קבוע).</li>     <li><em>4xy</em> הוא איבר.</li>   </ul>   <p><strong>זיהוי איברים:</strong> כדי לזהות איברים בביטוי, חפשו חלקים של הביטוי המופרדים על ידי סימני + או −.</p>   <p><strong>דוגמה:</strong></p>   <ul>     <li>בביטוי <em>3x + 4y − 5</em>, האיברים הם <em>3x</em>, <em>4y</em> ו-<em>−5</em>.</li>   </ul>     <h3 id="coefficients" class="highlight_heb">מקדמים</h3>   <p><strong>הגדרה:</strong> <em>מקדמים</em> הם גורמים מספריים שמכפילים את המשתנים בתוך איבר. הם מציינים כמה פעמים המשתנה נלקח.</p>   <p><strong>דוגמאות:</strong></p>   <ul>     <li>באיבר <em>3x</em>, המקדמים הוא <em>3</em>.</li>     <li>באיבר <em>−5y²</em>, המקדמים הוא <em>−5</em>.</li>     <li>באיבר <em>4xy</em>, המקדמים הוא <em>4</em>.</li>     <li>באיבר <em>7</em>, אין מקדם עבור קבוע.</li>   </ul>   <p><strong>זיהוי מקדמים:</strong> כדי למצוא את המקדמים באיבר, חפשו את המספר שמכפיל את המשתנה.</p>   <p><strong>דוגמה:</strong></p>   <ul>     <li>בביטוי <em>6a + 2b − 3</em>, המקדמים של <em>a</em> הוא <em>6</em>, ושל <em>b</em> הוא <em>2</em>.</li>   </ul>     <h3 id="constants" class="highlight_heb">קבועים</h3>   <p><strong>הגדרה:</strong> <em>קבוע</em> הוא ערך מספרי קבוע בביטוי שאינו משתנה. הוא אינו מכיל משתנים.</p>   <p><strong>דוגמאות:</strong></p>   <ul>     <li><em>5</em> הוא קבוע.</li>     <li><em>−7</em> הוא קבוע.</li>     <li><em>12</em> הוא קבוע.</li>   </ul>   <p><strong>זיהוי קבועים:</strong> קבועים הם המספרים הבודדים בביטוי ללא משתנים מצורפים.</p>   <p><strong>דוגמה:</strong></p>   <ul>     <li>בביטוי <em>8x − 4y + 10</em>, הקבוע הוא <em>10</em>.</li>   </ul>   <p><strong>הערה מיוחדת:</strong> לפעמים, המספר 1 מוטמע כמקדם ולא נכתב באופן מפורש. לדוגמה, באיבר <em>x</em>, המקדמים הוא <em>1</em>.</p>     <hr>   <h2 id="conclusion" class="highlight_heb">סיכום</h2>   <p>זיהוי איברים, מקדמים וקבועים הוא חיוני לפישוט ביטויים אלגבריים ולפתרון משוואות בצורה יעילה. הנה סיכום קצר:</p>   <ul>     <li><strong>איברים</strong>: החלקים האישיים של ביטוי המופרדים על ידי פעולות חיבור (+) או חיסור (−).</li>     <li><strong>מקדמים</strong>: גורמים מספריים שמכפילים את המשתנים באיברים.</li>     <li><strong>קבועים</strong>: ערכים מספריים קבועים ללא משתנים.</li>   </ul>   <p><strong>זכרו</strong>: שליטה ברכיבים אלו תשפר את יכולתכם לעבוד עם ביטויים מתמטיים ולהבין אותם, ותסייע לכם בהצלחה באלגברה ומעבר לכך.</p>   <hr>   <p>על ידי תרגול עקבי בזיהוי וביצוע פעולות על איברים, מקדמים וקבועים, תבנו בסיס חזק בעקרונות אלגבריים. המשיכו לעבוד על דוגמאות ותרגילים כדי לחזק את ההבנה והיישום של מושגים בסיסיים אלה!</p> </div>
+
+		`
+
+		};
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'תרגול') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    quizData[currentStage].forEach((question, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+        
+        // Create label for the question text
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${question.question}`;
+        
+        // Create div for result feedback
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+        
+        // Create select element for answers
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        
+        // Add default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+        
+        // Shuffle and add answer options
+        const shuffledOptions = shuffleArray([...question.options]);
+        shuffledOptions.forEach((option, optionIndex) => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        // Append elements to questionElement in the desired order
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv); // Feedback before dropdown
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+
+
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[currentStage].length;
+
+    quizData[currentStage].forEach((question, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === question.answer) {
+            resultElement.textContent = "נכון!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "תשובה שגויה.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 10) {
+            selectElement.value = question.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` התשובה הנכונה היא: ${question.answer}`;
+        }
+    });
+
+			console.log(`שלב ${currentStage + 1}: ${correctCount} נכונות מתוך ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`שלב ${currentStage + 1} הושלם. מוסיף ${totalQuestions} חיות.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`עובר לשלב ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("כל הכבוד! השלמת את כל השלבים.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("הגעת למספר הניסיונות המקסימלי. התשובות הנכונות נחשפו.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+        function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+            const incorrectCount = totalQuestions - correctCount;
+            let message = `קיבלת ${correctCount} נכונות ו-${incorrectCount} שגויות.`;
+            
+            if (correctCount === totalQuestions) {
+                message += " ציון מושלם!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+                message += " עבודה מצוינת! רואים שהנושא מתחיל להיות מובן!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+                message += " מאמץ טוב! נמשיך לתרגל כי השיפור קרוב!";
+            } else {
+                message += " לא לוותר! כל נסיון עוזר לך ללמוד. ננסה שוב!";
+            }
+
+            if (isStageComplete) {
+                message += "\n\n השלב הזה הסתיים, עוברים לשלב הבא.";
+            }
+
+            showModal(message);
+        }
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `נסיונות: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+        function updateStageNumber() {
+            const stageElement = document.getElementById("stage-number");
+            stageElement.textContent = `שלב ${currentStage + 1} מתוך ${stageCount}`;
+        }
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>
