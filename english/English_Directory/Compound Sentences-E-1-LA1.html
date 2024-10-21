@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+	<style>
+
+	</style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read each question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>Compound Sentences - Basic to Advanced</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+        const quizData = [ 												//  PH3 - Quiz Data   	
+
+  // Stage 1
+  [
+    { question: "I like apples ___ oranges.", options: ["and", "but", "or", "so", "yet"], answer: "and" },
+    { question: "She can sing ___ she can't dance.", options: ["but", "and", "or", "so", "yet"], answer: "but" },
+    { question: "Would you like tea ___ coffee?", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "It was raining, ___ we stayed inside.", options: ["so", "and", "but", "or", "yet"], answer: "so" },
+    { question: "The sun was shining, ___ it was still cold.", options: ["yet", "and", "but", "or", "so"], answer: "yet" }
+  ],
+  // Stage 2
+  [
+    { question: "He studied hard, ___ he passed the exam.", options: ["and", "but", "or", "so", "yet"], answer: "so" },
+    { question: "I wanted to go out, ___ it was too late.", options: ["but", "and", "or", "so", "yet"], answer: "but" },
+    { question: "You can watch TV ___ read a book.", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "It was getting dark, ___ we headed home.", options: ["so", "and", "but", "or", "yet"], answer: "so" },
+    { question: "She was tired, ___ she kept working.", options: ["yet", "and", "but", "or", "so"], answer: "yet" }
+  ],
+  // Stage 3
+  [
+    { question: "The cat meowed ___ the dog barked.", options: ["and", "but", "or", "so", "yet"], answer: "and" },
+    { question: "I love swimming, ___ I don't like diving.", options: ["but", "and", "or", "so", "yet"], answer: "but" },
+    { question: "Should we go to the park ___ stay home?", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "It started to rain, ___ we canceled the picnic.", options: ["so", "and", "but", "or", "yet"], answer: "so" },
+    { question: "The task seemed impossible, ___ they completed it.", options: ["yet", "and", "but", "or", "so"], answer: "yet" }
+  ],
+  // Stage 4
+  [
+    { question: "She plays piano ___ he plays guitar.", options: ["and", "but", "or", "so", "yet"], answer: "and" },
+    { question: "The movie was interesting, ___ it was too long.", options: ["but", "and", "or", "so", "yet"], answer: "but" },
+    { question: "We can eat now ___ wait for others.", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The store was closed, ___ we went home.", options: ["so", "and", "but", "or", "yet"], answer: "so" },
+    { question: "He was exhausted, ___ he finished the race.", options: ["yet", "and", "but", "or", "so"], answer: "yet" }
+  ],
+  // Stage 5
+  [
+    { question: "The sun was setting, ___ the sky turned orange.", options: ["and", "but", "or", "so", "yet"], answer: "and" },
+    { question: "I enjoy cooking, ___ I rarely have time for it.", options: ["but", "and", "or", "so", "yet"], answer: "but" },
+    { question: "Would you prefer pizza ___ pasta for dinner?", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The concert was sold out, ___ we couldn't get tickets.", options: ["so", "and", "but", "or", "yet"], answer: "so" },
+    { question: "The challenge was daunting, ___ they decided to face it.", options: ["yet", "and", "but", "or", "so"], answer: "yet" }
+  ],
+  // Stage 6
+  [
+    { question: "She speaks French fluently ___ she's learning Spanish.", options: ["and", "but", "or", "so", "yet"], answer: "and" },
+    { question: "The hotel looked nice in photos, ___ it was disappointing in person.", options: ["but", "and", "or", "so", "yet"], answer: "but" },
+    { question: "Do you want to watch a comedy ___ a drama tonight?", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The traffic was heavy, ___ we arrived late to the meeting.", options: ["so", "and", "but", "or", "yet"], answer: "so" },
+    { question: "The task seemed simple, ___ it proved to be quite challenging.", options: ["yet", "and", "but", "or", "so"], answer: "yet" }
+  ],
+  // Stage 7
+  [
+    { question: "The museum was fascinating, ___ we spent hours exploring it.", options: ["and", "but", "or", "so", "yet"], answer: "and" },
+    { question: "I wanted to help, ___ I didn't know how.", options: ["but", "and", "or", "so", "yet"], answer: "but" },
+    { question: "Should we take the scenic route ___ the highway?", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The weather forecast predicted rain, ___ we packed umbrellas.", options: ["so", "and", "but", "or", "yet"], answer: "so" },
+    { question: "The deadline was approaching fast, ___ they remained calm.", options: ["yet", "and", "but", "or", "so"], answer: "yet" }
+  ],
+  // Stage 8
+  [
+    { question: "The old clock ticked loudly ___ the cat purred softly.", options: ["and", "but", "or", "so", "yet"], answer: "and" },
+    { question: "The recipe looked simple, ___ it required some unusual ingredients.", options: ["but", "and", "or", "so", "yet"], answer: "but" },
+    { question: "We could go hiking ___ have a picnic in the park.", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The restaurant was fully booked, ___ we decided to cook at home.", options: ["so", "and", "but", "or", "yet"], answer: "so" },
+    { question: "The project was behind schedule, ___ the team managed to complete it on time.", options: ["yet", "and", "but", "or", "so"], answer: "yet" }
+  ],
+  // Stage 9
+  [
+    { question: "The wind howled ___ the rain pelted against the windows.", options: ["and", "but", "or", "so", "yet"], answer: "and" },
+    { question: "She loved the city's energy, ___ she missed the tranquility of her hometown.", options: ["but", "and", "or", "so", "yet"], answer: "but" },
+    { question: "Would you rather go skiing ___ snowboarding this winter?", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The conference room was too small, ___ they moved to a larger venue.", options: ["so", "and", "but", "or", "yet"], answer: "so" },
+    { question: "The climb was strenuous, ___ they persevered to reach the summit.", options: ["yet", "and", "but", "or", "so"], answer: "yet" }
+  ],
+  // Stage 10
+  [
+    { question: "The orchestra played beautifully, ___ the audience applauded enthusiastically.", options: ["and", "but", "or", "so", "yet"], answer: "and" },
+    { question: "The experiment yielded interesting results, ___ more research was needed.", options: ["but", "and", "or", "so", "yet"], answer: "but" },
+    { question: "Should we invest in stocks ___ focus on savings accounts?", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The flight was delayed by several hours, ___ we missed our connecting flight.", options: ["so", "and", "but", "or", "yet"], answer: "so" },
+    { question: "The challenge seemed insurmountable, ___ they approached it with determination.", options: ["yet", "and", "but", "or", "so"], answer: "yet" }
+  ],
+  // Stage 11
+  [
+    { question: "The ancient ruins stood silently, ___ the modern city bustled nearby.", options: ["and", "but", "while", "although", "yet"], answer: "while" },
+    { question: "He was known for his intelligence, ___ his lack of social skills held him back.", options: ["however", "and", "or", "so", "yet"], answer: "however" },
+    { question: "Would you prefer to learn a new language ___ master a musical instrument?", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The company's profits were declining, ___ they implemented a new marketing strategy.", options: ["so", "and", "but", "or", "yet"], answer: "so" },
+    { question: "There was heavy traffic, ___ we arrived at the airport on time.", options: ["yet", "and", "but", "or", "so"], answer: "yet" }
+  ],
+  // Stage 12
+  [
+    { question: "The painting was both beautiful ___ thought-provoking.", options: ["and", "but", "or", "so", "yet"], answer: "and" },
+    { question: "She had always dreamed of visiting Paris, ___ she chose to vacation in Rome instead.", options: ["but", "and", "or", "so", "yet"], answer: "but" },
+    { question: "We can either take the train ___ rent a car for our journey.", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The team worked overtime, ___ they met the project deadline.", options: ["consequently", "and", "but", "or", "yet"], answer: "consequently" },
+    { question: "Although the odds were against them, ___ they emerged victorious.", options: ["nevertheless", "and", "but", "or", "so"], answer: "nevertheless" }
+  ],
+  // Stage 13
+  [
+    { question: "The surgeon performed the operation skillfully, ___ the patient recovered quickly.", options: ["and", "but", "or", "so", "thus"], answer: "thus" },
+    { question: "The novel was critically acclaimed, ___ it didn't sell many copies.", options: ["yet", "and", "or", "so", "thus"], answer: "yet" },
+    { question: "Should we focus on renewable energy ___ continue relying on fossil fuels?", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The evidence was circumstantial, ___ the jury reached a unanimous verdict.", options: ["nevertheless", "and", "but", "or", "so"], answer: "nevertheless" },
+    { question: "Despite the challenges, ___ the team remained optimistic about their chances.", options: ["however", "and", "but", "or", "so"], answer: "however" }
+  ],
+  // Stage 14
+  [
+    { question: "The economy was booming, ___ unemployment rates were at an all-time low.", options: ["and", "but", "or", "so", "consequently"], answer: "consequently" },
+    { question: "He was an excellent programmer, ___ his communication skills needed improvement.", options: ["however", "and", "or", "so", "yet"], answer: "however" },
+    { question: "We can either invest in new technology ___ upgrade our existing systems.", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The research findings were inconclusive, ___ further studies were necessary.", options: ["therefore", "and", "but", "or", "yet"], answer: "therefore" },
+    { question: "Although the restaurant was expensive, ___ the quality of food justified the price.", options: ["nevertheless", "and", "but", "or", "so"], answer: "nevertheless" }
+  ],
+  // Stage 15
+  [
+    { question: "The company implemented strict security measures, ___ protecting sensitive data became a top priority.", options: ["hence", "and", "but", "or", "yet"], answer: "hence" },
+    { question: "She was fluent in five languages, ___ she struggled with basic mathematics.", options: ["whereas", "and", "but", "or", "so"], answer: "whereas" },
+    { question: "Would you rather live in a bustling metropolis ___ settle in a quiet countryside?", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The negotiations were tense, ___ both parties eventually reached an agreement.", options: ["nonetheless", "and", "but", "or", "so"], answer: "nonetheless" },
+    { question: "Despite the harsh criticism, ___ the artist continued to pursue her unique style.", options: ["still", "and", "but", "or", "so"], answer: "still" }
+  ],
+  // Stage 16
+  [
+    { question: "The new policy aimed to reduce carbon emissions, ___ it also stimulated economic growth in green sectors.", options: ["furthermore", "and", "but", "or", "so"], answer: "furthermore" },
+    { question: "The experiment yielded unexpected results, ___ the researchers had to reconsider their initial hypothesis.", options: ["consequently", "and", "but", "or", "yet"], answer: "consequently" },
+    { question: "We must either adapt to the changing market conditions ___ risk becoming obsolete.", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The ancient text was difficult to decipher, ___ experts spent years studying its contents.", options: ["hence", "and", "but", "or", "yet"], answer: "hence" },
+    { question: "Although the mountain peak seemed insurmountable, ___ the climbers were determined to reach the summit.", options: ["nonetheless", "and", "but", "or", "so"], answer: "nonetheless" }
+  ],
+  // Stage 17
+  [
+    { question: "The company's innovative approach attracted investors, ___ its stock prices soared.", options: ["subsequently", "and", "but", "or", "yet"], answer: "subsequently" },
+    { question: "He was renowned for his scientific achievements, ___ his contributions to philosophy were equally significant.", options: ["moreover", "and", "but", "or", "so"], answer: "moreover" },
+    { question: "Should we prioritize short-term gains ___ focus on long-term sustainability?", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The archaeological discovery challenged existing theories, ___ scholars had to reevaluate historical timelines.", options: ["therefore", "and", "but", "or", "yet"], answer: "therefore" },
+    { question: "Despite the team's best efforts, ___ the project fell short of its intended goals.", options: ["nevertheless", "and", "but", "or", "so"], answer: "nevertheless" }
+  ],
+  // Stage 18
+  [
+    { question: "The new legislation aimed to protect consumer rights, ___ it imposed stricter regulations on businesses.", options: ["simultaneously", "and", "but", "or", "so"], answer: "simultaneously" },
+    { question: "The novel explored complex philosophical themes, ___ it remained accessible to a wide audience.", options: ["yet", "and", "but", "or", "so"], answer: "yet" },
+    { question: "We can either embrace technological advancements ___ risk falling behind in the global market.", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The company's unethical practices were exposed, ___ its reputation suffered irreparable damage.", options: ["consequently", "and", "but", "or", "yet"], answer: "consequently" },
+    { question: "Although the initial results were disappointing, ___ the researchers persevered in their quest for a breakthrough.", options: ["nonetheless", "and", "but", "or", "so"], answer: "nonetheless" }
+  ],
+  // Stage 19
+  [
+    { question: "The government implemented new educational policies, ___ the long-term effects remain to be seen.", options: ["however", "and", "but", "or", "so"], answer: "however" },
+    { question: "She excelled in creative writing, ___ her analytical skills were equally impressive.", options: ["furthermore", "and", "but", "or", "so"], answer: "furthermore" },
+    { question: "Should we invest in cutting-edge research ___ allocate resources to improve existing technologies?", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The study revealed unexpected correlations, ___ further research is needed to establish causation.", options: ["hence", "and", "but", "or", "yet"], answer: "hence" },
+    { question: "Despite facing numerous setbacks, ___ the startup managed to secure substantial funding.", options: ["nevertheless", "and", "but", "or", "so"], answer: "nevertheless" }
+  ],
+  // Stage 20
+  [
+    { question: "The documentary shed light on environmental issues, ___ it proposed innovative solutions to address them.", options: ["additionally", "and", "but", "or", "so"], answer: "additionally" },
+    { question: "The theory was mathematically sound, ___ its practical applications were limited.", options: ["nonetheless", "and", "but", "or", "so"], answer: "nonetheless" },
+    { question: "We must either adapt to the rapidly changing global economy ___ risk economic stagnation.", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The new drug showed promising results in clinical trials, ___ regulatory approval is still pending.", options: ["however", "and", "but", "or", "so"], answer: "however" },
+    { question: "Although the diplomatic negotiations were fraught with tension, ___ a peaceful resolution was ultimately achieved.", options: ["eventually", "and", "but", "or", "so"], answer: "eventually" }
+  ],
+  // Stage 21
+  [
+    { question: "The research findings challenged conventional wisdom, ___ they opened up new avenues for scientific inquiry.", options: ["concurrently", "and", "but", "or", "so"], answer: "concurrently" },
+    { question: "The artist's early works were characterized by bold colors, ___ his later pieces exhibited a more subdued palette.", options: ["whereas", "and", "but", "or", "so"], answer: "whereas" },
+    { question: "Should we prioritize space exploration ___ focus on solving pressing terrestrial issues?", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The company's innovative approach disrupted the industry, ___ competitors scrambled to adapt.", options: ["consequently", "and", "but", "or", "yet"], answer: "consequently" },
+    { question: "Despite the initial skepticism surrounding the project, ___ it ultimately proved to be a groundbreaking success.", options: ["nevertheless", "and", "but", "or", "so"], answer: "nevertheless" }
+  ],
+  // Stage 22
+  [
+    { question: "The new legislation aimed to protect endangered species, ___ it imposed restrictions on industrial development in critical habitats.", options: ["simultaneously", "and", "but", "or", "so"], answer: "simultaneously" },
+    { question: "The novel's non-linear narrative intrigued some readers, ___ others found it confusing and difficult to follow.", options: ["while", "and", "but", "or", "so"], answer: "while" },
+    { question: "We can either embrace renewable energy sources ___ continue our dependence on fossil fuels.", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The economic downturn affected various sectors differently, ___ a comprehensive recovery plan was necessary.", options: ["hence", "and", "but", "or", "yet"], answer: "hence" },
+    { question: "Although the experiment yielded unexpected results, ___ the researchers saw potential for a paradigm shift in their field.", options: ["nonetheless", "and", "but", "or", "so"], answer: "nonetheless" }
+  ],
+  // Stage 23
+  [
+    { question: "The documentary exposed corporate malpractices, ___ it sparked a nationwide debate on business ethics.", options: ["subsequently", "and", "but", "or", "so"], answer: "subsequently" },
+    { question: "The politician was known for her eloquent speeches, ___ her ability to implement effective policies was questioned.", options: ["however", "and", "but", "or", "so"], answer: "however" },
+    { question: "Should we invest in artificial intelligence research ___ focus on improving human education and skills?", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The ancient manuscript contained encrypted messages, ___ linguists and cryptographers collaborated to decipher its contents.", options: ["thus", "and", "but", "or", "yet"], answer: "thus" },
+    { question: "Despite the challenges posed by climate change, ___ some communities have developed innovative adaptation strategies.", options: ["nevertheless", "and", "but", "or", "so"], answer: "nevertheless" }
+  ],
+  // Stage 24
+  [
+    { question: "The company's sustainable practices improved its public image, ___ they led to increased operational costs.", options: ["conversely", "and", "but", "or", "so"], answer: "conversely" },
+    { question: "The theory elegantly explained certain phenomena, ___ it failed to account for several anomalies in the data.", options: ["nonetheless", "and", "but", "or", "so"], answer: "nonetheless" },
+    { question: "We must either address the rising income inequality ___ face the possibility of social unrest.", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The breakthrough in quantum computing excited researchers, ___ its practical applications remain limited for now.", options: ["although", "and", "but", "or", "so"], answer: "although" },
+    { question: "Despite the initial resistance to the new educational approach, ___ many schools have reported improved student engagement and performance.", options: ["subsequently", "and", "but", "or", "so"], answer: "subsequently" }
+  ],
+  // Stage 25
+  [
+    { question: "The archaeological discovery provided insights into ancient civilizations, ___ it raised new questions about human migration patterns.", options: ["simultaneously", "and", "but", "or", "so"], answer: "simultaneously" },
+    { question: "The film's artistic merits were widely recognized, ___ its commercial success was limited.", options: ["albeit", "and", "but", "or", "so"], answer: "albeit" },
+    { question: "Should we prioritize short-term economic growth ___ focus on long-term environmental sustainability?", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The new treatment showed promise in preliminary trials, ___ more extensive studies are required to establish its efficacy and safety.", options: ["nevertheless", "and", "but", "or", "so"], answer: "nevertheless" },
+    { question: "Although the negotiations seemed to be at an impasse, ___ a last-minute compromise was reached.", options: ["ultimately", "and", "but", "or", "so"], answer: "ultimately" }
+  ],
+  // Stage 26
+  [
+    { question: "The government implemented stricter environmental regulations, ___ it offered incentives for businesses to adopt green technologies.", options: ["concurrently", "and", "but", "or", "so"], answer: "concurrently" },
+    { question: "The artist's work was celebrated for its originality, ___ critics debated its place within the broader art movement.", options: ["meanwhile", "and", "but", "or", "so"], answer: "meanwhile" },
+    { question: "We can either continue with the current healthcare system ___ implement a comprehensive reform to address its shortcomings.", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The rapid advancement of technology has created new job opportunities, ___ it has also rendered certain traditional skills obsolete.", options: ["conversely", "and", "but", "or", "so"], answer: "conversely" },
+    { question: "Despite the initial setbacks in the space program, ___ the mission to Mars remains a priority for the space agency.", options: ["nonetheless", "and", "but", "or", "so"], answer: "nonetheless" }
+  ],
+  // Stage 27
+  [
+    { question: "The new urban development project aims to revitalize the city center, ___ it has raised concerns about gentrification and displacement.", options: ["concurrently", "and", "but", "or", "so"], answer: "concurrently" },
+    { question: "The novel's intricate plot captivated readers, ___ some critics argued that it sacrificed character development for narrative complexity.", options: ["though", "and", "but", "or", "so"], answer: "though" },
+    { question: "Should we invest in expanding public transportation ___ focus on developing autonomous vehicle technology?", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The company's innovative product disrupted the market, ___ competitors were forced to reevaluate their strategies.", options: ["consequently", "and", "but", "or", "yet"], answer: "consequently" },
+    { question: "Although the initial data seemed to support the hypothesis, ___ subsequent experiments revealed inconsistencies that challenged the original conclusions.", options: ["nevertheless", "and", "but", "or", "so"], answer: "nevertheless" }
+  ],
+  // Stage 28
+  [
+    { question: "The international treaty aimed to reduce carbon emissions, ___ it established a framework for technology transfer between developed and developing nations.", options: ["furthermore", "and", "but", "or", "so"], answer: "furthermore" },
+    { question: "The philosopher's ideas were revolutionary for their time, ___ their full impact wasn't realized until decades after his death.", options: ["however", "and", "but", "or", "so"], answer: "however" },
+    { question: "We must either address the root causes of social inequality ___ continue to grapple with its symptomatic issues.", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The advent of social media has transformed communication patterns, ___ its long-term effects on society remain a subject of ongoing research.", options: ["meanwhile", "and", "but", "or", "so"], answer: "meanwhile" },
+    { question: "Despite the challenges posed by automation in various industries, ___ human creativity and emotional intelligence remain irreplaceable in many fields.", options: ["nonetheless", "and", "but", "or", "so"], answer: "nonetheless" }
+  ],
+  // Stage 29
+  [
+    { question: "The groundbreaking research in quantum entanglement has potential applications in cryptography, ___ it challenges our fundamental understanding of physics.", options: ["simultaneously", "and", "but", "or", "so"], answer: "simultaneously" },
+    { question: "The company's aggressive expansion strategy boosted short-term profits, ___ it led to unsustainable growth and eventual market saturation.", options: ["conversely", "and", "but", "or", "so"], answer: "conversely" },
+    { question: "Should we prioritize the development of artificial general intelligence ___ focus on enhancing and augmenting human cognitive abilities?", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The unprecedented global health crisis exposed weaknesses in healthcare systems worldwide, ___ it also spurred rapid innovation in medical research and telemedicine.", options: ["concurrently", "and", "but", "or", "so"], answer: "concurrently" },
+    { question: "Although the implementation of universal basic income remains controversial, ___ pilot programs have shown promising results in reducing poverty and improving overall well-being.", options: ["nonetheless", "and", "but", "or", "so"], answer: "nonetheless" }
+  ],
+  // Stage 30
+  [
+    { question: "The interdisciplinary approach to climate change research has yielded comprehensive insights, ___ it has highlighted the need for global cooperation in addressing environmental challenges.", options: ["moreover", "and", "but", "or", "so"], answer: "moreover" },
+    { question: "The artist's unconventional techniques revolutionized the art world, ___ they polarized critics and audiences alike.", options: ["albeit", "and", "but", "or", "so"], answer: "albeit" },
+    { question: "We can either embrace the potential of genetic engineering to eradicate diseases ___ adhere to ethical considerations that limit its application.", options: ["or", "and", "but", "so", "yet"], answer: "or" },
+    { question: "The rise of cryptocurrencies has challenged traditional financial systems, ___ their long-term viability and impact on global economics remain subjects of intense debate.", options: ["however", "and", "but", "or", "so"], answer: "however" },
+    { question: "Despite the initial skepticism surrounding quantum computing, ___ recent breakthroughs have demonstrated its potential to revolutionize fields ranging from cryptography to drug discovery.", options: ["nevertheless", "and", "but", "or", "so"], answer: "nevertheless" }
+  ]
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+
+
+		   'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+           ,'Subject Overview 🗝️': `<div class="subject-overview-content">     <h1>Compound Sentences in English: From Basic to Advanced</h1>     <p>Compound sentences are a fundamental aspect of English grammar that allow us to connect related ideas, making our communication clearer and more nuanced. By combining two or more independent clauses, compound sentences help convey complex thoughts and relationships between actions or events. This guide will explore the structure, types, rules, and provide numerous examples to help you master compound sentences from basic to advanced levels.</p>     <hr>     <h2>Table of Contents</h2>     <ol>         <li><a href="#what-are-compound-sentences">What Are Compound Sentences?</a></li>         <li><a href="#structure-of-compound-sentences">Structure of Compound Sentences</a></li>         <li><a href="#types-of-compound-sentences">Types of Compound Sentences</a></li>         <li><a href="#advanced-conjunctions">Advanced Conjunctions</a></li>         <li><a href="#punctuation-rules">Punctuation Rules</a></li>         <li><a href="#common-errors">Common Errors to Avoid</a></li>         <li><a href="#advanced-usage">Advanced Usage</a></li>         <li><a href="#conclusion">Conclusion</a></li>     </ol>     <hr>     <h2 id="what-are-compound-sentences">What Are Compound Sentences?</h2>     <p>A compound sentence is a sentence that contains at least two independent clauses joined by a coordinating conjunction or a semicolon. Each clause can stand alone as a complete sentence, but combining them into a compound sentence allows for more fluid and varied expression.</p>     <p>For example:</p>     <ul>         <li><em>I wanted to go for a walk, but it started to rain.</em></li>         <li><em>She loves reading books, and she enjoys writing stories.</em></li>     </ul>     <hr>     <h2 id="structure-of-compound-sentences">Structure of Compound Sentences</h2>     <p>Understanding the structure of compound sentences is essential for constructing them correctly. A compound sentence typically follows this pattern:</p>     <ol>         <li><strong>Independent Clause</strong>: A complete thought that can stand alone as a sentence.</li>         <li><strong>Coordinating Conjunction</strong>: Words like <em>for</em>, <em>and</em>, <em>nor</em>, <em>but</em>, <em>or</em>, <em>yet</em>, <em>so</em> (FANBOYS).</li>         <li><strong>Independent Clause</strong>: Another complete thought that can stand alone.</li>     </ol>     <p>Alternatively, a semicolon can be used to join two independent clauses without a conjunction.</p>     <p>Examples:</p>     <ul>         <li><em>She finished her homework, and she went to bed.</em></li>         <li><em>He didn’t see the sign; therefore, he missed the turn.</em></li>     </ul>     <hr>     <h2 id="types-of-compound-sentences">Types of Compound Sentences</h2>     <h3>1. Compound Sentences with Coordinating Conjunctions</h3>     <p>These sentences use coordinating conjunctions to link two independent clauses.</p>     <ul>         <li><strong>For</strong>: Explains reason or purpose.<br><em>She was tired, for she had worked all day.</em></li>         <li><strong>And</strong>: Adds one statement to another.<br><em>He plays the guitar, and he sings beautifully.</em></li>         <li><strong>Nor</strong>: Presents a non-contrasting negative idea.<br><em>She doesn’t like tea, nor does she enjoy coffee.</em></li>         <li><strong>But</strong>: Shows contrast.<br><em>I wanted to join, but I was too busy.</em></li>         <li><strong>Or</strong>: Presents an alternative or choice.<br><em>Would you like coffee, or would you prefer tea?</em></li>         <li><strong>Yet</strong>: Introduces a contrasting idea that follows logically.<br><em>He is rich, yet he is not happy.</em></li>         <li><strong>So</strong>: Indicates effect, result, or consequence.<br><em>It was raining, so we stayed indoors.</em></li>     </ul>     <h3>2. Compound Sentences with Semicolons</h3>     <p>Semicolons can join two closely related independent clauses without the need for a coordinating conjunction.</p>     <ul>         <li><em>The sun set; the stars began to twinkle.</em></li>         <li><em>She loves traveling; her favorite destination is Japan.</em></li>     </ul>     <h3>3. Compound Sentences with Conjunctive Adverbs</h3>     <p>Conjunctive adverbs like <em>however</em>, <em>therefore</em>, and <em>moreover</em> can connect independent clauses, usually requiring a semicolon before and a comma after the adverb.</p>     <ul>         <li><em>I wanted to attend the meeting; however, I was feeling unwell.</em></li>         <li><em>He didn’t study for the exam; therefore, he didn’t pass.</em></li>     </ul>     <hr>     <h2 id="advanced-conjunctions">Advanced Conjunctions</h2>     <p>Beyond the basic coordinating conjunctions, English offers a variety of advanced conjunctions that add depth and complexity to compound sentences. These include conjunctive adverbs, correlative conjunctions, and subordinating conjunctions that can be used in compound structures.</p>     <h3>1. Conjunctive Adverbs</h3>     <p>Conjunctive adverbs are used to connect independent clauses and show the relationship between them. They often require a semicolon before and a comma after.</p>     <ul>         <li><strong>Nevertheless</strong>: Indicates contrast.<br><em>She was tired; nevertheless, she completed her work.</em></li>         <li><strong>Consequently</strong>: Shows result.<br><em>The experiment failed; consequently, the hypothesis was rejected.</em></li>         <li><strong>Moreover</strong>: Adds information.<br><em>The project is on schedule; moreover, it is under budget.</em></li>         <li><strong>Thus</strong>: Indicates conclusion.<br><em>He didn’t study; thus, he failed the test.</em></li>         <li><strong>Therefore</strong>: Shows cause and effect.<br><em>The weather was bad; therefore, the event was canceled.</em></li>     </ul>     <h3>2. Correlative Conjunctions</h3>     <p>Correlative conjunctions work in pairs to join equal elements in a sentence.</p>     <ul>         <li><strong>Either...or</strong>: Presents alternatives.<br><em>We can either take the train or drive to the city.</em></li>         <li><strong>Neither...nor</strong>: Presents two negative alternatives.<br><em>Neither the manager nor the assistant was available.</em></li>         <li><strong>Not only...but also</strong>: Adds emphasis.<br><em>She is not only intelligent but also hardworking.</em></li>     </ul>     <h3>3. Subordinating Conjunctions in Compound Structures</h3>     <p>While subordinating conjunctions typically introduce dependent clauses, they can be used alongside coordinating conjunctions to create compound-complex sentences.</p>     <ul>         <li><strong>Although</strong>: Introduces a concession.<br><em>Although it was raining, we went for a hike, and we enjoyed the fresh air.</em></li>         <li><strong>Whereas</strong>: Shows contrast.<br><em>He enjoys classical music, whereas she prefers jazz.</em></li>         <li><strong>While</strong>: Indicates simultaneous actions or contrast.<br><em>While I was cooking, she was setting the table.</em></li>     </ul>     <p>Incorporating advanced conjunctions enhances the complexity and clarity of your compound sentences, allowing for more precise and varied expression.</p>     <hr>     <h2 id="punctuation-rules">Punctuation Rules</h2>     <p>Proper punctuation is crucial for clarity in compound sentences. Here are the key rules:</p>     <ol>         <li><strong>Use a Comma Before the Coordinating Conjunction</strong>: When joining two independent clauses with a coordinating conjunction, place a comma before the conjunction.<br><em>Example: She wanted to go hiking, but it started to rain.</em></li>         <li><strong>Use a Semicolon Without a Conjunction</strong>: When not using a coordinating conjunction, a semicolon can link two related independent clauses.<br><em>Example: It was late; we decided to head home.</em></li>         <li><strong>Conjunctive Adverbs</strong>: When using a conjunctive adverb, place a semicolon before and a comma after the adverb.<br><em>Example: He didn’t see the sign; therefore, he missed the turn.</em></li>         <li><strong>Avoid Comma Splices</strong>: Do not join two independent clauses with just a comma, as this creates a comma splice, which is grammatically incorrect.<br><em>Incorrect: She loves tea, she drinks it every morning.</em></li>     </ol>     <hr>     <h2 id="common-errors">Common Errors to Avoid</h2>     <p>When constructing compound sentences, be mindful of these common mistakes:</p>     <ul>         <li><strong>Comma Splices</strong>: Joining two independent clauses with only a comma.<br><em>Incorrect: I went to the store, I bought milk.</em><br><em>Correct: I went to the store, and I bought milk.</em></li>         <li><strong>Run-On Sentences</strong>: Failing to properly join independent clauses.<br><em>Incorrect: She enjoys painting she doesn’t like drawing.</em><br><em>Correct: She enjoys painting, but she doesn’t like drawing.</em></li>         <li><strong>Incorrect Use of Semicolons</strong>: Using semicolons where they aren’t needed or omitting them when necessary.<br><em>Incorrect: She likes coffee; and he likes tea.</em><br><em>Correct: She likes coffee, and he likes tea.</em></li>         <li><strong>Overusing Conjunctions</strong>: Using too many conjunctions can make sentences cumbersome.<br><em>Incorrect: She wanted to go to the market, and she needed to buy vegetables, and she also had to pick up some bread.</em><br><em>Correct: She wanted to go to the market to buy vegetables and pick up some bread.</em></li>     </ul>     <hr>     <h2 id="advanced-usage">Advanced Usage</h2>     <p>For more sophisticated writing, compound sentences can be expanded and varied to enhance readability and depth.</p>     <h3>1. Combining Multiple Clauses</h3>     <p>You can join more than two independent clauses in a compound sentence, provided each is properly connected.</p>     <ul>         <li><em>She went to the market, she bought fresh vegetables, and she prepared a delicious meal.</em></li>     </ul>     <h3>2. Varying Sentence Length and Structure</h3>     <p>Mixing short and long clauses can create a more engaging rhythm.</p>     <ul>         <li><em>He wanted to leave early, but the meeting ran longer than expected.</em></li>     </ul>     <h3>3. Using Subordinate Elements Within Compound Sentences</h3>     <p>Integrating subordinate clauses can add complexity and detail.</p>     <ul>         <li><em>Although it was raining, we decided to go for a hike, and we enjoyed the fresh air.</em></li>     </ul>     <h3>4. Incorporating Modifiers and Phrases</h3>     <p>Adding descriptive phrases can enrich compound sentences.</p>     <ul>         <li><em>The sun set beautifully over the horizon, casting a golden glow, so we took a moment to appreciate the view.</em></li>     </ul>     <h3>5. Utilizing Advanced Conjunctions</h3>     <p>Incorporating advanced conjunctions can provide clearer relationships between clauses and enhance the sophistication of your writing.</p>     <ul>         <li><em>She was an excellent programmer; however, her communication skills needed improvement.</em></li>         <li><em>The team worked overtime; consequently, they met the project deadline.</em></li>         <li><em>The weather was unpredictable; nonetheless, the event proceeded as planned.</em></li>         <li><em>He didn't just win the race; he broke the world record, thus earning widespread recognition.</em></li>     </ul>     <hr>     <h2 id="conclusion">Conclusion</h2>     <p>Mastering compound sentences is essential for effective and versatile communication in English. They allow you to express multiple ideas seamlessly, show relationships between thoughts, and enhance the flow of your writing and speech. Here’s a quick recap:</p>     <ul>         <li><strong>Structure</strong>: Comprised of two or more independent clauses joined by coordinating conjunctions, semicolons, or conjunctive adverbs.</li>         <li><strong>Types</strong>: Include those with coordinating conjunctions, semicolons, conjunctive adverbs, and advanced conjunctions.</li>         <li><strong>Punctuation</strong>: Use commas before conjunctions, semicolons without conjunctions, and proper punctuation with conjunctive adverbs.</li>         <li><strong>Common Errors</strong>: Avoid comma splices and run-on sentences by correctly joining clauses.</li>         <li><strong>Advanced Usage</strong>: Enhance compound sentences by combining multiple clauses, varying sentence structure, adding modifiers, and utilizing advanced conjunctions.</li>     </ul>     <p><strong>Remember</strong>: Practice constructing compound sentences in your writing and speaking to gain confidence and improve clarity. By effectively using compound sentences and advanced conjunctions, you can articulate your ideas more precisely and engage your audience with well-structured communication.</p>     <hr>     <p>By understanding and applying the principles of compound sentences, including the use of advanced conjunctions, you'll enhance your ability to convey complex ideas clearly and effectively. Keep practicing, and refer back to this guide whenever you need to strengthen your command of compound sentence structures!</p> </div>`
+
+		
+		};
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    quizData[currentStage].forEach((question, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+        
+        // Create label for the question text
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${question.question}`;
+        
+        // Create div for result feedback
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+        
+        // Create select element for answers
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        
+        // Add default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+        
+        // Shuffle and add answer options
+        const shuffledOptions = shuffleArray([...question.options]);
+        shuffledOptions.forEach((option, optionIndex) => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        // Append elements to questionElement in the desired order
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv); // Feedback before dropdown
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+		function checkStage() {
+   attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[currentStage].length;
+
+    quizData[currentStage].forEach((question, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === question.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect answer.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 10) {
+            selectElement.value = question.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` The correct answer is: ${question.answer}`;
+        }
+    });
+
+    console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`Stage ${currentStage + 1} completed. Adding ${totalQuestions} animals.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`Moving to stage ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("Congratulations! You've completed all stages.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+		function updateStageNumber() {
+			const stageElement = document.getElementById("stage-number");
+			stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+		}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>
