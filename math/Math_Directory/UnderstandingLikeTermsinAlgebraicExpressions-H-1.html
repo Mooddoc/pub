@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-heb.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+	<title>✅ EZ42 - זה קל</title>
+	 
+	<style>
+	
+	</style>
+	
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+			<div class="logo-container">
+				<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+					<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+				</a>
+			</div>
+                <h2>הוראות</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                    <li>יש לקרוא כל שאלה בעיון.</li>
+                    <li>בחר/י את התשובה הנכונה ביותר מתוך התפריט הנפתח.</li>
+                    <li>יש ללחוץ על בדיקת תשובות כשמוכנים!</li>
+                    <li>יש להשלים את כל השאלות כדי לעבור לשלב הבא.</li>
+                    <li>לאחר 10 ניסיונות, התשובות הנכונות יוצגו.</li>
+                    <li>שיהיה כיף!</li>
+                </ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->		
+                <h1>הבנת איברים דומים בביטויים אלגבריים</h1>
+				
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+
+                <div id="tabContent">
+                    <!--PLACHOLDERFORNEWGAME-START-->
+
+                    <!--PLACHOLDERFORNEWGAME-END-->
+                </div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות החיות</h2>
+				<p>החווה שלך גדלה תוך כדי התקדמות! כל שלב מוסיף חיות חדשות לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+        const quizData = [ 												//  PH3 - Quiz Data 
+// Stage 1: Basic identification of like terms
+[
+  { question: "Which pair contains like terms?", options: ["2x and 3y", "4a and -5a", "3m² and 2m", "y and z", "x and x²"], answer: "4a and -5a" },
+  { question: "In the expression 3x + 2y - 5x + 4, which terms are like terms?", options: ["3x and 2y", "3x and -5x", "2y and 4", "-5x and 4", "None of these"], answer: "3x and -5x" },
+  { question: "What makes terms 'like terms'?", options: ["Same variables", "Same coefficients", "Same variables with same exponents", "Same constants", "Any terms next to each other"], answer: "Same variables with same exponents" },
+  { question: "Which of these is NOT a like term with 5x²y?", options: ["2x²y", "-x²y", "10x²y", "x²y", "5xy²"], answer: "5xy²" },
+  { question: "How many pairs of like terms are in 2a + 3b - 4a + 5b - 6c?", options: ["0", "1", "2", "3", "4"], answer: "2" },
+],
+// Stage 2: Recognizing like terms with different coefficients
+[
+  { question: "Which pair does NOT consist of like terms?", options: ["3xy and -2xy", "5a² and 5a³", "2mn and 2nm", "4p and 4p"], answer: "5a² and 5a³" },
+  { question: "In the expression 7x² - 3xy + 2x² - 5x³, which terms are like terms?", options: ["7x² and -3xy", "7x² and 2x²", "-3xy and -5x³", "2x² and -5x³", "None of these"], answer: "7x² and 2x²" },
+  { question: "Which term is NOT like the others? 3ab, -2ba, 5ab, ½ab", options: ["3ab", "-2ba", "5ab", "½ab", "They are all like terms"], answer: "They are all like terms" },
+  { question: "How many sets of like terms are in 2p² + 3pq - 4p² + pq - 5q²?", options: ["1", "2", "3", "4", "0"], answer: "2" },
+  { question: "Which pair are NOT like terms?", options: ["3x and -2x", "5y² and ½y²", "2ab and 2ba", "4mn and -3nm", "2z³ and 3z²"], answer: "2z³ and 3z²" },
+],
+// Stage 3: Identifying like terms with multiple variables
+[
+  { question: "Which terms are like terms? 5xy, -3yx, 2x²y, -4xy", options: ["5xy and 2x²y", "5xy, -3yx, and -4xy", "-3yx and 2x²y", "All of them", "None of them"], answer: "5xy, -3yx, and -4xy" },
+  { question: "In the expression 2a²b - 3ab² + 4ba² - 5a²b, how many like terms are there?", options: ["0", "2", "3", "4", "5"], answer: "2" },
+  { question: "Which expression has no like terms?", options: ["3xy - 2yx + 5xy", "2a²b + 3ab² - 4b²a", "m²n - 3mn² + 2nm²", "4pq - p²q + 2pq", "2x²y² + y²x² - 3x²y²"], answer: "2a²b + 3ab² - 4b²a" },
+  { question: "Which term is like 3x²y³z?", options: ["3x³y²z", "-2x²y³z", "5xyz³", "x²y³z²", "3zx²y³"], answer: "-2x²y³z" },
+  { question: "How many sets of like terms are in 2mn² + 3n²m - 4nm² + m²n?", options: ["0", "1", "2", "3", "4"], answer: "2" },
+],
+// Stage 4: Like terms with fractional and decimal coefficients
+[
+  { question: "Which pair does NOT consist of like terms?",   options: ["½x and 0.5x", "0.5a² and ⅓a²", "2.5m and 2.5m", "⅖b³ and 0.4b³", "1.5xy and 2.3y²"],   answer: "1.5xy and 2.3y²" },
+  { question: "In the expression 0.3x + ¼y - 0.1x + z, which terms are like terms?",   options: ["0.3x and -0.1x", "¼y and z", "-0.1x and z", "0.3x and ¼y", "None of these"],   answer: "0.3x and -0.1x" },
+  { question: "Which expression contains like terms?", options: ["⅓x² + 0.5xy", "0.2m³ + ¼m²", "1.5pq + ⅗qp", "0.8z + ¾y", "None of these"], answer: "1.5pq + ⅗qp" },
+  { question: "How many sets of like terms are in 2.5r³s - 1.2rs³ + ¾r³s - ⅖rs³?", options: ["0", "1", "2", "3", "4"], answer: "2" },
+  { question: "Which term is NOT like the others? 0.5ab, ¼ba, 2ab, 1.5ab", options: ["0.5ab", "¼ba", "2ab", "1.5ab", "They are all like terms"], answer: "They are all like terms" },
+],
+// Stage 5: Like terms with variables having exponents
+[
+  { question: "Which pair are like terms?", options: ["3x² and 3x", "2y³ and -5y³", "4z and 4z²", "ab and ba", "2m²n and 2mn²"], answer: "2y³ and -5y³" },
+  { question: "In the expression 2x³y² - 3xy³ + 5x³y² + xy³, how many sets of like terms are there?", options: ["0", "1", "2", "3", "4"], answer: "2" },
+  { question: "Which term is like 3a²b?", options: ["3ab²", "-2a²b", "5ba²", "½ab²", "a³b"], answer: "-2a²b" },
+  { question: "How many sets of like terms are in 2x²y + 3xy² - 4x²y + xy² - 5xy?", options: ["1", "2", "3", "4", "0"], answer: "2" },
+  { question: "Which expression has no like terms?", options: ["m²n + 2nm²", "3x²y - yx²", "2ab² + 3a²b", "4p³q² - 2p²q³", "5r²s² + 3s²r²"], answer: "2ab² + 3a²b" },
+],
+// Stage 6: Identifying like terms in complex expressions
+[
+  { question: "In the expression 2x²y + 3xy² - 4yx² + 2y²x, how many sets of like terms are there?", options: ["0", "1", "2", "3", "4"], answer: "2" },
+  { question: "Which term is NOT like the others? 5a²b³c, -2b³ca², 7a²cb³, 3b³a²c, a²b³c", options: ["5a²b³c", "-2b³ca²", "7a²cb³", "3b³a²c", "They are all like terms"], answer: "They are all like terms" },
+  { question: "How many like terms are in (x + y)³ = x³ + 3x²y + 3xy² + y³?", options: ["0", "1", "2", "3", "4"], answer: "0" },
+  { question: "Which pair of terms are like terms in 2m²n + 3n²m - 5nm² + 4mn²?", options: ["2m²n and 3n²m", "3n²m and 4mn²", "2m²n and -5nm²", "5nm² and 4mn²", "There are no like terms"], answer: "2m²n and -5nm²" },
+  { question: "In the expression 3pq²r - 2qr²p + 5rpq² - 3rp²q, how many sets of like terms are there?", options: ["0", "1", "2", "3", "4"], answer: "1" },
+],
+// Stage 7: Like terms with negative exponents and roots
+[
+  { question: "Which pair contains like terms?", options: ["x⁻² and x²", "y⁻³ and -2y⁻³", "z⁻¹ and z", "√a and a", "∛b and b³"], answer: "y⁻³ and -2y⁻³" },
+  { question: "In the expression 2x⁻¹ + 3x⁻² - 5x⁻¹ + 2x⁻², how many sets of like terms are there?", options: ["0", "1", "2", "3", "4"], answer: "2" },
+  { question: "Which expression contains like terms?", options: ["√2 + √3", "2√x + 3√y", "5∛a - 2∛a", "x^(½) + x^(⅓)", "None of these"], answer: "5∛a - 2∛a" },
+  { question: "Which term is like y^(-½)?", options: ["y^(½)", "y^(-¼)", "2y^(-½)", "y", "None of these"], answer: "2y^(-½)" },
+  { question: "Which term is NOT like the others? 2z^(-⅓), -5z^(-⅓), ∛(1/z), 4z^(-⅓)", options: ["2z^(-⅓)", "-5z^(-⅓)", "∛(1/z)", "4z^(-⅓)", "They are all like terms"], answer: "They are all like terms" },
+],
+// Stage 8: Like terms in rational expressions
+[
+  { question: "Which pair contains like terms?", options: ["x/y and y/x", "a/b and c/d", "2/m and 3/m", "p/q and p/r", "x/(y+1) and x/(y-1)"], answer: "2/m and 3/m" },
+  { question: "In the expression 2/(x+1) + 3/(x+1) + 1/(x-1), how many like terms are there?", options: ["0", "1", "2", "3", "4"], answer: "2" },
+  { question: "Which expression has no like terms?", options: ["a/x + b/x", "2/(y-1) - 1/(y-1)", "m/n + n/m", "3/(p+q) + 2/(p+q)", "5/z - 2/z"], answer: "m/n + n/m" },
+  { question: "Which term is like 2/(a+b)?", options: ["2/(a-b)", "3/(a+b)", "(a+b)/2", "2(a+b)", "None of these"], answer: "3/(a+b)" },
+  { question: "How many sets of like terms are in 3/(x-y) + 2/(y-x) - 4/(x-y) + 1/x?", options: ["0", "1", "2", "3", "4"], answer: "1" },
+],
+// Stage 9: Recognizing like terms in different forms
+[
+  { question: "Which pair consists of like terms?",   options: ["x² and x × x", "2y and y + y", "3(a + b) and 3a + 3b", "m² and m + m", "Both options 1 and 2"],   answer: "Both options 1 and 2" },
+  { question: "In the expression 2(x+y) - (x+y) + 3xy, how many like terms are there?", options: ["0", "1", "2", "3", "4"], answer: "2" },
+  { question: "Which term is like 5(m-n)?", options: ["5m-5n", "5mn", "2(m-n)", "5(n-m)", "Both A and C"], answer: "Both A and C" },
+  { question: "How many sets of like terms are in x² + (x+2)(x-2) + x(x+1) - 1?", options: ["0", "1", "2", "3", "4"], answer: "1" },
+  { question: "Which expression is equivalent to and like 2a²b?", options: ["2ab²", "(ab)(2a)", "2(a×a×b)", "4ab/2", "Both B and C"], answer: "Both B and C" },
+],
+// Stage 10: Advanced recognition of like terms
+[
+  { question: "Which pair contains like terms?", options: ["sin x and cos x", "log x and ln x", "e^x and 10^x", "x^n and n^x", "None of these"], answer: "None of these" },
+  { question: "In the expression a^(2n) + a^n × a^n - a^(n+n), how many like terms are there?", options: ["0", "1", "2", "3", "4"], answer: "3" },
+  { question: "Which term is like (x+y)²?", options: ["x²+y²", "x²+2xy+y²", "2(x+y)", "(x+y)(x-y)", "None of these"], answer: "x²+2xy+y²" },
+  { question: "How many sets of like terms are in |x| + |-x| + x² - (-x)²?", options: ["0", "1", "2", "3", "4"], answer: "2" },
+  { question: "Which expression contains like terms with π²r²?", options: ["2πr", "4πr²", "2π²r", "πr²", "None of these"], answer: "None of these" },
+]
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+	
+		'תרגול': `<div id="stage-number" class="stage-number">שלב 1 מתוך ${quizData.length}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">ניסיונות: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">בדיקת תשובות</button>`
+		,'לימוד הנושא 🗝️': 
+		`<div class="subject-overview-content subject-overview-content_heb">   <h1>הבנת איברים דומים בביטויים אלגבריים</h1>   <p>איברים דומים הם רכיבים בסיסיים בביטויים אלגבריים שניתן לשלבם כדי לפשט משוואות ולפתור בעיות ביעילות. זיהוי וטיפול באיברים דומים חיוניים לביצוע פעולות כמו חיבור, חיסור ופישוט ביטויים. מדריך זה יבחן את ההגדרה, המאפיינים והטכניקות לזיהוי ושילוב איברים דומים, יחד עם דוגמאות מעשיות לחיזוק ההבנה שלכם.</p>   <hr>   <h2 class="highlight_heb">תוכן העניינים</h2>   <ol>     <li><a href="#what-are-like-terms" class="highlight_heb">מהם איברים דומים?</a></li>     <li><a href="#general-characteristics-of-like-terms" class="highlight_heb">מאפיינים כלליים של איברים דומים</a></li>     <li><a href="#detailed-explanation-of-like-terms" class="highlight_heb">הסבר מפורט על איברים דומים</a>       <ul>         <li><a href="#identifying-like-terms" class="highlight_heb">זיהוי איברים דומים</a></li>         <li><a href="#combining-like-terms" class="highlight_heb">שילוב איברים דומים</a></li>         <li><a href="#examples" class="highlight_heb">דוגמאות</a></li>       </ul>     </li>     <li><a href="#conclusion" class="highlight_heb">סיכום</a></li>   </ol>   <hr>   <h2 id="what-are-like-terms" class="highlight_heb">מהם איברים דומים?</h2>   <p>איברים דומים הם איברים בביטוי אלגברי שיש להם את אותו חלק משתנה, כאשר החזקות של המשתנים זהות. המקדמים של איברים אלה יכולים להיות שונים, אך הגורמים המשתנים חייבים להתאים במדויק. שילוב איברים דומים מפשט ביטויים ומאפשר פתרון משוואות בצורה נוחה יותר.</p>   <p>באלגברה, איברים הם אבני הבניין של ביטויים, המורכבים ממשתנים, מקדמים וקבועים. זיהוי איברים דומים מאפשר איחוד של איברים אלה, מה שמפחית את המורכבות של הביטוי.</p>   <hr>   <h2 id="general-characteristics-of-like-terms" class="highlight_heb">מאפיינים כלליים של איברים דומים</h2>   <p>לפני שנעמיק בפרטים, חשוב להבין כמה כללים כלליים החלים על איברים דומים:</p>   <ol>     <li><strong>אותם משתנים:</strong> איברים דומים חייבים להכיל את אותם המשתנים.</li>     <li><strong>אותן חזקות:</strong> למשתנים חייבות להיות אותן החזקות.</li>     <li><strong>מקדמים שונים:</strong> המקדמים (הרכיבים המספריים) יכולים להיות שונים.</li>     <li><strong>סדר משתנים לא משפיע:</strong> סדר המשתנים יכול להיות שונה כל עוד חלק המשתנים זהה (למשל, 3xy דומה ל-3yx).</li>     <li><strong>קבועים:</strong> קבועים (מספרים ללא משתנים) דומים רק לקבועים אחרים.</li>   </ol>   <hr>   <h2 id="detailed-explanation-of-like-terms" class="highlight_heb">הסבר מפורט על איברים דומים</h2>   <h3 id="identifying-like-terms" class="highlight_heb">זיהוי איברים דומים</h3>   <p><strong>הגדרה:</strong> שניים או יותר איברים הם איברים דומים אם יש להם את אותו חלק משתנה, כאשר המשתנים באותן החזקות.</p>   <p>כדי לזהות איברים דומים, בצעו את השלבים הבאים:</p>   <ol>     <li>השוו את המשתנים בכל איבר.</li>     <li>וודאו שהמשתנים מועלים לאותן החזקות.</li>     <li>סדר המשתנים יכול להיות שונה כל עוד חלק המשתנים זהה.</li>   </ol>   <p><strong>דוגמאות:</strong></p>   <ul>     <li><em>5x ו-3x</em> הם איברים דומים כי לשניהם המשתנה x בחזקה הראשונה.</li>     <li><em>2xy ו-4yx</em> הם איברים דומים כי לשניהם המשתנים x ו-y בחזקות ראשונות.</li>     <li><em>7x² ו--x²</em> הם איברים דומים כי לשניהם x בריבוע.</li>     <li><em>3a ו-4b</em> אינם איברים דומים כי המשתנים שונים.</li>   </ul>   <h3 id="combining-like-terms" class="highlight_heb">שילוב איברים דומים</h3>   <p><strong>הגדרה:</strong> שילוב איברים דומים כולל חיבור או חיסור המקדמים של איברים דומים תוך שמירה על חלק המשתנה ללא שינוי.</p>   <p>בעת שילוב איברים דומים, חלק המשתנים נשאר ללא שינוי ורק המקדמים משתנים.</p>   <p><strong>שלבים לשילוב איברים דומים:</strong></p>   <ol>     <li>זהו את האיברים הדומים בביטוי.</li>     <li>חברו את המקדמים על ידי ביצוע הפעולה האריתמטית הנדרשת (חיבור או חיסור).</li>     <li>כתבו מחדש את הביטוי עם האיברים המשולבים.</li>   </ol>   <p><strong>דוגמאות:</strong></p>   <ul>     <li><em>5x + 3x = (5 + 3)x = 8x</em></li>     <li><em>2xy - 4yx + xy = (2 - 4 + 1)xy = -1xy או -xy</em></li>     <li><em>7x² - x² = (7 - 1)x² = 6x²</em></li>     <li><em>3a + 4b אינם איברים דומים ואי אפשר לשלבם.</em></li>   </ul>   <h3 id="examples" class="highlight_heb">דוגמאות</h3>   <p><strong>דוגמה 1:</strong> פשטו את הביטוי: <em>3x + 5x - 2x</em></p>   <p><strong>פתרון:</strong></p>   <ol>     <li>זהו את האיברים הדומים: 3x, 5x, -2x</li>     <li>חברו את המקדמים: 3 + 5 - 2 = 6</li>     <li>כתבו את הביטוי המפושט: <em>6x</em></li>   </ol>   <p><strong>דוגמה 2:</strong> פשטו את הביטוי: <em>4xy + 3yx - xy + 2x²</em></p>   <p><strong>פתרון:</strong></p>   <ol>     <li>זהו את האיברים הדומים: 4xy, 3yx, -xy</li>     <li>חברו את המקדמים: 4 + 3 - 1 = 6</li>     <li>כתבו את האיבר המשולב: 6xy</li>     <li>כללו את האיבר שאינו דומה: 2x²</li>     <li>הביטוי המפושט: <em>6xy + 2x²</em></li>   </ol>   <p><strong>דוגמה 3:</strong> פשטו את הביטוי: <em>7a + 3b - 2a + 4b</em></p>   <p><strong>פתרון:</strong></p>   <ol>     <li>זהו את האיברים הדומים: 7a, -2a ו-3b, 4b</li>     <li>חברו את המקדמים עבור a: 7 - 2 = 5</li>     <li>חברו את המקדמים עבור b: 3 + 4 = 7</li>     <li>הביטוי המפושט: <em>5a + 7b</em></li>   </ol>   <hr>   <h2 id="conclusion" class="highlight_heb">סיכום</h2>   <p>הבנת איברים דומים חיונית לפישוט ביטויים אלגבריים ולפתרון משוואות ביעילות. על ידי זיהוי ושילוב איברים דומים, ניתן לצמצם ביטויים מורכבים לצורתם הפשוטה ביותר, מה שמקל על העבודה עם פתרון בעיות אלגבריות. זכרו את המאפיינים המרכזיים של איברים דומים: המשתנים חייבים להיות זהים ומועלים לאותן החזקות, בעוד שהמקדמים יכולים להיות שונים. תרגלו זיהוי ושילוב איברים דומים בביטויים שונים כדי לפתח את כישורי האלגברה והביטחון שלכם.</p>   <ul>     <li><strong>איברים דומים:</strong> איברים עם חלקי משתנה זהים וחזקות זהות.</li>     <li><strong>שילוב איברים דומים:</strong> חיבור או חיסור המקדמים של איברים דומים.</li>     <li><strong>איברים שאינם דומים:</strong> איברים עם משתנים או חזקות שונות אינם ניתנים לשילוב.</li>   </ul>   <p><strong>זכרו:</strong> תמיד שמרו על חלק המשתנים ללא שינוי בעת שילוב איברים דומים, ורק בצעו פעולות אריתמטיות על המקדמים.</p>   <hr>   <p>באמצעות שליטה במושג האיברים הדומים, תשפרו את יכולתכם לטפל בביטויים אלגבריים ולפתור משוואות בצורה מדויקת ונכונה. המשיכו לתרגל עם דוגמאות מגוונות לחיזוק ההבנה והמיומנויות האלגבריות שלכם.</p> </div>`
+
+		};
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'תרגול') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    quizData[currentStage].forEach((question, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+        
+        // Create label for the question text
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${question.question}`;
+        
+        // Create div for result feedback
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+        
+        // Create select element for answers
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        
+        // Add default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+        
+        // Shuffle and add answer options
+        const shuffledOptions = shuffleArray([...question.options]);
+        shuffledOptions.forEach((option, optionIndex) => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        // Append elements to questionElement in the desired order
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv); // Feedback before dropdown
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+
+
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[currentStage].length;
+
+    quizData[currentStage].forEach((question, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === question.answer) {
+            resultElement.textContent = "נכון!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "תשובה שגויה.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 10) {
+            selectElement.value = question.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` התשובה הנכונה היא: ${question.answer}`;
+        }
+    });
+
+			console.log(`שלב ${currentStage + 1}: ${correctCount} נכונות מתוך ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`שלב ${currentStage + 1} הושלם. מוסיף ${totalQuestions} חיות.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`עובר לשלב ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("כל הכבוד! השלמת את כל השלבים.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("הגעת למספר הניסיונות המקסימלי. התשובות הנכונות נחשפו.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+        function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+            const incorrectCount = totalQuestions - correctCount;
+            let message = `קיבלת ${correctCount} נכונות ו-${incorrectCount} שגויות.`;
+            
+            if (correctCount === totalQuestions) {
+                message += " ציון מושלם!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+                message += " עבודה מצוינת! רואים שהנושא מתחיל להיות מובן!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+                message += " מאמץ טוב! נמשיך לתרגל כי השיפור קרוב!";
+            } else {
+                message += " לא לוותר! כל נסיון עוזר לך ללמוד. ננסה שוב!";
+            }
+
+            if (isStageComplete) {
+                message += "\n\n השלב הזה הסתיים, עוברים לשלב הבא.";
+            }
+
+            showModal(message);
+        }
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `נסיונות: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+        function updateStageNumber() {
+            const stageElement = document.getElementById("stage-number");
+            stageElement.textContent = `שלב ${currentStage + 1} מתוך ${stageCount}`;
+        }
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>
