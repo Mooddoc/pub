@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+	<style>
+
+	</style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read each question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>Identifying Rational Numbers</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+ 
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+        const quizData = [ 												//  PH3 - Quiz Data   	
+
+  // Stage 1 - Basic whole numbers
+  [
+    { 
+      question: "Which number comes right after 5?", 
+      options: ["6", "4", "7", "5", "3"], 
+      answer: "6" 
+    },
+    { 
+      question: "What number is one less than 10?", 
+      options: ["9", "11", "8", "10", "7"], 
+      answer: "9" 
+    },
+    { 
+      question: "Which is the smallest number?", 
+      options: ["0", "1", "2", "3", "4"], 
+      answer: "0" 
+    },
+    { 
+      question: "What number comes between 7 and 9?", 
+      options: ["8", "6", "10", "7", "9"], 
+      answer: "8" 
+    },
+    { 
+      question: "How many tens are in 20?", 
+      options: ["2", "20", "10", "0", "1"], 
+      answer: "2" 
+    }
+  ],
+
+  // Stage 2 - Simple number comparisons
+  [
+    { 
+      question: "Which number is greater: 15 or 12?", 
+      options: ["15", "12", "Both equal", "Cannot tell", "None"], 
+      answer: "15" 
+    },
+    { 
+      question: "What number is halfway between 0 and 10?", 
+      options: ["5", "4", "6", "0", "10"], 
+      answer: "5" 
+    },
+    { 
+      question: "Which is an even number?", 
+      options: ["4", "5", "7", "9", "3"], 
+      answer: "4" 
+    },
+    { 
+      question: "What's the largest single-digit number?", 
+      options: ["9", "10", "8", "11", "7"], 
+      answer: "9" 
+    },
+    { 
+      question: "How many ones are in 23?", 
+      options: ["3", "23", "2", "20", "13"], 
+      answer: "3" 
+    }
+  ],
+
+  // Stage 3 - Introduction to simple fractions
+  [
+    { 
+      question: "What fraction of a pizza is one half?", 
+      options: ["1/2", "2/1", "1/4", "2/2", "1/3"], 
+      answer: "1/2" 
+    },
+    { 
+      question: "Which fraction means the whole thing?", 
+      options: ["1", "1/2", "2/2", "1/4", "1/3"], 
+      answer: "1" 
+    },
+    { 
+      question: "How many quarters make a whole?", 
+      options: ["4", "2", "3", "1", "5"], 
+      answer: "4" 
+    },
+    { 
+      question: "What fraction is bigger than 1/2?", 
+      options: ["3/4", "1/4", "1/3", "1/8", "1/5"], 
+      answer: "3/4" 
+    },
+    { 
+      question: "Which means the same as one half?", 
+      options: ["2/4", "1/4", "3/4", "1/3", "1/5"], 
+      answer: "2/4" 
+    }
+  ],
+
+  // Stage 4 - Simple decimal introduction
+  [
+    { 
+      question: "Which decimal means one half?", 
+      options: ["0.5", "1.5", "0.2", "1.0", "2.0"], 
+      answer: "0.5" 
+    },
+    { 
+      question: "What comes after 3.0?", 
+      options: ["3.1", "3.2", "2.9", "4.0", "2.0"], 
+      answer: "3.1" 
+    },
+    { 
+      question: "Which is equal to 1?", 
+      options: ["1.0", "1.1", "0.9", "1.2", "0.1"], 
+      answer: "1.0" 
+    },
+    { 
+      question: "What decimal is less than 1?", 
+      options: ["0.5", "1.0", "1.5", "2.0", "3.0"], 
+      answer: "0.5" 
+    },
+    { 
+      question: "Which means two and a half?", 
+      options: ["2.5", "2.0", "1.5", "3.0", "0.5"], 
+      answer: "2.5" 
+    }
+  ],
+
+  // Stage 5 - Mixed number concepts
+  [
+    { 
+      question: "What's another way to write 1 1/2?", 
+      options: ["1.5", "2.5", "1.2", "2.0", "0.5"], 
+      answer: "1.5" 
+    },
+    { 
+      question: "Which is bigger: 2.5 or 2.05?", 
+      options: ["2.5", "2.05", "Equal", "Cannot tell", "Neither"], 
+      answer: "2.5" 
+    },
+    { 
+      question: "What fraction is 0.25 equal to?", 
+      options: ["1/4", "1/2", "2/4", "3/4", "1/3"], 
+      answer: "1/4" 
+    },
+    { 
+      question: "How do you write three quarters as a decimal?", 
+      options: ["0.75", "0.25", "0.50", "1.75", "0.35"], 
+      answer: "0.75" 
+    },
+    { 
+      question: "Which is NOT equal to one half?", 
+      options: ["0.25", "1/2", "0.5", "2/4", "50/100"], 
+      answer: "0.25" 
+    }
+  ],
+  // Stage 6 - More complex fractions
+  [
+    { 
+      question: "Which fraction is bigger: 2/4 or 3/4?", 
+      options: ["3/4", "2/4", "Equal", "Cannot tell", "Neither"], 
+      answer: "3/4" 
+    },
+    { 
+      question: "What fraction comes between 1/4 and 3/4?", 
+      options: ["2/4", "4/4", "1/2", "1/3", "3/3"], 
+      answer: "2/4" 
+    },
+    { 
+      question: "How many eighths make one half?", 
+      options: ["4", "2", "6", "8", "3"], 
+      answer: "4" 
+    },
+    { 
+      question: "Which fraction is equal to 2/6?", 
+      options: ["1/3", "1/2", "2/3", "3/6", "1/6"], 
+      answer: "1/3" 
+    },
+    { 
+      question: "What fraction of 9 is 3?", 
+      options: ["1/3", "3/9", "1/9", "2/3", "3/3"], 
+      answer: "1/3" 
+    }
+  ],
+  // Stage 7 - Decimal place values
+  [
+    { 
+      question: "What does the 5 mean in 2.54?", 
+      options: ["Tenths", "Ones", "Hundreds", "Hundredths", "Tens"], 
+      answer: "Tenths" 
+    },
+    { 
+      question: "Which decimal is bigger: 0.8 or 0.75?", 
+      options: ["0.8", "0.75", "Equal", "Cannot tell", "Neither"], 
+      answer: "0.8" 
+    },
+    { 
+      question: "How many tenths are in 1.4?", 
+      options: ["14", "4", "1", "40", "10"], 
+      answer: "14" 
+    },
+    { 
+      question: "What number is one tenth more than 3.2?", 
+      options: ["3.3", "3.4", "3.1", "4.2", "2.3"], 
+      answer: "3.3" 
+    },
+    { 
+      question: "Which decimal has 6 tenths?", 
+      options: ["0.6", "6.0", "0.06", "6.1", "0.66"], 
+      answer: "0.6" 
+    }
+  ],
+  // Stage 8 - Number line positioning
+  [
+    { 
+      question: "What number is halfway between 0.5 and 1.5?", 
+      options: ["1.0", "2.0", "1.5", "0.75", "2.5"], 
+      answer: "1.0" 
+    },
+    { 
+      question: "Which comes first on a number line: 1/4 or 1/2?", 
+      options: ["1/4", "1/2", "Equal", "Cannot tell", "Neither"], 
+      answer: "1/4" 
+    },
+    { 
+      question: "What number is exactly between 2.6 and 2.8?", 
+      options: ["2.7", "2.5", "2.9", "3.0", "2.4"], 
+      answer: "2.7" 
+    },
+    { 
+      question: "Which fraction is closest to 1: 3/4 or 5/6?", 
+      options: ["5/6", "3/4", "Equal", "Cannot tell", "Neither"], 
+      answer: "5/6" 
+    },
+    { 
+      question: "What's the next number: 1.1, 1.2, 1.3, ___?", 
+      options: ["1.4", "1.5", "2.0", "1.0", "2.3"], 
+      answer: "1.4" 
+    }
+  ],
+  // Stage 9 - Mixed numbers and improper fractions
+  [
+    { 
+      question: "What mixed number is equal to 7/4?", 
+      options: ["1 3/4", "1 1/4", "2 3/4", "1 2/4", "2 1/4"], 
+      answer: "1 3/4" 
+    },
+    { 
+      question: "Which is another way to write 2 1/2?", 
+      options: ["5/2", "2/1", "1/2", "3/2", "4/2"], 
+      answer: "5/2" 
+    },
+    { 
+      question: "How many fourths are in 1 1/4?", 
+      options: ["5", "4", "6", "3", "2"], 
+      answer: "5" 
+    },
+    { 
+      question: "What improper fraction equals 1 2/3?", 
+      options: ["5/3", "3/2", "4/3", "2/3", "3/3"], 
+      answer: "5/3" 
+    },
+    { 
+      question: "Which is bigger: 3/2 or 1 1/3?", 
+      options: ["3/2", "1 1/3", "Equal", "Cannot tell", "Neither"], 
+      answer: "3/2" 
+    }
+  ],
+  // Stage 10 - Introduction to negative numbers
+  [
+    { 
+      question: "Which number is less than 0?", 
+      options: ["-1", "1", "0", "2", "1/2"], 
+      answer: "-1" 
+    },
+    { 
+      question: "What number is opposite of 2?", 
+      options: ["-2", "2", "0", "1/2", "-1"], 
+      answer: "-2" 
+    },
+    { 
+      question: "Which is bigger: -1 or -2?", 
+      options: ["-1", "-2", "Equal", "Cannot tell", "Neither"], 
+      answer: "-1" 
+    },
+    { 
+      question: "What number is between -3 and -1?", 
+      options: ["-2", "0", "1", "-4", "2"], 
+      answer: "-2" 
+    },
+    { 
+      question: "How far is -1 from 1 on a number line?", 
+      options: ["2", "1", "0", "3", "-2"], 
+      answer: "2" 
+    }
+  ]
+
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+
+
+		   'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+           ,'Subject Overview 🗝️': `<div class="subject-overview-content">     <h1>Identifying Rational Numbers: A Comprehensive Guide</h1>     <p>Rational numbers are fundamental in mathematics, representing numbers that can be expressed as the quotient of two integers. They play a crucial role in various mathematical concepts, including fractions, decimals, and ratios. This guide will explore the definition of rational numbers, their properties, methods to identify them, and provide numerous examples to solidify your understanding.</p>     <hr>     <h2>Table of Contents</h2>     <ol>         <li><a href="#what-are-rational-numbers">What Are Rational Numbers?</a></li>         <li><a href="#general-characteristics-of-rational-numbers">General Characteristics of Rational Numbers</a></li>         <li><a href="#detailed-explanation-of-identifying-rational-numbers">Detailed Explanation of Identifying Rational Numbers</a>             <ul>                 <li><a href="#definition">Definition</a></li>                 <li><a href="#examples">Examples</a></li>                 <li><a href="#non-examples">Non-Examples</a></li>                 <li><a href="#operations">Operations with Rational Numbers</a></li>             </ul>         </li>         <li><a href="#conclusion">Conclusion</a></li>     </ol>     <hr>     <h2 id="what-are-rational-numbers">What Are Rational Numbers?</h2>     <p>Rational numbers are numbers that can be expressed as the ratio of two integers, where the numerator is an integer and the denominator is a non-zero integer. In other words, a rational number can be written in the form <strong>p/q</strong>, where <em>p</em> and <em>q</em> are integers and <em>q ≠ 0</em>.</p>     <p>Examples of rational numbers include:</p>     <ul>         <li><strong>1/2</strong></li>         <li><strong>-3/4</strong></li>         <li><strong>5</strong> (since 5 can be written as 5/1)</li>         <li><strong>0</strong> (since 0 can be written as 0/1)</li>     </ul>     <p>In this guide, we&#39;ll focus on understanding how to identify rational numbers through various methods and examples.</p>     <hr>     <h2 id="general-characteristics-of-rational-numbers">General Characteristics of Rational Numbers</h2>     <p>Before delving into the specifics of identifying rational numbers, it&#39;s important to understand some general properties that define them:</p>     <ol>         <li><strong>Fraction Representation</strong>: Every rational number can be expressed as a fraction where both the numerator and the denominator are integers, and the denominator is not zero.</li>         <li><strong>Terminating or Repeating Decimals</strong>: Rational numbers, when expressed in decimal form, either terminate after a finite number of digits or repeat a sequence of digits indefinitely.</li>         <li><strong>Closure Properties</strong>: Rational numbers are closed under addition, subtraction, multiplication, and division (except by zero).</li>         <li><strong>Density</strong>: Between any two rational numbers, there exists another rational number.</li>     </ol>     <hr>     <h2 id="detailed-explanation-of-identifying-rational-numbers">Detailed Explanation of Identifying Rational Numbers</h2>     <h3 id="definition">Definition</h3>     <p><strong>Rational Number:</strong> A number that can be expressed as the quotient or fraction <em>p/q</em> of two integers, where <em>p</em> is the numerator and <em>q</em> (≠ 0) is the denominator.</p>     <p>Formally, a number <em>r</em> is rational if there exist integers <em>p</em> and <em>q</em> such that:</p>     <p><em>r = p/q</em>, where <em>q ≠ 0</em>.</p>     <h3 id="examples">Examples</h3>     <p>Here are some examples of rational numbers:</p>     <ul>         <li><strong>3/4</strong>: Both 3 and 4 are integers, and 4 ≠ 0.</li>         <li><strong>-2/5</strong>: -2 and 5 are integers, and 5 ≠ 0.</li>         <li><strong>7</strong>: Can be written as 7/1.</li>         <li><strong>0</strong>: Can be written as 0/1.</li>         <li><strong>1.25</strong>: Can be written as 5/4.</li>     </ul>     <h3 id="non-examples">Non-Examples</h3>     <p>Numbers that cannot be expressed as a ratio of two integers are not rational numbers. These include:</p>     <ul>         <li><strong>√2</strong>: An irrational number, cannot be expressed as a simple fraction.</li>         <li><strong>π</strong>: An irrational number, cannot be expressed as a simple fraction.</li>         <li><strong>e</strong>: An irrational number, cannot be expressed as a simple fraction.</li>         <li><strong>1/3 with an infinite non-repeating decimal</strong>: If a decimal does not terminate or repeat, it is irrational.</li>     </ul>     <h3 id="operations">Operations with Rational Numbers</h3>     <p>Understanding how to perform operations with rational numbers can aid in identifying them:</p>     <ol>         <li><strong>Addition:</strong> The sum of two rational numbers is always rational.             <ul>                 <li><em>1/2 + 1/3 = 5/6</em></li>             </ul>         </li>         <li><strong>Subtraction:</strong> The difference between two rational numbers is always rational.             <ul>                 <li><em>3/4 - 1/2 = 1/4</em></li>             </ul>         </li>         <li><strong>Multiplication:</strong> The product of two rational numbers is always rational.             <ul>                 <li><em>2/3 * 3/4 = 1/2</em></li>             </ul>         </li>         <li><strong>Division:</strong> The quotient of two rational numbers is rational, provided the divisor is not zero.             <ul>                 <li><em>(4/5) ÷ (2/3) = 6/5</em></li>             </ul>         </li>     </ol>     <p>These operations reinforce that rational numbers maintain their rationality through standard arithmetic operations.</p>     <hr>     <h2 id="conclusion">Conclusion</h2>     <p>Identifying rational numbers is a fundamental skill in mathematics, essential for understanding fractions, decimals, and various numerical relationships. To recap:</p>     <ul>         <li><strong>Definition:</strong> A rational number can be expressed as the quotient of two integers, where the denominator is not zero.</li>         <li><strong>Characteristics:</strong> Rational numbers have terminating or repeating decimal representations and are closed under addition, subtraction, multiplication, and division.</li>         <li><strong>Identification:</strong> By expressing a number as a fraction or recognizing its decimal form, you can determine if it is rational.</li>         <li><strong>Operations:</strong> Performing arithmetic operations on rational numbers preserves their rationality.</li>     </ul>     <p><strong>Remember</strong>: Practice identifying and working with rational numbers to strengthen your mathematical foundation and problem-solving skills.</p>     <hr>     <p>By mastering the identification and manipulation of rational numbers, you enhance your ability to tackle more complex mathematical concepts with confidence. Continue practicing with various examples and exercises to solidify your understanding!</p> </div>`
+
+		
+		};
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    quizData[currentStage].forEach((question, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+        
+        // Create label for the question text
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${question.question}`;
+        
+        // Create div for result feedback
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+        
+        // Create select element for answers
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        
+        // Add default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+        
+        // Shuffle and add answer options
+        const shuffledOptions = shuffleArray([...question.options]);
+        shuffledOptions.forEach((option, optionIndex) => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        // Append elements to questionElement in the desired order
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv); // Feedback before dropdown
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+		function checkStage() {
+   attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[currentStage].length;
+
+    quizData[currentStage].forEach((question, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === question.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect answer.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 10) {
+            selectElement.value = question.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` The correct answer is: ${question.answer}`;
+        }
+    });
+
+    console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`Stage ${currentStage + 1} completed. Adding ${totalQuestions} animals.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`Moving to stage ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("Congratulations! You've completed all stages.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+		function updateStageNumber() {
+			const stageElement = document.getElementById("stage-number");
+			stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+		}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>

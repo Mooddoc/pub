@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-heb.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+	<title>✅ EZ42 - זה קל</title>
+	 
+	<style>
+	
+	</style>
+	
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+			<div class="logo-container">
+				<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+					<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+				</a>
+			</div>
+                <h2>הוראות</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                    <li>יש לקרוא כל שאלה בעיון.</li>
+                    <li>בחר/י את התשובה הנכונה ביותר מתוך התפריט הנפתח.</li>
+                    <li>יש ללחוץ על בדיקת תשובות כשמוכנים!</li>
+                    <li>יש להשלים את כל השאלות כדי לעבור לשלב הבא.</li>
+                    <li>לאחר 10 ניסיונות, התשובות הנכונות יוצגו.</li>
+                    <li>שיהיה כיף!</li>
+                </ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->		
+                <h1>זיהוי מספרים רציונליים</h1>
+				
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+
+                <div id="tabContent">
+                    <!--PLACHOLDERFORNEWGAME-START-->
+
+                    <!--PLACHOLDERFORNEWGAME-END-->
+                </div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות החיות</h2>
+				<p>החווה שלך גדלה תוך כדי התקדמות! כל שלב מוסיף חיות חדשות לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+        const quizData = [ 												//  PH3 - Quiz Data 
+
+ // שלב 1 - מספרים שלמים בסיסיים
+[
+  { 
+    question: "איזה מספר מגיע מיד אחרי 5?", 
+    options: ["6", "4", "7", "5", "3"], 
+    answer: "6" 
+  },
+  { 
+    question: "איזה מספר הוא אחד פחות מ-10?", 
+    options: ["9", "11", "8", "10", "7"], 
+    answer: "9" 
+  },
+  { 
+    question: "איזה מספר הוא הקטן ביותר?", 
+    options: ["0", "1", "2", "3", "4"], 
+    answer: "0" 
+  },
+  { 
+    question: "איזה מספר נמצא בין 7 ל-9?", 
+    options: ["8", "6", "10", "7", "9"], 
+    answer: "8" 
+  },
+  { 
+    question: "כמה עשרות יש ב-20?", 
+    options: ["2", "20", "10", "0", "1"], 
+    answer: "2" 
+  }
+],
+
+// שלב 2 - השוואות מספרים פשוטות
+[
+  { 
+    question: "איזה מספר גדול יותר: 15 או 12?", 
+    options: ["15", "12", "שניהם שווים", "לא ניתן לדעת", "אף אחד"], 
+    answer: "15" 
+  },
+  { 
+    question: "איזה מספר נמצא באמצע בין 0 ל-10?", 
+    options: ["5", "4", "6", "0", "10"], 
+    answer: "5" 
+  },
+  { 
+    question: "איזה מספר הוא זוגי?", 
+    options: ["4", "5", "7", "9", "3"], 
+    answer: "4" 
+  },
+  { 
+    question: "מהו המספר הגדול ביותר בעל ספרה אחת?", 
+    options: ["9", "10", "8", "11", "7"], 
+    answer: "9" 
+  },
+  { 
+    question: "כמה אחדים יש ב-23?", 
+    options: ["3", "23", "2", "20", "13"], 
+    answer: "3" 
+  }
+],
+
+// שלב 3 - מבוא לשברים פשוטים
+[
+  { 
+    question: "איזה שבר של פיצה הוא חצי?", 
+    options: ["1/2", "2/1", "1/4", "2/2", "1/3"], 
+    answer: "1/2" 
+  },
+  { 
+    question: "איזה שבר מציין את כל הדברים?", 
+    options: ["1", "1/2", "2/2", "1/4", "1/3"], 
+    answer: "1" 
+  },
+  { 
+    question: "כמה רבעים יוצרים שלם?", 
+    options: ["4", "2", "3", "1", "5"], 
+    answer: "4" 
+  },
+  { 
+    question: "איזה שבר גדול מ-1/2?", 
+    options: ["3/4", "1/4", "1/3", "1/8", "1/5"], 
+    answer: "3/4" 
+  },
+  { 
+    question: "איזה שבר משמעותו זהה לחצי?", 
+    options: ["2/4", "1/4", "3/4", "1/3", "1/5"], 
+    answer: "2/4" 
+  }
+],
+
+// שלב 4 - מבוא לעשרונים פשוטים
+[
+  { 
+    question: "איזה עשרוני מציין חצי?", 
+    options: ["0.5", "1.5", "0.2", "1.0", "2.0"], 
+    answer: "0.5" 
+  },
+  { 
+    question: "מה מגיע אחרי 3.0?", 
+    options: ["3.1", "3.2", "2.9", "4.0", "2.0"], 
+    answer: "3.1" 
+  },
+  { 
+    question: "איזה עשרוני שווה ל-1?", 
+    options: ["1.0", "1.1", "0.9", "1.2", "0.1"], 
+    answer: "1.0" 
+  },
+  { 
+    question: "איזה עשרוני פחות מ-1?", 
+    options: ["0.5", "1.0", "1.5", "2.0", "3.0"], 
+    answer: "0.5" 
+  },
+  { 
+    question: "איזה עשרוני מציין שתיים וחצי?", 
+    options: ["2.5", "2.0", "1.5", "3.0", "0.5"], 
+    answer: "2.5" 
+  }
+],
+
+// שלב 5 - מושגי מספרים מעורבים
+[
+  { 
+    question: "איך לכתוב את 1 1/2 בצורה אחרת?", 
+    options: ["1.5", "2.5", "1.2", "2.0", "0.5"], 
+    answer: "1.5" 
+  },
+  { 
+    question: "איזה גדול יותר: 2.5 או 2.05?", 
+    options: ["2.5", "2.05", "שווה", "לא ניתן לדעת", "אף אחד"], 
+    answer: "2.5" 
+  },
+  { 
+    question: "איזה שבר שווה ל-0.25?", 
+    options: ["1/4", "1/2", "2/4", "3/4", "1/3"], 
+    answer: "1/4" 
+  },
+  { 
+    question: "איך כותבים שלושה רבעים בצורה עשרונית?", 
+    options: ["0.75", "0.25", "0.50", "1.75", "0.35"], 
+    answer: "0.75" 
+  },
+  { 
+    question: "איזה אינו שווה לחצי?", 
+    options: ["0.25", "1/2", "0.5", "2/4", "50/100"], 
+    answer: "0.25" 
+  }
+],
+
+// שלב 6 - שברים מורכבים יותר
+[
+  { 
+    question: "איזה שבר גדול יותר: 2/4 או 3/4?", 
+    options: ["3/4", "2/4", "שניהם שווים", "לא ניתן לדעת", "אף אחד"], 
+    answer: "3/4" 
+  },
+  { 
+    question: "איזה שבר נמצא בין 1/4 ל-3/4?", 
+    options: ["2/4", "4/4", "1/2", "1/3", "3/3"], 
+    answer: "2/4" 
+  },
+  { 
+    question: "כמה שמיניות יוצרים חצי?", 
+    options: ["4", "2", "6", "8", "3"], 
+    answer: "4" 
+  },
+  { 
+    question: "איזה שבר שווה ל-2/6?", 
+    options: ["1/3", "1/2", "2/3", "3/6", "1/6"], 
+    answer: "1/3" 
+  },
+  { 
+    question: "איזה שבר של 9 הוא 3?", 
+    options: ["1/3", "3/9", "1/9", "2/3", "3/3"], 
+    answer: "1/3" 
+  }
+],
+
+// שלב 7 - ערכי עשרוניים
+[
+  { 
+    question: "מה משמעות ה-5 ב-2.54?", 
+    options: ["עשיריות", "יחידות", "מאיות", "אחוזים", "עשרות"], 
+    answer: "עשיריות" 
+  },
+  { 
+    question: "איזה עשרוני גדול יותר: 0.8 או 0.75?", 
+    options: ["0.8", "0.75", "שווה", "לא ניתן לדעת", "אף אחד"], 
+    answer: "0.8" 
+  },
+  { 
+    question: "כמה עשיריות יש ב-1.4?", 
+    options: ["14", "4", "1", "40", "10"], 
+    answer: "14" 
+  },
+  { 
+    question: "איזה מספר הוא עשירית יותר מ-3.2?", 
+    options: ["3.3", "3.4", "3.1", "4.2", "2.3"], 
+    answer: "3.3" 
+  },
+  { 
+    question: "איזה עשרוני מכיל 6 עשיריות?", 
+    options: ["0.6", "6.0", "0.06", "6.1", "0.66"], 
+    answer: "0.6" 
+  }
+],
+
+// שלב 8 - מיקום על קו המספרים
+[
+  { 
+    question: "איזה מספר נמצא באמצע בין 0.5 ל-1.5?", 
+    options: ["1.0", "2.0", "1.5", "0.75", "2.5"], 
+    answer: "1.0" 
+  },
+  { 
+    question: "מה מגיע ראשון על קו המספרים: 1/4 או 1/2?", 
+    options: ["1/4", "1/2", "שווים", "לא ניתן לדעת", "אף אחד"], 
+    answer: "1/4" 
+  },
+  { 
+    question: "איזה מספר נמצא בדיוק בין 2.6 ל-2.8?", 
+    options: ["2.7", "2.5", "2.9", "3.0", "2.4"], 
+    answer: "2.7" 
+  },
+  { 
+    question: "איזה שבר קרוב יותר ל-1: 3/4 או 5/6?", 
+    options: ["5/6", "3/4", "שווים", "לא ניתן לדעת", "אף אחד"], 
+    answer: "5/6" 
+  },
+  { 
+    question: "מהו המספר הבא: 1.1, 1.2, 1.3, ___?", 
+    options: ["1.4", "1.5", "2.0", "1.0", "2.3"], 
+    answer: "1.4" 
+  }
+],
+
+// שלב 9 - מספרים מעורבים ושברים לא נכונים
+[
+  { 
+    question: "איזה מספר מעורב שווה ל-7/4?", 
+    options: ["1 3/4", "1 1/4", "2 3/4", "1 2/4", "2 1/4"], 
+    answer: "1 3/4" 
+  },
+  { 
+    question: "איזה דרך נוספת לכתוב את 2 1/2?", 
+    options: ["5/2", "2/1", "1/2", "3/2", "4/2"], 
+    answer: "5/2" 
+  },
+  { 
+    question: "כמה רבעים יש ב-1 1/4?", 
+    options: ["5", "4", "6", "3", "2"], 
+    answer: "5" 
+  },
+  { 
+    question: "איזה שבר לא נכון שווה ל-1 2/3?", 
+    options: ["5/3", "3/2", "4/3", "2/3", "3/3"], 
+    answer: "5/3" 
+  },
+  { 
+    question: "איזה גדול יותר: 3/2 או 1 1/3?", 
+    options: ["3/2", "1 1/3", "שווים", "לא ניתן לדעת", "אף אחד"], 
+    answer: "3/2" 
+  }
+],
+
+// שלב 10 - מבוא למספרים שליליים
+[
+  { 
+    question: "איזה מספר קטן מ-0?", 
+    options: ["-1", "1", "0", "2", "1/2"], 
+    answer: "-1" 
+  },
+  { 
+    question: "איזה מספר הוא ההפך של 2?", 
+    options: ["-2", "2", "0", "1/2", "-1"], 
+    answer: "-2" 
+  },
+  { 
+    question: "איזה גדול יותר: -1 או -2?", 
+    options: ["-1", "-2", "שווים", "לא ניתן לדעת", "אף אחד"], 
+    answer: "-1" 
+  },
+  { 
+    question: "איזה מספר נמצא בין -3 ל- -1?", 
+    options: ["-2", "0", "1", "-4", "2"], 
+    answer: "-2" 
+  },
+  { 
+    question: "כמה רחוק -1 מ-1 על קו המספרים?", 
+    options: ["2", "1", "0", "3", "-2"], 
+    answer: "2" 
+  }
+]
+
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+	
+		'תרגול': `<div id="stage-number" class="stage-number">שלב 1 מתוך ${quizData.length}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">ניסיונות: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">בדיקת תשובות</button>`
+		,'לימוד הנושא 🗝️': 
+		`
+<div class="subject-overview-content subject-overview-content_heb">     <h1>זיהוי מספרים רציונליים: מדריך מקיף</h1>     <p>מספרים רציונליים הם יסודיים במתמטיקה, המייצגים מספרים שניתן לבטא כמנה של שני מספרים שלמים. הם משחקים תפקיד מכריע במגוון רחב של מושגים מתמטיים, כולל שברים, עשרוניים, וחלקים. מדריך זה יחקור את הגדרת המספרים הרציונליים, התכונות שלהם, שיטות לזיהוי שלהם, ויספק דוגמאות רבות לחיזוק ההבנה שלכם.</p>     <hr>     <h2 class="highlight_heb">תוכן העניינים</h2>     <ol>         <li><a href="#what-are-rational-numbers" class="highlight_heb">מהם מספרים רציונליים?</a></li>         <li><a href="#general-characteristics-of-rational-numbers" class="highlight_heb">מאפיינים כלליים של מספרים רציונליים</a></li>         <li><a href="#detailed-explanation-of-identifying-rational-numbers" class="highlight_heb">הסבר מפורט על זיהוי מספרים רציונליים</a>             <ul>                 <li><a href="#definition" class="highlight_heb">הגדרה</a></li>                 <li><a href="#examples" class="highlight_heb">דוגמאות</a></li>                 <li><a href="#non-examples" class="highlight_heb">אי-דוגמאות</a></li>                 <li><a href="#operations" class="highlight_heb">פעולות עם מספרים רציונליים</a></li>             </ul>         </li>         <li><a href="#conclusion" class="highlight_heb">סיכום</a></li>     </ol>     <hr>     <h2 id="what-are-rational-numbers" class="highlight_heb">מהם מספרים רציונליים?</h2>     <p>מספרים רציונליים הם מספרים שניתן לבטא כמנה של שני מספרים שלמים, כאשר המונה הוא מספר שלם והמכנה הוא מספר שלם שאינו אפס. במילים אחרות, מספר רציונלי ניתן לכתיבה בצורה <strong>p/q</strong>, כאשר <em>p</em> ו-<em>q</em> הם מספרים שלמים ו-<em>q ≠ 0</em>.</p>     <p>דוגמאות למספרים רציונליים כוללות:</p>     <ul>         <li><strong>1/2</strong></li>         <li><strong>-3/4</strong></li>         <li><strong>5</strong> (מאחר ו-5 ניתן לכתיבה כ-5/1)</li>         <li><strong>0</strong> (מאחר ו-0 ניתן לכתיבה כ-0/1)</li>     </ul>     <p>במדריך זה, נתמקד בהבנת כיצד לזהות מספרים רציונליים באמצעות שיטות ודוגמאות שונות.</p>     <hr>     <h2 id="general-characteristics-of-rational-numbers" class="highlight_heb">מאפיינים כלליים של מספרים רציונליים</h2>     <p>לפני שנצלול לפרטים של זיהוי מספרים רציונליים, חשוב להבין כמה תכונות כלליות שמגדירות אותם:</p>     <ol>         <li><strong>ייצוג בשבר</strong>: כל מספר רציונלי ניתן לביטוי כשבר שבו גם המונה וגם המכנה הם מספרים שלמים, והמכנה אינו אפס.</li>         <li><strong>עשרוניים מסיימים או חוזרים</strong>: מספרים רציונליים, כאשר הם מבוטאים בצורה עשרונית, או שמסתיימים לאחר מספר סופי של ספרות או חוזרים על רצף ספרות ללא סוף.</li>         <li><strong>סגירות תחת פעולות אריתמטיות</strong>: מספרים רציונליים סגורים תחת חיבור, חיסור, כפל וחילוק (למעט חילוק באפס).</li>         <li><strong>צפיפות</strong>: בין כל שני מספרים רציונליים קיים מספר רציונלי נוסף.</li>     </ol>     <hr>     <h2 id="detailed-explanation-of-identifying-rational-numbers" class="highlight_heb">הסבר מפורט על זיהוי מספרים רציונליים</h2>     <h3 id="definition" class="highlight_heb">הגדרה</h3>     <p><strong>מספר רציונלי:</strong> מספר שניתן לבטא כמנה או שבר <em>p/q</em> של שני מספרים שלמים, כאשר <em>p</em> הוא המונה ו-<em>q</em> (≠ 0) הוא המכנה.</p>     <p>פורמלית, מספר <em>r</em> הוא רציונלי אם קיימים מספרים שלמים <em>p</em> ו-<em>q</em> כך ש:</p>     <p><em>r = p/q</em>, כאשר <em>q ≠ 0</em>.</p>     <h3 id="examples" class="highlight_heb">דוגמאות</h3>     <p>הנה כמה דוגמאות למספרים רציונליים:</p>     <ul>         <li><strong>3/4</strong>: גם 3 וגם 4 הם מספרים שלמים, ו-4 ≠ 0.</li>         <li><strong>-2/5</strong>: -2 ו-5 הם מספרים שלמים, ו-5 ≠ 0.</li>         <li><strong>7</strong>: ניתן לכתוב כ-7/1.</li>         <li><strong>0</strong>: ניתן לכתוב כ-0/1.</li>         <li><strong>1.25</strong>: ניתן לכתוב כ-5/4.</li>     </ul>     <h3 id="non-examples" class="highlight_heb">אי-דוגמאות</h3>     <p>מספרים שאינם ניתנים לביטוי כמנה של שני מספרים שלמים אינם מספרים רציונליים. אלו כוללים:</p>     <ul>         <li><strong>√2</strong>: מספר אי-רציונלי, אינו ניתן לביטוי כשבר פשוט.</li>         <li><strong>π</strong>: מספר אי-רציונלי, אינו ניתן לביטוי כשבר פשוט.</li>         <li><strong>e</strong>: מספר אי-רציונלי, אינו ניתן לביטוי כשבר פשוט.</li>         <li><strong>1/3 עם עשרוני אינסופי לא חוזר</strong>: אם עשרוני אינו מסתיים או חוזר, הוא אי-רציונלי.</li>     </ul>     <h3 id="operations" class="highlight_heb">פעולות עם מספרים רציונליים</h3>     <p>הבנת כיצד לבצע פעולות עם מספרים רציונליים יכולה לסייע בזיהוי שלהם:</p>     <ol>         <li><strong>חיבור:</strong> סכום שני מספרים רציונליים תמיד רציונלי.             <ul>                 <li><em>1/2 + 1/3 = 5/6</em></li>             </ul>         </li>         <li><strong>חיסור:</strong> הפרש שני מספרים רציונליים תמיד רציונלי.             <ul>                 <li><em>3/4 - 1/2 = 1/4</em></li>             </ul>         </li>         <li><strong>כפל:</strong> מכפלת שני מספרים רציונליים תמיד רציונלית.             <ul>                 <li><em>2/3 * 3/4 = 1/2</em></li>             </ul>         </li>         <li><strong>חילוק:</strong> מנה שני מספרים רציונליים היא רציונלית, בתנאי שהמחלק אינו אפס.             <ul>                 <li><em>(4/5) ÷ (2/3) = 6/5</em></li>             </ul>         </li>     </ol>     <p>פעולות אלו מחזקות שמספרים רציונליים שומרים על רציונליותם באמצעות פעולות אריתמטיות סטנדרטיות.</p>     <hr>     <h2 id="conclusion" class="highlight_heb">סיכום</h2>     <p>זיהוי מספרים רציונליים הוא מיומנות בסיסית במתמטיקה, חיונית להבנת שברים, עשרוניים ויחסים מספריים שונים. לסיכום:</p>     <ul>         <li><strong>הגדרה:</strong> מספר רציונלי ניתן לביטוי כמנה של שני מספרים שלמים, כאשר המכנה אינו אפס.</li>         <li><strong>מאפיינים:</strong> למספרים רציונליים יש ייצוגים עשרוניים שמסתיימים או חוזרים, והם סגורים תחת חיבור, חיסור, כפל וחילוק.</li>         <li><strong>זיהוי:</strong> באמצעות ביטוי מספר כשבר או זיהוי הצורה העשרונית שלו, ניתן לקבוע אם הוא רציונלי.</li>         <li><strong>פעולות:</strong> ביצוע פעולות אריתמטיות על מספרים רציונליים שומר על רציונליותם.</li>     </ul>     <p><strong>זכרו</strong>: תרגול בזיהוי ועבודה עם מספרים רציונליים יחזק את היסודות המתמטיים שלכם ואת יכולות פתרון הבעיות.</p>     <hr>     <p>באמצעות שליטה בזיהוי ובפעולות עם מספרים רציונליים, תשפרו את יכולתכם להתמודד עם מושגים מתמטיים מורכבים יותר בביטחון. המשיכו לתרגל עם דוגמאות ותרגילים שונים לחיזוק ההבנה שלכם!</p> </div>
+
+		`
+
+		};
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'תרגול') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    quizData[currentStage].forEach((question, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+        
+        // Create label for the question text
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${question.question}`;
+        
+        // Create div for result feedback
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+        
+        // Create select element for answers
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        
+        // Add default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "בחירה";
+        select.appendChild(defaultOption);
+        
+        // Shuffle and add answer options
+        const shuffledOptions = shuffleArray([...question.options]);
+        shuffledOptions.forEach((option, optionIndex) => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        // Append elements to questionElement in the desired order
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv); // Feedback before dropdown
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+
+
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[currentStage].length;
+
+    quizData[currentStage].forEach((question, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === question.answer) {
+            resultElement.textContent = "נכון!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "תשובה שגויה.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 10) {
+            selectElement.value = question.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` התשובה הנכונה היא: ${question.answer}`;
+        }
+    });
+
+			console.log(`שלב ${currentStage + 1}: ${correctCount} נכונות מתוך ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`שלב ${currentStage + 1} הושלם. מוסיף ${totalQuestions} חיות.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`עובר לשלב ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("כל הכבוד! השלמת את כל השלבים.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("הגעת למספר הניסיונות המקסימלי. התשובות הנכונות נחשפו.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+        function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+            const incorrectCount = totalQuestions - correctCount;
+            let message = `קיבלת ${correctCount} נכונות ו-${incorrectCount} שגויות.`;
+            
+            if (correctCount === totalQuestions) {
+                message += " ציון מושלם!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+                message += " עבודה מצוינת! רואים שהנושא מתחיל להיות מובן!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+                message += " מאמץ טוב! נמשיך לתרגל כי השיפור קרוב!";
+            } else {
+                message += " לא לוותר! כל נסיון עוזר לך ללמוד. ננסה שוב!";
+            }
+
+            if (isStageComplete) {
+                message += "\n\n השלב הזה הסתיים, עוברים לשלב הבא.";
+            }
+
+            showModal(message);
+        }
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `נסיונות: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+        function updateStageNumber() {
+            const stageElement = document.getElementById("stage-number");
+            stageElement.textContent = `שלב ${currentStage + 1} מתוך ${stageCount}`;
+        }
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>
