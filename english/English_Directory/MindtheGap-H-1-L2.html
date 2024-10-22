@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <link rel="stylesheet" href="http://ez42.live/global/styles/styles-heb.css">
+    <title>✅ EZ42 - זה קל</title>
+	<style>
+
+	</style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+            <div id="sidePanel1" class="side-panel">
+                <div class="logo-container">
+                    <a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+                        <img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+                    </a>
+                </div>
+                <h2>הוראות</h2>
+                <ul>
+                    <li>יש לקרוא את המאמר בתשומת לב ולעבור לעמוד התרגול.</li>
+                    <li>הקלידו את התשובה הנכונה בתיבה.</li>
+                    <li>התשובה הנכונה היא תמיד מילה אחת באנגלית.</li>					
+                    <li>יש ללחוץ על בדיקת תשובות כשמוכנים!</li>
+                    <li>יש להשלים את כל השאלות כדי לעבור לשלב הבא.</li>
+                    <li>לאחר 10 ניסיונות, התשובות הנכונות יוצגו.</li>
+                    <li>שיהיה כיף!</li>
+                </ul>
+            </div>
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+            <div id="quizContainer" class="quiz-container">
+                <h1>מילוי הפערים - מסע המילים הגדול - 📘</h1>
+                <h1>Mind the Gap - Word Quest</h1>
+				
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+
+                <div id="tabContent"></div>
+            </div>
+
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות החיות</h2>
+                <p>החווה שלך גדלה תוך כדי התקדמות! כל שלב מוסיף חיות חדשות לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+        let attempts = 0;
+        let currentStage = 0;
+        const manuallySetDefaultTab = 1;
+
+
+        const quizData = [
+  // Stage 1
+  {
+    questions: [
+      { question: "Complete the word: Ap_le 🍎", answer: "Apple" },
+      { question: "Complete the word: Do_ 🐶", answer: "Dog" },
+      { question: "Complete the word: Su_ ☀️", answer: "Sun" },
+      { question: "Complete the word: Hou_e 🏠", answer: "House" },
+      { question: "Complete the word: Bo_k 📗", answer: "Book" },
+    ]
+  },
+  // Stage 2
+  {
+    questions: [
+      { question: "Complete the word: Ca_ 🐱", answer: "Cat" },
+      { question: "Complete the word: Tre_ 🌳", answer: "Tree" },
+      { question: "Complete the word: Bal_ 🏀", answer: "Ball" },
+      { question: "Complete the word: Sta_ ⭐", answer: "Star" },
+      { question: "Complete the word: Bi_d 🐦", answer: "Bird" },
+    ]
+  },
+  // Stage 3
+  {
+    questions: [
+      { question: "Complete the word: Moo_ 🌙", answer: "Moon" },
+      { question: "Complete the word: Flo_er 🌼", answer: "Flower" },
+      { question: "Complete the word: Rai_ 🌧️", answer: "Rain" },
+      { question: "Complete the word: Sho_s 👟", answer: "Shoes" },
+      { question: "Complete the word: Clo_k ⏰", answer: "Clock" },
+    ]
+  },
+  // Stage 4
+  {
+    questions: [
+      { question: "Complete the word: Clo_d ☁️", answer: "Cloud" },
+      { question: "Complete the word: Smi_e 😊", answer: "Smile" },
+      { question: "Complete the word: Boa_ 🚤", answer: "Boat" },
+      { question: "Complete the word: Umb_ella ☂️", answer: "Umbrella" },
+      { question: "Complete the word: Rai_bow 🌈", answer: "Rainbow" },
+    ]
+  },
+  // Stage 5
+  {
+    questions: [
+      { question: "Complete the word: Pen_il ✏️", answer: "Pencil" },
+      { question: "Complete the word: Fis_ 🐠", answer: "Fish" },
+      { question: "Complete the word: But_erfly 🦋", answer: "Butterfly" },
+      { question: "Complete the word: Bal_oon 🎈", answer: "Balloon" },
+      { question: "Complete the word: Sno_ ❄️", answer: "Snow" },
+    ]
+  },
+  // Stage 6
+  {
+    questions: [
+      { question: "Complete the word: Mus_c 🎵", answer: "Music" },
+      { question: "Complete the word: Ele_hant 🐘", answer: "Elephant" },
+      { question: "Complete the word: Bea_h 🏖️", answer: "Beach" },
+      { question: "Complete the word: Roc_et 🚀", answer: "Rocket" },
+      { question: "Complete the word: Lio_ 🦁", answer: "Lion" },
+    ]
+  },
+  // Stage 7
+  {
+    questions: [
+      { question: "Complete the word: Hai_ 💇", answer: "Hair" },
+      { question: "Complete the word: Bri_ge 🌉", answer: "Bridge" },
+      { question: "Complete the word: Dru_ 🥁", answer: "Drum" },
+      { question: "Complete the word: Gi_t 🎁", answer: "Gift" },
+      { question: "Complete the word: Fla_ 🏳️", answer: "Flag" },
+    ]
+  },
+  // Stage 8
+  {
+    questions: [
+      { question: "Complete the word: Hea_t ❤️", answer: "Heart" },
+      { question: "Complete the word: Hor_e 🐴", answer: "Horse" },
+      { question: "Complete the word: Moun_ain ⛰️", answer: "Mountain" },
+      { question: "Complete the word: Cam_ra 📷", answer: "Camera" },
+      { question: "Complete the word: Bru_h 🖌️", answer: "Brush" },
+    ]
+  },
+  // Stage 9
+  {
+    questions: [
+      { question: "Complete the word: Swi_ 🏊", answer: "Swim" },
+      { question: "Complete the word: Trai_ 🚂", answer: "Train" },
+      { question: "Complete the word: Pla_e ✈️", answer: "Plane" },
+      { question: "Complete the word: Turt_e 🐢", answer: "Turtle" },
+      { question: "Complete the word: Lig_t 💡", answer: "Light" },
+    ]
+  },
+  // Stage 10
+  {
+    questions: [
+      { question: "Complete the word: Glo_e 🌍", answer: "Globe" },
+      { question: "Complete the word: Cro_n 👑", answer: "Crown" },
+      { question: "Complete the word: Clow_ 🤡", answer: "Clown" },
+      { question: "Complete the word: Sca_f 🧣", answer: "Scarf" },
+      { question: "Complete the word: Rin_ 💍", answer: "Ring" },
+    ]
+  },
+  // Stage 11
+  {
+    questions: [
+      { question: "Complete the word: Cas_le 🏰", answer: "Castle" },
+      { question: "Complete the word: Sai_ ⛵", answer: "Sail" },
+      { question: "Complete the word: Ange_ 👼", answer: "Angel" },
+      { question: "Complete the word: Puzz_e 🧩", answer: "Puzzle" },
+      { question: "Complete the word: Bea_ 🐻", answer: "Bear" },
+    ]
+  },
+  // Stage 12
+  {
+    questions: [
+      { question: "Complete the word: Fro_ 🐸", answer: "Frog" },
+      { question: "Complete the word: Fir_ 🔥", answer: "Fire" },
+      { question: "Complete the word: Alie_ 👽", answer: "Alien" },
+      { question: "Complete the word: Ghos_ 👻", answer: "Ghost" },
+      { question: "Complete the word: Rob_t 🤖", answer: "Robot" },
+    ]
+  },
+  // Stage 13
+  {
+    questions: [
+      { question: "Complete the word: Mir_or 🔄", answer: "Mirror" },
+      { question: "Complete the word: Doo_ 🚪", answer: "Door" },
+      { question: "Complete the word: Ches_ ♟️", answer: "Chess" },
+      { question: "Complete the word: Cact_s 🌵", answer: "Cactus" },
+      { question: "Complete the word: Anch_r ⚓", answer: "Anchor" },
+    ]
+  },
+  // Stage 14
+  {
+    questions: [
+      { question: "Complete the word: Penc_l 🖊️", answer: "Pencil" },
+      { question: "Complete the word: Lock_r 🔐", answer: "Locker" },
+      { question: "Complete the word: Scis_ors ✂️", answer: "Scissors" },
+      { question: "Complete the word: Cand_e 🕯️", answer: "Candle" },
+      { question: "Complete the word: Mag_et 🧲", answer: "Magnet" },
+    ]
+  },
+  // Stage 15
+  {
+    questions: [
+      { question: "Complete the word: Soap_ox 🧼", answer: "Soapbox" },
+      { question: "Complete the word: Micr_phone 🎙️", answer: "Microphone" },
+      { question: "Complete the word: Telesc_pe 🔭", answer: "Telescope" },
+      { question: "Complete the word: Therm_meter 🌡️", answer: "Thermometer" },
+      { question: "Complete the word: Compa_s 🧭", answer: "Compass" },
+    ]
+  },
+  // Stage 16
+  {
+    questions: [
+      { question: "Complete the word: Guit_r 🎸", answer: "Guitar" },
+      { question: "Complete the word: Pian_ 🎹", answer: "Piano" },
+      { question: "Complete the word: Trump_t 🎺", answer: "Trumpet" },
+      { question: "Complete the word: Viol_n 🎻", answer: "Violin" },
+      { question: "Complete the word: Saxoph_ne 🎷", answer: "Saxophone" },
+    ]
+  },
+  // Stage 17
+  {
+    questions: [
+      { question: "Complete the word: Ladyb_g 🐞", answer: "Ladybug" },
+      { question: "Complete the word: Dolph_n 🐬", answer: "Dolphin" },
+      { question: "Complete the word: Octop_s 🐙", answer: "Octopus" },
+      { question: "Complete the word: Peng_in 🐧", answer: "Penguin" },
+      { question: "Complete the word: Kanga_oo 🦘", answer: "Kangaroo" },
+    ]
+  },
+  // Stage 18
+  {
+    questions: [
+      { question: "Complete the word: Rainc_at 🧥", answer: "Raincoat" },
+      { question: "Complete the word: Sungla_ses 🕶️", answer: "Sunglasses" },
+      { question: "Complete the word: Sca_ecrow 🎃", answer: "Scarecrow" },
+      { question: "Complete the word: Snowm_n ☃️", answer: "Snowman" },
+      { question: "Complete the word: Pumpk_n 🎃", answer: "Pumpkin" },
+    ]
+  },
+  // Stage 19
+  {
+    questions: [
+      { question: "Complete the word: Volca_o 🌋", answer: "Volcano" },
+      { question: "Complete the word: Torna_o 🌪️", answer: "Tornado" },
+      { question: "Complete the word: Earth_uake 🌍", answer: "Earthquake" },
+      { question: "Complete the word: Tsuna_i 🌊", answer: "Tsunami" },
+      { question: "Complete the word: Hurric_ne 🌀", answer: "Hurricane" },
+    ]
+  },
+  // Stage 20
+  {
+    questions: [
+      { question: "Complete the word: Teleph_ne 📞", answer: "Telephone" },
+      { question: "Complete the word: Compu_er 💻", answer: "Computer" },
+      { question: "Complete the word: Televi_ion 📺", answer: "Television" },
+      { question: "Complete the word: Headph_nes 🎧", answer: "Headphones" },
+      { question: "Complete the word: Keybo_rd ⌨️", answer: "Keyboard" },
+    ]
+  }
+        ];
+
+        const stateContents = {
+	
+		'תרגול': `<div id="stage-number" class="stage-number">שלב 1 מתוך ${quizData.length}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">ניסיונות: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">בדיקת תשובות</button>`
+
+		};
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.classList.toggle('expanded', isQuizExpanded && allowQuizExpansion);
+
+            if (isPanel1Visible) {
+                sidePanel1.classList.remove('hidden');
+                quizContainer.classList.remove('full-width');
+            } else {
+                sidePanel1.classList.add('hidden');
+                quizContainer.classList.add('full-width');
+            }
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.classList.toggle('hidden');
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.classList.remove('flex-grow');
+                label.classList.add('flex-none');
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.classList.remove('fixed-width');
+        }
+
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'תרגול') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+		function renderQuiz() {
+			const quizContainer = document.getElementById("quiz-content");
+			quizContainer.innerHTML = '';
+
+			const stageData = quizData[currentStage];
+
+			stageData.questions.forEach((question, index) => {
+				const questionElement = document.createElement("div");
+				questionElement.className = "question-one-line-ltr";
+				questionElement.style.cssText = "display: flex; align-items: center; width: 100%;";
+
+				questionElement.innerHTML = `
+					<label style="flex: 1; min-width: 0; padding-right: 10px; white-space: normal; word-wrap: break-word;">${question.question}</label>
+					<div class="input-wrapper" style="display: flex; align-items: center; white-space: nowrap;">
+						<span class="result" id="result${index}" style="margin-right: 5px;"></span>
+						<input type="text" id="q${index}" data-answer="${JSON.stringify(question.answer)}">
+					</div>
+				`;
+
+				quizContainer.appendChild(questionElement);
+			});
+
+			updateStageNumber();
+		}
+
+        function checkAnswer(userAnswer, correctAnswer) {
+            if (Array.isArray(correctAnswer)) {
+                const userAnswerArray = userAnswer.split(',').map(item => parseInt(item.trim()));
+                return correctAnswer.length === userAnswerArray.length &&
+                    correctAnswer.every(item => userAnswerArray.includes(item));
+            } else {
+                return parseInt(userAnswer) === correctAnswer;
+            }
+        }
+
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `נסיונות: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[currentStage].questions.length;
+
+    quizData[currentStage].questions.forEach((question, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const inputElement = document.getElementById(`q${index}`);
+        const userAnswer = inputElement.value.trim().toLowerCase();
+        const correctAnswer = question.answer.toLowerCase();
+
+        if (userAnswer === correctAnswer) {
+            resultElement.textContent = "נכון!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            if (attempts >= 10) {
+                resultElement.textContent = `תשובה לא נכונה. התשובה הנכונה היא: ${question.answer}`;
+                resultElement.style.color = "red";
+                inputElement.value = question.answer;
+                inputElement.disabled = true;
+            } else {
+                resultElement.textContent = "תשובה לא נכונה.";
+                resultElement.style.color = "red";
+            }
+        }
+    });
+
+    // Always show the encouraging popup after checking
+    showEncouragingPopup(correctCount, totalQuestions, correctCount === totalQuestions);
+
+    if (correctCount === totalQuestions) {
+        console.log(`שלב ${currentStage + 1} הושלם. מוסיף ${totalQuestions} חיות.`);
+        addAnimalsToFarm(totalQuestions);
+
+        if (currentStage < quizData.length - 1) {
+            singleStageConfetti();
+            currentStage++;
+            updateProgressBar();
+            console.log(`עובר לשלב ${currentStage + 1}`);
+            setTimeout(() => {
+                attempts = 0;
+                renderQuiz();
+                document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+            }, 1500);
+        } else {
+            currentStage++;
+            updateProgressBar();
+            allStagesConfetti();
+            showModal("כל הכבוד! השלמת את כל השלבים.");
+        }
+    } else {
+        if (attempts >= 10) {
+            showModal("הגעת למספר הניסיונות המקסימלי. התשובות הנכונות נחשפו.");
+        }
+    }
+
+    scrollToTop();
+}
+
+function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+    const incorrectCount = totalQuestions - correctCount;
+    let message = `קיבלת ${correctCount} נכונות ו-${incorrectCount} שגויות.`;
+
+    if (correctCount === totalQuestions) {
+        message += " ציון מושלם!";
+    } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+        message += " עבודה מצוינת! רואים שהנושא מתחיל להיות מובן!";
+    } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+        message += " מאמץ טוב! נמשיך לתרגל כי השיפור קרוב!";
+    } else {
+        message += " לא לוותר! כל נסיון עוזר לך ללמוד. ננסה שוב!";
+    }
+
+    if (isStageComplete) {
+        message += "\n\n השלב הזה הסתיים, עוברים לשלב הבא.";
+    }
+
+    showModal(message);
+}
+
+        function updateProgressBar() {
+            const progressBar = document.getElementById("progress-bar");
+            const completedStages = currentStage;
+            const progress = (completedStages / quizData.length) * 100;
+            const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+            progressBar.style.width = `${roundedProgress}%`;
+            progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+        }
+
+        function updateStageNumber() {
+            const stageElement = document.getElementById("stage-number");
+            stageElement.textContent = `שלב ${currentStage + 1} מתוך ${stageCount}`;
+        }
+
+        function singleStageConfetti() {
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+            confetti({
+                angle: randomInRange(55, 125),
+                spread: randomInRange(50, 70),
+                particleCount: randomInRange(50, 100),
+                origin: { y: 0.6 },
+            });
+        }
+
+        function allStagesConfetti() {
+            const defaults = {
+                spread: 360,
+                ticks: 50,
+                gravity: 0,
+                decay: 0.94,
+                startVelocity: 30,
+                shapes: ["star"],
+                colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+            };
+            function shoot() {
+                confetti({
+                    ...defaults,
+                    particleCount: 40,
+                    scalar: 1.2,
+                    shapes: ["star"],
+                });
+                confetti({
+                    ...defaults,
+                    particleCount: 10,
+                    scalar: 0.75,
+                    shapes: ["circle"],
+                });
+            }
+            setTimeout(shoot, 0);
+            setTimeout(shoot, 100);
+            setTimeout(shoot, 200);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+		function initializeSwitch() {
+			const switchElement = document.getElementById('multiStateSwitch');
+			const labelsContainer = switchElement.querySelector('.switch-labels');
+			const switchContainer = document.getElementById('switchContainer');
+
+			const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+
+			if (activeStates.length <= 1) {
+				switchContainer.style.display = 'none';  // Use style.display instead of classList
+				if (activeStates.length === 1) {
+					showContent(activeStates[0]);
+				}
+				return;
+			}
+
+            switchContainer.classList.remove('hidden');
+
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+        let farmAnimals = [];
+
+        function addAnimalsToFarm(count) {
+            const animalFarm = document.getElementById('animalFarm');
+            let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+            console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+            for (let i = 0; i < count; i++) {
+                if (availableAnimals.length === 0) {
+                    console.log("No more unique animals available!");
+                    break;
+                }
+
+                const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+                const chosenAnimal = availableAnimals[randomIndex];
+
+                const animalElement = document.createElement('li');
+                animalElement.textContent = chosenAnimal;
+                animalFarm.appendChild(animalElement);
+
+                farmAnimals.push(chosenAnimal);
+                availableAnimals.splice(randomIndex, 1);
+                console.log(`Added animal: ${chosenAnimal}`);
+            }
+
+            console.log(`Farm size after addition: ${farmAnimals.length}`);
+            logAnimalFarmState();
+        }
+
+        function logAnimalFarmState() {
+            console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+            console.log(farmAnimals);
+        }
+
+        const animals = [
+            "🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+            "🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+            "🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+            "🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+            "🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+            "🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+            "🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+            "🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+            "🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+            "🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+            "🐷", "🐩", "🐘", "🐸", "🐝"
+        ];
+
+function showModal(message) {
+    const modal = document.getElementById("quizModal");
+    const modalMessage = document.getElementById("modalMessage");
+    const modalButton = document.getElementById("modalButton");
+    const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+    modalMessage.textContent = message;
+    modal.style.display = "block";
+
+    modalButton.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    modalClose.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+}
+
+        window.addEventListener('load', () => {
+            initializeSwitch();
+            renderQuiz();
+            adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Scroll to top button functionality
+        window.onscroll = function() {
+            const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                scrollToTopBtn.classList.add('show');
+            } else {
+                scrollToTopBtn.classList.remove('show');
+            }
+        };
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};			
+    </script>
+</body>
+</html>
