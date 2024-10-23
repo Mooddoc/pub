@@ -1,0 +1,2075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+	<style>
+ 
+	</style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read the text and questions carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>Comparing and Ordering Fractions, Decimals, and Percentages</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+ 
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+																		//  PH3 - Quiz Data 
+        const quizData = [ 												   	
+					{
+					  "stages": [
+						// Stage 1
+						{
+						  "text": "Alex has three ribbons of different lengths. The first ribbon is 1/2 meter long, the second ribbon is 0.25 meters long, and the third ribbon is 75% of a meter long.",
+						  "questions": [
+							{
+							  "question": "Which ribbon is the longest?",
+							  "options": [
+								"The ribbon that is 1/2 meter long",
+								"The ribbon that is 0.25 meters long",
+								"The ribbon that is 75% of a meter long",
+								"All ribbons are the same length",
+								"There is not enough information"
+							  ],
+							  "answer": "The ribbon that is 75% of a meter long"
+							},
+							{
+							  "question": "Which ribbon is the shortest?",
+							  "options": [
+								"The ribbon that is 1/2 meter long",
+								"The ribbon that is 0.25 meters long",
+								"The ribbon that is 75% of a meter long",
+								"All ribbons are the same length",
+								"There is not enough information"
+							  ],
+							  "answer": "The ribbon that is 0.25 meters long"
+							},
+							{
+							  "question": "Convert 1/2 meter to a decimal.",
+							  "options": [
+								"0.2",
+								"0.5",
+								"0.75",
+								"0.25",
+								"1.5"
+							  ],
+							  "answer": "0.5"
+							},
+							{
+							  "question": "Convert 75% to a decimal.",
+							  "options": [
+								"0.75",
+								"7.5",
+								"0.075",
+								"1.75",
+								"75"
+							  ],
+							  "answer": "0.75"
+							},
+							{
+							  "question": "Arrange the ribbon lengths from shortest to longest.",
+							  "options": [
+								"0.25 m, 1/2 m, 75% m",
+								"1/2 m, 0.25 m, 75% m",
+								"75% m, 1/2 m, 0.25 m",
+								"1/2 m, 75% m, 0.25 m",
+								"All ribbons are the same length"
+							  ],
+							  "answer": "0.25 m, 1/2 m, 75% m"
+							}
+						  ]
+						},
+						// Stage 2
+						{
+						  "text": "Mia baked three types of cookies. She sold 0.6 of the chocolate cookies, 2/5 of the oatmeal cookies, and 65% of the peanut butter cookies at the bake sale.",
+						  "questions": [
+							{
+							  "question": "Which type of cookie did Mia sell the most of?",
+							  "options": [
+								"Chocolate cookies",
+								"Oatmeal cookies",
+								"Peanut butter cookies",
+								"She sold the same amount of each type",
+								"She didn't sell any cookies"
+							  ],
+							  "answer": "Peanut butter cookies"
+							},
+							{
+							  "question": "Convert 2/5 to a decimal.",
+							  "options": [
+								"0.4",
+								"0.25",
+								"0.5",
+								"0.2",
+								"0.75"
+							  ],
+							  "answer": "0.4"
+							},
+							{
+							  "question": "Which fraction represents the smallest portion sold?",
+							  "options": [
+								"0.6",
+								"2/5",
+								"65%",
+								"All portions are equal",
+								"Not enough information"
+							  ],
+							  "answer": "2/5"
+							},
+							{
+							  "question": "Arrange the portions sold from least to greatest.",
+							  "options": [
+								"2/5, 0.6, 65%",
+								"65%, 0.6, 2/5",
+								"0.6, 2/5, 65%",
+								"2/5, 65%, 0.6",
+								"All portions are equal"
+							  ],
+							  "answer": "2/5, 0.6, 65%"
+							},
+							{
+							  "question": "What percentage of oatmeal cookies did Mia sell?",
+							  "options": [
+								"40%",
+								"60%",
+								"65%",
+								"2%",
+								"25%"
+							  ],
+							  "answer": "40%"
+							}
+						  ]
+						},
+						// Stage 3
+						{
+						  "text": "Liam ran 0.8 kilometers on Monday, 3/4 kilometers on Wednesday, and 85% of a kilometer on Friday.",
+						  "questions": [
+							{
+							  "question": "On which day did Liam run the shortest distance?",
+							  "options": [
+								"Monday",
+								"Wednesday",
+								"Friday",
+								"He ran the same distance each day",
+								"He didn't run any day"
+							  ],
+							  "answer": "Wednesday"
+							},
+							{
+							  "question": "Convert 85% to a decimal.",
+							  "options": [
+								"0.85",
+								"8.5",
+								"0.085",
+								"1.85",
+								"85"
+							  ],
+							  "answer": "0.85"
+							},
+							{
+							  "question": "Arrange the distances Liam ran from greatest to least.",
+							  "options": [
+								"Friday, Monday, Wednesday",
+								"Monday, Friday, Wednesday",
+								"Wednesday, Monday, Friday",
+								"Monday, Wednesday, Friday",
+								"All distances are equal"
+							  ],
+							  "answer": "Friday, Monday, Wednesday"
+							},
+							{
+							  "question": "Which distance is equivalent to 75% of a kilometer?",
+							  "options": [
+								"0.75 km",
+								"0.85 km",
+								"0.8 km",
+								"75 km",
+								"0.075 km"
+							  ],
+							  "answer": "0.75 km"
+							},
+							{
+							  "question": "By how much did Liam run more on Friday than on Wednesday?",
+							  "options": [
+								"0.1 km",
+								"0.05 km",
+								"0.15 km",
+								"1 km",
+								"0 km"
+							  ],
+							  "answer": "0.1 km"
+							}
+						  ]
+						},
+						// Stage 4
+						{
+						  "text": "Sophia is comparing the grades she received on three tests. She scored 90%, 0.85, and 17/20 on the tests.",
+						  "questions": [
+							{
+							  "question": "Which test did Sophia score the highest on?",
+							  "options": [
+								"The test she scored 90% on",
+								"The test she scored 0.85 on",
+								"The test she scored 17/20 on",
+								"All scores are equal",
+								"She failed all tests"
+							  ],
+							  "answer": "The test she scored 90% on"
+							},
+							{
+							  "question": "Which two tests did Sophia score the same on?",
+							  "options": [
+								"90% and 0.85",
+								"0.85 and 17/20",
+								"90% and 17/20",
+								"All tests have different scores",
+								"All tests have the same score"
+							  ],
+							  "answer": "0.85 and 17/20"
+							},
+							{
+							  "question": "Convert 17/20 to a decimal.",
+							  "options": [
+								"0.85",
+								"0.75",
+								"0.95",
+								"0.65",
+								"1.15"
+							  ],
+							  "answer": "0.85"
+							},
+							{
+							  "question": "Arrange Sophia's scores from lowest to highest.",
+							  "options": [
+								"0.85, 17/20, 90%",
+								"17/20, 0.85, 90%",
+								"90%, 17/20, 0.85",
+								"0.85, 90%, 17/20",
+								"All scores are equal"
+							  ],
+							  "answer": "0.85/17/20, 90%"
+							},
+							{
+							  "question": "What fraction represents 85%?",
+							  "options": [
+								"17/20",
+								"9/10",
+								"3/4",
+								"85/100",
+								"8/5"
+							  ],
+							  "answer": "17/20"
+							}
+						  ]
+						},
+						// Stage 5
+						{
+						  "text": "Jacob is filling three containers with water. The first container is filled to 5/8 of its capacity, the second is filled to 62.5%, and the third is filled to 0.6 of its capacity.",
+						  "questions": [
+							{
+							  "question": "Which container is the most full?",
+							  "options": [
+								"The first container",
+								"The second container",
+								"The third container",
+								"The first and second containers",
+								"All containers are equally full"
+							  ],
+							  "answer": "The first and second containers"
+							},
+							{
+							  "question": "Arrange the containers from least full to most full.",
+							  "options": [
+								"Third, first and second (tie)",
+								"First, second, third",
+								"Third, second, first",
+								"Third, first, second",
+								"All containers are equally full"
+							  ],
+							  "answer": "Third, first and second (tie)"
+							},
+							{
+							  "question": "Convert 5/8 to a percentage.",
+							  "options": [
+								"62.5%",
+								"60%",
+								"65%",
+								"75%",
+								"80%"
+							  ],
+							  "answer": "62.5%"
+							},
+							{
+							  "question": "Which of the following represents the smallest fraction?",
+							  "options": [
+								"5/8",
+								"62.5%",
+								"0.6",
+								"All are equal",
+								"Cannot be determined"
+							  ],
+							  "answer": "0.6"
+							},
+							{
+							  "question": "How much more full is the first container than the third container?",
+							  "options": [
+								"2.5%",
+								"0.025%",
+								"25%",
+								"0.25%",
+								"They are the same"
+							  ],
+							  "answer": "2.5%"
+							}
+						  ]
+						},
+						// Stage 6
+						{
+						  "text": "Olivia bought fabric pieces of different lengths for her sewing project. She has pieces measuring 0.33 meters, 1/3 meters, and 33% of a meter.",
+						  "questions": [
+							{
+							  "question": "Arrange the fabric lengths from shortest to longest.",
+							  "options": [
+								"0.33 m, 33% m, 1/3 m",
+								"33% m, 1/3 m, 0.33 m",
+								"All lengths are equal",
+								"1/3 m, 33% m, 0.33 m",
+								"Cannot determine"
+							  ],
+							  "answer": "All lengths are equal"
+							},
+							{
+							  "question": "Convert 1/3 to a decimal.",
+							  "options": [
+								"0.333...",
+								"0.33",
+								"0.3",
+								"0.35",
+								"0.25"
+							  ],
+							  "answer": "0.333..."
+							},
+							{
+							  "question": "Which of the following is the largest?",
+							  "options": [
+								"33%",
+								"0.33",
+								"1/3",
+								"All are equal",
+								"None of the above"
+							  ],
+							  "answer": "All are equal"
+							},
+							{
+							  "question": "Olivia wants to double the length of the 0.33-meter piece. What will be the new length?",
+							  "options": [
+								"0.66 meters",
+								"0.6 meters",
+								"0.333 meters",
+								"1 meter",
+								"0.99 meters"
+							  ],
+							  "answer": "0.66 meters"
+							},
+							{
+							  "question": "What percentage of a meter is 1/3?",
+							  "options": [
+								"33.3%",
+								"30%",
+								"25%",
+								"66%",
+								"75%"
+							  ],
+							  "answer": "33.3%"
+							}
+						  ]
+						},
+						// Stage 7
+						{
+						  "text": "Ethan is comparing the amounts of sugar in different drinks. Drink A has 0.45 liters of sugar per liter, Drink B has 9/20 liters of sugar per liter, and Drink C has 47% sugar per liter.",
+						  "questions": [
+							{
+							  "question": "Which drink has the most sugar per liter?",
+							  "options": [
+								"Drink A",
+								"Drink B",
+								"Drink C",
+								"Drinks A and B have the most",
+								"All drinks have the same amount"
+							  ],
+							  "answer": "Drink C"
+							},
+							{
+							  "question": "Arrange the drinks from least to most sugar.",
+							  "options": [
+								"Drinks A and B, then Drink C",
+								"Drink A, Drink B, Drink C",
+								"Drink C, Drink A, Drink B",
+								"Drink A and B, then Drink C",
+								"All drinks have the same amount"
+							  ],
+							  "answer": "Drinks A and B, then Drink C"
+							},
+							{
+							  "question": "Convert 9/20 to a decimal.",
+							  "options": [
+								"0.45",
+								"0.9",
+								"0.47",
+								"0.5",
+								"0.4"
+							  ],
+							  "answer": "0.45"
+							},
+							{
+							  "question": "How much more sugar does Drink C have compared to Drink A?",
+							  "options": [
+								"2%",
+								"0.2%",
+								"20%",
+								"0.02 liters",
+								"No difference"
+							  ],
+							  "answer": "2%"
+							},
+							{
+							  "question": "What fraction represents 47%?",
+							  "options": [
+								"47/100",
+								"23.5/50",
+								"94/200",
+								"All of the above",
+								"None of the above"
+							  ],
+							  "answer": "All of the above"
+							}
+						  ]
+						},
+						// Stage 8
+						{
+						  "text": "Grace is comparing the time she spends on different activities per day. She spends 3/5 of an hour reading, 0.6 hours exercising, and 65% of an hour cooking.",
+						  "questions": [
+							{
+							  "question": "Which activity does Grace spend the most time on?",
+							  "options": [
+								"Reading",
+								"Exercising",
+								"Cooking",
+								"Reading and exercising equally",
+								"All activities equally"
+							  ],
+							  "answer": "Cooking"
+							},
+							{
+							  "question": "Arrange the activities from least to most time spent.",
+							  "options": [
+								"Reading and exercising, then cooking",
+								"Reading, exercising, cooking",
+								"Exercising, reading, cooking",
+								"Reading, cooking, exercising",
+								"All activities equal"
+							  ],
+							  "answer": "Reading and exercising, then cooking"
+							},
+							{
+							  "question": "Convert 65% to a decimal.",
+							  "options": [
+								"0.65",
+								"6.5",
+								"0.055",
+								"0.75",
+								"0.6"
+							  ],
+							  "answer": "0.65"
+							},
+							{
+							  "question": "What fraction represents 60%?",
+							  "options": [
+								"3/5",
+								"2/3",
+								"3/4",
+								"6/10",
+								"Both 3/5 and 6/10"
+							  ],
+							  "answer": "Both 3/5 and 6/10"
+							},
+							{
+							  "question": "How much more time does Grace spend cooking compared to reading?",
+							  "options": [
+								"3 minutes",
+								"5 minutes",
+								"0.05 minutes",
+								"15 minutes",
+								"No difference"
+							  ],
+							  "answer": "3 minutes"
+							}
+						  ]
+						},
+						// Stage 9
+						{
+						  "text": "Daniel ate portions of three different pizzas. He ate 0.4 of a cheese pizza, 2/5 of a pepperoni pizza, and 40% of a veggie pizza.",
+						  "questions": [
+							{
+							  "question": "Which pizza did Daniel eat the most of?",
+							  "options": [
+								"Cheese pizza",
+								"Pepperoni pizza",
+								"Veggie pizza",
+								"He ate the same amount of each pizza",
+								"He didn't eat any pizza"
+							  ],
+							  "answer": "He ate the same amount of each pizza"
+							},
+							{
+							  "question": "Convert 2/5 to a decimal.",
+							  "options": [
+								"0.4",
+								"0.5",
+								"0.25",
+								"0.2",
+								"0.45"
+							  ],
+							  "answer": "0.4"
+							},
+							{
+							  "question": "What percentage represents 0.4?",
+							  "options": [
+								"40%",
+								"4%",
+								"0.4%",
+								"400%",
+								"44%"
+							  ],
+							  "answer": "40%"
+							},
+							{
+							  "question": "Arrange the pizza portions from least to greatest.",
+							  "options": [
+								"All portions are equal",
+								"Cheese, pepperoni, veggie",
+								"Veggie, pepperoni, cheese",
+								"Pepperoni, cheese, veggie",
+								"Cannot determine"
+							  ],
+							  "answer": "All portions are equal"
+							},
+							{
+							  "question": "If Daniel wants to eat half of a pizza, how much more does he need to eat?",
+							  "options": [
+								"0.1 of a pizza",
+								"0.05 of a pizza",
+								"0.2 of a pizza",
+								"0.4 of a pizza",
+								"He already ate half"
+							  ],
+							  "answer": "0.1 of a pizza"
+							}
+						  ]
+						},
+						// Stage 10
+						{
+						  "text": "Emily is comparing weights of three fruits. An apple weighs 0.55 kg, a banana weighs 11/20 kg, and an orange weighs 54% of a kg.",
+						  "questions": [
+							{
+							  "question": "Which fruit is the heaviest?",
+							  "options": [
+								"Apple and banana equally",
+								"Apple",
+								"Banana",
+								"Orange",
+								"All fruits weigh the same"
+							  ],
+							  "answer": "Apple and banana equally"
+							},
+							{
+							  "question": "Arrange the fruits from lightest to heaviest.",
+							  "options": [
+								"Orange, apple and banana (equal)",
+								"Orange, apple, banana",
+								"Orange, banana, apple",
+								"All fruits weigh the same",
+								"Cannot determine"
+							  ],
+							  "answer": "Orange, apple and banana (equal)"
+							},
+							{
+							  "question": "Convert 11/20 to a decimal.",
+							  "options": [
+								"0.55",
+								"0.5",
+								"0.6",
+								"0.525",
+								"0.5"
+							  ],
+							  "answer": "0.55"
+							},
+							{
+							  "question": "What percentage represents 0.55?",
+							  "options": [
+								"55%",
+								"5.5%",
+								"0.55%",
+								"550%",
+								"50%"
+							  ],
+							  "answer": "55%"
+							},
+							{
+							  "question": "How much heavier is the apple than the orange?",
+							  "options": [
+								"0.01 kg",
+								"0.1 kg",
+								"0.001 kg",
+								"0.05 kg",
+								"They weigh the same"
+							  ],
+							  "answer": "0.01 kg"
+							}
+						  ]
+						},
+						// Stage 11
+						{
+						  "text": "A farmer has three fields with different crop yields. Field A yields 0.7 tons per acre, Field B yields 3/5 tons per acre, and Field C yields 68% tons per acre.",
+						  "questions": [
+							// Question 11.1
+							{
+							  "question": "Which field has the highest yield per acre?",
+							  "options": [
+								"Field A",
+								"Field B",
+								"Field C",
+								"Fields A and C equally",
+								"Fields B and C equally"
+							  ],
+							  "answer": "Field A"
+							},
+							// Question 11.2
+							{
+							  "question": "Convert 3/5 to a decimal.",
+							  "options": [
+								"0.6",
+								"0.5",
+								"0.65",
+								"0.7",
+								"0.75"
+							  ],
+							  "answer": "0.6"
+							},
+							// Question 11.3
+							{
+							  "question": "Which field has the lowest yield per acre?",
+							  "options": [
+								"Field B",
+								"Field C",
+								"Field A",
+								"Fields B and C equally",
+								"Fields A and B equally"
+							  ],
+							  "answer": "Field B"
+							},
+							// Question 11.4
+							{
+							  "question": "Arrange the field yields from highest to lowest.",
+							  "options": [
+								"Field A, Field C, Field B",
+								"Field C, Field A, Field B",
+								"Field A, Field B, Field C",
+								"Field B, Field C, Field A",
+								"Field C, Field B, Field A"
+							  ],
+							  "answer": "Field A, Field C, Field B"
+							},
+							// Question 11.5
+							{
+							  "question": "What percentage represents Field A's yield?",
+							  "options": [
+								"70%",
+								"7%",
+								"0.7%",
+								"700%",
+								"65%"
+							  ],
+							  "answer": "70%"
+							}
+						  ]
+						},
+						// Stage 12
+						{
+						  "text": "Natalie is comparing the durations of three songs. Song X is 4/5 minutes long, Song Y is 0.78 minutes long, and Song Z is 80% of a minute long.",
+						  "questions": [
+							// Question 12.1
+							{
+							  "question": "Which song is the longest?",
+							  "options": [
+								"Song X",
+								"Song Y",
+								"Song Z",
+								"Songs X and Z equally",
+								"All songs are equal in length"
+							  ],
+							  "answer": "Songs X and Z equally"
+							},
+							// Question 12.2
+							{
+							  "question": "Convert 4/5 to a decimal.",
+							  "options": [
+								"0.8",
+								"0.75",
+								"0.85",
+								"0.78",
+								"0.7"
+							  ],
+							  "answer": "0.8"
+							},
+							// Question 12.3
+							{
+							  "question": "Which song is the shortest?",
+							  "options": [
+								"Song Y",
+								"Song X",
+								"Song Z",
+								"Songs Y and Z equally",
+								"Cannot determine"
+							  ],
+							  "answer": "Song Y"
+							},
+							// Question 12.4
+							{
+							  "question": "Arrange the songs from shortest to longest.",
+							  "options": [
+								"Song Y, Songs X and Z (equal)",
+								"Songs X and Z (equal), Song Y",
+								"Song Z, Song Y, Song X",
+								"Song Y, Song Z, Song X",
+								"All songs are equal in length"
+							  ],
+							  "answer": "Song Y, Songs X and Z (equal)"
+							},
+							// Question 12.5
+							{
+							  "question": "What percentage represents Song Y's duration?",
+							  "options": [
+								"78%",
+								"7.8%",
+								"0.78%",
+								"87%",
+								"80%"
+							  ],
+							  "answer": "78%"
+							}
+						  ]
+						},
+						// Stage 13
+						{
+						  "text": "A tank is filled with water to different levels over three days. On Monday, it is filled to 0.9 of its capacity. On Tuesday, it is filled to 9/10 of its capacity. On Wednesday, it is filled to 88% of its capacity.",
+						  "questions": [
+							// Question 13.1
+							{
+							  "question": "On which day is the tank most full?",
+							  "options": [
+								"Monday",
+								"Tuesday",
+								"Wednesday",
+								"Monday and Tuesday equally",
+								"All days equally"
+							  ],
+							  "answer": "Monday and Tuesday equally"
+							},
+							// Question 13.2
+							{
+							  "question": "Convert 9/10 to a decimal.",
+							  "options": [
+								"0.9",
+								"0.8",
+								"0.95",
+								"1.0",
+								"0.85"
+							  ],
+							  "answer": "0.9"
+							},
+							// Question 13.3
+							{
+							  "question": "Which day has the lowest water level?",
+							  "options": [
+								"Wednesday",
+								"Monday",
+								"Tuesday",
+								"Monday and Wednesday equally",
+								"Cannot determine"
+							  ],
+							  "answer": "Wednesday"
+							},
+							// Question 13.4
+							{
+							  "question": "Arrange the water levels from highest to lowest.",
+							  "options": [
+								"Monday and Tuesday (equal), then Wednesday",
+								"Wednesday, Monday and Tuesday (equal)",
+								"Monday, Wednesday, Tuesday",
+								"Tuesday, Wednesday, Monday",
+								"All days have equal levels"
+							  ],
+							  "answer": "Monday and Tuesday (equal), then Wednesday"
+							},
+							// Question 13.5
+							{
+							  "question": "What percentage represents 0.9?",
+							  "options": [
+								"90%",
+								"9%",
+								"0.9%",
+								"100%",
+								"95%"
+							  ],
+							  "answer": "90%"
+							}
+						  ]
+						},
+						// Stage 14
+						{
+						  "text": "Sophia is cutting ropes into pieces of different lengths. She cuts one piece that is 5/6 meters long, another that is 0.83 meters long, and another that is 83% of a meter long.",
+						  "questions": [
+							// Question 14.1
+							{
+							  "question": "Which piece of rope is the longest?",
+							  "options": [
+								"The 5/6 meter piece",
+								"The 0.83 meter piece",
+								"The 83% of a meter piece",
+								"All pieces are the same length",
+								"Cannot determine"
+							  ],
+							  "answer": "The 5/6 meter piece"
+							},
+							// Question 14.2
+							{
+							  "question": "Convert 5/6 to a decimal.",
+							  "options": [
+								"0.833...",
+								"0.85",
+								"0.83",
+								"0.8",
+								"0.86"
+							  ],
+							  "answer": "0.833..."
+							},
+							// Question 14.3
+							{
+							  "question": "Arrange the rope pieces from shortest to longest.",
+							  "options": [
+								"0.83 m, 83% m, 5/6 m",
+								"83% m, 0.83 m, 5/6 m",
+								"All pieces are equal",
+								"5/6 m, 0.83 m, 83% m",
+								"Cannot determine"
+							  ],
+							  "answer": "0.83 m, 83% m, 5/6 m"
+							},
+							// Question 14.4
+							{
+							  "question": "Which of the following is closest in value to 83%?",
+							  "options": [
+								"0.83",
+								"0.8",
+								"5/6",
+								"0.833...",
+								"All of the above"
+							  ],
+							  "answer": "All of the above"
+							},
+							// Question 14.5
+							{
+							  "question": "How much longer is the 5/6 meter piece compared to the 0.83 meter piece?",
+							  "options": [
+								"Approximately 0.003 meters",
+								"0.03 meters",
+								"0.3 meters",
+								"0.003 meters",
+								"They are the same length"
+							  ],
+							  "answer": "Approximately 0.003 meters"
+							}
+						  ]
+						},
+						// Stage 15
+						{
+						  "text": "Michael invested money in three different accounts. Account A offers a return of 0.95, Account B offers 19/20, and Account C offers 96% of the initial investment.",
+						  "questions": [
+							// Question 15.1
+							{
+							  "question": "Which account offers the highest return?",
+							  "options": [
+								"Account B",
+								"Account A",
+								"Account C",
+								"Accounts A and B equally",
+								"All accounts offer the same return"
+							  ],
+							  "answer": "Account B"
+							},
+							// Question 15.2
+							{
+							  "question": "Convert 19/20 to a decimal.",
+							  "options": [
+								"0.95",
+								"0.90",
+								"0.85",
+								"0.96",
+								"0.955"
+							  ],
+							  "answer": "0.95"
+							},
+							// Question 15.3
+							{
+							  "question": "Which account offers the lowest return?",
+							  "options": [
+								"Account C",
+								"Account B",
+								"Account A",
+								"Accounts A and C equally",
+								"Cannot determine"
+							  ],
+							  "answer": "Account C"
+							},
+							// Question 15.4
+							{
+							  "question": "Arrange the accounts from lowest to highest return.",
+							  "options": [
+								"Account C, Accounts A and B (equal)",
+								"Account C, Account A, Account B",
+								"Accounts A and B (equal), Account C",
+								"Account B, Account A, Account C",
+								"All accounts offer the same return"
+							  ],
+							  "answer": "Account C, Accounts A and B (equal)"
+							},
+							// Question 15.5
+							{
+							  "question": "What percentage represents 19/20?",
+							  "options": [
+								"95%",
+								"90%",
+								"96%",
+								"85%",
+								"100%"
+							  ],
+							  "answer": "95%"
+							}
+						  ]
+						},
+						// Stage 16
+						{
+						  "text": "Emma is comparing battery charges on her devices. Her phone is charged to 0.88, her tablet is charged to 87%, and her laptop is charged to 22/25.",
+						  "questions": [
+							// Question 16.1
+							{
+							  "question": "Which device has the highest battery charge?",
+							  "options": [
+								"Phone",
+								"Tablet",
+								"Laptop",
+								"Phone and Laptop equally",
+								"All devices have the same charge"
+							  ],
+							  "answer": "Laptop"
+							},
+							// Question 16.2
+							{
+							  "question": "Convert 22/25 to a decimal.",
+							  "options": [
+								"0.88",
+								"0.85",
+								"0.87",
+								"0.9",
+								"0.8"
+							  ],
+							  "answer": "0.88"
+							},
+							// Question 16.3
+							{
+							  "question": "Arrange the devices from lowest to highest battery charge.",
+							  "options": [
+								"Tablet, Phone and Laptop (equal)",
+								"Tablet, Phone, Laptop",
+								"Laptop, Phone, Tablet",
+								"All devices have the same charge",
+								"Cannot determine"
+							  ],
+							  "answer": "Tablet, Phone and Laptop (equal)"
+							},
+							// Question 16.4
+							{
+							  "question": "What percentage represents 0.88?",
+							  "options": [
+								"88%",
+								"87%",
+								"0.88%",
+								"80%",
+								"90%"
+							  ],
+							  "answer": "88%"
+							},
+							// Question 16.5
+							{
+							  "question": "How much less charged is the tablet compared to the phone?",
+							  "options": [
+								"1%",
+								"0.1%",
+								"10%",
+								"0.01%",
+								"They are equally charged"
+							  ],
+							  "answer": "1%"
+							}
+						  ]
+						},
+						// Stage 17
+						{
+						  "text": "Lucas is comparing times he took to solve puzzles. He solved Puzzle A in 0.625 hours, Puzzle B in 5/8 hours, and Puzzle C in 62% of an hour.",
+						  "questions": [
+							// Question 17.1
+							{
+							  "question": "Which puzzle did Lucas solve the fastest?",
+							  "options": [
+								"Puzzle C",
+								"Puzzle A",
+								"Puzzle B",
+								"Puzzles A and B equally",
+								"All puzzles took the same time"
+							  ],
+							  "answer": "Puzzle C"
+							},
+							// Question 17.2
+							{
+							  "question": "Convert 5/8 to a decimal.",
+							  "options": [
+								"0.625",
+								"0.6",
+								"0.65",
+								"0.62",
+								"0.63"
+							  ],
+							  "answer": "0.625"
+							},
+							// Question 17.3
+							{
+							  "question": "Arrange the puzzles from shortest to longest solving time.",
+							  "options": [
+								"Puzzle C, Puzzles A and B (equal)",
+								"Puzzle C, Puzzle A, Puzzle B",
+								"Puzzle A, Puzzle B, Puzzle C",
+								"All puzzles took the same time",
+								"Cannot determine"
+							  ],
+							  "answer": "Puzzle C, Puzzles A and B (equal)"
+							},
+							// Question 17.4
+							{
+							  "question": "What percentage represents 0.625?",
+							  "options": [
+								"62.5%",
+								"65%",
+								"60%",
+								"62%",
+								"6.25%"
+							  ],
+							  "answer": "62.5%"
+							},
+							// Question 17.5
+							{
+							  "question": "How much faster did Lucas solve Puzzle C compared to Puzzle A?",
+							  "options": [
+								"0.005 hours",
+								"0.025 hours",
+								"0.05 hours",
+								"0.5 hours",
+								"They took the same time"
+							  ],
+							  "answer": "0.005 hours"
+							}
+						  ]
+						},
+						// Stage 18
+						{
+						  "text": "Isabella is comparing the brightness levels of three lamps. Lamp 1 is at 0.92 brightness, Lamp 2 is at 23/25 brightness, and Lamp 3 is at 93% brightness.",
+						  "questions": [
+							// Question 18.1
+							{
+							  "question": "Which lamp is the brightest?",
+							  "options": [
+								"Lamp 3",
+								"Lamp 1",
+								"Lamp 2",
+								"Lamp 2 and Lamp 1 equally",
+								"All lamps are equally bright"
+							  ],
+							  "answer": "Lamp 3"
+							},
+							// Question 18.2
+							{
+							  "question": "Convert 23/25 to a decimal.",
+							  "options": [
+								"0.92",
+								"0.88",
+								"0.93",
+								"0.9",
+								"0.95"
+							  ],
+							  "answer": "0.92"
+							},
+							// Question 18.3
+							{
+							  "question": "Arrange the lamps from dimmest to brightest.",
+							  "options": [
+								"Lamp 2 and Lamp 1 (equal), Lamp 3",
+								"Lamp 2, Lamp 1, Lamp 3",
+								"Lamp 3, Lamp 2, Lamp 1",
+								"All lamps have equal brightness",
+								"Cannot determine"
+							  ],
+							  "answer": "Lamp 2 and Lamp 1 (equal), Lamp 3"
+							},
+							// Question 18.4
+							{
+							  "question": "What percentage represents 0.92?",
+							  "options": [
+								"92%",
+								"93%",
+								"9.2%",
+								"90%",
+								"95%"
+							  ],
+							  "answer": "92%"
+							},
+							// Question 18.5
+							{
+							  "question": "How much brighter is Lamp 3 compared to Lamp 1?",
+							  "options": [
+								"1%",
+								"0.1%",
+								"10%",
+								"0.01%",
+								"They are equally bright"
+							  ],
+							  "answer": "1%"
+							}
+						  ]
+						},
+						// Stage 19
+						{
+						  "text": "Matthew is mixing solutions with different concentrations. Solution A has a concentration of 0.667, Solution B has a concentration of 2/3, and Solution C has a concentration of 66.5%.",
+						  "questions": [
+							// Question 19.1
+							{
+							  "question": "Which solution has the highest concentration?",
+							  "options": [
+								"Solution A",
+								"Solution B",
+								"Solution C",
+								"Solutions A and B equally",
+								"All solutions have the same concentration"
+							  ],
+							  "answer": "Solutions A and B equally"
+							},
+							// Question 19.2
+							{
+							  "question": "Convert 2/3 to a decimal.",
+							  "options": [
+								"0.666...",
+								"0.667",
+								"0.65",
+								"0.66",
+								"0.676"
+							  ],
+							  "answer": "0.666..."
+							},
+							// Question 19.3
+							{
+							  "question": "Arrange the solutions from lowest to highest concentration.",
+							  "options": [
+								"Solution C, Solutions A and B (equal)",
+								"Solutions A and B (equal), Solution C",
+								"Solution B, Solution A, Solution C",
+								"All solutions have equal concentration",
+								"Cannot determine"
+							  ],
+							  "answer": "Solution C, Solutions A and B (equal)"
+							},
+							// Question 19.4
+							{
+							  "question": "What percentage represents 2/3?",
+							  "options": [
+								"66.6%",
+								"66%",
+								"66.7%",
+								"66.5%",
+								"67%"
+							  ],
+							  "answer": "66.7%"
+							},
+							// Question 19.5
+							{
+							  "question": "How much lower is Solution C's concentration compared to Solution A?",
+							  "options": [
+								"0.002%",
+								"0.2%",
+								"0.5%",
+								"0.05%",
+								"They are the same"
+							  ],
+							  "answer": "0.2%"
+							}
+						  ]
+						},
+						// Stage 20
+						{
+						  "text": "A cyclist covers distances in different fractions of a race. On day one, he completes 7/9 of the race, on day two, he completes 0.77 of the race, and on day three, he completes 78% of the race.",
+						  "questions": [
+							// Question 20.1
+							{
+							  "question": "On which day did the cyclist cover the greatest fraction of the race?",
+							  "options": [
+								"Day one",
+								"Day two",
+								"Day three",
+								"Days one and three equally",
+								"All days equally"
+							  ],
+							  "answer": "Day three"
+							},
+							// Question 20.2
+							{
+							  "question": "Convert 7/9 to a decimal.",
+							  "options": [
+								"0.777...",
+								"0.77",
+								"0.78",
+								"0.7",
+								"0.79"
+							  ],
+							  "answer": "0.777..."
+							},
+							// Question 20.3
+							{
+							  "question": "Arrange the days from least to greatest distance covered.",
+							  "options": [
+								"Day two, Day one, Day three",
+								"Day one, Day two, Day three",
+								"Day three, Day two, Day one",
+								"All days equal",
+								"Cannot determine"
+							  ],
+							  "answer": "Day two, Day one, Day three"
+							},
+							// Question 20.4
+							{
+							  "question": "What percentage represents 0.77?",
+							  "options": [
+								"77%",
+								"7.7%",
+								"77.7%",
+								"70%",
+								"80%"
+							  ],
+							  "answer": "77%"
+							},
+							// Question 20.5
+							{
+							  "question": "How much more of the race did the cyclist cover on day three compared to day one?",
+							  "options": [
+								"0.22%",
+								"0.2%",
+								"0.3%",
+								"0.02%",
+								"0.22%"
+							  ],
+							  "answer": "0.22%"
+							}
+						  ]
+						},
+						// Stage 21
+						{
+						  "text": "An artist is mixing colors in specific ratios. She uses 0.875 parts of red, 7/8 parts of blue, and 87% parts of yellow.",
+						  "questions": [
+							// Question 21.1
+							{
+							  "question": "Which color is used in the greatest amount?",
+							  "options": [
+								"Red",
+								"Blue",
+								"Yellow",
+								"Red and Blue equally",
+								"All colors equally"
+							  ],
+							  "answer": "Red and Blue equally"
+							},
+							// Question 21.2
+							{
+							  "question": "Convert 7/8 to a decimal.",
+							  "options": [
+								"0.875",
+								"0.87",
+								"0.88",
+								"0.78",
+								"0.8"
+							  ],
+							  "answer": "0.875"
+							},
+							// Question 21.3
+							{
+							  "question": "Arrange the colors from least to most used.",
+							  "options": [
+								"Yellow, Red and Blue (equal)",
+								"Yellow, Blue, Red",
+								"Red, Yellow, Blue",
+								"All colors used equally",
+								"Cannot determine"
+							  ],
+							  "answer": "Yellow, Red and Blue (equal)"
+							},
+							// Question 21.4
+							{
+							  "question": "What percentage represents 0.875?",
+							  "options": [
+								"87.5%",
+								"87%",
+								"88%",
+								"85%",
+								"90%"
+							  ],
+							  "answer": "87.5%"
+							},
+							// Question 21.5
+							{
+							  "question": "How much less yellow is used compared to red?",
+							  "options": [
+								"0.025 parts",
+								"2.5% parts",
+								"0.25 parts",
+								"25% parts",
+								"They are used equally"
+							  ],
+							  "answer": "0.025 parts"
+							}
+						  ]
+						},
+						// Stage 22
+						{
+						  "text": "A car travels distances over three trips. Trip A covers 0.833... of the total distance, Trip B covers 5/6 of the total distance, and Trip C covers 84% of the total distance.",
+						  "questions": [
+							// Question 22.1
+							{
+							  "question": "Which trip covers the shortest distance?",
+							  "options": [
+								"Trip C",
+								"Trip A",
+								"Trip B",
+								"Trips A and B equally",
+								"All trips cover the same distance"
+							  ],
+							  "answer": "Trip C"
+							},
+							// Question 22.2
+							{
+							  "question": "Convert 5/6 to a decimal.",
+							  "options": [
+								"0.833...",
+								"0.85",
+								"0.83",
+								"0.8",
+								"0.86"
+							  ],
+							  "answer": "0.833..."
+							},
+							// Question 22.3
+							{
+							  "question": "Arrange the trips from longest to shortest distance.",
+							  "options": [
+								"Trips A and B (equal), then Trip C",
+								"Trip B, Trip A, Trip C",
+								"Trip C, Trip B, Trip A",
+								"All trips cover the same distance",
+								"Cannot determine"
+							  ],
+							  "answer": "Trips A and B (equal), then Trip C"
+							},
+							// Question 22.4
+							{
+							  "question": "What percentage represents 5/6?",
+							  "options": [
+								"83.3%",
+								"85%",
+								"83%",
+								"80%",
+								"86%"
+							  ],
+							  "answer": "83.3%"
+							},
+							// Question 22.5
+							{
+							  "question": "How much shorter is Trip C compared to Trip A?",
+							  "options": [
+								"0.0067 of the total distance",
+								"0.067 of the total distance",
+								"0.007 of the total distance",
+								"0.067%",
+								"They are the same"
+							  ],
+							  "answer": "0.0067 of the total distance"
+							}
+						  ]
+						},
+						// Stage 23
+						{
+						  "text": "An investor observes growth in three stocks. Stock X grows by 0.714, Stock Y grows by 5/7, and Stock Z grows by 71%.",
+						  "questions": [
+							// Question 23.1
+							{
+							  "question": "Which stock has the highest growth?",
+							  "options": [
+								"Stock X",
+								"Stock Y",
+								"Stock Z",
+								"Stocks X and Y equally",
+								"All stocks grow equally"
+							  ],
+							  "answer": "Stocks X and Y equally"
+							},
+							// Question 23.2
+							{
+							  "question": "Convert 5/7 to a decimal.",
+							  "options": [
+								"0.714",
+								"0.72",
+								"0.7",
+								"0.75",
+								"0.71"
+							  ],
+							  "answer": "0.714"
+							},
+							// Question 23.3
+							{
+							  "question": "Arrange the stocks from lowest to highest growth.",
+							  "options": [
+								"Stock Z, Stocks X and Y (equal)",
+								"Stock X, Stock Y, Stock Z",
+								"Stock Z, Stock X, Stock Y",
+								"All stocks grow equally",
+								"Cannot determine"
+							  ],
+							  "answer": "Stock Z, Stocks X and Y (equal)"
+							},
+							// Question 23.4
+							{
+							  "question": "What percentage represents 0.714?",
+							  "options": [
+								"71.4%",
+								"71%",
+								"70%",
+								"74%",
+								"75%"
+							  ],
+							  "answer": "71.4%"
+							},
+							// Question 23.5
+							{
+							  "question": "How much lower is Stock Z's growth compared to Stock X?",
+							  "options": [
+								"0.4%",
+								"0.4",
+								"0.04%",
+								"0.04",
+								"They are the same"
+							  ],
+							  "answer": "0.4%"
+							}
+						  ]
+						},
+						// Stage 24
+						{
+						  "text": "A baker is using sugar in different proportions. Recipe A requires 0.625 cups of sugar, Recipe B requires 5/8 cups, and Recipe C requires 63% of a cup.",
+						  "questions": [
+							// Question 24.1
+							{
+							  "question": "Which recipe uses the most sugar?",
+							  "options": [
+								"Recipe A",
+								"Recipe B",
+								"Recipe C",
+								"Recipes A and B equally",
+								"All recipes use the same amount"
+							  ],
+							  "answer": "Recipes A and B equally"
+							},
+							// Question 24.2
+							{
+							  "question": "Convert 5/8 to a decimal.",
+							  "options": [
+								"0.625",
+								"0.6",
+								"0.65",
+								"0.62",
+								"0.63"
+							  ],
+							  "answer": "0.625"
+							},
+							// Question 24.3
+							{
+							  "question": "Arrange the recipes from least to most sugar used.",
+							  "options": [
+								"Recipe C, Recipes A and B (equal)",
+								"Recipe B, Recipe A, Recipe C",
+								"All recipes use the same amount",
+								"Cannot determine",
+								"Recipe C, Recipe B, Recipe A"
+							  ],
+							  "answer": "Recipe C, Recipes A and B (equal)"
+							},
+							// Question 24.4
+							{
+							  "question": "What percentage represents 0.625?",
+							  "options": [
+								"62.5%",
+								"65%",
+								"60%",
+								"62%",
+								"6.25%"
+							  ],
+							  "answer": "62.5%"
+							},
+							// Question 24.5
+							{
+							  "question": "How much less sugar does Recipe C use compared to Recipe A?",
+							  "options": [
+								"0.005 cups",
+								"0.025 cups",
+								"0.05 cups",
+								"0.5 cups",
+								"They use the same amount"
+							  ],
+							  "answer": "0.005 cups"
+							}
+						  ]
+						},
+					  ]
+					}
+        ];
+
+		const stageCount = quizData[0].stages.length; // This is the correct way to get the number of stages
+
+
+		const stateContents = {
+			'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`,
+			'Subject Overview 🗝️': `<div class="subject-overview-content">   <h1>Comparing and Ordering Fractions, Decimals, and Percentages: A Comprehensive Guide</h1>   <p>Understanding how to compare and order fractions, decimals, and percentages is fundamental in mathematics. These three forms represent parts of a whole and are interrelated, yet each has its unique properties and applications. This guide will explore the methods and strategies for effectively comparing and ordering fractions, decimals, and percentages, providing clear explanations and practical examples to enhance your mathematical skills.</p>   <hr>   <h2>Table of Contents</h2>   <ol>     <li><a href="#introduction">Introduction</a></li>     <li><a href="#understanding-fractions-decimals-percentages">Understanding Fractions, Decimals, and Percentages</a></li>     <li><a href="#methods-to-compare">Methods to Compare</a></li>     <li><a href="#ordering-numbers">Ordering Fractions, Decimals, and Percentages</a></li>     <li><a href="#common-mistakes">Common Mistakes to Avoid</a></li>     <li><a href="#conclusion">Conclusion</a></li>   </ol>   <hr>     <h2 id="introduction">Introduction</h2>   <p>Fractions, decimals, and percentages are different ways to represent the same concept: a part of a whole. Mastering the ability to compare and order these representations is crucial for solving various mathematical problems, from basic arithmetic to more advanced topics like algebra and statistics.</p>     <hr>     <h2 id="understanding-fractions-decimals-percentages">Understanding Fractions, Decimals, and Percentages</h2>   <p>Before diving into comparison and ordering, it's essential to understand what fractions, decimals, and percentages represent:</p>   <ul>     <li><strong>Fraction:</strong> Represents a part of a whole using a numerator and a denominator, such as <em>3/4</em>.</li>     <li><strong>Decimal:</strong> A numerical representation based on the power of ten, such as <em>0.75</em>.</li>     <li><strong>Percentage:</strong> A fraction expressed out of 100, such as <em>75%</em>.</li>   </ul>   <p>These forms are interchangeable, and understanding their relationships is key to comparing and ordering them effectively.</p>     <hr>     <h2 id="methods-to-compare">Methods to Compare</h2>     <h3 id="convert-to-common-form">Convert to a Common Form</h3>   <p>One of the simplest methods to compare fractions, decimals, and percentages is to convert them to a common form. This can be either fractions, decimals, or percentages.</p>     <h4>Converting Fractions to Decimals and Percentages</h4>   <p>To convert a fraction to a decimal, divide the numerator by the denominator. To convert a fraction to a percentage, first convert it to a decimal and then multiply by 100.</p>   <ul>     <li><em>3/4 = 0.75 = 75%</em></li>     <li><em>1/2 = 0.5 = 50%</em></li>   </ul>     <h4>Converting Decimals to Fractions and Percentages</h4>   <p>To convert a decimal to a fraction, place the decimal over its place value and simplify if possible. To convert a decimal to a percentage, multiply by 100.</p>   <ul>     <li><em>0.25 = 1/4 = 25%</em></li>     <li><em>0.6 = 3/5 = 60%</em></li>   </ul>     <h4>Converting Percentages to Fractions and Decimals</h4>   <p>To convert a percentage to a decimal, divide by 100. To convert a percentage to a fraction, place it over 100 and simplify if possible.</p>   <ul>     <li><em>20% = 0.2 = 1/5</em></li>     <li><em>85% = 0.85 = 17/20</em></li>   </ul>     <h3 id="using-cross-Multiplication">Using Cross-Multiplication</h3>   <p>For comparing two fractions without converting them to decimals or percentages, cross-multiplication can be a quick method.</p>   <p>To compare <em>a/b</em> and <em>c/d</em>, multiply <em>a × d</em> and <em>c × b</em>:</p>   <ul>     <li>If <em>a × d > c × b</em>, then <em>a/b > c/d</em>.</li>     <li>If <em>a × d < c × b</em>, then <em>a/b < c/d</em>.</li>     <li>If <em>a × d = c × b</em>, then <em>a/b = c/d</em>.</li>   </ul>   <p><strong>Example:</strong> Compare <em>2/3</em> and <em>3/4</em>.</p>   <ul>     <li>2 × 4 = 8</li>     <li>3 × 3 = 9</li>     <li>Since 8 < 9, <em>2/3 < 3/4</em>.</li>   </ul>     <h3 id="visual-representation">Visual Representation</h3>   <p>Using visual aids like pie charts or number lines can help in understanding the size of fractions, decimals, and percentages relative to each other.</p>     <hr>     <h2 id="ordering-numbers">Ordering Fractions, Decimals, and Percentages</h2>   <p>Once you've compared numbers, ordering them from smallest to largest or vice versa becomes straightforward. Here are the steps to order a set of fractions, decimals, or percentages:</p>     <ol>     <li>Convert all numbers to the same form (either all fractions, decimals, or percentages).</li>     <li>Compare the numbers using the chosen method.</li>     <li>Arrange them in the desired order based on the comparisons.</li>   </ol>     <p><strong>Example:</strong> Order the following numbers from smallest to largest: <em>1/2, 0.75, 60%</em>.</p>   <ul>     <li>Convert all to decimals:       <ul>         <li>1/2 = 0.5</li>         <li>0.75 = 0.75</li>         <li>60% = 0.6</li>       </ul>     </li>     <li>Compare the decimals: 0.5, 0.6, 0.75.</li>     <li>Order: <em>1/2 (0.5) < 60% (0.6) < 0.75</em>.</li>   </ul>     <hr>     <h2 id="common-mistakes">Common Mistakes to Avoid</h2>   <ul>     <li><strong>Not Converting to a Common Form:</strong> Trying to compare different forms without conversion can lead to confusion and errors.</li>     <li><strong>Misplacing the Decimal Point:</strong> When converting between decimals and percentages, it's easy to move the decimal point incorrectly.</li>     <li><strong>Ignoring Simplification:</strong> Failing to simplify fractions can make comparison more complicated than necessary.</li>     <li><strong>Overlooking Equivalent Values:</strong> Recognizing that different forms can represent the same value is crucial for accurate comparison.</li>   </ul>     <hr>     <h2 id="conclusion">Conclusion</h2>   <p>Comparing and ordering fractions, decimals, and percentages are essential skills in mathematics that facilitate a deeper understanding of numerical relationships and real-world applications. By mastering the methods of conversion, utilizing cross-multiplication, and employing visual representations, you can confidently compare and order these different forms. Remember to practice regularly and be mindful of common mistakes to enhance your proficiency in this area.</p>   <ul>     <li><strong>Convert to a common form</strong> for easy comparison.</li>     <li><strong>Use cross-multiplication</strong> to compare fractions directly.</li>     <li><strong>Employ visual aids</strong> like number lines to visualize relationships.</li>     <li><strong>Avoid common mistakes</strong> by double-checking your conversions and comparisons.</li>   </ul>   <p><strong>Tip:</strong> Practice with various examples to reinforce your understanding and improve your ability to compare and order fractions, decimals, and percentages effectively.</p>   <hr>   <p>By understanding and applying these strategies, you'll enhance your mathematical skills and gain confidence in handling different numerical representations. Keep practicing, and don't hesitate to revisit this guide whenever you need a refresher!</p> </div>
+`
+		};
+
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    
+    // Add stage text at the top
+    const stageTextElement = document.createElement("div");
+    stageTextElement.className = "stage-text";
+    stageTextElement.style.marginBottom = "20px";
+    stageTextElement.style.padding = "15px";
+    stageTextElement.style.backgroundColor = "#f5f5f5";
+    stageTextElement.style.borderRadius = "5px";
+    stageTextElement.textContent = quizData[0].stages[currentStage].text;
+    quizContainer.appendChild(stageTextElement);
+    
+    // Render questions
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+        
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${questionData.question}`;
+        
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+        
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+        
+        const shuffledOptions = shuffleArray([...questionData.options]);
+        shuffledOptions.forEach(option => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv);
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[0].stages[currentStage].questions.length;
+
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === questionData.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect answer.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 10) {
+            selectElement.value = questionData.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` The correct answer is: ${questionData.answer}`;
+        }
+    });
+
+    if (correctCount === totalQuestions) {
+        console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+        addAnimalsToFarm(totalQuestions);
+
+        if (currentStage < quizData[0].stages.length - 1) {
+            singleStageConfetti();
+            showEncouragingPopup(correctCount, totalQuestions, true);
+            currentStage++;
+            updateProgressBar();
+            setTimeout(() => {
+                attempts = 0;
+                renderQuiz();
+                document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+            }, 1500);
+        } else {
+            currentStage++;
+            updateProgressBar();
+            allStagesConfetti();
+            showModal("Congratulations! You've completed all stages!");
+        }
+    } else {
+        showEncouragingPopup(correctCount, totalQuestions, false);
+        if (attempts >= 10) {
+            showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+        }
+    }
+
+    scrollToTop();
+}
+
+// 4. Update stageCount calculation to work with new structure
+
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+    const completedStages = currentStage;
+    const progress = (completedStages / stageCount) * 100;
+    const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+    progressBar.style.width = `${roundedProgress}%`;
+    progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+    console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+}
+
+function updateStageNumber() {
+    const stageElement = document.getElementById("stage-number");
+    stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>
