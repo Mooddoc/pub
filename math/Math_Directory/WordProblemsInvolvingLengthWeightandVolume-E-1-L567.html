@@ -1,0 +1,2528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+	<style>
+  
+	</style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read the text and questions carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+                <li>There are 20 stages, each with 5 questions.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>Word problems involving length, weight, and volume</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+ 
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+																		//  PH3 - Quiz Data 
+        const quizData = [ 												   	
+				{
+				  "stages": [
+
+    // Stage 1 - Basic Length Measurements
+    {
+      "text": "Tomer is measuring different objects in his classroom using a meter stick. He needs to compare lengths and convert between centimeters and meters.",
+      "questions": [
+        // Question 1.1
+        {
+          "question": "Tomer's pencil is 15 centimeters long. How many meters is this?",
+          "options": [
+            "0.15 meters",
+            "1.5 meters",
+            "0.015 meters",
+            "150 meters",
+            "Long as a giraffe's neck"
+          ],
+          "answer": "0.15 meters"
+        },
+        // Question 1.2
+        {
+          "question": "If Tomer's desk is 1.2 meters long and his notebook is 30 centimeters long, how many centimeters longer is the desk than the notebook?",
+          "options": [
+            "90 centimeters",
+            "60 centimeters",
+            "120 centimeters",
+            "150 centimeters",
+            "Long enough for a sleeping cat parade"
+          ],
+          "answer": "90 centimeters"
+        },
+        // Question 1.3
+        {
+          "question": "The classroom whiteboard is 250 centimeters wide. How many meters is this?",
+          "options": [
+            "2.5 meters",
+            "25 meters",
+            "0.25 meters",
+            "2.05 meters",
+            "Wide as a swimming pool"
+          ],
+          "answer": "2.5 meters"
+        },
+        // Question 1.4
+        {
+          "question": "Tomer has a piece of string that's 2 meters long. How many centimeters of string does he have?",
+          "options": [
+            "200 centimeters",
+            "20 centimeters",
+            "2000 centimeters",
+            "100 centimeters",
+            "Long enough to reach the moon"
+          ],
+          "answer": "200 centimeters"
+        },
+        // Question 1.5
+        {
+          "question": "If three identical rulers are placed end to end, and the total length is 90 centimeters, how long is each ruler?",
+          "options": [
+            "30 centimeters",
+            "45 centimeters",
+            "60 centimeters",
+            "15 centimeters",
+            "As long as a baby dinosaur"
+          ],
+          "answer": "30 centimeters"
+        }
+      ]
+    },
+    // Stage 2 - Basic Weight Measurements
+    {
+      "text": "Noa is helping in her mother's grocery store to weigh different fruits and vegetables. She needs to understand kilograms and grams to help customers.",
+      "questions": [
+        // Question 2.1
+        {
+          "question": "If a bag of apples weighs 2.5 kilograms, how many grams does it weigh?",
+          "options": [
+            "2500 grams",
+            "250 grams",
+            "25000 grams",
+            "2050 grams",
+            "Heavy as a cloud's breakfast"
+          ],
+          "answer": "2500 grams"
+        },
+        // Question 2.2
+        {
+          "question": "Noa needs to pack 3000 grams of potatoes. How many kilograms is this?",
+          "options": [
+            "3 kilograms",
+            "0.3 kilograms",
+            "30 kilograms",
+            "0.03 kilograms",
+            "Light as a feather mountain"
+          ],
+          "answer": "3 kilograms"
+        },
+        // Question 2.3
+        {
+          "question": "If one tomato weighs 200 grams, how many tomatoes are needed to make 1 kilogram?",
+          "options": [
+            "5 tomatoes",
+            "10 tomatoes",
+            "2 tomatoes",
+            "20 tomatoes",
+            "A tomato family reunion"
+          ],
+          "answer": "5 tomatoes"
+        },
+        // Question 2.4
+        {
+          "question": "The scale shows 1750 grams of cheese. How many kilograms and grams is this?",
+          "options": [
+            "1 kilogram 750 grams",
+            "1.75 kilograms",
+            "17.5 kilograms",
+            "175 kilograms",
+            "A mountain of cheese"
+          ],
+          "answer": "1 kilogram 750 grams"
+        },
+        // Question 2.5
+        {
+          "question": "If each orange weighs 150 grams, how many oranges are in a 3-kilogram bag?",
+          "options": [
+            "20 oranges",
+            "15 oranges",
+            "30 oranges",
+            "25 oranges",
+            "An orange juggling show"
+          ],
+          "answer": "20 oranges"
+        }
+      ]
+    },
+    // Stage 3 - Basic Volume Measurements
+    {
+      "text": "Daniel is helping with science experiments in the school lab. He needs to measure different liquids using milliliters and liters.",
+      "questions": [
+        // Question 3.1
+        {
+          "question": "If Daniel has 1500 milliliters of water, how many liters does he have?",
+          "options": [
+            "1.5 liters",
+            "15 liters",
+            "0.15 liters",
+            "150 liters",
+            "Enough for a mini pool"
+          ],
+          "answer": "1.5 liters"
+        },
+        // Question 3.2
+        {
+          "question": "A beaker contains 2 liters of liquid. How many milliliters is this?",
+          "options": [
+            "2000 milliliters",
+            "200 milliliters",
+            "20000 milliliters",
+            "20 milliliters",
+            "More than a thirsty elephant drinks"
+          ],
+          "answer": "2000 milliliters"
+        },
+        // Question 3.3
+        {
+          "question": "If one container has 500 milliliters and another has 0.75 liters, which container has more liquid?",
+          "options": [
+            "0.75 liters container",
+            "500 milliliters container",
+            "They are equal",
+            "Cannot be determined",
+            "The liquid disappeared!"
+          ],
+          "answer": "0.75 liters container"
+        },
+        // Question 3.4
+        {
+          "question": "Daniel needs 2.5 liters of solution. How many 250-milliliter beakers will he need to fill?",
+          "options": [
+            "10 beakers",
+            "5 beakers",
+            "25 beakers",
+            "4 beakers",
+            "A beaker marching band"
+          ],
+          "answer": "10 beakers"
+        },
+        // Question 3.5
+        {
+          "question": "If Daniel combines 1 liter and 750 milliliters of water, how many milliliters does he have total?",
+          "options": [
+            "1750 milliliters",
+            "1075 milliliters",
+            "2500 milliliters",
+            "1175 milliliters",
+            "A waterfall in a bottle"
+          ],
+          "answer": "1750 milliliters"
+        }
+      ]
+    },
+   // Stage 4 - Mixed Measurements with One-Step Problems
+    {
+      "text": "The students in Kita Vav (6th grade) are working on a science project about measurements. They need to solve problems using different types of metric measurements.",
+      "questions": [
+        // Question 4.1
+        {
+          "question": "A bottle holds 2 liters of water and is 25 centimeters tall. How tall would a 5-liter bottle of the same width be?",
+          "options": [
+            "62.5 centimeters",
+            "50 centimeters",
+            "75 centimeters",
+            "125 centimeters",
+            "Tall as a baby giraffe"
+          ],
+          "answer": "62.5 centimeters"
+        },
+        // Question 4.2
+        {
+          "question": "If 1 meter of wire weighs 300 grams, how many grams does 2.5 meters weigh?",
+          "options": [
+            "750 grams",
+            "600 grams",
+            "900 grams",
+            "650 grams",
+            "Light as a floating elephant"
+          ],
+          "answer": "750 grams"
+        },
+        // Question 4.3
+        {
+          "question": "A container that's 20 centimeters tall holds 400 milliliters. How many milliliters would a 30-centimeter container of the same width hold?",
+          "options": [
+            "600 milliliters",
+            "800 milliliters",
+            "500 milliliters",
+            "700 milliliters",
+            "More than a camel's breakfast"
+          ],
+          "answer": "600 milliliters"
+        },
+        // Question 4.4
+        {
+          "question": "If 1 liter of olive oil weighs 920 grams, how many kilograms do 5 liters weigh?",
+          "options": [
+            "4.6 kilograms",
+            "4.2 kilograms",
+            "5.0 kilograms",
+            "4.8 kilograms",
+            "Heavy as a cloud's lunch"
+          ],
+          "answer": "4.6 kilograms"
+        },
+        // Question 4.5
+        {
+          "question": "A square garden plot is 2 meters on each side. How many centimeters of fencing are needed to go around it?",
+          "options": [
+            "800 centimeters",
+            "400 centimeters",
+            "200 centimeters",
+            "600 centimeters",
+            "Long as a sleeping snake parade"
+          ],
+          "answer": "800 centimeters"
+        }
+      ]
+    },
+    // Stage 5 - Real-World Applications
+    {
+      "text": "The school's garden club is planning their vegetable garden near the schoolyard. They need to calculate different measurements for proper planning.",
+      "questions": [
+        // Question 5.1
+        {
+          "question": "Each tomato plant needs 2 liters of water per week. If there are 15 plants, how many milliliters of water are needed daily?",
+          "options": [
+            "4286 milliliters",
+            "3000 milliliters",
+            "5000 milliliters",
+            "4000 milliliters",
+            "Enough to fill a swimming pool"
+          ],
+          "answer": "4286 milliliters"
+        },
+        // Question 5.2
+        {
+          "question": "A cucumber grows about 3 centimeters per day. After 20 days, what will its length be in meters?",
+          "options": [
+            "0.6 meters",
+            "0.3 meters",
+            "0.9 meters",
+            "1.2 meters",
+            "Long as a baby crocodile"
+          ],
+          "answer": "0.6 meters"
+        },
+        // Question 5.3
+        {
+          "question": "If 1 square meter of soil weighs 5 kilograms, how many grams of soil are in a garden bed that's 2 meters by 3 meters?",
+          "options": [
+            "30000 grams",
+            "15000 grams",
+            "25000 grams",
+            "20000 grams",
+            "Heavy as a dinosaur's snack"
+          ],
+          "answer": "30000 grams"
+        },
+        // Question 5.4
+        {
+          "question": "Each square meter needs 500 milliliters of fertilizer. How many liters are needed for a 4-meter by 5-meter garden?",
+          "options": [
+            "10 liters",
+            "20 liters",
+            "5 liters",
+            "15 liters",
+            "More than a whale's tea cup"
+          ],
+          "answer": "10 liters"
+        },
+        // Question 5.5
+        {
+          "question": "A compost bin is 80 centimeters tall and fills up 5 centimeters per week. How many meters will it fill in 12 weeks?",
+          "options": [
+            "0.6 meters",
+            "0.3 meters",
+            "0.9 meters",
+            "1.2 meters",
+            "Tall as a tower of jumping frogs"
+          ],
+          "answer": "0.6 meters"
+        }
+      ]
+    },
+    // Stage 6 - Multi-Step Problems
+    {
+      "text": "The school's kitchen is preparing for a special event. They need to calculate various measurements accurately to make sure they have enough supplies.",
+      "questions": [
+        // Question 6.1
+        {
+          "question": "Each student drinks 250 milliliters of juice. If there are 120 students and juice comes in 2-liter bottles, how many bottles are needed?",
+          "options": [
+            "15 bottles",
+            "12 bottles",
+            "18 bottles",
+            "20 bottles",
+            "A juice bottle pyramid"
+          ],
+          "answer": "15 bottles"
+        },
+        // Question 6.2
+        {
+          "question": "A recipe needs 150 grams of sugar per cake. If making cakes for 80 students and sugar comes in 1-kilogram bags, how many bags are needed?",
+          "options": [
+            "12 bags",
+            "8 bags",
+            "10 bags",
+            "15 bags",
+            "Sweet as a unicorn's smile"
+          ],
+          "answer": "12 bags"
+        },
+        // Question 6.3
+        {
+          "question": "Tables are 2 meters long and seat 6 students. If the lunchroom is 15 meters long, how many students can be seated along one wall?",
+          "options": [
+            "42 students",
+            "36 students",
+            "48 students",
+            "45 students",
+            "A classroom of dancing penguins"
+          ],
+          "answer": "42 students"
+        },
+        // Question 6.4
+        {
+          "question": "Each serving of soup is 300 milliliters. If a pot holds 3 liters, and there are 50 students, how many pots of soup are needed?",
+          "options": [
+            "5 pots",
+            "4 pots",
+            "6 pots",
+            "3 pots",
+            "Enough to feed a hungry dragon"
+          ],
+          "answer": "5 pots"
+        },
+        // Question 6.5
+        {
+          "question": "Plates stack 2 centimeters high each. How tall in meters would a stack of 100 plates be?",
+          "options": [
+            "2 meters",
+            "1.5 meters",
+            "2.5 meters",
+            "1 meter",
+            "Tall as a tower of jumping cats"
+          ],
+          "answer": "2 meters"
+        }
+      ]
+    },
+    // Stage 7 - Complex Scenarios
+    {
+      "text": "The school's science fair projects involve measuring and comparing different quantities. Students need to use multiple measurement types to complete their experiments.",
+      "questions": [
+        // Question 7.1
+        {
+          "question": "A plant grows 2 millimeters per day and starts at 5 centimeters. How tall in centimeters will it be after 30 days?",
+          "options": [
+            "11 centimeters",
+            "15 centimeters",
+            "9 centimeters",
+            "13 centimeters",
+            "Tall as a baby tree's dream"
+          ],
+          "answer": "11 centimeters"
+        },
+        // Question 7.2
+        {
+          "question": "If 100 milliliters of water weighs 100 grams, how many kilograms does 2.5 liters weigh?",
+          "options": [
+            "2.5 kilograms",
+            "0.25 kilograms",
+            "25 kilograms",
+            "0.025 kilograms",
+            "Light as a cloud's pillow"
+          ],
+          "answer": "2.5 kilograms"
+        },
+        // Question 7.3
+        {
+          "question": "A rectangular tank is 50 centimeters long, 30 centimeters wide, and 40 centimeters high. How many liters can it hold?",
+          "options": [
+            "60 liters",
+            "120 liters",
+            "40 liters",
+            "80 liters",
+            "Big as an elephant's bathtub"
+          ],
+          "answer": "60 liters"
+        },
+        // Question 7.4
+        {
+          "question": "If 1 gram of rice occupies 1 cubic centimeter, how many kilograms of rice can fit in a box that's 20 cm × 15 cm × 10 cm?",
+          "options": [
+            "3 kilograms",
+            "2 kilograms",
+            "4 kilograms",
+            "5 kilograms",
+            "Heavy as a rice castle"
+          ],
+          "answer": "3 kilograms"
+        },
+        // Question 7.5
+        {
+          "question": "A rope weighs 50 grams per meter. How many kilograms would 28 meters weigh?",
+          "options": [
+            "1.4 kilograms",
+            "1.2 kilograms",
+            "1.6 kilograms",
+            "1.8 kilograms",
+            "Heavy as a sleeping giant's shoelace"
+          ],
+          "answer": "1.4 kilograms"
+        }
+      ]
+    },
+    // Stage 8 - Problem Solving with Extra Information
+    {
+      "text": "The school's sports day requires careful planning and measurement. Students need to sort through information and use relevant measurements to solve problems.",
+      "questions": [
+        // Question 8.1
+        {
+          "question": "A blue running track is 400 meters long and 2 meters wide. A red track is half as long but the same width. How many meters long is the red track?",
+          "options": [
+            "200 meters",
+            "100 meters",
+            "300 meters",
+            "150 meters",
+            "Long as a sleepy snake"
+          ],
+          "answer": "200 meters"
+        },
+        // Question 8.2
+        {
+          "question": "A square basketball court has sides of 15 meters and is painted blue. A rectangular football field is twice as long and wide. What is the football field's width in meters?",
+          "options": [
+            "30 meters",
+            "15 meters",
+            "45 meters",
+            "60 meters",
+            "Wide as a giant's skateboard"
+          ],
+          "answer": "30 meters"
+        },
+        // Question 8.3
+        {
+          "question": "A red water bottle holds 750 milliliters and is 20 centimeters tall. A blue bottle is half as tall but the same width. How many milliliters does the blue bottle hold?",
+          "options": [
+            "375 milliliters",
+            "500 milliliters",
+            "250 milliliters",
+            "450 milliliters",
+            "Tiny as a fairy's swimming pool"
+          ],
+          "answer": "375 milliliters"
+        },
+        // Question 8.4
+        {
+          "question": "A new soccer ball weighs 450 grams and is black and white. An old ball of the same size weighs 50 grams less. What is the old ball's weight in kilograms?",
+          "options": [
+            "0.4 kilograms",
+            "0.45 kilograms",
+            "0.35 kilograms",
+            "0.5 kilograms",
+            "Light as a floating butterfly"
+          ],
+          "answer": "0.4 kilograms"
+        },
+        // Question 8.5
+        {
+          "question": "A jumping rope is 2 meters long and weighs 100 grams. A longer rope is 3 times the length and made of the same material. How many grams does it weigh?",
+          "options": [
+            "300 grams",
+            "200 grams",
+            "400 grams",
+            "500 grams",
+            "Heavy as a kangaroo's shoelaces"
+          ],
+          "answer": "300 grams"
+        }
+      ]
+    },
+    // Stage 9 - Advanced Multi-Step Problems
+    {
+      "text": "The school's math team is preparing for a competition. They need to solve complex problems involving multiple measurements and conversions.",
+      "questions": [
+        // Question 9.1
+        {
+          "question": "A water tank loses 2 liters per hour through evaporation. If it starts with 100 liters, how many milliliters will remain after 10 hours?",
+          "options": [
+            "80000 milliliters",
+            "90000 milliliters",
+            "70000 milliliters",
+            "85000 milliliters",
+            "More than a thirsty camel's snack"
+          ],
+          "answer": "80000 milliliters"
+        },
+        // Question 9.2
+        {
+          "question": "If 3 meters of fabric weighs 600 grams, and you need fabric that weighs 2 kilograms, how many meters do you need?",
+          "options": [
+            "10 meters",
+            "8 meters",
+            "12 meters",
+            "15 meters",
+            "Long as a sleeping dragon"
+          ],
+          "answer": "10 meters"
+        },
+        // Question 9.3
+        {
+          "question": "A recipe uses 250 milliliters of milk per batch and serves 5 people. If you have 2 liters of milk, how many people can you serve?",
+          "options": [
+            "40 people",
+            "30 people",
+            "35 people",
+            "45 people",
+            "A village of hungry rabbits"
+          ],
+          "answer": "40 people"
+        },
+        // Question 9.4
+        {
+          "question": "A container 1 meter tall holds 5 liters. If you need to store 3 liters in containers 50 centimeters tall, how many containers do you need?",
+          "options": [
+            "2 containers",
+            "1 container",
+            "3 containers",
+            "4 containers",
+            "A tower to the moon"
+          ],
+          "answer": "2 containers"
+        },
+       // Question 9.5
+        {
+          "question": "If 200 milliliters of juice weighs 220 grams, how many kilograms will 3 liters weigh?",
+          "options": [
+            "3.3 kilograms",
+            "3.0 kilograms",
+            "2.2 kilograms",
+            "6.6 kilograms",
+            "Heavy as a flying watermelon"
+          ],
+          "answer": "3.3 kilograms"
+        }
+      ]
+    },
+    // Stage 10 - Complex Word Problems
+    {
+      "text": "The school is organizing a science and agriculture fair. Students need to solve complex problems involving measurements for various experiments and activities.",
+      "questions": [
+        // Question 10.1
+        {
+          "question": "A square garden plot has an area of 4 square meters. If it needs 3 liters of water per square meter per day, how many milliliters of water are needed for one week?",
+          "options": [
+            "84000 milliliters",
+            "12000 milliliters",
+            "28000 milliliters",
+            "56000 milliliters",
+            "Enough to fill a mermaid's swimming pool"
+          ],
+          "answer": "84000 milliliters"
+        },
+        // Question 10.2
+        {
+          "question": "A farmer plants tomatoes in rows 50 centimeters apart. If each plant needs 40 centimeters of space in the row, and the garden is 3 meters by 4 meters, how many plants can fit?",
+          "options": [
+            "60 plants",
+            "48 plants",
+            "72 plants",
+            "54 plants",
+            "A tomato city population"
+          ],
+          "answer": "60 plants"
+        },
+        // Question 10.3
+        {
+          "question": "If 1 cubic centimeter of soil weighs 2 grams, how many kilograms of soil are needed to fill a rectangular planter that is 80 centimeters long, 30 centimeters wide, and 25 centimeters deep?",
+          "options": [
+            "12 kilograms",
+            "15 kilograms",
+            "10 kilograms",
+            "18 kilograms",
+            "Heavy as a sleeping cloud"
+          ],
+          "answer": "12 kilograms"
+        },
+        // Question 10.4
+        {
+          "question": "A water tank is 2 meters high and holds 1000 liters. If a smaller tank is 80 centimeters high and the same width and length, how many milliliters will it hold?",
+          "options": [
+            "400000 milliliters",
+            "200000 milliliters",
+            "600000 milliliters",
+            "800000 milliliters",
+            "Big as a whale's breakfast bowl"
+          ],
+          "answer": "400000 milliliters"
+        },
+        // Question 10.5
+        {
+          "question": "If a 1-meter length of irrigation pipe can water 2 square meters of garden, and each square meter needs 2.5 liters of water daily, how many milliliters will 6 meters of pipe deliver per day?",
+          "options": [
+            "30000 milliliters",
+            "15000 milliliters",
+            "25000 milliliters",
+            "20000 milliliters",
+            "More than a thirsty giraffe drinks"
+          ],
+          "answer": "30000 milliliters"
+        }
+      ]
+    },
+    // Stage 11 - Mixed Operations with Distance
+    {
+      "text": "Students are planning a school trip to the Negev Desert. They need to calculate various distances and supplies needed for the journey.",
+      "questions": [
+        // Question 11.1
+        {
+          "question": "The bus travels 75 kilometers per hour. If the destination is 300 kilometers away and they take 30-minute breaks every 2 hours, how many hours will the total journey take?",
+          "options": [
+            "5 hours",
+            "4 hours",
+            "6 hours",
+            "4.5 hours",
+            "Time for a camel to walk to the moon"
+          ],
+          "answer": "5 hours"
+        },
+        // Question 11.2
+        {
+          "question": "Each student needs 2.5 liters of water per day. If there are 40 students going for 3 days, how many kiloliters of water are needed total?",
+          "options": [
+            "0.3 kiloliters",
+            "0.25 kiloliters",
+            "0.4 kiloliters",
+            "0.35 kiloliters",
+            "Enough to fill a flying swimming pool"
+          ],
+          "answer": "0.3 kiloliters"
+        },
+        // Question 11.3
+        {
+          "question": "A hiking trail is 8.5 kilometers long. If students walk at 4 kilometers per hour and rest for 10 minutes every kilometer, how many minutes will the hike take?",
+          "options": [
+            "197.5 minutes",
+            "180 minutes",
+            "212.5 minutes",
+            "127.5 minutes",
+            "Time to grow a magical cactus"
+          ],
+          "answer": "197.5 minutes"
+        },
+        // Question 11.4
+        {
+          "question": "Each student's backpack weighs 5 kilograms. If 40 students are traveling and the bus can carry 250 kilograms of luggage, how many kilograms under the limit are they?",
+          "options": [
+            "50 kilograms",
+            "40 kilograms",
+            "60 kilograms",
+            "45 kilograms",
+            "Light as a cloud's vacation bag"
+          ],
+          "answer": "50 kilograms"
+        },
+        // Question 11.5
+        {
+          "question": "If a student drinks 250 milliliters of water every 30 minutes during a 4-hour hike, how many liters will they drink?",
+          "options": [
+            "2 liters",
+            "1.5 liters",
+            "2.5 liters",
+            "3 liters",
+            "More than a thirsty desert fox"
+          ],
+          "answer": "2 liters"
+        }
+      ]
+    },
+    // Stage 12 - Area and Volume Calculations
+    {
+      "text": "The school is renovating its science laboratory. Students are helping to calculate measurements for the new equipment and supplies.",
+      "questions": [
+        // Question 12.1
+        {
+          "question": "A rectangular lab table is 1.5 meters long and 75 centimeters wide. What is its area in square meters?",
+          "options": [
+            "1.125 square meters",
+            "2.25 square meters",
+            "0.75 square meters",
+            "1.5 square meters",
+            "Big as a flying carpet"
+          ],
+          "answer": "1.125 square meters"
+        },
+        // Question 12.2
+        {
+          "question": "A cubic storage box has sides of 40 centimeters. What is its volume in liters?",
+          "options": [
+            "64 liters",
+            "48 liters",
+            "80 liters",
+            "56 liters",
+            "Space for a dragon's treasure"
+          ],
+          "answer": "64 liters"
+        },
+        // Question 12.3
+        {
+          "question": "If each student needs 1.2 square meters of workspace, how many students can work in a lab that's 6 meters by 8 meters, after removing 10 square meters for equipment?",
+          "options": [
+            "38 students",
+            "40 students",
+            "35 students",
+            "42 students",
+            "Room for a penguin party"
+          ],
+          "answer": "38 students"
+        },
+        // Question 12.4
+        {
+          "question": "A cylindrical beaker has a radius of 5 centimeters and height of 20 centimeters. Approximately how many milliliters can it hold? (Use π ≈ 3.14)",
+          "options": [
+            "1570 milliliters",
+            "1200 milliliters",
+            "1800 milliliters",
+            "1400 milliliters",
+            "Size of a giant's coffee cup"
+          ],
+          "answer": "1570 milliliters"
+        },
+        // Question 12.5
+        {
+          "question": "A rectangular aquarium is 80 centimeters long, 30 centimeters wide, and 40 centimeters high. How many liters of water will fill it to 75% capacity?",
+          "options": [
+            "72 liters",
+            "96 liters",
+            "60 liters",
+            "84 liters",
+            "Home for a mermaid family"
+          ],
+          "answer": "72 liters"
+        }
+      ]
+    },
+    // Stage 13 - Cooking Class Measurements
+    {
+      "text": "The school's cooking class is preparing treats for a bake sale. Students need to measure ingredients and calculate quantities for different recipes.",
+      "questions": [
+        // Question 13.1
+        {
+          "question": "A recipe needs 350 grams of flour for 12 cookies. How many kilograms of flour are needed to make 60 cookies?",
+          "options": [
+            "1.75 kilograms",
+            "1.5 kilograms",
+            "2 kilograms",
+            "1.25 kilograms",
+            "Enough for a cookie mountain"
+          ],
+          "answer": "1.75 kilograms"
+        },
+        // Question 13.2
+        {
+          "question": "Each cake needs 200 milliliters of milk. If milk comes in 1-liter bottles, how many cakes can be made with 3 bottles?",
+          "options": [
+            "15 cakes",
+            "12 cakes",
+            "18 cakes",
+            "20 cakes",
+            "A tower of floating cakes"
+          ],
+          "answer": "15 cakes"
+        },
+        // Question 13.3
+        {
+          "question": "If mixing bowls are stacked 15 centimeters high each, how tall in meters would a stack of 8 bowls be?",
+          "options": [
+            "1.2 meters",
+            "0.8 meters",
+            "1.5 meters",
+            "1 meter",
+            "Tall as a giraffe's snack"
+          ],
+          "answer": "1.2 meters"
+        },
+        // Question 13.4
+        {
+          "question": "A recipe that serves 4 people uses 300 grams of sugar. How many grams are needed to serve 10 people?",
+          "options": [
+            "750 grams",
+            "600 grams",
+            "800 grams",
+            "700 grams",
+            "Sweet as a unicorn's breakfast"
+          ],
+          "answer": "750 grams"
+        },
+        // Question 13.5
+        {
+          "question": "If each cupcake needs 125 milliliters of batter, how many cupcakes can be made from 2 liters of batter?",
+          "options": [
+            "16 cupcakes",
+            "12 cupcakes",
+            "20 cupcakes",
+            "14 cupcakes",
+            "A party of dancing cupcakes"
+          ],
+          "answer": "16 cupcakes"
+        }
+      ]
+    },
+    // Stage 14 - Sports Day Planning
+    {
+      "text": "The school is organizing a sports day. Students need to help calculate distances and measurements for different activities.",
+      "questions": [
+        // Question 14.1
+        {
+          "question": "A running track is 200 meters long. If students run 2 laps, how many kilometers do they complete?",
+          "options": [
+            "0.4 kilometers",
+            "0.2 kilometers",
+            "0.6 kilometers",
+            "0.8 kilometers",
+            "Long as a sleepy snake's nap"
+          ],
+          "answer": "0.4 kilometers"
+        },
+        // Question 14.2
+        {
+          "question": "Each team needs 3 liters of water per hour. For 6 teams playing for 4 hours, how many milliliters of water are needed?",
+          "options": [
+            "72000 milliliters",
+            "60000 milliliters",
+            "84000 milliliters",
+            "48000 milliliters",
+            "More than an elephant's bath"
+          ],
+          "answer": "72000 milliliters"
+        },
+        // Question 14.3
+        {
+          "question": "A long jump pit is 50 centimeters deep and 2 meters wide. If sand weighs 1.5 kilograms per liter, how many kilograms of sand are needed to fill it to 3 meters length?",
+          "options": [
+            "450 kilograms",
+            "300 kilograms",
+            "600 kilograms",
+            "375 kilograms",
+            "Heavy as a cloud collection"
+          ],
+          "answer": "450 kilograms"
+        },
+        // Question 14.4
+        {
+          "question": "Soccer balls need to be inflated to 0.7 atmospheres. If each pump adds 0.1 atmospheres, how many pumps are needed for 5 balls?",
+          "options": [
+            "35 pumps",
+            "25 pumps",
+            "40 pumps",
+            "30 pumps",
+            "More than a balloon party"
+          ],
+          "answer": "35 pumps"
+        },
+        // Question 14.5
+        {
+          "question": "If students walk 120 meters per minute during warm-up, how many kilometers will they walk in 25 minutes?",
+          "options": [
+            "3 kilometers",
+            "2.5 kilometers",
+            "3.5 kilometers",
+            "2 kilometers",
+            "Far as a turtle's vacation"
+          ],
+          "answer": "3 kilometers"
+        }
+      ]
+    },
+    // Stage 15 - Market Shopping
+    {
+      "text": "The class is planning a healthy breakfast event. They need to calculate quantities and costs for different items from the market.",
+      "questions": [
+        // Question 15.1
+        {
+          "question": "If apples cost 8 shekels per kilogram and you need 250 grams per student for 20 students, how many kilograms should you buy?",
+          "options": [
+            "5 kilograms",
+            "4 kilograms",
+            "6 kilograms",
+            "4.5 kilograms",
+            "Heavy as a fruit rainbow"
+          ],
+          "answer": "5 kilograms"
+        },
+        // Question 15.2
+        {
+          "question": "A container holds 750 milliliters of orange juice. For 30 students who each need 200 milliliters, how many containers are needed?",
+          "options": [
+            "8 containers",
+            "6 containers",
+            "10 containers",
+            "7 containers",
+            "A juice container parade"
+          ],
+          "answer": "8 containers"
+        },
+        // Question 15.3
+        {
+          "question": "If each bread roll is 15 centimeters long and they need to be placed 5 centimeters apart on a tray, how many rolls fit on a 100-centimeter tray?",
+          "options": [
+            "5 rolls",
+            "6 rolls",
+            "4 rolls",
+            "7 rolls",
+            "A bread roll conga line"
+          ],
+          "answer": "5 rolls"
+        },
+        // Question 15.4
+        {
+          "question": "Cheese comes in 200-gram packages. If each student needs 75 grams, how many packages are needed for 25 students?",
+          "options": [
+            "10 packages",
+            "8 packages",
+            "12 packages",
+            "9 packages",
+            "A cheese tower to the moon"
+          ],
+          "answer": "10 packages"
+        },
+        // Question 15.5
+        {
+          "question": "If yogurt cups are 150 milliliters each and come in packs of 6, how many packs are needed for 40 students?",
+          "options": [
+            "7 packs",
+            "6 packs",
+            "8 packs",
+            "5 packs",
+            "A yogurt cup pyramid"
+          ],
+          "answer": "7 packs"
+        }
+      ]
+    },
+    // Stage 16 - School Garden Project
+    {
+      "text": "The school is creating a vegetable garden. Students need to calculate measurements for planting and maintaining different areas.",
+      "questions": [
+        // Question 16.1
+        {
+          "question": "Each tomato plant needs a circle of space with a radius of 25 centimeters. How many plants can fit in a row that's 3 meters long? (Use π ≈ 3)",
+          "options": [
+            "6 plants",
+            "5 plants",
+            "7 plants",
+            "8 plants",
+            "A tomato circus parade"
+          ],
+          "answer": "6 plants"
+        },
+        // Question 16.2
+        {
+          "question": "A square garden bed is 2 meters on each side. If plants need 40 centimeters of space between them, how many plants can fit in total?",
+          "options": [
+            "25 plants",
+            "20 plants",
+            "30 plants",
+            "15 plants",
+            "Enough for a plant party"
+          ],
+          "answer": "25 plants"
+        },
+        // Question 16.3
+        {
+          "question": "Each square meter needs 4 liters of water per week. How many milliliters of water does a 3 meter by 2 meter plot need daily?",
+          "options": [
+            "3429 milliliters",
+            "3000 milliliters",
+            "4000 milliliters",
+            "2500 milliliters",
+            "A tiny rain cloud's worth"
+          ],
+          "answer": "3429 milliliters"
+        },
+        // Question 16.4
+        {
+          "question": "Fertilizer comes in 2-kilogram bags. If each square meter needs 150 grams, how many bags are needed for a 10 square meter garden?",
+          "options": [
+            "1 bag",
+            "2 bags",
+            "3 bags",
+            "4 bags",
+            "Light as a fairy's groceries"
+          ],
+          "answer": "1 bag"
+        },
+        // Question 16.5
+        {
+          "question": "A compost bin is 80 centimeters tall. If it fills 5 centimeters per week with garden waste, in how many weeks will it be 75% full?",
+          "options": [
+            "12 weeks",
+            "10 weeks",
+            "14 weeks",
+            "16 weeks",
+            "Time to grow a magic bean"
+          ],
+          "answer": "12 weeks"
+        }
+      ]
+    },
+    // Stage 17 - Science Lab Measurements
+    {
+      "text": "Students are conducting science experiments that require precise measurements of liquids and materials.",
+      "questions": [
+        // Question 17.1
+        {
+          "question": "A beaker contains 750 milliliters of water. If 25 milliliters evaporate each hour, how many milliliters remain after 6 hours?",
+          "options": [
+            "600 milliliters",
+            "550 milliliters",
+            "650 milliliters",
+            "500 milliliters",
+            "More than a thirsty cat drinks"
+          ],
+          "answer": "600 milliliters"
+        },
+        // Question 17.2
+        {
+          "question": "Each test tube holds 15 milliliters. How many test tubes can be filled with 100 milliliters of solution?",
+          "options": [
+            "6 test tubes",
+            "7 test tubes",
+            "5 test tubes",
+            "8 test tubes",
+            "A test tube marching band"
+          ],
+          "answer": "6 test tubes"
+        },
+        // Question 17.3
+        {
+          "question": "If mixing 50 grams of salt with 450 milliliters of water makes a 10% solution, how many grams of salt are needed for 900 milliliters of water?",
+          "options": [
+            "100 grams",
+            "90 grams",
+            "110 grams",
+            "80 grams",
+            "Salty as a mermaid's snack"
+          ],
+          "answer": "100 grams"
+        },
+        // Question 17.4
+        {
+          "question": "A graduated cylinder is marked every 5 milliliters. If you need to measure 38 milliliters, between which marks should the liquid level be?",
+          "options": [
+            "35 and 40 mL",
+            "30 and 35 mL",
+            "40 and 45 mL",
+            "25 and 30 mL",
+            "Between dragon tears"
+          ],
+          "answer": "35 and 40 mL"
+        },
+        // Question 17.5
+        {
+          "question": "If 1 gram of powder dissolves in 20 milliliters of water, how many grams are needed for 500 milliliters?",
+          "options": [
+            "25 grams",
+            "20 grams",
+            "30 grams",
+            "15 grams",
+            "Heavy as a wizard's recipe"
+          ],
+          "answer": "25 grams"
+        }
+      ]
+    },
+    // Stage 18 - Craft Project Planning
+    {
+      "text": "The art class is working on various craft projects that require measuring and cutting materials accurately.",
+      "questions": [
+        // Question 18.1
+        {
+          "question": "Each student needs 1.5 meters of ribbon. If ribbon comes in 10-meter rolls, how many students can make projects from 4 rolls?",
+          "options": [
+            "26 students",
+            "24 students",
+            "28 students",
+            "22 students",
+            "A ribbon dance party"
+          ],
+          "answer": "26 students"
+        },
+        // Question 18.2
+        {
+          "question": "A square piece of paper is 30 centimeters on each side. If you cut it into strips 3 centimeters wide, how many strips will you get?",
+          "options": [
+            "10 strips",
+            "8 strips",
+            "12 strips",
+            "9 strips",
+            "A paper rainbow collection"
+          ],
+          "answer": "10 strips"
+        },
+        // Question 18.3
+        {
+          "question": "Clay comes in 500-gram packages. If each student uses 75 grams, how many students can share 2 packages?",
+          "options": [
+            "13 students",
+            "12 students",
+            "14 students",
+            "15 students",
+            "A clay sculpture circus"
+          ],
+          "answer": "13 students"
+        },
+        // Question 18.4
+        {
+          "question": "A picture frame is 40 centimeters wide and 30 centimeters tall. How many centimeters of decorative border are needed to go around it?",
+          "options": [
+            "140 centimeters",
+            "120 centimeters",
+            "160 centimeters",
+            "130 centimeters",
+            "Long as a sleeping caterpillar"
+          ],
+          "answer": "140 centimeters"
+        },
+        // Question 18.5
+        {
+          "question": "Paint covers 2 square meters per 100 milliliters. How many milliliters are needed to paint a poster that's 50 centimeters by 40 centimeters?",
+          "options": [
+            "10 milliliters",
+            "20 milliliters",
+            "15 milliliters",
+            "25 milliliters",
+            "Enough for a rainbow bridge"
+          ],
+          "answer": "10 milliliters"
+        }
+      ]
+    },
+    // Stage 19 - School Camping Trip
+    {
+      "text": "The class is planning a two-day camping trip. They need to calculate supplies and measurements for various activities.",
+      "questions": [
+        // Question 19.1
+        {
+          "question": "Each student needs 3 liters of water per day. If 30 students are camping for 2 days, how many 1.5-liter bottles should they bring?",
+          "options": [
+            "120 bottles",
+            "90 bottles",
+            "100 bottles",
+            "110 bottles",
+            "Enough for a water bottle orchestra"
+          ],
+          "answer": "120 bottles"
+        },
+        // Question 19.2
+        {
+          "question": "A sleeping bag rolls into a cylinder 50 centimeters long and 20 centimeters in diameter. How many can fit in a storage box that's 1 meter by 60 centimeters?",
+          "options": [
+            "6 bags",
+            "4 bags",
+            "8 bags",
+            "5 bags",
+            "Cozy as a cloud's pajamas"
+          ],
+          "answer": "6 bags"
+        },
+        // Question 19.3
+        {
+          "question": "If each tent is 3 meters by 2 meters and needs 1 meter of space around it, how many tents can fit in a 15-meter by 10-meter area?",
+          "options": [
+            "6 tents",
+            "8 tents",
+            "4 tents",
+            "5 tents",
+            "A tent city for giants"
+          ],
+          "answer": "6 tents"
+        },
+        // Question 19.4
+        {
+          "question": "Each student needs 250 grams of trail mix per day. How many kilograms are needed for 30 students for 2 days?",
+          "options": [
+            "15 kilograms",
+            "12 kilograms",
+            "18 kilograms",
+            "10 kilograms",
+            "Heavy as a squirrel's dream"
+          ],
+          "answer": "15 kilograms"
+        },
+        // Question 19.5
+        {
+          "question": "If a hiking trail is 2.5 kilometers long and students walk 4 kilometers per hour, how many minutes will the hike take?",
+          "options": [
+            "37.5 minutes",
+            "45 minutes",
+            "30 minutes",
+            "40 minutes",
+            "Time to race a lazy cloud"
+          ],
+          "answer": "37.5 minutes"
+        }
+      ]
+    },
+    // Stage 20 - Holiday Celebrations
+    {
+      "text": "The school is preparing for a holiday celebration. Students need to help calculate measurements for decorations and supplies.",
+      "questions": [
+        // Question 20.1
+        {
+          "question": "Each class decoration needs 3 meters of string lights. If there are 8 classes and lights come in 20-meter rolls, how many rolls are needed?",
+          "options": [
+            "2 rolls",
+            "3 rolls",
+            "1 roll",
+            "4 rolls",
+            "Bright as a star collection"
+          ],
+          "answer": "2 rolls"
+        },
+        // Question 20.2
+        {
+          "question": "A banner is 4 meters long and decorated every 25 centimeters. How many decorations are needed?",
+          "options": [
+            "16 decorations",
+            "12 decorations",
+            "20 decorations",
+            "14 decorations",
+            "A parade of flying sparkles"
+          ],
+          "answer": "16 decorations"
+        },
+        // Question 20.3
+        {
+          "question": "Each student makes a paper chain 1.5 meters long. How many kilometers of chain will 200 students make in total?",
+          "options": [
+            "0.3 kilometers",
+            "0.2 kilometers",
+            "0.4 kilometers",
+            "0.25 kilometers",
+            "Long as a rainbow highway"
+          ],
+          "answer": "0.3 kilometers"
+        },
+        // Question 20.4
+        {
+          "question": "Balloons are placed 20 centimeters apart around a room that's 8 meters by 6 meters. How many balloons are needed?",
+          "options": [
+            "140 balloons",
+            "120 balloons",
+            "160 balloons",
+            "130 balloons",
+            "A balloon army invasion"
+          ],
+          "answer": "140 balloons"
+        },
+        // Question 20.5
+        {
+          "question": "If 1 liter of juice serves 4 students and each class has 25 students, how many milliliters are needed for 8 classes?",
+          "options": [
+            "50000 milliliters",
+            "40000 milliliters",
+            "60000 milliliters",
+            "45000 milliliters",
+            "A juice waterfall party"
+          ],
+          "answer": "50000 milliliters"
+        }
+      ]
+    },
+    // Stage 21 - Classroom Design Project
+    {
+      "text": "Students are helping to reorganize their classroom. They need to calculate measurements for furniture and learning spaces.",
+      "questions": [
+        // Question 21.1
+        {
+          "question": "A bookshelf is 1.5 meters wide and books are 3 centimeters thick. If there are 4 shelves, how many books can fit?",
+          "options": [
+            "200 books",
+            "150 books",
+            "250 books",
+            "180 books",
+            "A library for giants"
+          ],
+          "answer": "200 books"
+        },
+        // Question 21.2
+        {
+          "question": "If each student needs 1.2 square meters of space and the classroom is 8 meters by 6 meters (minus 10 square meters for the teacher's area), how many students fit comfortably?",
+          "options": [
+            "33 students",
+            "30 students",
+            "36 students",
+            "28 students",
+            "Room for a penguin party"
+          ],
+          "answer": "33 students"
+        },
+        // Question 21.3
+        {
+          "question": "New curtains need to be 2.5 meters long. If fabric comes in rolls 1.6 meters wide, how many meters of fabric are needed for 3 windows?",
+          "options": [
+            "5 meters",
+            "4 meters",
+            "6 meters",
+            "7.5 meters",
+            "Long as a sleepy giraffe"
+          ],
+          "answer": "5 meters"
+        },
+        // Question 21.4
+        {
+          "question": "A desk is 75 centimeters high. If you stack 6 books that are each 3 centimeters thick on it, what's the total height in meters?",
+          "options": [
+            "0.93 meters",
+            "0.90 meters",
+            "0.95 meters",
+            "0.88 meters",
+            "Tall as a tower of pancakes"
+          ],
+          "answer": "0.93 meters"
+        },
+        // Question 21.5
+        {
+          "question": "The whiteboard is 2 meters wide. If each student's project needs 25 centimeters of display space, how many projects can be displayed?",
+          "options": [
+            "8 projects",
+            "6 projects",
+            "10 projects",
+            "12 projects",
+            "An art gallery for mice"
+          ],
+          "answer": "8 projects"
+        }
+      ]
+    },
+    // Stage 22 - School Sports Competition
+    {
+      "text": "The school is hosting a sports competition. Students need to help calculate measurements and distances for various events.",
+      "questions": [
+        // Question 22.1
+        {
+          "question": "Runners complete 4 laps of a 400-meter track. If the fastest runner takes 25 seconds per 100 meters, how many minutes will they take to finish?",
+          "options": [
+            "6.67 minutes",
+            "6 minutes",
+            "7 minutes",
+            "6.5 minutes",
+            "Fast as a cheetah's nap"
+          ],
+          "answer": "6.67 minutes"
+        },
+        // Question 22.2
+        {
+          "question": "Each team needs 2.5 liters of water per hour. For 8 teams playing for 3 hours, how many 1-liter bottles are needed?",
+          "options": [
+            "60 bottles",
+            "50 bottles",
+            "70 bottles",
+            "55 bottles",
+            "A waterfall collection"
+          ],
+          "answer": "60 bottles"
+        },
+        // Question 22.3
+        {
+          "question": "If high jump starts at 1 meter and increases by 5 centimeters each round, at what height in meters is round 8?",
+          "options": [
+            "1.4 meters",
+            "1.35 meters",
+            "1.45 meters",
+            "1.5 meters",
+            "High as a jumping kangaroo"
+          ],
+          "answer": "1.4 meters"
+        },
+        // Question 22.4
+        {
+          "question": "Long jump marks are placed every 25 centimeters from 2 meters to 4 meters. How many marks are needed?",
+          "options": [
+            "8 marks",
+            "6 marks",
+            "10 marks",
+            "12 marks",
+            "Spots for leaping frogs"
+          ],
+          "answer": "8 marks"
+        },
+        // Question 22.5
+        {
+          "question": "A relay race baton is 30 centimeters long. If 6 batons are placed end to end, what's the total length in meters?",
+          "options": [
+            "1.8 meters",
+            "1.5 meters",
+            "2 meters",
+            "1.6 meters",
+            "Long as a sleeping snake"
+          ],
+          "answer": "1.8 meters"
+        }
+      ]
+    },
+    // Stage 23 - School Garden Harvest
+    {
+      "text": "It's harvest time in the school garden. Students need to measure and calculate the amounts of vegetables and fruits collected.",
+      "questions": [
+        // Question 23.1
+        {
+          "question": "Tomatoes are packed in 500-gram boxes. If the total harvest is 12 kilograms, how many boxes are needed?",
+          "options": [
+            "24 boxes",
+            "20 boxes",
+            "28 boxes",
+            "22 boxes",
+            "A tomato treasure chest"
+          ],
+          "answer": "24 boxes"
+        },
+        // Question 23.2
+        {
+          "question": "Each cucumber plant produced 400 grams of cucumbers. If there are 15 plants, how many kilograms is the total harvest?",
+          "options": [
+            "6 kilograms",
+            "5 kilograms",
+            "7 kilograms",
+            "5.5 kilograms",
+            "Heavy as a garden giant"
+          ],
+          "answer": "6 kilograms"
+        },
+        // Question 23.3
+        {
+          "question": "Carrots are tied in bundles of 250 grams each. How many bundles can be made from 4 kilograms of carrots?",
+          "options": [
+            "16 bundles",
+            "14 bundles",
+            "18 bundles",
+            "15 bundles",
+            "A carrot bouquet parade"
+          ],
+          "answer": "16 bundles"
+        },
+        // Question 23.4
+        {
+          "question": "If each lettuce head weighs 300 grams and 25 heads were harvested, how many kilograms is the total harvest?",
+          "options": [
+            "7.5 kilograms",
+            "6.5 kilograms",
+            "8 kilograms",
+            "7 kilograms",
+            "Light as a salad cloud"
+          ],
+          "answer": "7.5 kilograms"
+        },
+        // Question 23.5
+        {
+          "question": "Herbs are dried to 1/4 of their fresh weight. If you start with 800 grams of fresh herbs, how many grams will they weigh when dry?",
+          "options": [
+            "200 grams",
+            "150 grams",
+            "250 grams",
+            "180 grams",
+            "Light as fairy seasoning"
+          ],
+          "answer": "200 grams"
+        }
+      ]
+    },
+    // Stage 24 - Weather Station Project
+    {
+      "text": "Students are running a weather monitoring station. They need to measure and calculate various weather-related measurements.",
+      "questions": [
+        // Question 24.1
+        {
+          "question": "The rain gauge collected 25 millimeters of rain in one week. How many liters of rain fell on a garden that's 5 meters by 4 meters? (1mm of rain = 1 L per m²)",
+          "options": [
+            "500 liters",
+            "450 liters",
+            "550 liters",
+            "475 liters",
+            "Enough for a cloud's bath"
+          ],
+          "answer": "500 liters"
+        },
+        // Question 24.2
+        {
+          "question": "Temperature rose 2 degrees every hour from 15°C. What was the temperature after 4.5 hours?",
+          "options": [
+            "24°C",
+            "23°C",
+            "25°C",
+            "22°C",
+            "Hot as a dragon's sneeze"
+          ],
+          "answer": "24°C"
+        },
+        // Question 24.3
+        {
+          "question": "Wind speed averaged 20 kilometers per hour. How many meters does the wind travel in 90 seconds?",
+          "options": [
+            "500 meters",
+            "450 meters",
+            "550 meters",
+            "475 meters",
+            "Far as a flying carpet"
+          ],
+          "answer": "500 meters"
+        },
+        // Question 24.4
+        {
+          "question": "A thermometer shows the temperature drops 5°C every 2 hours. If it starts at 30°C, what will the temperature be after 7 hours?",
+          "options": [
+            "12.5°C",
+            "15°C",
+            "10°C",
+            "17.5°C",
+            "Cold as a penguin's ice cream"
+          ],
+          "answer": "12.5°C"
+        },
+        // Question 24.5
+        {
+          "question": "If 1 cubic meter of air weighs 1.2 kilograms, how many grams does the air in a classroom of 8 x 6 x 3 meters weigh?",
+          "options": [
+            "172800 grams",
+            "150000 grams",
+            "180000 grams",
+            "160000 grams",
+            "Light as a cloud sandwich"
+          ],
+          "answer": "172800 grams"
+        }
+      ]
+    },
+    // Stage 25 - Library Organization
+    {
+      "text": "The school library is being reorganized. Students need to help calculate shelf space and book arrangements.",
+      "questions": [
+        // Question 25.1
+        {
+          "question": "Each shelf is 1.5 meters long. If each book is 3 centimeters thick, and you leave 15 centimeters for bookends, how many books fit on one shelf?",
+          "options": [
+            "45 books",
+            "40 books",
+            "50 books",
+            "42 books",
+            "A book butterfly collection"
+          ],
+          "answer": "45 books"
+        },
+        // Question 25.2
+        {
+          "question": "Dictionary volumes weigh 1.2 kilograms each. How many grams do 15 volumes weigh together?",
+          "options": [
+            "18000 grams",
+            "15000 grams",
+            "20000 grams",
+            "16500 grams",
+            "Heavy as a wizard's wisdom"
+          ],
+          "answer": "18000 grams"
+        },
+        // Question 25.3
+        {
+          "question": "Comic books are 25 centimeters tall and need 1 centimeter of space between them. How many can fit in a 2-meter tall bookcase with 6 shelves?",
+          "options": [
+            "444 comics",
+            "400 comics",
+            "480 comics",
+            "420 comics",
+            "A superhero convention"
+          ],
+          "answer": "444 comics"
+        },
+        // Question 25.4
+        {
+          "question": "Reading tables are 1.2 meters wide. If each student needs 60 centimeters of space, how many students can sit on one side of the table?",
+          "options": [
+            "2 students",
+            "3 students",
+            "4 students",
+            "1 student",
+            "A bookworm party line"
+          ],
+          "answer": "2 students"
+        },
+        // Question 25.5
+        {
+          "question": "If magazine boxes are 8 centimeters wide and you have 50 magazines, how many meters of shelf space is needed with 2 centimeters between boxes?",
+          "options": [
+            "5 meters",
+            "4 meters",
+            "6 meters",
+            "4.5 meters",
+            "Long as a reading rainbow"
+          ],
+          "answer": "5 meters"
+        }
+      ]
+    },
+    // Stage 26 - Music Festival 
+    {
+      "text": "The school is organizing a music festival. Students need to help with various measurements and calculations.",
+      "questions": [
+        // Question 26.1
+        {
+          "question": "Each choir member needs 0.5 meters of space. How many students can stand in a row that's 6 meters wide?",
+          "options": [
+            "12 students",
+            "10 students",
+            "14 students",
+            "11 students",
+            "A singing penguin parade"
+          ],
+          "answer": "12 students"
+        },
+        // Question 26.2
+        {
+          "question": "The stage is 8 meters by 4 meters. If each square meter needs 2 spotlights, how many spotlights are needed total?",
+          "options": [
+            "64 lights",
+            "56 lights",
+            "72 lights",
+            "60 lights",
+            "Bright as a star party"
+          ],
+          "answer": "64 lights"
+        },
+        // Question 26.3
+        {
+          "question": "Sound travels at 340 meters per second. If a student is 85 meters from the speakers, how many seconds will the sound take to reach them?",
+          "options": [
+            "0.25 seconds",
+            "0.2 seconds",
+            "0.3 seconds",
+            "0.35 seconds",
+            "Quick as a music fairy"
+          ],
+          "answer": "0.25 seconds"
+        },
+        // Question 26.4
+        {
+          "question": "Each performance is 4.5 minutes long. How many performances can fit in 2 hours with 2 minutes between each?",
+          "options": [
+            "18 performances",
+            "16 performances",
+            "20 performances",
+            "15 performances",
+            "A symphony of dancing stars"
+          ],
+          "answer": "18 performances"
+        },
+        // Question 26.5
+        {
+          "question": "If each microphone cable is 3 meters long and you need 2 backup cables for every 5 microphones, how many meters of cable are needed for 15 microphones?",
+          "options": [
+            "51 meters",
+            "45 meters",
+            "54 meters",
+            "48 meters",
+            "Long as a musical snake"
+          ],
+          "answer": "51 meters"
+        }
+      ]
+    },
+    // Stage 27 - Recycling Project
+    {
+      "text": "The school is organizing a recycling collection. Students need to measure and calculate different types of recyclable materials.",
+      "questions": [
+        // Question 27.1
+        {
+          "question": "Each kilogram of paper saves 17 liters of water. How many liters of water are saved by recycling 25 kilograms of paper?",
+          "options": [
+            "425 liters",
+            "400 liters",
+            "450 liters",
+            "375 liters",
+            "A water dragon's treasure"
+          ],
+          "answer": "425 liters"
+        },
+        // Question 27.2
+        {
+          "question": "Plastic bottles are crushed to 1/5 of their original size. If a bin is 50 centimeters high, how many bottles originally 25 centimeters tall can fit?",
+          "options": [
+            "10 bottles",
+            "8 bottles",
+            "12 bottles",
+            "15 bottles",
+            "A recycled bottle circus"
+          ],
+          "answer": "10 bottles"
+        },
+        // Question 27.3
+        {
+          "question": "Aluminum cans weigh 15 grams each. How many kilograms do 400 cans weigh?",
+          "options": [
+            "6 kilograms",
+            "5 kilograms",
+            "7 kilograms",
+            "5.5 kilograms",
+            "Heavy as a metal rainbow"
+          ],
+          "answer": "6 kilograms"
+        },
+        // Question 27.4
+        {
+          "question": "Glass bottles take up 200 cubic centimeters each. How many bottles fit in a box that's 40 x 30 x 50 centimeters?",
+          "options": [
+            "300 bottles",
+            "250 bottles",
+            "350 bottles",
+            "275 bottles",
+            "A glass bottle symphony"
+          ],
+          "answer": "300 bottles"
+        },
+        // Question 27.5
+        {
+          "question": "If each student collects 1.5 kilograms of recyclables per week, how many grams will 30 students collect in 4 weeks?",
+          "options": [
+            "180000 grams",
+            "150000 grams",
+            "200000 grams",
+            "160000 grams",
+            "Heavy as an eco-friendly elephant"
+          ],
+          "answer": "180000 grams"
+        }
+      ]
+    },
+    // Stage 28 - School Store
+    {
+      "text": "The school store needs help organizing inventory. Students need to calculate quantities and measurements of various supplies.",
+      "questions": [
+        // Question 28.1
+        {
+          "question": "Notebooks are 1 centimeter thick and stacked 30 centimeters high. How many notebooks are in the stack?",
+          "options": [
+            "30 notebooks",
+            "25 notebooks",
+            "35 notebooks",
+            "28 notebooks",
+            "A tower of homework dreams"
+          ],
+          "answer": "30 notebooks"
+        },
+        // Question 28.2
+        {
+          "question": "Pencils come in boxes of 12, each pencil is 20 centimeters long. How many meters of pencils are in 5 boxes?",
+          "options": [
+            "12 meters",
+            "10 meters",
+            "14 meters",
+            "11 meters",
+            "Long as a dragon's tail"
+          ],
+          "answer": "12 meters"
+        },
+        // Question 28.3
+        {
+          "question": "If erasers weigh 20 grams each and come in packs of 5, how many kilograms do 40 packs weigh?",
+          "options": [
+            "4 kilograms",
+            "3.5 kilograms",
+            "4.5 kilograms",
+            "3 kilograms",
+            "Heavy as a rubber cloud"
+          ],
+          "answer": "4 kilograms"
+        },
+        // Question 28.4
+        {
+          "question": "Art paper sheets are 50 x 70 centimeters. How many square meters of paper are in 25 sheets?",
+          "options": [
+            "8.75 square meters",
+            "8 square meters",
+            "9.5 square meters",
+            "7.5 square meters",
+            "Big as an artist's dream"
+          ],
+          "answer": "8.75 square meters"
+        },
+        // Question 28.5
+        {
+          "question": "Glue sticks are 10 centimeters tall. If they're displayed in 5 rows, how many millimeters tall is the display?",
+          "options": [
+            "500 millimeters",
+            "450 millimeters",
+            "550 millimeters",
+            "475 millimeters",
+            "Tall as a sticky giraffe"
+          ],
+          "answer": "500 millimeters"
+        }
+      ]
+    },
+    // Stage 29 - Field Trip Planning
+    {
+      "text": "Students are helping plan a field trip to a nature reserve. They need to calculate various measurements for the trip.",
+      "questions": [
+        // Question 29.1
+        {
+          "question": "The hiking trail has markers every 250 meters. If the total trail is 3 kilometers, how many markers are there?",
+          "options": [
+            "12 markers",
+            "10 markers",
+            "14 markers",
+            "11 markers",
+            "A trail of dancing butterflies"
+          ],
+          "answer": "12 markers"
+        },
+        // Question 29.2
+        {
+          "question": "Each student needs 500 milliliters of water per hour. For 40 students on a 5-hour hike, how many liters of water are needed?",
+          "options": [
+            "100 liters",
+            "90 liters",
+            "110 liters",
+            "95 liters",
+            "Enough for a thirsty elephant"
+          ],
+          "answer": "100 liters"
+        },
+        // Question 29.3
+        {
+          "question": "If a bus travels at 60 kilometers per hour, how many minutes will it take to travel 45 kilometers?",
+          "options": [
+            "45 minutes",
+            "40 minutes",
+            "50 minutes",
+            "42 minutes",
+            "Time for a cloud race"
+          ],
+          "answer": "45 minutes"
+        },
+        // Question 29.4
+        {
+          "question": "Lunch packs weigh 300 grams each. How many kilograms do lunch packs for 45 students weigh?",
+          "options": [
+            "13.5 kilograms",
+            "12 kilograms",
+            "15 kilograms",
+            "14 kilograms",
+            "Heavy as a picnic mountain"
+          ],
+          "answer": "13.5 kilograms"
+        },
+        // Question 29.5
+        {
+          "question": "If students walk 4 kilometers per hour and rest 10 minutes every kilometer, how long will a 3-kilometer walk take in minutes?",
+          "options": [
+            "75 minutes",
+            "60 minutes",
+            "90 minutes",
+            "70 minutes",
+            "Time for a snail marathon"
+          ],
+          "answer": "75 minutes"
+        }
+      ]
+    },
+   // Stage 30 - End of Year Celebration
+    {
+      "text": "The school year is ending, and students are planning a big celebration. They need to calculate various measurements for decorations, refreshments, and activities.",
+      "questions": [
+        // Question 30.1
+        {
+          "question": "The celebration area is 15 meters by 20 meters. If each person needs 2 square meters for social distancing, how many people can fit safely?",
+          "options": [
+            "150 people",
+            "140 people",
+            "160 people",
+            "145 people",
+            "Room for a dancing cloud party"
+          ],
+          "answer": "150 people"
+        },
+        // Question 30.2
+        {
+          "question": "If 8 classes each perform for 5 minutes with 2 minutes between performances, how many minutes will all performances take?",
+          "options": [
+            "54 minutes",
+            "50 minutes",
+            "56 minutes",
+            "52 minutes",
+            "Time for a talent rainbow"
+          ],
+          "answer": "54 minutes"
+        },
+        // Question 30.3
+        {
+          "question": "Each student drinks 250 milliliters of juice and there are 200 students. How many 2-liter bottles are needed to serve everyone?",
+          "options": [
+            "25 bottles",
+            "20 bottles",
+            "30 bottles",
+            "22 bottles",
+            "A juice bottle orchestra"
+          ],
+          "answer": "25 bottles"
+        },
+        // Question 30.4
+        {
+          "question": "Decorative string lights are placed every 50 centimeters around the room's perimeter (70 meters). How many sets of lights are needed?",
+          "options": [
+            "140 sets",
+            "130 sets",
+            "150 sets",
+            "135 sets",
+            "Bright as a star collection"
+          ],
+          "answer": "140 sets"
+        },
+        // Question 30.5
+        {
+          "question": "If each class (8 total) contributes 2.5 kilograms of snacks, how many grams of snacks are there altogether?",
+          "options": [
+            "20000 grams",
+            "18000 grams",
+            "22000 grams",
+            "19000 grams",
+            "Heavy as a happy elephant"
+          ],
+          "answer": "20000 grams"
+        }
+      ]
+    }
+				  ]
+				}
+        ];
+
+		const stageCount = quizData[0].stages.length; // This is the correct way to get the number of stages
+
+
+		const stateContents = {
+			'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+			,'Subject Overview 🗝️': `<div class="subject-overview-content">     <h1>Word Problems Involving Length, Weight, and Volume: A Comprehensive Guide</h1>     <p>Word problems involving measurement are common in everyday life. They help students apply concepts of length, weight, and volume in real-world contexts. In this guide, we will explore how to approach and solve such problems with clarity, ensuring accurate results. Examples and tips will be provided for solving these problems effectively.</p>     <hr>     <h2>Table of Contents</h2>     <ol>         <li><a href="#what-are-measurement-word-problems">What Are Measurement Word Problems?</a></li>         <li><a href="#general-strategies-for-solving-word-problems">General Strategies for Solving Word Problems</a></li>         <li><a href="#detailed-explanation">Detailed Explanation</a>             <ul>                 <li><a href="#length-problems">Length</a></li>                 <li><a href="#weight-problems">Weight</a></li>                 <li><a href="#volume-problems">Volume</a></li>             </ul>         </li>         <li><a href="#conclusion">Conclusion</a></li>     </ol>     <hr>     <h2 id="what-are-measurement-word-problems">What Are Measurement Word Problems?</h2>     <p>Measurement word problems ask you to apply knowledge of length, weight, and volume to solve real-life scenarios. These problems often involve multiple units of measurement and require converting between units or performing calculations with measurements.</p>     <p>In this guide, we will cover problems related to:</p>     <ul>         <li>Length (e.g., centimeters, meters, kilometers)</li>         <li>Weight (e.g., grams, kilograms, tons)</li>         <li>Volume (e.g., milliliters, liters, cubic meters)</li>     </ul>     <hr>     <h2 id="general-strategies-for-solving-word-problems">General Strategies for Solving Word Problems</h2>     <p>Here are some general strategies to keep in mind when tackling word problems involving measurement:</p>     <ol>         <li><strong>Read the problem carefully:</strong> Understand what is being asked and identify the key measurements.</li>         <li><strong>Identify units:</strong> Ensure that you know the units used in the problem and convert if necessary.</li>         <li><strong>Choose the correct operation:</strong> Decide whether to add, subtract, multiply, or divide to solve the problem.</li>         <li><strong>Double-check calculations:</strong> Verify that your calculations are correct and that they make sense in the context of the problem.</li>     </ol>     <hr>     <h2 id="detailed-explanation">Detailed Explanation</h2>     <h3 id="length-problems">Length</h3>     <p><strong>Meaning and Use:</strong></p>     <ol>         <li><strong>Addition/Subtraction:</strong> Length problems may involve adding or subtracting distances.</li>         <li><strong>Conversions:</strong> You might need to convert between units (e.g., meters to kilometers).</li>     </ol>     <p><strong>Example:</strong></p>     <p><em>Problem:</em> A cyclist rides 12 km in the morning and 8 km in the afternoon. How far did the cyclist ride in total?</p>     <p><em>Solution:</em> Add the distances together: 12 km + 8 km = 20 km. The cyclist rode 20 km in total.</p>     <hr>     <h3 id="weight-problems">Weight</h3>     <p><strong>Meaning and Use:</strong></p>     <ol>         <li><strong>Addition/Subtraction:</strong> Word problems on weight often involve adding or subtracting weights of objects.</li>         <li><strong>Estimations:</strong> You may need to estimate or round weights to solve the problem efficiently.</li>     </ol>     <p><strong>Example:</strong></p>     <p><em>Problem:</em> A bag of apples weighs 2.5 kg. If another 1.3 kg of apples is added, what is the total weight of the apples?</p>     <p><em>Solution:</em> Add the weights together: 2.5 kg + 1.3 kg = 3.8 kg. The total weight of the apples is 3.8 kg.</p>     <hr>     <h3 id="volume-problems">Volume</h3>     <p><strong>Meaning and Use:</strong></p>     <ol>         <li><strong>Liquid Volume:</strong> Word problems might involve adding or subtracting volumes of liquids.</li>         <li><strong>Conversions:</strong> You may need to convert between milliliters and liters.</li>     </ol>     <p><strong>Example:</strong></p>     <p><em>Problem:</em> A bottle contains 500 ml of water. If another 300 ml is added, how much water is in the bottle?</p>     <p><em>Solution:</em> Add the volumes together: 500 ml + 300 ml = 800 ml. The bottle now contains 800 ml of water.</p>     <hr>     <h2 id="conclusion">Conclusion</h2>     <p>Understanding how to solve word problems involving length, weight, and volume is essential for mastering measurement concepts. By carefully reading problems, identifying the correct units, and using the right operations, you can solve these problems with ease. Keep practicing these techniques to become more confident in solving measurement problems!</p>     <hr> </div>
+`		};
+
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function isTextEmpty(text) {
+    return !text || text.trim() === "";
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    
+    // Only add stage text if it's not empty
+    const stageText = quizData[0].stages[currentStage].text;
+    if (!isTextEmpty(stageText)) {
+        const stageTextElement = document.createElement("div");
+        stageTextElement.className = "stage-text";
+        stageTextElement.style.marginBottom = "20px";
+        stageTextElement.style.padding = "15px";
+        stageTextElement.style.backgroundColor = "#f5f5f5";
+        stageTextElement.style.borderRadius = "5px";
+        stageTextElement.textContent = stageText;
+        quizContainer.appendChild(stageTextElement);
+    }
+    
+    // Render questions
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+        
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${questionData.question}`;
+        
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+        
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+        
+        const shuffledOptions = shuffleArray([...questionData.options]);
+        shuffledOptions.forEach(option => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv);
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[0].stages[currentStage].questions.length;
+
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === questionData.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect answer.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 10) {
+            selectElement.value = questionData.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` The correct answer is: ${questionData.answer}`;
+        }
+    });
+
+    if (correctCount === totalQuestions) {
+        console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+        addAnimalsToFarm(totalQuestions);
+
+        if (currentStage < quizData[0].stages.length - 1) {
+            singleStageConfetti();
+            showEncouragingPopup(correctCount, totalQuestions, true);
+            currentStage++;
+            updateProgressBar();
+            setTimeout(() => {
+                attempts = 0;
+                renderQuiz();
+                document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+            }, 1500);
+        } else {
+            currentStage++;
+            updateProgressBar();
+            allStagesConfetti();
+            showModal("Congratulations! You've completed all stages!");
+        }
+    } else {
+        showEncouragingPopup(correctCount, totalQuestions, false);
+        if (attempts >= 10) {
+            showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+        }
+    }
+
+    scrollToTop();
+}
+
+// 4. Update stageCount calculation to work with new structure
+
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+    const completedStages = currentStage;
+    const progress = (completedStages / stageCount) * 100;
+    const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+    progressBar.style.width = `${roundedProgress}%`;
+    progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+    console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+}
+
+function updateStageNumber() {
+    const stageElement = document.getElementById("stage-number");
+    stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>
