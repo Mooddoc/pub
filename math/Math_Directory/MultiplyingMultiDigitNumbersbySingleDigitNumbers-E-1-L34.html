@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+	<style>
+ 
+	</style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read each question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>Multiplying Multi-Digit Numbers by Single-Digit Numbers</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+ 
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+        const quizData = [ 												//  PH3 - Quiz Data   	
+
+  // Stage 1 - Simple two-digit by single-digit multiplication (easier numbers)
+  [
+    {
+      question: "Each plate has 10 cookies. If mom makes 3 plates of cookies, how many cookies are there in total? ___ cookies",
+      options: ["30", "13", "310", "7", "yummy"], 
+      answer: "30"
+    },
+    {
+      question: "A teacher has 11 stickers on each page. If she has 2 pages, how many stickers does she have? ___ stickers",
+      options: ["22", "13", "211", "9", "sparkly"], 
+      answer: "22"
+    },
+    {
+      question: "There are 12 pencils in each box. If you have 4 boxes, how many pencils do you have? ___ pencils",
+      options: ["48", "16", "412", "8", "doodle"], 
+      answer: "48"
+    },
+    {
+      question: "Each bag has 15 marbles. If you have 3 bags, how many marbles do you have? ___ marbles",
+      options: ["45", "18", "315", "12", "bouncy"], 
+      answer: "45"
+    },
+    {
+      question: "A shelf has 20 books. If there are 2 shelves, how many books are there? ___ books",
+      options: ["40", "22", "220", "18", "library"], 
+      answer: "40"
+    }
+  ],
+
+  // Stage 2 - Two-digit by single-digit multiplication with teen numbers
+  [
+    {
+      question: "Each team has 13 players. If there are 3 teams, how many players are there? ___ players",
+      options: ["39", "16", "313", "10", "superstar"], 
+      answer: "39"
+    },
+    {
+      question: "A garden has 14 flowers in each row. If there are 2 rows, how many flowers are there? ___ flowers",
+      options: ["28", "16", "214", "12", "butterfly"], 
+      answer: "28"
+    },
+    {
+      question: "Each box has 16 crayons. If you have 4 boxes, how many crayons do you have? ___ crayons",
+      options: ["64", "20", "416", "12", "rainbow"], 
+      answer: "64"
+    },
+    {
+      question: "Mom bakes 18 cupcakes each day. How many cupcakes will she bake in 3 days? ___ cupcakes",
+      options: ["54", "21", "318", "15", "delicious"], 
+      answer: "54"
+    },
+    {
+      question: "There are 17 fish in each tank. If the pet store has 2 tanks, how many fish are there? ___ fish",
+      options: ["34", "19", "217", "15", "splash"], 
+      answer: "34"
+    }
+  ],
+
+  // Stage 3 - Two-digit by single-digit multiplication (20s and 30s)
+  [
+    {
+      question: "Each classroom has 21 students. If there are 3 classrooms, how many students are there? ___ students",
+      options: ["63", "24", "321", "18", "recess"], 
+      answer: "63"
+    },
+    {
+      question: "A farmer collects 23 eggs each day. How many eggs will they collect in 2 days? ___ eggs",
+      options: ["46", "25", "223", "21", "chickens"], 
+      answer: "46"
+    },
+    {
+      question: "There are 24 candies in each bag. If you have 4 bags, how many candies do you have? ___ candies",
+      options: ["96", "28", "424", "20", "sweet"], 
+      answer: "96"
+    },
+    {
+      question: "Each bus has 25 seats. If there are 2 buses, how many seats are there? ___ seats",
+      options: ["50", "27", "225", "23", "wheels"], 
+      answer: "50"
+    },
+    {
+      question: "A pack has 22 cards. If you have 3 packs, how many cards do you have? ___ cards",
+      options: ["66", "25", "322", "19", "joker"], 
+      answer: "66"
+    }
+  ],
+
+  // Stage 4 - Two-digit by single-digit multiplication (30s)
+  [
+    {
+      question: "Each basketball team scores 31 points. If 2 teams are playing, how many points were scored in total? ___ points",
+      options: ["62", "33", "231", "29", "swoosh"], 
+      answer: "62"
+    },
+    {
+      question: "A store sells 32 ice creams each hour. How many ice creams will they sell in 3 hours? ___ ice creams",
+      options: ["96", "35", "332", "29", "melting"], 
+      answer: "96"
+    },
+    {
+      question: "There are 33 stickers on each page. If you have 2 pages, how many stickers do you have? ___ stickers",
+      options: ["66", "35", "233", "31", "sparkle"], 
+      answer: "66"
+    },
+    {
+      question: "Each box has 34 chocolates. If you have 3 boxes, how many chocolates do you have? ___ chocolates",
+      options: ["102", "37", "334", "31", "yummy"], 
+      answer: "102"
+    },
+    {
+      question: "A shelf holds 35 toys. If there are 2 shelves, how many toys are there? ___ toys",
+      options: ["70", "37", "235", "33", "playtime"], 
+      answer: "70"
+    }
+  ],
+
+  // Stage 5 - Two-digit by single-digit multiplication (40s)
+  [
+    {
+      question: "Each class needs 41 pencils. If there are 2 classes, how many pencils are needed? ___ pencils",
+      options: ["82", "43", "241", "39", "drawing"], 
+      answer: "82"
+    },
+    {
+      question: "A bakery makes 42 cookies each day. How many cookies will they make in 3 days? ___ cookies",
+      options: ["126", "45", "342", "39", "tasty"], 
+      answer: "126"
+    },
+    {
+      question: "There are 43 pages in each book. If you have 2 books, how many pages are there? ___ pages",
+      options: ["86", "45", "243", "41", "reading"], 
+      answer: "86"
+    },
+    {
+      question: "Each bag has 44 marbles. If you have 3 bags, how many marbles do you have? ___ marbles",
+      options: ["132", "47", "344", "41", "rolling"], 
+      answer: "132"
+    },
+    {
+      question: "A garden has 45 flowers in each row. If there are 2 rows, how many flowers are there? ___ flowers",
+      options: ["90", "47", "245", "43", "blooming"], 
+      answer: "90"
+    }
+  ],
+   // Stage 6 - Working with fives and tens
+  [
+    {
+      question: "Each hand has 5 fingers. How many fingers are there on 4 hands? ___ fingers",
+      options: ["20", "9", "54", "16", "high-five"], 
+      answer: "20"
+    },
+    {
+      question: "A pack of gum has 5 pieces. If you buy 6 packs, how many pieces of gum do you have? ___ pieces",
+      options: ["30", "11", "56", "24", "bubble"], 
+      answer: "30"
+    },
+    {
+      question: "There are 10 stickers on each page. If you have 5 pages, how many stickers do you have? ___ stickers",
+      options: ["50", "15", "510", "45", "sparkly"], 
+      answer: "50"
+    },
+    {
+      question: "Each box has 15 crayons. If you have 4 boxes, how many crayons do you have? ___ crayons",
+      options: ["60", "19", "415", "56", "rainbow"], 
+      answer: "60"
+    },
+    {
+      question: "A baker makes 25 cupcakes each hour. How many cupcakes will they make in 3 hours? ___ cupcakes",
+      options: ["75", "28", "325", "72", "yummy"], 
+      answer: "75"
+    }
+  ],
+
+  // Stage 7 - Multiples of 2 and 4
+  [
+    {
+      question: "Each bike has 2 wheels. How many wheels are there on 6 bikes? ___ wheels",
+      options: ["12", "8", "26", "10", "zoom"], 
+      answer: "12"
+    },
+    {
+      question: "A dog has 4 legs. How many legs do 5 dogs have? ___ legs",
+      options: ["20", "9", "45", "16", "woof"], 
+      answer: "20"
+    },
+    {
+      question: "Each car has 4 tires. How many tires are needed for 3 cars? ___ tires",
+      options: ["12", "7", "34", "9", "vroom"], 
+      answer: "12"
+    },
+    {
+      question: "There are 22 students in each class. If there are 4 classes, how many students are there? ___ students",
+      options: ["88", "26", "422", "84", "recess"], 
+      answer: "88"
+    },
+    {
+      question: "A box has 24 eggs. If you have 2 boxes, how many eggs do you have? ___ eggs",
+      options: ["48", "26", "224", "46", "breakfast"], 
+      answer: "48"
+    }
+  ],
+
+  // Stage 8 - Shopping scenarios
+  [
+    {
+      question: "Each pencil costs $2. How much will 7 pencils cost? $___ ",
+      options: ["14", "9", "27", "12", "free"], 
+      answer: "14"
+    },
+    {
+      question: "A notebook costs $3. How much will 5 notebooks cost? $___ ",
+      options: ["15", "8", "35", "13", "bargain"], 
+      answer: "15"
+    },
+    {
+      question: "Each eraser costs $1. How much will 9 erasers cost? $___ ",
+      options: ["9", "10", "19", "8", "discount"], 
+      answer: "9"
+    },
+    {
+      question: "A juice box costs $2. How much will 6 juice boxes cost? $___ ",
+      options: ["12", "8", "26", "10", "thirsty"], 
+      answer: "12"
+    },
+    {
+      question: "Each candy bar costs $3. How much will 4 candy bars cost? $___ ",
+      options: ["12", "7", "34", "9", "sweet"], 
+      answer: "12"
+    }
+  ],
+
+  // Stage 9 - Sports and games
+  [
+    {
+      question: "A basketball team scores 23 points. If they play 3 games, what's their total score? ___ points",
+      options: ["69", "26", "323", "66", "swish"], 
+      answer: "69"
+    },
+    {
+      question: "Each player has 12 cards. If there are 4 players, how many cards are there? ___ cards",
+      options: ["48", "16", "412", "44", "joker"], 
+      answer: "48"
+    },
+    {
+      question: "A soccer team has 11 players. If there are 2 teams, how many players are there? ___ players",
+      options: ["22", "13", "211", "20", "goal"], 
+      answer: "22"
+    },
+    {
+      question: "Each game lasts 15 minutes. How long will 4 games take? ___ minutes",
+      options: ["60", "19", "415", "56", "timeout"], 
+      answer: "60"
+    },
+    {
+      question: "A player scores 14 points. If 3 players score the same, what's the total? ___ points",
+      options: ["42", "17", "314", "39", "champion"], 
+      answer: "42"
+    }
+  ],
+
+  // Stage 10 - Garden and nature
+  [
+    {
+      question: "Each tree has 25 apples. How many apples are on 3 trees? ___ apples",
+      options: ["75", "28", "325", "72", "juicy"], 
+      answer: "75"
+    },
+    {
+      question: "A garden has 16 flowers in each row. If there are 4 rows, how many flowers are there? ___ flowers",
+      options: ["64", "20", "416", "60", "bloom"], 
+      answer: "64"
+    },
+    {
+      question: "Each plant needs 3 cups of water. How much water do 8 plants need? ___ cups",
+      options: ["24", "11", "38", "21", "splash"], 
+      answer: "24"
+    },
+    {
+      question: "A packet has 22 seeds. How many seeds are in 3 packets? ___ seeds",
+      options: ["66", "25", "322", "63", "grow"], 
+      answer: "66"
+    },
+    {
+      question: "Each bush has 13 berries. How many berries are on 4 bushes? ___ berries",
+      options: ["52", "17", "413", "48", "sweet"], 
+      answer: "52"
+    }
+  ],
+
+  // Stage 11 - School supplies
+  [
+    {
+      question: "A box has 31 crayons. How many crayons are in 3 boxes? ___ crayons",
+      options: ["93", "34", "331", "90", "colorful"], 
+      answer: "93"
+    },
+    {
+      question: "Each student needs 12 pencils. How many pencils do 5 students need? ___ pencils",
+      options: ["60", "17", "512", "55", "write"], 
+      answer: "60"
+    },
+    {
+      question: "A pack has 24 markers. How many markers are in 3 packs? ___ markers",
+      options: ["72", "27", "324", "69", "draw"], 
+      answer: "72"
+    },
+    {
+      question: "Each folder has 15 papers. How many papers are in 4 folders? ___ papers",
+      options: ["60", "19", "415", "56", "homework"], 
+      answer: "60"
+    },
+    {
+      question: "A shelf has 33 books. How many books are on 2 shelves? ___ books",
+      options: ["66", "35", "233", "63", "reading"], 
+      answer: "66"
+    }
+  ],
+
+  // Stage 12 - Time and scheduling
+  [
+    {
+      question: "Each class is 45 minutes. How long are 2 classes? ___ minutes",
+      options: ["90", "47", "245", "88", "recess"], 
+      answer: "90"
+    },
+    {
+      question: "A show runs for 30 minutes. How long are 3 shows? ___ minutes",
+      options: ["90", "33", "330", "87", "encore"], 
+      answer: "90"
+    },
+    {
+      question: "Each game takes 20 minutes. How long do 4 games take? ___ minutes",
+      options: ["80", "24", "420", "76", "playtime"], 
+      answer: "80"
+    },
+    {
+      question: "A lesson is 25 minutes. How long are 3 lessons? ___ minutes",
+      options: ["75", "28", "325", "72", "learn"], 
+      answer: "75"
+    },
+    {
+      question: "Each break is 15 minutes. How long are 4 breaks? ___ minutes",
+      options: ["60", "19", "415", "56", "relax"], 
+      answer: "60"
+    }
+  ],
+
+  // Stage 13 - Food and cooking
+  [
+    {
+      question: "A recipe needs 24 cookies. How many cookies are needed for 3 recipes? ___ cookies",
+      options: ["72", "27", "324", "69", "yummy"], 
+      answer: "72"
+    },
+    {
+      question: "Each pizza has 8 slices. How many slices are in 6 pizzas? ___ slices",
+      options: ["48", "14", "68", "42", "delicious"], 
+      answer: "48"
+    },
+    {
+      question: "A cake needs 3 eggs. How many eggs are needed for 7 cakes? ___ eggs",
+      options: ["21", "10", "37", "18", "bake"], 
+      answer: "21"
+    },
+    {
+      question: "Each sandwich needs 2 slices of bread. How many slices for 9 sandwiches? ___ slices",
+      options: ["18", "11", "29", "16", "lunch"], 
+      answer: "18"
+    },
+    {
+      question: "A box has 15 chocolates. How many chocolates are in 4 boxes? ___ chocolates",
+      options: ["60", "19", "415", "56", "sweet"], 
+      answer: "60"
+    }
+  ],
+
+  // Stage 14 - Animals and pets
+  [
+    {
+      question: "Each fish tank has 22 fish. How many fish are in 3 tanks? ___ fish",
+      options: ["66", "25", "322", "63", "swim"], 
+      answer: "66"
+    },
+    {
+      question: "A cat eats 3 treats each day. How many treats for 8 days? ___ treats",
+      options: ["24", "11", "38", "21", "meow"], 
+      answer: "24"
+    },
+    {
+      question: "Each bird cage has 2 birds. How many birds are in 7 cages? ___ birds",
+      options: ["14", "9", "27", "12", "tweet"], 
+      answer: "14"
+    },
+    {
+      question: "A hamster needs 4 food pellets daily. How many pellets for 6 days? ___ pellets",
+      options: ["24", "10", "46", "20", "squeak"], 
+      answer: "24"
+    },
+    {
+      question: "Each rabbit eats 5 carrots per day. How many carrots for 4 rabbits? ___ carrots",
+      options: ["20", "9", "54", "16", "hop"], 
+      answer: "20"
+    }
+  ],
+
+  // Stage 15 - Transportation
+  [
+    {
+      question: "A bus has 32 seats. How many seats are on 3 buses? ___ seats",
+      options: ["96", "35", "332", "93", "ride"], 
+      answer: "96"
+    },
+    {
+      question: "Each train car has 24 windows. How many windows are on 4 cars? ___ windows",
+      options: ["96", "28", "424", "92", "choo"], 
+      answer: "96"
+    },
+    {
+      question: "A parking lot has 21 cars. How many cars are in 3 lots? ___ cars",
+      options: ["63", "24", "321", "60", "vroom"], 
+      answer: "63"
+    },
+    {
+      question: "Each airplane has 35 seats. How many seats are on 2 airplanes? ___ seats",
+      options: ["70", "37", "235", "68", "fly"], 
+      answer: "70"
+    },
+    {
+      question: "A bike rack holds 12 bikes. How many bikes fit on 5 racks? ___ bikes",
+      options: ["60", "17", "512", "55", "pedal"], 
+      answer: "60"
+    }
+  ],
+
+  // Stage 16 - Money and shopping (higher numbers)
+  [
+    {
+      question: "Each toy costs $23. How much will 3 toys cost? $___ ",
+      options: ["69", "26", "323", "66", "fun"], 
+      answer: "69"
+    },
+    {
+      question: "A game costs $42. How much will 2 games cost? $___ ",
+      options: ["84", "44", "242", "82", "play"], 
+      answer: "84"
+    },
+    {
+      question: "Each book costs $15. How much will 4 books cost? $___ ",
+      options: ["60", "19", "415", "56", "read"], 
+      answer: "60"
+    },
+    {
+      question: "A shirt costs $25. How much will 3 shirts cost? $___ ",
+      options: ["75", "28", "325", "72", "fashion"], 
+      answer: "75"
+    },
+    {
+      question: "Each hat costs $12. How much will 5 hats cost? $___ ",
+      options: ["60", "17", "512", "55", "style"], 
+      answer: "60"
+    }
+  ],
+
+  // Stage 17 - Party planning
+  [
+    {
+      question: "Each party needs 24 balloons. How many balloons for 4 parties? ___ balloons",
+      options: ["96", "28", "424", "92", "pop"], 
+      answer: "96"
+    },
+    {
+      question: "A table seats 6 guests. How many guests can sit at 5 tables? ___ guests",
+      options: ["30", "11", "56", "25", "party"], 
+      answer: "30"
+    },
+    {
+      question: "Each goodie bag has 8 candies. How many candies for 7 bags? ___ candies",
+      options: ["56", "15", "87", "49", "sweet"], 
+      answer: "56"
+    },
+    {
+      question: "A cake serves 12 people. How many people can 4 cakes serve? ___ people",
+      options: ["48", "16", "412", "44", "celebrate"], 
+      answer: "48"
+    },
+    {
+      question: "Each party needs 15 cups. How many cups for 6 parties? ___ cups",
+      options: ["90", "21", "615", "84", "cheers"], 
+	  answer: "90"
+    }
+  ],
+  // Stage 18 - Art and Crafts
+  [
+    {
+      question: "Each art project needs 13 beads. How many beads are needed for 4 projects? ___ beads",
+      options: ["52", "17", "413", "48", "sparkle"], 
+      answer: "52"
+    },
+    {
+      question: "A bracelet uses 16 buttons. How many buttons are needed for 3 bracelets? ___ buttons",
+      options: ["48", "19", "316", "45", "pretty"], 
+      answer: "48"
+    },
+    {
+      question: "Each painting needs 21 colors. How many colors are needed for 2 paintings? ___ colors",
+      options: ["42", "23", "221", "40", "rainbow"], 
+      answer: "42"
+    },
+    {
+      question: "A poster uses 14 stickers. How many stickers are needed for 5 posters? ___ stickers",
+      options: ["70", "19", "514", "65", "shine"], 
+      answer: "70"
+    },
+    {
+      question: "Each craft kit has 23 pieces. How many pieces are in 3 kits? ___ pieces",
+      options: ["69", "26", "323", "66", "create"], 
+      answer: "69"
+    }
+  ],
+
+  // Stage 19 - Science and Nature
+  [
+    {
+      question: "A leaf collection has 32 leaves. How many leaves are in 2 collections? ___ leaves",
+      options: ["64", "34", "232", "62", "autumn"], 
+      answer: "64"
+    },
+    {
+      question: "Each rock box has 15 rocks. How many rocks are in 4 boxes? ___ rocks",
+      options: ["60", "19", "415", "56", "mineral"], 
+      answer: "60"
+    },
+    {
+      question: "A butterfly garden has 24 butterflies. How many butterflies are in 3 gardens? ___ butterflies",
+      options: ["72", "27", "324", "69", "flutter"], 
+      answer: "72"
+    },
+    {
+      question: "Each science experiment needs 22 minutes. How long do 3 experiments take? ___ minutes",
+      options: ["66", "25", "322", "63", "eureka"], 
+      answer: "66"
+    },
+    {
+      question: "A plant grows 12 leaves each week. How many leaves grow in 4 weeks? ___ leaves",
+      options: ["48", "16", "412", "44", "grow"], 
+      answer: "48"
+    }
+  ],
+
+  // Stage 20 - Review and Mixed Practice
+  [
+    {
+      question: "Each team has 25 players. If there are 3 teams, how many players are there? ___ players",
+      options: ["75", "28", "325", "72", "champion"], 
+      answer: "75"
+    },
+    {
+      question: "A box of crayons has 24 colors. How many colors are in 4 boxes? ___ colors",
+      options: ["96", "28", "424", "92", "rainbow"], 
+      answer: "96"
+    },
+    {
+      question: "Each day a student reads 15 pages. How many pages do they read in 5 days? ___ pages",
+      options: ["75", "20", "515", "70", "bookworm"], 
+      answer: "75"
+    },
+    {
+      question: "A garden has 33 flowers. If you plant 2 gardens, how many flowers will there be? ___ flowers",
+      options: ["66", "35", "233", "63", "bloom"], 
+      answer: "66"
+    },
+    {
+      question: "Each pizza has 8 slices. How many slices are in 5 pizzas? ___ slices",
+      options: ["40", "13", "85", "35", "yummy"], 
+      answer: "40"
+    }
+  ]	
+
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+
+
+		   'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+           //,'Subject Overview 🗝️': `<h2>Animal Farm</h2>`
+
+		
+		};
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    quizData[currentStage].forEach((question, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+        
+        // Create label for the question text
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${question.question}`;
+        
+        // Create div for result feedback
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+        
+        // Create select element for answers
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        
+        // Add default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+        
+        // Shuffle and add answer options
+        const shuffledOptions = shuffleArray([...question.options]);
+        shuffledOptions.forEach((option, optionIndex) => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        // Append elements to questionElement in the desired order
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv); // Feedback before dropdown
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+		function checkStage() {
+   attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[currentStage].length;
+
+    quizData[currentStage].forEach((question, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === question.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect answer.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 10) {
+            selectElement.value = question.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` The correct answer is: ${question.answer}`;
+        }
+    });
+
+    console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`Stage ${currentStage + 1} completed. Adding ${totalQuestions} animals.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`Moving to stage ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("Congratulations! You've completed all stages.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 10) {
+					showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+		function updateStageNumber() {
+			const stageElement = document.getElementById("stage-number");
+			stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+		}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>
