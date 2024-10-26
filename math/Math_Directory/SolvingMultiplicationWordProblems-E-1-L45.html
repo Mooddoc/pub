@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+	<style>
+  
+	</style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read the text and questions carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>Solving multiplication word problems</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+ 
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+																		//  PH3 - Quiz Data 
+        const quizData = [ 												   	
+				{
+				  "stages": [
+
+    {
+      "text": "At the school book fair, students are buying multiplication practice books. Each book costs $6, and they come in special packages.",
+      "questions": [
+        // Question 1.1
+        {
+          "question": "If Tom buys 4 practice books, how much money will he spend?",
+          "options": ["$24", "$10", "$14", "$40", "Books are always free!"],
+          "answer": "$24"
+        },
+        // Question 1.2
+        {
+          "question": "Ms. Smith wants to buy practice books for her class of 5 students. How much will she pay?",
+          "options": ["$30", "$25", "$35", "$15", "The teacher gets them for free"],
+          "answer": "$30"
+        },
+        // Question 1.3
+        {
+          "question": "If Sarah has $18, how many practice books can she buy?",
+          "options": ["3", "2", "4", "6", "A million books!"],
+          "answer": "3"
+        },
+        // Question 1.4
+        {
+          "question": "The library wants to buy 7 practice books. What's the total cost?",
+          "options": ["$42", "$36", "$48", "$30", "Libraries never pay"],
+          "answer": "$42"
+        },
+        // Question 1.5
+        {
+          "question": "If 8 students each buy one practice book, what's the total amount collected?",
+          "options": ["$48", "$40", "$56", "$32", "Students should read free books"],
+          "answer": "$48"
+        }
+      ]
+    },
+    {
+      "text": "A bakery sells cookies in boxes. Each box contains 8 chocolate chip cookies.",
+      "questions": [
+        // Question 2.1
+        {
+          "question": "If John buys 6 boxes, how many cookies does he get in total?",
+          "options": ["48", "42", "54", "36", "All the cookies disappeared!"],
+          "answer": "48"
+        },
+        // Question 2.2
+        {
+          "question": "The school orders 9 boxes for a party. How many cookies will they receive?",
+          "options": ["72", "64", "80", "56", "Enough for everyone to have 100"],
+          "answer": "72"
+        },
+        // Question 2.3
+        {
+          "question": "If Maria wants 40 cookies, how many boxes should she buy?",
+          "options": ["5", "4", "6", "3", "Just one magical box"],
+          "answer": "5"
+        },
+        // Question 2.4
+        {
+          "question": "The bakery sold 7 boxes this morning. How many individual cookies is that?",
+          "options": ["56", "48", "64", "40", "A baker's dozen"],
+          "answer": "56"
+        },
+        // Question 2.5
+        {
+          "question": "If 3 families each buy 4 boxes, how many total cookies do they get?",
+          "options": ["96", "84", "108", "72", "Infinite cookies!"],
+          "answer": "96"
+        }
+      ]
+    },
+    {
+      "text": "A toy store sells model cars in different pack sizes. Each pack of model cars costs $12.",
+      "questions": [
+        // Question 3.1
+        {
+          "question": "If Alex buys 5 packs and pays with a $100 bill, how much change should he receive?",
+          "options": ["$40", "$35", "$45", "$50", "No change needed - keep shopping!"],
+          "answer": "$40"
+        },
+        // Question 3.2
+        {
+          "question": "The store sells 8 packs on Monday and 6 packs on Tuesday. How much money did they collect in total?",
+          "options": ["$168", "$156", "$180", "$144", "They gave them away for free"],
+          "answer": "$168"
+        },
+        // Question 3.3
+        {
+          "question": "If a collector wants to spend $84 on model car packs, how many can they buy?",
+          "options": ["7", "6", "8", "5", "A whole toy store!"],
+          "answer": "7"
+        },
+        // Question 3.4
+        {
+          "question": "Three friends each buy 3 packs. What's their total combined cost?",
+          "options": ["$108", "$96", "$120", "$84", "Friends get special free passes"],
+          "answer": "$108"
+        },
+        // Question 3.5
+        {
+          "question": "If the store has 9 packs left and sells them all, how much money will they make?",
+          "options": ["$108", "$96", "$120", "$132", "They'll become millionaires"],
+          "answer": "$108"
+        }
+      ]
+    },
+    {
+      "text": "A school garden has several rows of vegetables. Each row needs daily watering and care.",
+      "questions": [
+        // Question 4.1
+        {
+          "question": "If each row has 6 tomato plants, and there are 7 rows, how many tomato plants are there in total?",
+          "options": ["42", "36", "48", "13", "They all turned into pizza sauce!"],
+          "answer": "42"
+        },
+        // Question 4.2
+        {
+          "question": "It takes 3 minutes to water each row. How many minutes to water all 7 rows?",
+          "options": ["21", "18", "24", "10", "The rain will handle it"],
+          "answer": "21"
+        },
+        // Question 4.3
+        {
+          "question": "Each tomato plant produces 4 tomatoes. How many tomatoes will all plants produce?",
+          "options": ["168", "156", "180", "144", "Enough for lifetime supply of ketchup"],
+          "answer": "168"
+        },
+        // Question 4.4
+        {
+          "question": "If 8 students each water 2 rows, how many total rows get watered?",
+          "options": ["16", "14", "18", "10", "The plants learned to water themselves"],
+          "answer": "16"
+        },
+        // Question 4.5
+        {
+          "question": "Each row needs 5 cups of water. How many cups are needed for all rows?",
+          "options": ["35", "30", "40", "25", "A whole swimming pool"],
+          "answer": "35"
+        }
+      ]
+    },
+    {
+      "text": "A movie theater has multiple showings each day. Each showing has different attendance numbers.",
+      "questions": [
+        // Question 5.1
+        {
+          "question": "If each row has 12 seats, and there are 8 rows, how many total seats are in the theater?",
+          "options": ["96", "88", "104", "20", "Infinite seats - it's magic!"],
+          "answer": "96"
+        },
+        // Question 5.2
+        {
+          "question": "Tickets cost $9 each. If 15 families each buy 4 tickets, how much money is collected?",
+          "options": ["$540", "$495", "$585", "$450", "Movies should be free!"],
+          "answer": "$540"
+        },
+        // Question 5.3
+        {
+          "question": "The theater sells popcorn for $5. If 13 groups each buy 3 popcorns, how much money do they spend on popcorn?",
+          "options": ["$195", "$180", "$210", "$165", "They brought their own snacks"],
+          "answer": "$195"
+        },
+        // Question 5.4
+        {
+          "question": "If each movie runs for 2 hours and they show 6 movies per day, how many hours of movies are shown?",
+          "options": ["12", "10", "14", "8", "Movies play forever"],
+          "answer": "12"
+        },
+        // Question 5.5
+        {
+          "question": "If 7 employees each work 6 hours, how many total work hours are completed?",
+          "options": ["42", "36", "48", "13", "The theater runs itself"],
+          "answer": "42"
+        }
+      ]
+    },
+    {
+      "text": "A pet store receives new fish tanks. Each tank needs specific care and maintenance.",
+      "questions": [
+        // Question 6.1
+        {
+          "question": "Each tank holds 9 fish, and they have 11 tanks. How many fish can they hold in total?",
+          "options": ["99", "90", "108", "20", "The whole ocean!"],
+          "answer": "99"
+        },
+        // Question 6.2
+        {
+          "question": "Fish food costs $7 per container. If they need 8 containers per month, how much do they spend?",
+          "options": ["$56", "$49", "$63", "$42", "Fish can survive on love"],
+          "answer": "$56"
+        },
+        // Question 6.3
+        {
+          "question": "Each tank needs cleaning 2 times per week. How many cleanings are needed for all tanks in one week?",
+          "options": ["22", "20", "24", "13", "The fish clean their own tanks"],
+          "answer": "22"
+        },
+        // Question 6.4
+        {
+          "question": "If each cleaning takes 15 minutes, how many minutes to clean all tanks once?",
+          "options": ["165", "150", "180", "26", "Time stops when cleaning"],
+          "answer": "165"
+        },
+        // Question 6.5
+        {
+          "question": "They sell 14 fish at $8 each. How much money do they collect?",
+          "options": ["$112", "$104", "$120", "$22", "Fish should be priceless"],
+          "answer": "$112"
+        }
+      ]
+    },
+    {
+      "text": "A clothing factory produces uniforms for schools. Each uniform consists of multiple pieces.",
+      "questions": [
+        // Question 7.1
+        {
+          "question": "If each uniform needs 3 buttons, and they're making 16 uniforms, how many buttons are needed?",
+          "options": ["48", "44", "52", "19", "Buttons grow on trees!"],
+          "answer": "48"
+        },
+        // Question 7.2
+        {
+          "question": "They make 13 uniforms per hour for 7 hours. How many uniforms do they make?",
+          "options": ["91", "84", "98", "20", "Enough for every student in the world"],
+          "answer": "91"
+        },
+        // Question 7.3
+        {
+          "question": "Each uniform uses 2 meters of fabric. How many meters are needed for 15 uniforms?",
+          "options": ["30", "28", "32", "17", "A fabric rainbow"],
+          "answer": "30"
+        },
+        // Question 7.4
+        {
+          "question": "If 9 workers each make 5 uniforms, how many uniforms are made?",
+          "options": ["45", "40", "50", "14", "They made invisible uniforms"],
+          "answer": "45"
+        },
+        // Question 7.5
+        {
+          "question": "Each uniform costs $25 to make. How much do 12 uniforms cost?",
+          "options": ["$300", "$275", "$325", "$37", "They sew themselves for free"],
+          "answer": "$300"
+        }
+      ]
+    },
+    {
+      "text": "A construction site needs building materials. Workers calculate the amounts needed.",
+      "questions": [
+        // Question 8.1
+        {
+          "question": "Each wall needs 17 bricks, and they're building 6 walls. How many bricks are needed?",
+          "options": ["102", "98", "106", "23", "The bricks multiply themselves!"],
+          "answer": "102"
+        },
+        // Question 8.2
+        {
+          "question": "If 8 workers each work 9 hours, how many total work hours are there?",
+          "options": ["72", "68", "76", "17", "Time flies when building"],
+          "answer": "72"
+        },
+        // Question 8.3
+        {
+          "question": "Each bag of cement costs $12. If they need 14 bags, what's the total cost?",
+          "options": ["$168", "$156", "$180", "$26", "The cement fairy brings it"],
+          "answer": "$168"
+        },
+        // Question 8.4
+        {
+          "question": "They need 13 windows, and each window has 6 panes. How many panes in total?",
+          "options": ["78", "72", "84", "19", "Windows are overrated"],
+          "answer": "78"
+        },
+        // Question 8.5
+        {
+          "question": "If 16 workers each use 4 tools, how many tools are being used?",
+          "options": ["64", "60", "68", "20", "Tools work by themselves"],
+          "answer": "64"
+        }
+      ]
+    },
+    {
+      "text": "A science class is conducting experiments with plants. They need to measure and calculate growth rates.",
+      "questions": [
+        // Question 9.1
+        {
+          "question": "Each plant grows 3 centimeters per week. After 15 weeks, how much has it grown?",
+          "options": ["45", "42", "48", "18", "It grew to the moon!"],
+          "answer": "45"
+        },
+        // Question 9.2
+        {
+          "question": "If 12 students each monitor 7 plants, how many plants are being monitored?",
+          "options": ["84", "78", "90", "19", "The plants monitor themselves"],
+          "answer": "84"
+        },
+        // Question 9.3
+        {
+          "question": "Each plant needs 8 drops of water daily. How many drops for 19 plants?",
+          "options": ["152", "144", "160", "27", "Plants drink juice instead"],
+          "answer": "152"
+        },
+        // Question 9.4
+        {
+          "question": "If 16 plants each produce 5 seeds, how many seeds are there?",
+          "options": ["80", "75", "85", "21", "Seeds rain from the sky"],
+          "answer": "80"
+        },
+        // Question 9.5
+        {
+          "question": "They measure 13 plants every 6 days. How many measurements in 6 days?",
+          "options": ["78", "72", "84", "19", "Plants measure themselves"],
+          "answer": "78"
+        }
+      ]
+    },
+    {
+      "text": "A grocery store stocks fruits in different sections. They need to calculate inventory and prices.",
+      "questions": [
+        // Question 10.1
+        {
+          "question": "Each box has 24 apples. If they receive 8 boxes, how many apples total?",
+          "options": ["192", "184", "200", "32", "Apples grow in the store!"],
+          "answer": "192"
+        },
+        // Question 10.2
+        {
+          "question": "Oranges cost $3 each. If 15 customers each buy 5 oranges, how much money is collected?",
+          "options": ["$225", "$210", "$240", "$18", "Oranges should be free"],
+          "answer": "$225"
+        },
+        // Question 10.3
+        {
+          "question": "They stack 17 fruit baskets, each containing 7 pieces. How many pieces of fruit total?",
+          "options": ["119", "112", "126", "24", "Fruit multiplies overnight"],
+          "answer": "119"
+        },
+        // Question 10.4
+        {
+          "question": "If 23 bins each hold 6 pears, how many pears are there?",
+          "options": ["138", "132", "144", "29", "Pears turned into apples"],
+          "answer": "138"
+        },
+        // Question 10.5
+        {
+          "question": "Each shelf holds 9 baskets, and there are 16 shelves. How many baskets total?",
+          "options": ["144", "136", "152", "25", "Baskets float in the air"],
+          "answer": "144"
+        }
+      ]
+    },
+    {
+      "text": "A pizza restaurant fills delivery orders. Each pizza is cut into equal slices.",
+      "questions": [
+        // Question 11.1
+        {
+          "question": "If each pizza has 8 slices and they deliver 25 pizzas, how many slices total?",
+          "options": ["200", "192", "208", "33", "Infinite slices of joy!"],
+          "answer": "200"
+        },
+        // Question 11.2
+        {
+          "question": "Each delivery takes 15 minutes. How many minutes for 12 deliveries?",
+          "options": ["180", "165", "195", "27", "Time stops for pizza"],
+          "answer": "180"
+        },
+        // Question 11.3
+        {
+          "question": "If 18 customers each order 3 pizzas, how many pizzas are ordered?",
+          "options": ["54", "48", "60", "21", "The whole restaurant"],
+          "answer": "54"
+        },
+        // Question 11.4
+        {
+          "question": "Each pizza costs $12. How much for 16 pizzas?",
+          "options": ["$192", "$180", "$204", "$28", "Pizza should rain from sky"],
+          "answer": "$192"
+        },
+        // Question 11.5
+        {
+          "question": "If 14 drivers each deliver 7 pizzas, how many pizzas are delivered?",
+          "options": ["98", "91", "105", "21", "Pizzas deliver themselves"],
+          "answer": "98"
+        }
+      ]
+    },
+    {
+      "text": "A library organizes books on shelves. Each shelf needs to be properly stocked and maintained.",
+      "questions": [
+        // Question 12.1
+        {
+          "question": "Each shelf holds 27 books. How many books can 9 shelves hold?",
+          "options": ["243", "234", "252", "36", "Books multiply by magic!"],
+          "answer": "243"
+        },
+        // Question 12.2
+        {
+          "question": "If 15 students each check out 4 books, how many books are checked out?",
+          "options": ["60", "56", "64", "19", "They borrowed the whole library"],
+          "answer": "60"
+        },
+        // Question 12.3
+        {
+          "question": "Each book takes 3 minutes to catalog. How many minutes to catalog 31 books?",
+          "options": ["93", "88", "98", "34", "Books catalog themselves"],
+          "answer": "93"
+        },
+        // Question 12.4
+        {
+          "question": "If 22 sections each have 8 shelves, how many total shelves are there?",
+          "options": ["176", "168", "184", "30", "Shelves float in space"],
+          "answer": "176"
+        },
+        // Question 12.5
+        {
+          "question": "Each library card costs $2. How much for 45 cards?",
+          "options": ["$90", "$84", "$96", "$47", "Cards grow on trees"],
+          "answer": "$90"
+        }
+      ]
+    },
+    {
+      "text": "A toy factory produces board games. Each game needs specific components.",
+      "questions": [
+        // Question 13.1
+        {
+          "question": "If each game needs 36 cards and they make 8 games, how many cards total?",
+          "options": ["288", "280", "296", "44", "Cards appear by magic!"],
+          "answer": "288"
+        },
+        // Question 13.2
+        {
+          "question": "Each worker makes 13 games per day. How many games do 7 workers make?",
+          "options": ["91", "84", "98", "20", "Games make themselves"],
+          "answer": "91"
+        },
+        // Question 13.3
+        {
+          "question": "If 24 stores each order 5 games, how many games are ordered?",
+          "options": ["120", "115", "125", "29", "The whole factory stock"],
+          "answer": "120"
+        },
+        // Question 13.4
+        {
+          "question": "Each game costs $15 to make. How much to make 28 games?",
+          "options": ["$420", "$405", "$435", "$43", "Manufacturing is free!"],
+          "answer": "$420"
+        },
+        // Question 13.5
+        {
+          "question": "If 16 boxes each hold 9 games, how many games can be stored?",
+          "options": ["144", "136", "152", "25", "Infinite storage space"],
+          "answer": "144"
+        }
+      ]
+    },
+    {
+      "text": "A farm grows vegetables in multiple fields. Each field requires specific care.",
+      "questions": [
+        // Question 14.1
+        {
+          "question": "Each field produces 45 carrots. How many carrots from 6 fields?",
+          "options": ["270", "265", "275", "51", "Enough for all rabbits!"],
+          "answer": "270"
+        },
+        // Question 14.2
+        {
+          "question": "If 19 workers each plant 8 rows, how many rows are planted?",
+          "options": ["152", "144", "160", "27", "Fields plant themselves"],
+          "answer": "152"
+        },
+        // Question 14.3
+        {
+          "question": "Each bag of fertilizer costs $11. How much for 23 bags?",
+          "options": ["$253", "$242", "$264", "$34", "Nature provides free fertilizer"],
+          "answer": "$253"
+        },
+        // Question 14.4
+        {
+          "question": "If 32 plants each produce 7 tomatoes, how many tomatoes total?",
+          "options": ["224", "216", "232", "39", "Tomatoes rain from sky"],
+          "answer": "224"
+        },
+        // Question 14.5
+        {
+          "question": "Each field needs 12 hours of work weekly. How many hours for 9 fields?",
+          "options": ["108", "99", "117", "21", "Fields maintain themselves"],
+          "answer": "108"
+        }
+      ]
+    },
+    {
+      "text": "A concert venue organizes seating arrangements. Each section has multiple rows.",
+      "questions": [
+        // Question 15.1
+        {
+          "question": "If each row has 28 seats and there are 7 rows, how many seats total?",
+          "options": ["196", "189", "203", "35", "Everyone gets a front row!"],
+          "answer": "196"
+        },
+        // Question 15.2
+        {
+          "question": "Tickets cost $25 each. How much for 34 tickets?",
+          "options": ["$850", "$825", "$875", "$59", "Concerts should be free"],
+          "answer": "$850"
+        },
+        // Question 15.3
+        {
+          "question": "If 15 sections each have 9 rows, how many rows total?",
+          "options": ["135", "126", "144", "24", "Rows appear magically"],
+          "answer": "135"
+        },
+        // Question 15.4
+        {
+          "question": "Each usher helps 12 people. How many people can 16 ushers help?",
+          "options": ["192", "184", "200", "28", "People find seats telepathically"],
+          "answer": "192"
+        },
+        // Question 15.5
+        {
+          "question": "If 26 fans each buy 4 snacks, how many snacks are sold?",
+          "options": ["104", "96", "112", "30", "Snacks multiply in bags"],
+          "answer": "104"
+        }
+      ]
+    },
+    {
+      "text": "A carnival sets up game booths. Each booth has prizes and tickets.",
+      "questions": [
+        // Question 16.1
+        {
+          "question": "Each booth needs 35 prizes. How many prizes for 8 booths?",
+          "options": ["280", "272", "288", "43", "Infinite prizes for everyone!"],
+          "answer": "280"
+        },
+        // Question 16.2
+        {
+          "question": "If 23 players each win 6 tickets, how many tickets are won?",
+          "options": ["138", "132", "144", "29", "Tickets fall from the sky"],
+          "answer": "138"
+        },
+        // Question 16.3
+        {
+          "question": "Each game costs $4. If 45 people each play 3 games, how much money is collected?",
+          "options": ["$540", "$520", "$560", "$48", "Games should be free!"],
+          "answer": "$540"
+        },
+        // Question 16.4
+        {
+          "question": "If 17 booths each use 12 balloons for decoration, how many balloons total?",
+          "options": ["204", "196", "212", "29", "Balloons multiply themselves"],
+          "answer": "204"
+        },
+        // Question 16.5
+        {
+          "question": "Each prize box holds 15 toys. How many toys in 19 boxes?",
+          "options": ["285", "270", "300", "34", "Toys appear by magic"],
+          "answer": "285"
+        }
+      ]
+    },
+    {
+      "text": "A computer store stocks laptops and accessories. Each item needs specific inventory tracking.",
+      "questions": [
+        // Question 17.1
+        {
+          "question": "If each laptop comes with 6 programs installed, how many programs on 42 laptops?",
+          "options": ["252", "246", "258", "48", "Programs install themselves!"],
+          "answer": "252"
+        },
+        // Question 17.2
+        {
+          "question": "Each laptop costs $325. How much for 8 laptops?",
+          "options": ["$2,600", "$2,500", "$2,700", "$333", "Laptops grow on trees"],
+          "answer": "$2,600"
+        },
+        // Question 17.3
+        {
+          "question": "If 16 customers each buy 5 accessories, how many accessories are sold?",
+          "options": ["80", "75", "85", "21", "Accessories duplicate magically"],
+          "answer": "80"
+        },
+        // Question 17.4
+        {
+          "question": "Each shelf displays 14 laptops. How many laptops on 9 shelves?",
+          "options": ["126", "118", "134", "23", "Shelves expand infinitely"],
+          "answer": "126"
+        },
+        // Question 17.5
+        {
+          "question": "If 27 boxes each contain 11 chargers, how many chargers total?",
+          "options": ["297", "288", "306", "38", "Chargers multiply overnight"],
+          "answer": "297"
+        }
+      ]
+    },
+    {
+      "text": "A bakery prepares orders for multiple events. Each order requires specific quantities.",
+      "questions": [
+        // Question 18.1
+        {
+          "question": "Each cake needs 28 decorations. How many decorations for 13 cakes?",
+          "options": ["364", "356", "372", "41", "Decorations appear magically!"],
+          "answer": "364"
+        },
+        // Question 18.2
+        {
+          "question": "If 32 customers each order 7 cupcakes, how many cupcakes total?",
+          "options": ["224", "216", "232", "39", "Cupcakes bake themselves"],
+          "answer": "224"
+        },
+        // Question 18.3
+        {
+          "question": "Each batch requires 15 eggs. How many eggs for 24 batches?",
+          "options": ["360", "345", "375", "39", "Eggs multiply in cartons"],
+          "answer": "360"
+        },
+        // Question 18.4
+        {
+          "question": "If 19 boxes each hold 16 cookies, how many cookies total?",
+          "options": ["304", "296", "312", "35", "Cookies never end"],
+          "answer": "304"
+        },
+        // Question 18.5
+        {
+          "question": "Each cake costs $22. How much for 17 cakes?",
+          "options": ["$374", "$352", "$396", "$39", "Cakes should be free"],
+          "answer": "$374"
+        }
+      ]
+    },
+    {
+      "text": "A shipping company handles packages. Each delivery route has multiple stops.",
+      "questions": [
+        // Question 19.1
+        {
+          "question": "If each truck carries 45 packages and there are 8 trucks, how many packages total?",
+          "options": ["360", "352", "368", "53", "Packages teleport themselves!"],
+          "answer": "360"
+        },
+        // Question 19.2
+        {
+          "question": "Each route has 23 stops. How many stops for 12 routes?",
+          "options": ["276", "264", "288", "35", "Stops appear magically"],
+          "answer": "276"
+        },
+        // Question 19.3
+        {
+          "question": "If 36 customers each ship 5 boxes, how many boxes total?",
+          "options": ["180", "175", "185", "41", "Boxes clone themselves"],
+          "answer": "180"
+        },
+        // Question 19.4
+        {
+          "question": "Each delivery takes 6 minutes. How many minutes for 47 deliveries?",
+          "options": ["282", "276", "288", "53", "Time stops for delivery"],
+          "answer": "282"
+        },
+        // Question 19.5
+        {
+          "question": "If 15 workers each handle 19 packages, how many packages are handled?",
+          "options": ["285", "270", "300", "34", "Packages sort themselves"],
+          "answer": "285"
+        }
+      ]
+    },
+    {
+      "text": "A sports stadium prepares for games. Each section requires specific arrangements.",
+      "questions": [
+        // Question 20.1
+        {
+          "question": "If each section has 56 seats and there are 9 sections, how many seats total?",
+          "options": ["504", "495", "513", "65", "Seats multiply endlessly!"],
+          "answer": "504"
+        },
+        // Question 20.2
+        {
+          "question": "Each hot dog costs $5. How much for 96 hot dogs?",
+          "options": ["$480", "$465", "$495", "$101", "Hot dogs should be free"],
+          "answer": "$480"
+        },
+        // Question 20.3
+        {
+          "question": "If 28 rows each have 17 seats, how many seats are there?",
+          "options": ["476", "468", "484", "45", "Seats appear by magic"],
+          "answer": "476"
+        },
+        // Question 20.4
+        {
+          "question": "Each worker cleans 13 rows. How many rows do 15 workers clean?",
+          "options": ["195", "182", "208", "28", "Rows clean themselves"],
+          "answer": "195"
+        },
+        // Question 20.5
+        {
+          "question": "If 34 fans each buy 8 snacks, how many snacks are sold?",
+          "options": ["272", "264", "280", "42", "Snacks rain from above"],
+          "answer": "272"
+        }
+      ]
+    },
+    {
+      "text": "A garden center arranges plants. Each display has multiple plants needing care.",
+      "questions": [
+        // Question 21.1
+        {
+          "question": "If each shelf holds 32 plants and there are 15 shelves, how many plants total?",
+          "options": ["480", "465", "495", "47", "Plants multiply overnight!"],
+          "answer": "480"
+        },
+        // Question 21.2
+        {
+          "question": "Each plant needs 7 minutes of water. How many minutes for 45 plants?",
+          "options": ["315", "308", "322", "52", "Plants water themselves"],
+          "answer": "315"
+        },
+        // Question 21.3
+        {
+          "question": "If 26 customers each buy 9 flowers, how many flowers are sold?",
+          "options": ["234", "225", "243", "35", "Flowers grow instantly"],
+          "answer": "234"
+        },
+        // Question 21.4
+        {
+          "question": "Each bag of soil costs $8. How much for 37 bags?",
+          "options": ["$296", "$288", "$304", "$45", "Soil appears magically"],
+          "answer": "$296"
+        },
+        // Question 21.5
+        {
+          "question": "If 23 sections each have 16 pots, how many pots total?",
+          "options": ["368", "352", "384", "39", "Pots duplicate endlessly"],
+          "answer": "368"
+        }
+      ]
+    },
+    {
+      "text": "An art gallery prepares for an exhibition. Each display needs specific arrangements.",
+      "questions": [
+        // Question 22.1
+        {
+          "question": "If each wall holds 24 paintings and there are 18 walls, how many paintings total?",
+          "options": ["432", "424", "440", "42", "Art multiplies itself!"],
+          "answer": "432"
+        },
+        // Question 22.2
+        {
+          "question": "Each ticket costs $15. How much for 56 tickets?",
+          "options": ["$840", "$825", "$855", "$71", "Art should be free"],
+          "answer": "$840"
+        },
+        // Question 22.3
+        {
+          "question": "If 35 artists each display 7 pieces, how many pieces total?",
+          "options": ["245", "238", "252", "42", "Art creates itself"],
+          "answer": "245"
+        },
+        // Question 22.4
+        {
+          "question": "Each sculpture needs 13 spotlights. How many spotlights for 16 sculptures?",
+          "options": ["208", "195", "221", "29", "Light appears magically"],
+          "answer": "208"
+        },
+        // Question 22.5
+        {
+          "question": "If 29 visitors each buy 6 postcards, how many postcards are sold?",
+          "options": ["174", "168", "180", "35", "Postcards print themselves"],
+          "answer": "174"
+        }
+      ]
+    },
+    {
+      "text": "A movie theater prepares for special screenings. Each showing requires specific arrangements.",
+      "questions": [
+        // Question 23.1
+        {
+          "question": "If each screening room has 48 seats and there are 12 rooms, how many seats total?",
+          "options": ["576", "564", "588", "60", "Seats multiply magically!"],
+          "answer": "576"
+        },
+        // Question 23.2
+        {
+          "question": "Each popcorn costs $6. If 67 people buy popcorn, how much money is collected?",
+          "options": ["$402", "$396", "$408", "$73", "Popcorn should be free"],
+          "answer": "$402"
+        },
+        // Question 23.3
+        {
+          "question": "If 45 families each buy 4 tickets, how many tickets are sold?",
+          "options": ["180", "176", "184", "49", "Tickets duplicate themselves"],
+          "answer": "180"
+        },
+        // Question 23.4
+        {
+          "question": "Each movie plays 5 times. How many showings for 28 movies?",
+          "options": ["140", "135", "145", "33", "Movies play forever"],
+          "answer": "140"
+        },
+        // Question 23.5
+        {
+          "question": "If 33 rows each have 15 seats, how many seats total?",
+          "options": ["495", "480", "510", "48", "Seats appear by magic"],
+          "answer": "495"
+        }
+      ]
+    },
+    {
+      "text": "A science museum organizes exhibits. Each display needs specific maintenance.",
+      "questions": [
+        // Question 24.1
+        {
+          "question": "If each exhibit has 36 information cards and there are 14 exhibits, how many cards total?",
+          "options": ["504", "496", "512", "50", "Cards write themselves!"],
+          "answer": "504"
+        },
+        // Question 24.2
+        {
+          "question": "Each guided tour takes 25 minutes. How many minutes for 19 tours?",
+          "options": ["475", "465", "485", "44", "Time stops for science"],
+          "answer": "475"
+        },
+        // Question 24.3
+        {
+          "question": "If 42 students each do 8 experiments, how many experiments total?",
+          "options": ["336", "328", "344", "50", "Experiments run themselves"],
+          "answer": "336"
+        },
+        // Question 24.4
+        {
+          "question": "Each display case needs 16 lights. How many lights for 23 cases?",
+          "options": ["368", "352", "384", "39", "Lights appear magically"],
+          "answer": "368"
+        },
+        // Question 24.5
+        {
+          "question": "If 27 groups each view 12 exhibits, how many exhibit views total?",
+          "options": ["324", "312", "336", "39", "Exhibits clone themselves"],
+          "answer": "324"
+        }
+      ]
+    },
+    {
+      "text": "A candy factory produces different types of sweets. Each batch requires specific ingredients.",
+      "questions": [
+        // Question 25.1
+        {
+          "question": "If each batch uses 54 chocolates and they make 11 batches, how many chocolates needed?",
+          "options": ["594", "583", "605", "65", "Chocolates multiply endlessly!"],
+          "answer": "594"
+        },
+        // Question 25.2
+        {
+          "question": "Each package holds 28 candies. How many candies in 16 packages?",
+          "options": ["448", "436", "460", "44", "Candies appear by magic"],
+          "answer": "448"
+        },
+        // Question 25.3
+        {
+          "question": "If 39 boxes each contain 13 lollipops, how many lollipops total?",
+          "options": ["507", "494", "520", "52", "Lollipops grow on trees"],
+          "answer": "507"
+        },
+        // Question 25.4
+        {
+          "question": "Each worker packs 22 boxes per hour. How many boxes do 15 workers pack?",
+          "options": ["330", "315", "345", "37", "Boxes pack themselves"],
+          "answer": "330"
+        },
+        // Question 25.5
+        {
+          "question": "If 47 stores each order 9 cases, how many cases are ordered?",
+          "options": ["423", "414", "432", "56", "Cases duplicate instantly"],
+          "answer": "423"
+        }
+      ]
+    },
+    {
+      "text": "A video game store tracks sales and inventory. Each game comes with bonus content.",
+      "questions": [
+        // Question 26.1
+        {
+          "question": "If each game includes 65 bonus points and 18 games are sold, how many bonus points total?",
+          "options": ["1,170", "1,155", "1,185", "83", "Points multiply forever!"],
+          "answer": "1,170"
+        },
+        // Question 26.2
+        {
+          "question": "Each console comes with 14 demo games. How many demos come with 25 consoles?",
+          "options": ["350", "336", "364", "39", "Games download themselves"],
+          "answer": "350"
+        },
+        // Question 26.3
+        {
+          "question": "If 52 players each earn 16 achievements, how many achievements total?",
+          "options": ["832", "820", "844", "68", "Achievements unlock magically"],
+          "answer": "832"
+        },
+        // Question 26.4
+        {
+          "question": "Each game costs $45. How much for 23 games?",
+          "options": ["$1,035", "$1,015", "$1,055", "$68", "Games should be free"],
+          "answer": "$1,035"
+        },
+        // Question 26.5
+        {
+          "question": "If 31 customers each buy 12 gaming cards, how many cards total?",
+          "options": ["372", "360", "384", "43", "Cards duplicate endlessly"],
+          "answer": "372"
+        }
+      ]
+    },
+    {
+      "text": "A solar power plant tracks energy production. Each panel generates specific amounts of power.",
+      "questions": [
+        // Question 27.1
+        {
+          "question": "If each panel produces 75 watts and there are 24 panels, how many watts total?",
+          "options": ["1,800", "1,775", "1,825", "99", "Infinite energy!"],
+          "answer": "1,800"
+        },
+        // Question 27.2
+        {
+          "question": "Each row has 28 panels. How many panels in 19 rows?",
+          "options": ["532", "522", "542", "47", "Panels clone themselves"],
+          "answer": "532"
+        },
+        // Question 27.3
+        {
+          "question": "If 45 homes each use 13 units of power, how many units total?",
+          "options": ["585", "572", "598", "58", "Power generates itself"],
+          "answer": "585"
+        },
+        // Question 27.4
+        {
+          "question": "Each panel needs cleaning 6 times yearly. How many cleanings for 56 panels?",
+          "options": ["336", "324", "348", "62", "Panels clean themselves"],
+          "answer": "336"
+        },
+        // Question 27.5
+        {
+          "question": "If 37 sections each have 15 panels, how many panels total?",
+          "options": ["555", "540", "570", "52", "Panels multiply magically"],
+          "answer": "555"
+        }
+      ]
+    },
+    {
+      "text": "A music festival organizes performances. Each stage requires specific equipment.",
+      "questions": [
+        // Question 28.1
+        {
+          "question": "If each stage needs 85 lights and there are 16 stages, how many lights total?",
+          "options": ["1,360", "1,345", "1,375", "101", "Lights appear magically!"],
+          "answer": "1,360"
+        },
+        // Question 28.2
+        {
+          "question": "Each band plays 45 minutes. How many minutes for 22 bands?",
+          "options": ["990", "975", "1,005", "67", "Time stops for music"],
+          "answer": "990"
+        },
+        // Question 28.3
+        {
+          "question": "If 63 fans each buy 8 merchandise items, how many items sold?",
+          "options": ["504", "496", "512", "71", "Merchandise multiplies itself"],
+          "answer": "504"
+        },
+        // Question 28.4
+        {
+          "question": "Each ticket costs $35. How much for 29 tickets?",
+          "options": ["$1,015", "$995", "$1,035", "$64", "Concerts should be free"],
+          "answer": "$1,015"
+        },
+        // Question 28.5
+        {
+          "question": "If 44 speakers each produce 17 decibels, how many decibels total?",
+          "options": ["748", "731", "765", "61", "Sound amplifies infinitely"],
+          "answer": "748"
+        }
+      ]
+    },
+    {
+      "text": "A space center conducts experiments. Each mission requires specific calculations.",
+      "questions": [
+        // Question 29.1
+        {
+          "question": "If each rocket uses 95 gallons of fuel and there are 12 rockets, how many gallons total?",
+          "options": ["1,140", "1,125", "1,155", "107", "Rockets run on stardust!"],
+          "answer": "1,140"
+        },
+        // Question 29.2
+        {
+          "question": "Each mission needs 34 scientists. How many scientists for 15 missions?",
+          "options": ["510", "495", "525", "49", "Science happens by magic"],
+          "answer": "510"
+        },
+        // Question 29.3
+        {
+          "question": "If 58 computers each run 13 programs, how many programs total?",
+          "options": ["754", "741", "767", "71", "Programs run themselves"],
+          "answer": "754"
+        },
+        // Question 29.4
+        {
+          "question": "Each satellite takes 26 photos. How many photos from 25 satellites?",
+          "options": ["650", "624", "676", "51", "Photos appear instantly"],
+          "answer": "650"
+        },
+        // Question 29.5
+        {
+          "question": "If 42 experiments each use 19 samples, how many samples total?",
+          "options": ["798", "779", "817", "61", "Samples multiply endlessly"],
+          "answer": "798"
+        }
+      ]
+    },
+    {
+      "text": "A chocolate factory creates special orders. Each recipe requires precise measurements.",
+      "questions": [
+        // Question 30.1
+        {
+          "question": "If each batch uses 125 cocoa beans and they make 14 batches, how many beans needed?",
+          "options": ["1,750", "1,725", "1,775", "139", "Beans multiply magically!"],
+          "answer": "1,750"
+        },
+        // Question 30.2
+        {
+          "question": "Each box holds 45 chocolates. How many chocolates in 32 boxes?",
+          "options": ["1,440", "1,425", "1,455", "77", "Chocolates never end"],
+          "answer": "1,440"
+        },
+        // Question 30.3
+        {
+          "question": "If 75 orders each need 16 truffles, how many truffles total?",
+          "options": ["1,200", "1,185", "1,215", "91", "Truffles create themselves"],
+          "answer": "1,200"
+        },
+        // Question 30.4
+        {
+          "question": "Each worker makes 35 chocolates per hour. How many chocolates do 28 workers make?",
+          "options": ["980", "965", "995", "63", "Chocolate appears by magic"],
+          "answer": "980"
+        },
+        // Question 30.5
+        {
+          "question": "If 55 stores each order 22 boxes, how many boxes ordered?",
+          "options": ["1,210", "1,195", "1,225", "77", "Boxes duplicate instantly"],
+          "answer": "1,210"
+        }
+      ]
+    }
+				  ]
+				}
+        ];
+
+		const stageCount = quizData[0].stages.length; // This is the correct way to get the number of stages
+
+
+		const stateContents = {
+			'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+			,'Subject Overview 🗝️': `<div class="subject-overview-content">   <h1>Solving Multiplication Word Problems: A Comprehensive Guide</h1>   <p>Multiplication word problems are a fundamental aspect of mathematics, bridging the gap between abstract numbers and real-world scenarios. Mastering these problems not only enhances computational skills but also improves logical reasoning and problem-solving abilities. This guide will explore the key strategies, common challenges, and provide ample examples to help you effectively tackle multiplication word problems.</p>   <hr>   <h2>Table of Contents</h2>   <ol>     <li><a href="#understanding-multiplication-word-problems">Understanding Multiplication Word Problems</a></li>     <li><a href="#strategies-for-solving">Strategies for Solving Multiplication Word Problems</a></li>     <li><a href="#common-pitfalls-and-how-to-avoid-them">Common Pitfalls and How to Avoid Them</a></li>     <li><a href="#examples-and-practice-problems">Examples and Practice Problems</a></li>     <li><a href="#conclusion">Conclusion</a></li>   </ol>   <hr>     <h2 id="understanding-multiplication-word-problems">Understanding Multiplication Word Problems</h2>   <p>Multiplication word problems present real-life scenarios that require the application of multiplication to find solutions. These problems often involve finding the total of equal groups, scaling quantities, or determining rates over time.</p>   <p>Key components of multiplication word problems include:</p>   <ul>     <li><strong>Known quantities:</strong> Values that are provided within the problem.</li>     <li><strong>Unknown quantities:</strong> Values that need to be determined.</li>     <li><strong>Relationships:</strong> How the known and unknown quantities are connected through multiplication.</li>   </ul>     <hr>   <h2 id="strategies-for-solving">Strategies for Solving Multiplication Word Problems</h2>   <p>Effective problem-solving requires a systematic approach. Here are some proven strategies:</p>     <h3 id="read-the-problem-carefully">1. Read the Problem Carefully</h3>   <p>Understand the scenario by reading the problem multiple times. Identify what is being asked and the information provided.</p>     <h3 id="identify-the-variables">2. Identify the Variables</h3>   <p>Determine which quantities are known and which need to be found. Assign variables to unknowns.</p>     <h3 id="translate-words-to-mathematical-expressions">3. Translate Words to Mathematical Expressions</h3>   <p>Convert the verbal relationships into mathematical equations using multiplication.</p>     <h3 id="solve-the-equation">4. Solve the Equation</h3>   <p>Use multiplication to solve for the unknown variable.</p>     <h3 id="check-your-work">5. Check Your Work</h3>   <p>Verify that your solution makes sense within the context of the problem.</p>     <hr>   <h2 id="common-pitfalls-and-how-to-avoid-them">Common Pitfalls and How to Avoid Them</h2>   <p>While solving multiplication word problems, students often encounter several challenges:</p>     <ul>     <li><strong>Misinterpreting the Problem:</strong> Failing to understand what the problem is asking can lead to incorrect setup.</li>     <li><strong>Incorrect Variable Assignment:</strong> Assigning variables improperly can complicate the solution process.</li>     <li><strong>Calculation Errors:</strong> Simple multiplication mistakes can result in wrong answers.</li>     <li><strong>Neglecting Units:</strong> Ignoring units can cause confusion, especially in problems involving measurements.</li>   </ul>     <p>To avoid these pitfalls:</p>   <ul>     <li>Take time to fully comprehend the problem before attempting to solve it.</li>     <li>Carefully assign variables to each unknown quantity.</li>     <li>Double-check calculations to minimize errors.</li>     <li>Always pay attention to the units involved in the problem.</li>   </ul>     <hr>   <h2 id="examples-and-practice-problems">Examples and Practice Problems</h2>     <h3>Example 1: Equal Groups</h3>   <p><strong>Problem:</strong> There are 5 baskets with an equal number of apples in each. If there are 20 apples in total, how many apples are in each basket?</p>   <p><strong>Solution:</strong></p>   <<ol>     <li>Let the number of apples in each basket be <em>x</em>.</li>     <li>The total number of apples is 5 times <em>x</em>: <em>5x = 20</em>.</li>     <li>Solve for <em>x</em>: <em>x = 20 ÷ 5 = 4</em>.</li>   </ol>   <p><strong>Answer:</strong> There are 4 apples in each basket.</p>     <h3>Example 2: Scaling Quantities</h3>   <p><strong>Problem:</strong> A recipe calls for 3 cups of flour for every 2 batches. How many cups of flour are needed for 8 batches?</p>   <p><strong>Solution:</strong></p>   <<ol>     <li>Find the cups of flour per batch: <em>3 cups ÷ 2 batches = 1.5 cups per batch</em>.</li>     <li>Multiply by the number of batches: <em>1.5 cups/batch × 8 batches = 12 cups</em>.</li>   </ol>   <p><strong>Answer:</strong> 12 cups of flour are needed for 8 batches.</p>     <h3>Practice Problem:</h3>   <p><strong>Problem:</strong> A school has 12 classrooms, each with the same number of desks. If there are 144 desks in total, how many desks are in each classroom?</p>     <hr>   <h2 id="conclusion">Conclusion</h2>   <p>Solving multiplication word problems is a vital skill that applies mathematical concepts to everyday situations. By understanding the structure of these problems and employing effective strategies, you can enhance your problem-solving abilities and achieve greater confidence in mathematics.</p>   <ul>     <li><strong>Understand the Problem:</strong> Carefully read and interpret the information provided.</li>     <li><strong>Identify Variables:</strong> Assign variables to unknown quantities to simplify the problem.</li>     <li><strong>Apply Multiplication:</strong> Use multiplication to relate known and unknown quantities.</li>     <li><strong>Verify Solutions:</strong> Always check your work to ensure accuracy.</li>   </ul>   <p><strong>Remember</strong>: Practice is key to mastering multiplication word problems. Regularly engage with different types of problems to build your skills and confidence.</p>   <hr>   <p>By familiarizing yourself with these strategies and continuously practicing, you'll become adept at solving multiplication word problems, paving the way for success in more advanced mathematical concepts.</p> </div>`		
+			};
+
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function isTextEmpty(text) {
+    return !text || text.trim() === "";
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    
+    // Only add stage text if it's not empty
+    const stageText = quizData[0].stages[currentStage].text;
+    if (!isTextEmpty(stageText)) {
+        const stageTextElement = document.createElement("div");
+        stageTextElement.className = "stage-text";
+        stageTextElement.style.marginBottom = "20px";
+        stageTextElement.style.padding = "15px";
+        stageTextElement.style.backgroundColor = "#f5f5f5";
+        stageTextElement.style.borderRadius = "5px";
+        stageTextElement.textContent = stageText;
+        quizContainer.appendChild(stageTextElement);
+    }
+    
+    // Render questions
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+        
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${questionData.question}`;
+        
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+        
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+        
+        const shuffledOptions = shuffleArray([...questionData.options]);
+        shuffledOptions.forEach(option => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv);
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[0].stages[currentStage].questions.length;
+
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === questionData.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect answer.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 10) {
+            selectElement.value = questionData.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` The correct answer is: ${questionData.answer}`;
+        }
+    });
+
+    if (correctCount === totalQuestions) {
+        console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+        addAnimalsToFarm(totalQuestions);
+
+        if (currentStage < quizData[0].stages.length - 1) {
+            singleStageConfetti();
+            showEncouragingPopup(correctCount, totalQuestions, true);
+            currentStage++;
+            updateProgressBar();
+            setTimeout(() => {
+                attempts = 0;
+                renderQuiz();
+                document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+            }, 1500);
+        } else {
+            currentStage++;
+            updateProgressBar();
+            allStagesConfetti();
+            showModal("Congratulations! You've completed all stages!");
+        }
+    } else {
+        showEncouragingPopup(correctCount, totalQuestions, false);
+        if (attempts >= 10) {
+            showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+        }
+    }
+
+    scrollToTop();
+}
+
+// 4. Update stageCount calculation to work with new structure
+
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+    const completedStages = currentStage;
+    const progress = (completedStages / stageCount) * 100;
+    const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+    progressBar.style.width = `${roundedProgress}%`;
+    progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+    console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+}
+
+function updateStageNumber() {
+    const stageElement = document.getElementById("stage-number");
+    stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>

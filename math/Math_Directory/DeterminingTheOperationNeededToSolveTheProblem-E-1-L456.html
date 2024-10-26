@@ -1,0 +1,2527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+	<style>
+  
+	</style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read the text and questions carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>Determining the operation needed to solve the problem</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+ 
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+																		//  PH3 - Quiz Data 
+        const quizData = [ 												   	
+				{
+				  "stages": [
+
+    // Stage 1 - Simple single-operation word problems
+    {
+      "text": "Tom is planning a small class party. He wants to make sure everyone gets an equal share of the treats and party supplies.",
+      "questions": [
+        // Question 1.1
+        {
+          "question": "Tom has 24 cookies to share with 6 friends. Which operation helps find how many cookies each friend gets?",
+          "options": [
+            "Division",
+            "Addition",
+            "Multiplication",
+            "Subtraction",
+            "Cookie counting dance"
+          ],
+          "answer": "Division"
+        },
+        // Question 1.2
+        {
+          "question": "Tom needs 2 balloons for each of 5 tables. Which operation finds the total balloons needed?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Balloon juggling"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 1.3
+        {
+          "question": "Tom has $15 and spends $7 on juice. Which operation finds money left?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Money magic"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 1.4
+        {
+          "question": "Tom has $3 and his mom gives him $5 more for supplies. Which operation finds his total money?",
+          "options": [
+            "Addition",
+            "Subtraction",
+            "Multiplication",
+            "Division",
+            "Piggy bank shake"
+          ],
+          "answer": "Addition"
+        },
+        // Question 1.5
+        {
+          "question": "Tom buys 3 packs of plates with 8 plates in each pack. Which operation finds total plates?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Plate spinning show"
+          ],
+          "answer": "Multiplication"
+        }
+      ]
+    },
+    // Stage 2 - Basic two-step word problems
+    {
+      "text": "Lisa is helping in the school library. She needs to organize books and count how many are in different sections.",
+      "questions": [
+        // Question 2.1
+        {
+          "question": "Lisa counts 20 books and adds 5 more, then needs to share them between 5 shelves. Which operations in order?",
+          "options": [
+            "Addition then Division",
+            "Division then Addition",
+            "Multiplication then Subtraction",
+            "Subtraction then Multiplication",
+            "Book tower building"
+          ],
+          "answer": "Addition then Division"
+        },
+        // Question 2.2
+        {
+          "question": "Lisa has 4 rows of books with 6 books each, but removes 2 books. Which operations find books left?",
+          "options": [
+            "Multiplication then Subtraction",
+            "Addition then Division",
+            "Subtraction then Multiplication",
+            "Division then Addition",
+            "Book juggling time"
+          ],
+          "answer": "Multiplication then Subtraction"
+        },
+        // Question 2.3
+        {
+          "question": "Lisa has 30 stickers to put on books and wants to give each of 5 friends the same amount. Which operation?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Sticker trading party"
+          ],
+          "answer": "Division"
+        },
+        // Question 2.4
+        {
+          "question": "Lisa has 7 magazine boxes with 4 magazines each. Which operation finds total magazines?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Magazine fashion show"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 2.5
+        {
+          "question": "Lisa counted 25 books but needs to remove 5 for repair. Which operation finds books left?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Book parade counting"
+          ],
+          "answer": "Subtraction"
+        }
+      ]
+    },
+    // Stage 3 - Simple mixed operations
+    {
+      "text": "Alex is helping at a small school bake sale. He needs to count treats and calculate simple costs.",
+      "questions": [
+        // Question 3.1
+        {
+          "question": "Alex has 3 boxes of cupcakes with 6 cupcakes each. One cupcake is eaten. Which operations find cupcakes left?",
+          "options": [
+            "Multiplication then Subtraction",
+            "Addition then Division",
+            "Division then Multiplication",
+            "Subtraction then Addition",
+            "Cupcake disappearing act"
+          ],
+          "answer": "Multiplication then Subtraction"
+        },
+        // Question 3.2
+        {
+          "question": "Alex sells 8 cookies for $2 each. Which operation finds money earned?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Cookie money rain"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 3.3
+        {
+          "question": "Alex has 40 candies to put in 5 bags, then adds 2 candies to each bag. Which operations in order?",
+          "options": [
+            "Division then Addition",
+            "Multiplication then Division",
+            "Addition then Multiplication",
+            "Subtraction then Addition",
+            "Candy bag dance"
+          ],
+          "answer": "Division then Addition"
+        },
+        // Question 3.4
+        {
+          "question": "Alex has $25 and spends $12 on supplies. Which operation finds money left?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Money counting party"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 3.5
+        {
+          "question": "Alex needs to put 16 brownies equally into 4 boxes. Which operation should he use?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Brownie magic show"
+          ],
+          "answer": "Division"
+        }
+      ]
+    },
+    // Stage 4 - Shopping and Money
+    {
+      "text": "Maya is shopping for school supplies. She wants to make sure she stays within her budget and gets everything she needs.",
+      "questions": [
+        // Question 4.1
+        {
+          "question": "Maya buys 3 notebooks for $4 each and needs to subtract that from her $20. Which operations in order?",
+          "options": [
+            "Multiplication then Subtraction",
+            "Addition then Division",
+            "Subtraction then Multiplication",
+            "Division then Addition",
+            "Notebook juggling show"
+          ],
+          "answer": "Multiplication then Subtraction"
+        },
+        // Question 4.2
+        {
+          "question": "Maya has 24 pencils to share among 6 friends equally. Which operation should she use?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Pencil tossing game"
+          ],
+          "answer": "Division"
+        },
+        // Question 4.3
+        {
+          "question": "Maya spends $5 on erasers and $3 on a ruler. Which operation finds total spent?",
+          "options": [
+            "Addition",
+            "Subtraction",
+            "Multiplication",
+            "Division",
+            "Money rain dance"
+          ],
+          "answer": "Addition"
+        },
+        // Question 4.4
+        {
+          "question": "Maya buys 5 packs of stickers with 10 stickers each. Which operation finds total stickers?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Sticker explosion party"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 4.5
+        {
+          "question": "Maya has $30 and spends $12. Which operation finds money left?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Piggy bank shake"
+          ],
+          "answer": "Subtraction"
+        }
+      ]
+    },
+    // Stage 5 - Sports and Games
+    {
+      "text": "David is organizing games for his sports day. He needs to calculate scores and divide teams fairly.",
+      "questions": [
+        // Question 5.1
+        {
+          "question": "David's team scores 8 points in each of 4 games. Which operation finds total points?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Point dancing party"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 5.2
+        {
+          "question": "David has 35 players to divide into 5 equal teams. Which operation should he use?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Player shuffling show"
+          ],
+          "answer": "Division"
+        },
+        // Question 5.3
+        {
+          "question": "David's team scores 15 points and the opposing team scores 12. Which operation finds the point difference?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Score juggling act"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 5.4
+        {
+          "question": "David needs to multiply his team's score by 2, then add 5 bonus points. Which operations in order?",
+          "options": [
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Score magic show"
+          ],
+          "answer": "Multiplication then Addition"
+        },
+        // Question 5.5
+        {
+          "question": "David has 40 soccer balls to share among 8 fields. Which operation finds balls per field?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Ball bouncing contest"
+          ],
+          "answer": "Division"
+        }
+      ]
+    },
+    // Stage 6 - Garden Planning
+    {
+      "text": "Emma is helping plan the school garden. She needs to organize plants and calculate space for different vegetables.",
+      "questions": [
+        // Question 6.1
+        {
+          "question": "Emma plants 6 rows with 7 tomatoes each. Which operation finds total tomatoes?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Tomato counting dance"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 6.2
+        {
+          "question": "Emma has 32 carrot seeds to plant equally in 4 rows. Which operation finds seeds per row?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Seed juggling show"
+          ],
+          "answer": "Division"
+        },
+        // Question 6.3
+        {
+          "question": "Emma counts 45 flowers but 5 didn't grow. Which operation finds flowers left?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Flower magic trick"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 6.4
+        {
+          "question": "Emma has 5 bags with 6 bulbs each, then adds 3 more bulbs. Which operations in order?",
+          "options": [
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Bulb bouncing game"
+          ],
+          "answer": "Multiplication then Addition"
+        },
+        // Question 6.5
+        {
+          "question": "Emma needs to multiply her seedlings by 3, then divide them into 6 pots. Which operations in order?",
+          "options": [
+            "Multiplication then Division",
+            "Division then Multiplication",
+            "Addition then Subtraction",
+            "Subtraction then Addition",
+            "Seedling circus show"
+          ],
+          "answer": "Multiplication then Division"
+        }
+      ]
+    },
+    // Stage 7 - Pizza Party
+    {
+      "text": "Jack is planning a pizza party for his class. He needs to make sure everyone gets enough pizza and drinks.",
+      "questions": [
+        // Question 7.1
+        {
+          "question": "Jack orders 4 pizzas with 8 slices each. Which operation finds total slices?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Pizza slice acrobatics"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 7.2
+        {
+          "question": "Jack has 36 juice boxes to share among 9 tables. Which operation finds juice boxes per table?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Juice box juggling"
+          ],
+          "answer": "Division"
+        },
+        // Question 7.3
+        {
+          "question": "Jack spends $20 on pizzas and $15 on drinks. Which operation finds total spent?",
+          "options": [
+            "Addition",
+            "Subtraction",
+            "Multiplication",
+            "Division",
+            "Money rain dance"
+          ],
+          "answer": "Addition"
+        },
+        // Question 7.4
+        {
+          "question": "Jack has $50 and spends $35. Which operation finds money left?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Dollar bill magic"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 7.5
+        {
+          "question": "Jack needs 3 napkins per student for 12 students. Which operation finds total napkins?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Napkin origami show"
+          ],
+          "answer": "Multiplication"
+        }
+      ]
+    },
+    // Stage 8 - Art Class
+    {
+      "text": "Sofia is helping organize supplies for art class. She needs to calculate materials needed for different projects.",
+      "questions": [
+        // Question 8.1
+        {
+          "question": "Sofia has 40 crayons to share among 5 tables. Which operation finds crayons per table?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Crayon rainbow dance"
+          ],
+          "answer": "Division"
+        },
+        // Question 8.2
+        {
+          "question": "Sofia counts 25 paintbrushes but 3 are broken. Which operation finds usable brushes?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Paintbrush parade"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 8.3
+        {
+          "question": "Sofia needs 2 sheets of paper for each of 15 students. Which operation finds total sheets?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Paper airplane contest"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 8.4
+        {
+          "question": "Sofia has 6 boxes with 7 markers each, then removes 5 markers. Which operations in order?",
+          "options": [
+            "Multiplication then Subtraction",
+            "Addition then Division",
+            "Division then Multiplication",
+            "Subtraction then Addition",
+            "Marker juggling show"
+          ],
+          "answer": "Multiplication then Subtraction"
+        },
+        // Question 8.5
+        {
+          "question": "Sofia divides 30 stickers among 5 students, then adds 2 more per student. Which operations in order?",
+          "options": [
+            "Division then Addition",
+            "Addition then Division",
+            "Multiplication then Subtraction",
+            "Subtraction then Multiplication",
+            "Sticker trading party"
+          ],
+          "answer": "Division then Addition"
+        }
+      ]
+    },
+    // Stage 9 - School Carnival
+    {
+      "text": "Marcus is helping at the school carnival. He needs to count tickets and organize games.",
+      "questions": [
+        // Question 9.1
+        {
+          "question": "Marcus sells 7 tickets for $3 each. Which operation finds money collected?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Ticket dancing show"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 9.2
+        {
+          "question": "Marcus has 48 prizes to share among 6 game booths. Which operation finds prizes per booth?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Prize juggling act"
+          ],
+          "answer": "Division"
+        },
+        // Question 9.3
+        {
+          "question": "Marcus starts with 50 balloons and 12 pop. Which operation finds balloons left?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Balloon magic trick"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 9.4
+        {
+          "question": "Marcus has 5 bags with 8 candies each, then adds 4 more candies. Which operations in order?",
+          "options": [
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Candy circus act"
+          ],
+          "answer": "Multiplication then Addition"
+        },
+        // Question 9.5
+        {
+          "question": "Marcus needs to multiply game tickets by 4, then divide by 2 to share. Which operations in order?",
+          "options": [
+            "Multiplication then Division",
+            "Division then Multiplication",
+            "Addition then Subtraction",
+            "Subtraction then Addition",
+            "Ticket acrobatics"
+          ],
+          "answer": "Multiplication then Division"
+        }
+      ]
+    },
+    // Stage 10 - Science Lab
+    {
+      "text": "Luna is helping set up the science lab for experiments. She needs to measure and distribute materials carefully.",
+      "questions": [
+        // Question 10.1
+        {
+          "question": "Luna has 45 test tubes to share among 9 lab stations. Which operation finds tubes per station?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Test tube juggling"
+          ],
+          "answer": "Division"
+        },
+        // Question 10.2
+        {
+          "question": "Luna needs 3 beakers for each of 8 experiments. Which operation finds total beakers?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Beaker ballet dance"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 10.3
+        {
+          "question": "Luna starts with 30 ml and adds 25 ml of water. Which operation finds total volume?",
+          "options": [
+            "Addition",
+            "Subtraction",
+            "Multiplication",
+            "Division",
+            "Water wizard show"
+          ],
+          "answer": "Addition"
+        },
+        // Question 10.4
+        {
+          "question": "Luna has 6 groups with 5 students each, then 3 students leave. Which operations in order?",
+          "options": [
+            "Multiplication then Subtraction",
+            "Addition then Division",
+            "Division then Multiplication",
+            "Subtraction then Addition",
+            "Student shuffling act"
+          ],
+          "answer": "Multiplication then Subtraction"
+        },
+        // Question 10.5
+        {
+          "question": "Luna divides 40 safety goggles among 8 tables, then adds 2 per table. Which operations in order?",
+          "options": [
+            "Division then Addition",
+            "Addition then Division",
+            "Multiplication then Subtraction",
+            "Subtraction then Multiplication",
+            "Goggle juggling show"
+          ],
+          "answer": "Division then Addition"
+        }
+      ]
+    },
+    // Stage 11 - Book Fair
+    {
+      "text": "Noah is helping at the school book fair. He needs to organize books and calculate prices.",
+      "questions": [
+        // Question 11.1
+        {
+          "question": "Noah has 4 shelves with 9 books each. Which operation finds total books?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Book juggling show"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 11.2
+        {
+          "question": "Noah has 56 bookmarks to share among 7 displays. Which operation finds bookmarks per display?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Bookmark magic trick"
+          ],
+          "answer": "Division"
+        },
+        // Question 11.3
+        {
+          "question": "Noah sells a book for $8 and a pencil for $2. Which operation finds total cost?",
+          "options": [
+            "Addition",
+            "Subtraction",
+            "Multiplication",
+            "Division",
+            "Money dancing party"
+          ],
+          "answer": "Addition"
+        },
+        // Question 11.4
+        {
+          "question": "Noah has 5 sets of 6 comic books, then sells 4 comics. Which operations in order?",
+          "options": [
+            "Multiplication then Subtraction",
+            "Addition then Division",
+            "Division then Multiplication",
+            "Subtraction then Addition",
+            "Comic book parade"
+          ],
+          "answer": "Multiplication then Subtraction"
+        },
+        // Question 11.5
+        {
+          "question": "Noah divides 40 stickers among 8 students, then adds 3 more per student. Which operations in order?",
+          "options": [
+            "Division then Addition",
+            "Addition then Division",
+            "Multiplication then Subtraction",
+            "Subtraction then Multiplication",
+            "Sticker circus act"
+          ],
+          "answer": "Division then Addition"
+        }
+      ]
+    },
+    // Stage 12 - School Orchestra
+    {
+      "text": "Anna is organizing music sheets for the school orchestra. She needs to count and distribute materials.",
+      "questions": [
+        // Question 12.1
+        {
+          "question": "Anna has 6 music stands with 5 sheets each. Which operation finds total sheets?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Sheet music ballet"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 12.2
+        {
+          "question": "Anna needs to share 48 pencils among 6 sections. Which operation finds pencils per section?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Pencil drumming show"
+          ],
+          "answer": "Division"
+        },
+        // Question 12.3
+        {
+          "question": "Anna has 25 chairs but removes 5 broken ones. Which operation finds chairs left?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Chair dancing party"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 12.4
+        {
+          "question": "Anna needs 3 copies for each of 7 songs, then adds 2 extra copies. Which operations in order?",
+          "options": [
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Music note juggling"
+          ],
+          "answer": "Multiplication then Addition"
+        },
+        // Question 12.5
+        {
+          "question": "Anna divides 50 programs among 5 rows, then removes 2 from each row. Which operations in order?",
+          "options": [
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Program paper airplanes"
+          ],
+          "answer": "Division then Subtraction"
+        }
+      ]
+    },
+   // Stage 13 - Field Day
+    {
+      "text": "Max is helping organize field day activities. He needs to count equipment and divide students into teams.",
+      "questions": [
+        // Question 13.1
+        {
+          "question": "Max has 42 students to divide into 6 teams. Which operation finds students per team?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Student acrobatics"
+          ],
+          "answer": "Division"
+        },
+        // Question 13.2
+        {
+          "question": "Max needs 4 balls for each of 8 games. Which operation finds total balls needed?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Ball bouncing show"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 13.3
+        {
+          "question": "Max has 30 water bottles and uses 12. Which operation finds bottles left?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Bottle flipping contest"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 13.4
+        {
+          "question": "Max has 7 races with 5 runners each, then 3 more runners join each race. Which operations in order?",
+          "options": [
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Runner dance party"
+          ],
+          "answer": "Multiplication then Addition"
+        },
+        // Question 13.5
+        {
+          "question": "Max divides 45 ribbons among 9 events, then removes 1 from each event. Which operations in order?",
+          "options": [
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Ribbon twirling show"
+          ],
+          "answer": "Division then Subtraction"
+        }
+      ]
+    },
+    // Stage 14 - School Garden
+    {
+      "text": "Lily is working in the school garden. She needs to count plants and organize the planting schedule.",
+      "questions": [
+        // Question 14.1
+        {
+          "question": "Lily has 8 rows with 6 tomato plants each. Which operation finds total plants?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Plant dancing show"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 14.2
+        {
+          "question": "Lily divides 36 seed packets among 4 groups, then adds 2 packets to each. Which operations in order?",
+          "options": [
+            "Division then Addition",
+            "Addition then Division",
+            "Multiplication then Subtraction",
+            "Subtraction then Multiplication",
+            "Seed packet juggling"
+          ],
+          "answer": "Division then Addition"
+        },
+        // Question 14.3
+        {
+          "question": "Lily has 45 flowers but 5 wilt. Which operation finds flowers remaining?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Flower magic trick"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 14.4
+        {
+          "question": "Lily needs 3 shovels for each of 7 garden beds. Which operation finds total shovels?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Shovel acrobatics"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 14.5
+        {
+          "question": "Lily has 40 watering cans to share among 8 sections. Which operation finds cans per section?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Watering can parade"
+          ],
+          "answer": "Division"
+        }
+      ]
+    },
+    // Stage 15 - Reading Challenge
+    {
+      "text": "Sam is participating in the school reading challenge. He needs to track his reading progress.",
+      "questions": [
+        // Question 15.1
+        {
+          "question": "Sam reads 7 pages in each of 5 days. Which operation finds total pages?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Page flipping dance"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 15.2
+        {
+          "question": "Sam has 54 minutes to divide equally among 6 books. Which operation finds minutes per book?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Book juggling show"
+          ],
+          "answer": "Division"
+        },
+        // Question 15.3
+        {
+          "question": "Sam multiplies his daily reading by 3, then adds 5 bonus pages. Which operations in order?",
+          "options": [
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Reading cartwheel time"
+          ],
+          "answer": "Multiplication then Addition"
+        },
+        // Question 15.4
+        {
+          "question": "Sam has read 35 pages but loses track of 8 pages. Which operation finds pages counted?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Page counting ballet"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 15.5
+        {
+          "question": "Sam reads 4 chapters with 9 pages each. Which operation finds total pages?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Chapter hopping game"
+          ],
+          "answer": "Multiplication"
+        }
+      ]
+    },
+    // Stage 16 - School Store
+    {
+      "text": "Maria is helping at the school store. She needs to organize inventory and calculate prices.",
+      "questions": [
+        // Question 16.1
+        {
+          "question": "Maria has 5 boxes with 8 pencils each. Which operation finds total pencils?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Pencil twirling show"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 16.2
+        {
+          "question": "Maria has 48 erasers to share among 6 containers. Which operation finds erasers per container?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Eraser bouncing party"
+          ],
+          "answer": "Division"
+        },
+        // Question 16.3
+        {
+          "question": "Maria starts with $40 and spends $25. Which operation finds money left?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Money rain dance"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 16.4
+        {
+          "question": "Maria multiplies notebook price by 3, then adds $2 tax. Which operations in order?",
+          "options": [
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Notebook juggling act"
+          ],
+          "answer": "Multiplication then Addition"
+        },
+        // Question 16.5
+        {
+          "question": "Maria divides 50 stickers among 5 packs, then removes 2 from each. Which operations in order?",
+          "options": [
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Sticker magic show"
+          ],
+          "answer": "Division then Subtraction"
+        }
+      ]
+    },
+   // Stage 17 - Computer Lab
+    {
+      "text": "Carlos is helping organize the computer lab schedule. He needs to manage time slots and student groups.",
+      "questions": [
+        // Question 17.1
+        {
+          "question": "Carlos has 6 rows with 7 computers each. Which operation finds total computers?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Computer dance party"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 17.2
+        {
+          "question": "Carlos needs to share 45 minutes among 9 student groups. Which operation finds minutes per group?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Time juggling show"
+          ],
+          "answer": "Division"
+        },
+        // Question 17.3
+        {
+          "question": "Carlos has 30 students but 6 are absent. Which operation finds students present?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Student disappearing act"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 17.4
+        {
+          "question": "Carlos multiplies class time by 2, then adds 5 bonus minutes. Which operations in order?",
+          "options": [
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Clock spinning magic"
+          ],
+          "answer": "Multiplication then Addition"
+        },
+        // Question 17.5
+        {
+          "question": "Carlos divides 40 headphones among 8 tables, then adds 1 extra per table. Which operations in order?",
+          "options": [
+            "Division then Addition",
+            "Addition then Division",
+            "Multiplication then Subtraction",
+            "Subtraction then Multiplication",
+            "Headphone ballet show"
+          ],
+          "answer": "Division then Addition"
+        }
+      ]
+    },
+    // Stage 18 - School Cafeteria
+    {
+      "text": "Nina is helping in the school cafeteria. She needs to count lunch portions and organize serving stations.",
+      "questions": [
+        // Question 18.1
+        {
+          "question": "Nina has 7 trays with 6 apples each. Which operation finds total apples?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Apple juggling show"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 18.2
+        {
+          "question": "Nina needs to share 54 sandwiches among 9 tables. Which operation finds sandwiches per table?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Sandwich dancing party"
+          ],
+          "answer": "Division"
+        },
+        // Question 18.3
+        {
+          "question": "Nina counts 40 juice boxes but 5 are missing. Which operation finds boxes left?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Juice box magic trick"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 18.4
+        {
+          "question": "Nina multiplies milk cartons by 4, then adds 3 extra. Which operations in order?",
+          "options": [
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Milk carton ballet"
+          ],
+          "answer": "Multiplication then Addition"
+        },
+        // Question 18.5
+        {
+          "question": "Nina divides 48 plates among 8 stations, then removes 2 from each. Which operations in order?",
+          "options": [
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Plate spinning circus"
+          ],
+          "answer": "Division then Subtraction"
+        }
+      ]
+    },
+    // Stage 19 - School Play
+    {
+      "text": "Alex is helping organize the school play. He needs to arrange seats and count props.",
+      "questions": [
+        // Question 19.1
+        {
+          "question": "Alex arranges 6 rows with 8 chairs each. Which operation finds total chairs?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Chair dancing show"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 19.2
+        {
+          "question": "Alex divides 35 costumes among 7 actors. Which operation finds costumes per actor?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Costume parade"
+          ],
+          "answer": "Division"
+        },
+        // Question 19.3
+        {
+          "question": "Alex has 50 programs but 10 are wrinkled. Which operation finds usable programs?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Program paper airplanes"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 19.4
+        {
+          "question": "Alex needs 3 props for each of 9 scenes. Which operation finds total props needed?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Prop juggling act"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 19.5
+        {
+          "question": "Alex multiplies tickets by 5, then subtracts 8 reserved seats. Which operations in order?",
+          "options": [
+            "Multiplication then Subtraction",
+            "Subtraction then Multiplication",
+            "Division then Addition",
+            "Addition then Division",
+            "Ticket magic show"
+          ],
+          "answer": "Multiplication then Subtraction"
+        }
+      ]
+    },
+    // Stage 20 - Math Games Day
+    {
+      "text": "Sofia is helping organize Math Games Day. She needs to arrange teams and count game pieces.",
+      "questions": [
+        // Question 20.1
+        {
+          "question": "Sofia has 5 teams with 7 players each. Which operation finds total players?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Player dance party"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 20.2
+        {
+          "question": "Sofia divides 44 dice among 4 stations. Which operation finds dice per station?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Dice rolling show"
+          ],
+          "answer": "Division"
+        },
+        // Question 20.3
+        {
+          "question": "Sofia starts with 30 cards and removes 8. Which operation finds cards remaining?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Card shuffling magic"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 20.4
+        {
+          "question": "Sofia multiplies game time by 3, then adds 5 minutes. Which operations in order?",
+          "options": [
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Time traveling fun"
+          ],
+          "answer": "Multiplication then Addition"
+        },
+        // Question 20.5
+        {
+          "question": "Sofia divides 36 tokens among 6 games, then adds 2 to each. Which operations in order?",
+          "options": [
+            "Division then Addition",
+            "Addition then Division",
+            "Multiplication then Subtraction",
+            "Subtraction then Multiplication",
+            "Token juggling show"
+          ],
+          "answer": "Division then Addition"
+        }
+      ]
+    },
+    // Stage 21 - Art Exhibition
+    {
+      "text": "Maya is helping organize the school art exhibition. She needs to arrange artwork and count supplies.",
+      "questions": [
+        // Question 21.1
+        {
+          "question": "Maya hangs 8 paintings in each of 6 rows. Which operation finds total paintings?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Painting ballet show"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 21.2
+        {
+          "question": "Maya has 45 brushes to share among 9 stations. Which operation finds brushes per station?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Brush twirling dance"
+          ],
+          "answer": "Division"
+        },
+        // Question 21.3
+        {
+          "question": "Maya starts with 40 frames and uses 15. Which operation finds frames left?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Frame juggling act"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 21.4
+        {
+          "question": "Maya multiplies art pieces by 3, then adds 4 new ones. Which operations in order?",
+          "options": [
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Art piece magic show"
+          ],
+          "answer": "Multiplication then Addition"
+        },
+        // Question 21.5
+        {
+          "question": "Maya divides 50 sketches among 5 displays, then removes 2 from each. Which operations in order?",
+          "options": [
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Sketch flying circus"
+          ],
+          "answer": "Division then Subtraction"
+        }
+      ]
+    },
+    // Stage 22 - Sports Equipment
+    {
+      "text": "Daniel is organizing the school's sports equipment. He needs to count items and distribute them among teams.",
+      "questions": [
+        // Question 22.1
+        {
+          "question": "Daniel has 7 bins with 8 balls each. Which operation finds total balls?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Ball bouncing show"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 22.2
+        {
+          "question": "Daniel shares 36 jerseys among 6 teams. Which operation finds jerseys per team?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Jersey fashion show"
+          ],
+          "answer": "Division"
+        },
+        // Question 22.3
+        {
+          "question": "Daniel counts 50 cones but 10 are broken. Which operation finds usable cones?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Cone juggling act"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 22.4
+        {
+          "question": "Daniel multiplies equipment sets by 4, then adds 3 extra sets. Which operations in order?",
+          "options": [
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Equipment dance party"
+          ],
+          "answer": "Multiplication then Addition"
+        },
+        // Question 22.5
+        {
+          "question": "Daniel divides 48 water bottles among 8 stations, then removes 1 from each. Which operations in order?",
+          "options": [
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Bottle flipping contest"
+          ],
+          "answer": "Division then Subtraction"
+        }
+      ]
+    },
+    // Stage 23 - Science Fair
+    {
+      "text": "Emma is helping set up the science fair. She needs to organize projects and materials.",
+      "questions": [
+        // Question 23.1
+        {
+          "question": "Emma arranges 6 tables with 5 projects each. Which operation finds total projects?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Project magic show"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 23.2
+        {
+          "question": "Emma has 45 display boards to share among 9 classes. Which operation finds boards per class?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Board surfing fun"
+          ],
+          "answer": "Division"
+        },
+        // Question 23.3
+        {
+          "question": "Emma starts with 40 chairs and removes 12. Which operation finds chairs remaining?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Chair dancing party"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 23.4
+        {
+          "question": "Emma multiplies supplies by 3, then adds 5 extras. Which operations in order?",
+          "options": [
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Supply juggling show"
+          ],
+          "answer": "Multiplication then Addition"
+        },
+        // Question 23.5
+        {
+          "question": "Emma divides 40 certificates among 5 grades, then adds 2 to each. Which operations in order?",
+          "options": [
+            "Division then Addition",
+            "Addition then Division",
+            "Multiplication then Subtraction",
+            "Subtraction then Multiplication",
+            "Certificate flying act"
+          ],
+          "answer": "Division then Addition"
+        }
+      ]
+    },
+    // Stage 24 - School Concert
+    {
+      "text": "Lucas is helping organize the school concert. He needs to arrange seating and count instruments.",
+      "questions": [
+        // Question 24.1
+        {
+          "question": "Lucas sets up 8 rows with 7 chairs each. Which operation finds total chairs?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Chair orchestra dance"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 24.2
+        {
+          "question": "Lucas divides 54 programs among 6 ushers. Which operation finds programs per usher?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Program paper planes"
+          ],
+          "answer": "Division"
+        },
+        // Question 24.3
+        {
+          "question": "Lucas has 35 music stands but needs 8 fewer. Which operation finds stands needed?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Stand balancing act"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 24.4
+        {
+          "question": "Lucas multiplies microphones by 4, then adds 2 spares. Which operations in order?",
+          "options": [
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Microphone spinning show"
+          ],
+          "answer": "Multiplication then Addition"
+        },
+        // Question 24.5
+        {
+          "question": "Lucas divides 45 tickets among 9 families, then removes 1 from each. Which operations in order?",
+          "options": [
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Ticket magic trick"
+          ],
+          "answer": "Division then Subtraction"
+        }
+      ]
+    },
+   // Stage 25 - School Picnic
+    {
+      "text": "Sarah is helping plan the school picnic. She needs to organize food and supplies for everyone.",
+      "questions": [
+        // Question 25.1
+        {
+          "question": "Sarah packs 6 boxes with 9 sandwiches each. Which operation finds total sandwiches?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Sandwich stacking show"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 25.2
+        {
+          "question": "Sarah divides 48 juice boxes among 8 coolers. Which operation finds boxes per cooler?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Juice box juggling"
+          ],
+          "answer": "Division"
+        },
+        // Question 25.3
+        {
+          "question": "Sarah has 40 plates but drops 5. Which operation finds plates remaining?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Plate spinning magic"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 25.4
+        {
+          "question": "Sarah multiplies snack bags by 5, then adds 3 extra. Which operations in order?",
+          "options": [
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Snack bag dance party"
+          ],
+          "answer": "Multiplication then Addition"
+        },
+        // Question 25.5
+        {
+          "question": "Sarah divides 50 napkins among 10 tables, then adds 2 to each. Which operations in order?",
+          "options": [
+            "Division then Addition",
+            "Addition then Division",
+            "Multiplication then Subtraction",
+            "Subtraction then Multiplication",
+            "Napkin folding show"
+          ],
+          "answer": "Division then Addition"
+        }
+      ]
+    },
+    // Stage 26 - Pet Adoption Day
+    {
+      "text": "Michael is helping at the school's pet adoption day. He needs to organize supplies and count animals.",
+      "questions": [
+        // Question 26.1
+        {
+          "question": "Michael has 7 cages with 5 kittens each. Which operation finds total kittens?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Kitten parade show"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 26.2
+        {
+          "question": "Michael divides 42 pet toys among 6 play areas. Which operation finds toys per area?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Toy juggling fun"
+          ],
+          "answer": "Division"
+        },
+        // Question 26.3
+        {
+          "question": "Michael has 30 dog treats but uses 8. Which operation finds treats remaining?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Treat magic trick"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 26.4
+        {
+          "question": "Michael multiplies water bowls by 3, then adds 4 extra. Which operations in order?",
+          "options": [
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Bowl spinning dance"
+          ],
+          "answer": "Multiplication then Addition"
+        },
+        // Question 26.5
+        {
+          "question": "Michael divides 45 leashes among 9 volunteers, then removes 1 from each. Which operations in order?",
+          "options": [
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Leash twirling show"
+          ],
+          "answer": "Division then Subtraction"
+        }
+      ]
+    },
+    // Stage 27 - School Olympics
+    {
+      "text": "Isabella is organizing the school Olympics. She needs to arrange teams and track scores.",
+      "questions": [
+        // Question 27.1
+        {
+          "question": "Isabella forms 8 teams with 6 players each. Which operation finds total players?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Player dancing party"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 27.2
+        {
+          "question": "Isabella shares 56 medals among 7 events. Which operation finds medals per event?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Medal juggling show"
+          ],
+          "answer": "Division"
+        },
+        // Question 27.3
+        {
+          "question": "Isabella starts with 40 points and deducts 15. Which operation finds points left?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Points vanishing act"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 27.4
+        {
+          "question": "Isabella multiplies game time by 4, then adds 5 minutes. Which operations in order?",
+          "options": [
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Time traveling fun"
+          ],
+          "answer": "Multiplication then Addition"
+        },
+        // Question 27.5
+        {
+          "question": "Isabella divides 50 water bottles among 5 stations, then adds 2 to each. Which operations in order?",
+          "options": [
+            "Division then Addition",
+            "Addition then Division",
+            "Multiplication then Subtraction",
+            "Subtraction then Multiplication",
+            "Bottle flipping contest"
+          ],
+          "answer": "Division then Addition"
+        }
+      ]
+    },
+    // Stage 28 - Science Lab Day
+    {
+      "text": "Ryan is helping in the science lab. He needs to measure materials and organize experiments.",
+      "questions": [
+        // Question 28.1
+        {
+          "question": "Ryan sets up 9 tables with 5 microscopes each. Which operation finds total microscopes?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Microscope magic show"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 28.2
+        {
+          "question": "Ryan divides 48 test tubes among 6 groups. Which operation finds tubes per group?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Test tube juggling"
+          ],
+          "answer": "Division"
+        },
+        // Question 28.3
+        {
+          "question": "Ryan has 35 beakers but 7 are cracked. Which operation finds usable beakers?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Beaker ballet dance"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 28.4
+        {
+          "question": "Ryan multiplies experiment time by 3, then adds 6 minutes. Which operations in order?",
+          "options": [
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Time bubble pop"
+          ],
+          "answer": "Multiplication then Addition"
+        },
+        // Question 28.5
+        {
+          "question": "Ryan divides 40 safety goggles among 8 stations, then removes 1 per station. Which operations in order?",
+          "options": [
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Goggle acrobatics"
+          ],
+          "answer": "Division then Subtraction"
+        }
+      ]
+    },
+    // Stage 29 - Art Gallery
+    {
+      "text": "Sophie is setting up the school art gallery. She needs to arrange artwork and organize supplies.",
+      "questions": [
+        // Question 29.1
+        {
+          "question": "Sophie hangs 6 paintings in each of 8 sections. Which operation finds total paintings?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Painting circus show"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 29.2
+        {
+          "question": "Sophie divides 54 art supplies among 9 stations. Which operation finds supplies per station?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Supply juggling act"
+          ],
+          "answer": "Division"
+        },
+        // Question 29.3
+        {
+          "question": "Sophie starts with 45 chairs but removes 15. Which operation finds chairs left?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Chair dancing magic"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 29.4
+        {
+          "question": "Sophie multiplies display spaces by 5, then adds 3 more. Which operations in order?",
+          "options": [
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Space hopping fun"
+          ],
+          "answer": "Multiplication then Addition"
+        },
+        // Question 29.5
+        {
+          "question": "Sophie divides 35 sculptures among 7 pedestals, then adds 1 to each. Which operations in order?",
+          "options": [
+            "Division then Addition",
+            "Addition then Division",
+            "Multiplication then Subtraction",
+            "Subtraction then Multiplication",
+            "Sculpture spinning show"
+          ],
+          "answer": "Division then Addition"
+        }
+      ]
+    },
+    // Stage 30 - Year-End Party
+    {
+      "text": "David is planning the year-end class party. He needs to organize decorations and count party supplies.",
+      "questions": [
+        // Question 30.1
+        {
+          "question": "David puts 7 balloons on each of 8 tables. Which operation finds total balloons?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Division",
+            "Subtraction",
+            "Balloon dancing show"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 30.2
+        {
+          "question": "David shares 49 party hats among 7 groups. Which operation finds hats per group?",
+          "options": [
+            "Division",
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Hat juggling party"
+          ],
+          "answer": "Division"
+        },
+        // Question 30.3
+        {
+          "question": "David has 40 cupcakes but 10 are eaten. Which operation finds cupcakes left?",
+          "options": [
+            "Subtraction",
+            "Addition",
+            "Multiplication",
+            "Division",
+            "Cupcake magic trick"
+          ],
+          "answer": "Subtraction"
+        },
+        // Question 30.4
+        {
+          "question": "David multiplies game prizes by 6, then adds 4 bonus prizes. Which operations in order?",
+          "options": [
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Prize parade fun"
+          ],
+          "answer": "Multiplication then Addition"
+        },
+        // Question 30.5
+        {
+          "question": "David divides 60 snack bags among 10 tables, then removes 2 from each. Which operations in order?",
+          "options": [
+            "Division then Subtraction",
+            "Subtraction then Division",
+            "Multiplication then Addition",
+            "Addition then Multiplication",
+            "Snack bag carnival"
+          ],
+          "answer": "Division then Subtraction"
+        }
+      ]
+    },
+				  ]
+				}
+        ];
+
+		const stageCount = quizData[0].stages.length; // This is the correct way to get the number of stages
+
+
+		const stateContents = {
+			'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+			,'Subject Overview 🗝️': `<div class="subject-overview-content">   <h1>Determining the Operation Needed to Solve the Problem: A Comprehensive Guide</h1>   <p>When faced with a mathematical problem, selecting the correct operation—addition, subtraction, multiplication, or division—is crucial for arriving at the right solution. This guide will help you understand how to identify the appropriate operation based on the problem's context and keywords. By mastering these strategies, you'll enhance your problem-solving skills and increase your accuracy in mathematical computations.</p>   <hr>   <h2>Table of Contents</h2>   <ol>     <li><a href="#what-does-operation-mean">What Does "Operation Needed" Mean?</a></li>     <li><a href="#general-strategies-for-determining-operations">General Strategies for Determining Operations</a></li>     <li>       <a href="#detailed-explanation-with-examples">Detailed Explanation with Examples</a>       <ul>         <li><a href="#addition">Addition</a></li>         <li><a href="#subtraction">Subtraction</a></li>         <li><a href="#multiplication">Multiplication</a></li>         <li><a href="#division">Division</a></li>       </ul>     </li>     <li><a href="#conclusion">Conclusion</a></li>   </ol>   <hr>     <h2 id="what-does-operation-mean">What Does "Operation Needed" Mean?</h2>   <p>In mathematics, an operation refers to a mathematical process such as addition, subtraction, multiplication, or division used to solve a problem. Determining the necessary operation involves understanding the problem's requirements and identifying the relationship between the given numbers or quantities.</p>     <hr>     <h2 id="general-strategies-for-determining-operations">General Strategies for Determining Operations</h2>   <p>To effectively determine which operation to use, consider the following strategies:</p>   <ol>     <li><strong>Identify Keywords:</strong> Certain words in a problem hint at the required operation.</li>     <li><strong>Understand the Context:</strong> Grasping what the problem is asking helps in selecting the right operation.</li>     <li><strong>Look for Relationships:</strong> Determine how the numbers relate to each other—are they combining, comparing, or distributing?</li>     <li><strong>Analyze the Structure:</strong> Breaking down the problem can reveal the sequence of operations needed.</li>   </ol>     <hr>     <h2 id="detailed-explanation-with-examples">Detailed Explanation with Examples</h2>     <h3 id="addition">Addition</h3>   <p><strong>Meaning and Use:</strong></p>   <ol>     <li><strong>Combining Quantities:</strong> Use addition when you need to find the total of two or more quantities.       <ul>         <li><em>Example:</em> If you have 3 apples and buy 2 more, how many apples do you have in total?</li>         <li><em>Solution:</em> 3 + 2 = 5 apples.</li>       </ul>     </li>     <li><strong>Increasing a Quantity:</strong> When a quantity is increasing, addition is the appropriate operation.       <ul>         <li><em>Example:</em> The population of a town increased by 1,000 people this year. If the current population is 15,000, what was it last year?</li>         <li><em>Solution:</em> 15,000 - 1,000 = 14,000 people last year.</li>       </ul>     </li>   </ol>   <p><strong>Keywords:</strong> Total, sum, combined, altogether, in all.</p>     <hr>     <h3 id="subtraction">Subtraction</h3>   <p><strong>Meaning and Use:</strong></p>   <ol>     <li><strong>Finding the Difference:</strong> Use subtraction to determine how much more or less one quantity is compared to another.       <ul>         <li><em>Example:</em> Sarah has 10 candies, and she gives 4 to her friend. How many candies does Sarah have left?</li>         <li><em>Solution:</em> 10 - 4 = 6 candies remaining.</li>       </ul>     </li>     <li><strong>Decreasing a Quantity:</strong> When a quantity is decreasing, subtraction is the appropriate operation.       <ul>         <li><em>Example:</em> A car’s fuel decreases from 50 liters to 30 liters. How much fuel was used?</li>         <li><em>Solution:</em> 50 - 30 = 20 liters used.</li>       </ul>     </li>   </ol>   <p><strong>Keywords:</strong> Difference, less than, fewer, decreased by, subtract.</p>     <hr>     <h3 id="multiplication">Multiplication</h3>   <p><strong>Meaning and Use:</strong></p>   <ol>     <li><strong>Repeated Addition:</strong> Use multiplication when combining equal groups.       <ul>         <li><em>Example:</em> There are 5 bags with 4 apples each. How many apples are there in total?</li>         <li><em>Solution:</em> 5 × 4 = 20 apples.</li>       </ul>     </li>     <li><strong>Scaling a Quantity:</strong> When a quantity is scaled up or down by a factor, multiplication is appropriate.       <ul>         <li><em>Example:</em> If one widget costs $7 and you buy 6 widgets, how much do you spend?</li>         <li><em>Solution:</em> 7 × 6 = $42.</li>       </ul>     </li>   </ol>   <p><strong>Keywords:</strong> Product, times, multiplied by, each, per.</p>     <hr>     <h3 id="division">Division</h3>   <p><strong>Meaning and Use:</strong></p>   <ol>     <li><strong>Sharing Equally:</strong> Use division when you need to distribute a quantity into equal parts.       <ul>         <li><em>Example:</em> You have 20 cookies and want to share them equally among 4 friends. How many cookies does each friend get?</li>         <li><em>Solution:</em> 20 ÷ 4 = 5 cookies per friend.</li>       </ul>     </li>     <li><strong>Grouping:</strong> When organizing items into groups of a specific size, division is the appropriate operation.       <ul>         <li><em>Example:</em> There are 24 students and 6 tables. How many students will sit at each table?</li>         <li><em>Solution:</em> 24 ÷ 6 = 4 students per table.</li>       </ul>     </li>   </ol>   <p><strong>Keywords:</strong> Each, per, out of, ratio, divided by.</p>     <hr>     <h2 id="conclusion">Conclusion</h2>   <p>Determining the correct mathematical operation is a foundational skill in problem-solving. By identifying keywords, understanding the context, and analyzing the relationships between numbers, you can select the appropriate operation with confidence. Here's a quick recap:</p>   <ul>     <li><strong>Addition</strong>: Use for combining quantities or increasing a value.</li>     <li><strong>Subtraction</strong>: Use for finding differences or decreasing a value.</li>     <li><strong>Multiplication</strong>: Use for repeated addition or scaling a quantity.</li>     <li><strong>Division</strong>: Use for sharing equally or grouping items.</li>   </ul>   <p><strong>Remember</strong>: Practice is key. Work through various problems to reinforce your understanding of when and how to apply each operation effectively.</p>   <hr>   <p>By mastering the skill of determining the necessary operation to solve a problem, you'll enhance your mathematical proficiency and problem-solving abilities. Keep practicing with diverse problems, and refer back to this guide whenever you need a refresher!</p> </div>`		
+			};
+
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function isTextEmpty(text) {
+    return !text || text.trim() === "";
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    
+    // Only add stage text if it's not empty
+    const stageText = quizData[0].stages[currentStage].text;
+    if (!isTextEmpty(stageText)) {
+        const stageTextElement = document.createElement("div");
+        stageTextElement.className = "stage-text";
+        stageTextElement.style.marginBottom = "20px";
+        stageTextElement.style.padding = "15px";
+        stageTextElement.style.backgroundColor = "#f5f5f5";
+        stageTextElement.style.borderRadius = "5px";
+        stageTextElement.textContent = stageText;
+        quizContainer.appendChild(stageTextElement);
+    }
+    
+    // Render questions
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+        
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${questionData.question}`;
+        
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+        
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+        
+        const shuffledOptions = shuffleArray([...questionData.options]);
+        shuffledOptions.forEach(option => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv);
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[0].stages[currentStage].questions.length;
+
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === questionData.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect answer.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 10) {
+            selectElement.value = questionData.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` The correct answer is: ${questionData.answer}`;
+        }
+    });
+
+    if (correctCount === totalQuestions) {
+        console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+        addAnimalsToFarm(totalQuestions);
+
+        if (currentStage < quizData[0].stages.length - 1) {
+            singleStageConfetti();
+            showEncouragingPopup(correctCount, totalQuestions, true);
+            currentStage++;
+            updateProgressBar();
+            setTimeout(() => {
+                attempts = 0;
+                renderQuiz();
+                document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+            }, 1500);
+        } else {
+            currentStage++;
+            updateProgressBar();
+            allStagesConfetti();
+            showModal("Congratulations! You've completed all stages!");
+        }
+    } else {
+        showEncouragingPopup(correctCount, totalQuestions, false);
+        if (attempts >= 10) {
+            showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+        }
+    }
+
+    scrollToTop();
+}
+
+// 4. Update stageCount calculation to work with new structure
+
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+    const completedStages = currentStage;
+    const progress = (completedStages / stageCount) * 100;
+    const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+    progressBar.style.width = `${roundedProgress}%`;
+    progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+    console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+}
+
+function updateStageNumber() {
+    const stageElement = document.getElementById("stage-number");
+    stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>

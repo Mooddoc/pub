@@ -1,0 +1,2526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+	<style>
+  
+	</style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read the text and questions carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>Solving word problems involving decimals</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+ 
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+																		//  PH3 - Quiz Data 
+        const quizData = [ 												   	
+				{
+				  "stages": [
+
+    // Stage 1
+    {
+      "text": "Maria's family is planning their monthly grocery budget. They spend $45.75 on fruits, $32.80 on vegetables, and $78.25 on meat. They want to make sure they stay within their budget.",
+      "questions": [
+        // Question 1.1
+        {
+          "question": "How much does Maria's family spend on fruits and vegetables together?",
+          "options": [
+            "$78.55",
+            "$45.80",
+            "$87.55", 
+            "A million dollars",
+            "78.550"
+          ],
+          "answer": "$78.55"
+        },
+        // Question 1.2
+        {
+          "question": "What is the total amount spent on all groceries?",
+          "options": [
+            "$156.80",
+            "$146.70",
+            "$157.80", 
+            "$The price of a small car",
+            "156.800"
+          ],
+          "answer": "$156.80"
+        },
+        // Question 1.3
+        {
+          "question": "If they have a budget of $200.00, how much money do they have left?",
+          "options": [
+            "$43.20",
+            "$44.20",
+            "$42.20",
+            "Enough for a yacht",
+            "43.200"
+          ],
+          "answer": "$43.20"
+        },
+        // Question 1.4
+        {
+          "question": "What percentage of their spending goes to meat? (Round to nearest whole number)",
+          "options": [
+            "50%",
+            "45%",
+            "55%",
+            "As much as a dinosaur eats",
+            "49.9%"
+          ],
+          "answer": "50%"
+        },
+        // Question 1.5
+        {
+          "question": "If they want to reduce their meat spending by 25%, how much would they save?",
+          "options": [
+            "$19.56",
+            "$18.56",
+            "$20.56",
+            "The cost of a space rocket",
+            "19.562"
+          ],
+          "answer": "$19.56"
+        }
+      ]
+    },
+    // Stage 2
+    {
+      "text": "Tom's Pizza Shop sells slices in different sizes. A regular slice costs $2.75, a large slice costs $3.85, and an extra-large slice costs $4.95. Each size comes with different toppings prices.",
+      "questions": [
+        // Question 2.1
+        {
+          "question": "If someone orders 2 regular slices and 1 large slice, what's the total cost?",
+          "options": [
+            "$9.35",
+            "$9.45",
+            "$9.25",
+            "The price of the whole pizza shop",
+            "9.350"
+          ],
+          "answer": "$9.35"
+        },
+        // Question 2.2
+        {
+          "question": "Extra toppings cost $0.75 each. How much would 3 toppings on a large slice cost in total?",
+          "options": [
+            "$6.10",
+            "$5.10",
+            "$7.10",
+            "More than my allowance",
+            "6.100"
+          ],
+          "answer": "$6.10"
+        },
+        // Question 2.3
+        {
+          "question": "What's the price difference between an extra-large and a regular slice?",
+          "options": [
+            "$2.20",
+            "$2.10",
+            "$2.30",
+            "The cost of a gold pizza",
+            "2.200"
+          ],
+          "answer": "$2.20"
+        },
+        // Question 2.4
+        {
+          "question": "If Tom sells 10 regular slices with one topping each, how much money does he make?",
+          "options": [
+            "$35.00",
+            "$34.00",
+            "$36.00",
+            "Enough to buy Italy",
+            "35.000"
+          ],
+          "answer": "$35.00"
+        },
+        // Question 2.5
+        {
+          "question": "What's the total cost of one slice of each size?",
+          "options": [
+            "$11.55",
+            "$11.45",
+            "$11.65",
+            "The price of all pizzas in the world",
+            "11.550"
+          ],
+          "answer": "$11.55"
+        }
+      ]
+    },
+    // Stage 3
+{
+  "text": "A school supply store has a sale. Notebooks are 25% off their original price of $3.60, pencils are 15% off their original price of $0.85, and markers are 30% off their original price of $4.25.",
+  "questions": [
+    // Question 3.1
+    {
+      "question": "What is the sale price of a notebook?",
+      "options": [
+        "$2.70",
+        "$2.80",
+        "$2.60",
+        "Free! Just kidding",
+        "2.700"
+      ],
+      "answer": "$2.70"
+    },
+    // Question 3.2
+    {
+      "question": "How much would you save buying 3 packages of markers?",
+      "options": [
+        "$3.83",
+        "$3.73",
+        "$3.93",
+        "More than my piggy bank",
+        "3.825"
+      ],
+      "answer": "$3.83"
+    },
+    // Question 3.3
+    {
+      "question": "What's the sale price of 5 pencils?",
+      "options": [
+        "$3.61",
+        "$3.71",
+        "$3.51",
+        "The cost of a golden pencil",
+        "3.613"
+      ],
+      "answer": "$3.61"
+    },
+    // Question 3.4 (Corrected)
+    {
+      "question": "If you buy 2 notebooks and 3 markers on sale, what's your total?",
+      "options": [
+        "$14.33",
+        "$14.23",
+        "$14.43",
+        "My entire allowance",
+        "14.325"
+      ],
+      "answer": "$14.33"
+    },
+    // Question 3.5 (Corrected)
+    {
+      "question": "How much total discount would you get on a purchase of one of each item?",
+      "options": [
+        "$2.30",
+        "$2.20",
+        "$2.40",
+        "A billion dollars",
+        "2.303"
+      ],
+      "answer": "$2.30"
+    }
+  ]
+},
+    // Stage 4
+    {
+      "text": "A hiking club tracks their distances. Sarah hiked 3.75 miles on Monday, 2.85 miles on Tuesday, and wants to average 3.5 miles per day for the week.",
+      "questions": [
+        // Question 4.1
+        {
+          "question": "How many more miles does Sarah need to hike over the next 5 days to reach her goal for the week?",
+          "options": [
+            "$17.90",
+            "$16.90",
+            "$18.90",
+            "To the moon and back",
+            "17.900"
+          ],
+          "answer": "$17.90"
+        },
+        // Question 4.2
+        {
+          "question": "What is her daily average for Monday and Tuesday?",
+          "options": [
+            "$3.30",
+            "$3.20",
+            "$3.40",
+            "Faster than a cheetah",
+            "3.300"
+          ],
+          "answer": "$3.30"
+        },
+        // Question 4.3
+        {
+          "question": "If she maintains her goal, how many total miles will she hike in 30 days?",
+          "options": [
+            "$105.00",
+            "$104.00",
+            "$106.00",
+            "Around the Earth twice",
+            "105.000"
+          ],
+          "answer": "$105.00"
+        },
+        // Question 4.4
+        {
+          "question": "If she burns 125.5 calories per mile, how many calories did she burn in the first two days?",
+          "options": [
+            "$828.93",
+            "$818.93",
+            "$838.93",
+            "Enough to eat 100 pizzas",
+            "828.925"
+          ],
+          "answer": "$828.93"
+        },
+        // Question 4.5
+        {
+          "question": "If she walks at 3.25 miles per hour, how many hours did she spend hiking on Monday?",
+          "options": [
+            "1.15",
+            "1.25",
+            "1.05",
+            "Until the sun sets",
+            "1.154"
+          ],
+          "answer": "1.15"
+        }
+      ]
+    },
+    // Stage 5
+    {
+      "text": "A carpenter is building a bookshelf. Each shelf needs to be 4.75 feet wide and 0.75 feet deep. The wood costs $8.25 per square foot.",
+      "questions": [
+        // Question 5.1
+        {
+          "question": "What is the area of one shelf in square feet?",
+          "options": [
+            "3.56",
+            "3.46",
+            "3.66",
+            "Big enough for all books ever written",
+            "3.563"
+          ],
+          "answer": "3.56"
+        },
+        // Question 5.2
+        {
+          "question": "How much will the wood for 5 shelves cost?",
+          "options": [
+            "$146.85",
+            "$145.85",
+            "$147.85",
+            "My entire life savings",
+            "146.850"
+          ],
+          "answer": "$146.85"
+        },
+        // Question 5.3
+        {
+          "question": "If the carpenter adds a 15% markup for labor, what is the total cost for 3 shelves?",
+          "options": [
+            "$101.33",
+            "$100.33",
+            "$102.33",
+            "The price of a gold bookshelf",
+            "101.327"
+          ],
+          "answer": "$101.33"
+        },
+        // Question 5.4
+        {
+          "question": "If each shelf needs to hold 35.5 pounds, how much weight will 4 shelves support?",
+          "options": [
+            "142.00",
+            "141.00",
+            "143.00",
+            "As heavy as an elephant",
+            "142.000"
+          ],
+          "answer": "142.00"
+        },
+        // Question 5.5
+        {
+          "question": "If the wood price increases by 12.5%, what will be the new cost per square foot?",
+          "options": [
+            "$9.28",
+            "$9.18",
+            "$9.38",
+            "More than my monthly allowance",
+            "9.281"
+          ],
+          "answer": "$9.28"
+        }
+      ]
+    },
+    // Stage 6
+    {
+      "text": "A recipe calls for 2.75 cups of flour, 0.85 cups of sugar, and 1.25 cups of milk. The chef wants to make multiple batches for a large party.",
+      "questions": [
+        // Question 6.1
+        {
+          "question": "How many cups of ingredients are needed in total for one batch?",
+          "options": [
+            "4.85",
+            "4.75",
+            "4.95",
+            "An ocean full",
+            "4.850"
+          ],
+          "answer": "4.85"
+        },
+        // Question 6.2
+        {
+          "question": "If making 3.5 batches, how much flour is needed?",
+          "options": [
+            "9.63",
+            "9.53",
+            "9.73",
+            "Enough to cover a mountain",
+            "9.625"
+          ],
+          "answer": "9.63"
+        },
+        // Question 6.3
+        {
+          "question": "If sugar costs $0.89 per cup, what's the cost of sugar for 2.5 batches?",
+          "options": [
+            "$1.89",
+            "$1.79",
+            "$1.99",
+            "The price of a sugar factory",
+            "1.891"
+          ],
+          "answer": "$1.89"
+        },
+        // Question 6.4
+        {
+          "question": "How many cups of milk are needed for 1.75 batches?",
+          "options": [
+            "2.19",
+            "2.09",
+            "2.29",
+            "A whole dairy farm",
+            "2.188"
+          ],
+          "answer": "2.19"
+        },
+        // Question 6.5
+        {
+          "question": "If each cup of flour weighs 0.45 pounds, how much does the flour for one batch weigh?",
+          "options": [
+            "1.24",
+            "1.14",
+            "1.34",
+            "Heavier than a truck",
+            "1.238"
+          ],
+          "answer": "1.24"
+        }
+      ]
+    },
+    // Stage 7
+    {
+      "text": "A garden center sells plants in different sized pots. Small pots use 1.25 liters of soil, medium pots use 2.35 liters, and large pots use 3.85 liters. Soil costs $2.45 per liter.",
+      "questions": [
+        // Question 7.1
+        {
+          "question": "How much does it cost to fill 3 medium pots with soil?",
+          "options": [
+            "$17.27",
+            "$16.27",
+            "$18.27",
+            "The price of a diamond garden",
+            "17.267"
+          ],
+          "answer": "$17.27"
+        },
+        // Question 7.2
+        {
+          "question": "What's the difference in soil cost between filling a large pot and a small pot?",
+          "options": [
+            "$6.37",
+            "$6.27",
+            "$6.47",
+            "More than my garden budget",
+            "6.370"
+          ],
+          "answer": "$6.37"
+        },
+        // Question 7.3
+        {
+          "question": "If you need to fill 2.5 small pots, how many liters of soil do you need?",
+          "options": [
+            "3.13",
+            "3.03",
+            "3.23",
+            "Enough to fill a swimming pool",
+            "3.125"
+          ],
+          "answer": "3.13"
+        },
+        // Question 7.4
+        {
+          "question": "If soil is on sale for 15% off, how much would it cost to fill 4 large pots?",
+          "options": [
+            "$32.07",
+            "$31.07",
+            "$33.07",
+            "The cost of a soil factory",
+            "32.074"
+          ],
+          "answer": "$32.07"
+        },
+        // Question 7.5
+        {
+          "question": "How many small pots can be filled with the same amount of soil as 2 large pots?",
+          "options": [
+            "6.16",
+            "6.06",
+            "6.26",
+            "More pots than stars in the sky",
+            "6.160"
+          ],
+          "answer": "6.16"
+        }
+      ]
+    },
+    // Stage 8
+    {
+      "text": "A water park monitors water usage. The wave pool uses 425.75 gallons per hour, the lazy river uses 285.50 gallons per hour, and the slides use 195.25 gallons per hour.",
+      "questions": [
+        // Question 8.1
+        {
+          "question": "How many total gallons are used per hour by all attractions?",
+          "options": [
+            "906.50",
+            "905.50",
+            "907.50",
+            "An entire ocean",
+            "906.500"
+          ],
+          "answer": "906.50"
+        },
+        // Question 8.2
+        {
+          "question": "If water costs $0.025 per gallon, what's the hourly water cost for the wave pool?",
+          "options": [
+            "$10.64",
+            "$10.54",
+            "$10.74",
+            "My monthly water bill",
+            "10.644"
+          ],
+          "answer": "$10.64"
+        },
+        // Question 8.3
+        {
+          "question": "If the park is open for 8.75 hours, how many gallons does the lazy river use?",
+          "options": [
+            "2,498.13",
+            "2,488.13",
+            "2,508.13",
+            "More than Niagara Falls",
+            "2,498.125"
+          ],
+          "answer": "2,498.13"
+        },
+        // Question 8.4
+        {
+          "question": "What percentage of total hourly water usage comes from the slides? (Round to nearest hundredth)",
+          "options": [
+            "21.54%",
+            "21.44%",
+            "21.64%",
+            "As much as a tsunami",
+            "21.542%"
+          ],
+          "answer": "21.54%"
+        },
+        // Question 8.5
+        {
+          "question": "If water usage increases by 12.5% during peak hours, how many gallons does the wave pool use?",
+          "options": [
+            "478.97",
+            "477.97",
+            "479.97",
+            "Enough to flood the city",
+            "478.969"
+          ],
+          "answer": "478.97"
+        }
+      ]
+    },
+    // Stage 9
+    {
+      "text": "An electronics store sells phones for $299.99, tablets for $429.75, and laptops for $849.50. They offer different warranty packages and trade-in values.",
+      "questions": [
+        // Question 9.1
+        {
+          "question": "If a customer trades in their old phone for 35.75% of the new phone price, how much is the trade-in worth?",
+          "options": [
+            "$107.25",
+            "$106.25",
+            "$108.25",
+            "The price of a space phone",
+            "107.246"
+          ],
+          "answer": "$107.25"
+        },
+        // Question 9.2
+        {
+          "question": "What's the total cost of buying one of each device with a 12.5% store membership discount?",
+          "options": [
+            "$1,384.33",
+            "$1,383.33",
+            "$1,385.33",
+            "My life savings plus some",
+            "1,384.334"
+          ],
+          "answer": "$1,384.33"
+        },
+        // Question 9.3
+        {
+          "question": "If a 2-year warranty costs 15.5% of the device price, how much is a laptop warranty?",
+          "options": [
+            "$131.67",
+            "$130.67",
+            "$132.67",
+            "More than the laptop itself",
+            "131.673"
+          ],
+          "answer": "$131.67"
+        },
+        // Question 9.4
+        {
+          "question": "A customer buys 2.5 protection plans for tablets. If each plan is $45.99, what's the total cost?",
+          "options": [
+            "$114.98",
+            "$113.98",
+            "$115.98",
+            "The cost of infinite protection",
+            "114.975"
+          ],
+          "answer": "$114.98"
+        },
+        // Question 9.5
+        {
+          "question": "If sales tax is 8.75%, how much tax is paid on a phone and tablet purchase?",
+          "options": [
+            "$63.85",
+            "$62.85",
+            "$64.85",
+            "Enough to pay all my taxes forever",
+            "63.853"
+          ],
+          "answer": "$63.85"
+        }
+      ]
+    },
+    // Stage 10
+    {
+      "text": "A construction company is building a wall that's 12.75 meters long and 3.25 meters high. They need to calculate materials and costs carefully.",
+      "questions": [
+        // Question 10.1
+        {
+          "question": "What is the total area of the wall in square meters?",
+          "options": [
+            "41.44",
+            "40.44",
+            "42.44",
+            "Big enough to see from space",
+            "41.438"
+          ],
+          "answer": "41.44"
+        },
+        // Question 10.2
+        {
+          "question": "If paint covers 2.75 square meters per liter, how many liters are needed? (Round up to nearest tenth)",
+          "options": [
+            "15.1",
+            "15.0",
+            "15.2",
+            "An olympic swimming pool full",
+            "15.07"
+          ],
+          "answer": "15.1"
+        },
+        // Question 10.3
+        {
+          "question": "If bricks cost $3.85 per square meter and labor is 125% of material cost, what's the total project cost?",
+          "options": [
+            "$357.42",
+            "$356.42",
+            "$358.42",
+            "The cost of building the Great Wall",
+            "357.419"
+          ],
+          "answer": "$357.42"
+        },
+        // Question 10.4
+        {
+          "question": "If the crew can build 1.85 square meters per hour, how many hours will the project take?",
+          "options": [
+            "22.40",
+            "22.30",
+            "22.50",
+            "Until the next century",
+            "22.399"
+          ],
+          "answer": "22.40"
+        },
+        // Question 10.5
+        {
+          "question": "If material costs increase by 8.75% and labor costs decrease by 4.25%, what's the new total cost?",
+          "options": [
+            "$361.89",
+            "$360.89",
+            "$362.89",
+            "More than building a castle",
+            "361.891"
+          ],
+          "answer": "$361.89"
+        }
+      ]
+    },
+    // Stage 11
+    {
+      "text": "A delivery service calculates shipping costs based on weight. The base rate is $2.75 per pound, with an additional $0.85 per mile for distances over 10 miles. There's also a handling fee of $1.25.",
+      "questions": [
+        // Question 11.1
+        {
+          "question": "What's the cost to ship a 3.25 pound package for 15.5 miles?",
+          "options": [
+            "$13.71",
+            "$13.61",
+            "$13.81",
+            "The cost of shipping an elephant",
+            "13.713"
+          ],
+          "answer": "$13.71"
+        },
+        // Question 11.2
+        {
+          "question": "If a customer ships 2.75 packages averaging 4.5 pounds each, what's the total weight cost?",
+          "options": [
+            "$34.03",
+            "$33.03",
+            "$35.03",
+            "Heavier than a blue whale",
+            "34.031"
+          ],
+          "answer": "$34.03"
+        },
+        // Question 11.3
+        {
+          "question": "For a 25.75 mile delivery, what's the additional mileage cost (over the 10 mile base)?",
+          "options": [
+            "$13.39",
+            "$13.29",
+            "$13.49",
+            "The cost of driving to the moon",
+            "13.388"
+          ],
+          "answer": "$13.39"
+        },
+        // Question 11.4
+        {
+          "question": "If fuel prices increase shipping costs by 12.5%, what's the new rate per pound?",
+          "options": [
+            "$3.09",
+            "$3.19",
+            "$2.99",
+            "More than gold per pound",
+            "3.094"
+          ],
+          "answer": "$3.09"
+        },
+        // Question 11.5
+        {
+          "question": "How many 2.25 pound packages can be shipped for $50.00 if they're all going 5 miles?",
+          "options": [
+            "7.45",
+            "7.35",
+            "7.55",
+            "Enough to fill a warehouse",
+            "7.452"
+          ],
+          "answer": "7.45"
+        }
+      ]
+    },
+    // Stage 12
+    {
+      "text": "A bakery uses precise measurements for their recipes. A special cake requires 3.75 cups of flour, 2.25 cups of sugar, and 1.85 cups of milk. Each cake sells for $18.95.",
+      "questions": [
+        // Question 12.1
+        {
+          "question": "If making 3.5 cakes, how many cups of flour are needed?",
+          "options": [
+            "13.13",
+            "13.03",
+            "13.23",
+            "All the flour in the world",
+            "13.125"
+          ],
+          "answer": "13.13"
+        },
+        // Question 12.2
+        {
+          "question": "What's the total revenue from selling 12.5 cakes?",
+          "options": [
+            "$236.88",
+            "$235.88",
+            "$237.88",
+            "Enough to buy the bakery",
+            "236.875"
+          ],
+          "answer": "$236.88"
+        },
+        // Question 12.3
+        {
+          "question": "If sugar costs $0.45 per cup and is used in 7.25 cakes, what's the sugar cost?",
+          "options": [
+            "$7.33",
+            "$7.23",
+            "$7.43",
+            "The price of a sugar plantation",
+            "7.331"
+          ],
+          "answer": "$7.33"
+        },
+        // Question 12.4
+        {
+          "question": "If ingredient costs are 35.75% of the sale price, what's the profit per cake?",
+          "options": [
+            "$12.17",
+            "$12.07",
+            "$12.27",
+            "More dough than a bakery",
+            "12.175"
+          ],
+          "answer": "$12.17"
+        },
+        // Question 12.5
+        {
+          "question": "How many cakes can be made with 25.5 cups of flour?",
+          "options": [
+            "6.80",
+            "6.70",
+            "6.90",
+            "Enough to feed an army",
+            "6.800"
+          ],
+          "answer": "6.80"
+        }
+      ]
+    },
+    // Stage 13
+    {
+      "text": "An interior designer is planning room layouts. The living room is 15.75 feet by 12.25 feet, and the dining room is 10.50 feet by 8.75 feet. Flooring costs $4.85 per square foot.",
+      "questions": [
+        // Question 13.1
+        {
+          "question": "What's the total area of both rooms in square feet?",
+          "options": [
+            "$285.19",
+            "$284.19",
+            "$286.19",
+            "Bigger than a football field",
+            "285.188"
+          ],
+          "answer": "$285.19"
+        },
+        // Question 13.2
+        {
+          "question": "If the designer adds a 15.25% contingency to the flooring order, how many square feet are ordered?",
+          "options": [
+            "328.68",
+            "327.68",
+            "329.68",
+            "Enough to cover a mansion",
+            "328.681"
+          ],
+          "answer": "328.68"
+        },
+        // Question 13.3
+        {
+          "question": "What's the perimeter of the living room in feet?",
+          "options": [
+            "56.00",
+            "55.00",
+            "57.00",
+            "Long enough to reach the sky",
+            "56.000"
+          ],
+          "answer": "56.00"
+        },
+        // Question 13.4
+        {
+          "question": "If labor costs are $2.25 per square foot, what's the total project cost including materials?",
+          "options": [
+            "$2,027.85",
+            "$2,026.85",
+            "$2,028.85",
+            "The price of a golden floor",
+            "2,027.847"
+          ],
+          "answer": "$2,027.85"
+        },
+        // Question 13.5
+        {
+          "question": "What percentage more area does the living room have compared to the dining room? (Round to nearest hundredth)",
+          "options": [
+            "75.89%",
+            "75.79%",
+            "75.99%",
+            "More than Texas",
+            "75.893%"
+          ],
+          "answer": "75.89%"
+        }
+      ]
+    },
+    // Stage 14
+    {
+      "text": "A manufacturing company produces parts that must be precise to 3 decimal places. Part A is 2.375 inches, Part B is 1.825 inches, and Part C is 3.125 inches. They're assembled in different combinations.",
+      "questions": [
+        // Question 14.1
+        {
+          "question": "What's the total length of all three parts together?",
+          "options": [
+            "7.325",
+            "7.225",
+            "7.425",
+            "Longer than a giraffe's neck",
+            "7.3250"
+          ],
+          "answer": "7.325"
+        },
+        // Question 14.2
+        {
+          "question": "If 2.75 sets of Part A are needed, what's the total length?",
+          "options": [
+            "6.531",
+            "6.431",
+            "6.631",
+            "To infinity and beyond",
+            "6.5313"
+          ],
+          "answer": "6.531"
+        },
+        // Question 14.3
+        {
+          "question": "What's the difference between the longest and shortest parts?",
+          "options": [
+            "1.300",
+            "1.200",
+            "1.400",
+            "As big as the Grand Canyon",
+            "1.3000"
+          ],
+          "answer": "1.300"
+        },
+        // Question 14.4
+        {
+          "question": "If Part B expands by 2.25% when heated, what's its new length?",
+          "options": [
+            "1.866",
+            "1.766",
+            "1.966",
+            "Longer than a telephone pole",
+            "1.8661"
+          ],
+          "answer": "1.866"
+        },
+        // Question 14.5
+        {
+          "question": "How many Part Cs are needed to reach exactly 15.625 inches?",
+          "options": [
+            "5.000",
+            "4.900",
+            "5.100",
+            "More parts than stars",
+            "5.0000"
+          ],
+          "answer": "5.000"
+        }
+      ]
+    },
+    // Stage 15
+    {
+      "text": "A nutritionist analyzes meal portions. Protein should be 0.825 grams per pound of body weight, carbs should be 2.275 grams per pound, and fats should be 0.425 grams per pound.",
+      "questions": [
+        // Question 15.1
+        {
+          "question": "For a 150.5 pound person, how many grams of protein are needed?",
+          "options": [
+            "124.16",
+            "123.16",
+            "125.16",
+            "More protein than a whale",
+            "124.163"
+          ],
+          "answer": "124.16"
+        },
+        // Question 15.2
+        {
+          "question": "What's the total grams of all macronutrients for a 125.75 pound person?",
+          "options": [
+            "442.76",
+            "441.76",
+            "443.76",
+            "Enough to feed an elephant",
+            "442.763"
+          ],
+          "answer": "442.76"
+        },
+        // Question 15.3
+        {
+          "question": "If protein costs $0.075 per gram, what's the daily cost for a 175.25 pound person?",
+          "options": [
+            "$10.84",
+            "$10.74",
+            "$10.94",
+            "The cost of a protein factory",
+            "10.842"
+          ],
+          "answer": "$10.84"
+        },
+        // Question 15.4
+        {
+          "question": "For someone eating 85.5% of their protein target, how many grams are they missing if they weigh 160.75 pounds?",
+          "options": [
+            "19.89",
+            "19.79",
+            "19.99",
+            "A mountain of protein",
+            "19.893"
+          ],
+          "answer": "19.89"
+        },
+        // Question 15.5
+        {
+          "question": "What percentage of total macronutrients is fat for any person? (Round to nearest hundredth)",
+          "options": [
+            "12.06%",
+            "12.16%",
+            "11.96%",
+            "More than a stick of butter",
+            "12.058%"
+          ],
+          "answer": "12.06%"
+        }
+      ]
+    },
+   // Stage 16
+    {
+      "text": "A solar panel installation company calculates energy output. Each panel produces 1.75 kWh per day and costs $235.50 to install. The average home needs 27.5 kWh daily.",
+      "questions": [
+        // Question 16.1
+        {
+          "question": "How many panels are needed to power an average home?",
+          "options": [
+            "15.71",
+            "15.61",
+            "15.81",
+            "Enough panels to reach Mars",
+            "15.714"
+          ],
+          "answer": "15.71"
+        },
+        // Question 16.2
+        {
+          "question": "What's the installation cost for 12.5 panels?",
+          "options": [
+            "$2,943.75",
+            "$2,942.75",
+            "$2,944.75",
+            "The cost of the sun itself",
+            "2,943.750"
+          ],
+          "answer": "$2,943.75"
+        },
+        // Question 16.3
+        {
+          "question": "If efficiency drops by 0.25% per year, what's the output per panel after 5 years?",
+          "options": [
+            "1.73",
+            "1.72",
+            "1.74",
+            "Less than a firefly",
+            "1.728"
+          ],
+          "answer": "1.73"
+        },
+        // Question 16.4
+        {
+          "question": "If electricity costs $0.125 per kWh, what's the daily savings with 10 panels?",
+          "options": [
+            "$2.19",
+            "$2.09",
+            "$2.29",
+            "Enough to buy a power plant",
+            "2.188"
+          ],
+          "answer": "$2.19"
+        },
+        // Question 16.5
+        {
+          "question": "What percentage of daily energy needs do 8.5 panels provide?",
+          "options": [
+            "54.09%",
+            "54.19%",
+            "53.99%",
+            "More power than Superman",
+            "54.091%"
+          ],
+          "answer": "54.09%"
+        }
+      ]
+    },
+    // Stage 17
+    {
+      "text": "A paint mixing service combines colors using precise measurements. Red paint costs $3.85 per ounce, blue costs $4.25 per ounce, and yellow costs $3.55 per ounce. A custom mix needs 2.75 ounces red, 1.85 ounces blue, and 0.95 ounces yellow.",
+      "questions": [
+        // Question 17.1
+        {
+          "question": "What's the total cost of one custom mix?",
+          "options": [
+            "$19.83",
+            "$19.73",
+            "$19.93",
+            "The price of the Mona Lisa's paint",
+            "19.828"
+          ],
+          "answer": "$19.83"
+        },
+        // Question 17.2
+        {
+          "question": "How many ounces of paint are in 2.5 custom mixes?",
+          "options": [
+            "13.88",
+            "13.78",
+            "13.98",
+            "Enough to paint the Golden Gate Bridge",
+            "13.875"
+          ],
+          "answer": "13.88"
+        },
+        // Question 17.3
+        {
+          "question": "If the store offers a 12.75% discount, what's the new cost per mix?",
+          "options": [
+            "$17.30",
+            "$17.20",
+            "$17.40",
+            "Cheaper than water",
+            "17.301"
+          ],
+          "answer": "$17.30"
+        },
+        // Question 17.4
+        {
+          "question": "What percentage of the total mix is red paint?",
+          "options": [
+            "49.55%",
+            "49.45%",
+            "49.65%",
+            "Redder than a fire truck",
+            "49.549%"
+          ],
+          "answer": "49.55%"
+        },
+        // Question 17.5
+        {
+          "question": "For 3.25 mixes, how much does just the blue paint cost?",
+          "options": [
+            "$25.56",
+            "$25.46",
+            "$25.66",
+            "More than all the oceans",
+            "25.559"
+          ],
+          "answer": "$25.56"
+        }
+      ]
+    },
+    // Stage 18
+    {
+      "text": "A surveyor measures land plots. Plot A is 125.75 square meters, Plot B is 98.25 square meters, and Plot C is 156.50 square meters. Land values vary by location.",
+      "questions": [
+        // Question 18.1
+        {
+          "question": "If land costs $85.75 per square meter, what's the value of Plot A?",
+          "options": [
+            "$10,783.06",
+            "$10,782.06",
+            "$10,784.06",
+            "The price of a small country",
+            "10,783.063"
+          ],
+          "answer": "$10,783.06"
+        },
+        // Question 18.2
+        {
+          "question": "What's the total area of 1.5 of each plot?",
+          "options": [
+            "571.50",
+            "570.50",
+            "572.50",
+            "Bigger than Texas",
+            "571.500"
+          ],
+          "answer": "571.50"
+        },
+        // Question 18.3
+        {
+          "question": "If Plot B appreciates by 3.25% annually, what's its value after 2 years at $85.75/m²?",
+          "options": [
+            "$8,704.27",
+            "$8,703.27",
+            "$8,705.27",
+            "Worth more than Fort Knox",
+            "8,704.271"
+          ],
+          "answer": "$8,704.27"
+        },
+        // Question 18.4
+        {
+          "question": "What's the difference in value between Plot C and Plot A at $85.75/m²?",
+          "options": [
+            "$2,634.31",
+            "$2,633.31",
+            "$2,635.31",
+            "The cost of a diamond mine",
+            "2,634.313"
+          ],
+          "answer": "$2,634.31"
+        },
+        // Question 18.5
+        {
+          "question": "How many Plot Bs equal the area of 2.5 Plot Cs?",
+          "options": [
+            "3.98",
+            "3.88",
+            "4.08",
+            "More plots than Minecraft",
+            "3.977"
+          ],
+          "answer": "3.98"
+        }
+      ]
+    },
+    // Stage 19
+    {
+      "text": "A chemical laboratory mixes solutions. Solution A is 2.75% concentrated, Solution B is 3.85% concentrated, and Solution C is 1.95% concentrated. They need to create specific mixtures.",
+      "questions": [
+        // Question 19.1
+        {
+          "question": "What's the concentration of a mixture containing 125.5mL of A and 74.5mL of B?",
+          "options": [
+            "3.15%",
+            "3.05%",
+            "3.25%",
+            "Strong enough to dissolve diamonds",
+            "3.151%"
+          ],
+          "answer": "3.15%"
+        },
+        // Question 19.2
+        {
+          "question": "How many mL of Solution A are needed to make 250mL of 2.25% solution?",
+          "options": [
+            "204.55",
+            "203.55",
+            "205.55",
+            "More than an ocean",
+            "204.545"
+          ],
+          "answer": "204.55"
+        },
+        // Question 19.3
+        {
+          "question": "If 2.85 batches of 100mL each are made using Solution C, what's the total volume?",
+          "options": [
+            "285.00",
+            "284.00",
+            "286.00",
+            "Enough to fill a swimming pool",
+            "285.000"
+          ],
+          "answer": "285.00"
+        },
+        // Question 19.4
+        {
+          "question": "What's the concentration when mixing 150.75mL of B with 89.25mL of C?",
+          "options": [
+            "3.15%",
+            "3.05%",
+            "3.25%",
+            "Stronger than Superman",
+            "3.147%"
+          ],
+          "answer": "3.15%"
+        },
+        // Question 19.5
+        {
+          "question": "How many mL of Solution B give the same concentration as 50mL of Solution A?",
+          "options": [
+            "35.71",
+            "35.61",
+            "35.81",
+            "More than a chemistry lab",
+            "35.714"
+          ],
+          "answer": "35.71"
+        }
+      ]
+    },
+    // Stage 20
+    {
+      "text": "An investment portfolio tracks three stocks. Stock A grows at 2.75% monthly, Stock B at 1.85% monthly, and Stock C at 3.25% monthly. Initial investments vary.",
+      "questions": [
+        // Question 20.1
+        {
+          "question": "If $1,250.75 is invested in Stock A, what's its value after 3 months?",
+          "options": [
+            "$1,354.85",
+            "$1,353.85",
+            "$1,355.85",
+            "More money than exists",
+            "1,354.849"
+          ],
+          "answer": "$1,354.85"
+        },
+        // Question 20.2
+        {
+          "question": "What's the total return on $500 each in stocks B and C after 1 month?",
+          "options": [
+            "$25.50",
+            "$24.50",
+            "$26.50",
+            "Enough to buy Wall Street",
+            "25.500"
+          ],
+          "answer": "$25.50"
+        },
+        // Question 20.3
+        {
+          "question": "How much needs to be invested in Stock C to earn $45.75 in one month?",
+          "options": [
+            "$1,407.69",
+            "$1,406.69",
+            "$1,408.69",
+            "All the money in Fort Knox",
+            "1,407.692"
+          ],
+          "answer": "$1,407.69"
+        },
+        // Question 20.4
+        {
+          "question": "What's the difference in monthly earnings between $2000 in Stock A vs Stock B?",
+          "options": [
+            "$18.00",
+            "$17.00",
+            "$19.00",
+            "The GDP of a small country",
+            "18.000"
+          ],
+          "answer": "$18.00"
+        },
+        // Question 20.5
+        {
+          "question": "If reinvesting monthly, what's the value of $750 in Stock A after 2 months?",
+          "options": [
+            "$792.77",
+            "$791.77",
+            "$793.77",
+            "Rich enough to buy the moon",
+            "792.769"
+          ],
+          "answer": "$792.77"
+        }
+      ]
+    },
+   // Stage 21
+    {
+      "text": "A construction project uses different materials. Concrete costs $125.75 per cubic yard, reinforcement steel costs $3.85 per pound, and finishing materials cost $28.95 per square yard. The project requires careful calculations.",
+      "questions": [
+        // Question 21.1
+        {
+          "question": "What's the total cost for 3.75 cubic yards of concrete and 125.5 pounds of steel?",
+          "options": [
+            "$953.91",
+            "$952.91",
+            "$954.91",
+            "Enough to build a castle",
+            "953.905"
+          ],
+          "answer": "$953.91"
+        },
+        // Question 21.2
+        {
+          "question": "If material costs increase by 3.25% and labor adds 85.5% to total cost, what's the final cost for $2000 of materials?",
+          "options": [
+            "$3,825.95",
+            "$3,824.95",
+            "$3,826.95",
+            "More than the Taj Mahal",
+            "3,825.950"
+          ],
+          "answer": "$3,825.95"
+        },
+        // Question 21.3
+        {
+          "question": "How many square yards of finishing can be bought for the cost of 2.85 cubic yards of concrete?",
+          "options": [
+            "12.37",
+            "12.27",
+            "12.47",
+            "Enough to finish the pyramids",
+            "12.374"
+          ],
+          "answer": "12.37"
+        },
+        // Question 21.4
+        {
+          "question": "What's the cost difference between 1.75 cubic yards of concrete and 45.5 pounds of steel?",
+          "options": [
+            "$44.84",
+            "$43.84",
+            "$45.84",
+            "The price of a golden hammer",
+            "44.843"
+          ],
+          "answer": "$44.84"
+        },
+        // Question 21.5
+        {
+          "question": "If a project uses equal cost amounts of each material, how many pounds of steel equal the cost of 1 cubic yard of concrete?",
+          "options": [
+            "32.66",
+            "32.56",
+            "32.76",
+            "Weight of a steel giant",
+            "32.662"
+          ],
+          "answer": "32.66"
+        }
+      ]
+    },
+    // Stage 22
+    {
+      "text": "A factory produces electronic components with precise measurements. Circuit board A is 2.375 inches, chip B is 0.855 inches, and connector C is 1.625 inches. Quality control allows a tolerance of ±0.005 inches.",
+      "questions": [
+        // Question 22.1
+        {
+          "question": "What's the maximum possible total length when assembling one of each component?",
+          "options": [
+            "4.870",
+            "4.860",
+            "4.880",
+            "Longer than a telephone pole",
+            "4.870"
+          ],
+          "answer": "4.870"
+        },
+        // Question 22.2
+        {
+          "question": "For 2.75 sets of components, what's the minimum total length possible?",
+          "options": [
+            "13.340",
+            "13.330",
+            "13.350",
+            "Shorter than an ant",
+            "13.340"
+          ],
+          "answer": "13.340"
+        },
+        // Question 22.3
+        {
+          "question": "If component B expands by 0.075% when heated, what's its new length?",
+          "options": [
+            "0.856",
+            "0.855",
+            "0.857",
+            "Big as a house",
+            "0.856"
+          ],
+          "answer": "0.856"
+        },
+        // Question 22.4
+        {
+          "question": "What's the difference between the maximum possible length of A and minimum of C?",
+          "options": [
+            "0.760",
+            "0.750",
+            "0.770",
+            "Width of the Grand Canyon",
+            "0.760"
+          ],
+          "answer": "0.760"
+        },
+        // Question 22.5
+        {
+          "question": "How many minimum-length component Cs equal the maximum length of 2.5 component As?",
+          "options": [
+            "3.67",
+            "3.57",
+            "3.77",
+            "More than atoms in universe",
+            "3.671"
+          ],
+          "answer": "3.67"
+        }
+      ]
+    },
+    // Stage 23
+    {
+      "text": "A pharmaceutical company produces three medications. Drug A requires 2.75 hours to process, Drug B takes 3.85 hours, and Drug C needs 1.95 hours. Each has different production costs and yields.",
+      "questions": [
+        // Question 23.1
+        {
+          "question": "If production runs for 12.5 hours, how many complete batches of Drug A can be made?",
+          "options": [
+            "4.55",
+            "4.45",
+            "4.65",
+            "Enough for all hospitals",
+            "4.545"
+          ],
+          "answer": "4.55"
+        },
+        // Question 23.2
+        {
+          "question": "If Drug B costs $325.50 per batch to produce and sells for $425.75, what's the profit for 3.25 batches?",
+          "options": [
+            "$326.31",
+            "$325.31",
+            "$327.31",
+            "More than a pharmacy",
+            "326.313"
+          ],
+          "answer": "$326.31"
+        },
+        // Question 23.3
+        {
+          "question": "What's the total production time for 1.75 batches of each drug?",
+          "options": [
+            "15.96",
+            "15.86",
+            "16.06",
+            "Longer than a century",
+            "15.963"
+          ],
+          "answer": "15.96"
+        },
+        // Question 23.4
+        {
+          "question": "If yield decreases by 2.25% per hour after production, what's Drug A's yield after 4 hours?",
+          "options": [
+            "91.00%",
+            "90.00%",
+            "92.00%",
+            "Less than a molecule",
+            "91.000%"
+          ],
+          "answer": "91.00%"
+        },
+        // Question 23.5
+        {
+          "question": "How many batches of Drug C can be made in the same time as 2.5 batches of Drug A?",
+          "options": [
+            "3.53",
+            "3.43",
+            "3.63",
+            "More than prescriptions exist",
+            "3.526"
+          ],
+          "answer": "3.53"
+        }
+      ]
+    },
+    // Stage 24
+    {
+      "text": "A shipping company handles three types of packages. Type A weighs 2.75 lbs and costs $5.85 to ship, Type B weighs 4.25 lbs and costs $8.95, and Type C weighs 3.15 lbs and costs $6.75.",
+      "questions": [
+        // Question 24.1
+        {
+          "question": "What's the total cost to ship 3.5 Type A and 2.75 Type B packages?",
+          "options": [
+            "$45.14",
+            "$44.14",
+            "$46.14",
+            "Cost of shipping an elephant",
+            "45.136"
+          ],
+          "answer": "$45.14"
+        },
+        // Question 24.2
+        {
+          "question": "If fuel costs increase shipping by 3.75%, what's the new cost for Type C?",
+          "options": [
+            "$7.00",
+            "$6.90",
+            "$7.10",
+            "More than overnight to Mars",
+            "7.003"
+          ],
+          "answer": "$7.00"
+        },
+        // Question 24.3
+        {
+          "question": "What's the average cost per pound for all three package types?",
+          "options": [
+            "$2.13",
+            "$2.03",
+            "$2.23",
+            "Price of gold per pound",
+            "2.127"
+          ],
+          "answer": "$2.13"
+        },
+        // Question 24.4
+        {
+          "question": "How many Type A packages can be shipped for the cost of 2.5 Type B packages?",
+          "options": [
+            "3.83",
+            "3.73",
+            "3.93",
+            "More than packages in Amazon",
+            "3.827"
+          ],
+          "answer": "3.83"
+        },
+        // Question 24.5
+        {
+          "question": "What's the total weight of 1.75 of each package type?",
+          "options": [
+            "17.76",
+            "17.66",
+            "17.86",
+            "Heavy as a blue whale",
+            "17.763"
+          ],
+          "answer": "17.76"
+        }
+      ]
+    },
+    // Stage 25
+    {
+      "text": "A restaurant calculates meal costs. Protein costs $3.75 per serving, vegetables cost $1.85 per serving, and grains cost $0.95 per serving. Labor adds 125% to food cost.",
+      "questions": [
+        // Question 25.1
+        {
+          "question": "What's the total cost (including labor) for a meal with 2.5 protein, 1.75 vegetable, and 2.25 grain servings?",
+          "options": [
+            "$25.31",
+            "$24.31",
+            "$26.31",
+            "Price of a gold-plated meal",
+            "25.313"
+          ],
+          "answer": "$25.31"
+        },
+        // Question 25.2
+        {
+          "question": "If food costs increase by 4.25%, what's the new cost per protein serving with labor?",
+          "options": [
+            "$8.80",
+            "$8.70",
+            "$8.90",
+            "Cost of a whole cow",
+            "8.797"
+          ],
+          "answer": "$8.80"
+        },
+        // Question 25.3
+        {
+          "question": "How many vegetable servings equal the cost of 2.75 protein servings?",
+          "options": [
+            "5.58",
+            "5.48",
+            "5.68",
+            "More than a garden",
+            "5.575"
+          ],
+          "answer": "5.58"
+        },
+        // Question 25.4
+        {
+          "question": "What percentage of total food cost (before labor) is from 3 servings each of protein and grains?",
+          "options": [
+            "83.15%",
+            "83.05%",
+            "83.25%",
+            "More than a calculator can show",
+            "83.146%"
+          ],
+          "answer": "83.15%"
+        },
+        // Question 25.5
+        {
+          "question": "How many complete meals (1 of each component) can be made for $50 (including labor)?",
+          "options": [
+            "3.82",
+            "3.72",
+            "3.92",
+            "Enough to feed an army",
+            "3.824"
+          ],
+          "answer": "3.82"
+        }
+      ]
+    },
+    // Stage 26
+    {
+      "text": "A wind farm has three turbine types. Type A generates 2.75 MWh daily, Type B generates 3.85 MWh, and Type C generates 4.25 MWh. Power sells for $75.50 per MWh.",
+      "questions": [
+        // Question 26.1
+        {
+          "question": "What's the daily revenue from 2.5 Type A and 1.75 Type B turbines?",
+          "options": [
+            "$841.19",
+            "$840.19",
+            "$842.19",
+            "Enough to power the sun",
+            "841.188"
+          ],
+          "answer": "$841.19"
+        },
+        // Question 26.2
+        {
+          "question": "If efficiency drops 0.75% monthly, what's Type C's generation after 3 months?",
+          "options": [
+            "4.15",
+            "4.05",
+            "4.25",
+            "Less than a birthday candle",
+            "4.153"
+          ],
+          "answer": "4.15"
+        },
+        // Question 26.3
+        {
+          "question": "How many Type B turbines generate the same power as 3.25 Type A turbines?",
+          "options": [
+            "2.33",
+            "2.23",
+            "2.43",
+            "More than all windmills ever",
+            "2.325"
+          ],
+          "answer": "2.33"
+        },
+        // Question 26.4
+        {
+          "question": "If power price increases 2.25% quarterly, what's the new price after 2 quarters?",
+          "options": [
+            "$78.92",
+            "$77.92",
+            "$79.92",
+            "Price of infinite energy",
+            "78.924"
+          ],
+          "answer": "$78.92"
+        },
+        // Question 26.5
+        {
+          "question": "What's the annual revenue from one of each turbine type? (365 days)",
+          "options": [
+            "$301,816.13",
+            "$301,716.13",
+            "$301,916.13",
+            "More than all money ever",
+            "301,816.125"
+          ],
+          "answer": "$301,816.13"
+        }
+      ]
+    },
+    // Stage 27
+    {
+      "text": "A chemical process requires precise temperature control. Step A needs 72.55°C for 2.75 hours, Step B needs 85.75°C for 1.85 hours, and Step C needs 63.25°C for 3.25 hours.",
+      "questions": [
+        // Question 27.1
+        {
+          "question": "What's the average temperature across all three steps?",
+          "options": [
+            "73.85°C",
+            "73.75°C",
+            "73.95°C",
+            "Hotter than the sun",
+            "73.850°C"
+          ],
+          "answer": "73.85°C"
+        },
+        // Question 27.2
+        {
+          "question": "If temperature fluctuates ±1.25%, what's the maximum temperature for Step B?",
+          "options": [
+            "86.82°C",
+            "86.72°C",
+            "86.92°C",
+            "Enough to melt diamonds",
+            "86.822°C"
+          ],
+          "answer": "86.82°C"
+        },
+        // Question 27.3
+        {
+          "question": "For 2.5 complete processes, what's the total time at temperatures above 70°C?",
+          "options": [
+            "11.50",
+            "11.40",
+            "11.60",
+            "Longer than dinosaurs existed",
+            "11.500"
+          ],
+          "answer": "11.50"
+        },
+        // Question 27.4
+        {
+          "question": "What percentage of total process time is spent in Step C?",
+          "options": [
+            "41.40%",
+            "41.30%",
+            "41.50%",
+            "More than pi",
+            "41.401%"
+          ],
+          "answer": "41.40%"
+        },
+       // Question 27.5
+        {
+          "question": "What's the temperature difference between the highest and lowest steps when both vary by ±1.25%?",
+          "options": [
+            "23.73°C",
+            "23.63°C",
+            "23.83°C",
+            "Hotter than a volcano",
+            "23.725°C"
+          ],
+          "answer": "23.73°C"
+        }
+      ]
+    },
+    // Stage 28
+    {
+      "text": "A financial advisor manages three investment accounts. Account A earns 3.25% quarterly, Account B earns 2.75% quarterly, and Account C earns 3.85% quarterly. Initial investments vary.",
+      "questions": [
+        // Question 28.1
+        {
+          "question": "If $2,500.75 is invested in Account A, what's its value after 2 quarters of compound interest?",
+          "options": [
+            "$2,665.85",
+            "$2,664.85",
+            "$2,666.85",
+            "More money than exists",
+            "2,665.847"
+          ],
+          "answer": "$2,665.85"
+        },
+        // Question 28.2
+        {
+          "question": "What's the difference in earnings between Accounts B and C on $1,000 after one quarter?",
+          "options": [
+            "$11.00",
+            "$10.00",
+            "$12.00",
+            "Enough to buy Jupiter",
+            "11.000"
+          ],
+          "answer": "$11.00"
+        },
+        // Question 28.3
+        {
+          "question": "How much needs to be invested in Account C to earn $175.25 in one quarter?",
+          "options": [
+            "$4,552.60",
+            "$4,551.60",
+            "$4,553.60",
+            "All money in Swiss banks",
+            "4,552.597"
+          ],
+          "answer": "$4,552.60"
+        },
+        // Question 28.4
+        {
+          "question": "What's the average quarterly return percentage across all accounts?",
+          "options": [
+            "3.28%",
+            "3.18%",
+            "3.38%",
+            "Better than winning lottery",
+            "3.283%"
+          ],
+          "answer": "3.28%"
+        },
+        // Question 28.5
+        {
+          "question": "If reinvesting quarterly, what's the value of $3,000 in Account A after 3 quarters?",
+          "options": [
+            "$3,303.71",
+            "$3,302.71",
+            "$3,304.71",
+            "Richer than a gold mine",
+            "3,303.709"
+          ],
+          "answer": "$3,303.71"
+        }
+      ]
+    },
+    // Stage 29
+    {
+      "text": "A precision manufacturing process creates three components. Part A has tolerance of ±0.025mm, Part B has ±0.035mm, and Part C has ±0.015mm. Nominal sizes are 5.275mm, 3.855mm, and 2.725mm respectively.",
+      "questions": [
+        // Question 29.1
+        {
+          "question": "What's the maximum possible total length when assembling one of each part?",
+          "options": [
+            "11.93",
+            "11.83",
+            "12.03",
+            "Longer than Great Wall",
+            "11.930"
+          ],
+          "answer": "11.93"
+        },
+        // Question 29.2
+        {
+          "question": "What's the difference between maximum possible Part A and minimum possible Part B?",
+          "options": [
+            "1.48",
+            "1.38",
+            "1.58",
+            "Width of Pacific Ocean",
+            "1.480"
+          ],
+          "answer": "1.48"
+        },
+        // Question 29.3
+        {
+          "question": "For 2.75 assemblies, what's the minimum possible total length?",
+          "options": [
+            "32.34",
+            "32.24",
+            "32.44",
+            "Shorter than an atom",
+            "32.341"
+          ],
+          "answer": "32.34"
+        },
+        // Question 29.4
+        {
+          "question": "If Part C expands by 0.125% when heated, what's its maximum possible length including tolerance?",
+          "options": [
+            "2.74",
+            "2.73",
+            "2.75",
+            "Big as a skyscraper",
+            "2.744"
+          ],
+          "answer": "2.74"
+        },
+        // Question 29.5
+        {
+          "question": "What's the total tolerance range (max minus min) for all three parts combined?",
+          "options": [
+            "0.15",
+            "0.14",
+            "0.16",
+            "Wider than a football field",
+            "0.150"
+          ],
+          "answer": "0.15"
+        }
+      ]
+    },
+    // Stage 30
+    {
+      "text": "A data center tracks energy efficiency. Server A uses 2.75 kWh, Server B uses 3.85 kWh, and Server C uses 1.95 kWh. Electricity costs $0.125 per kWh during peak hours and $0.085 during off-peak.",
+      "questions": [
+        // Question 30.1
+        {
+          "question": "What's the cost difference between running 2.5 Server As for 24 hours at peak vs off-peak rates?",
+          "options": [
+            "$2.48",
+            "$2.38",
+            "$2.58",
+            "Cost of powering the moon",
+            "2.475"
+          ],
+          "answer": "$2.48"
+        },
+        // Question 30.2
+        {
+          "question": "If Server B's efficiency improves by 2.25% monthly, what's its consumption after 3 months?",
+          "options": [
+            "3.59",
+            "3.49",
+            "3.69",
+            "Less than a Christmas light",
+            "3.592"
+          ],
+          "answer": "3.59"
+        },
+        // Question 30.3
+        {
+          "question": "How many Server Cs equal the power consumption of 2.75 Server As?",
+          "options": [
+            "3.88",
+            "3.78",
+            "3.98",
+            "More than all computers ever",
+            "3.878"
+          ],
+          "answer": "3.88"
+        },
+        // Question 30.4
+        {
+          "question": "What's the monthly peak-hour cost (30 days) for running 1.5 of each server type?",
+          "options": [
+            "$387.00",
+            "$386.00",
+            "$388.00",
+            "GDP of small country",
+            "387.000"
+          ],
+          "answer": "$387.00"
+        },
+        // Question 30.5
+        {
+          "question": "If peak hours are 35.75% of the day, what's the daily cost for one Server B?",
+          "options": [
+            "$8.51",
+            "$8.41",
+            "$8.61",
+            "More than my electric bill",
+            "8.509"
+          ],
+          "answer": "$8.51"
+        }
+      ]
+    }
+				  ]
+				}
+        ];
+
+		const stageCount = quizData[0].stages.length; // This is the correct way to get the number of stages
+
+
+		const stateContents = {
+			'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+			,'Subject Overview 🗝️': `<div class="subject-overview-content">     <h1>Solving Word Problems Involving Decimals: A Comprehensive Guide</h1>     <p>Solving word problems involving decimals is a fundamental skill in mathematics that applies to everyday situations, from managing finances to measuring ingredients in recipes. Understanding how to approach these problems systematically can enhance your problem-solving abilities and boost your confidence in handling decimal operations. This guide will explore the essential strategies, techniques, and provide detailed examples to help you master solving word problems with decimals.</p>     <hr>     <h2>Table of Contents</h2>     <ol>         <li><a href="#understanding-decimals-in-word-problems">Understanding Decimals in Word Problems</a></li>         <li><a href="#strategies-for-solving-decimal-problems">Strategies for Solving Decimal Problems</a></li>         <li><a href="#detailed-example-problems">Detailed Example Problems</a>             <ul>                 <li><a href="#example-1">Example 1: Shopping Discounts</a></li>                 <li><a href="#example-2">Example 2: Mixing Solutions</a></li>                 <li><a href="#example-3">Example 3: Calculating Distance</a></li>             </ul>         </li>         <li><a href="#common-mistakes-to-avoid">Common Mistakes to Avoid</a></li>         <li><a href="#conclusion">Conclusion</a></li>     </ol>     <hr>     <h2 id="understanding-decimals-in-word-problems">Understanding Decimals in Word Problems</h2>     <p>Decimals are numerical representations that include a fractional part separated by a decimal point. In word problems, decimals are often used to represent money, measurements, weights, and other quantities that require precision. Grasping the role of decimals in these contexts is crucial for accurately interpreting and solving the problems.</p>     <p>Key concepts to understand include:</p>     <ul>         <li><strong>Place Value:</strong> Understanding the value of each digit in a decimal number.</li>         <li><strong>Operations with Decimals:</strong> Addition, subtraction, multiplication, and division involving decimal numbers.</li>         <li><strong>Rounding and Estimation:</strong> Approximating decimal values for simpler calculations.</li>     </ul>     <hr>     <h2 id="strategies-for-solving-decimal-problems">Strategies for Solving Decimal Problems</h2>     <p>Effective strategies can simplify the process of solving word problems with decimals. Here are some proven techniques:</p>     <ol>         <li><strong>Read Carefully:</strong> Understand the problem by reading it multiple times to identify what is being asked.</li>         <li><strong>Identify Known and Unknowns:</strong> Determine the values provided and what needs to be found.</li>         <li><strong>Choose the Right Operation:</strong> Decide whether to add, subtract, multiply, or divide based on the context.</li>         <li><strong>Set Up the Equation:</strong> Translate the word problem into a mathematical equation.</li>         <li><strong>Perform Calculations Accurately:</strong> Pay attention to decimal places during operations.</li>         <li><strong>Check Your Work:</strong> Verify the solution by plugging it back into the original problem.</li>     </ol>     <hr>     <h2 id="detailed-example-problems">Detailed Example Problems</h2>         <h3 id="example-1">Example 1: Shopping Discounts</h3>     <p><strong>Problem:</strong> Emily is buying a jacket that costs $59.99. The store is offering a 15% discount on all winter clothing. How much will Emily pay after the discount?</p>     <p><strong>Solution:</strong></p>     <ol>         <li><strong>Identify the Discount:</strong> 15% of $59.99.</li>         <li><strong>Calculate the Discount Amount:</strong>             <p>15% of $59.99 = 0.15 × 59.99 = $8.9985</p>         </li>         <li><strong>Subtract the Discount from the Original Price:</strong>             <p>$59.99 - $8.9985 ≈ $50.00</p>         </li>     </ol>     <p><strong>Answer:</strong> Emily will pay approximately $50.00 after the discount.</p>         <h3 id="example-2">Example 2: Mixing Solutions</h3>     <p><strong>Problem:</strong> A chemist needs to prepare 2.5 liters of a 20% saline solution by mixing a 10% saline solution with a 30% saline solution. How much of each solution should the chemist use?</p>     <p><strong>Solution:</strong></p>     <ol>         <li><strong>Let:</strong>             <p>x = liters of 10% solution</p>             <p>y = liters of 30% solution</p>         </li>         <li><strong>Set Up Equations:</strong>             <ul>                 <li>x + y = 2.5</li>                 <li>0.10x + 0.30y = 0.20 × 2.5 = 0.50</li>             </ul>         </li>         <li><strong>Solve the System of Equations:</strong>             <ul>                 <li>From the first equation: y = 2.5 - x</li>                 <li>Substitute into the second equation: 0.10x + 0.30(2.5 - x) = 0.50</li>                 <li>0.10x + 0.75 - 0.30x = 0.50</li>                 <li>-0.20x = -0.25</li>                 <li>x = 1.25 liters</li>                 <li>y = 2.5 - 1.25 = 1.25 liters</li>             </ul>         </li>     </ol>     <p><strong>Answer:</strong> The chemist should use 1.25 liters of the 10% solution and 1.25 liters of the 30% solution.</p>         <h3 id="example-3">Example 3: Calculating Distance</h3>     <p><strong>Problem:</strong> A car travels at an average speed of 55.5 miles per hour for 3.2 hours. How far does the car travel?</p>     <p><strong>Solution:</strong></p>     <ol>         <li><strong>Use the Formula:</strong> Distance = Speed × Time</li>         <li><strong>Plug in the Values:</strong>             <p>Distance = 55.5 mph × 3.2 hours</p>         </li>         <li><strong>Calculate:</strong>             <p>55.5 × 3.2 = 177.6 miles</p>         </li>     </ol>     <p><strong>Answer:</strong> The car travels 177.6 miles.</p>     <hr>     <h2 id="common-mistakes-to-avoid">Common Mistakes to Avoid</h2>     <p>When solving word problems with decimals, it's easy to make mistakes that can lead to incorrect answers. Here are some common pitfalls and how to avoid them:</p>     <ul>         <li><strong>Misplacing the Decimal Point:</strong> Ensure that the decimal points are correctly aligned, especially when performing addition or subtraction.</li>         <li><strong>Incorrect Operation:</strong> Carefully determine whether to add, subtract, multiply, or divide based on the problem's context.</li>         <li><strong>Rounding Errors:</strong> Decide whether to round intermediate steps or only the final answer to maintain accuracy.</li>         <li><strong>Ignoring Units:</strong> Always keep track of units (e.g., dollars, liters, miles) to ensure the final answer makes sense.</li>         <li><strong>Not Double-Checking Work:</strong> Review each step to catch and correct errors before finalizing the answer.</li>     </ul>     <hr>     <h2 id="conclusion">Conclusion</h2>     <p>Mastering the art of solving word problems involving decimals requires a solid understanding of decimal operations, strategic problem-solving approaches, and attention to detail. By applying the strategies outlined in this guide and practicing with various examples, you'll enhance your ability to tackle decimal word problems with confidence and accuracy.</p>     <p><strong>Remember</strong>: Always read the problem carefully, identify the relevant information, choose the appropriate operations, and double-check your calculations to ensure your solutions are correct.</p>     <hr>     <p>Keep practicing these techniques, and don't hesitate to revisit this guide whenever you need a refresher. With persistence and effort, solving decimal word problems will become second nature!</p> </div>`		};
+
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function isTextEmpty(text) {
+    return !text || text.trim() === "";
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    
+    // Only add stage text if it's not empty
+    const stageText = quizData[0].stages[currentStage].text;
+    if (!isTextEmpty(stageText)) {
+        const stageTextElement = document.createElement("div");
+        stageTextElement.className = "stage-text";
+        stageTextElement.style.marginBottom = "20px";
+        stageTextElement.style.padding = "15px";
+        stageTextElement.style.backgroundColor = "#f5f5f5";
+        stageTextElement.style.borderRadius = "5px";
+        stageTextElement.textContent = stageText;
+        quizContainer.appendChild(stageTextElement);
+    }
+    
+    // Render questions
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+        
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${questionData.question}`;
+        
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+        
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+        
+        const shuffledOptions = shuffleArray([...questionData.options]);
+        shuffledOptions.forEach(option => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv);
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[0].stages[currentStage].questions.length;
+
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === questionData.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect answer.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 10) {
+            selectElement.value = questionData.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` The correct answer is: ${questionData.answer}`;
+        }
+    });
+
+    if (correctCount === totalQuestions) {
+        console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+        addAnimalsToFarm(totalQuestions);
+
+        if (currentStage < quizData[0].stages.length - 1) {
+            singleStageConfetti();
+            showEncouragingPopup(correctCount, totalQuestions, true);
+            currentStage++;
+            updateProgressBar();
+            setTimeout(() => {
+                attempts = 0;
+                renderQuiz();
+                document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+            }, 1500);
+        } else {
+            currentStage++;
+            updateProgressBar();
+            allStagesConfetti();
+            showModal("Congratulations! You've completed all stages!");
+        }
+    } else {
+        showEncouragingPopup(correctCount, totalQuestions, false);
+        if (attempts >= 10) {
+            showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+        }
+    }
+
+    scrollToTop();
+}
+
+// 4. Update stageCount calculation to work with new structure
+
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+    const completedStages = currentStage;
+    const progress = (completedStages / stageCount) * 100;
+    const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+    progressBar.style.width = `${roundedProgress}%`;
+    progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+    console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+}
+
+function updateStageNumber() {
+    const stageElement = document.getElementById("stage-number");
+    stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>
