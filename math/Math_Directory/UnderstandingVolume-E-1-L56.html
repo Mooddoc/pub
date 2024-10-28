@@ -1,0 +1,2557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+	<style>
+  
+	</style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read the text and questions carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>Understanding Volume 🧊</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+ 
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+																		//  PH3 - Quiz Data 
+        const quizData = [ 												   	
+				{
+				  "stages": [
+//-------------------------------------------------------------------------------------------------------------------				  
+// Stage 1 - Basic rectangular prism volume introduction
+{
+  "text": "Maria is organizing her toys in different boxes. She has a rectangular box that is 3 feet long, 2 feet wide, and 2 feet high. She wants to understand how much space is inside the box.",
+  "questions": [
+    // Question 1.1
+    {
+      "question": "How do we calculate the volume of Maria's rectangular box?",
+      "options": [
+        "Multiply length × width × height",
+        "Add length + width + height",
+        "Multiply length × width only",
+        "Count the corners of the box",
+        "Ask the box politely"
+      ],
+      "answer": "Multiply length × width × height"
+    },
+    // Question 1.2
+    {
+      "question": "What is the volume of Maria's box?",
+      "options": [
+        "12 cubic feet",
+        "7 cubic feet",
+        "14 square feet",
+        "6 feet",
+        "Too many feet to count"
+      ],
+      "answer": "12 cubic feet"
+    },
+    // Question 1.3
+    {
+      "question": "What unit should we use to measure volume?",
+      "options": [
+        "Cubic feet",
+        "Square feet",
+        "Just feet",
+        "Feet per second",
+        "Dancing feet"
+      ],
+      "answer": "Cubic feet"
+    },
+    // Question 1.4
+    {
+      "question": "If Maria doubles the height of the box, what would the new volume be?",
+      "options": [
+        "24 cubic feet",
+        "12 cubic feet",
+        "14 cubic feet",
+        "48 cubic feet",
+        "Infinity cubic feet"
+      ],
+      "answer": "24 cubic feet"
+    },
+    // Question 1.5
+    {
+      "question": "Which dimension does NOT affect the volume of the box?",
+      "options": [
+        "The color of the box",
+        "The length",
+        "The width",
+        "The height",
+        "The box's mood"
+      ],
+      "answer": "The color of the box"
+    }
+  ]
+},
+
+// Stage 2 - Volume with different units
+{
+  "text": "Tom is filling different containers with water. He has a rectangular tank that is 60 centimeters long, 40 centimeters wide, and 30 centimeters high.",
+  "questions": [
+    // Question 2.1
+    {
+      "question": "What is the volume of Tom's tank in cubic centimeters?",
+      "options": [
+        "72,000 cubic centimeters",
+        "130 cubic centimeters",
+        "3,600 cubic centimeters",
+        "7,200 cubic centimeters",
+        "A bazillion centimeters"
+      ],
+      "answer": "72,000 cubic centimeters"
+    },
+    // Question 2.2
+    {
+      "question": "If Tom fills the tank halfway, what volume of water is in the tank?",
+      "options": [
+        "36,000 cubic centimeters",
+        "72,000 cubic centimeters",
+        "18,000 cubic centimeters",
+        "144,000 cubic centimeters",
+        "Half a swimming pool"
+      ],
+      "answer": "36,000 cubic centimeters"
+    },
+    // Question 2.3
+    {
+      "question": "How many 1,000 cubic centimeter containers can be filled from the full tank?",
+      "options": [
+        "72 containers",
+        "7.2 containers",
+        "720 containers",
+        "7 containers",
+        "Enough for a water party"
+      ],
+      "answer": "72 containers"
+    },
+    // Question 2.4
+    {
+      "question": "If the width is decreased by 10 centimeters, what is the new volume?",
+      "options": [
+        "54,000 cubic centimeters",
+        "72,000 cubic centimeters",
+        "62,000 cubic centimeters",
+        "36,000 cubic centimeters",
+        "Not enough for a splash"
+      ],
+      "answer": "54,000 cubic centimeters"
+    },
+    // Question 2.5
+    {
+      "question": "What happens to the volume if all dimensions are doubled?",
+      "options": [
+        "Volume becomes 8 times larger",
+        "Volume becomes 2 times larger",
+        "Volume becomes 4 times larger",
+        "Volume becomes 6 times larger",
+        "Volume explodes with excitement"
+      ],
+      "answer": "Volume becomes 8 times larger"
+    }
+  ]
+},
+
+// Stage 3 - Volume with decimals
+{
+  "text": "Lisa is making a small fish tank. The tank measures 1.5 meters long, 0.8 meters wide, and 0.6 meters high.",
+  "questions": [
+    // Question 3.1
+    {
+      "question": "What is the volume of Lisa's fish tank in cubic meters?",
+      "options": [
+        "0.72 cubic meters",
+        "2.9 cubic meters",
+        "1.5 cubic meters",
+        "2.3 cubic meters",
+        "Enough for a whale"
+      ],
+      "answer": "0.72 cubic meters"
+    },
+    // Question 3.2
+    {
+      "question": "If Lisa fills the tank to 75% capacity, what volume of water does she need?",
+      "options": [
+        "0.54 cubic meters",
+        "0.72 cubic meters",
+        "0.36 cubic meters",
+        "1.08 cubic meters",
+        "Three buckets of joy"
+      ],
+      "answer": "0.54 cubic meters"
+    },
+    // Question 3.3
+    {
+      "question": "How many liters of water can the full tank hold? (1 cubic meter = 1000 liters)",
+      "options": [
+        "720 liters",
+        "72 liters",
+        "7200 liters",
+        "172 liters",
+        "A million tiny drops"
+      ],
+      "answer": "720 liters"
+    },
+    // Question 3.4
+    {
+      "question": "If Lisa increases the height by 0.2 meters, what is the new volume?",
+      "options": [
+        "0.96 cubic meters",
+        "0.72 cubic meters",
+        "1.2 cubic meters",
+        "0.84 cubic meters",
+        "Too tall to measure"
+      ],
+      "answer": "0.96 cubic meters"
+    },
+    // Question 3.5
+    {
+      "question": "What is the volume if Lisa reduces all dimensions by half?",
+      "options": [
+        "0.09 cubic meters",
+        "0.36 cubic meters",
+        "0.18 cubic meters",
+        "0.24 cubic meters",
+        "Just a tiny puddle"
+      ],
+      "answer": "0.09 cubic meters"
+    }
+  ]
+},
+
+// Stage 4 - Volume with fractions
+{
+  "text": "David is building a wooden toy box. The box is 2½ feet long, 1¾ feet wide, and 1½ feet high.",
+  "questions": [
+    // Question 4.1
+    {
+      "question": "What is the volume of David's toy box in cubic feet?",
+      "options": [
+        "6.5625 cubic feet",
+        "5.75 cubic feet",
+        "4.25 cubic feet",
+        "7.75 cubic feet",
+        "Too many fractions to count"
+      ],
+      "answer": "6.5625 cubic feet"
+    },
+    // Question 4.2
+    {
+      "question": "If David makes the box ¼ foot taller, what is the new volume?",
+      "options": [
+        "7.65625 cubic feet",
+        "6.5625 cubic feet",
+        "8.75 cubic feet",
+        "6.8125 cubic feet",
+        "A fraction more fun"
+      ],
+      "answer": "7.65625 cubic feet"
+    },
+    // Question 4.3
+    {
+      "question": "How many cubic feet would the volume increase by if David made the width 2 feet instead of 1¾ feet?",
+      "options": [
+        "0.9375 cubic feet",
+        "1.25 cubic feet",
+        "0.75 cubic feet",
+        "2 cubic feet",
+        "Just a tiny bit more"
+      ],
+      "answer": "0.9375 cubic feet"
+    },
+    // Question 4.4
+    {
+      "question": "What fraction of a cubic yard is the original box? (1 yard = 3 feet)",
+      "options": [
+        "0.243 cubic yards",
+        "0.5 cubic yards",
+        "0.333 cubic yards",
+        "0.167 cubic yards",
+        "A yard full of joy"
+      ],
+      "answer": "0.243 cubic yards"
+    },
+    // Question 4.5
+    {
+      "question": "If David fills the box ⅓ full with toys, what volume do the toys occupy?",
+      "options": [
+        "2.1875 cubic feet",
+        "3.25 cubic feet",
+        "1.5 cubic feet",
+        "4.375 cubic feet",
+        "A fraction of fun"
+      ],
+      "answer": "2.1875 cubic feet"
+    }
+  ]
+},
+
+// Stage 5 - Volume comparison
+{
+  "text": "Sarah has two containers: Container A is 4 feet long, 3 feet wide, and 2 feet high. Container B is 3 feet long, 2 feet wide, and 4 feet high.",
+  "questions": [
+    // Question 5.1
+    {
+      "question": "What is the difference in volume between Container A and Container B?",
+      "options": [
+        "0 cubic feet",
+        "4 cubic feet",
+        "8 cubic feet",
+        "12 cubic feet",
+        "They're exactly the same!"
+      ],
+      "answer": "0 cubic feet"
+    },
+    // Question 5.2
+    {
+      "question": "If Sarah doubles the width of Container A, how much more volume will it have than Container B?",
+      "options": [
+        "24 cubic feet",
+        "12 cubic feet",
+        "48 cubic feet",
+        "36 cubic feet",
+        "Double the fun"
+      ],
+      "answer": "24 cubic feet"
+    },
+    // Question 5.3
+    {
+      "question": "What is the ratio of Container A's volume to Container B's volume?",
+      "options": [
+        "1:1",
+        "2:1",
+        "1:2",
+        "3:2",
+        "Fun to more fun"
+      ],
+      "answer": "1:1"
+    },
+    // Question 5.4
+    {
+      "question": "If both containers are filled to 75% capacity, how many cubic feet of empty space remains in total?",
+      "options": [
+        "12 cubic feet",
+        "18 cubic feet",
+        "24 cubic feet",
+        "6 cubic feet",
+        "Room for more fun"
+      ],
+      "answer": "12 cubic feet"
+    },
+    // Question 5.5
+    {
+      "question": "If Container A's height is tripled, how many times larger is it than Container B?",
+      "options": [
+        "3 times larger",
+        "2 times larger",
+        "4 times larger",
+        "1.5 times larger",
+        "Triple the excitement"
+      ],
+      "answer": "3 times larger"
+    }
+  ]
+},
+
+// Stage 6 - Volume of composite figures
+{
+  "text": "John is building a toy castle with two parts: a rectangular base that is 6 feet long, 4 feet wide, and 3 feet high, topped by a square tower that is 2 feet long, 2 feet wide, and 5 feet high.",
+  "questions": [
+    // Question 6.1
+    {
+      "question": "What is the total volume of John's castle?",
+      "options": [
+        "92 cubic feet",
+        "88 cubic feet",
+        "96 cubic feet",
+        "100 cubic feet",
+        "A castle full of dreams"
+      ],
+      "answer": "92 cubic feet"
+    },
+    // Question 6.2
+    {
+      "question": "What fraction of the total volume is the tower?",
+      "options": [
+        "5/23",
+        "1/4",
+        "1/5",
+        "2/11",
+        "A tiny bit of magic"
+      ],
+      "answer": "5/23"
+    },
+    // Question 6.3
+    {
+      "question": "If John doubles the height of the tower, what is the new total volume?",
+      "options": [
+        "112 cubic feet",
+        "104 cubic feet",
+        "124 cubic feet",
+        "116 cubic feet",
+        "Double the magic"
+      ],
+      "answer": "112 cubic feet"
+    },
+    // Question 6.4
+    {
+      "question": "How much more volume does the base have compared to the tower?",
+      "options": [
+        "52 cubic feet",
+        "56 cubic feet",
+        "48 cubic feet",
+        "60 cubic feet",
+        "A lot more space"
+      ],
+      "answer": "52 cubic feet"
+    },
+    // Question 6.5
+    {
+      "question": "If John adds two more identical towers, what is the new total volume?",
+      "options": [
+        "132 cubic feet",
+        "124 cubic feet",
+        "144 cubic feet",
+        "136 cubic feet",
+        "Triple tower power"
+      ],
+      "answer": "132 cubic feet"
+    }
+  ]
+},
+
+// Stage 7 - Volume word problems with multiple steps
+{
+  "text": "Emma's school is filling their new swimming pool. The pool is 25 meters long, 10 meters wide, and 2 meters deep. They can add 400 cubic meters of water per hour.",
+  "questions": [
+    // Question 7.1
+    {
+      "question": "How many cubic meters of water are needed to fill the pool?",
+      "options": [
+        "500 cubic meters",
+        "750 cubic meters",
+        "250 cubic meters",
+        "1000 cubic meters",
+        "Ocean of fun"
+      ],
+      "answer": "500 cubic meters"
+    },
+    // Question 7.2
+    {
+      "question": "How many hours will it take to fill the pool completely?",
+      "options": [
+        "1.25 hours",
+        "2 hours",
+        "1.5 hours",
+        "2.5 hours",
+        "Forever and a day"
+      ],
+      "answer": "1.25 hours"
+    },
+    // Question 7.3
+    {
+      "question": "If the pool is filled to 80% capacity, how many cubic meters of water are in it?",
+      "options": [
+        "400 cubic meters",
+        "450 cubic meters",
+        "350 cubic meters",
+        "300 cubic meters",
+        "Almost splash time"
+      ],
+      "answer": "400 cubic meters"
+    },
+    // Question 7.4
+    {
+      "question": "If the water level drops by 0.5 meters, how many cubic meters of water remain?",
+      "options": [
+        "375 cubic meters",
+        "500 cubic meters",
+        "425 cubic meters",
+        "450 cubic meters",
+        "Just a small splash"
+      ],
+      "answer": "375 cubic meters"
+    },
+    // Question 7.5
+    {
+      "question": "How long will it take to refill the pool back to full capacity at the same rate?",
+      "options": [
+        "0.3125 hours",
+        "0.5 hours",
+        "0.25 hours",
+        "1 hour",
+        "Quick as a splash"
+      ],
+      "answer": "0.3125 hours"
+    }
+  ]
+},
+
+// Stage 8 - Volume with unit conversions
+{
+  "text": "Alex is converting a recipe that uses a 2 cup measuring container. The container is 4 inches long, 3 inches wide, and 2 inches high. (1 cubic inch = 0.0164 cups)",
+  "questions": [
+    // Question 8.1
+    {
+      "question": "What is the volume of the container in cubic inches?",
+      "options": [
+        "24 cubic inches",
+        "18 cubic inches",
+        "12 cubic inches",
+        "9 cubic inches",
+        "More than a pinch"
+      ],
+      "answer": "24 cubic inches"
+    },
+    // Question 8.2
+    {
+      "question": "How many cups does the container actually hold?",
+      "options": [
+        "0.3936 cups",
+        "0.5 cups",
+        "0.25 cups",
+        "1 cup",
+        "Just a splash"
+      ],
+      "answer": "0.3936 cups"
+    },
+    // Question 8.3
+    {
+      "question": "If Alex needs exactly 2 cups, how many times should they fill the container?",
+      "options": [
+        "5.08 times",
+        "4 times",
+        "6 times",
+        "3 times",
+        "Until it looks right"
+      ],
+      "answer": "5.08 times"
+    },
+    // Question 8.4
+    {
+      "question": "If Alex doubles all dimensions of the container, how many cups will it hold?",
+      "options": [
+        "3.1488 cups",
+        "0.7872 cups",
+        "1.5744 cups",
+        "6.2976 cups",
+        "Double the fun"
+      ],
+      "answer": "3.1488 cups"
+    },
+    // Question 8.5
+    {
+      "question": "How many cubic inches larger is the doubled container?",
+      "options": [
+        "168 cubic inches",
+        "48 cubic inches",
+        "96 cubic inches",
+        "192 cubic inches",
+        "Super sized now"
+      ],
+      "answer": "168 cubic inches"
+    }
+  ]
+},
+
+// Stage 9 - Volume with irregular shapes
+{
+  "text": "Jamie has two containers: a rectangular prism and a triangular prism. The rectangular base is 6 feet by 4 feet. The triangular base has a base of 6 feet and height of 4 feet. Both are 5 feet tall.",
+  "questions": [
+    // Question 9.1
+    {
+      "question": "What is the volume of the rectangular prism?",
+      "options": [
+        "120 cubic feet",
+        "60 cubic feet",
+        "90 cubic feet",
+        "150 cubic feet",
+        "Bigger than a box"
+      ],
+      "answer": "120 cubic feet"
+    },
+    // Question 9.2
+    {
+      "question": "What is the volume of the triangular prism?",
+      "options": [
+        "60 cubic feet",
+        "120 cubic feet",
+        "30 cubic feet",
+        "90 cubic feet",
+        "Triangle magic"
+      ],
+      "answer": "60 cubic feet"
+    },
+    // Question 9.3
+    {
+      "question": "How much more volume does the rectangular prism have?",
+      "options": [
+        "60 cubic feet",
+        "30 cubic feet",
+        "90 cubic feet",
+        "45 cubic feet",
+        "Just a bit more"
+      ],
+      "answer": "60 cubic feet"
+    },
+    // Question 9.4
+    {
+      "question": "If both containers are filled with water, what is the total volume of water?",
+      "options": [
+        "180 cubic feet",
+        "150 cubic feet",
+        "120 cubic feet",
+        "90 cubic feet",
+        "Swimming pool time"
+      ],
+      "answer": "180 cubic feet"
+    },
+    // Question 9.5
+    {
+      "question": "What fraction of the total volume is the triangular prism?",
+      "options": [
+        "1/3",
+        "1/2",
+        "1/4",
+        "2/3",
+        "A slice of fun"
+      ],
+      "answer": "1/3"
+    }
+  ]
+},
+
+// Stage 10 - Volume with multiple containers
+{
+  "text": "A candy store has three display boxes: Box A is 2 feet × 2 feet × 3 feet, Box B is 3 feet × 1 foot × 4 feet, and Box C is 1 foot × 4 feet × 2 feet.",
+  "questions": [
+    // Question 10.1
+    {
+      "question": "What is the total volume of all three boxes combined?",
+      "options": [
+        "20 cubic feet",
+        "24 cubic feet",
+        "32 cubic feet",
+        "22 cubic feet",
+        "Candy paradise"
+      ],
+      "answer": "32 cubic feet"
+    },
+    // Question 10.2
+    {
+      "question": "Which box has the smallest volume?",
+      "options": [
+        "Box C",
+        "Box A",
+        "Box B",
+        "All equal",
+        "The fun-sized one"
+      ],
+      "answer": "Box C"
+    },
+    // Question 10.3
+    {
+      "question": "How much more volume does Box B have than Box C?",
+      "options": [
+        "4 cubic feet",
+        "2 cubic feet",
+        "6 cubic feet",
+        "8 cubic feet",
+        "Just a bit more candy"
+      ],
+      "answer": "4 cubic feet"
+    },
+    // Question 10.4
+    {
+      "question": "If Box A is half full, Box B is one-third full, and Box C is three-quarters full, how many cubic feet are empty?",
+      "options": [
+        "16 cubic feet",
+        "10 cubic feet",
+        "15 cubic feet",
+        "12 cubic feet",
+        "Room for more sweets"
+      ],
+      "answer": "16 cubic feet"
+    },
+    // Question 10.5
+    {
+      "question": "What is the ratio of the largest box's volume to the smallest box's volume?",
+      "options": [
+        "3:2",
+        "2:1",
+        "4:1",
+        "3:1",
+        "Big to small fun"
+      ],
+      "answer": "3:2"
+    }
+  ]
+},
+
+// Stage 11 - Volume with changing dimensions
+{
+  "text": "Peter has a cube-shaped container with sides of 4 feet. He wants to experiment with changing its dimensions while keeping the same volume.",
+  "questions": [
+    // Question 11.1
+    {
+      "question": "What is the original volume of Peter's cube?",
+      "options": [
+        "64 cubic feet",
+        "48 cubic feet",
+        "16 cubic feet",
+        "32 cubic feet",
+        "Cube-tastic amount"
+      ],
+      "answer": "64 cubic feet"
+    },
+    // Question 11.2
+    {
+      "question": "If Peter doubles the length and width but wants to keep the same volume, what should the new height be?",
+      "options": [
+        "1 foot",
+        "2 feet",
+        "4 feet",
+        "8 feet",
+        "Shorter than before"
+      ],
+      "answer": "1 foot"
+    },
+    // Question 11.3
+    {
+      "question": "If Peter triples the length, what should the width be if the height stays 4 feet and volume remains the same?",
+      "options": [
+        "1.33 feet",
+        "2 feet",
+        "3 feet",
+        "4 feet",
+        "Just a bit smaller"
+      ],
+      "answer": "1.33 feet"
+    },
+    // Question 11.4
+    {
+      "question": "How many different rectangular prisms can Peter make with the same volume if all dimensions must be whole numbers?",
+      "options": [
+        "6",
+        "7",
+        "8",
+        "10",
+        "Lots of fun shapes"
+      ],
+      "answer": "7"
+    },
+    // Question 11.5
+    {
+      "question": "If Peter wants to create a rectangular prism with dimensions in the ratio 1:2:4, what should the dimensions be to maintain the same volume?",
+      "options": [
+        "2:4:8 feet",
+        "1:2:4 feet",
+        "4:8:16 feet",
+        "3:6:12 feet",
+        "Perfect proportions"
+      ],
+      "answer": "2:4:8 feet"
+    }
+  ]
+},
+
+// Stage 12 - Volume problem solving with cost
+{
+  "text": "A construction company needs to fill a rectangular hole with concrete. The hole is 15 feet long, 10 feet wide, and 2 feet deep. Concrete costs $75 per cubic yard. (1 cubic yard = 27 cubic feet)",
+  "questions": [
+    // Question 12.1
+    {
+      "question": "What is the volume of the hole in cubic feet?",
+      "options": [
+        "300 cubic feet",
+        "270 cubic feet",
+        "330 cubic feet",
+        "250 cubic feet",
+        "Big hole energy"
+      ],
+      "answer": "300 cubic feet"
+    },
+    // Question 12.2
+    {
+      "question": "How many cubic yards of concrete are needed?",
+      "options": [
+        "11.11 cubic yards",
+        "10 cubic yards",
+        "12 cubic yards",
+        "9 cubic yards",
+        "Concrete jungle"
+      ],
+      "answer": "11.11 cubic yards"
+    },
+    // Question 12.3
+    {
+      "question": "What will be the total cost of the concrete?",
+      "options": [
+        "$833.25",
+        "$750.00",
+        "$900.00",
+        "$675.00",
+        "Break the bank"
+      ],
+      "answer": "$833.25"
+    },
+    // Question 12.4
+    {
+      "question": "If they need to add a 10% safety margin to the concrete order, how many cubic yards should they order?",
+      "options": [
+        "12.22 cubic yards",
+        "13 cubic yards",
+        "11.5 cubic yards",
+        "12 cubic yards",
+        "Better safe than sorry"
+      ],
+      "answer": "12.22 cubic yards"
+    },
+    // Question 12.5
+    {
+      "question": "If they can only order in whole cubic yards, what is the minimum order they need including the safety margin?",
+      "options": [
+        "13 cubic yards",
+        "12 cubic yards",
+        "11 cubic yards",
+        "14 cubic yards",
+        "Round it up"
+      ],
+      "answer": "13 cubic yards"
+    }
+  ]
+},
+
+// Stage 13 - Volume with mixed units
+{
+  "text": "A moving company needs to pack a box that is 2 yards long, 3 feet wide, and 24 inches high. (1 yard = 3 feet, 1 foot = 12 inches)",
+  "questions": [
+    // Question 13.1
+    {
+      "question": "What is the volume in cubic feet after converting all measurements to feet?",
+      "options": [
+        "36 cubic feet",
+        "42 cubic feet",
+        "30 cubic feet",
+        "48 cubic feet",
+        "Big box energy"
+      ],
+      "answer": "36 cubic feet"
+    },
+    // Question 13.2
+    {
+      "question": "What is the volume in cubic inches?",
+      "options": [
+        "62,208 cubic inches",
+        "54,000 cubic inches",
+        "72,000 cubic inches",
+        "48,000 cubic inches",
+        "Tiny cube paradise"
+      ],
+      "answer": "62,208 cubic inches"
+    },
+    // Question 13.3
+    {
+      "question": "If they need to fill the box with 1-cubic-foot containers, how many will fit?",
+      "options": [
+        "36 containers",
+        "30 containers",
+        "42 containers",
+        "48 containers",
+        "Stack them high"
+      ],
+      "answer": "36 containers"
+    },
+    // Question 13.4
+    {
+      "question": "What is the volume in cubic yards?",
+      "options": [
+        "1.33 cubic yards",
+        "2 cubic yards",
+        "1.5 cubic yards",
+        "1 cubic yard",
+        "Yard party"
+      ],
+      "answer": "1.33 cubic yards"
+    },
+    // Question 13.5
+    {
+      "question": "If they double the length in yards, what is the new volume in cubic feet?",
+      "options": [
+        "72 cubic feet",
+        "54 cubic feet",
+        "90 cubic feet",
+        "66 cubic feet",
+        "Double trouble"
+      ],
+      "answer": "72 cubic feet"
+    }
+  ]
+},
+
+// Stage 14 - Volume with capacity
+{
+  "text": "A water tank is 1.5 meters long, 1 meter wide, and 2 meters high. The tank has markings for every 100 liters. (1 cubic meter = 1000 liters)",
+  "questions": [
+    // Question 14.1
+    {
+      "question": "What is the total capacity of the tank in liters?",
+      "options": [
+        "3000 liters",
+        "2500 liters",
+        "3500 liters",
+        "4000 liters",
+        "Ocean in a box"
+      ],
+      "answer": "3000 liters"
+    },
+    // Question 14.2
+    {
+      "question": "How many marking lines are needed on the tank?",
+      "options": [
+        "30 lines",
+        "25 lines",
+        "35 lines",
+        "40 lines",
+        "Lines for days"
+      ],
+      "answer": "30 lines"
+    },
+    // Question 14.3
+    {
+      "question": "If the tank is filled to the 15th line, how many liters of water are in the tank?",
+      "options": [
+        "1500 liters",
+        "1000 liters",
+        "2000 liters",
+        "1250 liters",
+        "Half way there"
+      ],
+      "answer": "1500 liters"
+    },
+    // Question 14.4
+    {
+      "question": "How high (in meters) is the water when the tank is filled to 2000 liters?",
+      "options": [
+        "1.33 meters",
+        "1.5 meters",
+        "1 meter",
+        "2 meters",
+        "Just right height"
+      ],
+      "answer": "1.33 meters"
+    },
+    // Question 14.5
+    {
+      "question": "How many liters are added for each 10 centimeters of height?",
+      "options": [
+        "150 liters",
+        "100 liters",
+        "200 liters",
+        "250 liters",
+        "Growing up fast"
+      ],
+      "answer": "150 liters"
+    }
+  ]
+},
+
+// Stage 15 - Volume with proportional reasoning
+{
+  "text": "A model ship is built at a scale of 1:50 compared to the real ship. The real ship's cargo hold is 50 meters long, 10 meters wide, and 8 meters high.",
+  "questions": [
+    // Question 15.1
+    {
+      "question": "What are the dimensions of the model ship's cargo hold?",
+      "options": [
+        "1m × 0.2m × 0.16m",
+        "0.5m × 0.1m × 0.08m",
+        "2m × 0.4m × 0.32m",
+        "25m × 5m × 4m",
+        "Tiny ship dreams"
+      ],
+      "answer": "1m × 0.2m × 0.16m"
+    },
+    // Question 15.2
+    {
+      "question": "What is the volume of the real ship's cargo hold?",
+      "options": [
+        "4000 cubic meters",
+        "3000 cubic meters",
+        "5000 cubic meters",
+        "6000 cubic meters",
+        "Ocean of space"
+      ],
+      "answer": "4000 cubic meters"
+    },
+    // Question 15.3
+    {
+      "question": "What is the volume of the model ship's cargo hold?",
+      "options": [
+        "0.032 cubic meters",
+        "0.064 cubic meters",
+        "0.016 cubic meters",
+        "0.048 cubic meters",
+        "Miniature magic"
+      ],
+      "answer": "0.032 cubic meters"
+    },
+    // Question 15.4
+    {
+      "question": "What is the ratio of the real volume to the model volume?",
+      "options": [
+        "125000:1",
+        "50000:1",
+        "75000:1",
+        "100000:1",
+        "Big to small"
+      ],
+      "answer": "125000:1"
+    },
+    // Question 15.5
+    {
+      "question": "If the model ship is filled with water, how many milliliters will it hold? (1 cubic meter = 1000000 mL)",
+      "options": [
+        "32000 milliliters",
+        "16000 milliliters",
+        "48000 milliliters",
+        "64000 milliliters",
+        "Tiny ocean inside"
+      ],
+      "answer": "32000 milliliters"
+    }
+  ]
+},
+
+// Stage 16 - Volume with temperature changes
+{
+  "text": "An ice cube tray makes cubic ice cubes with 2-inch sides. When water freezes, it expands by 10% in volume.",
+  "questions": [
+    // Question 16.1
+    {
+      "question": "What is the volume of one ice cube in cubic inches?",
+      "options": [
+        "8 cubic inches",
+        "6 cubic inches",
+        "10 cubic inches",
+        "12 cubic inches",
+        "Frozen fun cube"
+      ],
+      "answer": "8 cubic inches"
+    },
+    // Question 16.2
+    {
+      "question": "How much water (in cubic inches) should be poured to make one full ice cube?",
+      "options": [
+        "7.27 cubic inches",
+        "8 cubic inches",
+        "6.5 cubic inches",
+        "7.5 cubic inches",
+        "Just a splash"
+      ],
+      "answer": "7.27 cubic inches"
+    },
+    // Question 16.3
+    {
+      "question": "If the tray has 12 cube spaces, what is the total volume of ice when frozen?",
+      "options": [
+        "96 cubic inches",
+        "87.24 cubic inches",
+        "108 cubic inches",
+        "72 cubic inches",
+        "Party size ice"
+      ],
+      "answer": "96 cubic inches"
+    },
+    // Question 16.4
+    {
+      "question": "How much total water should be used to fill all 12 spaces?",
+      "options": [
+        "87.24 cubic inches",
+        "96 cubic inches",
+        "80 cubic inches",
+        "92 cubic inches",
+        "Perfect pour amount"
+      ],
+      "answer": "87.24 cubic inches"
+    },
+    // Question 16.5
+    {
+      "question": "If each cube melts completely, what volume of water remains?",
+      "options": [
+        "87.24 cubic inches",
+        "96 cubic inches",
+        "80 cubic inches",
+        "92 cubic inches",
+        "Back to liquid"
+      ],
+      "answer": "87.24 cubic inches"
+    }
+  ]
+},
+
+// Stage 17 - Volume with complex shapes
+{
+  "text": "A toy rocket has a cylindrical body 8 inches tall with a 3-inch diameter, topped by a cone 4 inches tall with the same base diameter.",
+  "questions": [
+    // Question 17.1
+    {
+      "question": "What is the volume of just the cylindrical body? (V = πr²h)",
+      "options": [
+        "56.55 cubic inches",
+        "48 cubic inches",
+        "62.83 cubic inches",
+        "75.4 cubic inches",
+        "Rocket power"
+      ],
+      "answer": "56.55 cubic inches"
+    },
+    // Question 17.2
+    {
+      "question": "What is the volume of the cone? (V = ⅓πr²h)",
+      "options": [
+        "9.42 cubic inches",
+        "12 cubic inches",
+        "7.85 cubic inches",
+        "11.31 cubic inches",
+        "Pointy top part"
+      ],
+      "answer": "9.42 cubic inches"
+    },
+    // Question 17.3
+    {
+      "question": "What is the total volume of the rocket?",
+      "options": [
+        "65.97 cubic inches",
+        "60 cubic inches",
+        "70.68 cubic inches",
+        "75.4 cubic inches",
+        "Ready for launch"
+      ],
+      "answer": "65.97 cubic inches"
+    },
+    // Question 17.4
+    {
+      "question": "What fraction of the total volume is the cone?",
+      "options": [
+        "1/7",
+        "1/6",
+        "1/5",
+        "1/4",
+        "Top heavy"
+      ],
+      "answer": "1/7"
+    },
+    // Question 17.5
+    {
+      "question": "If the rocket's dimensions were doubled, how many times larger would the total volume be?",
+      "options": [
+        "8 times",
+        "4 times",
+        "6 times",
+        "2 times",
+        "Super sized rocket"
+      ],
+      "answer": "8 times"
+    }
+  ]
+},
+
+// Stage 18 - Volume with rate problems
+{
+  "text": "A water tank shaped like a cube with 4-foot sides has two pipes: one filling at 2 cubic feet per minute and one draining at 1 cubic foot per minute.",
+  "questions": [
+    // Question 18.1
+    {
+      "question": "What is the total volume of the tank?",
+      "options": [
+        "64 cubic feet",
+        "48 cubic feet",
+        "56 cubic feet",
+        "72 cubic feet",
+        "Cube of water"
+      ],
+      "answer": "64 cubic feet"
+    },
+    // Question 18.2
+    {
+      "question": "How many minutes will it take to fill the empty tank with both pipes running?",
+      "options": [
+        "64 minutes",
+        "32 minutes",
+        "48 minutes",
+        "128 minutes",
+        "Tick tock fill"
+      ],
+      "answer": "64 minutes"
+    },
+    // Question 18.3
+    {
+      "question": "If the tank starts half full, how many minutes until it's full?",
+      "options": [
+        "32 minutes",
+        "16 minutes",
+        "24 minutes",
+        "64 minutes",
+        "Halfway there"
+      ],
+      "answer": "32 minutes"
+    },
+    // Question 18.4
+    {
+      "question": "If the tank is full and only the drain is running, how many minutes until it's empty?",
+      "options": [
+        "64 minutes",
+        "32 minutes",
+        "128 minutes",
+        "96 minutes",
+        "Draining time"
+      ],
+      "answer": "64 minutes"
+    },
+    // Question 18.5
+    {
+      "question": "What is the net rate of filling in cubic feet per minute?",
+      "options": [
+        "1 cubic foot/min",
+        "2 cubic feet/min",
+        "3 cubic feet/min",
+        "0.5 cubic feet/min",
+        "Filling up slowly"
+      ],
+      "answer": "1 cubic foot/min"
+    }
+  ]
+},
+
+// Stage 19 - Volume with spheres and hemispheres
+{
+  "text": "A basketball manufacturer produces spherical basketballs with a diameter of 10 inches. They are considering making mini basketballs that are half the diameter of the standard ones.",
+  "questions": [
+    // Question 19.1
+    {
+      "question": "What is the volume of a standard basketball? (Use V = (4/3)πr³)",
+      "options": [
+        "Approximately 523.6 cubic inches",
+        "Approximately 480 cubic inches",
+        "Approximately 550 cubic inches",
+        "Approximately 500 cubic inches",
+        "Big ball volume"
+      ],
+      "answer": "Approximately 523.6 cubic inches"
+    },
+    // Question 19.2
+    {
+      "question": "What is the volume of a mini basketball?",
+      "options": [
+        "Approximately 65.45 cubic inches",
+        "Approximately 130.9 cubic inches",
+        "Approximately 32.7 cubic inches",
+        "Approximately 100 cubic inches",
+        "Small ball magic"
+      ],
+      "answer": "Approximately 65.45 cubic inches"
+    },
+    // Question 19.3
+    {
+      "question": "How many mini basketballs can be made from the material of one standard basketball?",
+      "options": [
+        "8 mini basketballs",
+        "4 mini basketballs",
+        "16 mini basketballs",
+        "2 mini basketballs",
+        "Lots of little balls"
+      ],
+      "answer": "8 mini basketballs"
+    },
+    // Question 19.4
+    {
+      "question": "If the manufacturer wants to fill a box with mini basketballs, how many can fit in a box that holds one standard basketball?",
+      "options": [
+        "8 mini basketballs",
+        "4 mini basketballs",
+        "16 mini basketballs",
+        "6 mini basketballs",
+        "Box full of balls"
+      ],
+      "answer": "8 mini basketballs"
+    },
+    // Question 19.5
+    {
+      "question": "What is the ratio of the surface area of a mini basketball to that of a standard basketball?",
+      "options": [
+        "1:4",
+        "1:2",
+        "1:8",
+        "1:16",
+        "Surface area surprise"
+      ],
+      "answer": "1:4"
+    }
+  ]
+},
+// Stage 20 - Volume with irregular shapes and displacement
+{
+  "text": "A scientist has a rock and a graduated cylinder filled to the 50mL mark with water. When the rock is submerged, the water level rises to 78mL.",
+  "questions": [
+    // Question 20.1
+    {
+      "question": "What is the volume of the rock?",
+      "options": [
+        "28 milliliters",
+        "78 milliliters",
+        "50 milliliters",
+        "128 milliliters",
+        "Rock and roll volume"
+      ],
+      "answer": "28 milliliters"
+    },
+    // Question 20.2
+    {
+      "question": "If three identical rocks are submerged, what will be the new water level?",
+      "options": [
+        "134 milliliters",
+        "156 milliliters",
+        "106 milliliters",
+        "184 milliliters",
+        "Triple rock party"
+      ],
+      "answer": "134 milliliters"
+    },
+    // Question 20.3
+    {
+      "question": "If half the rock is submerged, how much will the water level rise?",
+      "options": [
+        "14 milliliters",
+        "28 milliliters",
+        "7 milliliters",
+        "56 milliliters",
+        "Half a splash"
+      ],
+      "answer": "14 milliliters"
+    },
+    // Question 20.4
+    {
+      "question": "If a second rock raises the water level to 98mL, what is its volume?",
+      "options": [
+        "20 milliliters",
+        "98 milliliters",
+        "48 milliliters",
+        "78 milliliters",
+        "Another rock joins"
+      ],
+      "answer": "20 milliliters"
+    },
+    // Question 20.5
+    {
+      "question": "What is the combined volume of both rocks?",
+      "options": [
+        "48 milliliters",
+        "98 milliliters",
+        "28 milliliters",
+        "176 milliliters",
+        "Rock collection"
+      ],
+      "answer": "48 milliliters"
+    }
+  ]
+},
+
+// Stage 21 - Volume with time and rate problems
+{
+  "text": "A garden fountain has a basin that is 5 feet long, 3 feet wide, and 2 feet deep. Water flows in at 2 cubic feet per minute and out at 1.5 cubic feet per minute.",
+  "questions": [
+    // Question 21.1
+    {
+      "question": "What is the total capacity of the fountain basin?",
+      "options": [
+        "30 cubic feet",
+        "25 cubic feet",
+        "35 cubic feet",
+        "40 cubic feet",
+        "Splashing space"
+      ],
+      "answer": "30 cubic feet"
+    },
+    // Question 21.2
+    {
+      "question": "How long will it take to fill the empty basin with both flows running?",
+      "options": [
+        "60 minutes",
+        "45 minutes",
+        "75 minutes",
+        "90 minutes",
+        "Fountain filling fun"
+      ],
+      "answer": "60 minutes"
+    },
+    // Question 21.3
+    {
+      "question": "How much water stays in the fountain after 10 minutes?",
+      "options": [
+        "5 cubic feet",
+        "10 cubic feet",
+        "15 cubic feet",
+        "20 cubic feet",
+        "Partial splash"
+      ],
+      "answer": "5 cubic feet"
+    },
+    // Question 21.4
+    {
+      "question": "If the fountain starts full and the inflow stops, how long until it's empty?",
+      "options": [
+        "20 minutes",
+        "30 minutes",
+        "15 minutes",
+        "25 minutes",
+        "Draining time"
+      ],
+      "answer": "20 minutes"
+    },
+    // Question 21.5
+    {
+      "question": "What fraction of the basin is filled after 30 minutes of both flows running?",
+      "options": [
+        "1/2",
+        "1/3",
+        "2/3",
+        "3/4",
+        "Halfway splash"
+      ],
+      "answer": "1/2"
+    }
+  ]
+},
+
+// Stage 22 - Volume with nested containers
+{
+  "text": "A glass aquarium is 20 inches long, 15 inches wide, and 12 inches high. Inside, there's a decorative castle that takes up 360 cubic inches of space and a rock formation of 240 cubic inches.",
+  "questions": [
+    // Question 22.1
+    {
+      "question": "What is the total volume of the empty aquarium?",
+      "options": [
+        "3600 cubic inches",
+        "3000 cubic inches",
+        "4200 cubic inches",
+        "2800 cubic inches",
+        "Fish paradise space"
+      ],
+      "answer": "3600 cubic inches"
+    },
+    // Question 22.2
+    {
+      "question": "How much water can the aquarium hold with both decorations?",
+      "options": [
+        "3000 cubic inches",
+        "3600 cubic inches",
+        "2800 cubic inches",
+        "3200 cubic inches",
+        "Swimming room"
+      ],
+      "answer": "3000 cubic inches"
+    },
+    // Question 22.3
+    {
+      "question": "What fraction of the total space do the decorations occupy?",
+      "options": [
+        "1/6",
+        "1/4",
+        "1/8",
+        "1/5",
+        "Decoration fraction"
+      ],
+      "answer": "1/6"
+    },
+    // Question 22.4
+    {
+      "question": "If filled to 80% capacity with decorations inside, how many cubic inches of water are needed?",
+      "options": [
+        "2400 cubic inches",
+        "2880 cubic inches",
+        "2000 cubic inches",
+        "2600 cubic inches",
+        "Partial fish tank"
+      ],
+      "answer": "2400 cubic inches"
+    },
+    // Question 22.5
+    {
+      "question": "If a third decoration of 200 cubic inches is added, what volume of water can the tank hold?",
+      "options": [
+        "2800 cubic inches",
+        "3000 cubic inches",
+        "2600 cubic inches",
+        "3200 cubic inches",
+        "Less swimming space"
+      ],
+      "answer": "2800 cubic inches"
+    }
+  ]
+},
+
+// Stage 23 - Volume with proportional relationships
+{
+  "text": "A bakery uses similar rectangular cake pans in three sizes. The medium pan is 1.5 times the size of the small pan in each dimension, and the large pan is 2 times the size of the small pan. The small pan is 8 inches × 6 inches × 3 inches.",
+  "questions": [
+    // Question 23.1
+    {
+      "question": "What is the volume of the small pan?",
+      "options": [
+        "144 cubic inches",
+        "120 cubic inches",
+        "168 cubic inches",
+        "196 cubic inches",
+        "Tiny cake space"
+      ],
+      "answer": "144 cubic inches"
+    },
+    // Question 23.2
+    {
+      "question": "What is the volume of the medium pan?",
+      "options": [
+        "486 cubic inches",
+        "432 cubic inches",
+        "288 cubic inches",
+        "384 cubic inches",
+        "Medium cake magic"
+      ],
+      "answer": "486 cubic inches"
+    },
+    // Question 23.3
+    {
+      "question": "What is the volume of the large pan?",
+      "options": [
+        "1152 cubic inches",
+        "864 cubic inches",
+        "972 cubic inches",
+        "1296 cubic inches",
+        "Big cake bonanza"
+      ],
+      "answer": "1152 cubic inches"
+    },
+    // Question 23.4
+    {
+      "question": "How many times larger is the large pan compared to the small pan?",
+      "options": [
+        "8 times",
+        "6 times",
+        "4 times",
+        "2 times",
+        "Super sized cake"
+      ],
+      "answer": "8 times"
+    },
+    // Question 23.5
+    {
+      "question": "What is the ratio of the medium pan's volume to the large pan's volume?",
+      "options": [
+        "27:64",
+        "3:8",
+        "9:16",
+        "1:2",
+        "Cake ratio fun"
+      ],
+      "answer": "27:64"
+    }
+  ]
+},
+
+// Stage 24 - Volume with complex problem solving
+{
+  "text": "A shipping company has boxes of three sizes: small (2×2×2 feet), medium (3×2×2 feet), and large (4×3×2 feet). They need to ship items totaling 100 cubic feet.",
+  "questions": [
+    // Question 24.1
+    {
+      "question": "How many small boxes would be needed to ship all items?",
+      "options": [
+        "25 boxes",
+        "50 boxes",
+        "12 boxes",
+        "33 boxes",
+        "Box party time"
+      ],
+      "answer": "13 boxes"
+    },
+    // Question 24.2
+    {
+      "question": "What combination of medium and large boxes totals exactly 100 cubic feet?",
+      "options": [
+        "10 medium + 10 large",
+        "15 medium + 5 large",
+        "5 medium + 15 large",
+        "20 medium + 0 large",
+        "Perfect box mix"
+      ],
+      "answer": "No exact combination exists"
+    },
+    // Question 24.3
+    {
+      "question": "How many cubic feet of space are saved by using all large boxes instead of all small boxes?",
+      "options": [
+        "52 cubic feet",
+        "48 cubic feet",
+        "64 cubic feet",
+        "36 cubic feet",
+        "Space saving magic"
+      ],
+      "answer": "Not Applicable"
+    },
+    // Question 24.4
+    {
+      "question": "What is the ratio of volumes: small:medium:large?",
+      "options": [
+        "8:12:24",
+        "4:6:12",
+        "2:3:6",
+        "1:1.5:3",
+        "Box size ratio"
+      ],
+      "answer": "8:12:24"
+    },
+    // Question 24.5
+    {
+      "question": "If using only small and large boxes, what is the minimum total number of boxes needed?",
+      "options": [
+        "13 boxes",
+        "16 boxes",
+        "14 boxes",
+        "15 boxes",
+        "Minimal boxing"
+      ],
+      "answer": "5 boxes"
+    }
+  ]
+},
+
+// Stage 25 - Volume with percentages and proportions
+{
+  "text": "A movie theater popcorn comes in three sizes. The medium is 20% larger than the small (400 cubic inches), and the large is 25% larger than the medium.",
+  "questions": [
+    // Question 25.1
+    {
+      "question": "What is the volume of the medium popcorn container?",
+      "options": [
+        "480 cubic inches",
+        "500 cubic inches",
+        "450 cubic inches",
+        "520 cubic inches",
+        "Medium munch size"
+      ],
+      "answer": "480 cubic inches"
+    },
+    // Question 25.2
+    {
+      "question": "What is the volume of the large popcorn container?",
+      "options": [
+        "600 cubic inches",
+        "550 cubic inches",
+        "625 cubic inches",
+        "575 cubic inches",
+        "Mega munch size"
+      ],
+      "answer": "600 cubic inches"
+    },
+    // Question 25.3
+    {
+      "question": "How many more cubic inches does the large hold compared to the small?",
+      "options": [
+        "200 cubic inches",
+        "180 cubic inches",
+        "220 cubic inches",
+        "160 cubic inches",
+        "Extra snack space"
+      ],
+      "answer": "200 cubic inches"
+    },
+    // Question 25.4
+    {
+      "question": "What percentage larger is the large size compared to the small size?",
+      "options": [
+        "50%",
+        "45%",
+        "55%",
+        "40%",
+        "Super size increase"
+      ],
+      "answer": "50%"
+    },
+    // Question 25.5
+    {
+      "question": "If the small size costs $5, what should the large size cost to maintain the same price per cubic inch?",
+      "options": [
+        "$7.50",
+        "$7.00",
+        "$8.00",
+        "$6.50",
+        "Fair price fun"
+      ],
+      "answer": "$7.50"
+    }
+  ]
+},
+
+// Stage 26 - Volume with algebraic thinking
+{
+  "text": "A cube has a volume of 216 cubic inches. A rectangular prism has the same volume, with length twice its width and height three times its width.",
+  "questions": [
+    // Question 26.1
+    {
+      "question": "What is the length of each side of the cube?",
+      "options": [
+        "6 inches",
+        "8 inches",
+        "12 inches",
+        "4 inches",
+        "Perfect cube side"
+      ],
+      "answer": "6 inches"
+    },
+    // Question 26.2
+    {
+      "question": "What is the width of the rectangular prism?",
+      "options": [
+        "3.3 inches",
+        "3.6 inches",
+        "6.3 inches",
+        "6.6 inches",
+        "Width wisdom"
+      ],
+      "answer": "3 inches"
+    },
+    // Question 26.3
+    {
+      "question": "What is the length of the rectangular prism?",
+      "options": [
+        "6 inches",
+        "9 inches",
+        "12 inches",
+        "8 inches",
+        "Long side story"
+      ],
+      "answer": "6 inches"
+    },
+    // Question 26.4
+    {
+      "question": "What is the height of the rectangular prism?",
+      "options": [
+        "9 inches",
+        "6 inches",
+        "12 inches",
+        "15 inches",
+        "Height hijinks"
+      ],
+      "answer": "9 inches"
+    },
+    // Question 26.5
+    {
+      "question": "What is the ratio of the cube's surface area to the rectangular prism's surface area?",
+      "options": [
+        "108:99",
+        "216:198",
+        "1:1",
+        "36:54",
+        "Area adventures"
+      ],
+      "answer": "108:99"
+    }
+  ]
+},
+
+// Stage 27 - Volume with compound shapes
+{
+  "text": "A trophy has a rectangular base 6 inches × 4 inches × 2 inches, topped by a pyramid 4 inches high with the same base dimensions.",
+  "questions": [
+    // Question 27.1
+    {
+      "question": "What is the volume of the rectangular base?",
+      "options": [
+        "48 cubic inches",
+        "56 cubic inches",
+        "40 cubic inches",
+        "64 cubic inches",
+        "Base space"
+      ],
+      "answer": "48 cubic inches"
+    },
+    // Question 27.2
+    {
+      "question": "What is the volume of the pyramid? (V = ⅓ × base area × height)",
+      "options": [
+        "32 cubic inches",
+        "24 cubic inches",
+        "40 cubic inches",
+        "28 cubic inches",
+        "Pointy part size"
+      ],
+      "answer": "32 cubic inches"
+    },
+    // Question 27.3
+    {
+      "question": "What is the total volume of the trophy?",
+      "options": [
+        "80 cubic inches",
+        "72 cubic inches",
+        "88 cubic inches",
+        "96 cubic inches",
+        "Trophy total"
+      ],
+      "answer": "80 cubic inches"
+    },
+    // Question 27.4
+    {
+      "question": "What fraction of the total volume is the pyramid?",
+      "options": [
+        "2/5",
+        "1/3",
+        "1/2",
+        "3/5",
+        "Part to whole"
+      ],
+      "answer": "2/5"
+    },
+    // Question 27.5
+    {
+      "question": "If the trophy dimensions are tripled, how many times larger is the new volume?",
+      "options": [
+        "27 times",
+        "9 times",
+        "18 times",
+        "3 times",
+        "Super sized trophy"
+      ],
+      "answer": "27 times"
+    }
+  ]
+},
+
+// Stage 28 - Volume with multiple solutions (Corrected)
+{
+  "text": "A storage container must have a volume of 120 cubic feet. The width must be at least 4 feet, and all dimensions must be whole numbers.",
+  "questions": [
+    // Question 28.1
+    {
+      "question": "How many different possible combinations of length, width, and height are there?",
+      "options": [
+        "8 combinations",
+        "6 combinations",
+        "10 combinations",
+        "12 combinations",
+        "Many possibilities"
+      ],
+      "answer": "8 combinations"
+    },
+    // Question 28.2
+    {
+      "question": "What dimensions give the smallest surface area?",
+      "options": [
+        "5×4×6 feet",
+        "10×4×3 feet",
+        "8×5×3 feet",
+        "15×4×2 feet",
+        "Perfect fit size"
+      ],
+      "answer": "5×4×6 feet"
+    },
+    // Question 28.3
+    {
+      "question": "If the length must be twice the width, what are the possible whole number dimensions?",
+      "options": [
+        "8×4×4 feet",
+        "10×5×3 feet",
+        "12×6×2 feet",
+        "6×3×7 feet",
+        "Double trouble size"
+      ],
+      "answer": "12×6×2 feet"
+    },
+    // Question 28.4
+    {
+      "question": "What is the minimum height possible with these constraints?",
+      "options": [
+        "2 feet",
+        "3 feet",
+        "4 feet",
+        "5 feet",
+        "Low rider container"
+      ],
+      "answer": "2 feet"
+    },
+    // Question 28.5
+    {
+      "question": "Which dimensions would use the least amount of material for the walls (excluding top and bottom)?",
+      "options": [
+        "5×4×6 feet",
+        "6×4×5 feet",
+        "10×4×3 feet",
+        "8×5×3 feet",
+        "Material saver"
+      ],
+      "answer": "5×4×6 feet"
+    }
+  ]
+},
+
+// Stage 29 - Volume with efficiency and optimization
+{
+  "text": "A manufacturer makes cylindrical containers with a volume of 250 cubic inches. They want to minimize the material used for the sides of the container.",
+  "questions": [
+    // Question 29.1
+    {
+      "question": "If the radius is 5 inches, what must the height be? (V = πr²h)",
+      "options": [
+        "3.18 inches",
+        "4.25 inches",
+        "2.75 inches",
+        "5.00 inches",
+        "Perfect height"
+      ],
+      "answer": "3.18 inches"
+    },
+    // Question 29.2
+    {
+      "question": "What is the surface area of the sides with these dimensions? (A = 2πrh)",
+      "options": [
+        "100 square inches",
+        "125 square inches",
+        "150 square inches",
+        "75 square inches",
+        "Wrap around area"
+      ],
+      "answer": "100 square inches"
+    },
+    // Question 29.3
+    {
+      "question": "If the height equals the diameter, what should the radius be?",
+      "options": [
+        "4.31 inches",
+        "3.95 inches",
+        "4.75 inches",
+        "5.12 inches",
+        "Equal sides size"
+      ],
+      "answer": "3.95 inches"
+    },
+    // Question 29.4
+    {
+      "question": "Which shape uses less material for the sides: the first container or the equal height/diameter container?",
+      "options": [
+        "Equal height/diameter",
+        "First container",
+        "They use the same",
+        "Depends on thickness",
+        "Material mystery"
+      ],
+      "answer": "Equal height/diameter"
+    },
+    // Question 29.5
+    {
+      "question": "What ratio of height to radius minimizes the surface area of the sides?",
+      "options": [
+        "2:1",
+        "1:1",
+        "3:1",
+        "1:2",
+        "Perfect proportion"
+      ],
+      "answer": "1:1"
+    }
+  ]
+},
+
+// Stage 30 - Volume with real-world applications and mixed units
+{
+  "text": "A pool is 12 yards long, 8 yards wide, and 5 feet deep at one end, gradually sloping to 3 feet deep at the other end. (1 yard = 3 feet)",
+  "questions": [
+    // Question 30.1
+    {
+      "question": "What is the average depth of the pool?",
+      "options": [
+        "4 feet",
+        "3.5 feet",
+        "4.5 feet",
+        "5 feet",
+        "Middle depth magic"
+      ],
+      "answer": "4 feet"
+    },
+    // Question 30.2
+    {
+      "question": "What is the volume of the pool in cubic feet?",
+      "options": [
+        "1,152 cubic feet",
+        "1,000 cubic feet",
+        "1,296 cubic feet",
+        "864 cubic feet",
+        "Pool party size"
+      ],
+      "answer": "1,152 cubic feet"
+    },
+    // Question 30.3
+    {
+      "question": "How many gallons of water does the pool hold? (1 cubic foot = 7.48 gallons)",
+      "options": [
+        "8,617 gallons",
+        "7,500 gallons",
+        "9,000 gallons",
+        "6,500 gallons",
+        "Splash volume"
+      ],
+      "answer": "8,617 gallons"
+    },
+    // Question 30.4
+    {
+      "question": "If the pool is drained at 20 gallons per minute, how long will it take to empty?",
+      "options": [
+        "431 minutes",
+        "400 minutes",
+        "450 minutes",
+        "375 minutes",
+        "Draining duration"
+      ],
+      "answer": "431 minutes"
+    },
+    // Question 30.5
+    {
+      "question": "How many cubic yards of water does the pool hold?",
+      "options": [
+        "42.67 cubic yards",
+        "48 cubic yards",
+        "38.4 cubic yards",
+        "45.33 cubic yards",
+        "Yard sized splash"
+      ],
+      "answer": "42.67 cubic yards"
+    }
+  ]
+},
+
+//-------------------------------------------------------------------------------------------------------------------							
+				  ]
+				}
+        ];
+
+		const stageCount = quizData[0].stages.length; // This is the correct way to get the number of stages
+
+
+		const stateContents = {
+			'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+			,'Subject Overview 🗝️': `<div class="subject-overview-content">   <h1>Understanding Volume: A Comprehensive Guide for 5th and 6th Graders</h1>   <p>Volume is a measure of how much space an object occupies. It's an important concept in mathematics that helps us understand the size of three-dimensional objects. This guide will help you grasp the basics of volume, learn how to measure it, understand different units of volume, and apply this knowledge through various examples.</p>   <hr>   <h2>Table of Contents</h2>   <ol>     <li><a href="#what-is-volume">What is Volume?</a></li>     <li><a href="#measuring-volume">Measuring Volume</a></li>     <li><a href="#units-of-volume">Units of Volume</a></li>     <li><a href="#calculating-volume">Calculating Volume</a></li>     <li><a href="#examples">Examples</a></li>     <li><a href="#conclusion">Conclusion</a></li>   </ol>   <hr>     <h2 id="what-is-volume">What is Volume?</h2>   <p>Volume tells us how much space an object takes up. It is measured in cubic units, which represent the length, width, and height of the object. Understanding volume helps us compare different objects and solve real-life problems involving space.</p>     <hr>     <h2 id="measuring-volume">Measuring Volume</h2>   <p>To measure the volume of an object, we need to know its length, width, and height. Once we have these measurements, we can use a formula to calculate the volume.</p>   <p>For regular-shaped objects like cubes and rectangular prisms, the volume can be calculated easily. For irregular shapes, we might use water displacement to find the volume.</p>     <hr>     <h2 id="units-of-volume">Units of Volume</h2>   <p>Volume is measured in cubic units. The most common units of volume include:</p>   <ul>     <li><strong>Cubic centimeters (cm³)</strong>: Often used for small objects.</li>     <li><strong>Cubic meters (m³)</strong>: Used for larger objects or spaces.</li>     <li><strong>Liters (L)</strong>: Commonly used for liquids.</li>     <li><strong>Milliliters (mL)</strong>: Used for smaller quantities of liquids.</li>   </ul>     <hr>     <h2 id="calculating-volume">Calculating Volume</h2>   <p>The formula to calculate the volume of a rectangular prism (a box-shaped object) is:</p>   <p><strong>Volume = Length × Width × Height</strong></p>   <p>Make sure all measurements are in the same unit before multiplying them together.</p>     <hr>     <h2 id="examples">Examples</h2>     <h3>Example 1: Calculating the Volume of a Box</h3>   <p>Imagine you have a box that is 5 cm long, 3 cm wide, and 2 cm high. To find the volume:</p>   <ol>     <li>Multiply the length by the width: 5 cm × 3 cm = 15 cm²</li>     <li>Then multiply by the height: 15 cm² × 2 cm = 30 cm³</li>   </ol>   <p><em>The volume of the box is 30 cubic centimeters.</em></p>     <h3>Example 2: Using Water Displacement</h3>   <p>To find the volume of an irregular object, you can use water displacement:</p>   <ol>     <li>Fill a graduated cylinder with 100 mL of water.</li>     <li>Carefully submerge the object in the water.</li>     <li>The water level rises to 150 mL.</li>   </ol>   <p><em>The volume of the object is 150 mL - 100 mL = 50 mL.</em></p>     <hr>     <h2 id="conclusion">Conclusion</h2>   <p>Understanding volume is essential for measuring and comparing the size of objects in three dimensions. By knowing how to calculate and measure volume, you can solve a variety of mathematical and real-world problems. Remember the key points:</p>   <ul>     <li><strong>Volume</strong> measures the space an object occupies.</li>     <li><strong>Units of Volume</strong> include cubic centimeters, cubic meters, liters, and milliliters.</li>     <li><strong>Calculating Volume</strong> for rectangular prisms uses the formula: Volume = Length × Width × Height.</li>     <li><strong>Water Displacement</strong> is a useful method for finding the volume of irregular objects.</li>   </ul>   <p><strong>Keep practicing</strong> these concepts, and you'll become proficient in understanding and calculating volume!</p> </div>`		
+			};
+
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function isTextEmpty(text) {
+    return !text || text.trim() === "";
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    
+    // Only add stage text if it's not empty
+    const stageText = quizData[0].stages[currentStage].text;
+    if (!isTextEmpty(stageText)) {
+        const stageTextElement = document.createElement("div");
+        stageTextElement.className = "stage-text";
+        stageTextElement.style.marginBottom = "20px";
+        stageTextElement.style.padding = "15px";
+        stageTextElement.style.backgroundColor = "#f5f5f5";
+        stageTextElement.style.borderRadius = "5px";
+        stageTextElement.textContent = stageText;
+        quizContainer.appendChild(stageTextElement);
+    }
+    
+    // Render questions
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+        
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${questionData.question}`;
+        
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+        
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+        
+        const shuffledOptions = shuffleArray([...questionData.options]);
+        shuffledOptions.forEach(option => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv);
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[0].stages[currentStage].questions.length;
+
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === questionData.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect answer.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 10) {
+            selectElement.value = questionData.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` The correct answer is: ${questionData.answer}`;
+        }
+    });
+
+    if (correctCount === totalQuestions) {
+        console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+        addAnimalsToFarm(totalQuestions);
+
+        if (currentStage < quizData[0].stages.length - 1) {
+            singleStageConfetti();
+            showEncouragingPopup(correctCount, totalQuestions, true);
+            currentStage++;
+            updateProgressBar();
+            setTimeout(() => {
+                attempts = 0;
+                renderQuiz();
+                document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+            }, 1500);
+        } else {
+            currentStage++;
+            updateProgressBar();
+            allStagesConfetti();
+            showModal("Congratulations! You've completed all stages!");
+        }
+    } else {
+        showEncouragingPopup(correctCount, totalQuestions, false);
+        if (attempts >= 10) {
+            showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+        }
+    }
+
+    scrollToTop();
+}
+
+// 4. Update stageCount calculation to work with new structure
+
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+    const completedStages = currentStage;
+    const progress = (completedStages / stageCount) * 100;
+    const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+    progressBar.style.width = `${roundedProgress}%`;
+    progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+    console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+}
+
+function updateStageNumber() {
+    const stageElement = document.getElementById("stage-number");
+    stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>
