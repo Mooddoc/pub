@@ -1516,10 +1516,10 @@
         }
 																							/* --- END Graphs and Charts Styles  --- */
 																							
-																								/* Explanation Panel styles */
+																								/* Explanation Panel styles START*/
         .explanation-panel {
             max-width: 80%;
-            margin: 20px 0;
+            margin: 0px 0;
             padding: 30px;
             background-color: white;
             border-radius: 0.625rem;
@@ -1527,5 +1527,17 @@
             overflow: hidden;
             text-align: left;
             position: relative;
-            transition: transform 0.3s ease;
-        }																					
+            transition: transform 0.2s ease;
+        }	
+		
+        .explanation-panel:hover {
+            transform: translateY(-5px);
+        }
+
+        .explanation-panel-text {
+            margin-top: 5px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }	
+
+																								/* Explanation Panel styles END*/	
