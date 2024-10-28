@@ -1515,3 +1515,17 @@
             border: 1px solid #90a4ae;
         }
 																							/* --- END Graphs and Charts Styles  --- */
+																							
+																								/* Explanation Panel styles */
+        .explanation-panel {
+            max-width: 80%;
+            margin: 20px 0;
+            padding: 30px;
+            background-color: white;
+            border-radius: 0.625rem;
+            box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: left;
+            position: relative;
+            transition: transform 0.3s ease;
+        }																					
