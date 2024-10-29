@@ -1,0 +1,2520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+</head> 
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read the text and questions carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>Understanding divisibility rules for 2, 3, 5, and 10</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+ 
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+																		//  PH3 - Quiz Data 
+        const quizData = [ 												   	
+				{
+				  "stages": [
+//-------------------------------------------------------------------------------------------------------------------				  
+
+    // Stage 1
+    {
+      "text": "Luna is learning about even numbers. She knows that numbers divisible by 2 always end in 0, 2, 4, 6, or 8. Her teacher gave her some numbers to practice with.",
+      "questions": [
+        // Question 1.1
+        {
+          "question": "Which number is divisible by 2?",
+          "options": ["124", "135", "777", "999", "543"],
+          "answer": "124"
+        },
+        // Question 1.2
+        {
+          "question": "Looking at the number 456, how do you know it's divisible by 2?",
+          "options": [
+            "Because it ends in 6",
+            "Because it starts with 4",
+            "Because it has three digits",
+            "Because it's lucky",
+            "Because it has a 5 in it"
+          ],
+          "answer": "Because it ends in 6"
+        },
+        // Question 1.3
+        {
+          "question": "Which statement is true about numbers divisible by 2?",
+          "options": [
+            "They are always even numbers",
+            "They always start with 2",
+            "They are always odd numbers",
+            "They always have three digits",
+            "They always make you smile"
+          ],
+          "answer": "They are always even numbers"
+        },
+        // Question 1.4
+        {
+          "question": "If a number ends in 7, can it be divisible by 2?",
+          "options": [
+            "No, because 7 is not even",
+            "Yes, all numbers are divisible by 2",
+            "Only if it's a big number",
+            "Only on Mondays",
+            "Only if we ask nicely"
+          ],
+          "answer": "No, because 7 is not even"
+        },
+        // Question 1.5
+        {
+          "question": "Which number is NOT divisible by 2?",
+          "options": [
+            "357",
+            "400",
+            "822",
+            "164",
+            "200"
+          ],
+          "answer": "357"
+        }
+      ]
+    },
+    // Stage 2
+    {
+      "text": "Max is exploring numbers divisible by 5. He discovered that these numbers always end in either 0 or 5. His math book has some interesting examples to help him practice.",
+      "questions": [
+        // Question 2.1
+        {
+          "question": "Which number is divisible by 5?",
+          "options": [
+            "125",
+            "123",
+            "128",
+            "127",
+            "122"
+          ],
+          "answer": "125"
+        },
+        // Question 2.2
+        {
+          "question": "What do all numbers divisible by 5 end in?",
+          "options": [
+            "0 or 5",
+            "1 or 6",
+            "2 or 7",
+            "3 or 8",
+            "Just because"
+          ],
+          "answer": "0 or 5"
+        },
+        // Question 2.3
+        {
+          "question": "Is 340 divisible by 5?",
+          "options": [
+            "Yes, because it ends in 0",
+            "No, because it's too big",
+            "Only if we add more zeros",
+            "Only during math class",
+            "No, because it has a 3"
+          ],
+          "answer": "Yes, because it ends in 0"
+        },
+        // Question 2.4
+        {
+          "question": "Which number is NOT divisible by 5?",
+          "options": [
+            "268",
+            "100",
+            "455",
+            "250",
+            "305"
+          ],
+          "answer": "268"
+        },
+        // Question 2.5
+        {
+          "question": "How can you quickly check if 785 is divisible by 5?",
+          "options": [
+            "Look at the last digit",
+            "Add all the digits",
+            "Look at the first digit",
+            "Count backwards",
+            "Ask a friendly calculator"
+          ],
+          "answer": "Look at the last digit"
+        }
+      ]
+    },
+    // Stage 3
+    {
+      "text": "Sarah learned that for a number to be divisible by 3, the sum of its digits must be divisible by 3. She's practicing this rule with different numbers.",
+      "questions": [
+        // Question 3.1
+        {
+          "question": "Is 234 divisible by 3? (Hint: 2+3+4=9)",
+          "options": [
+            "Yes, because 9 is divisible by 3",
+            "No, because it ends in 4",
+            "Only if we read it backwards",
+            "Only on weekends",
+            "No, because it starts with 2"
+          ],
+          "answer": "Yes, because 9 is divisible by 3"
+        },
+        // Question 3.2
+        {
+          "question": "Which number is divisible by 3?",
+          "options": [
+            "126",
+            "125",
+            "124",
+            "122",
+            "121"
+          ],
+          "answer": "126"
+        },
+        // Question 3.3
+        {
+          "question": "Why is 351 divisible by 3?",
+          "options": [
+            "Because 3+5+1=9, and 9 is divisible by 3",
+            "Because it starts with 3",
+            "Because it has three digits",
+            "Because it ends in 1",
+            "Because it's feeling generous"
+          ],
+          "answer": "Because 3+5+1=9, and 9 is divisible by 3"
+        },
+        // Question 3.4
+        {
+          "question": "Which number is NOT divisible by 3?",
+          "options": [
+            "401",
+            "333",
+            "666",
+            "999",
+            "123"
+          ],
+          "answer": "401"
+        },
+        // Question 3.5
+        {
+          "question": "What do you need to do to check if a number is divisible by 3?",
+          "options": [
+            "Add all its digits and check if the sum is divisible by 3",
+            "Look at the last digit",
+            "Count by threes",
+            "Close your eyes and guess",
+            "Look at the first digit"
+          ],
+          "answer": "Add all its digits and check if the sum is divisible by 3"
+        }
+      ]
+    },
+    // Stage 4
+    {
+      "text": "Tom is studying numbers divisible by 10. He noticed that they all end in zero. His teacher gave him some problems to solve.",
+      "questions": [
+        // Question 4.1
+        {
+          "question": "Which number is divisible by 10?",
+          "options": [
+            "450",
+            "455",
+            "457",
+            "453",
+            "451"
+          ],
+          "answer": "450"
+        },
+        // Question 4.2
+        {
+          "question": "What must a number end in to be divisible by 10?",
+          "options": [
+            "0",
+            "5",
+            "2",
+            "Any number",
+            "A smiley face"
+          ],
+          "answer": "0"
+        },
+        // Question 4.3
+        {
+          "question": "Why isn't 355 divisible by 10?",
+          "options": [
+            "Because it doesn't end in 0",
+            "Because it's too small",
+            "Because it has three 5s",
+            "Because it's odd",
+            "Because it's shy"
+          ],
+          "answer": "Because it doesn't end in 0"
+        },
+        // Question 4.4
+        {
+          "question": "Which is the smallest three-digit number divisible by 10?",
+          "options": [
+            "100",
+            "110",
+            "090",
+            "001",
+            "999"
+          ],
+          "answer": "100"
+        },
+        // Question 4.5
+        {
+          "question": "How many zeros must be at the end of a number to make it divisible by 10?",
+          "options": [
+            "1",
+            "2",
+            "3",
+            "None",
+            "As many as possible"
+          ],
+          "answer": "1"
+        }
+      ]
+    },
+    // Stage 5
+    {
+      "text": "Emma is learning to identify numbers that are divisible by both 2 and 5. She's discovering patterns in these numbers.",
+      "questions": [
+        // Question 5.1
+        {
+          "question": "Which number is divisible by both 2 and 5?",
+          "options": [
+            "20",
+            "25",
+            "22",
+            "15",
+            "17"
+          ],
+          "answer": "20"
+        },
+        // Question 5.2
+        {
+          "question": "What must a number end in to be divisible by both 2 and 5?",
+          "options": [
+            "0",
+            "5",
+            "2",
+            "4",
+            "Any even number"
+          ],
+          "answer": "0"
+        },
+        // Question 5.3
+        {
+          "question": "Why is 150 divisible by both 2 and 5?",
+          "options": [
+            "Because it ends in 0",
+            "Because it has a 5 in it",
+            "Because it starts with 1",
+            "Because it has three digits",
+            "Because it's magic"
+          ],
+          "answer": "Because it ends in 0"
+        },
+        // Question 5.4
+        {
+          "question": "Which number is NOT divisible by both 2 and 5?",
+          "options": [
+            "45",
+            "100",
+            "150",
+            "200",
+            "250"
+          ],
+          "answer": "45"
+        },
+        // Question 5.5
+        {
+          "question": "If a number is divisible by both 2 and 5, is it also divisible by 10?",
+          "options": [
+            "Yes, always",
+            "No, never",
+            "Sometimes",
+            "Only on Tuesdays",
+            "Only if it's happy"
+          ],
+          "answer": "Yes, always"
+        }
+      ]
+    },
+    // Stage 6
+    {
+      "text": "Alex is practicing with numbers that are divisible by both 2 and 3. He's learning that these numbers have special properties.",
+      "questions": [
+        // Question 6.1
+        {
+          "question": "Which number is divisible by both 2 and 3?",
+          "options": [
+            "12",
+            "15",
+            "17",
+            "19",
+            "21"
+          ],
+          "answer": "12"
+        },
+        // Question 6.2
+        {
+          "question": "How can you check if 234 is divisible by both 2 and 3?",
+          "options": [
+            "Check if it's even AND if the sum of digits is divisible by 3",
+            "Just look at the last digit",
+            "Multiply it by 2",
+            "Ask your pet hamster",
+            "Only check if it's even"
+          ],
+          "answer": "Check if it's even AND if the sum of digits is divisible by 3"
+        },
+        // Question 6.3
+        {
+          "question": "Why is 360 divisible by both 2 and 3?",
+          "options": [
+            "It ends in 0 and 3+6+0=9",
+            "Because it's big",
+            "Because it has a 6",
+            "Because it starts with 3",
+            "Because it's perfect"
+          ],
+          "answer": "It ends in 0 and 3+6+0=9"
+        },
+        // Question 6.4
+        {
+          "question": "Which number is divisible by both 2 and 3?",
+          "options": [
+            "144",
+            "145",
+            "147",
+            "149",
+            "151"
+          ],
+          "answer": "144"
+        },
+        // Question 6.5
+        {
+          "question": "What do you know about a number if it's divisible by both 2 and 3?",
+          "options": [
+            "It's also divisible by 6",
+            "It must end in 3",
+            "It must be odd",
+            "It must start with 2",
+            "It must be ticklish"
+          ],
+          "answer": "It's also divisible by 6"
+        }
+      ]
+    },
+    // Stage 7
+    {
+      "text": "Maria is exploring numbers that are divisible by both 3 and 5. She's finding interesting patterns in these numbers.",
+      "questions": [
+        // Question 7.1
+        {
+          "question": "Which number is divisible by both 3 and 5?",
+          "options": [
+            "15",
+            "16",
+            "17",
+            "18",
+            "19"
+          ],
+          "answer": "15"
+        },
+        // Question 7.2
+        {
+          "question": "How can you check if 345 is divisible by both 3 and 5?",
+          "options": [
+            "Check if it ends in 5 AND if 3+4+5=12 is divisible by 3",
+            "Only check if it ends in 5",
+            "Only check if it's odd",
+            "Dance around it three times",
+            "Ask it politely"
+          ],
+          "answer": "Check if it ends in 5 AND if 3+4+5=12 is divisible by 3"
+        },
+        // Question 7.3
+        {
+          "question": "Why is 450 divisible by both 3 and 5?",
+          "options": [
+            "It ends in 0 and 4+5+0=9 is divisible by 3",
+            "Because it has a 4",
+            "Because it's big enough",
+            "Because it starts with 4",
+            "Because it's awesome"
+          ],
+          "answer": "It ends in 0 and 4+5+0=9 is divisible by 3"
+        },
+        // Question 7.4
+        {
+          "question": "Which number is NOT divisible by both 3 and 5?",
+          "options": [
+            "52",
+            "45",
+            "60",
+            "75",
+            "90"
+          ],
+          "answer": "52"
+        },
+        // Question 7.5
+        {
+          "question": "What do you know about a number if it's divisible by both 3 and 5?",
+          "options": [
+            "It's also divisible by 15",
+            "It must end in 3",
+            "It must be even",
+            "It must start with 5",
+            "It must be magical"
+          ],
+          "answer": "It's also divisible by 15"
+        }
+      ]
+    },
+    // Stage 8
+    {
+      "text": "David is studying numbers that are divisible by 2, 5, and 10. He notices that these numbers have something in common.",
+      "questions": [
+        // Question 8.1
+        {
+          "question": "Which number is divisible by 2, 5, and 10?",
+          "options": [
+            "30",
+            "35",
+            "32",
+            "37",
+            "39"
+          ],
+          "answer": "30"
+        },
+        // Question 8.2
+        {
+          "question": "What do all numbers divisible by 2, 5, and 10 end in?",
+          "options": [
+            "0",
+            "5",
+            "2",
+            "Even numbers",
+            "A happy face"
+          ],
+          "answer": "0"
+        },
+        // Question 8.3
+        {
+          "question": "If a number is divisible by 10, is it always divisible by 2 and 5?",
+          "options": [
+            "Yes, always",
+            "No, never",
+            "Sometimes",
+            "Only in summer",
+            "Only if it wants to"
+          ],
+          "answer": "Yes, always"
+        },
+        // Question 8.4
+        {
+          "question": "Which number is divisible by 2, 5, and 10?",
+          "options": [
+            "120",
+            "125",
+            "122",
+            "127",
+            "129"
+          ],
+          "answer": "120"
+        },
+        // Question 8.5
+        {
+          "question": "Why is 250 divisible by 2, 5, and 10?",
+          "options": [
+            "Because it ends in 0",
+            "Because it has a 2",
+            "Because it's a big number",
+            "Because it has three digits",
+            "Because it's special"
+          ],
+          "answer": "Because it ends in 0"
+        }
+      ]
+    },
+    // Stage 9
+    {
+      "text": "Sophie is working with numbers that are divisible by both 3 and 10. She's discovering that these numbers follow multiple rules.",
+      "questions": [
+        // Question 9.1
+        {
+          "question": "Which number is divisible by both 3 and 10?",
+          "options": [
+            "30",
+            "31",
+            "32",
+            "33",
+            "35"
+          ],
+          "answer": "30"
+        },
+        // Question 9.2
+        {
+          "question": "How can you tell if 360 is divisible by both 3 and 10?",
+          "options": [
+            "It ends in 0 AND 3+6+0=9 is divisible by 3",
+            "Just check if it ends in 0",
+            "Just add the digits",
+            "Ask a mathematician",
+            "Count to 360"
+          ],
+          "answer": "It ends in 0 AND 3+6+0=9 is divisible by 3"
+        },
+        // Question 9.3
+        {
+          "question": "Which number is NOT divisible by both 3 and 10?",
+          "options": [
+            "305",
+            "300",
+            "330",
+            "360",
+            "390"
+          ],
+          "answer": "305"
+        },
+        // Question 9.4
+        {
+          "question": "What must be true for a number to be divisible by both 3 and 10?",
+          "options": [
+            "It must end in 0 and sum of digits must be divisible by 3",
+            "It must just end in 0",
+            "It must just be divisible by 3",
+            "It must be even",
+            "It must be super cool"
+          ],
+          "answer": "It must end in 0 and sum of digits must be divisible by 3"
+        },
+        // Question 9.5
+        {
+          "question": "If a number is divisible by both 3 and 10, what else is it divisible by?",
+          "options": [
+            "2 and 5",
+            "Just 2",
+            "Just 5",
+            "Nothing else",
+            "Every number"
+          ],
+          "answer": "2 and 5"
+        }
+      ]
+    },
+    // Stage 10
+    {
+      "text": "Jack is exploring larger numbers and their divisibility by 2, 3, and 5. He's learning to apply multiple rules at once.",
+      "questions": [
+        // Question 10.1
+        {
+          "question": "Which number is divisible by 2, 3, and 5?",
+          "options": [
+            "30",
+            "32",
+            "33",
+            "35",
+            "37"
+          ],
+          "answer": "30"
+        },
+        // Question 10.2
+        {
+          "question": "Why is 150 divisible by 2, 3, and 5?",
+          "options": [
+            "It ends in 0 AND 1+5+0=6 is divisible by 3",
+            "Just because it's big",
+            "Because it has a 5",
+            "Because it starts with 1",
+            "Because it's perfect"
+          ],
+          "answer": "It ends in 0 AND 1+5+0=6 is divisible by 3"
+        },
+        // Question 10.3
+        {
+          "question": "Which number is NOT divisible by 2, 3, and 5?",
+          "options": [
+            "155",
+            "150",
+            "180",
+            "210",
+            "240"
+          ],
+          "answer": "155"
+        },
+        // Question 10.4
+        {
+          "question": "What do you need to check to see if 450 is divisible by 2, 3, and 5?",
+          "options": [
+            "Check if it ends in 0 AND if 4+5+0=9 is divisible by 3",
+            "Only check if it's even",
+            "Only check if it ends in 0",
+            "Only add the digits",
+            "Ask your pet rock"
+          ],
+          "answer": "Check if it ends in 0 AND if 4+5+0=9 is divisible by 3"
+        },
+        // Question 10.5
+        {
+          "question": "If a number is divisible by both 2 and 5, what else must be true?",
+          "options": [
+            "It must be divisible by 10",
+            "It must be odd",
+            "It must be prime",
+            "It must be small",
+            "It must be lucky"
+          ],
+          "answer": "It must be divisible by 10"
+        }
+      ]
+    },
+    // Stage 11
+    {
+      "text": "Emma is working with three-digit numbers and testing them for divisibility by 2, 3, and 5. She's getting better at combining multiple rules.",
+      "questions": [
+        // Question 11.1
+        {
+          "question": "Which three-digit number is divisible by 2, 3, and 5?",
+          "options": [
+            "120",
+            "125",
+            "122",
+            "127",
+            "129"
+          ],
+          "answer": "120"
+        },
+        // Question 11.2
+        {
+          "question": "How can you quickly check if 450 is divisible by both 2 and 5?",
+          "options": [
+            "Check if it ends in 0",
+            "Add all digits",
+            "Look at first digit",
+            "Count by twos",
+            "Ask your neighbor"
+          ],
+          "answer": "Check if it ends in 0"
+        },
+        // Question 11.3
+        {
+          "question": "What makes 360 divisible by both 2 and 3?",
+          "options": [
+            "It's even AND 3+6+0=9 is divisible by 3",
+            "Just because it's big",
+            "Because it has a 6",
+            "Because it starts with 3",
+            "Because it's magical"
+          ],
+          "answer": "It's even AND 3+6+0=9 is divisible by 3"
+        },
+        // Question 11.4
+        {
+          "question": "Which three-digit number is divisible by 2, 3, and 5?",
+          "options": [
+            "150",
+            "151",
+            "152",
+            "153",
+            "155"
+          ],
+          "answer": "150"
+        },
+        // Question 11.5
+        {
+          "question": "If a three-digit number is divisible by both 2 and 5, what else must be true?",
+          "options": [
+            "It must end in 0",
+            "It must be odd",
+            "It must end in 5",
+            "It must start with 1",
+            "It must be friendly"
+          ],
+          "answer": "It must end in 0"
+        }
+      ]
+    },
+    // Stage 12
+    {
+      "text": "Lucas is exploring four-digit numbers and their divisibility patterns. He's learning to apply all the rules he knows to bigger numbers.",
+      "questions": [
+        // Question 12.1
+        {
+          "question": "Which four-digit number is divisible by 2, 3, and 5?",
+          "options": [
+            "1020",
+            "1025",
+            "1022",
+            "1027",
+            "1029"
+          ],
+          "answer": "1020"
+        },
+        // Question 12.2
+        {
+          "question": "Why is 2340 divisible by both 2 and 5?",
+          "options": [
+            "Because it ends in 0",
+            "Because it starts with 2",
+            "Because it has four digits",
+            "Because it's large",
+            "Because it's sleepy"
+          ],
+          "answer": "Because it ends in 0"
+        },
+        // Question 12.3
+        {
+          "question": "How do you know 3150 is divisible by 3?",
+          "options": [
+            "Because 3+1+5+0=9 is divisible by 3",
+            "Because it starts with 3",
+            "Because it has a 5",
+            "Because it's four digits",
+            "Because it said so"
+          ],
+          "answer": "Because 3+1+5+0=9 is divisible by 3"
+        },
+        // Question 12.4
+        {
+          "question": "Which four-digit number is NOT divisible by 2, 3, and 5?",
+          "options": [
+            "1055",
+            "1050",
+            "1080",
+            "1110",
+            "1140"
+          ],
+          "answer": "1055"
+        },
+        // Question 12.5
+        {
+          "question": "What must be true about a four-digit number divisible by 2, 3, and 5?",
+          "options": [
+            "It must end in 0 and sum of digits must be divisible by 3",
+            "It must just be even",
+            "It must just end in 5",
+            "It must start with 1",
+            "It must be fantastic"
+          ],
+          "answer": "It must end in 0 and sum of digits must be divisible by 3"
+        }
+      ]
+    },
+    // Stage 13
+    {
+      "text": "Lily is practicing with numbers that have special patterns when divided by 2, 3, or 5. She's discovering some interesting combinations.",
+      "questions": [
+        // Question 13.1
+        {
+          "question": "Which number is divisible by both 3 and 5, but NOT by 2?",
+          "options": [
+            "45",
+            "40",
+            "42",
+            "44",
+            "46"
+          ],
+          "answer": "45"
+        },
+        // Question 13.2
+        {
+          "question": "Why is 75 divisible by 3 and 5 but not 2?",
+          "options": [
+            "It ends in 5 and 7+5=12 is divisible by 3",
+            "Because it's odd",
+            "Because it has a 7",
+            "Because it's two digits",
+            "Because it's lonely"
+          ],
+          "answer": "It ends in 5 and 7+5=12 is divisible by 3"
+        },
+        // Question 13.3
+        {
+          "question": "Which number is divisible by 2 and 5, but NOT by 3?",
+          "options": [
+            "20",
+            "30",
+            "45",
+            "15",
+            "25"
+          ],
+          "answer": "20"
+        },
+        // Question 13.4
+        {
+          "question": "How can you tell if a number is divisible by both 3 and 5?",
+          "options": [
+            "Check if it ends in 0 or 5 AND if sum of digits is divisible by 3",
+            "Just check if it ends in 5",
+            "Just add the digits",
+            "Look at first digit",
+            "Ask it nicely"
+          ],
+          "answer": "Check if it ends in 0 or 5 AND if sum of digits is divisible by 3"
+        },
+        // Question 13.5
+        {
+          "question": "What must be true about a number divisible by both 2 and 5?",
+          "options": [
+            "It must end in 0",
+            "It can end in 5",
+            "It can be odd",
+            "It must start with 2",
+            "It must be excited"
+          ],
+          "answer": "It must end in 0"
+        }
+      ]
+    },
+    // Stage 14
+    {
+      "text": "Maya is working with sequences of numbers and testing them for divisibility by 2, 3, and 5. She's looking for patterns in consecutive numbers.",
+      "questions": [
+        // Question 14.1
+        {
+          "question": "In the sequence 28, 29, 30, 31, 32, which number is divisible by both 2 and 3?",
+          "options": [
+            "30",
+            "28",
+            "29",
+            "31",
+            "32"
+          ],
+          "answer": "30"
+        },
+        // Question 14.2
+        {
+          "question": "Why can't two consecutive numbers both be divisible by 2?",
+          "options": [
+            "Because one must be odd and one even",
+            "Because they're too close",
+            "Because they're friends",
+            "Because it's impossible",
+            "Because they're shy"
+          ],
+          "answer": "Because one must be odd and one even"
+        },
+        // Question 14.3
+        {
+          "question": "In the sequence 48, 49, 50, 51, 52, which number is divisible by both 2 and 5?",
+          "options": [
+            "50",
+            "48",
+            "49",
+            "51",
+            "52"
+          ],
+          "answer": "50"
+        },
+        // Question 14.4
+        {
+          "question": "Looking at numbers 60 through 65, how many are divisible by 3?",
+          "options": [
+            "2",
+            "1",
+            "3",
+            "4",
+            "All of them"
+          ],
+          "answer": "2"
+        },
+        // Question 14.5
+        {
+          "question": "What's special about numbers that are divisible by both 2 and 5?",
+          "options": [
+            "They're always divisible by 10",
+            "They're always odd",
+            "They're always prime",
+            "They're always small",
+            "They're always dancing"
+          ],
+          "answer": "They're always divisible by 10"
+        }
+      ]
+    },
+    // Stage 15
+    {
+      "text": "Oliver is exploring number patterns and how they relate to divisibility by 2, 3, and 5. He's discovering some interesting relationships between these numbers.",
+      "questions": [
+        // Question 15.1
+        {
+          "question": "If a number is divisible by both 2 and 3, what else is it divisible by?",
+          "options": [
+            "6",
+            "5",
+            "4",
+            "8",
+            "10"
+          ],
+          "answer": "6"
+        },
+        // Question 15.2
+        {
+          "question": "If a number is divisible by both 3 and 5, what else is it divisible by?",
+          "options": [
+            "15",
+            "10",
+            "12",
+            "8",
+            "9"
+          ],
+          "answer": "15"
+        },
+        // Question 15.3
+        {
+          "question": "Which number between 100 and 120 is divisible by 2, 3, and 5?",
+          "options": [
+            "120",
+            "115",
+            "110",
+            "105",
+            "100"
+          ],
+          "answer": "120"
+        },
+        // Question 15.4
+        {
+          "question": "Why is 180 divisible by both 2 and 3?",
+          "options": [
+            "It's even and 1+8+0=9 is divisible by 3",
+            "Because it has an 8",
+            "Because it ends in 0",
+            "Because it's large",
+            "Because it's special"
+          ],
+          "answer": "It's even and 1+8+0=9 is divisible by 3"
+        },
+        // Question 15.5
+        {
+          "question": "What's the smallest number divisible by 2, 3, and 5?",
+          "options": [
+            "30",
+            "15",
+            "20",
+            "25",
+            "10"
+          ],
+          "answer": "30"
+        }
+      ]
+    },
+    // Stage 16
+    {
+      "text": "Sophia is working with larger numbers and testing multiple divisibility rules at once. She's getting better at combining these rules efficiently.",
+      "questions": [
+        // Question 16.1
+        {
+          "question": "Which of these numbers is divisible by 2, 3, and 5?",
+          "options": [
+            "360",
+            "362",
+            "363",
+            "365",
+            "367"
+          ],
+          "answer": "360"
+        },
+        // Question 16.2
+        {
+          "question": "How can you quickly check if 450 is divisible by both 2 and 5?",
+          "options": [
+            "Check if it ends in 0",
+            "Add all digits",
+            "Check first digit",
+            "Multiply by 2",
+            "Ask your calculator"
+          ],
+          "answer": "Check if it ends in 0"
+        },
+        // Question 16.3
+        {
+          "question": "Why is 720 divisible by 2, 3, and 5?",
+          "options": [
+            "Ends in 0 and 7+2+0=9 is divisible by 3",
+            "Because it's big",
+            "Because it has a 7",
+            "Because it's even",
+            "Because it's magical"
+          ],
+          "answer": "Ends in 0 and 7+2+0=9 is divisible by 3"
+        },
+        // Question 16.4
+        {
+          "question": "Which number is NOT divisible by both 2 and 5?",
+          "options": [
+            "455",
+            "460",
+            "470",
+            "480",
+            "490"
+          ],
+          "answer": "455"
+        },
+        // Question 16.5
+        {
+          "question": "What must be true about a number that's divisible by both 2 and 3?",
+          "options": [
+            "It's divisible by 6",
+            "It must end in 0",
+            "It must be odd",
+            "It must be prime",
+            "It must be happy"
+          ],
+          "answer": "It's divisible by 6"
+        }
+      ]
+    },
+    // Stage 17
+    {
+      "text": "Noah is discovering patterns in three-digit numbers that are divisible by multiple numbers. He's learning to apply all the rules he knows efficiently.",
+      "questions": [
+        // Question 17.1
+        {
+          "question": "Which three-digit number is divisible by 2, 3, and 5?",
+          "options": [
+            "150",
+            "151",
+            "152",
+            "153",
+            "155"
+          ],
+          "answer": "150"
+        },
+        // Question 17.2
+        {
+          "question": "If a three-digit number is divisible by both 2 and 5, what must be true?",
+          "options": [
+            "It must end in 0",
+            "It must be odd",
+            "It must start with 1",
+            "It must have a 5",
+            "It must be perfect"
+          ],
+          "answer": "It must end in 0"
+        },
+        // Question 17.3
+        {
+          "question": "Why is 270 divisible by both 2 and 3?",
+          "options": [
+            "It's even and 2+7+0=9 is divisible by 3",
+            "Because it has a 7",
+            "Because it starts with 2",
+            "Because it's three digits",
+            "Because it's friendly"
+          ],
+          "answer": "It's even and 2+7+0=9 is divisible by 3"
+        },
+        // Question 17.4
+        {
+          "question": "Which three-digit number is divisible by 2, 3, and 5?",
+          "options": [
+            "180",
+            "181",
+            "182",
+            "183",
+            "185"
+          ],
+          "answer": "180"
+        },
+        // Question 17.5
+        {
+          "question": "What's special about numbers divisible by both 3 and 5?",
+          "options": [
+            "They're divisible by 15",
+            "They must be even",
+            "They must be odd",
+            "They must be prime",
+            "They must be excited"
+          ],
+          "answer": "They're divisible by 15"
+        }
+      ]
+    },
+    // Stage 18
+    {
+      "text": "Emma is studying number sequences and testing them for divisibility by multiple numbers at once. She's getting better at spotting patterns.",
+      "questions": [
+        // Question 18.1
+        {
+          "question": "In the sequence 295, 296, 297, 298, 299, 300, which number is divisible by 2, 3, and 5?",
+          "options": [
+            "300",
+            "295",
+            "296",
+            "297",
+            "298"
+          ],
+          "answer": "300"
+        },
+        // Question 18.2
+        {
+          "question": "Why can't two consecutive numbers both be divisible by 5?",
+          "options": [
+            "Because they differ by 1",
+            "Because they're too close",
+            "Because they're friends",
+            "Because it's impossible",
+            "Because they're shy"
+          ],
+          "answer": "Because they differ by 1"
+        },
+        // Question 18.3
+        {
+          "question": "How many numbers between 100 and 110 are divisible by 2?",
+          "options": [
+            "5",
+            "4",
+            "6",
+            "3",
+            "All of them"
+          ],
+          "answer": "5"
+        },
+        // Question 18.4
+        {
+          "question": "What's the smallest three-digit number divisible by 2, 3, and 5?",
+          "options": [
+            "120",
+            "105",
+            "110",
+            "115",
+            "100"
+          ],
+          "answer": "120"
+        },
+        // Question 18.5
+        {
+          "question": "Why is 450 divisible by 2, 3, and 5?",
+          "options": [
+            "Ends in 0 and 4+5+0=9 is divisible by 3",
+            "Because it's large",
+            "Because it has a 5",
+            "Because it starts with 4",
+            "Because it's magical"
+          ],
+          "answer": "Ends in 0 and 4+5+0=9 is divisible by 3"
+        }
+      ]
+    },
+    // Stage 19
+    {
+      "text": "Lucas is exploring patterns in four-digit numbers that are divisible by multiple numbers. He's learning to apply all the rules efficiently.",
+      "questions": [
+        // Question 19.1
+        {
+          "question": "Which four-digit number is divisible by 2, 3, and 5?",
+          "options": [
+            "1020",
+            "1021",
+            "1022",
+            "1023",
+            "1025"
+          ],
+          "answer": "1020"
+        },
+        // Question 19.2
+        {
+          "question": "If a four-digit number is divisible by both 2 and 5, what must be true?",
+          "options": [
+            "It must end in 0",
+            "It must be odd",
+            "It must start with 1",
+            "It must have a 5",
+            "It must be friendly"
+          ],
+          "answer": "It must end in 0"
+        },
+        // Question 19.3
+        {
+          "question": "Why is 2340 divisible by both 2 and 3?",
+          "options": [
+            "It's even and 2+3+4+0=9 is divisible by 3",
+            "Because it has a 4",
+            "Because it starts with 2",
+            "Because it's four digits",
+            "Because it's happy"
+          ],
+          "answer": "It's even and 2+3+4+0=9 is divisible by 3"
+        },
+        // Question 19.4
+        {
+          "question": "Which four-digit number is divisible by 2, 3, and 5?",
+          "options": [
+            "1080",
+            "1081",
+            "1082",
+            "1083",
+            "1085"
+          ],
+          "answer": "1080"
+        },
+        // Question 19.5
+        {
+          "question": "What's special about numbers divisible by 2, 3, and 5?",
+          "options": [
+            "They're divisible by 30",
+            "They must be odd",
+            "They must be prime",
+            "They must start with 1",
+            "They must be dancing"
+          ],
+          "answer": "They're divisible by 30"
+        }
+      ]
+    },
+    // Stage 20
+    {
+      "text": "Sophia is working with number patterns and testing multiple divisibility rules at once. She's discovering interesting relationships between numbers.",
+      "questions": [
+        // Question 20.1
+        {
+          "question": "Which number between 500 and 520 is divisible by 2, 3, and 5?",
+          "options": [
+            "510",
+            "505",
+            "515",
+            "500",
+            "520"
+          ],
+          "answer": "510"
+        },
+        // Question 20.2
+        {
+          "question": "Why is 360 divisible by 2, 3, and 5?",
+          "options": [
+            "Ends in 0 and 3+6+0=9 is divisible by 3",
+            "Because it's big",
+            "Because it has a 6",
+            "Because it starts with 3",
+            "Because it's perfect"
+          ],
+          "answer": "Ends in 0 and 3+6+0=9 is divisible by 3"
+        },
+        // Question 20.3
+        {
+          "question": "How many numbers between 100 and 200 are divisible by both 2 and 5?",
+          "options": [
+            "11",
+            "10",
+            "15",
+            "25",
+            "All of them"
+          ],
+          "answer": "11"
+        },
+        // Question 20.4
+        {
+          "question": "What's the largest three-digit number divisible by 2, 3, and 5?",
+          "options": [
+            "990",
+            "995",
+            "985",
+            "980",
+            "975"
+          ],
+          "answer": "990"
+        },
+        // Question 20.5
+        {
+          "question": "If a number is divisible by both 2 and 3, what else must be true?",
+          "options": [
+            "It's divisible by 6",
+            "It must end in 0",
+            "It must be odd",
+            "It must be prime",
+            "It must be excited"
+          ],
+          "answer": "It's divisible by 6"
+        }
+      ]
+    },
+    // Stage 21
+    {
+      "text": "Maya is exploring relationships between numbers divisible by 2, 3, and 5. She's finding interesting patterns in larger numbers.",
+      "questions": [
+        // Question 21.1
+        {
+          "question": "Which number between 1000 and 1020 is divisible by 2, 3, and 5?",
+          "options": [
+            "1020",
+            "1015",
+            "1010",
+            "1005",
+            "1000"
+          ],
+          "answer": "1020"
+        },
+        // Question 21.2
+        {
+          "question": "Why is 1440 divisible by both 2 and 3?",
+          "options": [
+            "It's even and 1+4+4+0=9 is divisible by 3",
+            "Because it's large",
+            "Because it has a 4",
+            "Because it starts with 1",
+            "Because it's magical"
+          ],
+          "answer": "It's even and 1+4+4+0=9 is divisible by 3"
+        },
+        // Question 21.3
+        {
+          "question": "How many numbers between 500 and 600 are divisible by both 2 and 5?",
+          "options": [
+            "20",
+            "10",
+            "15",
+            "25",
+            "All of them"
+          ],
+          "answer": "20"
+        },
+        // Question 21.4
+        {
+          "question": "What's the smallest four-digit number divisible by 2, 3, and 5?",
+          "options": [
+            "1020",
+            "1005",
+            "1010",
+            "1015",
+            "1000"
+          ],
+          "answer": "1020"
+        },
+        // Question 21.5
+        {
+          "question": "If a number is divisible by both 2 and 5, what else is it divisible by?",
+          "options": [
+            "10",
+            "6",
+            "8",
+            "15",
+            "20"
+          ],
+          "answer": "10"
+        }
+      ]
+    },
+    // Stage 22
+    {
+      "text": "Oliver is working with complex number patterns involving divisibility by 2, 3, and 5. He's learning to combine multiple rules efficiently.",
+      "questions": [
+        // Question 22.1
+        {
+          "question": "Which number is divisible by 2, 3, and 5?",
+          "options": [
+            "1080",
+            "1082",
+            "1083",
+            "1085",
+            "1087"
+          ],
+          "answer": "1080"
+        },
+        // Question 22.2
+        {
+          "question": "Why can't a number ending in 5 be divisible by 2?",
+          "options": [
+            "Because numbers ending in 5 are odd",
+            "Because 5 is too big",
+            "Because 2 is too small",
+            "Because it's impossible",
+            "Because they don't get along"
+          ],
+          "answer": "Because numbers ending in 5 are odd"
+        },
+        // Question 22.3
+        {
+          "question": "How many numbers between 1000 and 1100 are divisible by both 2 and 5?",
+          "options": [
+            "11",
+            "10",
+            "15",
+            "25",
+            "30"
+          ],
+          "answer": "11"
+        },
+        // Question 22.4
+        {
+          "question": "What's special about numbers divisible by 2, 3, and 5?",
+          "options": [
+            "They're divisible by 30",
+            "They're always odd",
+            "They're always prime",
+            "They're always small",
+            "They're always happy"
+          ],
+          "answer": "They're divisible by 30"
+        },
+        // Question 22.5
+        {
+          "question": "Which of these numbers is NOT divisible by both 2 and 5?",
+          "options": [
+            "1235",
+            "1230",
+            "1240",
+            "1250",
+            "1260"
+          ],
+          "answer": "1235"
+        }
+      ]
+    },
+    // Stage 23
+    {
+      "text": "Sarah is exploring patterns in larger numbers and their divisibility by 2, 3, and 5. She's discovering more complex relationships.",
+      "questions": [
+        // Question 23.1
+        {
+          "question": "Which number between 2000 and 2020 is divisible by 2, 3, and 5?",
+          "options": [
+            "2010",
+            "2005",
+            "2015",
+            "2000",
+            "2020"
+          ],
+          "answer": "2010"
+        },
+        // Question 23.2
+        {
+          "question": "Why is 2160 divisible by both 2 and 3?",
+          "options": [
+            "It's even and 2+1+6+0=9 is divisible by 3",
+            "Because it's large",
+            "Because it has a 6",
+            "Because it starts with 2",
+            "Because it's magical"
+          ],
+          "answer": "It's even and 2+1+6+0=9 is divisible by 3"
+        },
+        // Question 23.3
+        {
+          "question": "How many numbers between 1500 and 1600 are divisible by both 2 and 5?",
+          "options": [
+            "11",
+            "10",
+            "15",
+            "25",
+            "30"
+          ],
+          "answer": "11"
+        },
+        // Question 23.4
+        {
+          "question": "What's true about consecutive numbers divisible by 3?",
+          "options": [
+            "They're three numbers apart",
+            "They're two numbers apart",
+            "They're five numbers apart",
+            "They're next to each other",
+            "They're best friends"
+          ],
+          "answer": "They're three numbers apart"
+        },
+        // Question 23.5
+        {
+          "question": "Which property is shared by all numbers divisible by both 2 and 5?",
+          "options": [
+            "They end in 0",
+            "They end in 5",
+            "They start with 2",
+            "They have three digits",
+            "They love math"
+          ],
+          "answer": "They end in 0"
+        }
+      ]
+    },
+    // Stage 24
+    {
+      "text": "Emma is studying complex patterns involving numbers divisible by multiple numbers. She's learning to identify these patterns quickly.",
+      "questions": [
+        // Question 24.1
+        {
+          "question": "What's the largest number under 3000 that's divisible by 2, 3, and 5?",
+          "options": [
+            "2970",
+            "2975",
+            "2980",
+            "2985",
+            "2990"
+          ],
+          "answer": "2970"
+        },
+        // Question 24.2
+        {
+          "question": "How many numbers between 2000 and 2100 are divisible by both 2 and 5?",
+          "options": [
+            "11",
+            "10",
+            "15",
+            "25",
+            "30"
+          ],
+          "answer": "11"
+        },
+        // Question 24.3
+        {
+          "question": "Why is 2430 divisible by 3?",
+          "options": [
+            "Because 2+4+3+0=9 is divisible by 3",
+            "Because it ends in 0",
+            "Because it starts with 2",
+            "Because it's large",
+            "Because it's special"
+          ],
+          "answer": "Because 2+4+3+0=9 is divisible by 3"
+        },
+        // Question 24.4
+        {
+          "question": "Which property do all numbers divisible by 2, 3, and 5 share?",
+          "options": [
+            "They're divisible by 30",
+            "They're always odd",
+            "They're always prime",
+            "They're always small",
+            "They're always tired"
+          ],
+          "answer": "They're divisible by 30"
+        },
+        // Question 24.5
+        {
+          "question": "If a number is divisible by both 3 and 5, what else might be true?",
+          "options": [
+            "It's divisible by 15",
+            "It must be even",
+            "It must be odd",
+            "It must be prime",
+            "It must be excited"
+          ],
+          "answer": "It's divisible by 15"
+        }
+      ]
+    },
+    // Stage 25
+    {
+      "text": "Lucas is discovering patterns in very large numbers and their divisibility by 2, 3, and 5. He's getting better at combining multiple rules.",
+      "questions": [
+        // Question 25.1
+        {
+          "question": "Which number is divisible by 2, 3, and 5?",
+          "options": [
+            "3060",
+            "3061",
+            "3062",
+            "3063",
+            "3065"
+          ],
+          "answer": "3060"
+        },
+        // Question 25.2
+        {
+          "question": "Why is 3150 divisible by both 3 and 5?",
+          "options": [
+            "Ends in 0 and 3+1+5+0=9 is divisible by 3",
+            "Because it's large",
+            "Because it has a 5",
+            "Because it starts with 3",
+            "Because it's perfect"
+          ],
+          "answer": "Ends in 0 and 3+1+5+0=9 is divisible by 3"
+        },
+        // Question 25.3
+        {
+          "question": "How many numbers between 3000 and 3100 are divisible by both 2 and 5?",
+          "options": [
+            "11",
+            "10",
+            "15",
+            "25",
+            "30"
+          ],
+          "answer": "11"
+        },
+        // Question 25.4
+        {
+          "question": "What's special about numbers that are divisible by both 2 and 3?",
+          "options": [
+            "They're divisible by 6",
+            "They must end in 0",
+            "They must be odd",
+            "They must be prime",
+            "They must be sleepy"
+          ],
+          "answer": "They're divisible by 6"
+        },
+        // Question 25.5
+        {
+          "question": "If a number is divisible by 30, what else must be true?",
+          "options": [
+            "It's divisible by 2, 3, and 5",
+            "It's only divisible by 3",
+            "It's only divisible by 5",
+            "It must be prime",
+            "It must be lucky"
+          ],
+          "answer": "It's divisible by 2, 3, and 5"
+        }
+      ]
+    },
+    // Stage 26
+    {
+      "text": "Sophie is working with complex number sequences and testing them for divisibility by multiple numbers. She's finding interesting patterns.",
+      "questions": [
+        // Question 26.1
+        {
+          "question": "Which number between 4000 and 4020 is divisible by 2, 3, and 5?",
+          "options": [
+            "4020",
+            "4015",
+            "4010",
+            "4005",
+            "4000"
+          ],
+          "answer": "4020"
+        },
+        // Question 26.2
+        {
+          "question": "Why can't a number ending in 3 be divisible by both 2 and 5?",
+          "options": [
+            "Because it's not divisible by either 2 or 5",
+            "Because it's too small",
+            "Because it's too large",
+            "Because it's prime",
+            "Because it's confused"
+          ],
+          "answer": "Because it's not divisible by either 2 or 5"
+        },
+        // Question 26.3
+        {
+          "question": "How many numbers between 4000 and 4100 are divisible by 30?",
+          "options": [
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+          ],
+          "answer": "3"
+        },
+        // Question 26.4
+        {
+          "question": "What's true about all numbers divisible by 2, 3, and 5?",
+          "options": [
+            "They end in 0 and their digits sum to a multiple of 3",
+            "They just end in 0",
+            "They just sum to 3",
+            "They must be prime",
+            "They must be friendly"
+          ],
+          "answer": "They end in 0 and their digits sum to a multiple of 3"
+        },
+        // Question 26.5
+        {
+          "question": "If a number is divisible by both 15 and 2, what else must be true?",
+          "options": [
+            "It's divisible by 30",
+            "It's odd",
+            "It's prime",
+            "It's less than 100",
+            "It's super excited"
+          ],
+          "answer": "It's divisible by 30"
+        }
+      ]
+    },
+    // Stage 27
+    {
+      "text": "Oliver is exploring complex patterns in large numbers and their divisibility by multiple numbers. He's becoming an expert at combining rules.",
+      "questions": [
+        // Question 27.1
+        {
+          "question": "Which number is divisible by 2, 3, and 5?",
+          "options": [
+            "4500",
+            "4501",
+            "4502",
+            "4503",
+            "4505"
+          ],
+          "answer": "4500"
+        },
+        // Question 27.2
+        {
+          "question": "Why is 4530 divisible by both 2 and 3?",
+          "options": [
+            "It's even and 4+5+3+0=12 is divisible by 3",
+            "Because it's large",
+            "Because it has a 3",
+            "Because it starts with 4",
+            "Because it's magical"
+          ],
+          "answer": "It's even and 4+5+3+0=12 is divisible by 3"
+        },
+        // Question 27.3
+        {
+          "question": "How many numbers between 4500 and 4600 are divisible by both 2 and 5?",
+          "options": [
+            "20",
+            "10",
+            "15",
+            "25",
+            "30"
+          ],
+          "answer": "20"
+        },
+        // Question 27.4
+        {
+          "question": "What's special about numbers that are divisible by both 3 and 10?",
+          "options": [
+            "They're divisible by 30",
+            "They're always odd",
+            "They're always prime",
+            "They're always small",
+            "They're always dancing"
+          ],
+          "answer": "They're divisible by 30"
+        },
+        // Question 27.5
+        {
+          "question": "If a number is divisible by 6 and 5, what else must be true?",
+          "options": [
+            "It's divisible by 30",
+            "It's odd",
+            "It's prime",
+            "It's less than 100",
+            "It's super happy"
+          ],
+          "answer": "It's divisible by 30"
+        }
+      ]
+    },
+    // Stage 28
+    {
+      "text": "Maya is discovering advanced patterns in numbers divisible by multiple factors. She's learning to apply all rules efficiently.",
+      "questions": [
+        // Question 28.1
+        {
+          "question": "What's the largest number under 5000 that's divisible by 2, 3, and 5?",
+          "options": [
+            "4980",
+            "4985",
+            "4990",
+            "4995",
+            "4999"
+          ],
+          "answer": "4980"
+        },
+        // Question 28.2
+        {
+          "question": "Why can't a number be divisible by both 2 and 3 if its digits sum to 7?",
+          "options": [
+            "Because 7 isn't divisible by 3",
+            "Because 7 is too big",
+            "Because 7 is prime",
+            "Because it's impossible",
+            "Because 7 is lucky"
+          ],
+          "answer": "Because 7 isn't divisible by 3"
+        },
+      // Question 28.3 (continued)
+        {
+          "question": "How many numbers between 4900 and 5000 are divisible by 30?",
+          "options": [
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+          ],
+          "answer": "3"
+        },
+        // Question 28.4
+        {
+          "question": "What must be true about any number divisible by 2, 3, and 5?",
+          "options": [
+            "It ends in 0 and its digits sum to a multiple of 3",
+            "It just ends in 0",
+            "It just sums to 3",
+            "It must be prime",
+            "It must be cheerful"
+          ],
+          "answer": "It ends in 0 and its digits sum to a multiple of 3"
+        },
+        // Question 28.5
+        {
+          "question": "If a number is divisible by both 15 and 2, what does that tell you?",
+          "options": [
+            "It's divisible by 30",
+            "It's odd",
+            "It's prime",
+            "It's less than 100",
+            "It's feeling lucky"
+          ],
+          "answer": "It's divisible by 30"
+        }
+      ]
+    },
+    // Stage 29
+    {
+      "text": "Sarah is working with complex number patterns and multiple divisibility rules. She's mastering the ability to combine different rules.",
+      "questions": [
+        // Question 29.1
+        {
+          "question": "Which property is shared by all numbers divisible by 2, 3, and 5?",
+          "options": [
+            "They're divisible by 30",
+            "They're always odd",
+            "They're always prime",
+            "They're always four digits",
+            "They're always smiling"
+          ],
+          "answer": "They're divisible by 30"
+        },
+        // Question 29.2
+        {
+          "question": "Why is 5460 divisible by both 2 and 3?",
+          "options": [
+            "It's even and 5+4+6+0=15 is divisible by 3",
+            "Because it's large",
+            "Because it has a 6",
+            "Because it starts with 5",
+            "Because it's magical"
+          ],
+          "answer": "It's even and 5+4+6+0=15 is divisible by 3"
+        },
+        // Question 29.3
+        {
+          "question": "How can you quickly check if a large number is divisible by both 2 and 5?",
+          "options": [
+            "Check if it ends in 0",
+            "Add all digits",
+            "Check first digit",
+            "Multiply by 2",
+            "Ask it politely"
+          ],
+          "answer": "Check if it ends in 0"
+        },
+        // Question 29.4
+        {
+          "question": "What's true about the distance between consecutive numbers divisible by 30?",
+          "options": [
+            "They're always 30 numbers apart",
+            "They're 15 numbers apart",
+            "They're 10 numbers apart",
+            "They're 5 numbers apart",
+            "They're best friends"
+          ],
+          "answer": "They're always 30 numbers apart"
+        },
+        // Question 29.5
+        {
+          "question": "If a number is divisible by 6 and 5, what else must be true?",
+          "options": [
+            "It's divisible by 30",
+            "It's odd",
+            "It's prime",
+            "It's less than 1000",
+            "It's super excited"
+          ],
+          "answer": "It's divisible by 30"
+        }
+      ]
+    },
+    // Stage 30
+    {
+      "text": "Emma has mastered all the divisibility rules for 2, 3, and 5. She can now solve complex problems combining multiple rules.",
+      "questions": [
+        // Question 30.1
+        {
+          "question": "Which of these numbers is divisible by 2, 3, and 5?",
+          "options": [
+            "5940",
+            "5941",
+            "5942",
+            "5943",
+            "5945"
+          ],
+          "answer": "5940"
+        },
+        // Question 30.2
+        {
+          "question": "What's true about all numbers divisible by 30?",
+          "options": [
+            "They're divisible by 2, 3, and 5",
+            "They're just divisible by 3",
+            "They're just divisible by 10",
+            "They must be prime",
+            "They must be jumping"
+          ],
+          "answer": "They're divisible by 2, 3, and 5"
+        },
+        // Question 30.3
+        {
+          "question": "How can you efficiently check if a number is divisible by 2, 3, and 5?",
+          "options": [
+            "Check if it ends in 0 and if sum of digits is divisible by 3",
+            "Only check if it ends in 0",
+            "Only add the digits",
+            "Ask a calculator",
+            "Make a wish"
+          ],
+          "answer": "Check if it ends in 0 and if sum of digits is divisible by 3"
+        },
+        // Question 30.4
+        {
+          "question": "What's special about numbers that are divisible by both 15 and 2?",
+          "options": [
+            "They're divisible by 30",
+            "They're always odd",
+            "They're always prime",
+            "They're always small",
+            "They're always dancing"
+          ],
+          "answer": "They're divisible by 30"
+        },
+        // Question 30.5
+        {
+          "question": "If a number is divisible by 30, what can you conclude?",
+          "options": [
+            "It's even, ends in 0, and sum of its digits is divisible by 3",
+            "It's just divisible by 3",
+            "It's just divisible by 10",
+            "It must be prime",
+            "It must be celebrating"
+          ],
+          "answer": "It's even, ends in 0, and sum of its digits is divisible by 3"
+        }
+      ]
+    }
+//-------------------------------------------------------------------------------------------------------------------							
+				  ]
+				}
+        ];
+
+		const stageCount = quizData[0].stages.length; // This is the correct way to get the number of stages
+
+
+		const stateContents = {
+			'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+			,'Subject Overview 🗝️': `<div class="subject-overview-content">     <h1>Understanding Divisibility Rules for 2, 3, 5, and 10</h1>     <p>Divisibility rules help us quickly determine whether one number can be divided by another without a remainder. Knowing these rules makes math easier and faster, especially when working with large numbers. In this guide, we'll explore the divisibility rules for <strong>2</strong>, <strong>3</strong>, <strong>5</strong>, and <strong>10</strong>. We'll explain each rule and provide simple examples suitable for 3rd and 4th graders to help you understand and apply them confidently.</p>     <hr>     <h2>Table of Contents</h2>     <ol>         <li><a href="#what-are-divisibility-rules">What Are Divisibility Rules?</a></li>         <li><a href="#general-characteristics-of-divisibility-rules">General Characteristics of Divisibility Rules</a></li>         <li><a href="#detailed-explanation-of-divisibility-rules">Detailed Explanation of Divisibility Rules</a>             <ul>                 <li><a href="#divisibility-by-2">Divisibility by 2</a></li>                 <li><a href="#divisibility-by-3">Divisibility by 3</a></li>                 <li><a href="#divisibility-by-5">Divisibility by 5</a></li>                 <li><a href="#divisibility-by-10">Divisibility by 10</a></li>             </ul>         </li>         <li><a href="#conclusion">Conclusion</a></li>     </ol>     <hr>     <h2 id="what-are-divisibility-rules">What Are Divisibility Rules?</h2>     <p>Divisibility rules are simple shortcuts that help us determine if one number can be evenly divided by another number. Instead of performing long division, these rules allow us to quickly check divisibility by looking at the digits of the number.</p>     <p>For example, if you want to know if 24 is divisible by 2, you can use the divisibility rule for 2 instead of dividing 24 by 2.</p>     <hr>     <h2 id="general-characteristics-of-divisibility-rules">General Characteristics of Divisibility Rules</h2>     <p>Before we dive into the specific rules for 2, 3, 5, and 10, here are some general points to remember about divisibility rules:</p>     <ol>         <li><strong>Quick Checks</strong>: Divisibility rules provide a quick way to check if a number can be divided by another without performing full division.</li>         <li><strong>Based on Digits</strong>: Most divisibility rules rely on the digits of the number, especially the last one or two digits.</li>         <li><strong>Useful for Large Numbers</strong>: These rules are particularly helpful when dealing with large numbers, making calculations simpler.</li>         <li><strong>Foundation for Prime Factorization</strong>: Understanding divisibility rules is a key step in learning how to factorize numbers into their prime components.</li>     </ol>     <hr>     <h2 id="detailed-explanation-of-divisibility-rules">Detailed Explanation of Divisibility Rules</h2>         <h3 id="divisibility-by-2">Divisibility by 2</h3>     <p><strong>Rule:</strong> A number is divisible by 2 if its last digit is even (0, 2, 4, 6, or 8).</p>     <p><strong>Examples:</strong></p>     <ul>         <li><em>8 is divisible by 2 because the last digit is 8.</em></li>         <li><em>15 is not divisible by 2 because the last digit is 5.</em></li>         <li><em>42 is divisible by 2 because the last digit is 2.</em></li>     </ul>     <p><strong>Negative Example:</strong></p>     <ul>         <li><em>7 is not divisible by 2 because the last digit is 7.</em></li>     </ul>     <hr>         <h3 id="divisibility-by-3">Divisibility by 3</h3>     <p><strong>Rule:</strong> A number is divisible by 3 if the sum of its digits is divisible by 3.</p>     <p><strong>Examples:</strong></p>     <ul>         <li><em>123 is divisible by 3 because 1 + 2 + 3 = 6, and 6 is divisible by 3.</em></li>         <li><em>45 is divisible by 3 because 4 + 5 = 9, and 9 is divisible by 3.</em></li>         <li><em>112 is not divisible by 3 because 1 + 1 + 2 = 4, and 4 is not divisible by 3.</em></li>     </ul>     <p><strong>Negative Example:</strong></p>     <ul>         <li><em>14 is not divisible by 3 because 1 + 4 = 5, and 5 is not divisible by 3.</em></li>     </ul>     <hr>         <h3 id="divisibility-by-5">Divisibility by 5</h3>     <p><strong>Rule:</strong> A number is divisible by 5 if its last digit is either 0 or 5.</p>     <p><strong>Examples:</strong></p>     <ul>         <li><em>20 is divisible by 5 because the last digit is 0.</em></li>         <li><em>35 is divisible by 5 because the last digit is 5.</em></li>         <li><em>48 is not divisible by 5 because the last digit is 8.</em></li>     </ul>     <p><strong>Negative Example:</strong></p>     <ul>         <li><em>22 is not divisible by 5 because the last digit is 2.</em></li>     </ul>     <hr>         <h3 id="divisibility-by-10">Divisibility by 10</h3>     <p><strong>Rule:</strong> A number is divisible by 10 if its last digit is 0.</p>     <p><strong>Examples:</strong></p>     <ul>         <li><em>30 is divisible by 10 because the last digit is 0.</em></li>         <li><em>100 is divisible by 10 because the last digit is 0.</em></li>         <li><em>56 is not divisible by 10 because the last digit is 6.</em></li>     </ul>     <p><strong>Negative Example:</strong></p>     <ul>         <li><em>77 is not divisible by 10 because the last digit is 7.</em></li>     </ul>     <hr>         <h2 id="conclusion">Conclusion</h2>     <p>Understanding divisibility rules makes math simpler and helps you solve problems faster. Here's a quick recap of what we've learned:</p>     <ul>         <li><strong>Divisibility by 2</strong>: Look for an even last digit (0, 2, 4, 6, 8).</li>         <li><strong>Divisibility by 3</strong>: Add the digits together; if the sum is divisible by 3, so is the number.</li>         <li><strong>Divisibility by 5</strong>: The last digit must be 0 or 5.</li>         <li><strong>Divisibility by 10</strong>: The last digit must be 0.</li>     </ul>     <p><strong>Remember</strong>: Practice these rules with different numbers to become a divisibility expert. They are great tools for solving math problems quickly and accurately. Keep practicing, and you'll find that math becomes much easier and more fun!</p>     <hr>     <p>By learning and applying these divisibility rules, you'll strengthen your number sense and improve your problem-solving skills in math. Don't forget to revisit this guide whenever you need a quick refresher. Happy learning!</p> </div>`		
+			};
+
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function isTextEmpty(text) {
+    return !text || text.trim() === "";
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    
+    // Only add stage text if it's not empty
+    const stageText = quizData[0].stages[currentStage].text;
+    if (!isTextEmpty(stageText)) {
+        const stageTextElement = document.createElement("div");
+        stageTextElement.className = "stage-text";
+        stageTextElement.style.marginBottom = "20px";
+        stageTextElement.style.padding = "15px";
+        stageTextElement.style.backgroundColor = "#f5f5f5";
+        stageTextElement.style.borderRadius = "5px";
+        stageTextElement.textContent = stageText;
+        quizContainer.appendChild(stageTextElement);
+    }
+    
+    // Render questions
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+        
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${questionData.question}`;
+        
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+        
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+        
+        const shuffledOptions = shuffleArray([...questionData.options]);
+        shuffledOptions.forEach(option => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv);
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[0].stages[currentStage].questions.length;
+
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === questionData.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect answer.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 10) {
+            selectElement.value = questionData.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` The correct answer is: ${questionData.answer}`;
+        }
+    });
+
+    if (correctCount === totalQuestions) {
+        console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+        addAnimalsToFarm(totalQuestions);
+
+        if (currentStage < quizData[0].stages.length - 1) {
+            singleStageConfetti();
+            showEncouragingPopup(correctCount, totalQuestions, true);
+            currentStage++;
+            updateProgressBar();
+            setTimeout(() => {
+                attempts = 0;
+                renderQuiz();
+                document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+            }, 1500);
+        } else {
+            currentStage++;
+            updateProgressBar();
+            allStagesConfetti();
+            showModal("Congratulations! You've completed all stages!");
+        }
+    } else {
+        showEncouragingPopup(correctCount, totalQuestions, false);
+        if (attempts >= 10) {
+            showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+        }
+    }
+
+    scrollToTop();
+}
+
+// 4. Update stageCount calculation to work with new structure
+
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+    const completedStages = currentStage;
+    const progress = (completedStages / stageCount) * 100;
+    const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+    progressBar.style.width = `${roundedProgress}%`;
+    progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+    console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+}
+
+function updateStageNumber() {
+    const stageElement = document.getElementById("stage-number");
+    stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>
