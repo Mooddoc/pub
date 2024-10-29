@@ -1,0 +1,1627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->
+                <li>Read the text and questions carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->
+                <h1>Adding Multi-Digit Numbers</h1>
+
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+																		//  PH3 - Quiz Data
+        const quizData = [
+				{
+				  "stages": [
+//-------------------------------------------------------------------------------------------------------------------
+
+    // Stage 1
+    {
+      "text": "Let's help count how many toys are in the toybox! Can you add the numbers together?",
+      "questions": [
+        // Question 1.1
+        {
+          "question": "Tom has 3 cars and gets 2 more cars. How many cars does Tom have now?",
+          "options": ["5 cars", "4 cars", "6 cars", "32 cars", "The cars drove away"],
+          "answer": "5 cars"
+        },
+        // Question 1.2
+        {
+          "question": "There are 4 dolls and 3 teddy bears. How many toys are there in total?",
+          "options": ["7 toys", "6 toys", "8 toys", "43 toys", "They went to play"],
+          "answer": "7 toys"
+        },
+        // Question 1.3
+        {
+          "question": "If you have 2 blocks and find 5 more, how many blocks do you have?",
+          "options": ["7 blocks", "6 blocks", "8 blocks", "25 blocks", "The blocks hid"],
+          "answer": "7 blocks"
+        },
+        // Question 1.4
+        {
+          "question": "Sam has 3 blue marbles and 4 red marbles. How many marbles does Sam have?",
+          "options": ["7 marbles", "6 marbles", "8 marbles", "34 marbles", "They rolled away"],
+          "answer": "7 marbles"
+        },
+        // Question 1.5
+        {
+          "question": "There are 5 balls and 4 robots. How many toys are there altogether?",
+          "options": ["9 toys", "8 toys", "10 toys", "54 toys", "Toys took a nap"],
+          "answer": "9 toys"
+        }
+      ]
+    },
+    // Stage 2
+    {
+      "text": "Let's count cookies! Can you help add up all the yummy cookies?",
+      "questions": [
+        // Question 2.1
+        {
+          "question": "You have 5 chocolate cookies and get 6 more. How many cookies do you have now?",
+          "options": ["11 cookies", "10 cookies", "12 cookies", "56 cookies", "Cookie Monster ate them"],
+          "answer": "11 cookies"
+        },
+        // Question 2.2
+        {
+          "question": "Mom baked 7 cookies and Dad baked 4 cookies. How many cookies did they bake together?",
+          "options": ["11 cookies", "10 cookies", "12 cookies", "74 cookies", "The oven was sleeping"],
+          "answer": "11 cookies"
+        },
+        // Question 2.3
+        {
+          "question": "There are 6 cookies on one plate and 5 on another. How many cookies are there in total?",
+          "options": ["11 cookies", "10 cookies", "12 cookies", "65 cookies", "Plates were empty"],
+          "answer": "11 cookies"
+        },
+        // Question 2.4
+        {
+          "question": "You find 8 cookies in the jar and 3 on the table. How many cookies are there?",
+          "options": ["11 cookies", "10 cookies", "12 cookies", "83 cookies", "They became crumbs"],
+          "answer": "11 cookies"
+        },
+        // Question 2.5
+        {
+          "question": "If you have 9 cookies and your friend gives you 3 more, how many cookies do you have?",
+          "options": ["12 cookies", "11 cookies", "13 cookies", "93 cookies", "Cookies ran away"],
+          "answer": "12 cookies"
+        }
+      ]
+    },
+    // Stage 3
+    {
+      "text": "Time to count animals at the small farm! Can you help add them up?",
+      "questions": [
+        // Question 3.1
+        {
+          "question": "There are 10 chickens and 5 ducks. How many birds are there altogether?",
+          "options": ["15 birds", "14 birds", "16 birds", "105 birds", "They flew away"],
+          "answer": "15 birds"
+        },
+        // Question 3.2
+        {
+          "question": "If you see 8 white sheep and 7 brown sheep, how many sheep are there in total?",
+          "options": ["15 sheep", "14 sheep", "16 sheep", "87 sheep", "They jumped over the moon"],
+          "answer": "15 sheep"
+        },
+        // Question 3.3
+        {
+          "question": "The farmer has 11 cows and gets 4 more. How many cows does the farmer have now?",
+          "options": ["15 cows", "14 cows", "16 cows", "114 cows", "They went mooo-ving"],
+          "answer": "15 cows"
+        },
+        // Question 3.4
+        {
+          "question": "There are 9 big pigs and 6 little pigs. How many pigs are there in total?",
+          "options": ["15 pigs", "14 pigs", "16 pigs", "96 pigs", "They made oink-oink"],
+          "answer": "15 pigs"
+        },
+        // Question 3.5
+        {
+          "question": "You count 12 rabbits and find 3 more. How many rabbits are there now?",
+          "options": ["15 rabbits", "14 rabbits", "16 rabbits", "123 rabbits", "They hopped away"],
+          "answer": "15 rabbits"
+        }
+      ]
+    },
+    // Stage 4
+    {
+      "text": "Let's count fish in the aquarium! Help add up all the colorful fish swimming around.",
+      "questions": [
+        // Question 4.1
+        {
+          "question": "There are 12 blue fish and 4 red fish. How many fish are there in total?",
+          "options": ["16 fish", "15 fish", "17 fish", "124 fish", "They swam away"],
+          "answer": "16 fish"
+        },
+        // Question 4.2
+        {
+          "question": "You see 10 big fish and 6 small fish. How many fish do you see altogether?",
+          "options": ["16 fish", "15 fish", "17 fish", "106 fish", "Fish went sleeping"],
+          "answer": "16 fish"
+        },
+        // Question 4.3
+        {
+          "question": "If there are 13 fish in one tank and 3 in another, how many fish are there in total?",
+          "options": ["16 fish", "15 fish", "17 fish", "133 fish", "Tanks were empty"],
+          "answer": "16 fish"
+        },
+        // Question 4.4
+        {
+          "question": "You count 11 goldfish and 5 angelfish. How many fish did you count?",
+          "options": ["16 fish", "15 fish", "17 fish", "115 fish", "Fish played hide and seek"],
+          "answer": "16 fish"
+        },
+        // Question 4.5
+        {
+          "question": "There are 14 fish swimming and 2 fish resting. How many fish are there?",
+          "options": ["16 fish", "15 fish", "17 fish", "142 fish", "They took a vacation"],
+          "answer": "16 fish"
+        }
+      ]
+    },
+    // Stage 5
+    {
+      "text": "Time to count flowers in the garden! Can you help add up all the pretty flowers?",
+      "questions": [
+        // Question 5.1
+        {
+          "question": "You have 13 roses and plant 4 more. How many roses do you have now?",
+          "options": ["17 roses", "16 roses", "18 roses", "134 roses", "Flowers danced away"],
+          "answer": "17 roses"
+        },
+        // Question 5.2
+        {
+          "question": "There are 12 red flowers and 5 yellow flowers. How many flowers in total?",
+          "options": ["17 flowers", "16 flowers", "18 flowers", "125 flowers", "Wind blew them away"],
+          "answer": "17 flowers"
+        },
+        // Question 5.3
+        {
+          "question": "If you pick 11 daisies and 6 tulips, how many flowers did you pick?",
+          "options": ["17 flowers", "16 flowers", "18 flowers", "116 flowers", "Bees took them"],
+          "answer": "17 flowers"
+        },
+        // Question 5.4
+        {
+          "question": "Mom planted 14 flowers and Dad planted 3. How many flowers did they plant together?",
+          "options": ["17 flowers", "16 flowers", "18 flowers", "143 flowers", "Garden was sleeping"],
+          "answer": "17 flowers"
+        },
+        // Question 5.5
+        {
+          "question": "You find 15 flowers in one patch and 2 in another. How many flowers in total?",
+          "options": ["17 flowers", "16 flowers", "18 flowers", "152 flowers", "Butterflies borrowed them"],
+          "answer": "17 flowers"
+        }
+      ]
+    },
+    // Stage 6
+    {
+      "text": "Help count the balloons at the birthday party! How many balloons are there altogether?",
+      "questions": [
+        // Question 6.1
+        {
+          "question": "There are 15 blue balloons and 3 red balloons. How many balloons in total?",
+          "options": ["18 balloons", "17 balloons", "19 balloons", "153 balloons", "They popped!"],
+          "answer": "18 balloons"
+        },
+        // Question 6.2
+        {
+          "question": "You have 14 round balloons and 4 heart balloons. How many balloons do you have?",
+          "options": ["18 balloons", "17 balloons", "19 balloons", "144 balloons", "They floated away"],
+          "answer": "18 balloons"
+        },
+        // Question 6.3
+        {
+          "question": "If you see 16 balloons inside and 2 outside, how many balloons are there?",
+          "options": ["18 balloons", "17 balloons", "19 balloons", "162 balloons", "Wind took them"],
+          "answer": "18 balloons"
+        },
+        // Question 6.4
+        {
+          "question": "Mom bought 12 balloons and Dad bought 6. How many balloons did they buy?",
+          "options": ["18 balloons", "17 balloons", "19 balloons", "126 balloons", "Store ran out"],
+          "answer": "18 balloons"
+        },
+        // Question 6.5
+        {
+          "question": "There are 13 small balloons and 5 big balloons. How many balloons altogether?",
+          "options": ["18 balloons", "17 balloons", "19 balloons", "135 balloons", "Party ended early"],
+          "answer": "18 balloons"
+        }
+      ]
+    },
+    // Stage 7
+    {
+      "text": "Time to count stickers in your new sticker book! Can you add them up?",
+      "questions": [
+        // Question 7.1
+        {
+          "question": "You have 16 star stickers and 3 heart stickers. How many stickers in total?",
+          "options": ["19 stickers", "18 stickers", "20 stickers", "163 stickers", "Pages stuck together"],
+          "answer": "19 stickers"
+        },
+        // Question 7.2
+        {
+          "question": "If you collect 15 animal stickers and 4 flower stickers, how many do you have?",
+          "options": ["19 stickers", "18 stickers", "20 stickers", "154 stickers", "Book got wet"],
+          "answer": "19 stickers"
+        },
+        // Question 7.3
+        {
+          "question": "There are 14 sparkly stickers and 5 plain stickers. How many stickers altogether?",
+          "options": ["19 stickers", "18 stickers", "20 stickers", "145 stickers", "Cat ate them"],
+          "answer": "19 stickers"
+        },
+        // Question 7.4
+        {
+          "question": "You find 17 stickers in one pack and 2 in another. How many stickers did you find?",
+          "options": ["19 stickers", "18 stickers", "20 stickers", "172 stickers", "Wind blew them away"],
+          "answer": "19 stickers"
+        },
+        // Question 7.5
+        {
+          "question": "If you have 13 big stickers and 6 small stickers, how many stickers do you have?",
+          "options": ["19 stickers", "18 stickers", "20 stickers", "136 stickers", "They disappeared"],
+          "answer": "19 stickers"
+        }
+      ]
+    },
+    // Stage 8
+    {
+      "text": "Let's count crayons in the art class! How many crayons are there?",
+      "questions": [
+        // Question 8.1
+        {
+          "question": "There are 17 long crayons and 3 short crayons. How many crayons in total?",
+          "options": ["20 crayons", "19 crayons", "21 crayons", "173 crayons", "They melted away"],
+          "answer": "20 crayons"
+        },
+        // Question 8.2
+        {
+          "question": "You have 15 new crayons and 5 old crayons. How many crayons do you have?",
+          "options": ["20 crayons", "19 crayons", "21 crayons", "155 crayons", "Art class canceled"],
+          "answer": "20 crayons"
+        },
+        // Question 8.3
+        {
+          "question": "If you find 16 crayons in one box and 4 in another, how many crayons did you find?",
+          "options": ["20 crayons", "19 crayons", "21 crayons", "164 crayons", "Boxes were empty"],
+          "answer": "20 crayons"
+        },
+        // Question 8.4
+        {
+          "question": "There are 18 thick crayons and 2 thin crayons. How many crayons altogether?",
+          "options": ["20 crayons", "19 crayons", "21 crayons", "182 crayons", "They ran away"],
+          "answer": "20 crayons"
+        },
+        // Question 8.5
+        {
+          "question": "You count 14 crayons on the desk and 6 in your bag. How many crayons are there?",
+          "options": ["20 crayons", "19 crayons", "21 crayons", "146 crayons", "Desk was clean"],
+          "answer": "20 crayons"
+        }
+      ]
+    },
+    // Stage 9
+    {
+      "text": "Time to count marbles in your collection! Can you add them all up?",
+      "questions": [
+        // Question 9.1
+        {
+          "question": "You have 18 glass marbles and 4 wooden marbles. How many marbles in total?",
+          "options": ["22 marbles", "21 marbles", "23 marbles", "184 marbles", "They rolled away"],
+          "answer": "22 marbles"
+        },
+        // Question 9.2
+        {
+          "question": "If you find 19 big marbles and 3 small marbles, how many marbles did you find?",
+          "options": ["22 marbles", "21 marbles", "23 marbles", "193 marbles", "Cat played with them"],
+          "answer": "22 marbles"
+        },
+        // Question 9.3
+        {
+          "question": "There are 17 blue marbles and 5 red marbles. How many marbles altogether?",
+          "options": ["22 marbles", "21 marbles", "23 marbles", "175 marbles", "Dog hid them"],
+          "answer": "22 marbles"
+        },
+        // Question 9.4
+        {
+          "question": "You count 16 smooth marbles and 6 sparkly marbles. How many marbles are there?",
+          "options": ["22 marbles", "21 marbles", "23 marbles", "166 marbles", "Pocket had holes"],
+          "answer": "22 marbles"
+        },
+        // Question 9.5
+        {
+          "question": "If you have 20 old marbles and 2 new marbles, how many marbles do you have?",
+          "options": ["22 marbles", "21 marbles", "23 marbles", "202 marbles", "Marbles disappeared"],
+          "answer": "22 marbles"
+        }
+      ]
+    },
+    // Stage 10
+    {
+      "text": "Let's count pencils in the classroom! How many pencils are there?",
+      "questions": [
+        // Question 10.1
+        {
+          "question": "There are 20 yellow pencils and 4 red pencils. How many pencils in total?",
+          "options": ["24 pencils", "23 pencils", "25 pencils", "204 pencils", "Break time started"],
+          "answer": "24 pencils"
+        },
+        // Question 10.2
+        {
+          "question": "You find 21 long pencils and 3 short pencils. How many pencils did you find?",
+          "options": ["24 pencils", "23 pencils", "25 pencils", "213 pencils", "Pencils needed sharpening"],
+          "answer": "24 pencils"
+        },
+        // Question 10.3
+        {
+          "question": "If you have 19 new pencils and 5 old pencils, how many pencils do you have?",
+          "options": ["24 pencils", "23 pencils", "25 pencils", "195 pencils", "They broke in half"],
+          "answer": "24 pencils"
+        },
+        // Question 10.4
+        {
+          "question": "You count 22 wooden pencils and 2 mechanical pencils. How many pencils are there?",
+          "options": ["24 pencils", "23 pencils", "25 pencils", "222 pencils", "Class was over"],
+          "answer": "24 pencils"
+        },
+        // Question 10.5
+        {
+          "question": "There are 18 sharp pencils and 6 dull pencils. How many pencils altogether?",
+          "options": ["24 pencils", "23 pencils", "25 pencils", "186 pencils", "Teacher took them"],
+          "answer": "24 pencils"
+        }
+      ]
+    },
+    // Stage 11
+    {
+      "text": "Help count the books on the library shelves! How many books are there?",
+      "questions": [
+        // Question 11.1
+        {
+          "question": "You see 22 story books and 3 picture books. How many books in total?",
+          "options": ["25 books", "24 books", "26 books", "223 books", "Library closed early"],
+          "answer": "25 books"
+        },
+        // Question 11.2
+        {
+          "question": "There are 20 thin books and 5 thick books. How many books altogether?",
+          "options": ["25 books", "24 books", "26 books", "205 books", "Books went to sleep"],
+          "answer": "25 books"
+        },
+        // Question 11.3
+        {
+          "question": "If you count 21 new books and 4 old books, how many books did you count?",
+          "options": ["25 books", "24 books", "26 books", "214 books", "Pages fell out"],
+          "answer": "25 books"
+        },
+        // Question 11.4
+        {
+          "question": "You find 23 small books and 2 big books. How many books did you find?",
+          "options": ["25 books", "24 books", "26 books", "232 books", "Bookworms ate them"],
+          "answer": "25 books"
+        },
+        // Question 11.5
+        {
+          "question": "There are 19 comic books and 6 puzzle books. How many books in total?",
+          "options": ["25 books", "24 books", "26 books", "196 books", "Shelf broke down"],
+          "answer": "25 books"
+        }
+      ]
+    },
+    // Stage 12
+    {
+      "text": "Count the candies in the candy shop! How many sweet treats are there?",
+      "questions": [
+        // Question 12.1
+        {
+          "question": "There are 23 lollipops and 4 chocolate bars. How many candies in total?",
+          "options": ["27 candies", "26 candies", "28 candies", "234 candies", "Sugar melted away"],
+          "answer": "27 candies"
+        },
+        // Question 12.2
+        {
+          "question": "You have 22 hard candies and 5 soft candies. How many candies do you have?",
+          "options": ["27 candies", "26 candies", "28 candies", "225 candies", "Teeth got cavity"],
+          "answer": "27 candies"
+        },
+        // Question 12.3
+        {
+          "question": "If there are 24 wrapped candies and 3 unwrapped candies, how many candies total?",
+          "options": ["27 candies", "26 candies", "28 candies", "243 candies", "Sweet dreams!"],
+          "answer": "27 candies"
+        },
+        // Question 12.4
+        {
+          "question": "You count 21 mint candies and 6 fruit candies. How many candies did you count?",
+          "options": ["27 candies", "26 candies", "28 candies", "216 candies", "Candy vanished"],
+          "answer": "27 candies"
+        },
+        // Question 12.5
+        {
+          "question": "There are 25 small candies and 2 big candies. How many candies altogether?",
+          "options": ["27 candies", "26 candies", "28 candies", "252 candies", "Too sweet to count"],
+          "answer": "27 candies"
+        }
+      ]
+    },
+    // Stage 13
+    {
+      "text": "Help count the building blocks! How many blocks are in the toy box?",
+      "questions": [
+        // Question 13.1
+        {
+          "question": "You have 24 red blocks and 4 blue blocks. How many blocks in total?",
+          "options": ["28 blocks", "27 blocks", "29 blocks", "244 blocks", "Tower fell down"],
+          "answer": "28 blocks"
+        },
+        // Question 13.2
+        {
+          "question": "There are 23 square blocks and 5 round blocks. How many blocks altogether?",
+          "options": ["28 blocks", "27 blocks", "29 blocks", "235 blocks", "Blocks rolled away"],
+          "answer": "28 blocks"
+        },
+        // Question 13.3
+        {
+          "question": "If you find 25 wooden blocks and 3 plastic blocks, how many blocks did you find?",
+          "options": ["28 blocks", "27 blocks", "29 blocks", "253 blocks", "Box was empty"],
+          "answer": "28 blocks"
+        },
+        // Question 13.4
+        {
+          "question": "You count 22 big blocks and 6 small blocks. How many blocks are there?",
+          "options": ["28 blocks", "27 blocks", "29 blocks", "226 blocks", "Blocks took a nap"],
+          "answer": "28 blocks"
+        },
+        // Question 13.5
+        {
+          "question": "There are 26 old blocks and 2 new blocks. How many blocks in total?",
+          "options": ["28 blocks", "27 blocks", "29 blocks", "262 blocks", "They disappeared"],
+          "answer": "28 blocks"
+        }
+      ]
+    },
+    // Stage 14
+    {
+      "text": "Count the seashells on the beach! How many shells did you find?",
+      "questions": [
+        // Question 14.1
+        {
+          "question": "You collect 25 white shells and 4 pink shells. How many shells in total?",
+          "options": ["29 shells", "28 shells", "30 shells", "254 shells", "Waves took them"],
+          "answer": "29 shells"
+        },
+        // Question 14.2
+        {
+          "question": "There are 24 small shells and 5 big shells. How many shells altogether?",
+          "options": ["29 shells", "28 shells", "30 shells", "245 shells", "Crabs borrowed them"],
+          "answer": "29 shells"
+        },
+        // Question 14.3
+        {
+          "question": "If you find 26 smooth shells and 3 rough shells, how many shells did you find?",
+          "options": ["29 shells", "28 shells", "30 shells", "263 shells", "Sand covered them"],
+          "answer": "29 shells"
+        },
+        // Question 14.4
+        {
+          "question": "You count 23 spiral shells and 6 flat shells. How many shells are there?",
+          "options": ["29 shells", "28 shells", "30 shells", "236 shells", "Tide washed them"],
+          "answer": "29 shells"
+        },
+        // Question 14.5
+        {
+          "question": "There are 27 beach shells and 2 river shells. How many shells in total?",
+          "options": ["29 shells", "28 shells", "30 shells", "272 shells", "Mermaid kept them"],
+          "answer": "29 shells"
+        }
+      ]
+    },
+    // Stage 15
+    {
+      "text": "Count the vegetables in the garden! How many veggies are growing?",
+      "questions": [
+        // Question 15.1
+        {
+          "question": "You see 26 carrots and 4 tomatoes. How many vegetables in total?",
+          "options": ["30 vegetables", "29 vegetables", "31 vegetables", "264 vegetables", "Rabbits ate them"],
+          "answer": "30 vegetables"
+        },
+        // Question 15.2
+        {
+          "question": "There are 25 peas and 5 cucumbers. How many vegetables altogether?",
+          "options": ["30 vegetables", "29 vegetables", "31 vegetables", "255 vegetables", "Garden dried up"],
+          "answer": "30 vegetables"
+        },
+        // Question 15.3
+        {
+          "question": "If you count 27 lettuce and 3 peppers, how many vegetables did you count?",
+          "options": ["30 vegetables", "29 vegetables", "31 vegetables", "273 vegetables", "Bugs ate them"],
+          "answer": "30 vegetables"
+        },
+        // Question 15.4
+        {
+          "question": "You find 24 beans and 6 radishes. How many vegetables did you find?",
+          "options": ["30 vegetables", "29 vegetables", "31 vegetables", "246 vegetables", "Wind blew them"],
+          "answer": "30 vegetables"
+        },
+        // Question 15.5
+        {
+          "question": "There are 28 potatoes and 2 onions. How many vegetables in total?",
+          "options": ["30 vegetables", "29 vegetables", "31 vegetables", "282 vegetables", "Forgot to water"],
+          "answer": "30 vegetables"
+        }
+      ]
+    },
+    // Stage 16
+    {
+      "text": "Count the stars in the night sky! How many stars can you see?",
+      "questions": [
+        // Question 16.1
+        {
+          "question": "You spot 27 bright stars and 4 dim stars. How many stars in total?",
+          "options": ["31 stars", "30 stars", "32 stars", "274 stars", "Clouds covered them"],
+          "answer": "31 stars"
+        },
+        // Question 16.2
+        {
+          "question": "There are 26 white stars and 5 blue stars. How many stars altogether?",
+          "options": ["31 stars", "30 stars", "32 stars", "265 stars", "Sun came up"],
+          "answer": "31 stars"
+        },
+        // Question 16.3
+        {
+          "question": "If you see 28 big stars and 3 small stars, how many stars did you see?",
+          "options": ["31 stars", "30 stars", "32 stars", "283 stars", "Stars went sleeping"],
+          "answer": "31 stars"
+        },
+        // Question 16.4
+        {
+          "question": "You count 25 twinkling stars and 6 steady stars. How many stars are there?",
+          "options": ["31 stars", "30 stars", "32 stars", "256 stars", "Moon blocked them"],
+          "answer": "31 stars"
+        },
+        // Question 16.5
+        {
+          "question": "There are 29 far stars and 2 close stars. How many stars in total?",
+          "options": ["31 stars", "30 stars", "32 stars", "292 stars", "Too dark to see"],
+          "answer": "31 stars"
+        }
+      ]
+    },
+    // Stage 17
+    {
+      "text": "Count the butterflies in the garden! How many butterflies are flying?",
+      "questions": [
+        // Question 17.1
+        {
+          "question": "You see 28 orange butterflies and 4 yellow butterflies. How many in total?",
+          "options": ["32 butterflies", "31 butterflies", "33 butterflies", "284 butterflies", "They flew away"],
+          "answer": "32 butterflies"
+        },
+        // Question 17.2
+        {
+          "question": "There are 27 big butterflies and 5 small butterflies. How many altogether?",
+          "options": ["32 butterflies", "31 butterflies", "33 butterflies", "275 butterflies", "Rain scared them"],
+          "answer": "32 butterflies"
+        },
+        // Question 17.3
+        {
+          "question": "If you count 29 spotted butterflies and 3 plain butterflies, how many total?",
+          "options": ["32 butterflies", "31 butterflies", "33 butterflies", "293 butterflies", "Wind blew them"],
+          "answer": "32 butterflies"
+        },
+        // Question 17.4
+        {
+          "question": "You find 26 flying butterflies and 6 resting butterflies. How many are there?",
+          "options": ["32 butterflies", "31 butterflies", "33 butterflies", "266 butterflies", "Too fast to count"],
+          "answer": "32 butterflies"
+        },
+        // Question 17.5
+        {
+          "question": "There are 30 old butterflies and 2 new butterflies. How many in total?",
+          "options": ["32 butterflies", "31 butterflies", "33 butterflies", "302 butterflies", "Garden closed"],
+          "answer": "32 butterflies"
+        }
+      ]
+    },
+    // Stage 18
+    {
+      "text": "Count the ice cream scoops! How many scoops are in the ice cream shop?",
+      "questions": [
+        // Question 18.1
+        {
+          "question": "You have 29 chocolate scoops and 4 vanilla scoops. How many in total?",
+          "options": ["33 scoops", "32 scoops", "34 scoops", "294 scoops", "Ice cream melted"],
+          "answer": "33 scoops"
+        },
+        // Question 18.2
+        {
+          "question": "There are 28 strawberry scoops and 5 mint scoops. How many altogether?",
+          "options": ["33 scoops", "32 scoops", "34 scoops", "285 scoops", "Too cold to count"],
+          "answer": "33 scoops"
+        },
+        // Question 18.3
+        {
+          "question": "If you count 30 big scoops and 3 small scoops, how many scoops total?",
+          "options": ["33 scoops", "32 scoops", "34 scoops", "303 scoops", "Freezer broke"],
+          "answer": "33 scoops"
+        },
+        // Question 18.4
+        {
+          "question": "You see 27 soft scoops and 6 hard scoops. How many scoops are there?",
+          "options": ["33 scoops", "32 scoops", "34 scoops", "276 scoops", "Shop closed early"],
+          "answer": "33 scoops"
+        },
+        // Question 18.5
+        {
+          "question": "There are 31 cold scoops and 2 melting scoops. How many in total?",
+          "options": ["33 scoops", "32 scoops", "34 scoops", "312 scoops", "Summer was hot"],
+          "answer": "33 scoops"
+        }
+      ]
+    },
+    // Stage 19
+    {
+      "text": "Count the paper airplanes! How many planes did the class make?",
+      "questions": [
+        // Question 19.1
+        {
+          "question": "You make 30 white planes and 4 colored planes. How many in total?",
+          "options": ["34 planes", "33 planes", "35 planes", "304 planes", "Wind took them"],
+          "answer": "34 planes"
+        },
+        // Question 19.2
+        {
+          "question": "There are 29 small planes and 5 large planes. How many altogether?",
+          "options": ["34 planes", "33 planes", "35 planes", "295 planes", "They flew away"],
+          "answer": "34 planes"
+        },
+        // Question 19.3
+        {
+          "question": "If you count 31 paper planes and 3 cardboard planes, how many total?",
+          "options": ["34 planes", "33 planes", "35 planes", "313 planes", "Rain ruined them"],
+          "answer": "34 planes"
+        },
+        // Question 19.4
+        {
+          "question": "You see 28 flying planes and 6 landed planes. How many planes are there?",
+          "options": ["34 planes", "33 planes", "35 planes", "286 planes", "Too high to count"],
+          "answer": "34 planes"
+        },
+        // Question 19.5
+        {
+          "question": "There are 32 smooth planes and 2 crumpled planes. How many in total?",
+          "options": ["34 planes", "33 planes", "35 planes", "322 planes", "Paper ran out"],
+          "answer": "34 planes"
+        }
+      ]
+    },
+    // Stage 20
+    {
+      "text": "Count the leaves on the autumn trees! How many leaves can you see?",
+      "questions": [
+        // Question 20.1
+        {
+          "question": "You find 31 red leaves and 4 yellow leaves. How many leaves in total?",
+          "options": ["35 leaves", "34 leaves", "36 leaves", "314 leaves", "Wind blew them"],
+          "answer": "35 leaves"
+        },
+        // Question 20.2
+        {
+          "question": "There are 30 maple leaves and 5 oak leaves. How many leaves altogether?",
+          "options": ["35 leaves", "34 leaves", "36 leaves", "305 leaves", "Trees went bare"],
+          "answer": "35 leaves"
+        },
+        // Question 20.3
+        {
+          "question": "If you count 32 big leaves and 3 small leaves, how many leaves total?",
+          "options": ["35 leaves", "34 leaves", "36 leaves", "323 leaves", "Autumn ended"],
+          "answer": "35 leaves"
+        },
+        // Question 20.4
+        {
+          "question": "You see 29 dry leaves and 6 wet leaves. How many leaves are there?",
+          "options": ["35 leaves", "34 leaves", "36 leaves", "296 leaves", "Rain washed them"],
+          "answer": "35 leaves"
+        },
+        // Question 20.5
+        {
+          "question": "There are 33 falling leaves and 2 floating leaves. How many in total?",
+          "options": ["35 leaves", "34 leaves", "36 leaves", "332 leaves", "Too windy to count"],
+          "answer": "35 leaves"
+        }
+      ]
+    },
+    // Stage 21
+    {
+      "text": "Count the snowflakes falling! How many snowflakes can you see?",
+      "questions": [
+        // Question 21.1
+        {
+          "question": "You spot 32 white snowflakes and 4 crystal snowflakes. How many total?",
+          "options": ["36 snowflakes", "35 snowflakes", "37 snowflakes", "324 snowflakes", "Sun melted them"],
+          "answer": "36 snowflakes"
+        },
+        // Question 21.2
+        {
+          "question": "There are 31 big snowflakes and 5 small snowflakes. How many altogether?",
+          "options": ["36 snowflakes", "35 snowflakes", "37 snowflakes", "315 snowflakes", "Too cold to count"],
+          "answer": "36 snowflakes"
+        },
+        // Question 21.3
+        {
+          "question": "If you count 33 falling snowflakes and 3 floating ones, how many total?",
+          "options": ["36 snowflakes", "35 snowflakes", "37 snowflakes", "333 snowflakes", "Wind blew them"],
+          "answer": "36 snowflakes"
+        },
+        // Question 21.4
+        {
+          "question": "You find 30 sparkling snowflakes and 6 dull ones. How many are there?",
+          "options": ["36 snowflakes", "35 snowflakes", "37 snowflakes", "306 snowflakes", "Spring came early"],
+          "answer": "36 snowflakes"
+        },
+        // Question 21.5
+        {
+          "question": "There are 34 light snowflakes and 2 heavy ones. How many in total?",
+          "options": ["36 snowflakes", "35 snowflakes", "37 snowflakes", "342 snowflakes", "Started raining"],
+          "answer": "36 snowflakes"
+        }
+      ]
+    },
+    // Stage 22
+    {
+      "text": "Count the colorful balloons at the party! How many balloons are there?",
+      "questions": [
+        // Question 22.1
+        {
+          "question": "You have 33 round balloons and 4 heart balloons. How many total?",
+          "options": ["37 balloons", "36 balloons", "38 balloons", "334 balloons", "Party ended"],
+          "answer": "37 balloons"
+        },
+        // Question 22.2
+        {
+          "question": "There are 32 floating balloons and 5 tied balloons. How many altogether?",
+          "options": ["37 balloons", "36 balloons", "38 balloons", "325 balloons", "They popped"],
+          "answer": "37 balloons"
+        },
+        // Question 22.3
+        {
+          "question": "If you count 34 big balloons and 3 small ones, how many total?",
+          "options": ["37 balloons", "36 balloons", "38 balloons", "343 balloons", "Helium ran out"],
+          "answer": "37 balloons"
+        },
+        // Question 22.4
+        {
+          "question": "You see 31 red balloons and 6 blue ones. How many are there?",
+          "options": ["37 balloons", "36 balloons", "38 balloons", "316 balloons", "Too high to reach"],
+          "answer": "37 balloons"
+        },
+        // Question 22.5
+        {
+          "question": "There are 35 new balloons and 2 old ones. How many in total?",
+          "options": ["37 balloons", "36 balloons", "38 balloons", "352 balloons", "Birthday canceled"],
+          "answer": "37 balloons"
+        }
+      ]
+    },
+    // Stage 23
+    {
+      "text": "Count the happy birds in the park! How many birds do you see?",
+      "questions": [
+        // Question 23.1
+        {
+          "question": "You spot 34 sparrows and 4 robins. How many birds total?",
+          "options": ["38 birds", "37 birds", "39 birds", "344 birds", "They flew south"],
+          "answer": "38 birds"
+        },
+        // Question 23.2
+        {
+          "question": "There are 33 singing birds and 5 quiet birds. How many altogether?",
+          "options": ["38 birds", "37 birds", "39 birds", "335 birds", "Cat scared them"],
+          "answer": "38 birds"
+        },
+        // Question 23.3
+        {
+          "question": "If you count 35 small birds and 3 large birds, how many total?",
+          "options": ["38 birds", "37 birds", "39 birds", "353 birds", "Rain started"],
+          "answer": "38 birds"
+        },
+        // Question 23.4
+        {
+          "question": "You find 32 flying birds and 6 nesting birds. How many are there?",
+          "options": ["38 birds", "37 birds", "39 birds", "326 birds", "Too fast to count"],
+          "answer": "38 birds"
+        },
+        // Question 23.5
+        {
+          "question": "There are 36 brown birds and 2 colorful birds. How many in total?",
+          "options": ["38 birds", "37 birds", "39 birds", "362 birds", "Night came"],
+          "answer": "38 birds"
+        }
+      ]
+    },
+    // Stage 24
+    {
+      "text": "Count the pretty flowers in the meadow! How many flowers are there?",
+      "questions": [
+        // Question 24.1
+        {
+          "question": "You see 35 daisies and 4 roses. How many flowers total?",
+          "options": ["39 flowers", "38 flowers", "40 flowers", "354 flowers", "Bees took them"],
+          "answer": "39 flowers"
+        },
+        // Question 24.2
+        {
+          "question": "There are 34 tall flowers and 5 short flowers. How many altogether?",
+          "options": ["39 flowers", "38 flowers", "40 flowers", "345 flowers", "Wind blew them"],
+          "answer": "39 flowers"
+        },
+        // Question 24.3
+        {
+          "question": "If you count 36 white flowers and 3 pink ones, how many total?",
+          "options": ["39 flowers", "38 flowers", "40 flowers", "363 flowers", "Garden closed"],
+          "answer": "39 flowers"
+        },
+        // Question 24.4
+        {
+          "question": "You find 33 blooming flowers and 6 buds. How many are there?",
+          "options": ["39 flowers", "38 flowers", "40 flowers", "336 flowers", "Winter came"],
+          "answer": "39 flowers"
+        },
+        // Question 24.5
+        {
+          "question": "There are 37 fresh flowers and 2 wilted ones. How many in total?",
+          "options": ["39 flowers", "38 flowers", "40 flowers", "372 flowers", "Forgot to water"],
+          "answer": "39 flowers"
+        }
+      ]
+    },
+    // Stage 25
+    {
+      "text": "Count the tasty cookies in the bakery! How many cookies are there?",
+      "questions": [
+        // Question 25.1
+        {
+          "question": "You have 36 chocolate cookies and 4 sugar cookies. How many total?",
+          "options": ["40 cookies", "39 cookies", "41 cookies", "364 cookies", "All eaten up"],
+          "answer": "40 cookies"
+        },
+        // Question 25.2
+        {
+          "question": "There are 35 round cookies and 5 star cookies. How many altogether?",
+          "options": ["40 cookies", "39 cookies", "41 cookies", "355 cookies", "Oven too hot"],
+          "answer": "40 cookies"
+        },
+        // Question 25.3
+        {
+          "question": "If you count 37 big cookies and 3 small ones, how many total?",
+          "options": ["40 cookies", "39 cookies", "41 cookies", "373 cookies", "Timer rang"],
+          "answer": "40 cookies"
+        },
+        // Question 25.4
+        {
+          "question": "You see 34 soft cookies and 6 crunchy ones. How many are there?",
+          "options": ["40 cookies", "39 cookies", "41 cookies", "346 cookies", "Got too crispy"],
+          "answer": "40 cookies"
+        },
+        // Question 25.5
+        {
+          "question": "There are 38 fresh cookies and 2 day-old ones. How many in total?",
+          "options": ["40 cookies", "39 cookies", "41 cookies", "382 cookies", "Crumbs only"],
+          "answer": "40 cookies"
+        }
+      ]
+    },
+    // Stage 26
+    {
+      "text": "Count the toy cars in the race! How many cars are racing?",
+      "questions": [
+        // Question 26.1
+        {
+          "question": "You have 37 red cars and 4 blue cars. How many cars total?",
+          "options": ["41 cars", "40 cars", "42 cars", "374 cars", "Race canceled"],
+          "answer": "41 cars"
+        },
+        // Question 26.2
+        {
+          "question": "There are 36 fast cars and 5 slow cars. How many altogether?",
+          "options": ["41 cars", "40 cars", "42 cars", "365 cars", "Batteries died"],
+          "answer": "41 cars"
+        },
+        // Question 26.3
+        {
+          "question": "If you count 38 small cars and 3 big ones, how many total?",
+          "options": ["41 cars", "40 cars", "42 cars", "383 cars", "Track broke"],
+          "answer": "41 cars"
+        },
+        // Question 26.4
+        {
+          "question": "You see 35 racing cars and 6 parked cars. How many are there?",
+          "options": ["41 cars", "40 cars", "42 cars", "356 cars", "Too fast to see"],
+          "answer": "41 cars"
+        },
+        // Question 26.5
+        {
+          "question": "There are 39 new cars and 2 old cars. How many in total?",
+          "options": ["41 cars", "40 cars", "42 cars", "392 cars", "Wheels fell off"],
+          "answer": "41 cars"
+        }
+      ]
+    },
+    // Stage 27
+    {
+      "text": "Count the colorful beads for your necklace! How many beads are there?",
+      "questions": [
+        // Question 27.1
+        {
+          "question": "You have 38 round beads and 4 square beads. How many total?",
+          "options": ["42 beads", "41 beads", "43 beads", "384 beads", "String broke"],
+          "answer": "42 beads"
+        },
+        // Question 27.2
+        {
+          "question": "There are 37 glass beads and 5 wooden beads. How many altogether?",
+          "options": ["42 beads", "41 beads", "43 beads", "375 beads", "Too shiny to count"],
+          "answer": "42 beads"
+        },
+        // Question 27.3
+        {
+          "question": "If you count 39 small beads and 3 large ones, how many total?",
+          "options": ["42 beads", "41 beads", "43 beads", "393 beads", "Beads scattered"],
+          "answer": "42 beads"
+        },
+        // Question 27.4
+        {
+          "question": "You see 36 colorful beads and 6 plain ones. How many are there?",
+          "options": ["42 beads", "41 beads", "43 beads", "366 beads", "Box spilled"],
+          "answer": "42 beads"
+        },
+        // Question 27.5
+        {
+          "question": "There are 40 shiny beads and 2 dull ones. How many in total?",
+          "options": ["42 beads", "41 beads", "43 beads", "402 beads", "Lost the beads"],
+          "answer": "42 beads"
+        }
+      ]
+    },
+    // Stage 28
+    {
+      "text": "Count the bright stars in the night sky! How many stars can you see?",
+      "questions": [
+        // Question 28.1
+        {
+          "question": "You spot 39 white stars and 4 golden stars. How many total?",
+          "options": ["43 stars", "42 stars", "44 stars", "394 stars", "Clouds came"],
+          "answer": "43 stars"
+        },
+        // Question 28.2
+        {
+          "question": "There are 38 big stars and 5 small stars. How many altogether?",
+          "options": ["43 stars", "42 stars", "44 stars", "385 stars", "Sun rose"],
+          "answer": "43 stars"
+        },
+        // Question 28.3
+        {
+          "question": "If you count 40 bright stars and 3 dim ones, how many total?",
+          "options": ["43 stars", "42 stars", "44 stars", "403 stars", "Too dark now"],
+          "answer": "43 stars"
+        },
+        // Question 28.4
+        {
+          "question": "You find 37 twinkling stars and 6 steady ones. How many are there?",
+          "options": ["43 stars", "42 stars", "44 stars", "376 stars", "Moon blocked them"],
+          "answer": "43 stars"
+        },
+        // Question 28.5
+        {
+         "question": "There are 41 far stars and 2 close stars. How many in total?",
+          "options": ["43 stars", "42 stars", "44 stars", "412 stars", "Stars went sleeping"],
+          "answer": "43 stars"
+        }
+      ]
+    },
+    // Stage 29
+    {
+      "text": "Count the rainbow drops on the leaves! How many drops can you see?",
+      "questions": [
+        // Question 29.1
+        {
+          "question": "You see 40 clear drops and 4 sparkly drops. How many total?",
+          "options": ["44 drops", "43 drops", "45 drops", "404 drops", "Sun dried them"],
+          "answer": "44 drops"
+        },
+        // Question 29.2
+        {
+          "question": "There are 39 big drops and 5 small drops. How many altogether?",
+          "options": ["44 drops", "43 drops", "45 drops", "395 drops", "Wind shook them"],
+          "answer": "44 drops"
+        },
+        // Question 29.3
+        {
+          "question": "If you count 41 morning drops and 3 evening drops, how many total?",
+          "options": ["44 drops", "43 drops", "45 drops", "413 drops", "Too wet to count"],
+          "answer": "44 drops"
+        },
+        // Question 29.4
+        {
+          "question": "You find 38 water drops and 6 dew drops. How many are there?",
+          "options": ["44 drops", "43 drops", "45 drops", "386 drops", "Leaves fell off"],
+          "answer": "44 drops"
+        },
+        // Question 29.5
+        {
+          "question": "There are 42 round drops and 2 oval drops. How many in total?",
+          "options": ["44 drops", "43 drops", "45 drops", "422 drops", "Rain stopped"],
+          "answer": "44 drops"
+        }
+      ]
+    },
+    // Stage 30
+    {
+      "text": "Count the happy children at the playground! How many children are playing?",
+      "questions": [
+        // Question 30.1
+        {
+          "question": "You see 41 running children and 4 walking children. How many total?",
+          "options": ["45 children", "44 children", "46 children", "414 children", "Recess ended"],
+          "answer": "45 children"
+        },
+        // Question 30.2
+        {
+          "question": "There are 40 jumping children and 5 sitting children. How many altogether?",
+          "options": ["45 children", "44 children", "46 children", "405 children", "Time to go home"],
+          "answer": "45 children"
+        },
+        // Question 30.3
+        {
+          "question": "If you count 42 laughing children and 3 quiet ones, how many total?",
+          "options": ["45 children", "44 children", "46 children", "423 children", "Bell rang"],
+          "answer": "45 children"
+        },
+        // Question 30.4
+        {
+          "question": "You find 39 playing children and 6 watching children. How many are there?",
+          "options": ["45 children", "44 children", "46 children", "396 children", "Rain started"],
+          "answer": "45 children"
+        },
+        // Question 30.5
+        {
+          "question": "There are 43 happy children and 2 tired children. How many in total?",
+          "options": ["45 children", "44 children", "46 children", "432 children", "Nap time came"],
+          "answer": "45 children"
+        }
+      ]
+    }
+//-------------------------------------------------------------------------------------------------------------------
+				  ]
+				}
+        ];
+
+		const stageCount = quizData[0].stages.length; // This is the correct way to get the number of stages
+
+
+		const stateContents = {
+			'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+			,'Subject Overview 🗝️': `<div class="subject-overview-content">     <h1>Adding Multi-Digit Numbers: A Fun Guide for Kids</h1>     <p>Adding multi-digit numbers is an important math skill that helps us solve bigger problems. When we add numbers with more than one digit, we use place value to make sure each digit is added correctly. This guide will help you understand how to add multi-digit numbers step by step with easy examples!</p>     <hr>     <h2>Table of Contents</h2>     <ol>         <li><a href="#what-is-adding-multi-digit-numbers">What is Adding Multi-Digit Numbers?</a></li>         <li><a href="#understanding-place-value">Understanding Place Value</a></li>         <li><a href="#step-by-step-addition">Step-by-Step Addition</a>             <ul>                 <li><a href="#step-1">Step 1: Write the Numbers Vertically</a></li>                 <li><a href="#step-2">Step 2: Add the Ones Place</a></li>                 <li><a href="#step-3">Step 3: Carry Over if Needed</a></li>                 <li><a href="#step-4">Step 4: Add the Tens Place</a></li>                 <li><a href="#step-5">Step 5: Continue Adding Larger Places</a></li>             </ul>         </li>         <li><a href="#examples">Examples</a></li>         <li><a href="#tips-and-tricks">Tips and Tricks</a></li>         <li><a href="#conclusion">Conclusion</a></li>     </ol>     <hr>     <h2 id="what-is-adding-multi-digit-numbers">What is Adding Multi-Digit Numbers?</h2>     <p>Adding multi-digit numbers means adding numbers that have more than one digit, like 23 + 45. It’s like adding bigger numbers by breaking them down into smaller, easier parts.</p>     <hr>     <h2 id="understanding-place-value">Understanding Place Value</h2>     <p>Place value helps us know the value of each digit in a number based on its position. In a two-digit number like 34:</p>     <ul>         <li><strong>3</strong> is in the <em>tens</em> place and means 30.</li>         <li><strong>4</strong> is in the <em>ones</em> place and means 4.</li>     </ul>     <p>Understanding place value is key to adding multi-digit numbers correctly.</p>     <hr>     <h2 id="step-by-step-addition">Step-by-Step Addition</h2>         <h3 id="step-1">Step 1: Write the Numbers Vertically</h3>     <p>Write the numbers you want to add one below the other, making sure the ones, tens, hundreds places, etc., line up.</p>     <hr>         <h3 id="step-2">Step 2: Add the Ones Place</h3>     <p>Start adding from the rightmost digit, the ones place.</p>     <hr>         <h3 id="step-3">Step 3: Carry Over if Needed</h3>     <p>If the sum of the ones place is 10 or more, carry over the extra value to the next place (tens).</p>     <hr>         <h3 id="step-4">Step 4: Add the Tens Place</h3>     <p>Add the digits in the tens place, including any carry-over from the ones place.</p>     <hr>         <h3 id="step-5">Step 5: Continue Adding Larger Places</h3>     <p>If you have numbers with hundreds, thousands, etc., continue the same process for each place.</p>     <hr>         <h2 id="examples">Examples</h2>     <h3>Example 1: Adding 23 + 45</h3>     <ol>         <li>Write the numbers vertically:             <pre>   23 + 45 ----             </pre>         </li>         <li>Add the ones place: 3 + 5 = 8.</li>         <li>Add the tens place: 2 + 4 = 6.</li>         <li>The sum is 68.</li>     </ol>         <h3>Example 2: Adding 157 + 289</h3>     <ol>         <li>Write the numbers vertically:             <pre>   157 + 289 -----             </pre>         </li>         <li>Add the ones place: 7 + 9 = 16. Write down 6 and carry over 1.</li>         <li>Add the tens place: 5 + 8 + 1 (carry) = 14. Write down 4 and carry over 1.</li>         <li>Add the hundreds place: 1 + 2 + 1 (carry) = 4.</li>         <li>The sum is 446.</li>     </ol>     <hr>     <h2 id="tips-and-tricks">Tips and Tricks</h2>     <ul>         <li><strong>Use a Pencil and Paper:</strong> It helps to write down each step clearly.</li>         <li><strong>Double-Check Your Work:</strong> Go through each step again to make sure you didn’t make a mistake.</li>         <li><strong>Practice Regularly:</strong> The more you practice, the better you’ll get!</li>         <li><strong>Use Visual Aids:</strong> Tools like number lines or base-ten blocks can help you understand place value.</li>     </ul>     <hr>     <h2 id="conclusion">Conclusion</h2>     <p>Adding multi-digit numbers is a fun and essential math skill that you can master with practice. Remember to line up the numbers by place value, add each place step by step, and carry over when needed. Keep practicing these steps, and soon you’ll be adding big numbers with ease!</p>     <hr>     <p>Keep practicing your addition skills and use the tips and examples in this guide to become a math whiz! Don’t forget to ask for help if you need it, and most importantly, have fun with math!</p> </div>
+`
+			};
+
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function isTextEmpty(text) {
+    return !text || text.trim() === "";
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+
+    // Only add stage text if it's not empty
+    const stageText = quizData[0].stages[currentStage].text;
+    if (!isTextEmpty(stageText)) {
+        const stageTextElement = document.createElement("div");
+        stageTextElement.className = "stage-text";
+        stageTextElement.style.marginBottom = "20px";
+        stageTextElement.style.padding = "15px";
+        stageTextElement.style.backgroundColor = "#f5f5f5";
+        stageTextElement.style.borderRadius = "5px";
+        stageTextElement.textContent = stageText;
+        quizContainer.appendChild(stageTextElement);
+    }
+
+    // Render questions
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${questionData.question}`;
+
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+
+        const shuffledOptions = shuffleArray([...questionData.options]);
+        shuffledOptions.forEach(option => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv);
+        questionElement.appendChild(select);
+
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[0].stages[currentStage].questions.length;
+
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === questionData.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect answer.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 10) {
+            selectElement.value = questionData.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` The correct answer is: ${questionData.answer}`;
+        }
+    });
+
+    if (correctCount === totalQuestions) {
+        console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+        addAnimalsToFarm(totalQuestions);
+
+        if (currentStage < quizData[0].stages.length - 1) {
+            singleStageConfetti();
+            showEncouragingPopup(correctCount, totalQuestions, true);
+            currentStage++;
+            updateProgressBar();
+            setTimeout(() => {
+                attempts = 0;
+                renderQuiz();
+                document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+            }, 1500);
+        } else {
+            currentStage++;
+            updateProgressBar();
+            allStagesConfetti();
+            showModal("Congratulations! You've completed all stages!");
+        }
+    } else {
+        showEncouragingPopup(correctCount, totalQuestions, false);
+        if (attempts >= 10) {
+            showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+        }
+    }
+
+    scrollToTop();
+}
+
+// 4. Update stageCount calculation to work with new structure
+
+
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+    const completedStages = currentStage;
+    const progress = (completedStages / stageCount) * 100;
+    const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+    progressBar.style.width = `${roundedProgress}%`;
+    progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+    console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+}
+
+function updateStageNumber() {
+    const stageElement = document.getElementById("stage-number");
+    stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+
+            switchContainer.style.display = 'flex';
+
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 ||
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};
+    </script>
+</body>
+</html>
