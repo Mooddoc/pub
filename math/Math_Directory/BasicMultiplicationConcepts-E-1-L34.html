@@ -1,0 +1,2528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+</head> 
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read the text and questions carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 10 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>Basic Multiplication Concepts</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+ 
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+																		//  PH3 - Quiz Data 
+        const quizData = [ 												   	
+				{
+				  "stages": [
+//-------------------------------------------------------------------------------------------------------------------				  
+
+    // Stage 1
+    {
+      "text": "Lucy is learning that multiplication is repeated addition. She sees that 3 × 4 means adding 3 four times: 3 + 3 + 3 + 3 = 12.",
+      "questions": [
+        // Question 1.1
+        {
+          "question": "What does 5 × 3 mean in terms of repeated addition?",
+          "options": [
+            "5 + 5 + 5",
+            "3 + 3 + 3 + 3 + 3",
+            "5 × 3 = 15",
+            "5 - 3",
+            "Five happy jumps"
+          ],
+          "answer": "5 + 5 + 5"
+        },
+        // Question 1.2
+        {
+          "question": "Which shows 4 × 2 as repeated addition?",
+          "options": [
+            "4 + 4",
+            "2 + 2 + 2 + 2",
+            "4 × 2",
+            "4 - 2",
+            "Four dancing shoes"
+          ],
+          "answer": "4 + 4"
+        },
+        // Question 1.3
+        {
+          "question": "How many times is 3 added in 3 × 4?",
+          "options": [
+            "4 times",
+            "3 times",
+            "7 times",
+            "1 time",
+            "Until it gets tired"
+          ],
+          "answer": "4 times"
+        },
+        // Question 1.4
+        {
+          "question": "What repeated addition shows 6 × 2?",
+          "options": [
+            "6 + 6",
+            "2 + 2 + 2 + 2 + 2 + 2",
+            "6 × 2",
+            "6 - 2",
+            "Six happy rabbits"
+          ],
+          "answer": "6 + 6"
+        },
+        // Question 1.5
+        {
+          "question": "In 7 × 3, how many groups of 7 are there?",
+          "options": [
+            "3 groups",
+            "7 groups",
+            "10 groups",
+            "1 group",
+            "A bunch of giggles"
+          ],
+          "answer": "3 groups"
+        }
+      ]
+    },
+    // Stage 2
+    {
+      "text": "Max is learning about arrays. He sees that objects arranged in rows and columns can show multiplication. For example, 3 rows of 4 stars shows 3 × 4.",
+      "questions": [
+        // Question 2.1
+        {
+          "question": "In an array with 3 rows and 5 columns, what multiplication problem does it show?",
+          "options": [
+            "3 × 5",
+            "5 × 3",
+            "3 + 5",
+            "3 - 5",
+            "Dancing stars"
+          ],
+          "answer": "3 × 5"
+        },
+        // Question 2.2
+        {
+          "question": "How many total dots are in an array with 4 rows and 2 columns?",
+          "options": [
+            "8 dots",
+            "6 dots",
+            "4 dots",
+            "2 dots",
+            "Happy dots"
+          ],
+          "answer": "8 dots"
+        },
+        // Question 2.3
+        {
+          "question": "What does a 2 × 6 array look like?",
+          "options": [
+            "2 rows of 6",
+            "6 rows of 2",
+            "2 + 6 items",
+            "8 total rows",
+            "Dancing squares"
+          ],
+          "answer": "2 rows of 6"
+        },
+        // Question 2.4
+        {
+          "question": "In a 5 × 3 array, what represents the number of rows?",
+          "options": [
+            "5",
+            "3",
+            "15",
+            "2",
+            "Five happy faces"
+          ],
+          "answer": "5"
+        },
+        // Question 2.5
+        {
+          "question": "How many columns are in a 4 × 7 array?",
+          "options": [
+            "7",
+            "4",
+            "28",
+            "11",
+            "Bouncing numbers"
+          ],
+          "answer": "7"
+        }
+      ]
+    },
+    // Stage 3
+    {
+      "text": "Sarah is learning about equal groups. She understands that 5 × 3 can mean 5 groups with 3 items in each group.",
+      "questions": [
+        // Question 3.1
+        {
+          "question": "If you have 4 groups with 3 cookies in each group, what multiplication shows this?",
+          "options": [
+            "4 × 3",
+            "3 × 4",
+            "4 + 3",
+            "4 - 3",
+            "Yummy cookies"
+          ],
+          "answer": "4 × 3"
+        },
+        // Question 3.2
+        {
+          "question": "In 6 × 2, how many items are in each group?",
+          "options": [
+            "2",
+            "6",
+            "12",
+            "8",
+            "Dancing items"
+          ],
+          "answer": "2"
+        },
+        // Question 3.3
+        {
+          "question": "What does 3 × 5 mean in terms of equal groups?",
+          "options": [
+            "3 groups of 5",
+            "5 groups of 3",
+            "3 + 5",
+            "3 - 5",
+            "Happy groups"
+          ],
+          "answer": "3 groups of 5"
+        },
+        // Question 3.4
+        {
+          "question": "If you have 7 baskets with 2 apples in each, what multiplication is shown?",
+          "options": [
+            "7 × 2",
+            "2 × 7",
+            "7 + 2",
+            "7 - 2",
+            "Jumping apples"
+          ],
+          "answer": "7 × 2"
+        },
+        // Question 3.5
+        {
+          "question": "In 5 × 4, how many groups are there?",
+          "options": [
+            "5",
+            "4",
+            "20",
+            "9",
+            "Lots of smiles"
+          ],
+          "answer": "5"
+        }
+      ]
+    },
+    // Stage 4
+    {
+      "text": "Emma is learning about skip counting and how it relates to multiplication. She sees that 3 × 4 can be found by skip counting: 3, 6, 9, 12.",
+      "questions": [
+        // Question 4.1
+        {
+          "question": "What skip counting pattern shows 4 × 3?",
+          "options": [
+            "4, 8, 12",
+            "3, 6, 9, 12",
+            "4 + 4 + 4",
+            "3 + 3 + 3 + 3",
+            "Happy skips"
+          ],
+          "answer": "4, 8, 12"
+        },
+        // Question 4.2
+        {
+          "question": "How does skip counting by 5 help solve 5 × 3?",
+          "options": [
+            "5, 10, 15",
+            "3, 6, 9, 12, 15",
+            "5 + 3",
+            "5 - 3",
+            "Dancing numbers"
+          ],
+          "answer": "5, 10, 15"
+        },
+        // Question 4.3
+        {
+          "question": "What multiplication fact is shown by: 2, 4, 6, 8, 10?",
+          "options": [
+            "5 × 2",
+            "2 × 5",
+            "10 × 2",
+            "2 + 5",
+            "Counting stars"
+          ],
+          "answer": "5 × 2"
+        },
+        // Question 4.4
+        {
+          "question": "Skip counting by 3: 3, 6, 9, 12 shows what multiplication?",
+          "options": [
+            "4 × 3",
+            "3 × 4",
+            "12 × 3",
+            "3 + 4",
+            "Three little jumps"
+          ],
+          "answer": "4 × 3"
+        },
+        // Question 4.5
+        {
+          "question": "How many times do you skip count by 6 to find 6 × 2?",
+          "options": [
+            "2 times",
+            "6 times",
+            "12 times",
+            "8 times",
+            "Until dizzy"
+          ],
+          "answer": "2 times"
+        }
+      ]
+    },
+    // Stage 5
+    {
+      "text": "Tom is discovering that multiplication can be shown in many ways: repeated addition, arrays, equal groups, and skip counting.",
+      "questions": [
+        // Question 5.1
+        {
+          "question": "Which shows 3 × 4 correctly?",
+          "options": [
+            "3 + 3 + 3 + 3",
+            "4 + 4 + 4",
+            "3 - 4",
+            "3 ÷ 4",
+            "Three happy dances"
+          ],
+          "answer": "3 + 3 + 3 + 3"
+        },
+        // Question 5.2
+        {
+          "question": "What's another way to show 5 × 2?",
+          "options": [
+            "An array with 5 rows and 2 columns",
+            "5 + 2",
+            "5 - 2",
+            "2 ÷ 5",
+            "Five jumping frogs"
+          ],
+          "answer": "An array with 5 rows and 2 columns"
+        },
+        // Question 5.3
+        {
+          "question": "How else can you show 4 × 3?",
+          "options": [
+            "Skip counting: 4, 8, 12",
+            "4 + 3",
+            "4 - 3",
+            "4 ÷ 3",
+            "Four silly hops"
+          ],
+          "answer": "Skip counting: 4, 8, 12"
+        },
+        // Question 5.4
+        {
+          "question": "What's another way to think about 6 × 2?",
+          "options": [
+            "6 groups of 2",
+            "6 + 2",
+            "6 - 2",
+            "6 ÷ 2",
+            "Six happy skips"
+          ],
+          "answer": "6 groups of 2"
+        },
+        // Question 5.5
+        {
+          "question": "How else can you find 2 × 7?",
+          "options": [
+            "2 + 2 + 2 + 2 + 2 + 2 + 2",
+            "7 + 2",
+            "7 - 2",
+            "7 ÷ 2",
+            "Two dancing stars"
+          ],
+          "answer": "2 + 2 + 2 + 2 + 2 + 2 + 2"
+        }
+      ]
+    },
+    // Stage 6
+    {
+      "text": "Lucy is learning about the commutative property of multiplication. She discovers that 3 × 4 equals 4 × 3, even though they show different arrangements.",
+      "questions": [
+        // Question 6.1
+        {
+          "question": "What's true about 5 × 2 and 2 × 5?",
+          "options": [
+            "They have the same answer",
+            "5 × 2 is bigger",
+            "2 × 5 is bigger",
+            "They're different",
+            "They're best friends"
+          ],
+          "answer": "They have the same answer"
+        },
+        // Question 6.2
+        {
+          "question": "How is 3 × 4 different from 4 × 3 in arrays?",
+          "options": [
+            "The rows and columns are switched",
+            "The answer is different",
+            "One is bigger",
+            "They're the same array",
+            "They're playing tag"
+          ],
+          "answer": "The rows and columns are switched"
+        },
+        // Question 6.3
+        {
+          "question": "What happens when you switch the numbers in 6 × 3?",
+          "options": [
+            "The answer stays the same",
+            "The answer doubles",
+            "The answer halves",
+            "The answer changes",
+            "The numbers get dizzy"
+          ],
+          "answer": "The answer stays the same"
+        },
+        // Question 6.4
+        {
+          "question": "How are 7 × 2 and 2 × 7 similar?",
+          "options": [
+            "They equal the same amount",
+            "They look identical",
+            "They're different",
+            "One is larger",
+            "They share cookies"
+          ],
+          "answer": "They equal the same amount"
+        },
+        // Question 6.5
+        {
+          "question": "What's the commutative property of multiplication?",
+          "options": [
+            "Switching factors gives same product",
+            "Adding gives same answer",
+            "Numbers get bigger",
+            "Numbers get smaller",
+            "Numbers become friends"
+          ],
+          "answer": "Switching factors gives same product"
+        }
+      ]
+    },
+    // Stage 7
+    {
+      "text": "Max is learning about multiplying by 0 and 1. He discovers that any number times 0 equals 0, and any number times 1 equals itself.",
+      "questions": [
+        // Question 7.1
+        {
+          "question": "What is 5 × 0?",
+          "options": [
+            "0",
+            "5",
+            "1",
+            "10",
+            "Zero hugs"
+          ],
+          "answer": "0"
+        },
+        // Question 7.2
+        {
+          "question": "What happens when you multiply any number by 1?",
+          "options": [
+            "The number stays the same",
+            "You get zero",
+            "The number doubles",
+            "The number disappears",
+            "It gets tickled"
+          ],
+          "answer": "The number stays the same"
+        },
+        // Question 7.3
+        {
+          "question": "Why is 8 × 0 = 0?",
+          "options": [
+            "Zero groups of anything is zero",
+            "Eight disappears",
+            "Zero becomes eight",
+            "It equals eight",
+            "The numbers are sleeping"
+          ],
+          "answer": "Zero groups of anything is zero"
+        },
+        // Question 7.4
+        {
+          "question": "What is 1 × 6?",
+          "options": [
+            "6",
+            "1",
+            "0",
+            "7",
+            "Six giggles"
+          ],
+          "answer": "6"
+        },
+        // Question 7.5
+        {
+          "question": "In 0 × 4, how many groups of 4 are there?",
+          "options": [
+            "Zero groups",
+            "Four groups",
+            "One group",
+            "Many groups",
+            "Invisible groups"
+          ],
+          "answer": "Zero groups"
+        }
+      ]
+    },
+    // Stage 8
+    {
+      "text": "Sarah is learning about multiplying by 2 and doubling numbers. She sees that multiplying by 2 is the same as adding a number to itself.",
+      "questions": [
+        // Question 8.1
+        {
+          "question": "What's another way to think about 2 × 6?",
+          "options": [
+            "Double 6",
+            "Add 2 six times",
+            "6 ÷ 2",
+            "2 + 6",
+            "Six happy jumps"
+          ],
+          "answer": "Double 6"
+        },
+        // Question 8.2
+        {
+          "question": "How can you solve 2 × 4 using doubles?",
+          "options": [
+            "4 + 4",
+            "2 + 4",
+            "4 - 2",
+            "4 ÷ 2",
+            "Four dancing shoes"
+          ],
+          "answer": "4 + 4"
+        },
+        // Question 8.3
+        {
+          "question": "What does doubling 5 mean?",
+          "options": [
+            "Multiplying by 2",
+            "Adding 2",
+            "Subtracting 2",
+            "Dividing by 2",
+            "Five somersaults"
+          ],
+          "answer": "Multiplying by 2"
+        },
+        // Question 8.4
+        {
+          "question": "How is 2 × 7 related to doubles?",
+          "options": [
+            "It's the same as 7 + 7",
+            "It's 2 + 7",
+            "It's 7 - 2",
+            "It's 7 ÷ 2",
+            "Seven happy hops"
+          ],
+          "answer": "It's the same as 7 + 7"
+        },
+        // Question 8.5
+        {
+          "question": "What happens when you multiply a number by 2?",
+          "options": [
+            "You get double the number",
+            "You add 2",
+            "You subtract 2",
+            "Nothing changes",
+            "The number gets excited"
+          ],
+          "answer": "You get double the number"
+        }
+      ]
+    },
+    // Stage 9
+    {
+      "text": "Emma is discovering multiplication patterns with 5 and 10. She notices that multiplying by 5 gives numbers ending in 0 or 5, and multiplying by 10 gives numbers ending in 0.",
+      "questions": [
+        // Question 9.1
+        {
+          "question": "What pattern do you see in 5's multiplication facts?",
+          "options": [
+            "Answers end in 0 or 5",
+            "Answers end in 1",
+            "Always even numbers",
+            "Random numbers",
+            "Dancing numbers"
+          ],
+          "answer": "Answers end in 0 or 5"
+        },
+        // Question 9.2
+        {
+          "question": "What happens when you multiply by 10?",
+          "options": [
+            "Add a zero at the end",
+            "Add a five",
+            "Double the number",
+            "Nothing changes",
+            "Number gets taller"
+          ],
+          "answer": "Add a zero at the end"
+        },
+        // Question 9.3
+        {
+          "question": "In 5 × 4 = 20, what pattern helps you?",
+          "options": [
+            "Count by 5s",
+            "Count by 2s",
+            "Count by 3s",
+            "Random counting",
+            "Skip and hop"
+          ],
+          "answer": "Count by 5s"
+        },
+        // Question 9.4
+        {
+          "question": "What's an easy way to multiply by 10?",
+          "options": [
+            "Add a zero",
+            "Add five",
+            "Double it",
+            "Add one",
+            "Make it smile"
+          ],
+          "answer": "Add a zero"
+        },
+        // Question 9.5
+        {
+          "question": "What do you notice about 5 × odd numbers?",
+          "options": [
+            "Answer ends in 5",
+            "Answer ends in 0",
+            "Answer is even",
+            "No pattern",
+            "Numbers dance"
+          ],
+          "answer": "Answer ends in 5"
+        }
+      ]
+    },
+    // Stage 10
+    {
+      "text": "Tom is solving word problems using multiplication. He's learning to identify when to multiply in real-world situations.",
+      "questions": [
+        // Question 10.1
+        {
+          "question": "If each bag has 3 apples and there are 4 bags, which operation helps find the total apples?",
+          "options": [
+            "Multiplication",
+            "Addition",
+            "Subtraction",
+            "Division",
+            "Apple counting dance"
+          ],
+          "answer": "Multiplication"
+        },
+        // Question 10.2
+        {
+          "question": "Each classroom has 6 windows. How do you find the total windows in 5 classrooms?",
+          "options": [
+            "Multiply 6 × 5",
+            "Add 6 + 5",
+            "Subtract 6 - 5",
+            "Divide 6 ÷ 5",
+            "Count happy windows"
+          ],
+          "answer": "Multiply 6 × 5"
+        },
+        // Question 10.3
+        {
+          "question": "When 3 friends each have 4 stickers, why do you multiply?",
+          "options": [
+            "To find total stickers quickly",
+            "To share stickers",
+            "To remove stickers",
+            "To sort stickers",
+            "Stickers want to play"
+          ],
+          "answer": "To find total stickers quickly"
+        },
+        // Question 10.4
+        {
+          "question": "If bikes have 2 wheels each, how do you find wheels on 7 bikes?",
+          "options": [
+            "Multiply 2 × 7",
+            "Add 2 + 7",
+            "Subtract 7 - 2",
+            "Divide 7 ÷ 2",
+            "Count spinning wheels"
+          ],
+          "answer": "Multiply 2 × 7"
+        },
+        // Question 10.5
+        {
+          "question": "When do you use multiplication in real life?",
+          "options": [
+            "Finding total of equal groups",
+            "Sharing items equally",
+            "Taking items away",
+            "Comparing items",
+            "Making numbers laugh"
+          ],
+          "answer": "Finding total of equal groups"
+        }
+      ]
+    },
+	// Stage 11
+	{
+	  "text": "Oliver is learning multiplication facts with 3 and 4. He's practicing how to quickly recall these multiplication facts.",
+	  "questions": [
+		// Question 11.1
+		{
+		  "question": "What is 3 × 5?",
+		  "options": [
+			"15",
+			"8",
+			"12",
+			"18",
+			"Counting stars"
+		  ],
+		  "answer": "15"
+		},
+		// Question 11.2
+		{
+		  "question": "What is 4 × 6?",
+		  "options": [
+			"24",
+			"20",
+			"12",
+			"18",
+			"Four happy jumps"
+		  ],
+		  "answer": "24"
+		},
+		// Question 11.3
+		{
+		  "question": "If you know 3 × 4 = 12, what is 4 × 3?",
+		  "options": [
+			"12",
+			"7",
+			"9",
+			"15",
+			"Numbers dancing"
+		  ],
+		  "answer": "12"
+		},
+		// Question 11.4
+		{
+		  "question": "Which of the following is the result of 3 × 7?",
+		  "options": [
+			"21",
+			"24",
+			"18",
+			"14",
+			"Three little hops"
+		  ],
+		  "answer": "21"
+		},
+		// Question 11.5
+		{
+		  "question": "What multiplication fact equals 16?",
+		  "options": [
+			"4 × 4",
+			"3 × 5",
+			"2 × 8",
+			"4 × 5",
+			"Four dancing stars"
+		  ],
+		  "answer": "4 × 4"
+		}
+	  ]
+	},
+	// Stage 12
+	{
+	  "text": "Lucy is exploring the associative property of multiplication. She discovers that grouping factors differently doesn't change the product.",
+	  "questions": [
+		// Question 12.1
+		{
+		  "question": "What is (2 × 3) × 4 equal to?",
+		  "options": [
+			"2 × (3 × 4)",
+			"2 + 3 + 4",
+			"2 × 3 + 4",
+			"(2 + 3) × 4",
+			"Numbers playing"
+		  ],
+		  "answer": "2 × (3 × 4)"
+		},
+		// Question 12.2
+		{
+		  "question": "Calculate (5 × 2) × 3.",
+		  "options": [
+			"30",
+			"25",
+			"20",
+			"15",
+			"Math magic"
+		  ],
+		  "answer": "30"
+		},
+		// Question 12.3
+		{
+		  "question": "Is 3 × (4 × 2) the same as (3 × 4) × 2?",
+		  "options": [
+			"Yes, both equal 24",
+			"No, they are different",
+			"One is larger",
+			"Cannot tell",
+			"Numbers dancing"
+		  ],
+		  "answer": "Yes, both equal 24"
+		},
+		// Question 12.4
+		{
+		  "question": "What is 6 × (2 × 1)?",
+		  "options": [
+			"12",
+			"8",
+			"6",
+			"14",
+			"Six happy skips"
+		  ],
+		  "answer": "12"
+		},
+		// Question 12.5
+		{
+		  "question": "Which expression shows the associative property?",
+		  "options": [
+			"(4 × 2) × 5 = 4 × (2 × 5)",
+			"4 × 2 = 2 × 4",
+			"4 + 2 = 2 + 4",
+			"4 × 0 = 0",
+			"Numbers are friends"
+		  ],
+		  "answer": "(4 × 2) × 5 = 4 × (2 × 5)"
+		}
+	  ]
+	},
+	// Stage 13
+	{
+	  "text": "Max is learning about multiplying multiples of 10. He notices patterns when multiplying numbers ending with zero.",
+	  "questions": [
+		// Question 13.1
+		{
+		  "question": "What is 3 × 10?",
+		  "options": [
+			"30",
+			"13",
+			"300",
+			"10",
+			"Numbers dancing"
+		  ],
+		  "answer": "30"
+		},
+		// Question 13.2
+		{
+		  "question": "Calculate 4 × 20.",
+		  "options": [
+			"80",
+			"24",
+			"60",
+			"40",
+			"Twenty happy hops"
+		  ],
+		  "answer": "80"
+		},
+		// Question 13.3
+		{
+		  "question": "What is 5 × 30?",
+		  "options": [
+			"150",
+			"35",
+			"50",
+			"80",
+			"Counting stars"
+		  ],
+		  "answer": "150"
+		},
+		// Question 13.4
+		{
+		  "question": "If 2 × 40 = ?, what is the result?",
+		  "options": [
+			"80",
+			"60",
+			"42",
+			"20",
+			"Numbers skipping"
+		  ],
+		  "answer": "80"
+		},
+		// Question 13.5
+		{
+		  "question": "What pattern do you notice when multiplying by multiples of 10?",
+		  "options": [
+			"Answers end with a zero",
+			"Answers are always even",
+			"Numbers get smaller",
+			"No pattern",
+			"Numbers dancing"
+		  ],
+		  "answer": "Answers end with a zero"
+		}
+	  ]
+	},
+	// Stage 14
+	{
+	  "text": "Emma is exploring the distributive property of multiplication. She's learning how to break apart numbers to make multiplication easier.",
+	  "questions": [
+		// Question 14.1
+		{
+		  "question": "How can you use the distributive property to solve 3 × 7?",
+		  "options": [
+			"3 × (5 + 2)",
+			"(3 × 5) + (3 × 2)",
+			"Both A and B",
+			"Cannot use it",
+			"Math magic"
+		  ],
+		  "answer": "Both A and B"
+		},
+		// Question 14.2
+		{
+		  "question": "What is (4 × 6) = (4 × 3) + (4 × 3)?",
+		  "options": [
+			"Yes, because 6 = 3 + 3",
+			"No, because it's different",
+			"Cannot tell",
+			"Numbers dancing",
+			"Math fun"
+		  ],
+		  "answer": "Yes, because 6 = 3 + 3"
+		},
+		// Question 14.3
+		{
+		  "question": "Use the distributive property to find 5 × 8.",
+		  "options": [
+			"(5 × 5) + (5 × 3)",
+			"(5 × 4) + (5 × 4)",
+			"(5 × 6) + (5 × 2)",
+			"All of the above",
+			"Numbers are friends"
+		  ],
+		  "answer": "(5 × 4) + (5 × 4)"
+		},
+		// Question 14.4
+		{
+		  "question": "What is 6 × 7 using the distributive property over addition?",
+		  "options": [
+			"(6 × 5) + (6 × 2)",
+			"(6 × 6) + (6 × 1)",
+			"Both A and B",
+			"Cannot distribute",
+			"Math party"
+		  ],
+		  "answer": "Both A and B"
+		},
+		// Question 14.5
+		{
+		  "question": "Why is the distributive property useful?",
+		  "options": [
+			"It breaks hard problems into easier ones",
+			"It makes numbers bigger",
+			"It's not useful",
+			"It only works sometimes",
+			"Numbers having fun"
+		  ],
+		  "answer": "It breaks hard problems into easier ones"
+		}
+	  ]
+	},
+	// Stage 15
+	{
+	  "text": "Sarah is connecting multiplication and division. She's learning how division is the inverse of multiplication.",
+	  "questions": [
+		// Question 15.1
+		{
+		  "question": "If 3 × 5 = 15, what is 15 ÷ 5?",
+		  "options": [
+			"3",
+			"5",
+			"15",
+			"8",
+			"Numbers dancing"
+		  ],
+		  "answer": "3"
+		},
+		// Question 15.2
+		{
+		  "question": "Which multiplication fact can help solve 12 ÷ 4?",
+		  "options": [
+			"4 × 3 = 12",
+			"3 × 4 = 12",
+			"Both A and B",
+			"Cannot tell",
+			"Math magic"
+		  ],
+		  "answer": "Both A and B"
+		},
+		// Question 15.3
+		{
+		  "question": "What is the inverse operation of multiplication?",
+		  "options": [
+			"Division",
+			"Addition",
+			"Subtraction",
+			"Multiplication again",
+			"Numbers having fun"
+		  ],
+		  "answer": "Division"
+		},
+		// Question 15.4
+		{
+		  "question": "If 5 × 6 = 30, then 30 ÷ 6 = ?",
+		  "options": [
+			"5",
+			"6",
+			"30",
+			"25",
+			"Counting stars"
+		  ],
+		  "answer": "5"
+		},
+		// Question 15.5
+		{
+		  "question": "How does understanding multiplication help with division?",
+		  "options": [
+			"It helps find how many times a number fits into another",
+			"It doesn't help",
+			"It makes division harder",
+			"No connection",
+			"Numbers dancing"
+		  ],
+		  "answer": "It helps find how many times a number fits into another"
+		}
+	  ]
+	}
+
+    // Stage 16
+    {
+      "text": "Lucy is learning about missing factors in multiplication. She's discovering how to find missing numbers in multiplication problems.",
+      "questions": [
+        // Question 16.1
+        {
+          "question": "In □ × 4 = 12, what's the missing number?",
+          "options": [
+            "3",
+            "4",
+            "8",
+            "16",
+            "A hiding number"
+          ],
+          "answer": "3"
+        },
+        // Question 16.2
+        {
+          "question": "What's missing in 5 × □ = 25?",
+          "options": [
+            "5",
+            "10",
+            "15",
+            "20",
+            "Five happy jumps"
+          ],
+          "answer": "5"
+        },
+        // Question 16.3
+        {
+          "question": "In □ × 3 = 15, how can you find the missing factor?",
+          "options": [
+            "Count by 3s until 15",
+            "Add 3 + 15",
+            "Subtract 3 from 15",
+            "Guess randomly",
+            "Ask the number nicely"
+          ],
+          "answer": "Count by 3s until 15"
+        },
+        // Question 16.4
+        {
+          "question": "What number makes 6 × □ = 18 true?",
+          "options": [
+            "3",
+            "6",
+            "9",
+            "12",
+            "A dancing number"
+          ],
+          "answer": "3"
+        },
+        // Question 16.5
+        {
+          "question": "How can you check if you found the right missing number?",
+          "options": [
+            "Multiply to see if it equals the answer",
+            "Add the numbers",
+            "Subtract the numbers",
+            "Just guess",
+            "Make numbers smile"
+          ],
+          "answer": "Multiply to see if it equals the answer"
+        }
+      ]
+    },
+    // Stage 17
+    {
+      "text": "Max is exploring multiplication with money. He's learning how to find total costs when buying multiple items.",
+      "questions": [
+        // Question 17.1
+        {
+          "question": "If one pencil costs $2, how do you find the cost of 4 pencils?",
+          "options": [
+            "Multiply 2 × 4",
+            "Add 2 + 4",
+            "Subtract 4 - 2",
+            "Divide 4 ÷ 2",
+            "Count happy dollars"
+          ],
+          "answer": "Multiply 2 × 4"
+        },
+        // Question 17.2
+        {
+          "question": "Three books cost $5 each. Which shows how to find total cost?",
+          "options": [
+            "5 × 3",
+            "5 + 3",
+            "5 - 3",
+            "3 ÷ 5",
+            "Dancing dollars"
+          ],
+          "answer": "5 × 3"
+        },
+        // Question 17.3
+        {
+          "question": "Why multiply to find cost of 6 candies at $1 each?",
+          "options": [
+            "Each candy costs the same",
+            "Prices are different",
+            "Should add instead",
+            "Better to guess",
+            "Candy wants to play"
+          ],
+          "answer": "Each candy costs the same"
+        },
+        // Question 17.4
+        {
+          "question": "How do you find cost of 5 toys at $3 each?",
+          "options": [
+            "Multiply 3 × 5",
+            "Add 3 + 5",
+            "Subtract 5 - 3",
+            "Divide 5 ÷ 3",
+            "Count jumping toys"
+          ],
+          "answer": "Multiply 3 × 5"
+        },
+        // Question 17.5
+        {
+          "question": "What helps you find cost of 2 games at $4 each?",
+          "options": [
+            "Multiply price times number of games",
+            "Add price and games",
+            "Subtract games from price",
+            "Just guess",
+            "Games having fun"
+          ],
+          "answer": "Multiply price times number of games"
+        }
+      ]
+    },
+    // Stage 18
+    {
+      "text": "Sarah is discovering multiplication shortcuts using doubles and halves. She's learning how numbers relate to each other.",
+      "questions": [
+        // Question 18.1
+        {
+          "question": "If you know 4 × 3, how can you find 8 × 3?",
+          "options": [
+            "Double 4 × 3",
+            "Add 4 + 3",
+            "Subtract 4 - 3",
+            "Start over",
+            "Eight happy dances"
+          ],
+          "answer": "Double 4 × 3"
+        },
+        // Question 18.2
+        {
+          "question": "How can knowing 6 × 2 help find 3 × 2?",
+          "options": [
+            "Take half of 6 × 2",
+            "Add 6 + 2",
+            "Subtract 6 - 2",
+            "Start counting",
+            "Numbers playing"
+          ],
+          "answer": "Take half of 6 × 2"
+        },
+        // Question 18.3
+        {
+          "question": "What's the relationship between 5 × 4 and 10 × 4?",
+          "options": [
+            "10 × 4 is double 5 × 4",
+            "They're the same",
+            "No relationship",
+            "Can't tell",
+            "Numbers are friends"
+          ],
+          "answer": "10 × 4 is double 5 × 4"
+        },
+        // Question 18.4
+        {
+          "question": "How can doubles help solve 6 × 4?",
+          "options": [
+            "Double 3 × 4",
+            "Add 6 + 4",
+            "Subtract 6 - 4",
+            "Just guess",
+            "Six little jumps"
+          ],
+          "answer": "Double 3 × 4"
+        },
+        // Question 18.5
+        {
+          "question": "What's the connection between 8 × 2 and 4 × 2?",
+          "options": [
+            "8 × 2 is double 4 × 2",
+            "No connection",
+            "They're equal",
+            "Can't compare",
+            "Numbers dancing"
+          ],
+          "answer": "8 × 2 is double 4 × 2"
+        }
+      ]
+    },
+    // Stage 19
+    {
+      "text": "Emma is solving multiplication word problems involving groups and arrays. She's learning to visualize problems in different ways.",
+      "questions": [
+        // Question 19.1
+        {
+          "question": "A garden has 3 rows with 4 flowers in each. How can you find total flowers?",
+          "options": [
+            "Make an array of 3 × 4",
+            "Add 3 + 4",
+            "Subtract 4 - 3",
+            "Count one by one",
+            "Ask the flowers"
+          ],
+          "answer": "Make an array of 3 × 4"
+        },
+        // Question 19.2
+        {
+          "question": "Five shelves have 3 books each. Which helps solve this?",
+          "options": [
+            "Draw 5 groups of 3",
+            "Add 5 + 3",
+            "Count by ones",
+            "Just guess",
+            "Books dancing"
+          ],
+          "answer": "Draw 5 groups of 3"
+        },
+        // Question 19.3
+        {
+          "question": "How can you show 4 desks with 2 students each?",
+          "options": [
+            "Draw 4 rows of 2",
+            "Add 4 + 2",
+            "Make 4 - 2",
+            "Draw 6 total",
+            "Happy students"
+          ],
+          "answer": "Draw 4 rows of 2"
+        },
+        // Question 19.4
+        {
+          "question": "Six trees have 3 birds each. What picture shows this?",
+          "options": [
+            "6 groups with 3 dots each",
+            "6 + 3 dots",
+            "6 - 3 dots",
+            "9 total dots",
+            "Birds flying"
+          ],
+          "answer": "6 groups with 3 dots each"
+        },
+        // Question 19.5
+        {
+          "question": "What helps solve '7 plates with 2 cookies each'?",
+          "options": [
+            "Draw arrays or groups",
+            "Add numbers",
+            "Subtract numbers",
+            "Random guess",
+            "Cookie party"
+          ],
+          "answer": "Draw arrays or groups"
+        }
+      ]
+    },
+    // Stage 20
+    {
+      "text": "Tom is learning to use multiplication to solve real-world problems involving equal groups and arrays.",
+      "questions": [
+        // Question 20.1
+        {
+          "question": "A classroom has 6 tables with 4 chairs each. How do you find total chairs?",
+          "options": [
+            "Multiply 6 × 4",
+            "Add 6 + 4",
+            "Subtract 6 - 4",
+            "Count one by one",
+            "Chairs dancing"
+          ],
+          "answer": "Multiply 6 × 4"
+        },
+        // Question 20.2
+        {
+          "question": "Each basketball team has 5 players. How many players in 3 teams?",
+          "options": [
+            "Use 3 × 5",
+            "Add 3 + 5",
+            "Subtract 5 - 3",
+            "Random guess",
+            "Players jumping"
+          ],
+          "answer": "Use 3 × 5"
+        },
+        // Question 20.3
+        {
+          "question": "Why multiply to find wheels on 4 tricycles?",
+          "options": [
+            "Each has same number of wheels",
+            "Wheels are different",
+            "Should add instead",
+            "Better to guess",
+            "Wheels spinning"
+          ],
+          "answer": "Each has same number of wheels"
+        },
+        // Question 20.4
+        {
+          "question": "How do you find total eggs in 6 cartons of 2 eggs each?",
+          "options": [
+            "Multiply 6 × 2",
+            "Add 6 + 2",
+            "Count by ones",
+            "Make a guess",
+            "Eggs rolling"
+          ],
+          "answer": "Multiply 6 × 2"
+        },
+        // Question 20.5
+        {
+          "question": "What helps solve 'cost of 7 candies at $3 each'?",
+          "options": [
+            "Multiply 7 × 3",
+            "Add 7 + 3",
+            "Subtract 7 - 3",
+            "Random guess",
+            "Sweet counting"
+          ],
+          "answer": "Multiply 7 × 3"
+        }
+      ]
+    },
+    // Stage 21
+    {
+      "text": "Lucy is combining addition and multiplication to solve problems. She's learning when to use each operation.",
+      "questions": [
+        // Question 21.1
+        {
+          "question": "A store has 3 boxes of 4 crayons, plus 2 loose crayons. How do you find the total?",
+          "options": [
+            "Multiply 3 × 4, then add 2",
+            "Add all numbers",
+            "Just multiply all",
+            "Random guess",
+            "Crayons dancing"
+          ],
+          "answer": "Multiply 3 × 4, then add 2"
+        },
+        // Question 21.2
+        {
+          "question": "Why use both multiplication and addition for '5 bags of 3 marbles and 4 extra marbles'?",
+          "options": [
+            "Groups first, then extras",
+            "Just add all numbers",
+            "Only multiply",
+            "Only add",
+            "Marbles playing"
+          ],
+          "answer": "Groups first, then extras"
+        },
+        // Question 21.3
+        {
+          "question": "Four shelves of 6 books each, plus 3 books on table. What do you do first?",
+          "options": [
+            "Multiply 4 × 6",
+            "Add 4 + 6",
+            "Add 3 first",
+            "Add all numbers",
+            "Books having fun"
+          ],
+          "answer": "Multiply 4 × 6"
+        },
+        // Question 21.4
+        {
+          "question": "Which helps solve '2 boxes of 5 toys plus 1 toy'?",
+          "options": [
+            "(2 × 5) + 1",
+            "2 + 5 + 1",
+            "2 × 5 × 1",
+            "Random guess",
+            "Toys playing games"
+          ],
+          "answer": "(2 × 5) + 1"
+        },
+        // Question 21.5
+        {
+          "question": "Three plates of 4 cookies each, plus 2 cookies. Why multiply first?",
+          "options": [
+            "Find group total before adding extras",
+            "Adding is easier",
+            "Order doesn't matter",
+            "Just guess",
+            "Cookie party time"
+          ],
+          "answer": "Find group total before adding extras"
+        }
+      ]
+    },
+    // Stage 22
+    {
+      "text": "Max is solving problems with multiple steps using multiplication. He's learning to break problems into smaller parts.",
+      "questions": [
+        // Question 22.1
+        {
+          "question": "Two classes each have 5 rows of 3 students. How do you find total students?",
+          "options": [
+            "Find 5 × 3, then double it",
+            "Add 5 + 3 + 2",
+            "Multiply all numbers",
+            "Just guess",
+            "Students dancing"
+          ],
+          "answer": "Find 5 × 3, then double it"
+        },
+        // Question 22.2
+        {
+          "question": "Three shelves have 4 blue books and 2 red books each. What's first step?",
+          "options": [
+            "Find books per shelf: 4 + 2",
+            "Multiply 3 × 4",
+            "Add all numbers",
+            "Count one by one",
+            "Books playing"
+          ],
+          "answer": "Find books per shelf: 4 + 2"
+        },
+        // Question 22.3
+        {
+          "question": "Four kids have 3 stickers each. Each kid gets 2 more. How do you solve?",
+          "options": [
+            "(4 × 3) + (4 × 2)",
+            "4 + 3 + 2",
+            "4 × 3 × 2",
+            "Just add all",
+            "Sticker party"
+          ],
+          "answer": "(4 × 3) + (4 × 2)"
+        },
+        // Question 22.4
+        {
+          "question": "Why break down 'six bags of 5 red and 3 blue marbles'?",
+          "options": [
+            "Find total per bag first",
+            "Add all numbers",
+            "Just multiply all",
+            "Random guess",
+            "Marbles dancing"
+          ],
+          "answer": "Find total per bag first"
+        },
+        // Question 22.5
+        {
+          "question": "Five boxes have 2 chocolates and 1 candy each. What's the best first step?",
+          "options": [
+            "Find items per box",
+            "Multiply 5 × 2",
+            "Add all numbers",
+            "Start counting",
+            "Sweet treats party"
+          ],
+          "answer": "Find items per box"
+        }
+      ]
+    },
+    // Stage 23
+    {
+      "text": "Sarah is comparing situations that use multiplication versus addition. She's learning to identify when each operation is needed.",
+      "questions": [
+        // Question 23.1
+        {
+          "question": "When do you use multiplication instead of addition?",
+          "options": [
+            "Equal groups repeated",
+            "Different amounts",
+            "Adding two numbers",
+            "Taking away",
+            "Numbers dancing"
+          ],
+          "answer": "Equal groups repeated"
+        },
+        // Question 23.2
+        {
+          "question": "Why multiply for '4 boxes of 3 crayons each' but add for '4 red and 3 blue crayons'?",
+          "options": [
+            "Equal groups vs different groups",
+            "Numbers are same",
+            "It's easier",
+            "No reason",
+            "Crayons playing"
+          ],
+          "answer": "Equal groups vs different groups"
+        },
+        // Question 23.3
+        {
+          "question": "When should you add instead of multiply?",
+          "options": [
+            "Different amounts in groups",
+            "Same amounts repeated",
+            "Equal groups",
+            "Big numbers",
+            "Happy numbers"
+          ],
+          "answer": "Different amounts in groups"
+        },
+        // Question 23.4
+        {
+          "question": "Why multiply for '5 shelves of 3 books' but add for '5 books and 3 magazines'?",
+          "options": [
+            "Same vs different items",
+            "Numbers too big",
+            "It's faster",
+            "No difference",
+            "Books dancing"
+          ],
+          "answer": "Same vs different items"
+        },
+        // Question 23.5
+        {
+          "question": "What shows you should multiply?",
+          "options": [
+            "Same number in each group",
+            "Different numbers",
+            "Two numbers only",
+            "Small numbers",
+            "Numbers having fun"
+          ],
+          "answer": "Same number in each group"
+        }
+      ]
+    },
+    // Stage 24
+    {
+      "text": "Emma is solving problems that involve both multiplication and division. She's seeing how these operations are related.",
+      "questions": [
+        // Question 24.1
+        {
+          "question": "How does knowing 3 × 4 = 12 help solve 12 ÷ 3?",
+          "options": [
+            "Shows how many groups of 3 in 12",
+            "No connection",
+            "Just different",
+            "Doesn't help",
+            "Numbers playing"
+          ],
+          "answer": "Shows how many groups of 3 in 12"
+        },
+        // Question 24.2
+        {
+          "question": "Why is 15 ÷ 5 = 3 related to 5 × 3 = 15?",
+          "options": [
+            "They're inverse operations",
+            "Just similar numbers",
+            "No relationship",
+            "Different operations",
+            "Math magic"
+          ],
+          "answer": "They're inverse operations"
+        },
+        // Question 24.3
+        {
+          "question": "How can 6 × 2 = 12 help find 12 ÷ 2?",
+          "options": [
+            "Shows 6 groups of 2 make 12",
+            "They're different",
+            "No connection",
+            "Just guess",
+            "Numbers dancing"
+          ],
+          "answer": "Shows 6 groups of 2 make 12"
+        },
+        // Question 24.4
+        {
+          "question": "What's the connection between 4 × 5 = 20 and 20 ÷ 5 = 4?",
+          "options": [
+            "They're opposite operations",
+            "No connection",
+            "Just coincidence",
+            "Different math",
+            "Number friends"
+          ],
+          "answer": "They're opposite operations"
+        },
+        // Question 24.5
+        {
+          "question": "How does multiplication help with division?",
+          "options": [
+            "Shows how groups are made",
+            "No help at all",
+            "They're different",
+            "Just confusing",
+            "Math party time"
+          ],
+          "answer": "Shows how groups are made"
+        }
+      ]
+    },
+    // Stage 25
+    {
+      "text": "Oliver is creating his own multiplication word problems. He's learning to write clear problems that make sense.",
+      "questions": [
+        // Question 25.1
+        {
+          "question": "What makes a good multiplication word problem?",
+          "options": [
+            "Equal groups clearly shown",
+            "Random numbers",
+            "Just big numbers",
+            "Any numbers work",
+            "Dancing numbers"
+          ],
+          "answer": "Equal groups clearly shown"
+        },
+        // Question 25.2
+        {
+          "question": "Which is a good multiplication story?",
+          "options": [
+            "3 boxes with 4 toys each",
+            "3 toys and 4 boxes",
+            "3 plus 4 toys",
+            "3 minus 4 toys",
+            "Toys playing games"
+          ],
+          "answer": "3 boxes with 4 toys each"
+        },
+        // Question 25.3
+        {
+          "question": "What should your story include?",
+          "options": [
+            "Groups and items per group",
+            "Just numbers",
+            "Random items",
+            "No groups",
+            "Happy endings"
+          ],
+          "answer": "Groups and items per group"
+        },
+        // Question 25.4
+        {
+          "question": "Which makes more sense for multiplication?",
+          "options": [
+            "5 shelves of 3 books each",
+            "5 books and 3 shelves",
+            "5 plus 3 books",
+            "5 minus 3 books",
+            "Books having fun"
+          ],
+          "answer": "5 shelves of 3 books each"
+        },
+        // Question 25.5
+        {
+          "question": "What shows multiplication correctly?",
+          "options": [
+            "4 bags with 2 apples each",
+            "4 apples and 2 bags",
+            "4 plus 2 apples",
+            "4 minus 2 apples",
+            "Apple party"
+          ],
+          "answer": "4 bags with 2 apples each"
+        }
+      ]
+    },
+    // Continue with remaining stages...
+    // Stage 26
+    {
+      "text": "Lucy is practicing multiplication in real-world situations. She's seeing how multiplication helps solve everyday problems.",
+      "questions": [
+        // Question 26.1
+        {
+          "question": "Where do you see multiplication at a store?",
+          "options": [
+            "Buying multiple items at same price",
+            "Different priced items",
+            "One item only",
+            "No math needed",
+            "Shopping dance"
+          ],
+          "answer": "Buying multiple items at same price"
+        },
+        // Question 26.2
+        {
+          "question": "How does multiplication help in cooking?",
+          "options": [
+            "Doubling a recipe",
+            "Different ingredients",
+            "One serving only",
+            "No help needed",
+            "Kitchen party"
+          ],
+          "answer": "Doubling a recipe"
+        },
+        // Question 26.3
+        {
+          "question": "When do you multiply at school?",
+          "options": [
+            "Same supplies for each student",
+            "Different supplies",
+            "One item each",
+            "Never multiply",
+            "School fun time"
+          ],
+          "answer": "Same supplies for each student"
+        },
+        // Question 26.4
+        {
+          "question": "How does multiplication help with time?",
+          "options": [
+            "Finding total minutes in multiple hours",
+            "Just counting minutes",
+            "One hour only",
+            "No connection",
+            "Time dancing"
+          ],
+          "answer": "Finding total minutes in multiple hours"
+        },
+        // Question 26.5
+        {
+          "question": "Where do you use multiplication at home?",
+          "options": [
+            "Setting multiple place settings",
+            "One place setting",
+            "Different settings",
+            "Never use it",
+            "Home happiness"
+          ],
+          "answer": "Setting multiple place settings"
+        }
+      ]
+    },
+    // Stage 27
+    {
+      "text": "Max is reviewing all multiplication concepts. He's connecting different ways to think about multiplication.",
+      "questions": [
+        // Question 27.1
+        {
+          "question": "How are arrays and equal groups similar?",
+          "options": [
+            "Both show same amount in each group",
+            "They're different",
+            "No connection",
+            "Just similar",
+            "Math friends"
+          ],
+          "answer": "Both show same amount in each group"
+        },
+        // Question 27.2
+        {
+          "question": "What connects repeated addition and multiplication?",
+          "options": [
+            "Adding same number multiple times",
+            "Different numbers",
+            "No connection",
+            "Just math",
+            "Number party"
+          ],
+          "answer": "Adding same number multiple times"
+        },
+        // Question 27.3
+        {
+          "question": "How do skip counting and multiplication relate?",
+          "options": [
+            "Skip by factor to find product",
+            "No relationship",
+            "Just counting",
+            "Different math",
+            "Numbers skipping"
+          ],
+          "answer": "Skip by factor to find product"
+        },
+        // Question 27.4
+        {
+          "question": "What's similar about doubles and multiplication by 2?",
+          "options": [
+            "Both show two equal groups",
+            "They're different",
+            "No connection",
+            "Just numbers",
+            "Double fun"
+          ],
+          "answer": "Both show two equal groups"
+        },
+        // Question 27.5
+        {
+          "question": "How do all multiplication strategies help?",
+          "options": [
+            "Show different ways to solve",
+            "They don't help",
+            "Just confusing",
+            "No connection",
+            "Math party time"
+          ],
+          "answer": "Show different ways to solve"
+        }
+      ]
+    },
+    // Stage 28
+    {
+      "text": "Sarah is mastering complex multiplication problems. She's combining all her skills to solve challenging situations.",
+      "questions": [
+        // Question 28.1
+        {
+          "question": "A store has 3 shelves, each with 4 red and 2 blue books. How do you find total books?",
+          "options": [
+            "Find (4 + 2) × 3",
+            "Just add all numbers",
+            "3 × 4 × 2",
+            "Random guess",
+            "Books dancing"
+          ],
+          "answer": "Find (4 + 2) × 3"
+        },
+        // Question 28.2
+        {
+          "question": "Two classes each have 5 rows of 3 desks. Some desks have 2 students. What do you solve first?",
+          "options": [
+            "Total desks: 2 × (5 × 3)",
+            "Add all numbers",
+            "Multiply all numbers",
+            "Count students",
+            "Happy classroom"
+          ],
+          "answer": "Total desks: 2 × (5 × 3)"
+        },
+        // Question 28.3
+        {
+          "question": "Four children get 3 stickers each, then 2 more each. What's the best method?",
+          "options": [
+            "(3 + 2) × 4",
+            "4 × 3 × 2",
+            "4 + 3 + 2",
+            "Just guess",
+            "Sticker party"
+          ],
+          "answer": "(3 + 2) × 4"
+        },
+        // Question 28.4
+        {
+          "question": "Each of 3 teams has 6 players wearing 2 socks each. How do you organize this problem?",
+          "options": [
+            "3 × 6 × 2",
+            "3 + 6 + 2",
+            "3 × 6 + 2",
+            "Random guess",
+            "Sock parade"
+          ],
+          "answer": "3 × 6 × 2"
+        },
+        // Question 28.5
+        {
+          "question": "Five boxes each have 3 red and 4 blue marbles. What's the efficient way to solve?",
+          "options": [
+            "5 × (3 + 4)",
+            "5 + 3 + 4",
+            "5 × 3 × 4",
+            "Count one by one",
+            "Marble magic"
+          ],
+          "answer": "5 × (3 + 4)"
+        }
+      ]
+    },
+    // Stage 29
+    {
+      "text": "Emma is using multiplication to solve real-world problems that require multiple steps. She's becoming confident in choosing the right strategies.",
+      "questions": [
+        // Question 29.1
+        {
+          "question": "A recipe needs 2 eggs per batch. Making 3 batches for 4 families. How do you find total eggs?",
+          "options": [
+            "(2 × 3) × 4",
+            "2 + 3 + 4",
+            "2 × 3 + 4",
+            "Just guess",
+            "Egg party"
+          ],
+          "answer": "(2 × 3) × 4"
+        },
+        // Question 29.2
+        {
+          "question": "Each of 5 tables has 4 chairs. Half the chairs need 2 cushions. How do you start?",
+          "options": [
+            "Find total chairs: 5 × 4",
+            "Add 5 + 4 + 2",
+            "Multiply all numbers",
+            "Count cushions first",
+            "Chair dance"
+          ],
+          "answer": "Find total chairs: 5 × 4"
+        },
+        // Question 29.3
+        {
+          "question": "Three friends each buy 2 pencils at $3 each. What's the first step?",
+          "options": [
+            "Find cost per person: 2 × $3",
+            "Add 3 + 2 + 3",
+            "Multiply all numbers",
+            "Random guess",
+            "Pencil parade"
+          ],
+          "answer": "Find cost per person: 2 × $3"
+        },
+        // Question 29.4
+        {
+          "question": "Six kids each read 4 books. Each book has 2 chapters. How do you solve this?",
+          "options": [
+            "6 × 4 × 2",
+            "6 + 4 + 2",
+            "6 × 4 + 2",
+            "Count pages",
+            "Book party"
+          ],
+          "answer": "6 × 4 × 2"
+        },
+        // Question 29.5
+        {
+          "question": "Four gardens each have 3 rows of 5 flowers. What's the best first step?",
+          "options": [
+            "Find flowers per garden: 3 × 5",
+            "Add all numbers",
+            "4 × 3 + 5",
+            "Count flowers",
+            "Flower fun"
+          ],
+          "answer": "Find flowers per garden: 3 × 5"
+        }
+      ]
+    },
+    // Stage 30 (Final Stage)
+    {
+      "text": "In this final stage, Tom is demonstrating mastery of all multiplication concepts. He can solve complex problems and explain his thinking clearly.",
+      "questions": [
+        // Question 30.1
+        {
+          "question": "What's the most important thing to remember about multiplication?",
+          "options": [
+            "It shows equal groups of items",
+            "It's just repeated addition",
+            "It's about big numbers",
+            "It's like counting",
+            "Numbers having fun"
+          ],
+          "answer": "It shows equal groups of items"
+        },
+        // Question 30.2
+        {
+          "question": "When solving word problems, what's the best first step?",
+          "options": [
+            "Identify what makes equal groups",
+            "Add all numbers",
+            "Look for big numbers",
+            "Random guess",
+            "Problem party"
+          ],
+          "answer": "Identify what makes equal groups"
+        },
+        // Question 30.3
+        {
+          "question": "Why are there different ways to show multiplication?",
+          "options": [
+            "Different methods help understanding",
+            "Just to make it harder",
+            "No real reason",
+            "They're all same",
+            "Math magic"
+          ],
+          "answer": "Different methods help understanding"
+        },
+        // Question 30.4
+        {
+          "question": "What helps most when solving multiplication problems?",
+          "options": [
+            "Understanding equal groups",
+            "Memorizing facts",
+            "Quick counting",
+            "Lucky guesses",
+            "Number dances"
+          ],
+          "answer": "Understanding equal groups"
+        },
+        // Question 30.5
+        {
+          "question": "How does multiplication help in real life?",
+          "options": [
+            "Solves problems with equal groups quickly",
+            "Makes math harder",
+            "Only helps in school",
+            "Doesn't help much",
+            "Makes numbers happy"
+          ],
+          "answer": "Solves problems with equal groups quickly"
+        }
+      ]
+    }
+//-------------------------------------------------------------------------------------------------------------------							
+				  ]
+				}
+        ];
+
+		const stageCount = quizData[0].stages.length; // This is the correct way to get the number of stages
+
+
+		const stateContents = {
+			'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+			,'Subject Overview 🗝️': `<div class="subject-overview-content">     <h1>Basic Multiplication Concepts: A Comprehensive Guide</h1>     <p>Multiplication is one of the fundamental operations in mathematics. It helps us understand how to add groups of the same size quickly and efficiently. This guide is designed for 3rd and 4th graders to explore the basics of multiplication, including its concepts, rules, and plenty of examples to help you master this essential math skill.</p>     <hr>     <h2>Table of Contents</h2>     <ol>         <li><a href="#what-is-multiplication">What is Multiplication?</a></li>         <li><a href="#multiplication-facts">Multiplication Facts</a></li>         <li><a href="#multiplication-strategies">Multiplication Strategies</a></li>         <li><a href="#real-life-applications">Real-Life Applications</a></li>         <li><a href="#conclusion">Conclusion</a></li>     </ol>     <hr>     <h2 id="what-is-multiplication">What is Multiplication?</h2>     <p>Multiplication is a way of adding the same number multiple times. It is represented by the symbol <strong>×</strong>. For example, if you have 3 groups of 4 apples, multiplication helps you find out the total number of apples quickly.</p>     <p>In multiplication:</p>     <ul>         <li>The first number is called the <strong>multiplier</strong>.</li>         <li>The second number is called the <strong>multiplicand</strong>.</li>         <li>The result is called the <strong>product</strong>.</li>     </ul>     <p>So, in 3 × 4 = 12:</p>     <ul>         <li><strong>3</strong> is the multiplier.</li>         <li><strong>4</strong> is the multiplicand.</li>         <li><strong>12</strong> is the product.</li>     </ul>     <hr>     <h2 id="multiplication-facts">Multiplication Facts</h2>     <p>Knowing multiplication facts helps you solve math problems faster. Here are some key multiplication facts to remember:</p>     <ul>         <li><strong>Multiplication Table:</strong> A chart that shows the products of numbers from 1 to 10.</li>         <li><strong>Commutative Property:</strong> This means that you can switch the order of the numbers you are multiplying, and the product will be the same. For example, 3 × 4 is the same as 4 × 3.</li>     </ul>     <p><strong>Examples:</strong></p>     <ul>         <li>2 × 5 = 10</li>         <li>6 × 3 = 18</li>         <li>7 × 4 = 28</li>     </ul>     <hr>     <h2 id="multiplication-strategies">Multiplication Strategies</h2>     <p>There are several strategies to help you multiply numbers more easily:</p>     <ol>         <li><strong>Repeated Addition:</strong> Add the same number multiple times. For example, 3 × 4 is the same as 4 + 4 + 4 = 12.</li>         <li><strong>Using the Multiplication Table:</strong> Refer to the multiplication table to find products quickly.</li>         <li><strong>Breaking Down Numbers:</strong> Split numbers into smaller parts to make multiplication easier. For example, 6 × 7 can be broken down into (6 × 5) + (6 × 2) = 30 + 12 = 42.</li>         <li><strong>Skip Counting:</strong> Count by the multiplier. For example, to find 4 × 3, count 4, 8, 12.</li>     </ol>     <p><strong>Examples:</strong></p>     <ul>         <li>5 × 3 = 5 + 5 + 5 = 15</li>         <li>4 × 6 = (4 × 5) + (4 × 1) = 20 + 4 = 24</li>         <li>Skip counting by 3s: 3, 6, 9, 12 → 4 × 3 = 12</li>     </ul>     <hr>     <h2 id="real-life-applications">Real-Life Applications</h2>     <p>Multiplication is not just for math class—it’s used in everyday life! Here are some examples:</p>     <ol>         <li><strong>Shopping:</strong> If you buy 4 packs of pencils and each pack has 6 pencils, multiplication helps you find out how many pencils you have in total. 4 × 6 = 24 pencils.</li>         <li><strong>Cooking:</strong> If a recipe requires 3 cups of sugar for one batch, and you want to make 4 batches, you need 3 × 4 = 12 cups of sugar.</li>         <li><strong>Building:</strong> If you’re building a fence and need 5 nails for each section, and there are 7 sections, you’ll need 5 × 7 = 35 nails.</li>     </ol>     <p><strong>Examples:</strong></p>     <ul>         <li>Buying 3 boxes of crayons with 10 crayons each: 3 × 10 = 30 crayons.</li>         <li>Making sandwiches for 5 friends with 2 sandwiches each: 5 × 2 = 10 sandwiches.</li>         <li>Planting 4 rows of flowers with 8 flowers in each row: 4 × 8 = 32 flowers.</li>     </ul>     <hr>     <h2 id="conclusion">Conclusion</h2>     <p>Understanding basic multiplication concepts is essential for solving math problems efficiently. By mastering multiplication facts, using effective strategies, and recognizing real-life applications, you'll become more confident in your math skills. Here’s a quick recap:</p>     <ul>         <li><strong>What is Multiplication:</strong> A method of adding the same number multiple times.</li>         <li><strong>Multiplication Facts:</strong> Essential facts that make multiplication faster and easier.</li>         <li><strong>Multiplication Strategies:</strong> Techniques like repeated addition, using the multiplication table, and breaking down numbers.</li>         <li><strong>Real-Life Applications:</strong> Practical uses of multiplication in daily activities like shopping, cooking, and building.</li>     </ul>     <p><strong>Remember:</strong> Practice makes perfect! Keep working on your multiplication skills, and soon you'll find it much easier to tackle math problems.</p>     <hr>     <p>By familiarizing yourself with these basic multiplication concepts and practicing regularly, you'll build a strong foundation in math that will help you in higher grades and everyday life. Keep up the great work and happy multiplying!</p> </div>`		
+			};
+
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function isTextEmpty(text) {
+    return !text || text.trim() === "";
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    
+    // Only add stage text if it's not empty
+    const stageText = quizData[0].stages[currentStage].text;
+    if (!isTextEmpty(stageText)) {
+        const stageTextElement = document.createElement("div");
+        stageTextElement.className = "stage-text";
+        stageTextElement.style.marginBottom = "20px";
+        stageTextElement.style.padding = "15px";
+        stageTextElement.style.backgroundColor = "#f5f5f5";
+        stageTextElement.style.borderRadius = "5px";
+        stageTextElement.textContent = stageText;
+        quizContainer.appendChild(stageTextElement);
+    }
+    
+    // Render questions
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+        
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${questionData.question}`;
+        
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+        
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+        
+        const shuffledOptions = shuffleArray([...questionData.options]);
+        shuffledOptions.forEach(option => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv);
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[0].stages[currentStage].questions.length;
+
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === questionData.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect answer.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 10) {
+            selectElement.value = questionData.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` The correct answer is: ${questionData.answer}`;
+        }
+    });
+
+    if (correctCount === totalQuestions) {
+        console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+        addAnimalsToFarm(totalQuestions);
+
+        if (currentStage < quizData[0].stages.length - 1) {
+            singleStageConfetti();
+            showEncouragingPopup(correctCount, totalQuestions, true);
+            currentStage++;
+            updateProgressBar();
+            setTimeout(() => {
+                attempts = 0;
+                renderQuiz();
+                document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+            }, 1500);
+        } else {
+            currentStage++;
+            updateProgressBar();
+            allStagesConfetti();
+            showModal("Congratulations! You've completed all stages!");
+        }
+    } else {
+        showEncouragingPopup(correctCount, totalQuestions, false);
+        if (attempts >= 10) {
+            showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+        }
+    }
+
+    scrollToTop();
+}
+
+// 4. Update stageCount calculation to work with new structure
+
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+    const completedStages = currentStage;
+    const progress = (completedStages / stageCount) * 100;
+    const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+    progressBar.style.width = `${roundedProgress}%`;
+    progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+    console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+}
+
+function updateStageNumber() {
+    const stageElement = document.getElementById("stage-number");
+    stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>
