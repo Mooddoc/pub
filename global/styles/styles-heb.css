@@ -935,8 +935,8 @@
         }
 		
 		.question-one-line select {
-			width: 10rem;
-			padding: 0.5rem;
+			min-width: 12.5rem;
+			padding: 0.5rem 1rem;
 			border-radius: 0.3rem;
 			border: 1px solid #ccc;
 			direction: rtl;
@@ -944,6 +944,15 @@
 			background-color: white; 
 			color: black; 
 		}
+
+
+		.question-one-line select option {
+			padding: 0.5rem 1rem !important; /* 8px 15px converted to rem */
+			margin: 0.3125rem !important;  /* 5px converted to rem */
+			height: 1.875rem !important; /* 30px converted to rem */
+			line-height: 1.875rem !important; /* 30px converted to rem */
+		}
+
 																				/* ------------ question in one row Styles - LTR --------------- */	
  
 		
@@ -1705,5 +1714,5 @@
 			background-color: #f5f5f5;
 			border-radius: 5px;
 			font-size: 1em;
-			font-weight: 800;
+			font-weight: 500;
 		}																							
