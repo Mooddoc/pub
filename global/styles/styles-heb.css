@@ -171,12 +171,6 @@
         width: 100%;  /* Ensures the question text takes full width */
     }
 
-    .question::after {      /* Clear float if needed */
-        content: "";
-        display: table;
-        clear: both;
-    }
-
     .options {
         align-self: flex-start;  /* Aligns the options container to the left */
         width: 100%;  /* Full width to allow alignment */
