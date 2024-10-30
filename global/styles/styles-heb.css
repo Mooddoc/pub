@@ -147,9 +147,7 @@
         background-color: rgba(224, 247, 250, 0.8);
         padding: 0.8rem;
         border-radius: 0.625rem;
-		display: flex;
-        flex-direction: column;
-        align-items: flex-start;  /* Aligns children to the left */
+
     }
 
     .question-heb {
@@ -925,6 +923,7 @@
             border-radius: 0.5rem;
             margin-bottom: 1rem;
             direction: rtl;
+			line-height: 1.8;
         }
 
         .question-one-line label {
