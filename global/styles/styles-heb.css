@@ -947,10 +947,10 @@
 
 
 		.question-one-line select option {
-			padding: 0.5rem 1rem !important; /* 8px 15px converted to rem */
-			margin: 0.3125rem !important;  /* 5px converted to rem */
-			height: 1.875rem !important; /* 30px converted to rem */
-			line-height: 1.875rem !important; /* 30px converted to rem */
+			padding: 0.5rem 1rem !important;
+			margin: 0.3125rem !important;  
+			height: 1.875rem !important; 
+			line-height: 1.875rem !important; 
 		}
 
 																				/* ------------ question in one row Styles - LTR --------------- */	

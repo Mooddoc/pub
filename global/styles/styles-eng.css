@@ -922,8 +922,8 @@
         }
 
 		.question-one-line select {
-			width: 10rem;
-			padding: 0.5rem;
+			min-width: 12.5rem;
+			padding: 0.5rem 1rem;
 			border-radius: 0.3rem;
 			border: 1px solid #ccc;
 			direction: ltr;
@@ -931,7 +931,14 @@
 			background-color: white; 
 			color: black; 
 		}	
-		
+
+		.question-one-line select option {
+			padding: 0.5rem 1rem !important; 
+			margin: 0.3125rem !important;  
+			height: 1.875rem !important; 
+			line-height: 1.875rem !important; 
+		}
+
 		
 																					/* ------------ question in one row Styles DOUBLE SIZE INPUT BOX--------------- */		
 		.question-one-line-double-input {
