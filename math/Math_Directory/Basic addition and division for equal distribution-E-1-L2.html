@@ -1,0 +1,2026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+
+<style>
+
+</style>
+
+</head> 
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read the text and questions carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 5 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>Basic addition and division for equal distribution</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+ 
+	<!-- Modal -->
+	<div id="quizModal" class="modal-quiz">
+		<div class="modal-quiz-content">
+			<span class="modal-quiz-close">&times;</span>
+			<p id="modalMessage"></p>  
+			<button id="modalExplanationsButton" class="modal-quiz-button" style="display: none; background-color: #ff7f50;">View Explanations</button>
+			<button id="modalNextButton" class="modal-quiz-button">Next Stage</button>
+		</div>
+	</div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+																		//  PH3 - Quiz Data 
+        const quizData = [ 												   	
+				{
+				  "stages": [
+//-------------------------------------------------------------------------------------------------------------------				  
+
+  // Stage 1
+  {
+    "text": "Sarah has some candies she wants to share equally with her friends. Help her understand how to divide them fairly.",
+    "questions": [
+      // Question 1.1
+      {
+        "question": "If Sarah has 8 candies and wants to share them equally between 2 friends, how many candies will each friend get?",
+        "options": [
+          "4",
+          "2",
+          "6",
+          "16",
+          "As many as they want"
+        ],
+        "answer": "4",
+        "explanation": "When we divide 8 by 2, each friend gets 4 candies. 8 ÷ 2 = 4"
+      },
+      // Question 1.2
+      {
+        "question": "Sarah has 10 stickers. If she wants to give the same number to each of her 5 friends, how many stickers will each friend get?",
+        "options": [
+          "2",
+          "5",
+          "15",
+          "1",
+          "All the stickers!"
+        ],
+        "answer": "2",
+        "explanation": "Dividing 10 stickers among 5 friends means each gets 2 stickers. 10 ÷ 5 = 2"
+      },
+      // Question 1.3
+      {
+        "question": "If Sarah gives 3 candies to each of her 2 friends, how many candies did she give away in total?",
+        "options": [
+          "6",
+          "5",
+          "3",
+          "2",
+          "A million candies"
+        ],
+        "answer": "6",
+        "explanation": "When each friend gets 3 candies, the total is 3 × 2 = 6 candies"
+      },
+      // Question 1.4
+      {
+        "question": "Sarah has 12 cookies to share equally between 3 friends. How many cookies will each friend receive?",
+        "options": [
+          "4",
+          "3",
+          "6",
+          "9",
+          "Just one bite each"
+        ],
+        "answer": "4",
+        "explanation": "Dividing 12 cookies among 3 friends means each gets 4 cookies. 12 ÷ 3 = 4"
+      },
+      // Question 1.5
+      {
+        "question": "If Sarah gives 2 candies to each of her 4 friends, how many candies did she need?",
+        "options": [
+          "8",
+          "6",
+          "4",
+          "2",
+          "A whole candy store"
+        ],
+        "answer": "8",
+        "explanation": "With 4 friends getting 2 candies each, Sarah needed 2 × 4 = 8 candies"
+      }
+    ]
+  },
+  // Stage 2
+  {
+    "text": "Tom is organizing his toy cars into equal groups. Let's help him arrange them correctly.",
+    "questions": [
+      // Question 2.1
+      {
+        "question": "Tom has 15 toy cars and wants to put them in 3 equal rows. How many cars should be in each row?",
+        "options": [
+          "5",
+          "3",
+          "4",
+          "6",
+          "Zoom zoom!"
+        ],
+        "answer": "5",
+        "explanation": "Dividing 15 cars into 3 rows means each row gets 5 cars. 15 ÷ 3 = 5"
+      },
+      // Question 2.2
+      {
+        "question": "If Tom puts 4 cars in each row and has 3 rows, how many cars does he have in total?",
+        "options": [
+          "12",
+          "7",
+          "8",
+          "10",
+          "A whole parking lot"
+        ],
+        "answer": "12",
+        "explanation": "With 4 cars in each of the 3 rows, Tom has 4 × 3 = 12 cars total"
+      },
+      // Question 2.3
+      {
+        "question": "Tom has 20 toy cars and wants to share them equally between himself and 3 friends. How many cars will each person get?",
+        "options": [
+          "5",
+          "4",
+          "6",
+          "10",
+          "Keep them all!"
+        ],
+        "answer": "5",
+        "explanation": "Sharing 20 cars among 4 people means each gets 5 cars. 20 ÷ 4 = 5"
+      },
+      // Question 2.4
+      {
+        "question": "If Tom gives 3 cars to each of his 5 friends, how many cars did he give away?",
+        "options": [
+          "15",
+          "8",
+          "12",
+          "10",
+          "None, they're too cool"
+        ],
+        "answer": "15",
+        "explanation": "Giving 3 cars to 5 friends means he gave away 3 × 5 = 15 cars"
+      },
+      // Question 2.5
+      {
+        "question": "Tom arranges 16 cars into 4 equal groups. How many cars are in each group?",
+        "options": [
+          "4",
+          "8",
+          "3",
+          "5",
+          "As many as fit!"
+        ],
+        "answer": "4",
+        "explanation": "Dividing 16 cars into 4 groups means each group has 4 cars. 16 ÷ 4 = 4"
+      }
+    ]
+  },
+  // Stage 3
+  {
+    "text": "Emma is helping in the school library to organize books on shelves. She needs to make sure each shelf has the same number of books.",
+    "questions": [
+      // Question 3.1
+      {
+        "question": "Emma has 24 books and 4 shelves. If she puts the same number of books on each shelf, how many books will be on each shelf?",
+        "options": [
+          "6",
+          "8",
+          "4",
+          "12",
+          "Until they fall off"
+        ],
+        "answer": "6",
+        "explanation": "Dividing 24 books among 4 shelves means each shelf gets 6 books. 24 ÷ 4 = 6"
+      },
+      // Question 3.2
+      {
+        "question": "If Emma puts 5 books on each of the 6 shelves, how many books did she arrange in total?",
+        "options": [
+          "30",
+          "25",
+          "11",
+          "20",
+          "A whole library!"
+        ],
+        "answer": "30",
+        "explanation": "With 5 books on each of 6 shelves, the total is 5 × 6 = 30 books"
+      },
+      // Question 3.3
+      {
+        "question": "Emma has 28 books to arrange equally on 7 shelves. How many books will be on each shelf?",
+        "options": [
+          "4",
+          "7",
+          "3",
+          "8",
+          "Stack them to the ceiling"
+        ],
+        "answer": "4",
+        "explanation": "Dividing 28 books among 7 shelves means each shelf gets 4 books. 28 ÷ 7 = 4"
+      },
+      // Question 3.4
+      {
+        "question": "If Emma puts 6 books on each shelf and fills 5 shelves, how many books did she use?",
+        "options": [
+          "30",
+          "25",
+          "35",
+          "11",
+          "All the books!"
+        ],
+        "answer": "30",
+        "explanation": "With 6 books on each of 5 shelves, she used 6 × 5 = 30 books"
+      },
+      // Question 3.5
+      {
+        "question": "Emma has 32 books and wants to put them on 8 shelves equally. How many books will each shelf hold?",
+        "options": [
+          "4",
+          "8",
+          "6",
+          "5",
+          "Whatever fits best"
+        ],
+        "answer": "4",
+        "explanation": "Dividing 32 books among 8 shelves means each shelf gets 4 books. 32 ÷ 8 = 4"
+      }
+    ]
+  },
+  // Stage 4
+  {
+    "text": "Max is helping to organize a class party. He needs to make sure everyone gets equal amounts of party supplies.",
+    "questions": [
+      // Question 4.1
+      {
+        "question": "Max has 36 party hats for 9 tables. If he wants to put the same number of hats at each table, how many hats should go on each table?",
+        "options": [
+          "4",
+          "9",
+          "6",
+          "5",
+          "Party time!"
+        ],
+        "answer": "4",
+        "explanation": "Dividing 36 hats among 9 tables means each table gets 4 hats. 36 ÷ 9 = 4"
+      },
+      // Question 4.2
+      {
+        "question": "If Max puts 7 balloons at each of the 6 tables, how many balloons does he use in total?",
+        "options": [
+          "42",
+          "13",
+          "35",
+          "48",
+          "Until they float away"
+        ],
+        "answer": "42",
+        "explanation": "With 7 balloons at each of 6 tables, the total is 7 × 6 = 42 balloons"
+      },
+      // Question 4.3
+      {
+        "question": "Max has 40 cupcakes to share equally among 8 tables. How many cupcakes should each table get?",
+        "options": [
+          "5",
+          "8",
+          "4",
+          "10",
+          "Just eat them all!"
+        ],
+        "answer": "5",
+        "explanation": "Dividing 40 cupcakes among 8 tables means each table gets 5 cupcakes. 40 ÷ 8 = 5"
+      },
+      // Question 4.4
+      {
+        "question": "If Max puts 8 party favors on each of 7 tables, how many party favors did he use?",
+        "options": [
+          "56",
+          "48",
+          "15",
+          "40",
+          "The whole party store"
+        ],
+        "answer": "56",
+        "explanation": "With 8 party favors on each of 7 tables, he used 8 × 7 = 56 party favors"
+      },
+      // Question 4.5
+      {
+        "question": "Max has 45 plates to distribute equally among 9 tables. How many plates should each table get?",
+        "options": [
+          "5",
+          "9",
+          "6",
+          "8",
+          "Stack them high!"
+        ],
+        "answer": "5",
+        "explanation": "Dividing 45 plates among 9 tables means each table gets 5 plates. 45 ÷ 9 = 5"
+      }
+    ]
+  },
+  // Stage 5
+  {
+    "text": "Lucy is organizing a school supply drive. She needs to pack equal amounts of supplies into different boxes.",
+    "questions": [
+      // Question 5.1
+      {
+        "question": "Lucy has 48 pencils to pack equally into 6 boxes. How many pencils should go in each box?",
+        "options": [
+          "8",
+          "6",
+          "12",
+          "7",
+          "Until the box is full!"
+        ],
+        "answer": "8",
+        "explanation": "Dividing 48 pencils among 6 boxes means each box gets 8 pencils. 48 ÷ 6 = 8"
+      },
+      // Question 5.2
+      {
+        "question": "If Lucy puts 9 erasers in each of 7 boxes, how many erasers does she need in total?",
+        "options": [
+          "63",
+          "56",
+          "16",
+          "45",
+          "Enough to erase everything!"
+        ],
+        "answer": "63",
+        "explanation": "With 9 erasers in each of 7 boxes, she needs 9 × 7 = 63 erasers"
+      },
+      // Question 5.3
+      {
+        "question": "Lucy has 50 notebooks to divide equally among 10 boxes. How many notebooks should each box contain?",
+        "options": [
+          "5",
+          "10",
+          "8",
+          "4",
+          "As many as possible"
+        ],
+        "answer": "5",
+        "explanation": "Dividing 50 notebooks among 10 boxes means each box gets 5 notebooks. 50 ÷ 10 = 5"
+      },
+      // Question 5.4
+      {
+        "question": "If Lucy packs 6 rulers into each of 8 boxes, how many rulers did she pack in total?",
+        "options": [
+          "48",
+          "42",
+          "14",
+          "36",
+          "A ruler kingdom!"
+        ],
+        "answer": "48",
+        "explanation": "With 6 rulers in each of 8 boxes, she packed 6 × 8 = 48 rulers"
+      },
+      // Question 5.5
+      {
+        "question": "Lucy has 54 markers to distribute equally into 9 boxes. How many markers should go in each box?",
+        "options": [
+          "6",
+          "9",
+          "8",
+          "7",
+          "Draw until they dry!"
+        ],
+        "answer": "6",
+        "explanation": "Dividing 54 markers among 9 boxes means each box gets 6 markers. 54 ÷ 9 = 6"
+      }
+    ]
+  },
+  // Stage 6
+  {
+    "text": "Jake is helping at the school garden. He needs to plant seeds and organize plants in equal groups.",
+    "questions": [
+      // Question 6.1
+      {
+        "question": "Jake has 56 flower seeds to plant equally in 8 garden pots. How many seeds should he plant in each pot?",
+        "options": [
+          "7",
+          "8",
+          "6",
+          "14",
+          "Until they sprout!"
+        ],
+        "answer": "7",
+        "explanation": "Dividing 56 seeds among 8 pots means each pot gets 7 seeds. 56 ÷ 8 = 7"
+      },
+      // Question 6.2
+      {
+        "question": "If Jake plants 6 vegetables in each of 9 rows, how many vegetables did he plant in total?",
+        "options": [
+          "54",
+          "45",
+          "15",
+          "48",
+          "A whole farm!"
+        ],
+        "answer": "54",
+        "explanation": "With 6 vegetables in each of 9 rows, he planted 6 × 9 = 54 vegetables"
+      },
+      // Question 6.3
+      {
+        "question": "Jake has 63 tulip bulbs to plant equally in 7 garden beds. How many bulbs should go in each bed?",
+        "options": [
+          "9",
+          "7",
+          "8",
+          "10",
+          "Let them choose!"
+        ],
+        "answer": "9",
+        "explanation": "Dividing 63 bulbs among 7 beds means each bed gets 9 bulbs. 63 ÷ 7 = 9"
+      },
+      // Question 6.4
+      {
+        "question": "If Jake puts 8 watering cans near 7 different garden areas, how many watering cans does he need?",
+        "options": [
+          "56",
+          "15",
+          "48",
+          "40",
+          "One big ocean!"
+        ],
+        "answer": "56",
+        "explanation": "With 8 cans for each of 7 areas, he needs 8 × 7 = 56 watering cans"
+      },
+      // Question 6.5
+      {
+        "question": "Jake has 72 small plants to arrange equally in 9 greenhouse sections. How many plants go in each section?",
+        "options": [
+          "8",
+          "9",
+          "7",
+          "6",
+          "Like a jungle!"
+        ],
+        "answer": "8",
+        "explanation": "Dividing 72 plants among 9 sections means each section gets 8 plants. 72 ÷ 9 = 8"
+      }
+    ]
+  },
+  // Stage 7
+  {
+    "text": "Maria is organizing a reading challenge for her class. She needs to plan how to divide books and reading time equally.",
+    "questions": [
+      // Question 7.1
+      {
+        "question": "Maria wants to read 64 pages equally over 8 days. How many pages should she read each day?",
+        "options": [
+          "8",
+          "16",
+          "7",
+          "9",
+          "All in one night!"
+        ],
+        "answer": "8",
+        "explanation": "Dividing 64 pages over 8 days means reading 8 pages per day. 64 ÷ 8 = 8"
+      },
+      // Question 7.2
+      {
+        "question": "If Maria reads 7 books each month for 9 months, how many books will she read in total?",
+        "options": [
+          "63",
+          "56",
+          "16",
+          "49",
+          "A whole library!"
+        ],
+        "answer": "63",
+        "explanation": "Reading 7 books for 9 months means she'll read 7 × 9 = 63 books"
+      },
+      // Question 7.3
+      {
+        "question": "Maria has 81 stickers to give equally to 9 reading groups. How many stickers will each group get?",
+        "options": [
+          "9",
+          "8",
+          "10",
+          "7",
+          "Stick them everywhere!"
+        ],
+        "answer": "9",
+        "explanation": "Dividing 81 stickers among 9 groups means each group gets 9 stickers. 81 ÷ 9 = 9"
+      },
+      // Question 7.4
+      {
+        "question": "If Maria spends 8 minutes reading with each of 10 students, how many minutes does she spend in total?",
+        "options": [
+          "80",
+          "18",
+          "70",
+          "60",
+          "Until the bell rings!"
+        ],
+        "answer": "80",
+        "explanation": "Spending 8 minutes with each of 10 students means 8 × 10 = 80 minutes total"
+      },
+      // Question 7.5
+      {
+        "question": "Maria divides 90 bookmarks equally among 10 bookshelves. How many bookmarks go on each shelf?",
+        "options": [
+          "9",
+          "10",
+          "8",
+          "11",
+          "Mark all the pages!"
+        ],
+        "answer": "9",
+        "explanation": "Dividing 90 bookmarks among 10 shelves means each shelf gets 9 bookmarks. 90 ÷ 10 = 9"
+      }
+    ]
+  },
+  // Stage 8
+  {
+    "text": "David is helping organize sports equipment for gym class. He needs to make sure each team and activity has equal equipment.",
+    "questions": [
+      // Question 8.1
+      {
+        "question": "David has 88 soccer balls to distribute equally to 11 teams. How many balls should each team get?",
+        "options": [
+          "8",
+          "11",
+          "7",
+          "9",
+          "Until they bounce away!"
+        ],
+        "answer": "8",
+        "explanation": "Dividing 88 balls among 11 teams means each team gets 8 balls. 88 ÷ 11 = 8"
+      },
+      // Question 8.2
+      {
+        "question": "If David gives 9 jump ropes to each of 10 exercise stations, how many jump ropes does he need?",
+        "options": [
+          "90",
+          "80",
+          "19",
+          "70",
+          "Enough to reach the moon!"
+        ],
+        "answer": "90",
+        "explanation": "With 9 jump ropes at each of 10 stations, he needs 9 × 10 = 90 jump ropes"
+      },
+      // Question 8.3
+      {
+        "question": "David has 96 cones to set up 12 equal obstacle courses. How many cones should be in each course?",
+        "options": [
+          "8",
+          "12",
+          "9",
+          "6",
+          "Make a cone city!"
+        ],
+        "answer": "8",
+        "explanation": "Dividing 96 cones among 12 courses means each course gets 8 cones. 96 ÷ 12 = 8"
+      },
+      // Question 8.4
+      {
+        "question": "If David puts 11 tennis balls in each of 8 baskets, how many tennis balls does he use?",
+        "options": [
+          "88",
+          "19",
+          "80",
+          "76",
+          "Until they bounce over!"
+        ],
+        "answer": "88",
+        "explanation": "With 11 balls in each of 8 baskets, he uses 11 × 8 = 88 tennis balls"
+      },
+      // Question 8.5
+      {
+        "question": "David needs to divide 100 water bottles equally among 10 team benches. How many bottles go to each bench?",
+        "options": [
+          "10",
+          "20",
+          "11",
+          "9",
+          "Ocean of bottles!"
+        ],
+        "answer": "10",
+        "explanation": "Dividing 100 bottles among 10 benches means each bench gets 10 bottles. 100 ÷ 10 = 10"
+      }
+    ]
+  },
+  // Stage 9
+  {
+    "text": "Sofia is planning activities for an art fair. She needs to divide supplies and organize stations equally.",
+    "questions": [
+      // Question 9.1
+      {
+        "question": "Sofia has 108 paint brushes to distribute equally to 12 art stations. How many brushes should each station get?",
+        "options": [
+          "9",
+          "12",
+          "8",
+          "10",
+          "Paint the whole world!"
+        ],
+        "answer": "9",
+        "explanation": "Dividing 108 brushes among 12 stations means each station gets 9 brushes. 108 ÷ 12 = 9"
+      },
+      // Question 9.2
+      {
+        "question": "If Sofia puts 12 colored markers in each of 9 cups, how many markers does she use in total?",
+        "options": [
+          "108",
+          "21",
+          "96",
+          "84",
+          "Rainbow explosion!"
+        ],
+        "answer": "108",
+        "explanation": "With 12 markers in each of 9 cups, she uses 12 × 9 = 108 markers"
+      },
+      // Question 9.3
+      {
+        "question": "Sofia has 110 sheets of paper to share equally among 11 tables. How many sheets should each table get?",
+        "options": [
+          "10",
+          "11",
+          "9",
+          "12",
+          "Paper airplane party!"
+        ],
+        "answer": "10",
+        "explanation": "Dividing 110 sheets among 11 tables means each table gets 10 sheets. 110 ÷ 11 = 10"
+      },
+      // Question 9.4
+      {
+        "question": "If Sofia gives 11 paint tubes to each of 10 painting groups, how many paint tubes does she need?",
+        "options": [
+          "110",
+          "21",
+          "100",
+          "90",
+          "Colors everywhere!"
+        ],
+        "answer": "110",
+        "explanation": "With 11 tubes for each of 10 groups, she needs 11 × 10 = 110 paint tubes"
+      },
+      // Question 9.5
+      {
+        "question": "Sofia divides 120 stickers equally among 12 craft tables. How many stickers does each table get?",
+        "options": [
+          "10",
+          "12",
+          "11",
+          "15",
+          "Stick them to space!"
+        ],
+        "answer": "10",
+        "explanation": "Dividing 120 stickers among 12 tables means each table gets 10 stickers. 120 ÷ 12 = 10"
+      }
+    ]
+  },
+  // Stage 10
+  {
+    "text": "Ben is organizing a big school carnival. He needs to make sure games and prizes are divided equally among different areas.",
+    "questions": [
+      // Question 10.1
+      {
+        "question": "Ben has 132 prizes to divide equally among 12 game stations. How many prizes should each station have?",
+        "options": [
+          "11",
+          "12",
+          "10",
+          "13",
+          "All the prizes!"
+        ],
+        "answer": "11",
+        "explanation": "Dividing 132 prizes among 12 stations means each station gets 11 prizes. 132 ÷ 12 = 11"
+      },
+      // Question 10.2
+      {
+        "question": "If Ben puts 12 balloons at each of 11 carnival booths, how many balloons does he need in total?",
+        "options": [
+          "132",
+          "23",
+          "121",
+          "110",
+          "Until they float away!"
+        ],
+        "answer": "132",
+        "explanation": "With 12 balloons at each of 11 booths, he needs 12 × 11 = 132 balloons"
+      },
+      // Question 10.3
+      {
+        "question": "Ben has 144 tickets to distribute equally to 12 ticket boxes. How many tickets go in each box?",
+        "options": [
+          "12",
+          "14",
+          "11",
+          "13",
+          "Tickets to the moon!"
+        ],
+        "answer": "12",
+        "explanation": "Dividing 144 tickets among 12 boxes means each box gets 12 tickets. 144 ÷ 12 = 12"
+      },
+      // Question 10.4
+      {
+        "question": "If Ben gives 13 game tokens to each of 10 players, how many tokens does he give out?",
+        "options": [
+          "130",
+          "23",
+          "120",
+          "110",
+          "Play forever!"
+        ],
+        "answer": "130",
+        "explanation": "With 13 tokens for each of 10 players, he gives out 13 × 10 = 130 tokens"
+      },
+      // Question 10.5
+      {
+        "question": "Ben needs to divide 150 candy pieces equally among 10 prize bags. How many candies go in each bag?",
+        "options": [
+          "15",
+          "10",
+          "14",
+          "16",
+          "Sweet tooth paradise!"
+        ],
+        "answer": "15",
+        "explanation": "Dividing 150 candies among 10 bags means each bag gets 15 candies. 150 ÷ 10 = 15"
+      }
+    ]
+  },
+  // Stage 11
+  {
+    "text": "Anna is helping organize the school's music festival. She needs to arrange instruments and music sheets equally among different groups.",
+    "questions": [
+      // Question 11.1
+      {
+        "question": "Anna has 156 music sheets to distribute equally to 12 music groups. How many sheets should each group get?",
+        "options": [
+          "13",
+          "12",
+          "14",
+          "15",
+          "Until the music flows!"
+        ],
+        "answer": "13",
+        "explanation": "Dividing 156 sheets among 12 groups means each group gets 13 sheets. 156 ÷ 12 = 13"
+      },
+      // Question 11.2
+      {
+        "question": "If Anna gives 14 drumsticks to each of 10 drum circles, how many drumsticks does she need?",
+        "options": [
+          "140",
+          "24",
+          "130",
+          "120",
+          "Drum to the moon!"
+        ],
+        "answer": "140",
+        "explanation": "With 14 drumsticks for each of 10 circles, she needs 14 × 10 = 140 drumsticks"
+      },
+      // Question 11.3
+      {
+        "question": "Anna divides 165 chairs equally among 11 orchestra sections. How many chairs go in each section?",
+        "options": [
+          "15",
+          "11",
+          "14",
+          "16",
+          "Standing room only!"
+        ],
+        "answer": "15",
+        "explanation": "Dividing 165 chairs among 11 sections means each section gets 15 chairs. 165 ÷ 11 = 15"
+      },
+      // Question 11.4
+      {
+        "question": "If Anna places 12 music stands in each of 13 practice rooms, how many stands does she use?",
+        "options": [
+          "156",
+          "25",
+          "144",
+          "130",
+          "Stack them to the sky!"
+        ],
+        "answer": "156",
+        "explanation": "With 12 stands in each of 13 rooms, she uses 12 × 13 = 156 stands"
+      },
+      // Question 11.5
+      {
+        "question": "Anna has 180 program booklets to share equally among 15 seating areas. How many booklets go to each area?",
+        "options": [
+          "12",
+          "15",
+          "14",
+          "13",
+          "Read them all at once!"
+        ],
+        "answer": "12",
+        "explanation": "Dividing 180 booklets among 15 areas means each area gets 12 booklets. 180 ÷ 15 = 12"
+      }
+    ]
+  },
+  // Stage 12
+  {
+    "text": "Peter is helping set up stations for a science fair. He needs to divide materials equally among different experiment areas.",
+    "questions": [
+      // Question 12.1
+      {
+        "question": "Peter has 168 test tubes to divide equally among 14 science stations. How many test tubes should each station get?",
+        "options": [
+          "12",
+          "14",
+          "13",
+          "15",
+          "Science explosion!"
+        ],
+        "answer": "12",
+        "explanation": "Dividing 168 test tubes among 14 stations means each station gets 12 tubes. 168 ÷ 14 = 12"
+      },
+      // Question 12.2
+      {
+        "question": "If Peter puts 13 safety goggles at each of 12 lab tables, how many goggles does he need in total?",
+        "options": [
+          "156",
+          "25",
+          "144",
+          "130",
+          "See into the future!"
+        ],
+        "answer": "156",
+        "explanation": "With 13 goggles at each of 12 tables, he needs 13 × 12 = 156 goggles"
+      },
+      // Question 12.3
+      {
+        "question": "Peter has 182 magnets to share equally among 13 experiment stations. How many magnets go to each station?",
+        "options": [
+          "14",
+          "13",
+          "15",
+          "12",
+          "Attract them all!"
+        ],
+        "answer": "14",
+        "explanation": "Dividing 182 magnets among 13 stations means each station gets 14 magnets. 182 ÷ 13 = 14"
+      },
+      // Question 12.4
+      {
+        "question": "If Peter distributes 15 microscopes to each of 12 research teams, how many microscopes does he use?",
+        "options": [
+          "180",
+          "27",
+          "160",
+          "170",
+          "See the invisible!"
+        ],
+        "answer": "180",
+        "explanation": "With 15 microscopes for each of 12 teams, he uses 15 × 12 = 180 microscopes"
+      },
+      // Question 12.5
+      {
+        "question": "Peter needs to divide 195 beakers equally among 15 lab benches. How many beakers go on each bench?",
+        "options": [
+          "13",
+          "15",
+          "14",
+          "12",
+          "Mix everything together!"
+        ],
+        "answer": "13",
+        "explanation": "Dividing 195 beakers among 15 benches means each bench gets 13 beakers. 195 ÷ 15 = 13"
+      }
+    ]
+  },
+  // Stage 13
+  {
+    "text": "Maya is organizing a big school recycling project. She needs to sort and distribute materials equally among different collection points.",
+    "questions": [
+      // Question 13.1
+      {
+        "question": "Maya has 192 recycling bins to place equally in 16 school areas. How many bins should go in each area?",
+        "options": [
+          "12",
+          "16",
+          "14",
+          "15",
+          "Save the planet!"
+        ],
+        "answer": "12",
+        "explanation": "Dividing 192 bins among 16 areas means each area gets 12 bins. 192 ÷ 16 = 12"
+      },
+      // Question 13.2
+      {
+        "question": "If Maya puts 14 collection boxes in each of 13 classrooms, how many boxes does she use in total?",
+        "options": [
+          "182",
+          "27",
+          "170",
+          "156",
+          "Boxes to infinity!"
+        ],
+        "answer": "182",
+        "explanation": "With 14 boxes in each of 13 rooms, she uses 14 × 13 = 182 boxes"
+      },
+      // Question 13.3
+      {
+        "question": "Maya has 208 posters to distribute equally to 16 school buildings. How many posters go to each building?",
+        "options": [
+          "13",
+          "16",
+          "14",
+          "12",
+          "Cover every wall!"
+        ],
+        "answer": "13",
+        "explanation": "Dividing 208 posters among 16 buildings means each building gets 13 posters. 208 ÷ 16 = 13"
+      },
+      // Question 13.4
+      {
+        "question": "If Maya gives 15 recycling guides to each of 14 student groups, how many guides does she need?",
+        "options": [
+          "210",
+          "29",
+          "195",
+          "180",
+          "Read and recycle!"
+        ],
+        "answer": "210",
+        "explanation": "With 15 guides for each of 14 groups, she needs 15 × 14 = 210 guides"
+      },
+      // Question 13.5
+      {
+        "question": "Maya wants to divide 225 reusable bags equally among 15 eco-teams. How many bags should each team get?",
+        "options": [
+          "15",
+          "14",
+          "16",
+          "13",
+          "Bag the whole world!"
+        ],
+        "answer": "15",
+        "explanation": "Dividing 225 bags among 15 teams means each team gets 15 bags. 225 ÷ 15 = 15"
+      }
+    ]
+  },
+  // Stage 14
+  {
+    "text": "Charlie is helping organize a big math game day. He needs to divide materials and set up equal groups for different activities.",
+    "questions": [
+      // Question 14.1
+      {
+        "question": "Charlie has 216 counting blocks to share equally among 18 math stations. How many blocks should each station get?",
+        "options": [
+          "12",
+          "18",
+          "14",
+          "16",
+          "Count to infinity!"
+        ],
+        "answer": "12",
+        "explanation": "Dividing 216 blocks among 18 stations means each station gets 12 blocks. 216 ÷ 18 = 12"
+      },
+      // Question 14.2
+      {
+        "question": "If Charlie gives 16 number cards to each of 14 teams, how many cards does he need altogether?",
+        "options": [
+          "224",
+          "30",
+          "210",
+          "200",
+          "Numbers everywhere!"
+        ],
+        "answer": "224",
+        "explanation": "With 16 cards for each of 14 teams, he needs 16 × 14 = 224 cards"
+      },
+      // Question 14.3
+      {
+        "question": "Charlie needs to divide 234 dice equally among 18 game tables. How many dice go on each table?",
+        "options": [
+          "13",
+          "18",
+          "14",
+          "12",
+          "Roll them all!"
+        ],
+        "answer": "13",
+        "explanation": "Dividing 234 dice among 18 tables means each table gets 13 dice. 234 ÷ 18 = 13"
+      },
+      // Question 14.4
+      {
+        "question": "If Charlie puts 15 calculators in each of 16 study groups, how many calculators does he use?",
+        "options": [
+          "240",
+          "31",
+          "225",
+          "220",
+          "Calculate forever!"
+        ],
+        "answer": "240",
+        "explanation": "With 15 calculators for each of 16 groups, he uses 15 × 16 = 240 calculators"
+      },
+      // Question 14.5
+      {
+        "question": "Charlie has 255 math puzzle pieces to distribute equally to 15 teams. How many pieces should each team get?",
+        "options": [
+          "17",
+          "15",
+          "16",
+          "18",
+          "Puzzle paradise!"
+        ],
+        "answer": "17",
+        "explanation": "Dividing 255 pieces among 15 teams means each team gets 17 pieces. 255 ÷ 15 = 17"
+      }
+    ]
+  },
+  // Stage 15
+  {
+    "text": "Lily is preparing for a big school field day. She needs to organize equipment and divide students into equal groups for different activities.",
+    "questions": [
+      // Question 15.1
+      {
+        "question": "Lily has 240 students to divide equally into 20 teams for field day. How many students should be on each team?",
+        "options": [
+          "12",
+          "20",
+          "15",
+          "14",
+          "One big team!"
+        ],
+        "answer": "12",
+        "explanation": "Dividing 240 students among 20 teams means each team gets 12 students. 240 ÷ 20 = 12"
+      },
+      // Question 15.2
+      {
+        "question": "If Lily gives 18 water bottles to each of 14 activity stations, how many bottles does she need?",
+        "options": [
+          "252",
+          "32",
+          "240",
+          "230",
+          "Ocean of bottles!"
+        ],
+        "answer": "252",
+        "explanation": "With 18 bottles for each of 14 stations, she needs 18 × 14 = 252 bottles"
+      },
+      // Question 15.3
+      {
+        "question": "Lily needs to divide 270 snack bags equally among 18 rest areas. How many snack bags go to each area?",
+        "options": [
+          "15",
+          "18",
+          "16",
+          "14",
+          "Snack attack!"
+        ],
+        "answer": "15",
+        "explanation": "Dividing 270 snack bags among 18 areas means each area gets 15 bags. 270 ÷ 18 = 15"
+      },
+      // Question 15.4
+      {
+        "question": "If Lily arranges 16 chairs in each of 18 waiting zones, how many chairs does she use in total?",
+        "options": [
+          "288",
+          "34",
+          "270",
+          "260",
+          "Sit everywhere!"
+        ],
+        "answer": "288",
+        "explanation": "With 16 chairs in each of 18 zones, she uses 16 × 18 = 288 chairs"
+      },
+      // Question 15.5
+      {
+        "question": "Lily has 300 participation medals to share equally among 20 activity groups. How many medals does each group get?",
+        "options": [
+          "15",
+          "20",
+          "16",
+          "14",
+          "Everyone's a winner!"
+        ],
+        "answer": "15",
+        "explanation": "Dividing 300 medals among 20 groups means each group gets 15 medals. 300 ÷ 20 = 15"
+      }
+    ]
+  }, 
+  // Stage 16
+  {
+    "text": "Noah is helping organize a big school book fair. He needs to arrange books and reading materials equally among different sections.",
+    "questions": [
+      // Question 16.1
+      {
+        "question": "Noah has 272 books to arrange equally on 17 bookshelves. How many books should go on each shelf?",
+        "options": [
+          "16",
+          "17",
+          "15",
+          "14",
+          "Until they reach the ceiling!"
+        ],
+        "answer": "16",
+        "explanation": "Dividing 272 books among 17 shelves means each shelf gets 16 books. 272 ÷ 17 = 16"
+      },
+      // Question 16.2
+      {
+        "question": "If Noah puts 18 bookmarks in each of 16 gift bags, how many bookmarks does he need in total?",
+        "options": [
+          "288",
+          "34",
+          "270",
+          "260",
+          "Mark every page!"
+        ],
+        "answer": "288",
+        "explanation": "With 18 bookmarks in each of 16 bags, he needs 18 × 16 = 288 bookmarks"
+      },
+      // Question 16.3
+      {
+        "question": "Noah has 306 reading guides to distribute equally to 18 reading corners. How many guides go to each corner?",
+        "options": [
+          "17",
+          "18",
+          "16",
+          "15",
+          "Guide to the stars!"
+        ],
+        "answer": "17",
+        "explanation": "Dividing 306 guides among 18 corners means each corner gets 17 guides. 306 ÷ 18 = 17"
+      },
+      // Question 16.4
+      {
+        "question": "If Noah gives 19 reading journals to each of 16 study groups, how many journals does he need?",
+        "options": [
+          "304",
+          "35",
+          "290",
+          "285",
+          "Write forever!"
+        ],
+        "answer": "304",
+        "explanation": "With 19 journals for each of 16 groups, he needs 19 × 16 = 304 journals"
+      },
+      // Question 16.5
+      {
+        "question": "Noah wants to divide 320 book review cards equally among 16 literature circles. How many cards should each circle get?",
+        "options": [
+          "20",
+          "16",
+          "18",
+          "19",
+          "Review the universe!"
+        ],
+        "answer": "20",
+        "explanation": "Dividing 320 cards among 16 circles means each circle gets 20 cards. 320 ÷ 16 = 20"
+      }
+    ]
+  },
+  // Stage 17
+  {
+    "text": "Isabella is organizing a big school art exhibition. She needs to distribute art supplies and arrange displays equally in different areas.",
+    "questions": [
+      // Question 17.1
+      {
+        "question": "Isabella has 324 paintbrushes to share equally among 18 art stations. How many brushes should each station get?",
+        "options": [
+          "18",
+          "17",
+          "19",
+          "16",
+          "Paint the rainbow!"
+        ],
+        "answer": "18",
+        "explanation": "Dividing 324 brushes among 18 stations means each station gets 18 brushes. 324 ÷ 18 = 18"
+      },
+      // Question 17.2
+      {
+        "question": "If Isabella puts 17 sketch pads at each of 19 drawing tables, how many sketch pads does she need in total?",
+        "options": [
+          "323",
+          "36",
+          "310",
+          "300",
+          "Draw until forever!"
+        ],
+        "answer": "323",
+        "explanation": "With 17 pads at each of 19 tables, she needs 17 × 19 = 323 sketch pads"
+      },
+      // Question 17.3
+      {
+        "question": "Isabella has 342 colored pencils to distribute equally to 18 art classes. How many pencils does each class get?",
+        "options": [
+          "19",
+          "18",
+          "20",
+          "17",
+          "Color everything!"
+        ],
+        "answer": "19",
+        "explanation": "Dividing 342 pencils among 18 classes means each class gets 19 pencils. 342 ÷ 18 = 19"
+      },
+      // Question 17.4
+      {
+        "question": "If Isabella arranges 18 paintings in each of 19 gallery spaces, how many paintings are displayed?",
+        "options": [
+          "342",
+          "37",
+          "330",
+          "320",
+          "Fill every wall!"
+        ],
+        "answer": "342",
+        "explanation": "With 18 paintings in each of 19 spaces, she displays 18 × 19 = 342 paintings"
+      },
+      // Question 17.5
+      {
+        "question": "Isabella needs to divide 360 art supplies equally among 20 creative stations. How many supplies go to each station?",
+        "options": [
+          "18",
+          "20",
+          "19",
+          "17",
+          "Create endlessly!"
+        ],
+        "answer": "18",
+        "explanation": "Dividing 360 supplies among 20 stations means each station gets 18 supplies. 360 ÷ 20 = 18"
+      }
+    ]
+  },
+  // Stage 18
+  {
+    "text": "Oliver is helping set up a big school technology fair. He needs to organize devices and materials equally among different learning zones.",
+    "questions": [
+      // Question 18.1
+      {
+        "question": "Oliver has 361 tablets to distribute equally to 19 tech stations. How many tablets should each station get?",
+        "options": [
+          "19",
+          "20",
+          "18",
+          "17",
+          "Tech to the moon!"
+        ],
+        "answer": "19",
+        "explanation": "Dividing 361 tablets among 19 stations means each station gets 19 tablets. 361 ÷ 19 = 19"
+      },
+      // Question 18.2
+      {
+        "question": "If Oliver puts 19 headphones at each of 20 computer stations, how many headphones does he need in total?",
+        "options": [
+          "380",
+          "39",
+          "360",
+          "370",
+          "Listen forever!"
+        ],
+        "answer": "380",
+        "explanation": "With 19 headphones at each of 20 stations, he needs 19 × 20 = 380 headphones"
+      },
+      // Question 18.3
+      {
+        "question": "Oliver has 378 charging cables to share equally among 18 device centers. How many cables go to each center?",
+        "options": [
+          "21",
+          "18",
+          "20",
+          "19",
+          "Power everything!"
+        ],
+        "answer": "21",
+        "explanation": "Dividing 378 cables among 18 centers means each center gets 21 cables. 378 ÷ 18 = 21"
+      },
+      // Question 18.4
+      {
+        "question": "If Oliver gives 20 USB drives to each of 19 coding groups, how many USB drives does he need?",
+        "options": [
+          "380",
+          "39",
+          "360",
+          "370",
+          "Store infinite data!"
+        ],
+        "answer": "380",
+        "explanation": "With 20 drives for each of 19 groups, he needs 20 × 19 = 380 USB drives"
+      },
+      // Question 18.5
+      {
+        "question": "Oliver wants to divide 400 robot building blocks equally among 20 robotics teams. How many blocks should each team get?",
+        "options": [
+          "20",
+          "19",
+          "21",
+          "18",
+          "Build to the sky!"
+        ],
+        "answer": "20",
+        "explanation": "Dividing 400 blocks among 20 teams means each team gets 20 blocks. 400 ÷ 20 = 20"
+      }
+    ]
+  },
+  // Stage 19
+  {
+    "text": "Sophie is organizing a big school fitness challenge. She needs to arrange equipment and divide participants equally among different activities.",
+    "questions": [
+      // Question 19.1
+      {
+        "question": "Sophie has 399 exercise bands to distribute equally to 19 fitness zones. How many bands should each zone get?",
+        "options": [
+          "21",
+          "19",
+          "20",
+          "18",
+          "Stretch to space!"
+        ],
+        "answer": "21",
+        "explanation": "Dividing 399 bands among 19 zones means each zone gets 21 bands. 399 ÷ 19 = 21"
+      },
+      // Question 19.2
+      {
+        "question": "If Sophie puts 20 jump ropes at each of 20 exercise stations, how many jump ropes does she need in total?",
+        "options": [
+          "400",
+          "40",
+          "380",
+          "390",
+          "Jump to the stars!"
+        ],
+        "answer": "400",
+        "explanation": "With 20 ropes at each of 20 stations, she needs 20 × 20 = 400 jump ropes"
+      },
+      // Question 19.3
+      {
+        "question": "Sophie has 420 fitness cards to share equally among 20 workout groups. How many cards does each group get?",
+        "options": [
+          "21",
+          "20",
+          "22",
+          "19",
+          "Exercise forever!"
+        ],
+        "answer": "21",
+        "explanation": "Dividing 420 cards among 20 groups means each group gets 21 cards. 420 ÷ 20 = 21"
+      },
+      // Question 19.4
+      {
+        "question": "If Sophie arranges 21 yoga mats in each of 20 wellness spaces, how many mats does she use?",
+        "options": [
+          "420",
+          "41",
+          "400",
+          "410",
+          "Zen to infinity!"
+        ],
+        "answer": "420",
+        "explanation": "With 21 mats in each of 20 spaces, she uses 21 × 20 = 420 mats"
+      },
+      // Question 19.5
+      {
+        "question": "Sophie wants to divide 440 sports badges equally among 20 teams. How many badges should each team get?",
+        "options": [
+          "22",
+          "20",
+          "21",
+          "23",
+          "Badges galore!"
+        ],
+        "answer": "22",
+        "explanation": "Dividing 440 badges among 20 teams means each team gets 22 badges. 440 ÷ 20 = 22"
+      }
+    ]
+  },
+  // Stage 20
+  {
+    "text": "Daniel is helping organize the grand finale of the school year celebration. He needs to arrange materials and divide participants equally for the big event.",
+    "questions": [
+      // Question 20.1
+      {
+        "question": "Daniel has 440 celebration flags to distribute equally to 20 school sections. How many flags should each section get?",
+        "options": [
+          "22",
+          "20",
+          "21",
+          "23",
+          "Wave them all day!"
+        ],
+        "answer": "22",
+        "explanation": "Dividing 440 flags among 20 sections means each section gets 22 flags. 440 ÷ 20 = 22"
+      },
+      // Question 20.2
+      {
+        "question": "If Daniel puts 22 decorations in each of 20 celebration zones, how many decorations does he need in total?",
+        "options": [
+          "440",
+          "42",
+          "420",
+          "430",
+          "Party forever!"
+        ],
+        "answer": "440",
+        "explanation": "With 22 decorations in each of 20 zones, he needs 22 × 20 = 440 decorations"
+      },
+      // Question 20.3
+      {
+        "question": "Daniel has 460 celebration certificates to share equally among 20 class groups. How many certificates does each group get?",
+        "options": [
+          "23",
+          "20",
+          "22",
+          "24",
+          "Celebrate everything!"
+        ],
+        "answer": "23",
+        "explanation": "Dividing 460 certificates among 20 groups means each group gets 23 certificates. 460 ÷ 20 = 23"
+      },
+      // Question 20.4
+      {
+        "question": "If Daniel gives 23 achievement medals to each of 20 activity teams, how many medals does he need?",
+        "options": [
+          "460",
+          "43",
+          "440",
+          "450",
+          "Endless achievements!"
+        ],
+        "answer": "460",
+        "explanation": "With 23 medals for each of 20 teams, he needs 23 × 20 = 460 medals"
+      },
+      // Question 20.5
+      {
+        "question": "Daniel wants to divide 480 celebration snacks equally among 20 party stations. How many snacks should each station get?",
+        "options": [
+          "24",
+          "20",
+          "22",
+          "23",
+          "Snack attack forever!"
+        ],
+        "answer": "24",
+        "explanation": "Dividing 480 snacks among 20 stations means each station gets 24 snacks. 480 ÷ 20 = 24"
+      }
+    ]
+  }  
+//-------------------------------------------------------------------------------------------------------------------							
+				  ]
+				}
+        ];
+
+		const stageCount = quizData[0].stages.length; // This is the correct way to get the number of stages
+
+
+		const stateContents = {
+			'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+			,'Subject Overview 🗝️': `<div class="subject-overview-content">     <h1>Basic Addition and Division for Equal Distribution</h1>     <p>Addition and division are fundamental math skills that help us solve everyday problems. In this guide, we'll explore how to add numbers and divide items equally. We'll use simple examples and fun illustrations to make learning easy and enjoyable for 2nd graders.</p>     <hr>     <h2>Table of Contents</h2>     <ol>         <li><a href="#addition">Addition</a></li>         <li><a href="#division">Division for Equal Distribution</a></li>         <li><a href="#conclusion">Conclusion</a></li>     </ol>     <hr>         <h2 id="addition">Addition</h2>     <p>Addition is the process of putting numbers together to find their total.</p>     <h3>Understanding Addition</h3>     <p>When we add, we combine two or more numbers to get a bigger number.</p>     <h3>Examples of Addition</h3>     <ul>         <li><strong>Example 1:</strong> 2 + 3 = 5</li>         <p>If you have 2 apples and get 3 more, you have 5 apples in total.</p>         <li><strong>Example 2:</strong> 5 + 4 = 9</li>         <p>There are 5 red balloons and 4 blue balloons. How many balloons are there altogether? 9 balloons!</p>     </ul>     <h3>Addition with Objects</h3>     <p>Using objects can help you understand addition better.</p>     <ul>         <li><em>Tom has 3 toy cars.</em></li>         <li><em>He buys 2 more toy cars.</em></li>         <li><em>Now, Tom has 3 + 2 = 5 toy cars.</em></li>     </ul>     <hr>         <h2 id="division">Division for Equal Distribution</h2>     <p>Division is the process of splitting a number into equal parts.</p>     <h3>Understanding Division</h3>     <p>When we divide, we share something equally among a certain number of groups.</p>     <h3>Examples of Division</h3>     <ul>         <li><strong>Example 1:</strong> 10 ÷ 2 = 5</li>         <p>If you have 10 cookies and want to share them equally between 2 friends, each friend gets 5 cookies.</p>         <li><strong>Example 2:</strong> 12 ÷ 3 = 4</li>         <p>There are 12 candies to share equally among 3 children. Each child gets 4 candies.</p>     </ul>     <h3>Division with Objects</h3>     <p>Using objects can help you understand division better.</p>     <ul>         <li><em>There are 8 crayons.</em></li>         <li><em>You want to share them with 4 classmates.</em></li>         <li><em>Each classmate gets 8 ÷ 4 = 2 crayons.</em></li>     </ul>     <h3>Equal Distribution</h3>     <p>Equal distribution means everyone gets the same amount.</p>     <ul>         <li><em>If you have 6 stickers and 3 friends, each friend gets 2 stickers.</em></li>     </ul>     <hr>         <h2 id="conclusion">Conclusion</h2>     <p>Addition and division are essential math skills that help us solve everyday problems. By practicing addition, you can easily find the total of numbers, and by practicing division, you can learn to share things equally. Keep practicing with different numbers and objects to become a math whiz!</p>     <hr>     <p>Remember:</p>     <ul>         <li><strong>Addition</strong> is putting numbers together to find the total.</li>         <li><strong>Division</strong> is splitting numbers into equal parts.</li>     </ul>     <p>Keep practicing, and you'll become great at math!</p> </div>`		
+			};
+
+
+		function showExplanations() {
+			// Hide the modal
+			document.getElementById('quizModal').style.display = 'none';
+			
+			// Show all explanation panels
+			document.querySelectorAll('.explanation-panel').forEach(exp => {
+				exp.style.display = 'block';
+			});
+		}
+		
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function isTextEmpty(text) {
+    return !text || text.trim() === "";
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+
+    // Only add stage text if it's not empty
+    const stageText = quizData[0].stages[currentStage].text;
+    if (!isTextEmpty(stageText)) {
+        const stageTextElement = document.createElement("div");
+        stageTextElement.className = "stage-text";
+        stageTextElement.textContent = stageText;
+        quizContainer.appendChild(stageTextElement);
+    }
+
+    // Render questions
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        // Create main question container
+        const questionContainer = document.createElement("div");
+        questionContainer.className = "question";
+        questionContainer.style.padding = "0px"; 
+		
+        // Create question line
+        const questionLine = document.createElement("div");
+        questionLine.className = "question-one-line";
+
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${questionData.question}`;
+
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+
+        // Add default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+		
+        select.appendChild(defaultOption);
+
+        // Add shuffled options
+        const shuffledOptions = shuffleArray([...questionData.options]);
+        shuffledOptions.forEach(option => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+
+        // Assemble question line
+        questionLine.appendChild(label);
+        questionLine.appendChild(resultDiv);
+        questionLine.appendChild(select);
+
+        // Create explanation panel
+        const explanationPanel = document.createElement("div");
+        explanationPanel.className = "explanation-panel";
+        explanationPanel.style.display = "none"; 
+
+        const explanationText = document.createElement("div");
+        explanationText.className = "explanation-panel-text";
+        explanationText.textContent = questionData.explanation;
+
+        explanationPanel.appendChild(explanationText);
+
+        // Assemble full question container
+        questionContainer.appendChild(questionLine);
+        questionContainer.appendChild(explanationPanel);
+
+        quizContainer.appendChild(questionContainer);
+    });
+
+    updateStageNumber();
+}
+
+
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[0].stages[currentStage].questions.length;
+
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        // Check if the selected answer is correct or incorrect
+        if (selectedAnswer === questionData.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect.";
+            resultElement.style.color = "red";
+        }
+
+        // Reveal explanations if the user reaches 10 attempts
+        if (attempts >= 5) {
+            // Reveal the explanation panel
+            const explanationElement = selectElement.closest('.question').querySelector('.explanation-panel');
+            explanationElement.style.display = "block"; // Make the explanation panel visible
+
+            // Modify the explanation text to include the correct answer
+            const explanationText = explanationElement.querySelector('.explanation-panel-text');
+            explanationText.innerHTML = `The correct answer is: <strong>${questionData.answer}</strong>.<br>${questionData.explanation}`;
+        }
+    });
+
+    if (correctCount === totalQuestions) {
+        console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+        addAnimalsToFarm(totalQuestions);
+
+        if (currentStage < quizData[0].stages.length - 1) {
+            singleStageConfetti();
+            showEncouragingPopup(correctCount, totalQuestions, true);
+            // Show both buttons in modal to allow moving to the next stage
+            document.getElementById('modalNextButton').style.display = 'inline-block';
+            document.getElementById('modalExplanationsButton').style.display = 'inline-block';
+        } else {
+            // Last stage completion
+            currentStage++;
+            updateProgressBar();
+            allStagesConfetti();
+            showModal("Congratulations! You've completed all stages!");
+        }
+    } else {
+        // Show the encouraging popup if the stage is not complete
+        showEncouragingPopup(correctCount, totalQuestions, false);
+
+        if (attempts >= 5) {
+            // If the user has reached 5 attempts, notify them about revealing the answers
+            const modalMessage = document.getElementById('modalMessage');
+            modalMessage.textContent = "You've reached the maximum number of attempts. The correct answers have been revealed.";
+            showModal(modalMessage.textContent);
+        }
+    }
+
+    scrollToTop();
+}
+
+
+	
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage;
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+		function updateStageNumber() {
+			const stageElement = document.getElementById("stage-number");
+			stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+		}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+		function showModal(message) {
+			const modal = document.getElementById("quizModal");
+			const modalMessage = document.getElementById("modalMessage");
+			const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+			const nextButton = document.getElementById("modalNextButton");
+			const explanationsButton = document.getElementById("modalExplanationsButton");
+
+			// Set message
+			modalMessage.textContent = message;
+			
+			// Show modal
+			modal.style.display = "block";
+
+			// By default, hide both buttons
+			nextButton.style.display = "none";
+			explanationsButton.style.display = "none";
+
+			// Close handlers
+			modalClose.onclick = function() {
+				modal.style.display = "none";
+			}
+
+			window.onclick = function(event) {
+				if (event.target == modal) {
+					modal.style.display = "none";
+				}
+			}
+		}
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+			
+			 document.getElementById('modalNextButton').addEventListener('click', () => {
+				document.getElementById('quizModal').style.display = 'none';
+				currentStage++;
+				attempts = 0;
+				renderQuiz();
+				document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+				updateProgressBar();
+			});
+			
+			document.getElementById('modalExplanationsButton').addEventListener('click', showExplanations);
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>
