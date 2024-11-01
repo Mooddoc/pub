@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-heb.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+	<title>✅ EZ42 - זה קל</title>
+
+</head> 
+<body> 
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+			<div class="logo-container">
+				<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+					<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+				</a>
+			</div>
+                <h2>הוראות</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                    <li>יש לקרוא כל שאלה/משפט בתשומת לב.</li>
+                    <li>בחר/י את התשובה הנכונה ביותר מתוך התפריט הנפתח.</li>
+                    <li>יש ללחוץ על בדיקת תשובות כשמוכנים!</li>
+                    <li>יש להשלים את כל השאלות כדי לעבור לשלב הבא.</li>
+                    <li>לאחר 10 ניסיונות, התשובות הנכונות יוצגו.</li>
+                    <li>שיהיה כיף!</li>
+                </ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->		
+                <h1>זיהוי האפס כמספר ותפקידו בחשבון</h1>
+				
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+
+                <div id="tabContent">
+                    <!--PLACHOLDERFORNEWGAME-START-->
+
+                    <!--PLACHOLDERFORNEWGAME-END-->
+                </div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות החיות</h2>
+				<p>החווה שלך גדלה תוך כדי התקדמות! כל שלב מוסיף חיות חדשות לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+	<div id="quizModal" class="modal-quiz">
+		<div class="modal-quiz-content">
+			<span class="modal-quiz-close">&times;</span>
+			<p id="modalMessage"></p>
+			<button id="modalExplanationsButton" class="modal-quiz-button" style="display: none; background-color: #ff7f50;">צפה בהסברים</button>
+			<button id="modalNextButton" class="modal-quiz-button">שלב הבא</button>
+		</div>
+	</div>
+
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+															//  PH3 - Quiz Data 
+        const quizData = [ 												 	
+{
+  "stages": [
+//-------------------------------------------------------------------------------------------------------------------	
+
+// שלב 1
+{
+  "text": "עומר לומד על המספר אפס. המורה שלו אמרה לו שאפס אומר שאין כלום, אבל זה עדיין מספר חשוב מאוד. עומר רוצה להבין איך אפס עובד בספירה.",
+  "questions": [
+    // שאלה 1.1
+    {
+      "question": "אם לעומר יש אפס עפרונות, כמה עפרונות יש לו?",
+      "options": ["0", "1", "5", "10", "משאית מלאה"],
+      "answer": "0",
+      "explanation": "אפס אומר שאין לו עפרונות."
+    },
+    // שאלה 1.2
+    {
+      "question": "איזה מספר מייצג כלום?",
+      "options": ["0", "1", "2", "3", "מיליארד"],
+      "answer": "0",
+      "explanation": "אפס מייצג כלום."
+    },
+    // שאלה 1.3
+    {
+      "question": "איזה מספר בא לפני אחד בספירה לאחור?",
+      "options": ["0", "1", "2", "10", "אינסוף"],
+      "answer": "0",
+      "explanation": "אפס בא לפני אחד בספירה לאחור."
+    },
+    // שאלה 1.4
+    {
+      "question": "לעומר היו 2 עוגיות אבל הוא אכל את כולן. כמה עוגיות יש לו עכשיו?",
+      "options": ["0", "2", "1", "3", "כל העוגיות"],
+      "answer": "0",
+      "explanation": "אם הוא אכל את כולן, נשארו לו אפס עוגיות."
+    },
+    // שאלה 1.5
+    {
+      "question": "אם אתה מתחיל עם אפס ומוסיף כלום, איזה מספר יש לך?",
+      "options": ["0", "1", "10", "100", "מספר קסום"],
+      "answer": "0",
+      "explanation": "אפס ועוד כלום נשאר אפס."
+    }
+  ]
+},
+// שלב 2
+{
+  "text": "ליבי מתרגלת הוספת אפס למספרים. היא לומדת שהוספת אפס לא משנה את המספר. היא רוצה לפתור כמה בעיות כדי לבדוק את הרעיון הזה.",
+  "questions": [
+    // שאלה 2.1
+    {
+      "question": "מהו 5 + 0?",
+      "options": ["5", "0", "10", "50", "מספר מסתורי"],
+      "answer": "5",
+      "explanation": "הוספת אפס ל-5 נותן 5."
+    },
+    // שאלה 2.2
+    {
+      "question": "אם לליבי יש 7 גולות ומקבלת עוד אפס, כמה גולות יש לה?",
+      "options": ["7", "0", "10", "14", "כמות בלתי נגמרת"],
+      "answer": "7",
+      "explanation": "7 + 0 = 7."
+    },
+    // שאלה 2.3
+    {
+      "question": "מהו 0 + 3?",
+      "options": ["3", "0", "6", "30", "אפס ועוד אינסוף"],
+      "answer": "3",
+      "explanation": "אפס ועוד 3 שווה 3."
+    },
+    // שאלה 2.4
+    {
+      "question": "הוספת אפס למספר גורמת לו:",
+      "options": ["להישאר אותו דבר", "להפוך לאפס", "להכפיל את עצמו", "להשתלש", "להפוך לבננה"],
+      "answer": "להישאר אותו דבר",
+      "explanation": "הוספת אפס לא משנה את המספר."
+    },
+    // שאלה 2.5
+    {
+      "question": "מהו 0 + 0?",
+      "options": ["0", "1", "10", "100", "טריליון"],
+      "answer": "0",
+      "explanation": "אפס ועוד אפס שווה אפס."
+    }
+  ]
+},
+// שלב 3
+{
+  "text": "בן לומד על חיסור אפס ממספרים. המורה שלו אומרת שחיסור אפס לא משנה את המספר. בן מחליט לנסות כמה בעיות חיסור.",
+  "questions": [
+    // שאלה 3.1
+    {
+      "question": "מהו 8 - 0?",
+      "options": ["8", "0", "7", "80", "מספר חייזרי"],
+      "answer": "8",
+      "explanation": "חיסור אפס מ-8 משאיר אותו ללא שינוי."
+    },
+    // שאלה 3.2
+    {
+      "question": "אם לבן יש 5 צעצועים ולא נותן אף אחד מהם, כמה צעצועים יש לו?",
+      "options": ["5", "0", "10", "1", "כל הצעצועים בעולם"],
+      "answer": "5",
+      "explanation": "5 - 0 = 5."
+    },
+    // שאלה 3.3
+    {
+      "question": "חיסור אפס ממספר גורם לו:",
+      "options": ["להישאר אותו דבר", "להפוך לאפס", "להגדיל באחד", "להכפיל את עצמו", "להפוך לשוקולד"],
+      "answer": "להישאר אותו דבר",
+      "explanation": "חיסור אפס לא משנה את המספר."
+    },
+    // שאלה 3.4
+    {
+      "question": "מהו 0 - 0?",
+      "options": ["0", "1", "-1", "10", "לולאה אינסופית"],
+      "answer": "0",
+      "explanation": "אפס פחות אפס שווה אפס."
+    },
+    // שאלה 3.5
+    {
+      "question": "לבן יש אפס מדבקות. אם הוא לא מאבד אף מדבקה, כמה יש לו?",
+      "options": ["0", "1", "5", "-1", "גזיליון"],
+      "answer": "0",
+      "explanation": "עדיין יש לו אפס מדבקות."
+    }
+  ]
+},
+// שלב 4
+{
+  "text": "מור לומדת איך אפס משמש בספירה לאחור. היא רוצה להבין מה קורה כשאנחנו סופרים עד אפס.",
+  "questions": [
+    // שאלה 4.1
+    {
+      "question": "אם יש לך 3 תפוחים ואת אוכלת אחד, ואז עוד אחד, ואז עוד אחד, כמה תפוחים יש לך עכשיו?",
+      "options": ["0", "1", "2", "3", "תפוח קסום"],
+      "answer": "0",
+      "explanation": "3 - 3 = 0 תפוחים."
+    },
+    // שאלה 4.2
+    {
+      "question": "לאיזה מספר את מגיעה כשאת סופרת לאחור מ-5 ומחסרת אחד כל פעם עד שלא ניתן לחסר עוד?",
+      "options": ["0", "1", "5", "10", "אינסוף"],
+      "answer": "0",
+      "explanation": "בספירה לאחור מ-5, מגיעים לאפס."
+    },
+    // שאלה 4.3
+    {
+      "question": "למור היו אפס מדבקות. חברתה נתנה לה עוד אפס. כמה מדבקות יש לה עכשיו?",
+      "options": ["0", "1", "2", "10", "אלף"],
+      "answer": "0",
+      "explanation": "0 + 0 = 0."
+    },
+    // שאלה 4.4
+    {
+      "question": "האם אפס קטן מאחד?",
+      "options": ["כן", "לא", "הם שווים", "לפעמים", "רק בימי שלישי"],
+      "answer": "כן",
+      "explanation": "אפס קטן מאחד."
+    },
+    // שאלה 4.5
+    {
+      "question": "איזה הוא המספר הקטן ביותר?",
+      "options": ["0", "1", "5", "10", "מיליון"],
+      "answer": "0",
+      "explanation": "אפס הוא הקטן מבין המספרים הללו."
+    }
+  ]
+},
+// שלב 5
+{
+  "text": "יובל חוקרת את אפס בערכי המקום. היא לומדת שאפס יכול להחזיק מקום במספרים כמו 10 או 20. היא רוצה להבין איך אפס משנה את הערך של מספרים.",
+  "questions": [
+    // שאלה 5.1
+    {
+      "question": "במספר 10, מה מייצג האפס?",
+      "options": ["אין יחידות", "אין עשרות", "עשר יחידות", "עשר עשרות", "קוד סודי"],
+      "answer": "אין יחידות",
+      "explanation": "האפס ב-10 אומר שיש אפס יחידות."
+    },
+    // שאלה 5.2
+    {
+      "question": "איזה מספר יש אפס בעמודת העשרות?",
+      "options": ["5", "50", "10", "100", "מספר טלפון"],
+      "answer": "5",
+      "explanation": "ב-5 יש אפס עשרות."
+    },
+    // שאלה 5.3
+    {
+      "question": "כמה עשרות יש במספר 20?",
+      "options": ["2", "0", "20", "10", "כמה שתרצו"],
+      "answer": "2",
+      "explanation": "יש שתי עשרות ב-20."
+    },
+    // שאלה 5.4
+    {
+      "question": "במספר 102, כמה אפסים יש?",
+      "options": ["1", "0", "2", "3", "מיליון אפסים"],
+      "answer": "1",
+      "explanation": "יש אפס אחד ב-102."
+    },
+    // שאלה 5.5
+    {
+      "question": "מהו הערך של האפס בעמודת היחידות במספר 30?",
+      "options": ["אפס יחידות", "אפס עשרות", "שלוש עשרות", "שלושים יחידות", "ערך קסום"],
+      "answer": "אפס יחידות",
+      "explanation": "האפס מציין שיש אפס יחידות ב-30."
+    }
+  ]
+},
+
+// שלב 6
+{
+  "text": "גלי חוקרת איך אפס עובד בכפל. המורה שלה מסבירה שכל מספר שמוכפל באפס שווה לאפס. גלי מחליטה לבדוק זאת עם כמה בעיות.",
+  "questions": [
+    // שאלה 6.1
+    {
+      "question": "מהו \u202A0 × 4\u202C?",
+      "options": ["0", "4", "1", "40", "מספר ענק"],
+      "answer": "0",
+      "explanation": "כל מספר שמוכפל באפס שווה לאפס."
+    },
+    // שאלה 6.2
+    {
+      "question": "אם לגלי יש 5 שקיות עם אפס תפוחים בכל אחת, כמה תפוחים יש לה בסך הכל?",
+      "options": ["0", "5", "10", "25", "סל מלא"],
+      "answer": "0",
+      "explanation": "5 × 0 = 0 תפוחים."
+    },
+    // שאלה 6.3
+    {
+      "question": "מהו \u202A7 × 0\u202C?",
+      "options": ["0", "7", "1", "70", "מספר אינסופי"],
+      "answer": "0",
+      "explanation": "כל מספר שמוכפל באפס שווה לאפס."
+    },
+    // שאלה 6.4
+    {
+      "question": "כפל אפס בכל מספר נותן:",
+      "options": ["אפס", "את אותו מספר", "אחד", "עשר", "הפתעה"],
+      "answer": "אפס",
+      "explanation": "אפס כפול כל מספר הוא אפס."
+    },
+    // שאלה 6.5
+    {
+      "question": "מהו \u202A0 × 0\u202C?",
+      "options": ["0", "1", "10", "100", "אפס כפול אינסוף"],
+      "answer": "0",
+      "explanation": "אפס כפול אפס שווה אפס."
+    }
+  ]
+},
+// שלב 7
+{
+  "text": "צחי לומד על חילוק אפס במספרים. המורה שלו אומרת שאפס חלקי כל מספר שווה לאפס. צחי רוצה לתרגל את הרעיון הזה.",
+  "questions": [
+    // שאלה 7.1
+    {
+      "question": "מהו \u202A0 ÷ 5\u202C?",
+      "options": ["0", "5", "1", "לא מוגדר", "תעלומה קסומה"],
+      "answer": "0",
+      "explanation": "אפס חלקי כל מספר שאינו אפס שווה לאפס."
+    },
+    // שאלה 7.2
+    {
+      "question": "אם לצחי יש אפס סוכריות לחלק בין 3 חברים, כמה סוכריות יקבל כל חבר?",
+      "options": ["0", "1", "3", "לא ניתן לחלק אפס", "כמות אינסופית"],
+      "answer": "0",
+      "explanation": "0 ÷ 3 = 0 סוכריות לכל חבר."
+    },
+    // שאלה 7.3
+    {
+      "question": "מהו \u202A0 ÷ 7\u202C?",
+      "options": ["0", "7", "1", "לא מוגדר", "מספר סודי"],
+      "answer": "0",
+      "explanation": "אפס חלקי כל מספר שאינו אפס שווה לאפס."
+    },
+    // שאלה 7.4
+    {
+      "question": "חילוק אפס בכל מספר נותן:",
+      "options": ["אפס", "את אותו מספר", "אחד", "לא מוגדר", "מתנת הפתעה"],
+      "answer": "אפס",
+      "explanation": "אפס חלקי כל מספר שאינו אפס שווה לאפס."
+    },
+    // שאלה 7.5
+    {
+      "question": "מהו \u202A0 ÷ 1\u202C?",
+      "options": ["0", "1", "לא מוגדר", "10", "אינסוף"],
+      "answer": "0",
+      "explanation": "אפס חלקי 1 שווה לאפס."
+    }
+  ]
+},
+// שלב 8
+{
+  "text": "לאה סקרנית לגבי מה קורה כשמחלקים אפס באפס. המורה שלה מסבירה שזה מקרה מיוחד שלא ניתן לפתור. לאה רוצה להבין למה.",
+  "questions": [
+    // שאלה 8.1
+    {
+      "question": "מהו \u202A0 ÷ 0\u202C?",
+      "options": ["לא מוגדר", "0", "1", "אינסוף", "אפס כפול אפס"],
+      "answer": "לא מוגדר",
+      "explanation": "במתמטיקה, \u202A0 ÷ 0\u202C אינו מוגדר."
+    },
+    // שאלה 8.2
+    {
+      "question": "מדוע אי אפשר לחלק אפס באפס?",
+      "options": ["כי זה לא מוגדר", "כי אפס קטן מדי", "כי אפס גדול מדי", "כי זה לא חוקי", "כי אפס ביישן"],
+      "answer": "כי זה לא מוגדר",
+      "explanation": "חילוק אפס באפס אינו נותן ערך מוגדר."
+    },
+    // שאלה 8.3
+    {
+      "question": "האם \u202A0 ÷ 0\u202C שווה לאפס?",
+      "options": ["לא, זה לא מוגדר", "כן, זה שווה לאפס", "כן, זה שווה לאחד", "כן, זה שווה לאינסוף", "רק בסופי שבוע"],
+      "answer": "לא, זה לא מוגדר",
+      "explanation": "\u202A0 ÷ 0\u202C אינו מוגדר."
+    },
+    // שאלה 8.4
+    {
+      "question": "האם אפשר למצוא מספר שכפולו באפס נותן אפס?",
+      "options": ["כן, כל מספר", "לא, אף אחד", "רק אפס", "רק אחד", "רק גיבורי על יכולים"],
+      "answer": "כן, כל מספר",
+      "explanation": "כל מספר שמוכפל באפס שווה לאפס."
+    },
+    // שאלה 8.5
+    {
+      "question": "האם מותר לחלק באפס במתמטיקה?",
+      "options": ["לא, זה לא מוגדר", "כן, תמיד", "רק לפעמים", "כן, אם אף אחד לא רואה", "רק בחלומות"],
+      "answer": "לא, זה לא מוגדר",
+      "explanation": "חילוק באפס אינו מוגדר."
+    }
+  ]
+},
+// שלב 9
+{
+  "text": "עידן לומד על תפקיד האפס בערכי המקום במספרים גדולים. הוא מגלה שאפסים יכולים ליצור מספרים כמו 100 או 1000. הוא רוצה לחקור איך אפסים משנים את הערך של מספרים.",
+  "questions": [
+    // שאלה 9.1
+    {
+      "question": "כמה אפסים יש במספר מאה (100)?",
+      "options": ["2", "1", "0", "3", "מיליון אפסים"],
+      "answer": "2",
+      "explanation": "במספר 100 יש שני אפסים."
+    },
+    // שאלה 9.2
+    {
+      "question": "במספר 1,000, מה מייצגים האפסים?",
+      "options": ["מקומות למאות, עשרות ויחידות", "כלום", "המספר הוא אפס", "זה מקטין את המספר", "קוד חייזרי"],
+      "answer": "מקומות למאות, עשרות ויחידות",
+      "explanation": "האפסים מחזיקים את מקומות המאות, העשרות והיחידות ב-1,000."
+    },
+    // שאלה 9.3
+    {
+      "question": "מהו הערך של האפס בעמודת העשרות במספר 205?",
+      "options": ["0 עשרות", "0 יחידות", "2 עשרות", "5 עשרות", "מספר קסום"],
+      "answer": "0 עשרות",
+      "explanation": "האפס מציין שיש אפס עשרות ב-205."
+    },
+    // שאלה 9.4
+    {
+      "question": "אם תסיר את האפס מ-10, איזה מספר תקבל?",
+      "options": ["1", "0", "100", "110", "בננה"],
+      "answer": "1",
+      "explanation": "הסרת האפס מ-10 משאירה את 1."
+    },
+    // שאלה 9.5
+    {
+      "question": "איך הוספת אפס לסוף של 50 משנה את ערכו?",
+      "options": ["הוא הופך ל-500", "הוא נשאר אותו דבר", "הוא הופך ל-5", "הוא קטן", "הוא הופך לגיבור על"],
+      "answer": "הוא הופך ל-500",
+      "explanation": "הוספת אפס ל-50 עושה אותו 500."
+    }
+  ]
+},
+// שלב 10
+{
+  "text": "ליה חוקרת דפוסים עם אפס ברצפים. היא שמה לב שהוספת אפס לא משנה מספרים, אבל כפל באפס תמיד נותן אפס. היא רוצה לבדוק את הדפוסים האלה.",
+  "questions": [
+    // שאלה 10.1
+    {
+      "question": "מהו המספר הבא ברצף: 0, 0, 0, ...?",
+      "options": ["0", "1", "2", "10", "קשת"],
+      "answer": "0",
+      "explanation": "הדפוס חוזר על אפס."
+    },
+    // שאלה 10.2
+    {
+      "question": "אם תכפיל כל מספר באפס, התוצאה תמיד תהיה:",
+      "options": ["אפס", "אחד", "אותו מספר", "עשר", "חד קרן"],
+      "answer": "אפס",
+      "explanation": "כפל באפס תמיד נותן אפס."
+    },
+    // שאלה 10.3
+    {
+      "question": "איזו פעולה לא תשנה את המספר: הוספת אפס או כפל באפס?",
+      "options": ["הוספת אפס", "כפל באפס", "שתיהן משנות את המספר", "אף אחת מהן לא משנה", "ריקוד"],
+      "answer": "הוספת אפס",
+      "explanation": "הוספת אפס לא משנה את המספר."
+    },
+    // שאלה 10.4
+    {
+      "question": "ליה שמה לב ש-\u202A0 + 7 = 7\u202C. מה זה אומר לנו על אפס?",
+      "options": ["הוספת אפס לא משנה את המספר", "אפס מגדיל מספרים", "אפס מקטין מספרים", "אפס הוא קסם", "אפס אכל את המספר"],
+      "answer": "הוספת אפס לא משנה את המספר",
+      "explanation": "אפס שנוסף למספר משאיר אותו אותו דבר."
+    },
+    // שאלה 10.5
+    {
+      "question": "מהו הדפוס ברצף: 5, 0, 5, 0, ...? מה בא אחרי זה?",
+      "options": ["5", "0", "10", "5 ו-0 יחד", "דרקון"],
+      "answer": "5",
+      "explanation": "הדפוס מתחלף בין 5 ו-0, אז 5 בא הבא."
+    }
+  ]
+},
+
+// שלב 11
+{
+  "text": "דורי בוחנת איך אפס משפיע על משוואות כאשר הוא מספר חסר. היא רוצה למצוא איזה מספר אפשר להוסיף או לחסר מאפס כדי לקבל תוצאה מסוימת.",
+  "questions": [
+    // שאלה 11.1
+    {
+      "question": "איזה מספר תוסיף ל-0 כדי לקבל 6?",
+      "options": ["6", "0", "1", "60", "מיליון"],
+      "answer": "6",
+      "explanation": "\u202A0 + 6 = 6\u202C."
+    },
+    // שאלה 11.2
+    {
+      "question": "אם \u202A0 + ___ = 0\u202C, איזה מספר מתאים במקום הריק?",
+      "options": ["0", "1", "10", "כל מספר", "פיל"],
+      "answer": "0",
+      "explanation": "רק אפס שנוסף לאפס נותן אפס."
+    },
+    // שאלה 11.3
+    {
+      "question": "איזה מספר מחסרים מ-0 כדי לקבל 0?",
+      "options": ["0", "1", "-1", "כל מספר", "חד קרן"],
+      "answer": "0",
+      "explanation": "\u202A0 - 0 = 0\u202C."
+    },
+    // שאלה 11.4
+    {
+      "question": "אם \u202A___ - 0 = 9\u202C, איזה מספר מתאים במקום הריק?",
+      "options": ["9", "0", "1", "10", "999"],
+      "answer": "9",
+      "explanation": "חיסור אפס מ-9 משאיר אותו ללא שינוי."
+    },
+    // שאלה 11.5
+    {
+      "question": "איזה מספר הופך את המשוואה לנכונה: \u202A___ + 0 = 0\u202C",
+      "options": ["0", "1", "-1", "10", "מיליארד"],
+      "answer": "0",
+      "explanation": "רק אפס שנוסף לאפס שווה לאפס."
+    }
+  ]
+},
+// שלב 12
+{
+  "text": "ירדן סקרן לגבי אפס כמספר זוגי. המורה שלו מסבירה שאפס נחשב זוגי כי הוא מתחלק ב-2 ללא שארית. ירדן רוצה לבדוק את הרעיון הזה.",
+  "questions": [
+    // שאלה 12.1
+    {
+      "question": "האם אפס הוא מספר זוגי?",
+      "options": ["כן, כי הוא מתחלק ב-2", "לא, הוא אי-זוגי", "לא, הוא לא זוגי ולא אי-זוגי", "כן, כי הוא אפס", "רק בחגים"],
+      "answer": "כן, כי הוא מתחלק ב-2",
+      "explanation": "אפס חלקי 2 שווה אפס."
+    },
+    // שאלה 12.2
+    {
+      "question": "איזה מהמספרים הבאים הוא זוגי?",
+      "options": ["0", "1", "3", "5", "שבע"],
+      "answer": "0",
+      "explanation": "אפס הוא מספר זוגי."
+    },
+    // שאלה 12.3
+    {
+      "question": "מהו \u202A0 ÷ 2\u202C?",
+      "options": ["0", "2", "לא מוגדר", "1", "סוד"],
+      "answer": "0",
+      "explanation": "\u202A0 ÷ 2 = 0\u202C."
+    },
+    // שאלה 12.4
+    {
+      "question": "אם יש לך אפס סוכריות ואתה חולק אותן שווה בשווה עם חבר אחד, כמה סוכריות יקבל כל אחד?",
+      "options": ["0", "1", "2", "אפס סוכריות לכולם!", "אינסוף סוכריות"],
+      "answer": "0",
+      "explanation": "\u202A0 ÷ 2 = 0\u202C סוכריות לכל אחד."
+    },
+    // שאלה 12.5
+    {
+      "question": "איזה מספר הוא גם זוגי וגם אפס?",
+      "options": ["0", "2", "4", "6", "מספר דמיוני"],
+      "answer": "0",
+      "explanation": "אפס הוא מספר זוגי."
+    }
+  ]
+},
+// שלב 13
+{
+  "text": "עדי לומדת איך אפס משפיע על משוואות חיבור וחיסור. היא שמה לב שלפעמים אפס יכול להיות המספר החסר במשוואה.",
+  "questions": [
+    // שאלה 13.1
+    {
+      "question": "מצא את המספר החסר: \u202A___ + 5 = 5\u202C",
+      "options": ["0", "5", "1", "10", "100"],
+      "answer": "0",
+      "explanation": "\u202A0 + 5 = 5\u202C."
+    },
+    // שאלה 13.2
+    {
+      "question": "איזה מספר אפשר לחסר מ-7 כדי לקבל 7?",
+      "options": ["0", "7", "1", "14", "גזיליון"],
+      "answer": "0",
+      "explanation": "\u202A7 - 0 = 7\u202C."
+    },
+    // שאלה 13.3
+    {
+      "question": "השלם את המשוואה: \u202A9 + ___ = 9\u202C",
+      "options": ["0", "1", "9", "18", "מיליארד"],
+      "answer": "0",
+      "explanation": "\u202A9 + 0 = 9\u202C."
+    },
+    // שאלה 13.4
+    {
+      "question": "אם \u202A0 + ___ = 8\u202C, איזה מספר מתאים במקום הריק?",
+      "options": ["8", "0", "1", "80", "88"],
+      "answer": "8",
+      "explanation": "\u202A0 + 8 = 8\u202C."
+    },
+    // שאלה 13.5
+    {
+      "question": "איזה מספר הופך את המשוואה לנכונה: \u202A12 - ___ = 12\u202C",
+      "options": ["0", "1", "12", "24", "אלף"],
+      "answer": "0",
+      "explanation": "חיסור אפס לא משנה את המספר."
+    }
+  ]
+},
+// שלב 14
+{
+  "text": "יובל עובדת עם אפס בכפל וחילוק. היא לומדת שחילוק מספר בעצמו נותן אחד, אבל תוהה מה קורה כשאפס מעורב.",
+  "questions": [
+    // שאלה 14.1
+    {
+      "question": "מהו \u202A0 ÷ 5\u202C?",
+      "options": ["0", "5", "1", "לא מוגדר", "אפס כפול חמש"],
+      "answer": "0",
+      "explanation": "אפס חלקי כל מספר שאינו אפס שווה לאפס."
+    },
+    // שאלה 14.2
+    {
+      "question": "האם \u202A5 ÷ 0\u202C מוגדר?",
+      "options": ["לא, חילוק באפס אינו מוגדר", "כן, זה אפס", "כן, זה חמש", "כן, זה אינסוף", "רק בימי ראשון"],
+      "answer": "לא, חילוק באפס אינו מוגדר",
+      "explanation": "חילוק באפס אינו מוגדר."
+    },
+    // שאלה 14.3
+    {
+      "question": "מהו \u202A0 ÷ 0\u202C?",
+      "options": ["לא מוגדר", "0", "1", "אינסוף", "אפס חלקי אפס"],
+      "answer": "לא מוגדר",
+      "explanation": "\u202A0 ÷ 0\u202C אינו מוגדר."
+    },
+    // שאלה 14.4
+    {
+      "question": "מהו \u202A0 × 0\u202C?",
+      "options": ["0", "1", "לא מוגדר", "אפס כפול אפס", "מיליון"],
+      "answer": "0",
+      "explanation": "אפס כפול אפס שווה אפס."
+    },
+    // שאלה 14.5
+    {
+      "question": "איזו אמירה נכונה?",
+      "options": ["כל מספר חלקי אפס אינו מוגדר", "כל מספר חלקי אפס הוא אפס", "אפס חלקי כל מספר אינו מוגדר", "אפס כפול כל מספר אינו מוגדר", "מתמטיקה היא רק לרובוטים"],
+      "answer": "כל מספר חלקי אפס אינו מוגדר",
+      "explanation": "חילוק באפס אינו מוגדר."
+    }
+  ]
+},
+// שלב 15
+{
+  "text": "עומר בוחן את אפס בדפוסים וברצפים. הוא רוצה לגלות איך אפס משפיע על דפוסי מספרים כאשר מוסיפים, מחסרים, מכפילים או מחלקים.",
+  "questions": [
+    // שאלה 15.1
+    {
+      "question": "מהו המספר הבא בדפוס: 0, 2, 4, 6, ...?",
+      "options": ["8", "0", "10", "6", "מאה"],
+      "answer": "8",
+      "explanation": "הדפוס גדל ב-2 כל פעם."
+    },
+    // שאלה 15.2
+    {
+      "question": "אם אתה מתחיל ב-10 ומחסר 2 כל פעם, איזה מספר בא אחרי 2?",
+      "options": ["0", "2", "-2", "4", "בננה"],
+      "answer": "0",
+      "explanation": "10, 8, 6, 4, 2, 0."
+    },
+    // שאלה 15.3
+    {
+      "question": "ברצף: 5, 0, 5, 0, ..., איזה מספר בא הבא?",
+      "options": ["5", "0", "10", "5 ו-0 יחד", "דינוזאור"],
+      "answer": "5",
+      "explanation": "הדפוס מתחלף בין 5 ו-0."
+    },
+    // שאלה 15.4
+    {
+      "question": "מה קורה כשאתה מכפיל כל מספר ברצף 1, 2, 3 באפס?",
+      "options": ["תקבל אפס", "המספר נשאר אותו דבר", "תקבל אחד", "המספר מוכפל פי שניים", "הוא הופך לגלידה"],
+      "answer": "תקבל אפס",
+      "explanation": "כפל באפס תמיד נותן אפס."
+    },
+    // שאלה 15.5
+    {
+      "question": "אם אתה מתחיל באפס ומוסיף 5 כל פעם, מהו המספר השלישי ברצף?",
+      "options": ["10", "0", "5", "15", "100"],
+      "answer": "10",
+      "explanation": "הרצף הוא 0, 5, 10."
+    }
+  ]
+},
+
+// שלב 16
+{
+  "text": "ארז בוחן איך אפס משפיע על השוואות בין מספרים. הוא רוצה להבין איך אפס משתלב כאשר מסדרים מספרים מהקטן לגדול.",
+  "questions": [
+    // שאלה 16.1
+    {
+      "question": "איזה מספר קטן מ-1?",
+      "options": ["0", "1", "2", "5", "100"],
+      "answer": "0",
+      "explanation": "אפס קטן מאחד."
+    },
+    // שאלה 16.2
+    {
+      "question": "איזה מספר גדול מאפס?",
+      "options": ["1", "0", "-1", "-5", "איש שלג"],
+      "answer": "1",
+      "explanation": "אחד גדול מאפס."
+    },
+    // שאלה 16.3
+    {
+      "question": "סדר את המספרים מהקטן לגדול: 3, 0, 2",
+      "options": ["0, 2, 3", "3, 2, 0", "2, 3, 0", "0, 3, 2", "כולם אותו דבר"],
+      "answer": "0, 2, 3",
+      "explanation": "אפס הוא הקטן, אחריו 2, ואז 3."
+    },
+    // שאלה 16.4
+    {
+      "question": "איזה סימן עושה את המשפט נכון: \u202A0 ___ 5\u202C",
+      "options": ["<", ">", "=", "+", "פרצוף מחייך"],
+      "answer": "<",
+      "explanation": "אפס קטן מחמש."
+    },
+    // שאלה 16.5
+    {
+      "question": "האם אפס גדול ממינוס אחד (\u202A-1\u202C)?",
+      "options": ["כן", "לא", "הם שווים", "לפעמים", "רק כשיש שמש"],
+      "answer": "כן",
+      "explanation": "אפס גדול מכל מספר שלילי."
+    }
+  ]
+},
+// שלב 17
+{
+  "text": "חגי לומד איך אפס עובד על קו המספרים. הוא רוצה לראות איפה אפס ממוקם ואיך מספרים משתנים סביבו.",
+  "questions": [
+    // שאלה 17.1
+    {
+      "question": "על קו המספרים, איזה מספר נמצא ישירות מימין לאפס?",
+      "options": ["1", "-1", "0", "10", "ארנב"],
+      "answer": "1",
+      "explanation": "מספרים גדלים ימינה; 1 מגיע מיד אחרי 0."
+    },
+    // שאלה 17.2
+    {
+      "question": "איזה מספר נמצא ישירות משמאל לאפס על קו המספרים?",
+      "options": ["-1", "1", "0", "-10", "פיל"],
+      "answer": "-1",
+      "explanation": "מינוס אחד מגיע לפני אפס."
+    },
+    // שאלה 17.3
+    {
+      "question": "אם תזוז שני צעדים שמאלה מאפס על קו המספרים, איפה אתה נמצא?",
+      "options": ["-2", "2", "0", "-1", "אבוד בחלל"],
+      "answer": "-2",
+      "explanation": "תנועה שמאלה מאפס מובילה למספרים שליליים."
+    },
+    // שאלה 17.4
+    {
+      "question": "אפס נחשב לנקודת ה__________ על קו המספרים.",
+      "options": ["התחלה", "סיום", "אמצע", "הגבוהה ביותר", "בלתי נראית"],
+      "answer": "התחלה",
+      "explanation": "אפס הוא לעיתים קרובות נקודת ההתחלה בספירה."
+    },
+    // שאלה 17.5
+    {
+      "question": "איזה מהמספרים האלה הוא הרחוק ביותר מאפס על קו המספרים?",
+      "options": ["10", "0", "-5", "5", "מיליון"],
+      "answer": "10",
+      "explanation": "10 רחוק מאפס יותר מהאופציות האחרות."
+    }
+  ]
+},
+// שלב 18
+{
+  "text": "דרור לומד על אפס בטמפרטורה. הוא רוצה להבין איך אפס מעלות יכול לייצג נקודת קיפאון ואיך טמפרטורות יכולות לרדת מתחת לאפס.",
+  "questions": [
+    // שאלה 18.1
+    {
+      "question": "ב\u202A0\u202C מעלות צלזיוס, מים __________.",
+      "options": ["קופאים", "רותחים", "מתאדים", "נהפכים לשוקולד", "זוהרים"],
+      "answer": "קופאים",
+      "explanation": "אפס מעלות צלזיוס היא נקודת הקיפאון של מים."
+    },
+    // שאלה 18.2
+    {
+      "question": "איזו טמפרטורה קרה יותר מאפס מעלות צלזיוס?",
+      "options": ["\u202A-5°C\u202C", "\u202A5°C\u202C", "\u202A0°C\u202C", "\u202A10°C\u202C", "טמפרטורת השמש"],
+      "answer": "\u202A-5°C\u202C",
+      "explanation": "טמפרטורות שליליות קרות יותר מאפס."
+    },
+    // שאלה 18.3
+    {
+      "question": "אם הטמפרטורה היא אפס מעלות, והיא יורדת ב-3 מעלות, מהי הטמפרטורה החדשה?",
+      "options": ["\u202A-3°C\u202C", "\u202A3°C\u202C", "\u202A0°C\u202C", "\u202A-6°C\u202C", "קרה כמו גלידה"],
+      "answer": "\u202A-3°C\u202C",
+      "explanation": "\u202A0°C - 3°C = -3°C\u202C."
+    },
+    // שאלה 18.4
+    {
+      "question": "האם \u202A-2°C\u202C חם יותר מאפס מעלות צלזיוס?",
+      "options": ["לא", "כן", "הם שווים", "רק בקיץ", "תלוי במדחום"],
+      "answer": "לא",
+      "explanation": "\u202A-2°C\u202C קר יותר מ-\u202A0°C\u202C."
+    },
+    // שאלה 18.5
+    {
+      "question": "איזו היא נקודת הקיפאון של מים?",
+      "options": ["\u202A0°C\u202C", "\u202A100°C\u202C", "\u202A-10°C\u202C", "\u202A50°C\u202C", "הקוטב הצפוני"],
+      "answer": "\u202A0°C\u202C",
+      "explanation": "מים קופאים באפס מעלות צלזיוס."
+    }
+  ]
+},
+// שלב 19
+{
+  "text": "עדי מגלה איך אפס משפיע על שברים ועשרוניים. היא רוצה ללמוד מה קורה כשאפס משמש בצורות אלו.",
+  "questions": [
+    // שאלה 19.1
+    {
+      "question": "מהו \u202A0 ÷ 2\u202C?",
+      "options": ["0", "2", "לא מוגדר", "1", "חצי מאפס"],
+      "answer": "0",
+      "explanation": "אפס חלקי כל מספר שאינו אפס שווה לאפס."
+    },
+    // שאלה 19.2
+    {
+      "question": "מהו \u202A0.0 + 1.0\u202C?",
+      "options": ["\u202A1.0\u202C", "\u202A0.0\u202C", "\u202A0.1\u202C", "\u202A10.0\u202C", "אינסוף"],
+      "answer": "\u202A1.0\u202C",
+      "explanation": "אפס ועוד אחד שווה אחד."
+    },
+    // שאלה 19.3
+    {
+      "question": "איזה שבר שווה לאפס?",
+      "options": ["\u202A0⁄5\u202C", "\u202A5⁄0\u202C", "\u202A5⁄5\u202C", "\u202A1⁄5\u202C", "פרוסת פיצה"],
+      "answer": "\u202A0⁄5\u202C",
+      "explanation": "אפס חלקי כל מספר הוא אפס."
+    },
+    // שאלה 19.4
+    {
+      "question": "האם \u202A0.5\u202C גדול מאפס?",
+      "options": ["כן", "לא", "הם שווים", "רק בסופי שבוע", "תלוי במזג האוויר"],
+      "answer": "כן",
+      "explanation": "\u202A0.5\u202C גדול מאפס."
+    },
+    // שאלה 19.5
+    {
+      "question": "מהו אפס כמספר עשרוני?",
+      "options": ["\u202A0.0\u202C", "\u202A1.0\u202C", "\u202A0.1\u202C", "\u202A10.0\u202C", "מספר אינסופי"],
+      "answer": "\u202A0.0\u202C",
+      "explanation": "אפס בצורת עשרוני הוא \u202A0.0\u202C."
+    }
+  ]
+},
+// שלב 20
+{
+  "text": "צחי חוקר את אפס במשוואות מורכבות יותר. הוא רוצה לראות איך אפס יכול לשמש במשוואות עם כמה שלבים.",
+  "questions": [
+    // שאלה 20.1
+    {
+      "question": "פתור עבור \u202Ax\u202C: \u202Ax + 0 = 10\u202C",
+      "options": ["10", "0", "1", "-10", "42"],
+      "answer": "10",
+      "explanation": "הוספת אפס לא משנה את המספר, לכן \u202Ax = 10\u202C."
+    },
+    // שאלה 20.2
+    {
+      "question": "אם \u202Ay - y = 0\u202C, מה יכול להיות \u202Ay\u202C?",
+      "options": ["כל מספר", "0", "1", "רק אפס", "מספר מסתורי"],
+      "answer": "כל מספר",
+      "explanation": "כל מספר פחות עצמו שווה לאפס."
+    },
+    // שאלה 20.3
+    {
+      "question": "מהו \u202A(0 × 5) + (2 × 3)\u202C?",
+      "options": ["6", "0", "5", "10", "בננה"],
+      "answer": "6",
+      "explanation": "\u202A0 × 5 = 0\u202C, \u202A2 × 3 = 6\u202C, לכן \u202A0 + 6 = 6\u202C."
+    },
+    // שאלה 20.4
+    {
+      "question": "אם \u202A5 × n = 0\u202C, מהו \u202An\u202C?",
+      "options": ["0", "5", "1", "-5", "חייזר"],
+      "answer": "0",
+      "explanation": "רק אפס מוכפל ב-5 שווה לאפס."
+    },
+    // שאלה 20.5
+    {
+      "question": "פתור: \u202A(10 ÷ 2) - 5 =\u202C",
+      "options": ["0", "5", "1", "10", "קסם"],
+      "answer": "0",
+      "explanation": "\u202A10 ÷ 2 = 5\u202C, ואז \u202A5 - 5 = 0\u202C."
+    }
+  ]
+},
+
+//-------------------------------------------------------------------------------------------------------------------	
+   ]
+}
+
+
+        ];
+
+        const stageCount = quizData[0].stages.length; // This is the correct way to get the number of stages
+
+		const stateContents = {
+			'תרגול': `<div id="stage-number" class="stage-number">שלב 1 מתוך ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">ניסיונות: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">בדיקת תשובות</button>`
+			,'לימוד הנושא 🗝️': `<div class="subject-overview-content subject-overview-content_heb">     <h1>הכרת האפס כמספר ותפקידו בחשבון</h1>     <p>האפס הוא מספר מיוחד שמייצג כלום. למרות שזה עשוי להיראות כאילו אין כלום, לאפס יש תפקיד חשוב במתמטיקה. הבנת האפס עוזרת לנו לבצע חיבור, חיסור, כפל וחלוקה בצורה נכונה. מדריך זה יסייע לכם ללמוד מהו האפס וכיצד הוא פועל בבעיות מתמטיות שונות.</p>     <hr>     <h2 class="highlight_heb">תוכן העניינים</h2>     <ol>         <li><a href="#what-is-zero" class="highlight_heb">מהו האפס?</a></li>         <li><a href="#importance-of-zero" class="highlight_heb">חשיבות האפס במספרים</a></li>         <li><a href="#zero-in-addition" class="highlight_heb">האפס בחיבור</a></li>         <li><a href="#zero-in-subtraction" class="highlight_heb">האפס בחיסור</a></li>         <li><a href="#zero-in-multiplication-division" class="highlight_heb">האפס בכפל וחלוקה</a></li>         <li><a href="#conclusion" class="highlight_heb">סיכום</a></li>     </ol>     <hr>     <h2 id="what-is-zero" class="highlight_heb">מהו האפס?</h2>     <p>האפס הוא מספר שמציין שאין כלום. הוא המספר שלפני האחד. כשאנו כותבים מספרים, האפס עוזר לנו להראות שאין יחידות במקום זה.</p>     <p>לדוגמה:</p>     <ul>         <li><em>0 תפוחים</em> פירושו שאין לך תפוחים.</li>         <li><em>10</em> פירושו שיש אחד בעשרות ואפס ביחידות.</li>     </ul>     <hr>     <h2 id="importance-of-zero" class="highlight_heb">חשיבות האפס במספרים</h2>     <p>האפס חשוב כי הוא עוזר לנו להבין את ערך המספרים האחרים. הוא מראה את מקומו של כל ספרה במספר.</p>     <p>לדוגמה:</p>     <ul>         <li><em>10</em> מכיל אפס במקום היחידות, מה שמראה שאין יחידות.</li>         <li><em>20</em> מכיל אפס במקום היחידות, מה שמראה שאין יחידות.</li>         <li><em>100</em> מכיל אפסים במקומות העשרות והיחידות, מה שמראה שאין עשרות או יחידות.</li>     </ul>     <hr>     <h2 id="zero-in-addition" class="highlight_heb">האפס בחיבור</h2>     <p>כשמחברים אפס למספר, המספר נשאר אותו דבר. האפס לא משנה את ערך המספר האחר.</p>     <p><strong>דוגמאות:</strong></p>     <ul>         <li><em>5 + 0 = 5</em></li>         <li><em>0 + 8 = 8</em></li>     </ul>     <p><strong>הסבר:</strong> חיבור אפס לא מוסיף כלום למספר.</p>     <hr>     <h2 id="zero-in-subtraction" class="highlight_heb">האפס בחיסור</h2>     <p>כשמחסרים אפס ממספר, המספר נשאר אותו דבר. בדיוק כמו בחיבור, האפס לא משנה את ערך המספר.</p>     <p><strong>דוגמאות:</strong></p>     <ul>         <li><em>7 - 0 = 7</em></li>         <li><em>10 - 0 = 10</em></li>     </ul>     <p><strong>הסבר:</strong> חיסור אפס לא לוקח כלום מהמספר.</p>     <hr>     <h2 id="zero-in-multiplication-division" class="highlight_heb">האפס בכפל וחלוקה</h2>     <p>לאפס יש תפקיד מיוחד בכפל וחלוקה.</p>     <p><strong>כפל:</strong></p>     <ul>         <li><em>4 × 0 = 0</em></li>         <li><em>0 × 9 = 0</em></li>     </ul>     <p><strong>הסבר:</strong> כפל כל מספר באפס תמיד נותן אפס.</p>     <p><strong>חלוקה:</strong></p>     <ul>         <li><em>0 ÷ 5 = 0</em></li>     </ul>     <p><strong>הסבר:</strong> חלוקת אפס בכל מספר נותנת אפס. אולם, אי אפשר לחלק באפס.</p>     <hr>     <h2 id="conclusion" class="highlight_heb">סיכום</h2>     <p>האפס הוא מספר חשוב מאוד במתמטיקה. הוא עוזר לנו להבין את ערך המספרים האחרים ומשחק תפקיד מרכזי בחיבור, חיסור, כפל וחלוקה. על ידי הכרת האפס ודעת כיצד להשתמש בו, תוכלו לפתור בעיות מתמטיות בקלות ובדיוק רב יותר.</p>     <p><strong>זכרו</strong>: האפס משמעותו כלום, אבל הוא עוזר להראות את מקומם של המספרים האחרים ושומר על תקינות החשבון!</p>     <hr>     <p>המשיכו לתרגל עם האפס בבעיות המתמטיות שלכם, ותהיו טובים יותר בהבנת המספרים!</p> </div>`
+		};
+
+		function showExplanations() {
+			// Hide the modal
+			document.getElementById('quizModal').style.display = 'none';
+			
+			// Show all explanation panels
+			document.querySelectorAll('.explanation-panel').forEach(exp => {
+				exp.style.display = 'block';
+			});
+		}
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'תרגול') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function isTextEmpty(text) {
+    return !text || text.trim() === "";
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+
+    // Only add stage text if it's not empty
+    const stageText = quizData[0].stages[currentStage].text;
+    if (!isTextEmpty(stageText)) {
+        const stageTextElement = document.createElement("div");
+        stageTextElement.className = "stage-text";
+        stageTextElement.textContent = stageText;
+        quizContainer.appendChild(stageTextElement);
+    }
+
+    // Render questions
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        // Create main question container
+        const questionContainer = document.createElement("div");
+        questionContainer.className = "question";
+        questionContainer.style.padding = "0px"; 
+        
+        // Create question line
+        const questionLine = document.createElement("div");
+        questionLine.className = "question-one-line";
+
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${questionData.question}`;
+
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-rtl"; 
+        resultDiv.id = `result${index}`;
+
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+
+        // Add default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "בחירה"; 
+
+        select.appendChild(defaultOption);
+
+        // Add shuffled options
+        const shuffledOptions = shuffleArray([...questionData.options]);
+        shuffledOptions.forEach(option => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+
+        // Assemble question line
+        questionLine.appendChild(label);
+        questionLine.appendChild(resultDiv);
+        questionLine.appendChild(select);
+
+        // Create explanation panel
+        const explanationPanel = document.createElement("div");
+        explanationPanel.className = "explanation-panel";
+        explanationPanel.style.display = "none";
+
+        const explanationText = document.createElement("div");
+        explanationText.className = "explanation-panel-text";
+        explanationText.textContent = questionData.explanation || ''; 
+
+        explanationPanel.appendChild(explanationText);
+
+        // Assemble full question container
+        questionContainer.appendChild(questionLine);
+        questionContainer.appendChild(explanationPanel);
+
+        quizContainer.appendChild(questionContainer);
+    });
+
+    updateStageNumber();
+}
+
+
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[0].stages[currentStage].questions.length;
+
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        // Check if the selected answer is correct or incorrect
+        if (selectedAnswer === questionData.answer) {
+            resultElement.textContent = "נכון!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "לא נכון.";
+            resultElement.style.color = "red";
+        }
+
+        // Reveal explanations if the user reaches 10 attempts
+        if (attempts >= 10) {
+            // Reveal the explanation panel
+            const explanationElement = selectElement.closest('.question').querySelector('.explanation-panel');
+            explanationElement.style.display = "block"; // Make the explanation panel visible
+
+            // Modify the explanation text to include the correct answer
+            const explanationText = explanationElement.querySelector('.explanation-panel-text');
+            explanationText.innerHTML = `התשובה הנכונה היא: <strong>${questionData.answer}</strong>.<br>${questionData.explanation}`;
+        }
+    });
+
+    if (correctCount === totalQuestions) {
+        console.log(`שלב ${currentStage + 1}: ${correctCount} נכונות מתוך ${totalQuestions}`);
+        addAnimalsToFarm(totalQuestions);
+
+        if (currentStage < quizData[0].stages.length - 1) {
+            singleStageConfetti();
+            showEncouragingPopup(correctCount, totalQuestions, true);
+            // Show both buttons in modal to allow moving to the next stage
+            document.getElementById('modalNextButton').style.display = 'inline-block';
+            document.getElementById('modalExplanationsButton').style.display = 'inline-block';
+        } else {
+            // Last stage completion
+            currentStage++;
+            updateProgressBar();
+            allStagesConfetti();
+            showModal("כל הכבוד! השלמת את כל השלבים!");
+        }
+    } else {
+        // Show the encouraging popup if the stage is not complete
+        showEncouragingPopup(correctCount, totalQuestions, false);
+
+        if (attempts >= 10) {
+            // If the user has reached 10 attempts, notify them about revealing the answers
+            const modalMessage = document.getElementById('modalMessage');
+            modalMessage.textContent = "הגעת למספר הניסיונות המקסימלי. התשובות הנכונות נחשפו.";
+            showModal(modalMessage.textContent);
+        }
+    }
+
+    scrollToTop();
+}
+
+		
+        function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+            const incorrectCount = totalQuestions - correctCount;
+            let message = `קיבלת ${correctCount} נכונות ו-${incorrectCount} שגויות.`;
+            
+            if (correctCount === totalQuestions) {
+                message += " ציון מושלם!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+                message += " עבודה מצוינת! רואים שהנושא מתחיל להיות מובן!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+                message += " מאמץ טוב! נמשיך לתרגל כי השיפור קרוב!";
+            } else {
+                message += " לא לוותר! כל נסיון עוזר לך ללמוד. ננסה שוב!";
+            }
+
+            if (isStageComplete) {
+                message += "\n\n השלב הזה הסתיים, עוברים לשלב הבא.";
+            }
+
+            showModal(message);
+        }
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `נסיונות: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+        function updateStageNumber() {
+            const stageElement = document.getElementById("stage-number");
+            stageElement.textContent = `שלב ${currentStage + 1} מתוך ${stageCount}`;
+        }
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+		function showModal(message) {
+			const modal = document.getElementById("quizModal");
+			const modalMessage = document.getElementById("modalMessage");
+			const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+			const nextButton = document.getElementById("modalNextButton");
+			const explanationsButton = document.getElementById("modalExplanationsButton");
+
+			// Set message
+			modalMessage.textContent = message;
+			
+			// Show modal
+			modal.style.display = "block";
+
+			// By default, hide both buttons
+			nextButton.style.display = "none";
+			explanationsButton.style.display = "none";
+
+			// Close handlers
+			modalClose.onclick = function() {
+				modal.style.display = "none";
+			}
+
+			window.onclick = function(event) {
+				if (event.target == modal) {
+					modal.style.display = "none";
+				}
+			}
+		}
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+			
+			document.getElementById('modalNextButton').addEventListener('click', () => {
+				document.getElementById('quizModal').style.display = 'none';
+				currentStage++;
+				attempts = 0;
+				renderQuiz();
+				document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+				updateProgressBar();
+			});
+
+			document.getElementById('modalExplanationsButton').addEventListener('click', showExplanations);
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>

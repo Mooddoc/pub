@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+	<style>
+ 
+	</style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read each question carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 5 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>Numbers as groups of tens and ones</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+ 
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+        const quizData = [ 												//  PH3 - Quiz Data   	
+
+  // Stage 1 - Introduction to counting objects and basic grouping
+  [
+    {
+      question: "Count the apples: 🍎🍎🍎. How many apples are there?",
+      options: ["3", "2", "4", "5", "1"],
+      answer: "3"
+    },
+    {
+      question: "How many stars do you see? ⭐⭐⭐⭐",
+      options: ["4", "3", "5", "6", "2"],
+      answer: "4"
+    },
+    {
+      question: "Count the hearts: ❤️❤️. How many hearts are there?",
+      options: ["2", "3", "1", "4", "5"],
+      answer: "2"
+    },
+    {
+      question: "How many suns can you count? ☀️☀️☀️☀️☀️",
+      options: ["5", "4", "6", "3", "2"],
+      answer: "5"
+    },
+    {
+      question: "Count the moons: 🌙🌙🌙. How many moons are there?",
+      options: ["3", "4", "2", "5", "1"],
+      answer: "3"
+    }
+  ],
+
+  // Stage 2 - Simple grouping with small numbers
+  [
+    {
+      question: "Here are some balls: ⚽⚽⚽⚽⚽ ⚽. How many balls in total?",
+      options: ["6", "5", "7", "4", "8"],
+      answer: "6"
+    },
+    {
+      question: "Count the flowers in groups: 🌸🌸🌸 🌸🌸. Total flowers?",
+      options: ["5", "4", "6", "3", "7"],
+      answer: "5"
+    },
+    {
+      question: "Trees in groups: 🌳🌳 🌳🌳. How many trees?",
+      options: ["4", "3", "5", "2", "6"],
+      answer: "4"
+    },
+    {
+      question: "Count by groups: 🎈🎈 🎈🎈 🎈. Total balloons?",
+      options: ["5", "4", "6", "3", "7"],
+      answer: "5"
+    },
+    {
+      question: "How many in total: 🐶🐶 🐶. Count the dogs.",
+      options: ["3", "4", "2", "5", "1"],
+      answer: "3"
+    }
+  ],
+
+  // Stage 3 - Introduction to tens
+  [
+    {
+      question: "Count the stars: ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐. How many?",
+      options: ["10", "9", "11", "8", "12"],
+      answer: "10"
+    },
+    {
+      question: "Groups of hearts: ❤️❤️❤️❤️❤️ ❤️❤️. Total hearts?",
+      options: ["7", "6", "8", "9", "5"],
+      answer: "7"
+    },
+    {
+      question: "Count by groups: 🎈🎈🎈🎈🎈 🎈🎈🎈. Total balloons?",
+      options: ["8", "7", "9", "6", "10"],
+      answer: "8"
+    },
+    {
+      question: "How many apples: 🍎🍎🍎🍎🍎 🍎🍎🍎🍎. Count them.",
+      options: ["9", "8", "10", "7", "11"],
+      answer: "9"
+    },
+    {
+      question: "Count the total: 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟. How many stars?",
+      options: ["10", "9", "11", "8", "12"],
+      answer: "10"
+    }
+  ],
+
+  // Stage 4 - Identifying tens and ones
+  [
+    {
+      question: "Count groups: 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈. How many ones?",
+      options: ["1", "2", "3", "4", "5"],
+      answer: "1"
+    },
+    {
+      question: "Look: ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐. How many after ten?",
+      options: ["2", "3", "1", "4", "5"],
+      answer: "2"
+    },
+    {
+      question: "Count: 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸🌸. How many ones?",
+      options: ["3", "2", "4", "1", "5"],
+      answer: "3"
+    },
+    {
+      question: "Groups: 🐶🐶🐶🐶🐶 🐶🐶🐶🐶🐶 🐶🐶🐶🐶. Extra after ten?",
+      options: ["4", "3", "5", "2", "6"],
+      answer: "4"
+    },
+    {
+      question: "Count: 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈. How many groups of ten?",
+      options: ["1", "2", "3", "0", "4"],
+      answer: "1"
+    }
+  ],
+
+  // Stage 5 - Working with tens and ones
+  [
+    {
+      question: "Count: 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟. What number is this?",
+      options: ["12", "11", "13", "10", "14"],
+      answer: "12"
+    },
+    {
+      question: "Groups: ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐. Number shown?",
+      options: ["13", "12", "14", "11", "15"],
+      answer: "13"
+    },
+    {
+      question: "Count all: 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈. Total?",
+      options: ["14", "13", "15", "12", "16"],
+      answer: "14"
+    },
+    {
+      question: "How many: 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸?",
+      options: ["15", "14", "16", "13", "17"],
+      answer: "15"
+    },
+    {
+      question: "Count groups of ten and ones: ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️. Total?",
+      options: ["16", "15", "17", "14", "18"],
+      answer: "16"
+    }
+  ],
+  // Stage 6 - Working with larger teen numbers
+  [
+    {
+      question: "Count the flowers: 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸. How many?",
+      options: ["17", "16", "18", "15", "19"],
+      answer: "17"
+    },
+    {
+      question: "How many stars make 1 ten and 8 ones? ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐",
+      options: ["18", "17", "19", "16", "20"],
+      answer: "18"
+    },
+    {
+      question: "Count by tens and ones: 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈. Total?",
+      options: ["19", "18", "20", "17", "21"],
+      answer: "19"
+    },
+    {
+      question: "Make groups of ten: ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️. How many tens?",
+      options: ["2", "1", "3", "4", "0"],
+      answer: "2"
+    },
+    {
+      question: "Count the ones: 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟. How many ones?",
+      options: ["8", "4", "2", "5", "1"],
+      answer: "8"
+    }
+  ],
+
+  // Stage 7 - Understanding place value
+  [
+    {
+      question: "In 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 (20), how many groups of ten?",
+      options: ["2", "1", "3", "4", "0"],
+      answer: "2"
+    },
+    {
+      question: "How many ones in: ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐? (13)",
+      options: ["3", "2", "4", "1", "5"],
+      answer: "3"
+    },
+    {
+      question: "Which number has 1 ten and 5 ones? 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸",
+      options: ["15", "51", "5", "10", "50"],
+      answer: "15"
+    },
+    {
+      question: "Count tens first: 🐶🐶🐶🐶🐶 🐶🐶🐶🐶🐶 🐶🐶🐶🐶🐶 🐶. How many in total?",
+      options: ["16", "15", "17", "14", "18"],
+      answer: "16"
+    },
+    {
+      question: "If you have 2 tens, how many more ❤️ do you need to make 23?",
+      options: ["3", "2", "4", "5", "1"],
+      answer: "3"
+    }
+  ],
+
+  // Stage 8 - Comparing numbers with tens and ones
+  [
+    {
+      question: "Which is more: 1 ten and 5 ones (🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟) or 2 tens?",
+      options: ["20", "15", "Both same", "25", "10"],
+      answer: "20"
+    },
+    {
+      question: "What comes after 19 balls? 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈",
+      options: ["20", "19", "21", "18", "22"],
+      answer: "20"
+    },
+    {
+      question: "How many more to make 2 tens: ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐?",
+      options: ["3", "2", "4", "5", "1"],
+      answer: "3"
+    },
+    {
+      question: "What's 1 ten and 7 ones plus 1 more? 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸 + 🌸",
+      options: ["18", "17", "19", "16", "20"],
+      answer: "18"
+    },
+    {
+      question: "How many tens in 24 stars? ⭐ (twenty-four)",
+      options: ["2", "4", "3", "1", "5"],
+      answer: "2"
+    }
+  ],
+
+  // Stage 9 - Simple addition with tens and ones
+  [
+    {
+      question: "If you have 1 ten (🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈) and add 5 more 🎈, what number do you have?",
+      options: ["15", "11", "14", "16", "10"],
+      answer: "15"
+    },
+    {
+      question: "What's 2 tens plus 3 more hearts? ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ + ❤️❤️❤️",
+      options: ["23", "20", "22", "21", "24"],
+      answer: "23"
+    },
+    {
+      question: "Add 1 ten to 13 stars: ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐ + ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐",
+      options: ["23", "24", "22", "21", "25"],
+      answer: "23"
+    },
+    {
+      question: "What's 16 plus 1 ten? 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟 + 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟",
+      options: ["26", "25", "27", "24", "28"],
+      answer: "26"
+    },
+    {
+      question: "Add 5 to 2 tens: 🐶🐶🐶🐶🐶 🐶🐶🐶🐶🐶 🐶🐶🐶🐶🐶 🐶🐶🐶🐶🐶 + 🐶🐶🐶🐶🐶",
+      options: ["25", "24", "26", "23", "27"],
+      answer: "25"
+    }
+  ],
+
+  // Stage 10 - Mixed operations with tens and ones
+  [
+    {
+      question: "What's 2 tens and 3 ones minus 1 one? 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈 - 🎈",
+      options: ["22", "21", "23", "20", "24"],
+      answer: "22"
+    },
+    {
+      question: "Add 1 ten to 17 flowers: 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸 + 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸",
+      options: ["27", "26", "28", "25", "29"],
+      answer: "27"
+    },
+    {
+      question: "What's 1 less than 2 tens? ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ - ⭐",
+      options: ["19", "18", "20", "17", "21"],
+      answer: "19"
+    },
+    {
+      question: "How many tens in 25 hearts? ❤️ (twenty-five)",
+      options: ["2", "5", "3", "1", "4"],
+      answer: "2"
+    },
+    {
+      question: "What's 3 more than 2 tens? 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 + 🌟🌟🌟",
+      options: ["23", "22", "24", "21", "25"],
+      answer: "23"
+    }
+  ],
+  // Stage 11 - Understanding multiple tens
+  [
+    {
+      question: "How many groups of ten in: 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈?",
+      options: ["2", "3", "4", "5", "1"],
+      answer: "2"
+    },
+    {
+      question: "Count: 3 tens and 2 ones is ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐. Total?",
+      options: ["32", "23", "31", "33", "30"],
+      answer: "32"
+    },
+    {
+      question: "How many ones in 24 flowers? 🌸 (twenty-four)",
+      options: ["4", "2", "14", "24", "40"],
+      answer: "4"
+    },
+    {
+      question: "What number is 2 tens and 8 ones? ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️",
+      options: ["28", "82", "20", "38", "18"],
+      answer: "28"
+    },
+    {
+      question: "Count tens first: 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟. What number?",
+      options: ["26", "25", "27", "24", "28"],
+      answer: "26"
+    }
+  ],
+
+  // Stage 12 - Simple word problems with tens
+  [
+    {
+      question: "I have 2 tens of apples 🍎, and get 5 more 🍎. How many apples now?",
+      options: ["25", "15", "20", "30", "35"],
+      answer: "25"
+    },
+    {
+      question: "There are 3 tens of stars ⭐. How many more to make 34?",
+      options: ["4", "3", "5", "6", "7"],
+      answer: "4"
+    },
+    {
+      question: "You have 27 hearts ❤️. How many tens?",
+      options: ["2", "7", "27", "20", "17"],
+      answer: "2"
+    },
+    {
+      question: "2 tens of balloons 🎈 plus 1 ten equals how many balloons?",
+      options: ["30", "20", "21", "40", "31"],
+      answer: "30"
+    },
+    {
+      question: "I see 35 flowers 🌸. Is this more than 3 tens?",
+      options: ["Yes", "No", "Same", "Can't tell", "Neither"],
+      answer: "Yes"
+    }
+  ],
+
+  // Stage 13 - Comparing larger numbers
+  [
+    {
+      question: "Which is more: 2 tens and 7 ones or 3 tens and 2 ones? 🎈",
+      options: ["32", "27", "Same", "37", "22"],
+      answer: "32"
+    },
+    {
+      question: "Count: ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐. How many?",
+      options: ["33", "32", "34", "31", "35"],
+      answer: "33"
+    },
+    {
+      question: "What comes after 29 hearts? ❤️",
+      options: ["30", "31", "28", "20", "19"],
+      answer: "30"
+    },
+    {
+      question: "Is 35 closer to 3 tens or 4 tens? 🌸",
+      options: ["3 tens", "4 tens", "Same", "Neither", "Can't tell"],
+      answer: "Same"
+    },
+    {
+      question: "Which number has more ones: 24 or 31? 🌟",
+      options: ["31", "24", "Same", "Neither", "Can't tell"],
+      answer: "24"
+    }
+  ],
+
+  // Stage 14 - Simple addition with larger numbers
+  [
+    {
+      question: "Add 1 ten to 25 balloons: 🎈🎈🎈🎈🎈 ... 🎈🎈🎈🎈🎈 + 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈",
+      options: ["35", "26", "45", "15", "25"],
+      answer: "35"
+    },
+    {
+      question: "What's 2 tens and 6 ones plus 2 more? ⭐",
+      options: ["28", "26", "27", "29", "25"],
+      answer: "28"
+    },
+    {
+      question: "Add 3 tens and 4 ones: 3️⃣0️⃣ + 4️⃣ = ?",
+      options: ["34", "43", "31", "33", "44"],
+      answer: "34"
+    },
+    {
+      question: "What's 27 plus 1 ten? 🌸",
+      options: ["37", "28", "17", "47", "26"],
+      answer: "37"
+    },
+    {
+      question: "How many is 2 tens plus 2 tens plus 5? ❤️",
+      options: ["45", "25", "40", "35", "50"],
+      answer: "45"
+    }
+  ],
+
+  // Stage 15 - Missing numbers and patterns
+  [
+    {
+      question: "Fill the missing number: 25, 26, __, 28, 29 🎈",
+      options: ["27", "24", "30", "31", "25"],
+      answer: "27"
+    },
+    {
+      question: "What comes between 3 tens and 32? ⭐",
+      options: ["31", "29", "33", "30", "34"],
+      answer: "31"
+    },
+    {
+      question: "Complete: 15, 25, 35, __ 🌸",
+      options: ["45", "40", "30", "50", "55"],
+      answer: "45"
+    },
+    {
+      question: "Pattern: 22, 24, 26, __, 30 ❤️",
+      options: ["28", "27", "29", "25", "31"],
+      answer: "28"
+    },
+    {
+      question: "What's missing: 2 tens, 21, __, 23, 24 🌟",
+      options: ["22", "20", "25", "19", "26"],
+      answer: "22"
+    }
+  ],
+  // Stage 16 - Simple subtraction with tens
+  [
+    {
+      question: "If you have 3 tens (🎈🎈🎈🎈🎈...🎈🎈🎈🎈🎈) and remove 1 ten, how many balloons left?",
+      options: ["20", "30", "10", "40", "25"],
+      answer: "20"
+    },
+    {
+      question: "Start with 25 stars ⭐. Take away 5. How many left?",
+      options: ["20", "15", "25", "30", "19"],
+      answer: "20"
+    },
+    {
+      question: "What's 34 hearts ❤️ minus 1 ten?",
+      options: ["24", "33", "23", "14", "44"],
+      answer: "24"
+    },
+    {
+      question: "Take 2 away from 28 flowers 🌸. What number now?",
+      options: ["26", "27", "25", "24", "29"],
+      answer: "26"
+    },
+    {
+      question: "3 tens minus 1 ten equals how many stars? ⭐",
+      options: ["20", "10", "30", "40", "25"],
+      answer: "20"
+    }
+  ],
+
+  // Stage 17 - Word problems with subtraction
+  [
+    {
+      question: "I had 25 balloons 🎈. 5 flew away. How many left?",
+      options: ["20", "15", "25", "30", "10"],
+      answer: "20"
+    },
+    {
+      question: "There were 34 stars ⭐. 4 disappeared. Now there are...",
+      options: ["30", "29", "31", "24", "34"],
+      answer: "30"
+    },
+    {
+      question: "Start with 3 tens of hearts ❤️. Give away 1 ten. Left with?",
+      options: ["20", "30", "10", "40", "25"],
+      answer: "20"
+    },
+    {
+      question: "Had 27 flowers 🌸. Lost 7. How many remain?",
+      options: ["20", "21", "19", "17", "26"],
+      answer: "20"
+    },
+    {
+      question: "38 stars ⭐ minus 8 equals?",
+      options: ["30", "31", "29", "28", "40"],
+      answer: "30"
+    }
+  ],
+
+  // Stage 18 - Mixed operations with word problems
+  [
+    {
+      question: "2 tens of balloons 🎈 plus 5, then take away 3. How many?",
+      options: ["22", "25", "20", "23", "21"],
+      answer: "22"
+    },
+    {
+      question: "Start with 15 stars ⭐, add 1 ten, then remove 2. Total now?",
+      options: ["23", "25", "13", "24", "22"],
+      answer: "23"
+    },
+    {
+      question: "Had 3 tens of hearts ❤️, lost 1 ten, got 5 more. How many?",
+      options: ["25", "20", "35", "15", "30"],
+      answer: "25"
+    },
+    {
+      question: "4 tens of flowers 🌸 minus 1 ten, plus 3. Total?",
+      options: ["33", "43", "23", "30", "13"],
+      answer: "33"
+    },
+    {
+      question: "26 stars ⭐, take away 6, add 1 ten. Now have?",
+      options: ["30", "20", "36", "40", "16"],
+      answer: "30"
+    }
+  ],
+
+  // Stage 19 - Complex patterns and sequences
+  [
+    {
+      question: "Complete: 20, 22, 24, __, 28, 30 🎈",
+      options: ["26", "25", "23", "27", "29"],
+      answer: "26"
+    },
+    {
+      question: "Pattern: 15, 25, 35, __, 55 ⭐",
+      options: ["45", "40", "50", "30", "20"],
+      answer: "45"
+    },
+    {
+      question: "Fill in: 33, 30, 27, __, 21 ❤️",
+      options: ["24", "23", "25", "26", "22"],
+      answer: "24"
+    },
+    {
+      question: "What's next: 18, 20, 22, 24, __ 🌸",
+      options: ["26", "25", "23", "27", "28"],
+      answer: "26"
+    },
+    {
+      question: "Complete: 40, 35, 30, __, 20 ⭐",
+      options: ["25", "24", "26", "15", "35"],
+      answer: "25"
+    }
+  ],
+
+  // Stage 20 - Multi-step word problems
+  [
+    {
+      question: "I have 2 tens of balloons 🎈. Got 1 ten more, then 5 flew away. Total now?",
+      options: ["25", "30", "20", "35", "15"],
+      answer: "25"
+    },
+    {
+      question: "Started with 15 stars ⭐, doubled them, then added 5. How many?",
+      options: ["35", "30", "25", "40", "20"],
+      answer: "35"
+    },
+    {
+      question: "Had 40 hearts ❤️, gave half away, then got 5 more. Total?",
+      options: ["25", "20", "30", "35", "15"],
+      answer: "25"
+    },
+    {
+      question: "3 tens of flowers 🌸, lost 1 ten, found 7 more. How many now?",
+      options: ["27", "37", "17", "47", "20"],
+      answer: "27"
+    },
+    {
+      question: "Start with 24 stars ⭐, add 1 ten, take away 4. Left with?",
+      options: ["30", "34", "20", "40", "14"],
+      answer: "30"
+    }
+  ]
+        ];
+
+        const stageCount = quizData.length;
+
+        const stateContents = {
+
+
+		   'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+           ,'Subject Overview 🗝️': `<div class="subject-overview-content">   <h1>Numbers: Groups of Tens and Ones</h1>   <p>Understanding numbers is an important part of learning math. When we look at numbers, we can see them as groups of tens and ones. This helps us understand how numbers are made and how to work with them easily. Let’s explore how tens and ones come together to form numbers!</p>   <hr>   <h2>Table of Contents</h2>   <ol>     <li><a href="#what-are-tens-and-ones">What Are Tens and Ones?</a></li>     <li><a href="#how-to-group-numbers">How to Group Numbers</a></li>     <li><a href="#examples">Examples</a></li>     <li><a href="#practice">Practice</a></li>     <li><a href="#conclusion">Conclusion</a></li>   </ol>   <hr>     <h2 id="what-are-tens-and-ones">What Are Tens and Ones?</h2>   <p>Every number is made up of tens and ones. The <strong>tens</strong> place tells us how many groups of ten there are, and the <strong>ones</strong> place tells us how many single units there are.</p>   <p>For example:</p>   <ul>     <li>In the number <strong>23</strong>, the <em>2</em> is in the tens place (which means 2 tens) and the <em>3</em> is in the ones place.</li>     <li>In the number <strong>47</strong>, the <em>4</em> is in the tens place and the <em>7</em> is in the ones place.</li>   </ul>   <hr>     <h2 id="how-to-group-numbers">How to Group Numbers</h2>   <p>Grouping numbers into tens and ones makes it easier to add and subtract. Here’s how you can do it:</p>   <ol>     <li><strong>Identify the Tens:</strong> Look at the first digit from the right. This is the tens place.</li>     <li><strong>Identify the Ones:</strong> Look at the second digit from the right. This is the ones place.</li>     <li><strong>Write Them Separately:</strong> Separate the tens and ones to see how many you have of each.</li>   </ol>   <p>Let’s see an example:</p>   <ul>     <li>Number <strong>35</strong>:       <ul>         <li>Tens: 3 tens (which is 30)</li>         <li>Ones: 5 ones (which is 5)</li>       </ul>     </li>     <li>Number <strong>68</strong>:       <ul>         <li>Tens: 6 tens (which is 60)</li>         <li>Ones: 8 ones (which is 8)</li>       </ul>     </li>   </ul>   <hr>     <h2 id="examples">Examples</h2>   <h3>Example 1: Number 14</h3>   <p>Let’s break down the number <strong>14</strong>:</p>   <ul>     <li>Tens: 1 ten (which is 10)</li>     <li>Ones: 4 ones (which is 4)</li>     <li>So, 14 = 10 + 4</li>   </ul>     <h3>Example 2: Number 29</h3>   <p>Let’s break down the number <strong>29</strong>:</p>   <ul>     <li>Tens: 2 tens (which is 20)</li>     <li>Ones: 9 ones (which is 9)</li>     <li>So, 29 = 20 + 9</li>   </ul>   <hr>     <h2 id="practice">Practice</h2>   <p>Try breaking down these numbers into tens and ones:</p>   <ul>     <li>Number <strong>46</strong>:       <ul>         <li>Tens: ___ tens</li>         <li>Ones: ___ ones</li>       </ul>     </li>     <li>Number <strong>53</strong>:       <ul>         <li>Tens: ___ tens</li>         <li>Ones: ___ ones</li>       </ul>     </li>     <li>Number <strong>81</strong>:       <ul>         <li>Tens: ___ tens</li>         <li>Ones: ___ ones</li>       </ul>     </li>   </ul>     <h2 id="conclusion">Conclusion</h2>   <p>Understanding numbers as groups of tens and ones helps you see how numbers are built and makes math easier. Remember:</p>   <ul>     <li>Each number has a tens place and a ones place.</li>     <li>Grouping helps with adding and subtracting.</li>     <li>Practice breaking down numbers to get better at math!</li>   </ul>   <hr>   <p>Keep practicing, and soon you'll be a numbers expert!</p> </div>`
+
+		
+		};
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    quizData[currentStage].forEach((question, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+        
+        // Create label for the question text
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${question.question}`;
+        
+        // Create div for result feedback
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+        
+        // Create select element for answers
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        
+        // Add default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+        
+        // Shuffle and add answer options
+        const shuffledOptions = shuffleArray([...question.options]);
+        shuffledOptions.forEach((option, optionIndex) => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        // Append elements to questionElement in the desired order
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv); // Feedback before dropdown
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+		function checkStage() {
+   attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[currentStage].length;
+
+    quizData[currentStage].forEach((question, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === question.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect answer.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 5) {
+            selectElement.value = question.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` The correct answer is: ${question.answer}`;
+        }
+    });
+
+    console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+
+			if (correctCount === totalQuestions) {
+				console.log(`Stage ${currentStage + 1} completed. Adding ${totalQuestions} animals.`);
+				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+
+				if (currentStage < stageCount - 1) {
+					singleStageConfetti();
+					showEncouragingPopup(correctCount, totalQuestions, true);
+					currentStage++; // Increment stage immediately
+					updateProgressBar(); // Update progress bar right after incrementing stage
+					console.log(`Moving to stage ${currentStage + 1}`);
+					setTimeout(() => {
+						attempts = 0;
+						renderQuiz();
+						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+					}, 1500);
+				} else {
+					// This is the final stage completion
+					currentStage++;
+					updateProgressBar(); // This will now show 100%
+					allStagesConfetti();
+					showModal("Congratulations! You've completed all stages.");
+				}
+			} else {
+				showEncouragingPopup(correctCount, totalQuestions, false);
+				if (attempts >= 5) {
+					showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+				}
+			}
+
+			scrollToTop();
+		}
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+		function updateStageNumber() {
+			const stageElement = document.getElementById("stage-number");
+			stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+		}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>
