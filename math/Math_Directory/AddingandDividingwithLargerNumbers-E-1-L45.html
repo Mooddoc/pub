@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+
+</head> 
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read the text and questions carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 5 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>Adding and dividing with larger numbers</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+ 
+	<!-- Modal -->
+	<div id="quizModal" class="modal-quiz">
+		<div class="modal-quiz-content">
+			<span class="modal-quiz-close">&times;</span>
+			<p id="modalMessage"></p>  
+			<button id="modalExplanationsButton" class="modal-quiz-button" style="display: none; background-color: #ff7f50;">View Explanations</button>
+			<button id="modalNextButton" class="modal-quiz-button">Next Stage</button>
+		</div>
+	</div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+																		//  PH3 - Quiz Data 
+        const quizData = [ 												   	
+				{
+				  "stages": [
+//-------------------------------------------------------------------------------------------------------------------				  
+
+    // Stage 1
+    {
+      "text": "Sarah is learning to add three-digit numbers. She knows it's important to line up the digits in the correct place value columns.",
+      "questions": [
+        // Question 1.1
+        {
+          "question": "What is 234 + 345?",
+          "options": ["579", "569", "589", "679", "Let's ask the calculator fairy"],
+          "answer": "579",
+          "explanation": "Adding the digits in each place value: 4+5=9 in ones, 3+4=7 in tens, 2+3=5 in hundreds."
+        },
+        // Question 1.2
+        {
+          "question": "When adding 156 + 327, what is the value in the tens place of the answer?",
+          "options": ["7", "3", "8", "5", "Purple"],
+          "answer": "8",
+          "explanation": "7+6=13 in ones place, so 1 is carried to the tens place. We are left with 5+2+1=8."
+        },
+        // Question 1.3
+        {
+          "question": "What is the sum of 425 + 238?",
+          "options": ["663", "653", "673", "563", "A million!"],
+          "answer": "663",
+          "explanation": "Adding each place: 5+8=13 (carry 1), 2+3+1=6, 4+2=6. Result is 663."
+        },
+        // Question 1.4
+        {
+          "question": "In 372 + 248 = 620, which digit is carried to the hundreds place?",
+          "options": ["1", "2", "3", "0", "A tiny elephant"],
+          "answer": "1",
+          "explanation": "7+4=11 in tens place, so 1 is carried to the hundreds place."
+        },
+        // Question 1.5
+        {
+          "question": "What is 462 + 159?",
+          "options": ["621", "631", "521", "721", "Ask your pet rock"],
+          "answer": "621",
+          "explanation": "2+9=11 (carry 1), 6+5+1=12 (carry 1), 4+1+1=6. Result is 621."
+        }
+      ]
+    },
+    // Stage 2
+    {
+      "text": "Alex is practicing adding numbers with regrouping (carrying). His teacher says it's important to remember to carry numbers when needed.",
+      "questions": [
+        // Question 2.1
+        {
+          "question": "What is 578 + 456?",
+          "options": ["1034", "934", "1024", "944", "A bazillion"],
+          "answer": "1034",
+          "explanation": "8+6=14 (carry 1), 7+5+1=13 (carry 1), 5+4+1=10. Result is 1034."
+        },
+        // Question 2.2
+        {
+          "question": "In 645 + 378, how many times do you need to carry a number?",
+          "options": ["2", "1", "3", "0", "As many as unicorns can count"],
+          "answer": "3",
+          "explanation": "Carry from ones (5+8=13) and tens (4+7+1=12) and hundreds (6+3+1=10)."
+        },
+        // Question 2.3
+        {
+          "question": "What is 789 + 567?",
+          "options": ["1356", "1256", "1456", "1346", "Infinity plus one"],
+          "answer": "1356",
+          "explanation": "9+7=16 (carry 1), 8+6+1=15 (carry 1), 7+5+1=13. Result is 1356."
+        },
+        // Question 2.4
+        {
+          "question": "What is the sum of 847 + 385?",
+          "options": ["1232", "1222", "1322", "1132", "More than all the stars"],
+          "answer": "1232",
+          "explanation": "7+5=12 (carry 1), 4+8+1=13 (carry 1), 8+3+1=12. Result is 1232."
+        },
+        // Question 2.5
+        {
+          "question": "In 956 + 289, what digit will be in the tens place?",
+          "options": ["4", "5", "3", "2", "The answer is banana"],
+          "answer": "4",
+          "explanation": "6+8=14 (carry 1), 5+8+1=14. The 4 stays in tens place."
+        }
+      ]
+    },
+    // Stage 3
+    {
+      "text": "Maria is learning about division with two-digit numbers. She knows that understanding place values helps break down bigger problems.",
+      "questions": [
+        // Question 3.1
+        {
+          "question": "What is 84 ÷ 12?",
+          "options": ["7", "8", "6", "9", "A chocolate sundae"],
+          "answer": "7",
+          "explanation": "12 goes into 84 seven times (12 × 7 = 84)."
+        },
+        // Question 3.2
+        {
+          "question": "What is the quotient of 96 ÷ 8?",
+          "options": ["12", "11", "13", "10", "As many as clouds in the sky"],
+          "answer": "12",
+          "explanation": "8 × 12 = 96, so 96 ÷ 8 = 12."
+        },
+        // Question 3.3
+        {
+          "question": "What is 72 ÷ 6?",
+          "options": ["12", "11", "13", "10", "More than a sleepy sloth can count"],
+          "answer": "12",
+          "explanation": "6 × 12 = 72, so 72 ÷ 6 = 12."
+        },
+        // Question 3.4
+        {
+          "question": "If 15 × ___ = 90, what goes in the blank?",
+          "options": ["6", "7", "5", "8", "A dancing penguin"],
+          "answer": "6",
+          "explanation": "90 ÷ 15 = 6, because 15 × 6 = 90."
+        },
+        // Question 3.5
+        {
+          "question": "What is 108 ÷ 9?",
+          "options": ["12", "11", "13", "14", "Ask your favorite crayon"],
+          "answer": "12",
+          "explanation": "9 × 12 = 108, so 108 ÷ 9 = 12."
+        }
+      ]
+    },
+    // Stage 4
+    {
+      "text": "Tom is practicing division with remainders. His teacher explains that sometimes division doesn't result in a whole number.",
+      "questions": [
+        // Question 4.1
+        {
+          "question": "What is 95 ÷ 8?",
+          "options": ["11 R7", "11 R8", "12 R7", "11 R6", "A million cookies"],
+          "answer": "11 R7",
+          "explanation": "8 × 11 = 88, with 7 remaining. So it's 11 remainder 7."
+        },
+        // Question 4.2
+        {
+          "question": "What is the remainder when 67 is divided by 9?",
+          "options": ["4", "5", "3", "6", "As many as stars in my eyes"],
+          "answer": "4",
+          "explanation": "9 × 7 = 63, with 4 remaining (67 - 63 = 4)."
+        },
+        // Question 4.3
+        {
+          "question": "What is 137 ÷ 12?",
+          "options": ["11 R5", "11 R4", "12 R5", "11 R6", "More than a tree can count"],
+          "answer": "11 R5",
+          "explanation": "12 × 11 = 132, with 5 remaining (137 - 132 = 5)."
+        },
+        // Question 4.4
+        {
+          "question": "In 156 ÷ 14, what is the quotient and remainder?",
+          "options": ["11 R2", "11 R3", "10 R16", "11 R4", "Ask the division wizard"],
+          "answer": "11 R2",
+          "explanation": "14 × 11 = 154, with 2 remaining (156 - 154 = 2)."
+        },
+        // Question 4.5
+        {
+          "question": "What is 203 ÷ 15?",
+          "options": ["13 R8", "13 R7", "14 R8", "13 R9", "Infinity plus two"],
+          "answer": "13 R8",
+          "explanation": "15 × 13 = 195, with 8 remaining (203 - 195 = 8)."
+        }
+      ]
+    },
+    // Stage 5
+    {
+      "text": "Emma is working on more complex addition problems that involve multiple numbers and regrouping.",
+      "questions": [
+        // Question 5.1
+        {
+          "question": "What is 347 + 285 + 163?",
+          "options": ["795", "785", "805", "775", "More than all the fish in the sea"],
+          "answer": "795",
+          "explanation": "Add first two numbers (347 + 285 = 632), then add 163 to get 795."
+        },
+        // Question 5.2
+        {
+          "question": "In 456 + 378 + 289, how many times do you carry a number?",
+          "options": ["4", "3", "5", "2", "As many as raindrops in a puddle"],
+          "answer": "3",
+          "explanation": "Carries occur in ones, tens, and hundreds places."
+        },
+        // Question 5.3
+        {
+          "question": "What is 624 + 897 + 235?",
+          "options": ["1756", "1656", "1856", "1766", "More than my toy collection"],
+          "answer": "1756",
+          "explanation": "Add first two numbers (624 + 897 = 1521), then add 235 to get 1756."
+        },
+        // Question 5.4
+        {
+          "question": "What is the sum of 789 + 456 + 378?",
+          "options": ["1623", "1523", "1723", "1633", "Bigger than a dinosaur's lunch"],
+          "answer": "1623",
+          "explanation": "Add first two numbers (789 + 456 = 1245), then add 378 to get 1623."
+        },
+        // Question 5.5
+        {
+          "question": "Calculate 912 + 645 + 867.",
+          "options": ["2424", "2324", "2524", "2414", "As high as a rocket can fly"],
+          "answer": "2424",
+          "explanation": "Add first two numbers (912 + 645 = 1557), then add 867 to get 2424."
+        }
+      ]
+    },
+    // Stage 6
+    {
+      "text": "Peter is learning about division with larger numbers. He's discovering that breaking down big numbers makes division easier.",
+      "questions": [
+        // Question 6.1
+        {
+          "question": "What is 224 ÷ 16?",
+          "options": ["14", "13", "15", "12", "As many as clouds can count"],
+          "answer": "14",
+          "explanation": "16 × 14 = 224, so 224 ÷ 16 = 14."
+        },
+        // Question 6.2
+        {
+          "question": "What is 288 ÷ 24?",
+          "options": ["12", "11", "13", "14", "More than a library of books"],
+          "answer": "12",
+          "explanation": "24 × 12 = 288, so 288 ÷ 24 = 12."
+        },
+        // Question 6.3
+        {
+          "question": "What is 336 ÷ 21?",
+          "options": ["16", "15", "17", "14", "Ask the math fairy"],
+          "answer": "16",
+          "explanation": "21 × 16 = 336, so 336 ÷ 21 = 16."
+        },
+        // Question 6.4
+        {
+          "question": "What is 425 ÷ 25?",
+          "options": ["17", "16", "18", "15", "More than all my socks"],
+          "answer": "17",
+          "explanation": "25 × 17 = 425, so 425 ÷ 25 = 17."
+        },
+        // Question 6.5
+        {
+          "question": "What is 392 ÷ 28?",
+          "options": ["14", "13", "15", "16", "A million billion!"],
+          "answer": "14",
+          "explanation": "28 × 14 = 392, so 392 ÷ 28 = 14."
+        }
+      ]
+    },
+    // Stage 7
+    {
+      "text": "Lisa is practicing division problems that have larger dividends and divisors. She needs to be careful with her calculations.",
+      "questions": [
+        // Question 7.1
+        {
+          "question": "What is 445 ÷ 15?",
+          "options": ["29 R10", "29 R15", "30 R5", "28 R15", "More than stars in the sky"],
+          "answer": "29 R10",
+          "explanation": "15 × 29 = 435, with 10 remaining (445 - 435 = 10)."
+        },
+        // Question 7.2
+        {
+          "question": "What is 517 ÷ 24?",
+          "options": ["21 R13", "21 R14", "22 R13", "21 R15", "Ask the division genie"],
+          "answer": "21 R13",
+          "explanation": "24 × 21 = 504, with 13 remaining (517 - 504 = 13)."
+        },
+        // Question 7.3
+        {
+          "question": "What is the remainder when 623 is divided by 35?",
+          "options": ["28", "27", "29", "26", "As many as fish can swim"],
+          "answer": "28",
+          "explanation": "35 × 17 = 595, with 28 remaining (623 - 595 = 28)."
+        },
+        // Question 7.4
+        {
+          "question": "What is 756 ÷ 32?",
+          "options": ["23 R20", "23 R22", "24 R20", "23 R18", "Infinity times two"],
+          "answer": "23 R20",
+          "explanation": "32 × 23 = 736, with 20 remaining (756 - 736 = 20)."
+        },
+        // Question 7.5
+        {
+          "question": "What is 891 ÷ 45?",
+          "options": ["19 R36", "19 R35", "20 R36", "19 R34", "More than leaves on a tree"],
+          "answer": "19 R36",
+          "explanation": "45 × 19 = 855, with 36 remaining (891 - 855 = 36)."
+        }
+      ]
+    },
+    // Stage 8
+    {
+      "text": "James is working on addition problems with four-digit numbers. He needs to be extra careful with place values and carrying.",
+      "questions": [
+        // Question 8.1
+        {
+          "question": "What is 3456 + 2789?",
+          "options": ["6245", "6345", "6145", "6445", "To infinity and beyond!"],
+          "answer": "6245",
+          "explanation": "Adding each place value with carrying gives 6245."
+        },
+        // Question 8.2
+        {
+          "question": "In 4567 + 3899, what digit will be in the hundreds place?",
+          "options": ["4", "3", "5", "6", "As many as clouds in the sky"],
+          "answer": "4",
+          "explanation": "6+9=15, carry 1; 6+9+1=16, carry 1; 5+8+1=14, put 4 in hundreds."
+        },
+        // Question 8.3
+        {
+          "question": "What is 5678 + 4567?",
+          "options": ["10245", "10345", "10145", "10445", "More than all the pizza toppings"],
+          "answer": "10245",
+          "explanation": "Adding each place value with carrying gives 10245."
+        },
+        // Question 8.4
+        {
+          "question": "What is 6789 + 5678?",
+          "options": ["12467", "12567", "12367", "12667", "A gazillion and one"],
+          "answer": "12467",
+          "explanation": "Adding each place value with carrying gives 12467."
+        },
+        // Question 8.5
+        {
+          "question": "In 7890 + 6789, how many times do you need to carry?",
+          "options": ["4", "3", "5", "2", "As many as elephants can jump"],
+          "answer": "4",
+          "explanation": "Carrying occurs in ones, tens, hundreds, and thousands places."
+        }
+      ]
+    },
+    // Stage 9
+    {
+      "text": "Sofia is exploring division problems where she needs to work with larger numbers and interpret remainders.",
+      "questions": [
+        // Question 9.1
+        {
+          "question": "What is 1234 ÷ 45?",
+          "options": ["27 R19", "27 R18", "28 R19", "27 R20", "More than snowflakes in winter"],
+          "answer": "27 R19",
+          "explanation": "45 × 27 = 1215, with 19 remaining (1234 - 1215 = 19)."
+        },
+        // Question 9.2
+        {
+          "question": "What is 1567 ÷ 52?",
+          "options": ["30 R7", "30 R8", "31 R7", "29 R7", "Ask the division master"],
+          "answer": "30 R7",
+          "explanation": "52 × 30 = 1560, with 7 remaining (1567 - 1560 = 7)."
+        },
+        // Question 9.3
+        {
+          "question": "What is 1892 ÷ 63?",
+          "options": ["30 R2", "29 R2", "30 R3", "31 R2", "More than birds can count"],
+          "answer": "30 R2",
+          "explanation": "63 × 30 = 1890, with 2 remaining (1892 - 1890 = 2)."
+        },
+        // Question 9.4
+        {
+          "question": "What is 2145 ÷ 75?",
+          "options": ["28 R45", "28 R35", "29 R45", "28 R55", "A bazillion plus one"],
+          "answer": "28 R45",
+          "explanation": "75 × 28 = 2100, with 45 remaining (2145 - 2100 = 45)."
+        },
+        // Question 9.5
+        {
+          "question": "What is the quotient of 2356 ÷ 82?",
+          "options": ["28 R60", "29 R72", "28 R82", "27 R72", "More than stars at noon"],
+          "answer": "28 R60",
+          "explanation": "82 × 28 = 2296, with 60 remaining (2356 - 2296 = 60)."
+        }
+      ]
+    },
+    // Stage 10
+    {
+      "text": "Michael is working on complex addition problems with multiple four-digit numbers. He needs to be very organized with his calculations.",
+      "questions": [
+        // Question 10.1
+        {
+          "question": "What is 2345 + 3456 + 4567?",
+          "options": ["10368", "10468", "10268", "10568", "All the grains of sand"],
+          "answer": "10368",
+          "explanation": "Add first two numbers (5801), then add 4567 to get 10368."
+        },
+        // Question 10.2
+        {
+          "question": "What is 3456 + 4567 + 5678?",
+          "options": ["13701", "13601", "13801", "13901", "More than raindrops in a storm"],
+          "answer": "13701",
+          "explanation": "Add first two numbers (8023), then add 5678 to get 13701."
+        },
+        // Question 10.3
+        {
+          "question": "In 4567 + 5678 + 6789, what digit will be in the thousands place?",
+          "options": ["7", "6", "8", "5", "As many as dreams can fly"],
+          "answer": "7",
+          "explanation": "Adding each place value with carrying puts 7 in thousands place."
+        },
+        // Question 10.4
+        {
+          "question": "What is 5678 + 6789 + 7890?",
+          "options": ["20357", "20457", "20257", "20557", "Infinity times infinity"],
+          "answer": "20357",
+          "explanation": "Add first two numbers (12467), then add 7890 to get 20357."
+        },
+        // Question 10.5
+        {
+          "question": "Calculate 6789 + 7890 + 8901.",
+          "options": ["23580", "23480", "23680", "23780", "More than all the books ever"],
+          "answer": "23580",
+          "explanation": "Add first two numbers (14679), then add 8901 to get 23580."
+        }
+      ]
+    },
+    // Stage 11
+    {
+      "text": "Nina is solving division problems with larger numbers that involve interpreting the context of remainders.",
+      "questions": [
+        // Question 11.1
+        {
+          "question": "If 2789 stickers are packed into boxes of 65, how many full boxes can be made?",
+          "options": ["42", "43", "41", "44", "As many as butterflies can fly"],
+          "answer": "42",
+          "explanation": "2789 ÷ 65 = 42 R59, so 42 full boxes can be made."
+        },
+        // Question 11.2
+        {
+          "question": "3456 students need to be divided into groups of 48 for a field trip. How many complete groups can be formed?",
+          "options": ["72", "71", "73", "70", "More than clouds in the sky"],
+          "answer": "72",
+          "explanation": "3456 ÷ 48 = 72, forming 72 complete groups."
+        },
+        // Question 11.3
+        {
+          "question": "If 4123 candies are shared equally among 85 children, how many candies will be left over?",
+          "options": ["43", "47", "49", "46", "A million and one"],
+          "answer": "43",
+          "explanation": "4123 ÷ 85 = 48 R43, so 43 candies remain."
+        },
+        // Question 11.4
+        {
+          "question": "5278 marbles are packed into bags of 95. How many marbles will be in the last incomplete bag?",
+          "options": ["53", "52", "54", "51", "Ask the marble wizard"],
+          "answer": "53",
+          "explanation": "5278 ÷ 95 = 55 R53, so 53 marbles in last bag."
+        },
+        // Question 11.5
+        {
+          "question": "6342 books are placed on shelves holding 78 books each. How many complete shelves can be filled?",
+          "options": ["81", "80", "82", "79", "More than trees in a forest"],
+          "answer": "81",
+          "explanation": "6342 ÷ 78 = 81 R24, so 81 complete shelves."
+        }
+      ]
+    },
+    // Stage 12
+    {
+      "text": "David is working on addition problems involving multiple numbers with different place values.",
+      "questions": [
+        // Question 12.1
+        {
+          "question": "What is 3567 + 789 + 4512?",
+          "options": ["8868", "8968", "8768", "8668", "To infinity and back twice"],
+          "answer": "8868",
+          "explanation": "Add first two numbers (4356), then add 4512 to get 8868."
+        },
+        // Question 12.2
+        {
+          "question": "Calculate 2345 + 567 + 8901.",
+          "options": ["11813", "11713", "11913", "11613", "More than stars at midnight"],
+          "answer": "11813",
+          "explanation": "Add first two numbers (2912), then add 8901 to get 11813."
+        },
+        // Question 12.3
+        {
+          "question": "What is 6789 + 234 + 5678?",
+          "options": ["12701", "12601", "12801", "12901", "All the fish in the ocean"],
+          "answer": "12701",
+          "explanation": "Add first two numbers (7023), then add 5678 to get 12701."
+        },
+        // Question 12.4
+        {
+          "question": "In 4567 + 891 + 2345, what digit will be in the hundreds place?",
+          "options": ["7", "8", "6", "9", "As many as rainbows can shine"],
+          "answer": "8",
+          "explanation": "Adding each place value with carrying puts 8 in hundreds place."
+        },
+        // Question 12.5
+        {
+          "question": "What is 7890 + 123 + 4567?",
+          "options": ["12580", "12480", "12680", "12780", "More than dreams can count"],
+          "answer": "12580",
+          "explanation": "Add first two numbers (8013), then add 4567 to get 12580."
+        }
+      ]
+    },
+    // Stage 13
+    {
+      "text": "Emma is solving complex division problems where she needs to think about multiples and factors.",
+      "questions": [
+        // Question 13.1
+        {
+          "question": "What is 3876 ÷ 126?",
+          "options": ["30 R96", "31 R96", "30 R86", "29 R96", "Ask the division superhero"],
+          "answer": "30 R96",
+          "explanation": "126 × 30 = 3780, with 96 remaining (3876 - 3780 = 96)."
+        },
+        // Question 13.2
+        {
+          "question": "What is 4532 ÷ 142?",
+          "options": ["31 R130", "32 R130", "31 R120", "30 R130", "More than leaves can fall"],
+          "answer": "31 R130",
+          "explanation": "142 × 31 = 4402, with 130 remaining (4532 - 4402 = 130)."
+        },
+        // Question 13.3
+        {
+          "question": "What is the quotient of 5628 ÷ 156?",
+          "options": ["36", "35", "37", "34", "Infinity plus three"],
+          "answer": "36",
+          "explanation": "156 × 36 = 5628, so 5628 ÷ 156 = 36."
+        },
+        // Question 13.4
+        {
+          "question": "What is 6744 ÷ 168?",
+          "options": ["40 R24", "41 R24", "40 R34", "39 R24", "More than snowflakes can dance"],
+          "answer": "40 R24",
+          "explanation": "168 × 40 = 6720, with 24 remaining (6744 - 6720 = 24)."
+        },
+        // Question 13.5
+        {
+          "question": "What is 7896 ÷ 192?",
+          "options": ["41 R24", "42 R24", "41 R34", "40 R24", "All the cookies in the jar"],
+          "answer": "41 R24",
+          "explanation": "192 × 41 = 7872, with 24 remaining (7896 - 7872 = 24)."
+        }
+      ]
+    },
+    // Stage 14
+    {
+      "text": "Lucas is practicing addition with multiple large numbers that require careful attention to place values and carrying.",
+      "questions": [
+        // Question 14.1
+        {
+          "question": "What is 5678 + 1234 + 9012 + 3456?",
+          "options": ["19380", "19280", "19480", "19580", "More than atoms in a sandwich"],
+          "answer": "19380",
+          "explanation": "Add numbers in pairs (6912 + 12468 = 19380)."
+        },
+        // Question 14.2
+        {
+          "question": "Calculate 4321 + 8765 + 2109 + 5432.",
+          "options": ["20627", "20527", "20727", "20827", "To the moon and back"],
+          "answer": "20627",
+          "explanation": "Add numbers in pairs (13086 + 7541 = 20627)."
+        },
+        // Question 14.3
+        {
+          "question": "What is 7890 + 2345 + 6789 + 1234?",
+          "options": ["18258", "18358", "18158", "18458", "All the stars in the galaxy"],
+          "answer": "18258",
+          "explanation": "Add numbers in pairs (10235 + 8023 = 18258)."
+        },
+        // Question 14.4
+        {
+          "question": "In 3456 + 7890 + 1234 + 5678, how many times do you carry a number?",
+          "options": ["7", "6", "8", "5", "As many as dolphins can swim"],
+          "answer": "7",
+          "explanation": "Carrying occurs seven times across all place values."
+        },
+        // Question 14.5
+        {
+          "question": "What is 9012 + 3456 + 7890 + 1234?",
+          "options": ["21592", "21492", "21692", "21792", "More than wishes in a well"],
+          "answer": "21592",
+          "explanation": "Add numbers in pairs (12468 + 9124 = 21592)."
+        }
+      ]
+    },
+    // Stage 15
+    {
+      "text": "Sarah is solving complex division problems with larger numbers and interpreting the remainders in context.",
+      "questions": [
+        // Question 15.1
+        {
+          "question": "8456 cookies need to be packed into boxes of 225. How many complete boxes can be filled?",
+          "options": ["37", "38", "36", "39", "As many as stars can twinkle"],
+          "answer": "37",
+          "explanation": "8456 ÷ 225 = 37 R131, so 37 complete boxes."
+        },
+        // Question 15.2
+        {
+          "question": "9324 students are divided into groups of 246 for a field trip. How many students will be in the incomplete group?",
+          "options": ["138", "128", "148", "222", "More than birds on a wire"],
+          "answer": "222",
+          "explanation": "9324 ÷ 246 = 37 R222, so 222 students in last group."
+        },
+        // Question 15.3
+        {
+          "question": "What is 7632 ÷ 212?",
+          "options": ["36", "35", "37", "34", "A million billion trillion"],
+          "answer": "36",
+          "explanation": "212 × 36 = 7632, so 7632 ÷ 212 = 36."
+        },
+        // Question 15.4
+        {
+          "question": "If 8964 marbles are packed into bags of 235, how many marbles will be left over?",
+          "options": ["34", "38", "199", "169", "More than clouds can float"],
+          "answer": "34",
+          "explanation": "8964 ÷ 235 = 38 R34, so 34 marbles remain."
+        },
+        // Question 15.5
+        {
+          "question": "9876 books are placed on shelves holding 274 books each. How many complete shelves can be filled?",
+          "options": ["36", "35", "37", "34", "Ask the bookshelf fairy"],
+          "answer": "36",
+          "explanation": "9876 ÷ 274 = 36 R12, so 36 complete shelves."
+        }
+      ]
+    },
+    // Stage 16
+    {
+      "text": "Marcus is solving complex problems that combine addition and division. He needs to work carefully and check his calculations.",
+      "questions": [
+        // Question 16.1
+        {
+          "question": "What is (3456 + 2789) ÷ 156?",
+          "options": ["40", "39", "41", "38", "More than stars can dance"],
+          "answer": "40",
+          "explanation": "3456 + 2789 = 6245, then 6245 ÷ 156 = 40 R5."
+        },
+        // Question 16.2
+        {
+          "question": "In (5678 + 4321) ÷ 212, what is the remainder?",
+          "options": ["35", "149", "169", "179", "Ask the math wizard"],
+          "answer": "35",
+          "explanation": "5678 + 4321 = 9999, then 9999 ÷ 212 = 47 R35."
+        },
+        // Question 16.3
+        {
+          "question": "What is (4567 + 3459 + 2345) ÷ 184?",
+          "options": ["56 R67", "55 R121", "56 R131", "57 R121", "Infinity times pizza"],
+          "answer": "56 R67",
+          "explanation": "4567 + 3459 + 2345 = 10371, then 10371 ÷ 184 = 56 R67."
+        },
+        // Question 16.4
+        {
+          "question": "Calculate (6789 + 5432) ÷ 244.",
+          "options": ["50", "49", "51", "48", "As many as leaves can grow"],
+          "answer": "50",
+          "explanation": "6789 + 5432 = 12221, then 12221 ÷ 244 = 50 R21."
+        },
+        // Question 16.5
+        {
+          "question": "What is the quotient of (7890 + 6543 + 2109) ÷ 292?",
+          "options": ["56 R190", "57 R196", "56 R186", "55 R196", "More than dreams can fly"],
+          "answer": "56 R190",
+          "explanation": "7890 + 6543 + 2109 = 16542, then 16542 ÷ 292 = 56 R190."
+        }
+      ]
+    },
+    // Stage 17
+    {
+      "text": "Olivia is working on complex word problems that involve both addition and division with real-world scenarios.",
+      "questions": [
+        // Question 17.1
+        {
+          "question": "A school collected 3567 and 2891 books from two book drives. If they want to distribute them equally to 128 classrooms, how many books will each classroom receive?",
+          "options": ["50", "49", "51", "48", "As many as bibliothecaries can count"],
+          "answer": "50",
+          "explanation": "3567 + 2891 = 6458, then 6458 ÷ 128 = 50 R58."
+        },
+        // Question 17.2
+        {
+          "question": "Three factories produced 4532, 3678, and 2945 parts. If they're packed into boxes of 223 parts each, how many complete boxes can be filled?",
+          "options": ["50", "49", "51", "48", "More than ants can carry"],
+          "answer": "50",
+          "explanation": "4532 + 3678 + 2945 = 11155, then 11155 ÷ 223 = 50 R5."
+        },
+        // Question 17.3
+        {
+          "question": "A store received 5678 and 4321 candies. If they're packed into bags of 156 candies, how many candies will be left over?",
+          "options": ["15", "123", "25", "5", "Sweet as infinity"],
+          "answer": "15",
+          "explanation": "5678 + 4321 = 9999, then 9999 ÷ 156 = 64 R15."
+        },
+        // Question 17.4
+        {
+          "question": "Three schools collected 3456, 2789, and 4567 cans for recycling. If they're packed into boxes of 215 cans, how many complete boxes can be made?",
+          "options": ["50", "49", "51", "48", "More than trees have leaves"],
+          "answer": "50",
+          "explanation": "3456 + 2789 + 4567 = 10812, then 10812 ÷ 215 = 50 R62."
+        },
+        // Question 17.5
+        {
+          "question": "Two gardens produced 6789 and 5432 flowers. If they're arranged in bouquets of 244 flowers, how many bouquets can be made?",
+          "options": ["50", "49", "51", "48", "As many as bees can buzz"],
+          "answer": "50",
+          "explanation": "6789 + 5432 = 12221, then 12221 ÷ 244 = 50 R21."
+        }
+      ]
+    },
+    // Stage 18
+	{
+	  "text": "Charlie is solving advanced problems with multiple steps involving addition and division of large numbers.",
+	  "questions": [
+		// Question 18.1
+		{
+		  "question": "What is ((4567 + 3891) + (2345 + 1789)) ÷ 168?",
+		  "options": ["74 R160", "75 R160", "76 R160", "73 R160", "More than clouds in the universe"],
+		  "answer": "74 R160",
+		  "explanation": "First, calculate the sums: 4567 + 3891 = 8458 and 2345 + 1789 = 4134. Adding these results gives 8458 + 4134 = 12592. Dividing 12592 by 168 yields a quotient of 74 with a remainder of 160 (since 168 × 74 = 12432 and 12592 - 12432 = 160). Therefore, the correct answer is **74 R160**."
+		},
+		
+		// Question 18.2
+		{
+		  "question": "Calculate ((5678 + 4321) + (3456 + 2789)) ÷ 234.",
+		  "options": ["69 R98", "70 R98", "69 R88", "68 R98", "Ask the calculation fairy"],
+		  "answer": "69 R98",
+		  "explanation": "First, compute the individual sums: 5678 + 4321 = 9999 and 3456 + 2789 = 6245. Adding these gives 9999 + 6245 = 16244. Dividing 16244 by 234 results in a quotient of 69 with a remainder of 98 (since 234 × 69 = 16146 and 16244 - 16146 = 98). Therefore, the correct answer is **69 R98**."
+		},
+		
+		// Question 18.3
+		{
+		  "question": "What is ((7890 + 6543) + (5432 + 4321)) ÷ 312?",
+		  "options": ["77 R162", "76 R162", "78 R162", "77 R266", "Infinity plus pancakes"],
+		  "answer": "77 R162",
+		  "explanation": "Calculate the sums: 7890 + 6543 = 14433 and 5432 + 4321 = 9753. Adding these results gives 14433 + 9753 = 24186. Dividing 24186 by 312 yields a quotient of 77 with a remainder of 162 (since 312 × 77 = 24024 and 24186 - 24024 = 162). Therefore, the correct answer is **77 R162**."
+		},
+		
+		// Question 18.4
+		{
+		  "question": "In ((8901 + 7654) + (6543 + 5432)) ÷ 356, what is the remainder?",
+		  "options": ["50", "174", "194", "164", "More than stars can shine"],
+		  "answer": "50",
+		  "explanation": "First, compute the sums: 8901 + 7654 = 16555 and 6543 + 5432 = 11975. Adding these gives 16555 + 11975 = 28530. Dividing 28530 by 356 results in a quotient of 80 with a remainder of 50 (since 356 × 80 = 28480 and 28530 - 28480 = 50). Therefore, the correct remainder is **50**."
+		},
+		
+		// Question 18.5
+		{
+		  "question": "What is ((9012 + 8765) + (7654 + 6543)) ÷ 428?",
+		  "options": ["74 R302", "75 R302", "74 R354", "73 R364", "As high as rockets can fly"],
+		  "answer": "74 R302",
+		  "explanation": "Calculate the individual sums: 9012 + 8765 = 17777 and 7654 + 6543 = 14197. Adding these results gives 17777 + 14197 = 31974. Dividing 31974 by 428 yields a quotient of 74 with a remainder of 302 (since 428 × 74 = 31672 and 31974 - 31672 = 302). Therefore, the correct answer is **74 R302**."
+		}
+	  ]
+	},
+	// Stage 19
+	{
+	  "text": "Isabella is working on challenging word problems that require multiple steps and careful attention to detail.",
+	  "questions": [
+		// Question 19.1
+		{
+		  "question": "A factory produces 3456 parts on Monday, 2789 on Tuesday, and 4567 on Wednesday. If these parts are packed into boxes of 168 parts each, and each box is shipped to a different store, how many stores will receive a complete box?",
+		  "options": ["64", "63", "65", "62", "More than fish can count"],
+		  "answer": "64",
+		  "explanation": "First, calculate the total number of parts: 3456 + 2789 + 4567 = 10812. Then, divide by the number of parts per box: 10812 ÷ 168 = 64 R60. Therefore, **64** complete boxes can be shipped to different stores."
+		},
+		
+		// Question 19.2
+		{
+		  "question": "Three schools raised $5678, $4321, and $3456 in a fundraiser. If they want to buy science kits costing $234 each, how many complete kits can they buy?",
+		  "options": ["57", "56", "58", "55", "As many as rainbows can bridge"],
+		  "answer": "57",
+		  "explanation": "First, calculate the total funds raised: $5678 + $4321 + $3456 = $13455. Then, divide by the cost per kit: $13455 ÷ $234 = 57 R117. Therefore, they can buy **57** complete science kits."
+		},
+		
+		// Question 19.3
+		{
+		  "question": "A bookstore received 4567 books on Monday, 3891 on Tuesday, and 2345 on Wednesday. If they're arranged on shelves holding 212 books each, how many complete shelves will be filled?",
+		  "options": ["51", "50", "52", "49", "More than dreams in a night"],
+		  "answer": "50",
+		  "explanation": "First, calculate the total number of books: 4567 + 3891 + 2345 = 10803. Then, divide by the number of books per shelf: 10803 ÷ 212 = 50 R203. Therefore, **50** complete shelves will be filled."
+		},
+		
+		// Question 19.4
+		{
+		  "question": "Four gardens produced 2345, 3456, 4567, and 5678 flowers. If they're arranged in bouquets of 246 flowers, how many flowers will be left over?",
+		  "options": ["56", "148", "168", "138", "As many as butterflies dance"],
+		  "answer": "56",
+		  "explanation": "First, calculate the total number of flowers: 2345 + 3456 + 4567 + 5678 = 16046. Then, divide by the number of flowers per bouquet: 16046 ÷ 246 = 65 R56. Therefore, **56** flowers will be left over."
+		},
+		
+		// Question 19.5
+		{
+		  "question": "A company produced 6789 units in week 1 and 5432 units in week 2. If they're shipped in containers of 223 units, how many complete containers can be filled?",
+		  "options": ["54", "53", "55", "52", "More than clouds can float"],
+		  "answer": "54",
+		  "explanation": "First, calculate the total number of units produced: 6789 + 5432 = 12221. Then, divide by the number of units per container: 12221 ÷ 223 = 54 R179. Therefore, **54** complete containers can be filled."
+		}
+	  ]
+	},
+	// Stage 20
+	{
+	  "text": "Ethan is solving the most challenging problems that combine multiple operations and require careful planning of steps.",
+	  "questions": [
+		// Question 20.1
+		{
+		  "question": "Three factories produce 4567, 3891, and 2345 parts daily. After 2 days of production, if the parts are packed into boxes of 234 parts each, how many complete boxes can be filled?",
+		  "options": ["92", "91", "93", "90", "To infinity and beyond again"],
+		  "answer": "92",
+		  "explanation": "First, calculate the total number of parts produced in one day: 4567 + 3891 + 2345 = 10,803. After 2 days, the total is 10,803 × 2 = 21,606. Dividing by the number of parts per box: 21,606 ÷ 234 = 92 R78. Therefore, **92** complete boxes can be filled with a remainder of 78 parts."
+		},
+		
+		// Question 20.2
+		{
+		  "question": "A store sells packages of 312 candies. If they receive deliveries of 5678, 4321, and 3456 candies, how many complete packages can they make?",
+		  "options": ["43", "42", "44", "41", "More than stars in your eyes"],
+		  "answer": "43",
+		  "explanation": "First, calculate the total number of candies received: 5678 + 4321 + 3456 = 13,455. Dividing by the number of candies per package: 13,455 ÷ 312 = 43 R39. Therefore, they can make **43** complete packages with a remainder of 39 candies."
+		},
+		
+		// Question 20.3
+		{
+		  "question": "If a school collects 3456 and 2789 books in two drives, then receives another donation of 4567 books, and wants to distribute them equally to 168 classrooms, how many books will be left over?",
+		  "options": ["60", "50", "70", "40", "As many as wishes can fly"],
+		  "answer": "60",
+		  "explanation": "First, calculate the total number of books collected: 3456 + 2789 + 4567 = 10,812. Dividing by the number of classrooms: 10,812 ÷ 168 = 64 R60. Therefore, **60** books will be left over after distribution."
+		},
+		
+		// Question 20.4
+		{
+		  "question": "A factory produces 5678 parts on Monday, 4321 on Tuesday, and twice as many on Wednesday. If parts are packed into boxes of 246, how many complete boxes can be filled?",
+		  "options": ["75", "74", "76", "73", "More than waves in the sea"],
+		  "answer": "75",
+		  "explanation": "First, determine the number of parts produced on Wednesday: twice as many as Tuesday, so 2 × 4321 = 8,642. Calculate the total production: 5678 (Monday) + 4321 (Tuesday) + 8,642 (Wednesday) = 18,641. Dividing by the number of parts per box: 18,641 ÷ 246 = 75 R191. Therefore, **75** complete boxes can be filled with a remainder of 191 parts."
+		},
+		
+		// Question 20.5
+		{
+		  "question": "Three gardens produce 2345, 3456, and 4567 flowers weekly. After two weeks, if flowers are arranged in bouquets of 223, how many complete bouquets can be made?",
+		  "options": ["92", "91", "93", "94", "As endless as imagination"],
+		  "answer": "92",
+		  "explanation": "First, calculate the total number of flowers produced in one week: 2345 + 3456 + 4567 = 10,368. After two weeks, the total is 10,368 × 2 = 20,736. Dividing by the number of flowers per bouquet: 20,736 ÷ 223 = 92 R220. Therefore, **92** complete bouquets can be made with a remainder of 220 flowers."
+		}
+	  ]
+	}
+
+//-------------------------------------------------------------------------------------------------------------------							
+				  ]
+				}
+        ];
+
+		const stageCount = quizData[0].stages.length; // This is the correct way to get the number of stages
+
+
+		const stateContents = {
+			'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+			,'Subject Overview 🗝️': `<div class="subject-overview-content">   <h1>Adding and Dividing with Larger Numbers: A Comprehensive Guide</h1>   <p>Adding and dividing larger numbers are fundamental math skills that help students solve complex problems with ease. Understanding these operations is essential for everyday tasks and more advanced mathematical concepts. This guide is designed for 4th and 5th graders, providing clear explanations, step-by-step methods, and plenty of examples to build confidence and proficiency.</p>   <hr>   <h2>Table of Contents</h2>   <ol>     <li><a href="#adding-larger-numbers">Adding Larger Numbers</a></li>     <li><a href="#dividing-larger-numbers">Dividing Larger Numbers</a></li>     <li><a href="#tips-and-tricks">Tips and Tricks</a></li>     <li><a href="#practice-exercises">Practice Exercises</a></li>     <li><a href="#conclusion">Conclusion</a></li>   </ol>   <hr>     <h2 id="adding-larger-numbers">Adding Larger Numbers</h2>   <p>Adding larger numbers involves combining two or more numbers to find their total. When dealing with big numbers, it's important to understand place value and carry over when necessary.</p>     <h3>Step-by-Step Method</h3>   <ol>     <li><strong>Line Up the Numbers:</strong> Write the numbers vertically, ensuring that the place values (units, tens, hundreds, etc.) are aligned.</li>     <li><strong>Add the Units Place:</strong> Start adding from the rightmost digit (units place). If the sum is 10 or more, carry over the extra to the next place value.</li>     <li><strong>Add the Next Place:</strong> Move to the next left place (tens, hundreds, etc.) and add the digits along with any carried over number.</li>     <li><strong>Continue Until All Places are Added:</strong> Repeat the process for all place values until the entire number is added.</li>   </ol>     <h3>Example:</h3>   <p>Let's add 1,234 and 2,567.</p>   <pre>     1,234   + 2,567   -------     3,801   </pre>   <p><strong>Explanation:</strong></p>   <ul>     <li>Units: 4 + 7 = 11 (write down 1 and carry over 1)</li>     <li>Tens: 3 + 6 + 1 (carried over) = 10 (write down 0 and carry over 1)</li>     <li>Hundreds: 2 + 5 + 1 (carried over) = 8</li>     <li>Thousands: 1 + 2 = 3</li>   </ul>     <hr>     <h2 id="dividing-larger-numbers">Dividing Larger Numbers</h2>   <p>Dividing larger numbers can seem challenging, but with practice, it becomes manageable. Division involves splitting a number into equal parts.</p>     <h3>Step-by-Step Method</h3>   <ol>     <li><strong>Set Up the Division:</strong> Write the dividend (the number to be divided) and the divisor (the number you are dividing by).</li>     <li><strong>Divide:</strong> Determine how many times the divisor fits into the current portion of the dividend.</li>     <li><strong>Multiply and Subtract:</strong> Multiply the divisor by the number you found and subtract it from the current portion of the dividend.</li>     <li><strong>Bring Down the Next Digit:</strong> Bring down the next digit of the dividend and repeat the process.</li>     <li><strong>Continue Until Complete:</strong> Continue until all digits have been brought down and the division is complete.</li>   </ol>     <h3>Example:</h3>   <p>Let's divide 4,356 by 12.</p>   <pre>        363     _______   12 | 4,356       - 36       ----         15         -12         ----           35           - 36           ----            35            - 24            ----            11   </pre>   <p><strong>Explanation:</strong></p>   <ul>     <li>12 fits into 43 three times (12 x 3 = 36). Write down 3 and subtract 36 from 43 to get 7.</li>     <li>Bring down the next digit (5) to make 75.</li>     <li>12 fits into 75 six times (12 x 6 = 72). Write down 6 and subtract 72 from 75 to get 3.</li>     <li>Bring down the next digit (6) to make 36.</li>     <li>12 fits into 36 three times (12 x 3 = 36). Write down 3 and subtract 36 from 36 to get 0.</li>   </ul>     <hr>     <h2 id="tips-and-tricks">Tips and Tricks</h2>   <ul>     <li><strong>Place Value Matters:</strong> Always align numbers by their place values to avoid mistakes.</li>     <li><strong>Check Your Work:</strong> After adding or dividing, use estimation to check if your answer is reasonable.</li>     <li><strong>Practice Mental Math:</strong> Improve your mental math skills to handle simple additions and divisions quickly.</li>     <li><strong>Use Tools:</strong> Don't hesitate to use calculators or scratch paper to keep track of your work.</li>   </ul>     <hr>     <h2 id="practice-exercises">Practice Exercises</h2>     <h3>Adding Larger Numbers</h3>   <ol>     <li>2,345 + 1,678 = ?</li>     <li>5,432 + 3,210 = ?</li>     <li>9,876 + 4,321 = ?</li>   </ol>     <h3>Dividing Larger Numbers</h3>   <ol>     <li>7,824 ÷ 16 = ?</li>     <li>9,630 ÷ 15 = ?</li>     <li>12,048 ÷ 24 = ?</li>   </ol>     <p>Try solving these exercises on your own, and then check your answers with a teacher or a classmate!</p>     <hr>     <h2 id="conclusion">Conclusion</h2>   <p>Mastering the addition and division of larger numbers is a key milestone in your math journey. By understanding the steps and practicing regularly, you'll become more confident in handling complex calculations. Remember to take your time, stay organized, and use the tips and tricks provided to make learning easier and more enjoyable.</p>   <p><strong>Keep practicing!</strong> The more you work with larger numbers, the more natural these operations will become. Don't hesitate to seek help if you find something challenging, and celebrate your progress along the way.</p>   <hr>   <p>By dedicating time and effort to understanding adding and dividing larger numbers, you'll build a strong foundation for future math concepts and real-life applications. Keep up the great work!</p> </div>`		
+			};
+
+
+		function showExplanations() {
+			// Hide the modal
+			document.getElementById('quizModal').style.display = 'none';
+			
+			// Show all explanation panels
+			document.querySelectorAll('.explanation-panel').forEach(exp => {
+				exp.style.display = 'block';
+			});
+		}
+		
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function isTextEmpty(text) {
+    return !text || text.trim() === "";
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+
+    // Only add stage text if it's not empty
+    const stageText = quizData[0].stages[currentStage].text;
+    if (!isTextEmpty(stageText)) {
+        const stageTextElement = document.createElement("div");
+        stageTextElement.className = "stage-text";
+        stageTextElement.textContent = stageText;
+        quizContainer.appendChild(stageTextElement);
+    }
+
+    // Render questions
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        // Create main question container
+        const questionContainer = document.createElement("div");
+        questionContainer.className = "question";
+        questionContainer.style.padding = "0px"; 
+		
+        // Create question line
+        const questionLine = document.createElement("div");
+        questionLine.className = "question-one-line";
+
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${questionData.question}`;
+
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+
+        // Add default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+		
+        select.appendChild(defaultOption);
+
+        // Add shuffled options
+        const shuffledOptions = shuffleArray([...questionData.options]);
+        shuffledOptions.forEach(option => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+
+        // Assemble question line
+        questionLine.appendChild(label);
+        questionLine.appendChild(resultDiv);
+        questionLine.appendChild(select);
+
+        // Create explanation panel
+        const explanationPanel = document.createElement("div");
+        explanationPanel.className = "explanation-panel";
+        explanationPanel.style.display = "none"; 
+
+        const explanationText = document.createElement("div");
+        explanationText.className = "explanation-panel-text";
+        explanationText.textContent = questionData.explanation;
+
+        explanationPanel.appendChild(explanationText);
+
+        // Assemble full question container
+        questionContainer.appendChild(questionLine);
+        questionContainer.appendChild(explanationPanel);
+
+        quizContainer.appendChild(questionContainer);
+    });
+
+    updateStageNumber();
+}
+
+
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[0].stages[currentStage].questions.length;
+
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        // Check if the selected answer is correct or incorrect
+        if (selectedAnswer === questionData.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect.";
+            resultElement.style.color = "red";
+        }
+
+        // Reveal explanations if the user reaches 10 attempts
+        if (attempts >= 5) {
+            // Reveal the explanation panel
+            const explanationElement = selectElement.closest('.question').querySelector('.explanation-panel');
+            explanationElement.style.display = "block"; // Make the explanation panel visible
+
+            // Modify the explanation text to include the correct answer
+            const explanationText = explanationElement.querySelector('.explanation-panel-text');
+            explanationText.innerHTML = `The correct answer is: <strong>${questionData.answer}</strong>.<br>${questionData.explanation}`;
+        }
+    });
+
+    if (correctCount === totalQuestions) {
+        console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+        addAnimalsToFarm(totalQuestions);
+
+        if (currentStage < quizData[0].stages.length - 1) {
+            singleStageConfetti();
+            showEncouragingPopup(correctCount, totalQuestions, true);
+            // Show both buttons in modal to allow moving to the next stage
+            document.getElementById('modalNextButton').style.display = 'inline-block';
+            document.getElementById('modalExplanationsButton').style.display = 'inline-block';
+        } else {
+            // Last stage completion
+            currentStage++;
+            updateProgressBar();
+            allStagesConfetti();
+            showModal("Congratulations! You've completed all stages!");
+        }
+    } else {
+        // Show the encouraging popup if the stage is not complete
+        showEncouragingPopup(correctCount, totalQuestions, false);
+
+        if (attempts >= 5) {
+            // If the user has reached 5 attempts, notify them about revealing the answers
+            const modalMessage = document.getElementById('modalMessage');
+            modalMessage.textContent = "You've reached the maximum number of attempts. The correct answers have been revealed.";
+            showModal(modalMessage.textContent);
+        }
+    }
+
+    scrollToTop();
+}
+
+
+	
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage;
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+		function updateStageNumber() {
+			const stageElement = document.getElementById("stage-number");
+			stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+		}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+		function showModal(message) {
+			const modal = document.getElementById("quizModal");
+			const modalMessage = document.getElementById("modalMessage");
+			const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+			const nextButton = document.getElementById("modalNextButton");
+			const explanationsButton = document.getElementById("modalExplanationsButton");
+
+			// Set message
+			modalMessage.textContent = message;
+			
+			// Show modal
+			modal.style.display = "block";
+
+			// By default, hide both buttons
+			nextButton.style.display = "none";
+			explanationsButton.style.display = "none";
+
+			// Close handlers
+			modalClose.onclick = function() {
+				modal.style.display = "none";
+			}
+
+			window.onclick = function(event) {
+				if (event.target == modal) {
+					modal.style.display = "none";
+				}
+			}
+		}
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+			
+			 document.getElementById('modalNextButton').addEventListener('click', () => {
+				document.getElementById('quizModal').style.display = 'none';
+				currentStage++;
+				attempts = 0;
+				renderQuiz();
+				document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+				updateProgressBar();
+			});
+			
+			document.getElementById('modalExplanationsButton').addEventListener('click', showExplanations);
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>
