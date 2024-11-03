@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+</head> 
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read the text and questions carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 5 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>Counting items in small sets</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+ 
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">OK</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+																		//  PH3 - Quiz Data 
+        const quizData = [ 												   	
+				{
+				  "stages": [
+//-------------------------------------------------------------------------------------------------------------------				  
+   // Stage 1
+    {
+      "text": "Sarah is counting fruits 🍎 in her lunchbox. She wants to make sure she has enough snacks for the whole day.",
+      "questions": [
+        // Question 1.1
+        {
+          "question": "Sarah has 3 apples, 2 bananas, and 1 orange. How many fruits does she have in total?",
+          "options": ["6", "5", "4", "7", "They all turned into juice!"],
+          "answer": "6",
+          "explanation": "Adding the fruits: 3 apples + 2 bananas + 1 orange = 6 fruits total"
+        },
+        // Question 1.2
+        {
+          "question": "If Sarah eats 2 fruits now, how many will she have left?",
+          "options": ["4", "3", "5", "2", "They grew back magically!"],
+          "answer": "4",
+          "explanation": "Starting with 6 fruits - 2 eaten = 4 fruits remaining"
+        },
+        // Question 1.3
+        {
+          "question": "Sarah's friend gives her 3 more fruits. Now how many does she have?",
+          "options": ["7", "6", "5", "8", "A fruit forest!"],
+          "answer": "7",
+          "explanation": "4 fruits + 3 new fruits = 7 fruits total"
+        },
+        // Question 1.4
+        {
+          "question": "If Sarah splits her fruits equally with her best friend, how many will each person get?",
+          "options": ["3", "4", "2", "5", "The fruits ran away!"],
+          "answer": "3",
+          "explanation": "7 fruits ÷ 2 people = 3 fruits each (with 1 left over)"
+        },
+        // Question 1.5
+        {
+          "question": "Sarah has 3 fruits and finds 2 more. How many does she have now?",
+          "options": ["5", "4", "6", "3", "They turned into vegetables!"],
+          "answer": "5",
+          "explanation": "3 fruits + 2 more fruits = 5 fruits total"
+        }
+      ]
+    },
+    // Stage 2
+    {
+      "text": "Tommy is counting his toy cars 🚗. He likes to organize them by color.",
+      "questions": [
+        // Question 2.1
+        {
+          "question": "Tommy has 4 red cars and 5 blue cars. How many cars does he have altogether?",
+          "options": ["9", "8", "7", "10", "They drove away!"],
+          "answer": "9",
+          "explanation": "4 red cars + 5 blue cars = 9 cars total"
+        },
+        // Question 2.2
+        {
+          "question": "If Tommy gives 3 cars to his sister, how many will he have left?",
+          "options": ["6", "5", "7", "4", "They transformed into robots!"],
+          "answer": "6",
+          "explanation": "Starting with 9 cars - 3 given away = 6 cars remaining"
+        },
+        // Question 2.3
+        {
+          "question": "Tommy gets 2 new cars for his birthday. Now how many does he have?",
+          "options": ["8", "7", "9", "6", "They're having a car party!"],
+          "answer": "8",
+          "explanation": "6 cars + 2 new cars = 8 cars total"
+        },
+        // Question 2.4
+        {
+          "question": "If Tommy puts his cars in pairs, how many pairs can he make?",
+          "options": ["4", "3", "5", "6", "They're all single cars!"],
+          "answer": "4",
+          "explanation": "8 cars ÷ 2 = 4 pairs of cars"
+        },
+        // Question 2.5
+        {
+          "question": "Tommy has 4 pairs of cars. One car gets lost. How many cars does he have now?",
+          "options": ["7", "6", "8", "5", "They're playing hide and seek!"],
+          "answer": "7",
+          "explanation": "4 pairs = 8 cars, then 8 - 1 = 7 cars remaining"
+        }
+      ]
+    },
+    // Stage 3
+    {
+      "text": "Emma is counting stickers ⭐ in her collection. She wants to decorate her notebook.",
+      "questions": [
+        // Question 3.1
+        {
+          "question": "Emma has 7 star stickers and 6 heart stickers. How many stickers does she have in total?",
+          "options": ["13", "12", "14", "11", "They stuck together forever!"],
+          "answer": "13",
+          "explanation": "7 star stickers + 6 heart stickers = 13 stickers total"
+        },
+        // Question 3.2
+        {
+          "question": "If Emma uses 5 stickers on the first page, how many are left?",
+          "options": ["8", "7", "9", "6", "They jumped to another page!"],
+          "answer": "8",
+          "explanation": "13 stickers - 5 used = 8 stickers remaining"
+        },
+        // Question 3.3
+        {
+          "question": "Emma finds 4 more stickers in her desk. What's her new total?",
+          "options": ["12", "11", "13", "10", "They multiplied by magic!"],
+          "answer": "12",
+          "explanation": "8 stickers + 4 new ones = 12 stickers total"
+        },
+        // Question 3.4
+        {
+          "question": "If Emma wants to put equal numbers of stickers on 3 pages, how many can go on each page?",
+          "options": ["4", "3", "5", "6", "They're too shy to be divided!"],
+          "answer": "4",
+          "explanation": "12 stickers ÷ 3 pages = 4 stickers per page"
+        },
+        // Question 3.5
+        {
+          "question": "Emma has 4 stickers on each of 3 pages. If she removes 2 stickers, how many remain?",
+          "options": ["10", "9", "11", "8", "They're having a sticker party!"],
+          "answer": "10",
+          "explanation": "4 × 3 = 12 stickers, then 12 - 2 = 10 stickers remaining"
+        }
+      ]
+    },
+    // Stage 4
+    {
+      "text": "Max is counting his collection of marbles 🔮. He keeps them in different colored bags.",
+      "questions": [
+        // Question 4.1
+        {
+          "question": "Max has 8 blue marbles and adds 7 red ones. How many marbles does he have now?",
+          "options": ["15", "14", "16", "13", "They rolled away in a race!"],
+          "answer": "15",
+          "explanation": "8 blue marbles + 7 red marbles = 15 marbles total"
+        },
+        // Question 4.2
+        {
+          "question": "If Max has 15 marbles and loses 4, then finds 2 more, how many does he have?",
+          "options": ["13", "12", "14", "11", "They're playing marble hide and seek!"],
+          "answer": "13",
+          "explanation": "15 marbles - 4 lost + 2 found = 13 marbles"
+        },
+        // Question 4.3
+        {
+          "question": "Max wants to share his 13 marbles equally between himself and 2 friends. How many are left over?",
+          "options": ["1", "2", "0", "3", "They decided to share themselves!"],
+          "answer": "1",
+          "explanation": "13 ÷ 3 = 4 each with 1 marble left over"
+        },
+        // Question 4.4
+        {
+          "question": "Max arranges 12 marbles in rows of 3. How many complete rows can he make?",
+          "options": ["4", "3", "5", "2", "They formed a marble circus!"],
+          "answer": "4",
+          "explanation": "12 marbles ÷ 3 per row = 4 complete rows"
+        },
+        // Question 4.5
+        {
+          "question": "Max has 4 rows of 3 marbles. If he adds another row of 3, how many marbles will he have?",
+          "options": ["15", "14", "16", "13", "They turned into a marble castle!"],
+          "answer": "15",
+          "explanation": "4 rows × 3 marbles = 12, then 12 + 3 = 15 marbles total"
+        }
+      ]
+    },
+    // Stage 5
+    {
+      "text": "Lisa is counting her collection of seashells 🐚 from her beach trip. She wants to make patterns with them.",
+      "questions": [
+        // Question 5.1
+        {
+          "question": "Lisa has 9 white shells and 8 pink shells. How many shells does she have altogether?",
+          "options": ["17", "16", "18", "15", "They swam back to the ocean!"],
+          "answer": "17",
+          "explanation": "9 white shells + 8 pink shells = 17 shells total"
+        },
+        // Question 5.2
+        {
+          "question": "Lisa arranges 16 shells in a square pattern. How many shells are on each side?",
+          "options": ["4", "3", "5", "2", "They made a circle instead!"],
+          "answer": "4",
+          "explanation": "A square with 16 shells has 4 shells on each side"
+        },
+        // Question 5.3
+        {
+          "question": "If Lisa has 15 shells and makes groups of 3, how many complete groups can she make?",
+          "options": ["5", "4", "6", "3", "They grouped themselves differently!"],
+          "answer": "5",
+          "explanation": "15 shells ÷ 3 shells per group = 5 complete groups"
+        },
+        // Question 5.4
+        {
+          "question": "Lisa has 5 groups of 3 shells. If she removes 4 shells, how many remain?",
+          "options": ["11", "10", "12", "13", "They're building a shell castle!"],
+          "answer": "11",
+          "explanation": "5 × 3 = 15 shells, then 15 - 4 = 11 shells remaining"
+        },
+        // Question 5.5
+        {
+          "question": "Lisa wants to put her 12 shells in equal rows. If she wants 3 rows, how many shells go in each row?",
+          "options": ["4", "3", "5", "6", "They arranged themselves!"],
+          "answer": "4",
+          "explanation": "12 shells ÷ 3 rows = 4 shells in each row"
+        }
+      ]
+    },
+   // Stage 6
+    {
+      "text": "Peter is organizing his baseball card collection ⚾. He's learning to count them in different ways.",
+      "questions": [
+        // Question 6.1
+        {
+          "question": "Peter has 3 rows of cards with 6 cards in each row. How many cards does he have?",
+          "options": ["18", "15", "12", "9", "They're playing baseball!"],
+          "answer": "18",
+          "explanation": "3 rows × 6 cards per row = 18 cards total"
+        },
+        // Question 6.2
+        {
+          "question": "If Peter has 20 cards and gives away 2 cards to each of his 3 friends, how many cards does he have left?",
+          "options": ["14", "16", "12", "18", "The cards ran away to join a team!"],
+          "answer": "14",
+          "explanation": "20 cards - (3 friends × 2 cards) = 20 - 6 = 14 cards"
+        },
+        // Question 6.3
+        {
+          "question": "Peter arranges 16 cards in equal rows with 4 cards in each row. How many rows are there?",
+          "options": ["4", "3", "5", "6", "They formed a card pyramid!"],
+          "answer": "4",
+          "explanation": "16 cards ÷ 4 cards per row = 4 rows"
+        },
+        // Question 6.4
+        {
+          "question": "Peter counts his cards by twos: 2, 4, 6, 8, 10, 12, 14, 16, 18. How many numbers did he say?",
+          "options": ["9", "8", "10", "7", "The numbers got tired of counting!"],
+          "answer": "9",
+          "explanation": "Counting the numbers: 2,4,6,8,10,12,14,16,18 = 9 numbers"
+        },
+        // Question 6.5
+        {
+          "question": "If Peter has 19 cards and wants to put them in groups of 5, how many cards will be left over?",
+          "options": ["4", "3", "2", "1", "They grouped themselves differently!"],
+          "answer": "4",
+          "explanation": "19 ÷ 5 = 3 groups of 5 with 4 cards remaining"
+        }
+      ]
+    },
+    // Stage 7
+    {
+      "text": "Nina is counting flowers 🌸 in her garden. She's planting them in different patterns.",
+      "questions": [
+        // Question 7.1
+        {
+          "question": "Nina plants 5 rows of flowers with 4 flowers in each row. She adds 3 more flowers. How many flowers are there now?",
+          "options": ["23", "20", "22", "21", "They grew into a magical forest!"],
+          "answer": "23",
+          "explanation": "(5 rows × 4 flowers) + 3 extra = 20 + 3 = 23 flowers"
+        },
+        // Question 7.2
+        {
+          "question": "If Nina has 24 flowers and puts them in groups of 4, then removes 2 groups, how many flowers are left?",
+          "options": ["16", "12", "20", "14", "They turned into butterflies!"],
+          "answer": "16",
+          "explanation": "24 flowers = 6 groups of 4, remove 2 groups: 24 - 8 = 16"
+        },
+        // Question 7.3
+        {
+          "question": "Nina counts her flowers by threes: 3, 6, 9, 12, 15, 18. If she adds one more group, what number comes next?",
+          "options": ["21", "20", "22", "19", "The numbers went on vacation!"],
+          "answer": "21",
+          "explanation": "Counting by 3s pattern: next number after 18 is 18 + 3 = 21"
+        },
+        // Question 7.4
+        {
+          "question": "Nina has 22 flowers and wants to make equal bouquets for 3 friends. How many flowers will be left over?",
+          "options": ["1", "2", "0", "3", "They made their own bouquets!"],
+          "answer": "1",
+          "explanation": "22 ÷ 3 = 7 flowers each with 1 flower remaining"
+        },
+        // Question 7.5
+        {
+          "question": "If Nina has 25 flowers in a square pattern, with equal numbers on each side, how many flowers are on one side?",
+          "options": ["5", "4", "6", "3", "They rearranged into a heart!"],
+          "answer": "5",
+          "explanation": "Square root of 25 = 5 flowers on each side"
+        }
+      ]
+    },
+    // Stage 8
+    {
+      "text": "James is organizing his collection of game tokens 🎮. He likes to arrange them in different patterns.",
+      "questions": [
+        // Question 8.1
+        {
+          "question": "James has 6 rows of 4 tokens, and then adds another row. How many tokens does he have now?",
+          "options": ["28", "24", "32", "26", "They started playing games!"],
+          "answer": "28",
+          "explanation": "(6 rows × 4 tokens) + 4 more = 24 + 4 = 28 tokens"
+        },
+        // Question 8.2
+        {
+          "question": "If James starts with 30 tokens and removes groups of 5, how many groups can he remove completely?",
+          "options": ["6", "5", "7", "4", "They grouped themselves by color!"],
+          "answer": "6",
+          "explanation": "30 ÷ 5 = 6 complete groups"
+        },
+        // Question 8.3
+        {
+          "question": "James arranges 27 tokens in rows of 3. He removes one complete row. How many tokens are left?",
+          "options": ["24", "23", "25", "22", "They formed a token parade!"],
+          "answer": "24",
+          "explanation": "27 tokens = 9 rows of 3, remove one row: 27 - 3 = 24"
+        },
+        // Question 8.4
+        {
+          "question": "If James counts his tokens by fours: 4, 8, 12, 16, 20, 24, 28, how many numbers did he say?",
+          "options": ["7", "6", "8", "5", "The numbers started dancing!"],
+          "answer": "7",
+          "explanation": "Counting the numbers spoken: 4,8,12,16,20,24,28 = 7 numbers"
+        },
+        // Question 8.5
+        {
+          "question": "James has 29 tokens and wants to put them in equal rows of 6. How many tokens will be left over?",
+          "options": ["5", "4", "3", "2", "They decided to stay together!"],
+          "answer": "5",
+          "explanation": "29 ÷ 6 = 4 complete rows of 6 with 5 tokens remaining"
+        }
+      ]
+    },
+    // Stage 9
+    {
+      "text": "Sofia is counting her collection of colorful buttons 🔘. She's making patterns for her craft project.",
+      "questions": [
+        // Question 9.1
+        {
+          "question": "Sofia has 7 groups of 4 buttons, then removes 5 buttons. How many buttons remain?",
+          "options": ["23", "22", "24", "21", "They rolled away to a button party!"],
+          "answer": "23",
+          "explanation": "(7 × 4) - 5 = 28 - 5 = 23 buttons"
+        },
+        // Question 9.2
+        {
+          "question": "If Sofia arranges 32 buttons in a rectangle with 8 buttons in each row, how many rows are there?",
+          "options": ["4", "5", "3", "6", "They made a button castle instead!"],
+          "answer": "4",
+          "explanation": "32 buttons ÷ 8 buttons per row = 4 rows"
+        },
+        // Question 9.3
+        {
+          "question": "Sofia counts her buttons by fives: 5, 10, 15, 20, 25, 30. If she has 33 buttons total, how many are left over?",
+          "options": ["3", "4", "2", "1", "They started counting themselves!"],
+          "answer": "3",
+          "explanation": "33 buttons - 30 (last group of 5) = 3 buttons remaining"
+        },
+        // Question 9.4
+        {
+          "question": "If Sofia has 31 buttons and gives 4 buttons to each friend, how many complete sets can she give away?",
+          "options": ["7", "6", "8", "5", "They decided to stay with Sofia!"],
+          "answer": "7",
+          "explanation": "31 ÷ 4 = 7 complete sets with 3 buttons remaining"
+        },
+        // Question 9.5
+        {
+          "question": "Sofia arranges 36 buttons in a square. How many buttons are on each side?",
+          "options": ["6", "5", "7", "4", "They made a circle instead!"],
+          "answer": "6",
+          "explanation": "Square root of 36 = 6 buttons on each side"
+        }
+      ]
+    },
+    // Stage 10
+    {
+      "text": "Alex is counting stars ⭐ he drew on his paper. He's making complex patterns with them.",
+      "questions": [
+        // Question 10.1
+        {
+          "question": "Alex draws 8 rows of 5 stars, then erases 7 stars. How many stars are left?",
+          "options": ["33", "32", "34", "31", "They flew into the night sky!"],
+          "answer": "33",
+          "explanation": "(8 × 5) - 7 = 40 - 7 = 33 stars"
+        },
+        // Question 10.2
+        {
+          "question": "If Alex has 35 stars and arranges them in rows of 6, how many complete rows can he make, and how many stars are left?",
+          "options": ["5 rows with 5 stars left", "5 rows with 4 stars left", "6 rows with 1 star left", "4 rows with 11 stars left", "The stars made their own constellation!"],
+          "answer": "5 rows with 5 stars left",
+          "explanation": "35 ÷ 6 = 5 complete rows (30 stars) with 5 stars remaining"
+        },
+        // Question 10.3
+        {
+          "question": "Alex starts with 40 stars and removes groups of 3. After removing some complete groups, he has 4 stars left. How many groups did he remove?",
+          "options": ["12", "11", "13", "10", "The groups vanished into space!"],
+          "answer": "12",
+          "explanation": "(40 - 4) ÷ 3 = 36 ÷ 3 = 12 groups removed"
+        },
+        // Question 10.4
+        {
+          "question": "Alex arranges 42 stars in equal rows and columns. What's the largest square he can make with complete rows?",
+          "options": ["36", "25", "49", "16", "The stars made a triangle instead!"],
+          "answer": "36",
+          "explanation": "Largest square less than 42 is 6 × 6 = 36 stars"
+        },
+        // Question 10.5
+        {
+          "question": "If Alex draws stars in this pattern: 2, 4, 8, 16, what number comes next?",
+          "options": ["32", "24", "30", "28", "The pattern got dizzy!"],
+          "answer": "32",
+          "explanation": "Pattern doubles each time: 16 × 2 = 32"
+        }
+      ]
+    },
+   // Stage 11
+    {
+      "text": "Maya is arranging her collection of colorful pencils 📝. She likes to organize them in patterns for her art box.",
+      "questions": [
+        // Question 11.1
+        {
+          "question": "Maya has 6 boxes with 7 pencils each, and finds 5 more pencils. If she gives 3 pencils to her friend, how many does she have now?",
+          "options": ["44", "42", "46", "40", "The pencils started drawing by themselves!"],
+          "answer": "44",
+          "explanation": "(6 × 7) + 5 - 3 = 42 + 5 - 3 = 44 pencils"
+        },
+        // Question 11.2
+        {
+          "question": "Maya arranges 45 pencils in rows of 5. She removes 2 complete rows. How many pencils are left?",
+          "options": ["35", "30", "40", "25", "They formed a rainbow bridge!"],
+          "answer": "35",
+          "explanation": "45 - (2 × 5) = 45 - 10 = 35 pencils"
+        },
+        // Question 11.3
+        {
+          "question": "In Maya's pattern, she puts 3 red pencils, then 2 blue pencils, then 3 red, then 2 blue. If she has 40 pencils, how many complete patterns can she make?",
+          "options": ["8", "7", "9", "6", "The pencils made their own pattern!"],
+          "answer": "8",
+          "explanation": "Each pattern uses 5 pencils. 40 ÷ 5 = 8 complete patterns"
+        },
+        // Question 11.4
+        {
+          "question": "Maya counts backwards by fives from 50. How many numbers will she say before reaching 20?",
+          "options": ["6", "5", "7", "4", "The numbers got tired of counting!"],
+          "answer": "6",
+          "explanation": "50,45,40,35,30,25 = 6 numbers before reaching 20"
+        },
+        // Question 11.5
+        {
+          "question": "Maya has 48 pencils in rows of 6. If she removes 5 pencils from different rows, how many complete rows remain?",
+          "options": ["7", "6", "8", "5", "They rearranged into a pencil tower!"],
+          "answer": "7",
+          "explanation": "48 - 5 = 43 pencils. 43 ÷ 6 = 7 complete rows"
+        }
+      ]
+    },
+    // Stage 12
+    {
+      "text": "Diego is counting building blocks 🧱 for his construction project. He's making different shapes and patterns.",
+      "questions": [
+        // Question 12.1
+        {
+		  "question": "Diego builds a tower with 5 layers. Each layer has 2 more blocks than the layer below it. The bottom layer has 2 blocks. How many blocks total?",
+		  "options": ["30", "25", "35", "28", "The blocks built themselves into a castle!"],
+		  "answer": "30",
+		  "explanation": "Layers: 2, 4, 6, 8, 10 blocks. Sum = 2+4+6+8+10 = 30"
+        },
+        // Question 12.2
+        {
+          "question": "Diego has 50 blocks and uses groups of 6 for each small tower. After building complete towers, how many blocks are left?",
+          "options": ["2", "3", "4", "1", "The blocks formed a block party!"],
+          "answer": "2",
+          "explanation": "50 ÷ 6 = 8 towers with 2 blocks remaining"
+        },
+        // Question 12.3
+        {
+          "question": "If Diego's pattern goes 3,6,12,24, what number should come next?",
+          "options": ["48", "36", "42", "30", "The pattern danced away!"],
+          "answer": "48",
+          "explanation": "Each number is doubled: 24 × 2 = 48"
+        },
+        // Question 12.4
+        {
+          "question": "Diego makes a square base with 36 blocks, then adds a second layer using half as many blocks. How many blocks total?",
+          "options": ["54", "52", "56", "50", "They built a pyramid instead!"],
+          "answer": "54",
+          "explanation": "First layer 36 + second layer 18 = 54 blocks"
+        },
+        // Question 12.5
+        {
+          "question": "Diego has 45 blocks and wants to make equal towers of 4 blocks. He gives away the extra blocks. How many complete towers can he make?",
+          "options": ["11", "10", "12", "9", "The towers reached the clouds!"],
+          "answer": "11",
+          "explanation": "45 ÷ 4 = 11 complete towers with 1 block left over"
+        }
+      ]
+    },
+    // Stage 13
+    {
+      "text": "Lily is organizing her sticker book pages 📚. Each page can hold different numbers of stickers in rows and columns.",
+      "questions": [
+        // Question 13.1
+        {
+          "question": "Lily has 7 rows with 8 stickers each. If she removes 6 stickers and adds 1 new row of 8, how many stickers does she have?",
+          "options": ["58", "56", "60", "54", "The stickers had a dance party!"],
+          "answer": "58",
+          "explanation": "(7 × 8) - 6 + 8 = 56 - 6 + 8 = 58 stickers"
+        },
+        // Question 13.2
+        {
+          "question": "In Lily's pattern, each new group has 3 more stickers than the last: 4,7,10,13. How many stickers will be in the 6th group?",
+          "options": ["19", "18", "20", "17", "The pattern got dizzy!"],
+          "answer": "19",
+          "explanation": "Pattern: 4,7,10,13,16,19 (adding 3 each time)"
+        },
+        // Question 13.3
+        {
+          "question": "Lily has 60 star stickers and puts them in groups of 8. She gives each friend 2 groups. How many friends get complete groups?",
+          "options": ["3", "4", "2", "5", "The stickers chose their own friends!"],
+          "answer": "3",
+          "explanation": "60 ÷ 8 = 7.5 groups. Each friend needs 2 groups, so 7 ÷ 2 = 3 friends"
+        },
+        // Question 13.4
+        {
+          "question": "If Lily puts stickers in rows of 5, then removes every third sticker starting from the first row, how many remain from 40 stickers?",
+          "options": ["27", "26", "28", "25", "They rearranged themselves!"],
+          "answer": "27",
+          "explanation": "40 stickers - 13 (every third sticker) = 27 stickers"
+        },
+        // Question 13.5
+        {
+          "question": "Lily makes a square of 49 stickers. If she adds another row on top, how many stickers are there now?",
+          "options": ["56", "54", "58", "52", "They formed a star shape!"],
+          "answer": "56",
+          "explanation": "7 × 7 = 49, plus another row of 7 = 56 stickers"
+        }
+      ]
+    },
+    // Stage 14
+    {
+      "text": "Marco is counting coins 💰 from his piggy bank. He's learning to group them in different ways.",
+      "questions": [
+        // Question 14.1
+        {
+          "question": "Marco has 8 groups of 7 coins, plus 6 extra coins. If he gives away 5 coins, how many does he have?",
+          "options": ["57", "55", "59", "53", "The coins went shopping!"],
+          "answer": "57",
+          "explanation": "(8 × 7) + 6 - 5 = 56 + 6 - 5 = 57 coins"
+        },
+        // Question 14.2
+        {
+          "question": "If Marco arranges 64 coins in a square and removes one complete row and column, how many coins are left?",
+          "options": ["49", "48", "50", "47", "They rolled away to buy candy!"],
+          "answer": "49",
+          "explanation": "8 × 8 = 64, remove 8 + 7 = 15 coins, leaving 49"
+        },
+        // Question 14.3
+        {
+          "question": "Marco's pattern doubles, then adds 2: 3,8,18,38. What number comes next?",
+          "options": ["78", "76", "80", "74", "The pattern got rich and retired!"],
+          "answer": "78",
+          "explanation": "38 × 2 = 76, then add 2 = 78"
+        },
+        // Question 14.4
+        {
+          "question": "Marco has 72 coins and puts them in rows of 9. If he removes 2 coins from each row, how many coins are left?",
+          "options": ["56", "54", "58", "52", "They formed a coin castle!"],
+          "answer": "56",
+          "explanation": "72 ÷ 9 = 8 rows, 8 × 2 = 16 removed, 72 - 16 = 56"
+        },
+        // Question 14.5
+        {
+          "question": "If Marco starts with 70 coins and removes groups of 6, how many coins will be left when he can't remove any more complete groups?",
+          "options": ["4", "2", "6", "3", "The coins disappeared magically!"],
+          "answer": "4",
+          "explanation": "70 ÷ 6 = 11 groups with 4 coins remaining"
+        }
+      ]
+    },
+    // Stage 15
+    {
+      "text": "Sophia is organizing her collection of trading cards 🃏. She's making complex arrangements with specific patterns.",
+      "questions": [
+        // Question 15.1
+        {
+          "question": "Sophia has 9 pages with 8 cards each. She adds 3 new pages with 6 cards each. How many cards total?",
+          "options": ["90", "86", "92", "88", "The cards started trading themselves!"],
+          "answer": "90",
+          "explanation": "(9 × 8) + (3 × 6) = 72 + 18 = 90 cards"
+        },
+        // Question 15.2
+        {
+          "question": "In Sophia's pattern, she starts with 2 cards and triples the amount each time: 2,6,18. If she continues until she has over 50 cards, how many cards will she have?",
+          "options": ["54", "52", "56", "50", "The pattern got too excited!"],
+          "answer": "54",
+          "explanation": "Pattern: 2,6,18,54 (multiply by 3 each time)"
+        },
+        // Question 15.3
+        {
+		  "question": "Sophia arranges 64 cards in a square. If she adds one more row and column to make a larger square, how many more cards does she need?",
+		  "options": ["18", "16", "20", "22", "The cards arranged themselves!"],
+		  "answer": "18",
+		  "explanation": "8×8=64, next square is 9×9=81, so 81-64=17 additional cards needed."
+        },
+        // Question 15.4
+        {
+          "question": "If Sophia has 95 cards and makes piles of 7, then gives each pile to a friend, how many cards are left over?",
+          "options": ["4", "3", "5", "2", "The cards found new friends!"],
+          "answer": "4",
+          "explanation": "95 ÷ 7 = 13 piles with 4 cards remaining"
+        },
+        // Question 15.5
+        {
+          "question": "Sophia removes every 4th card from her collection of 80 cards. Then she removes every 3rd card from what's left. How many cards remain?",
+          "options": ["40", "42", "38", "44", "They played hide and seek!"],
+          "answer": "40",
+          "explanation": "80 - 20 = 60 (after removing every 4th), then 60 - 20 = 40"
+        }
+      ]
+    },
+   // Stage 16
+    {
+      "text": "Charlie is arranging colored cubes 🟦 for a school project. He's making complex patterns and shapes.",
+      "questions": [
+        // Question 16.1
+        {
+		  "question": "Charlie makes a pyramid with 4 layers. Each layer has 2 fewer cubes on each side than the layer below. If the bottom layer is 10×10, how many cubes total?",
+		  "options": ["70", "65", "75", "68", "The cubes built a spaceship!"],
+		  "answer": "70",
+		  "explanation": "Layers: 100 + 64 + 36 + 16 = 216 cubes total."
+        },
+        // Question 16.2
+        {
+          "question": "If Charlie has 96 cubes and creates towers of 8, then combines every 2 towers into a bigger tower, how many bigger towers can he make?",
+          "options": ["6", "5", "7", "4", "The towers reached the moon!"],
+          "answer": "6",
+          "explanation": "96 ÷ 8 = 12 small towers, 12 ÷ 2 = 6 bigger towers"
+        },
+        // Question 16.3
+        {
+          "question": "Charlie's pattern adds 3, then doubles: 2,5,10,13,26. What are the next two numbers?",
+          "options": ["29,58", "28,56", "30,60", "27,54", "The pattern got too excited!"],
+          "answer": "29,58",
+          "explanation": "Add 3: 26+3=29, double: 29×2=58"
+        },
+        // Question 16.4
+        {
+          "question": "Charlie arranges 91 cubes in rows of 7. After removing 3 cubes from each complete row, how many cubes are left?",
+          "options": ["52", "50", "54", "48", "They formed a cube castle!"],
+          "answer": "52",
+          "explanation": "91 ÷ 7 = 13 rows, 13 × 3 = 39 removed, 91 - 39 = 52"
+        },
+        // Question 16.5
+        {
+          "question": "In Charlie's cube sequence: 1,4,9,16,25, how many cubes should be in the 7th position?",
+          "options": ["49", "45", "51", "47", "The sequence went on vacation!"],
+          "answer": "49",
+          "explanation": "Square numbers: 7² = 7 × 7 = 49"
+        }
+      ]
+    },
+    // Stage 17
+    {
+      "text": "Emma is counting seats 💺 in the school assembly hall for a special event. She needs to arrange them in different ways.",
+      "questions": [
+        // Question 17.1
+        {
+          "question": "Emma sees 8 rows with 12 seats each, but 5 seats are broken. Then 3 new rows of 10 seats are added. How many usable seats are there?",
+          "options": ["121", "119", "123", "117", "The seats decided to take a walk!"],
+          "answer": "121",
+          "explanation": "(8 × 12) - 5 + (3 × 10) = 96 - 5 + 30 = 121"
+        },
+        // Question 17.2
+        {
+          "question": "If Emma arranges 100 seats in equal rows, with each row having the same number of seats, how many different arrangements can she make?",
+          "options": ["9", "8", "10", "7", "The seats arranged themselves!"],
+          "answer": "9",
+          "explanation": "Factors of 100: 1,2,4,5,10,20,25,50,100 = 9 arrangements"
+        },
+        // Question 17.3
+        {
+          "question": "Emma's pattern multiplies by 2, subtracts 3: 4,8,13,23,43. What number comes next?",
+          "options": ["83", "81", "85", "79", "The pattern got dizzy counting!"],
+          "answer": "83",
+          "explanation": "43 × 2 = 86, 86 - 3 = 83"
+        },
+        // Question 17.4
+        {
+          "question": "Emma has 144 seats arranged in a square. If she removes the outer row of seats on all sides, how many seats remain?",
+          "options": ["100", "98", "102", "96", "The seats formed a circle instead!"],
+          "answer": "100",
+          "explanation": "12 × 12 = 144, 10 × 10 = 100 remain after removing outer rows"
+        },
+        // Question 17.5
+        {
+		  "question": "In a section of 90 seats, Emma removes every 5th seat. Then from the remaining seats, she removes every 3rd seat. How many seats are left?",
+		  "options": ["45", "43", "47", "41", "The seats played musical chairs!"],
+		  "answer": "45",
+		  "explanation": "90 - 18 (every 5th) = 72; 72 - 24 (every 3rd) = 48 seats remaining."
+        }
+      ]
+    },
+    // Stage 18
+    {
+      "text": "Daniel is organizing books 📚 in the classroom library. He's creating different shelf arrangements.",
+      "questions": [
+        // Question 18.1
+        {
+          "question": "Daniel has 6 shelves with 15 books each. He adds 2 more shelves with 12 books each, then removes 7 books. How many books are there?",
+          "options": ["113", "111", "115", "109", "The books started reading themselves!"],
+          "answer": "113",
+          "explanation": "(6 × 15) + (2 × 12) - 7 = 90 + 24 - 7 = 113"
+        },
+        // Question 18.2
+        {
+          "question": "If Daniel's pattern is 5,11,23,47 (where each number is doubled and added to the previous number), what comes next?",
+          "options": ["95", "93", "97", "91", "The pattern wrote a book about itself!"],
+          "answer": "95",
+          "explanation": "47 × 2 = 94, 94 + 1 = 95"
+        },
+        // Question 18.3
+        {
+          "question": "Daniel arranges 120 books equally on shelves. If each shelf must have between 8 and 12 books, how many valid shelf arrangements can he make?",
+          "options": ["3", "2", "4", "5", "The books shelved themselves!"],
+          "answer": "3",
+          "explanation": "120 ÷ 10 = 12 shelves, 120 ÷ 12 = 10 shelves, 120 ÷ 8 = 15 shelves"
+        },
+        // Question 18.4
+        {
+          "question": "With 150 books, Daniel puts them in groups of 6, then combines every 3 groups. How many combined groups can he make?",
+          "options": ["8", "7", "9", "6", "The groups had a book club meeting!"],
+          "answer": "8",
+          "explanation": "150 ÷ 6 = 25 groups, 25 ÷ 3 = 8 combined groups with 1 small group left"
+        },
+        // Question 18.5
+        {
+          "question": "Daniel starts with 200 books. Each day he adds 3 new books and gives away 5 books. After 4 days, how many books does he have?",
+          "options": ["192", "190", "194", "188", "The books took a vacation!"],
+          "answer": "192",
+          "explanation": "200 + (3 × 4) - (5 × 4) = 200 + 12 - 20 = 192"
+        }
+      ]
+    },
+    // Stage 19
+    {
+      "text": "Isabella is counting colorful balloons 🎈 for a school celebration. She's creating complex decorative patterns.",
+      "questions": [
+        // Question 19.1
+        {
+          "question": "Isabella makes 9 bunches of 12 balloons each. If 7 balloons pop and she adds 3 new bunches of 8 balloons, how many balloons are there?",
+          "options": ["131", "129", "133", "127", "The balloons floated to the moon!"],
+          "answer": "131",
+          "explanation": "(9 × 12) - 7 + (3 × 8) = 108 - 7 + 24 = 131"
+        },
+        // Question 19.2
+        {
+          "question": "If Isabella's pattern is adding the last two numbers: 2,3,5,8,13,21, what is the sum of the next two numbers?",
+          "options": ["55", "53", "57", "51", "The numbers had a party!"],
+          "answer": "55",
+          "explanation": "Next: 21+13=34, then 34+21=55; 34+55=89"
+        },
+        // Question 19.3
+        {
+          "question": "Isabella arranges 180 balloons in equal rows. If she wants between 12 and 20 rows, how many balloons must be in each row?",
+          "options": ["15", "12", "18", "14", "The balloons rearranged themselves!"],
+          "answer": "15",
+          "explanation": "180 ÷ 12 = 15 balloons per row works for exactly 12 rows"
+        },
+        // Question 19.4
+        {
+          "question": "With 165 balloons, Isabella creates an arch that uses 3 more balloons in each row than the previous row, starting with 5. How many complete rows can she make?",
+          "options": ["10", "9", "11", "8", "They formed a balloon rainbow!"],
+          "answer": "10",
+          "explanation": "5,8,11,14,17,20,23,26,29,32 = 185 needed, so 10 rows fit in 165"
+        },
+        // Question 19.5
+        {
+          "question": "Isabella has 160 balloons in 4 equal sections. If she removes 6 balloons from each section, then adds 10 new balloons to each, how many balloons are there?",
+          "options": ["176", "174", "178", "172", "The balloons started dancing!"],
+          "answer": "176",
+          "explanation": "160 ÷ 4 = 40 per section, (40-6+10) × 4 = 44 × 4 = 176"
+        }
+      ]
+    },
+    // Stage 20
+    {
+      "text": "Lucas is counting stars ⭐ in his astronomy project. He's creating complex constellation patterns.",
+      "questions": [
+        // Question 20.1
+        {
+          "question": "Lucas draws 5 constellations with 16 stars each. He erases 8 stars total and adds 3 new constellations with 12 stars each. How many stars now?",
+          "options": ["108", "106", "110", "104", "The stars formed a galaxy!"],
+          "answer": "108",
+          "explanation": "(5 × 16) - 8 + (3 × 12) = 80 - 8 + 36 = 108"
+        },
+        // Question 20.2
+        {
+          "question": "In Lucas's pattern, each number is the previous number plus its reverse: 12,24,66,132. What comes next?",
+          "options": ["363", "353", "373", "343", "The pattern reached infinity!"],
+          "answer": "363",
+          "explanation": "132 + 231 = 363 (132 reversed is 231)"
+        },
+        // Question 20.3
+        {
+          "question": "Lucas arranges 225 stars in a square, then removes the middle row and column. How many stars remain?",
+          "options": ["196", "194", "198", "192", "They formed a super nova!"],
+          "answer": "196",
+          "explanation": "15 × 15 = 225, remove 29 stars (15 row + 15 column - 1 overlap) = 196"
+        },
+        // Question 20.4
+        {
+          "question": "With 200 stars, Lucas makes patterns using 8 stars each. If he gives each friend 3 complete patterns, how many friends get patterns?",
+          "options": ["8", "7", "9", "6", "The patterns twinkled away!"],
+          "answer": "8",
+          "explanation": "200 ÷ 8 = 25 patterns, 25 ÷ 3 = 8 friends get complete sets"
+        },
+        // Question 20.5
+        {
+          "question": "Lucas starts with 250 stars. Each day he adds twice the number of stars as the previous day, starting with 5 on day 1. How many stars after 4 days?",
+          "options": ["295", "285", "305", "275", "The stars had a counting party!"],
+          "answer": "295",
+          "explanation": "250 + 5 + 10 + 20 + 40 = 295 (5,10,20,40 are daily additions)"
+        }
+      ]
+    }
+//-------------------------------------------------------------------------------------------------------------------							
+				  ]
+				}
+        ];
+
+		const stageCount = quizData[0].stages.length; // This is the correct way to get the number of stages
+
+
+		const stateContents = {
+			'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+			,'Subject Overview 🗝️': `<div class="subject-overview-content">   <h1>Counting Items in Small Sets: A Guide for Young Learners</h1>   <p>Counting is a fundamental skill in math that helps us understand numbers and quantities. Learning to count items in small sets builds a strong foundation for understanding larger numbers and more complex math concepts. This guide will explore methods for counting small sets, provide examples, and offer tips to make counting fun and easy.</p>   <hr>   <h2>Table of Contents</h2>   <ol>     <li><a href="#what-is-counting">What is Counting?</a></li>     <li><a href="#importance-of-counting-small-sets">Importance of Counting Small Sets</a></li>     <li><a href="#steps-for-counting-small-sets">Steps for Counting Small Sets</a>       <ul>         <li><a href="#step1-organizing-objects">Step 1: Organizing Objects</a></li>         <li><a href="#step2-counting-one-by-one">Step 2: Counting One by One</a></li>         <li><a href="#step3-checking-your-count">Step 3: Checking Your Count</a></li>       </ul>     </li>     <li><a href="#examples-of-counting-small-sets">Examples of Counting Small Sets</a></li>     <li><a href="#conclusion">Conclusion</a></li>   </ol>   <hr>     <h2 id="what-is-counting">What is Counting?</h2>   <p>Counting is the process of determining the number of items in a group by assigning each item a number, starting from 1. For example, if you have three apples, you would count "1, 2, 3" and know that there are three apples in total.</p>     <hr>   <h2 id="importance-of-counting-small-sets">Importance of Counting Small Sets</h2>   <p>Counting small sets of items helps young learners understand the concept of quantity and build confidence in math. By starting with small sets, they can focus on counting accurately without feeling overwhelmed by large numbers.</p>     <hr>   <h2 id="steps-for-counting-small-sets">Steps for Counting Small Sets</h2>     <h3 id="step1-organizing-objects">Step 1: Organizing Objects</h3>   <p><strong>Why Organize?</strong> Organizing objects makes it easier to count accurately. For example, placing items in a line or small groups can help you keep track of which items have been counted and which have not.</p>     <h3 id="step2-counting-one-by-one">Step 2: Counting One by One</h3>   <p>Counting each item one at a time helps to avoid skipping or repeating items. Say each number out loud as you count to help reinforce the sequence of numbers.</p>     <h3 id="step3-checking-your-count">Step 3: Checking Your Count</h3>   <p>After counting, it's helpful to count one more time to check for accuracy. This is especially useful when counting a set for the first time.</p>     <hr>   <h2 id="examples-of-counting-small-sets">Examples of Counting Small Sets</h2>     <p><strong>Example 1: Counting Fruits</strong></p>   <p>If you have 5 apples in a row, count them out loud: "1, 2, 3, 4, 5." By the end, you’ll know there are 5 apples.</p>     <p><strong>Example 2: Counting Crayons</strong></p>   <p>Imagine you have a box of 7 crayons. To count them, take them out one by one and say the numbers as you place them on the table: "1, 2, 3, 4, 5, 6, 7."</p>     <hr>   <h2 id="conclusion">Conclusion</h2>   <p>Counting small sets is a useful skill that forms the basis for all future math learning. By following the steps of organizing, counting one-by-one, and checking your count, you’ll be able to count any set of items with confidence. Keep practicing with different objects, and you’ll see how easy and fun counting can be!</p>   <hr> </div>`		
+			};
+
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function isTextEmpty(text) {
+    return !text || text.trim() === "";
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    
+    // Only add stage text if it's not empty
+    const stageText = quizData[0].stages[currentStage].text;
+    if (!isTextEmpty(stageText)) {
+        const stageTextElement = document.createElement("div");
+        stageTextElement.className = "stage-text";
+        stageTextElement.style.marginBottom = "20px";
+        stageTextElement.style.padding = "15px";
+        stageTextElement.style.backgroundColor = "#f5f5f5";
+        stageTextElement.style.borderRadius = "5px";
+        stageTextElement.textContent = stageText;
+        quizContainer.appendChild(stageTextElement);
+    }
+    
+    // Render questions
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";
+        
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${questionData.question}`;
+        
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+        
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+        select.appendChild(defaultOption);
+        
+        const shuffledOptions = shuffleArray([...questionData.options]);
+        shuffledOptions.forEach(option => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv);
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[0].stages[currentStage].questions.length;
+
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === questionData.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect answer.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 5) {
+            selectElement.value = questionData.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` The correct answer is: ${questionData.answer}`;
+        }
+    });
+
+    if (correctCount === totalQuestions) {
+        console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+        addAnimalsToFarm(totalQuestions);
+
+        if (currentStage < quizData[0].stages.length - 1) {
+            singleStageConfetti();
+            showEncouragingPopup(correctCount, totalQuestions, true);
+            currentStage++;
+            updateProgressBar();
+            setTimeout(() => {
+                attempts = 0;
+                renderQuiz();
+                document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+            }, 1500);
+        } else {
+            currentStage++;
+            updateProgressBar();
+            allStagesConfetti();
+            showModal("Congratulations! You've completed all stages!");
+        }
+    } else {
+        showEncouragingPopup(correctCount, totalQuestions, false);
+        if (attempts >= 5) {
+            showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
+        }
+    }
+
+    scrollToTop();
+}
+
+// 4. Update stageCount calculation to work with new structure
+
+		
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+    const completedStages = currentStage;
+    const progress = (completedStages / stageCount) * 100;
+    const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+    progressBar.style.width = `${roundedProgress}%`;
+    progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+    console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+}
+
+function updateStageNumber() {
+    const stageElement = document.getElementById("stage-number");
+    stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>

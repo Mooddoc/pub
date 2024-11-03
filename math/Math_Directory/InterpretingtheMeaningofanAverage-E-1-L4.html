@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+
+</head> 
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read the text and questions carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 5 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>Interpreting the meaning of an average</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+ 
+	<!-- Modal -->
+	<div id="quizModal" class="modal-quiz">
+		<div class="modal-quiz-content">
+			<span class="modal-quiz-close">&times;</span>
+			<p id="modalMessage"></p>  
+			<button id="modalExplanationsButton" class="modal-quiz-button" style="display: none; background-color: #ff7f50;">View Explanations</button>
+			<button id="modalNextButton" class="modal-quiz-button">Next Stage</button>
+		</div>
+	</div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+																		//  PH3 - Quiz Data 
+        const quizData = [ 												   	
+				{
+				  "stages": [
+//-------------------------------------------------------------------------------------------------------------------				  
+
+    // Stage 1
+    {
+      "text": "Sarah is learning about averages in her class. Her teacher explains that the average (mean) tells us what number represents the whole group equally.",
+      "questions": [
+        // Question 1.1
+        {
+          "question": "In a game, Tom scored 4, 6, and 8 points. What is the average score?",
+          "options": ["6", "3", "18", "5", "Because it's fun"],
+          "answer": "6",
+          "explanation": "Add all numbers (4+6+8=18) and divide by how many numbers there are (18÷3=6)"
+        },
+        // Question 1.2
+        {
+          "question": "If the average of three numbers is 5, what does this mean?",
+          "options": [
+            "If we shared the total equally, each would get 5",
+            "The biggest number is 5",
+            "The smallest number is 5",
+            "There are 5 numbers",
+            "The numbers are having a party"
+          ],
+          "answer": "If we shared the total equally, each would get 5",
+          "explanation": "An average tells us what each would get if everything was shared equally"
+        },
+        // Question 1.3
+        {
+          "question": "Maya has 3 stickers, 7 stickers, and 5 stickers. What's the average number of stickers?",
+          "options": ["5", "15", "3", "7", "As many as a rainbow"],
+          "answer": "5",
+          "explanation": "Add all stickers (3+7+5=15) and divide by the count (15÷3=5)"
+        },
+        // Question 1.4
+        {
+          "question": "The average of 2, 4, and 6 is 4. How do we know this is correct?",
+          "options": [
+            "Because 2+4+6=12, and 12÷3=4",
+            "Because 4 is in the middle",
+            "Because 4 appears in the numbers",
+            "Because 2+4+6=10",
+            "Because numbers are magical"
+          ],
+          "answer": "Because 2+4+6=12, and 12÷3=4",
+          "explanation": "To check an average, add all numbers and divide by how many numbers there are"
+        },
+        // Question 1.5
+        {
+          "question": "What's the first step to find the average of some numbers?",
+          "options": [
+            "Add all the numbers",
+            "Pick the middle number",
+            "Choose the biggest number",
+            "Pick the smallest number",
+            "Dance with the numbers"
+          ],
+          "answer": "Add all the numbers",
+          "explanation": "Always start by adding all numbers before dividing by how many numbers there are"
+        }
+      ]
+    },
+    // Stage 2
+    {
+      "text": "Alex is learning that averages help us understand what's typical in a group of numbers. His teacher gives the class some fun problems to solve.",
+      "questions": [
+        // Question 2.1
+        {
+          "question": "Four friends have 5, 5, 7, and 3 candies. What's the average?",
+          "options": ["5", "20", "4", "7", "Sweet as candy"],
+          "answer": "5",
+          "explanation": "Add all candies (5+5+7+3=20) and divide by friends (20÷4=5)"
+        },
+        // Question 2.2
+        {
+          "question": "If 5 is the average of five numbers, what's their total sum?",
+          "options": ["25", "5", "10", "15", "As big as a dinosaur"],
+          "answer": "25",
+          "explanation": "Multiply the average by how many numbers (5×5=25)"
+        },
+        // Question 2.3
+        {
+          "question": "Emma scored 6, 8, and 7 on three tests. What does an average of 7 tell us?",
+          "options": [
+            "It's like she scored 7 on each test",
+            "She always scored 7",
+            "7 was her highest score",
+            "7 was her lowest score",
+            "The tests were having fun"
+          ],
+          "answer": "It's like she scored 7 on each test",
+          "explanation": "An average shows what the score would be if all scores were equal"
+        },
+        // Question 2.4
+        {
+          "question": "The average of four numbers is 6. Three numbers are 5, 8, and 7. What's the fourth number?",
+          "options": ["4", "6", "24", "3", "Whatever makes you happy"],
+          "answer": "4",
+          "explanation": "Total should be 24 (6×4). Current sum is 20. So, 24-20=4"
+        },
+        // Question 2.5
+        {
+          "question": "Which set of numbers has an average of 4?",
+          "options": [
+            "3, 4, 5",
+            "2, 2, 2",
+            "1, 6",
+            "5, 5, 5",
+            "Banana, apple, orange"
+          ],
+          "answer": "3, 4, 5",
+          "explanation": "3+4+5=12, and 12÷3=4"
+        }
+      ]
+    },
+    // Stage 3
+    {
+      "text": "Ben's class is exploring how averages can help them understand sports scores and daily activities. They're discovering that averages are everywhere!",
+      "questions": [
+        // Question 3.1
+        {
+          "question": "A student reads 2, 3, and 4 books each month. What's their average monthly reading?",
+          "options": ["3", "9", "6", "2", "A library full"],
+          "answer": "3",
+          "explanation": "Add books (2+3+4=9) and divide by months (9÷3=3)"
+        },
+        // Question 3.2
+        {
+          "question": "If the average of 6, 8, and another number is 6, what's the missing number?",
+          "options": ["4", "6", "8", "18", "A mystery number"],
+          "answer": "4",
+          "explanation": "Total should be 18 (6×3). Current sum is 14. So, 18-14=4"
+        },
+        // Question 3.3
+        {
+          "question": "Juan saves $2, $4, and $6. What would he have if he saved the average amount each time?",
+          "options": [
+            "$4 three times",
+            "$12 total",
+            "$2 three times",
+            "$6 three times",
+            "A piggy bank full of dreams"
+          ],
+          "answer": "$4 three times",
+          "explanation": "Average is (2+4+6)÷3=4, so three times would be $4 each time"
+        },
+        // Question 3.4
+        {
+          "question": "The average height of three flowers is 5 inches. Two flowers are 4 and 7 inches. How tall is the third?",
+          "options": ["4", "5", "6", "15", "Tall as the sky"],
+          "answer": "4",
+          "explanation": "Total height should be 15 (5×3). Current sum is 11. So, 15-11=4"
+        },
+        // Question 3.5
+        {
+          "question": "Which statement about an average is true?",
+          "options": [
+            "It represents a fair share",
+            "It's always the biggest number",
+            "It's always the smallest number",
+            "It's always in the middle",
+            "It's whatever the wind blows"
+          ],
+          "answer": "It represents a fair share",
+          "explanation": "An average shows what each would get if everything was shared equally"
+        }
+      ]
+    },
+    // Stage 4
+    {
+      "text": "Lisa's class is learning how averages can help them understand daily temperatures and pocket money. They're practicing with real-life examples.",
+      "questions": [
+        // Question 4.1
+        {
+          "question": "The average of five numbers is 8. What's their total?",
+          "options": ["40", "8", "13", "35", "As much as the ocean"],
+          "answer": "40",
+          "explanation": "Multiply average by count (8×5=40)"
+        },
+        // Question 4.2
+        {
+          "question": "If temperatures were 70°, 74°, and 72°, what's the average temperature?",
+          "options": ["72°", "216°", "71°", "73°", "Hot as a dragon"],
+          "answer": "72°",
+          "explanation": "Add temperatures (70+74+72=216) and divide by count (216÷3=72)"
+        },
+        // Question 4.3
+        {
+          "question": "The average of four numbers is 5. If three numbers are 4, 8, and 6, what's the fourth?",
+          "options": ["2", "5", "4", "20", "Whatever makes you smile"],
+          "answer": "2",
+          "explanation": "Total should be 20 (5×4). Current sum is 18. So, 20-18=2"
+        },
+        // Question 4.4
+        {
+          "question": "Which set of numbers would NOT have an average of 6?",
+          "options": [
+            "5, 6, 8",
+            "6, 6, 6",
+            "4, 6, 8",
+            "2, 6, 10",
+            "Hop, skip, jump"
+          ],
+          "answer": "5, 6, 8",
+          "explanation": "5+6+8=19, and 19÷3≈6.3, not exactly 6"
+        },
+        // Question 4.5
+        {
+          "question": "Maria runs 3, 5, and 4 laps. What does an average of 4 laps mean?",
+          "options": [
+            "It's like running 4 laps each time",
+            "She ran 4 laps total",
+            "Her best was 4 laps",
+            "Her worst was 4 laps",
+            "She ran to the moon"
+          ],
+          "answer": "It's like running 4 laps each time",
+          "explanation": "Average shows what it would be if all attempts were equal"
+        }
+      ]
+    },
+    // Stage 5
+    {
+      "text": "Peter's class is discovering how averages help them understand test scores and allowance money. They're learning to solve more challenging problems.",
+      "questions": [
+        // Question 5.1
+        {
+          "question": "The average of six numbers is 7. Five numbers are 6, 8, 7, 9, and 4. What's the sixth number?",
+          "options": ["8", "7", "42", "6", "A billion"],
+          "answer": "8",
+          "explanation": "Total should be 42 (7×6). Current sum is 34. So, 42-34=8"
+        },
+        // Question 5.2
+        {
+          "question": "If the average of three numbers is 10, could the numbers be 8, 10, and 13?",
+          "options": [
+            "No, average would be higher",
+            "Yes, exactly right",
+            "No, average would be lower",
+            "Yes, if we're lucky",
+            "Only on holidays"
+          ],
+          "answer": "No, average would be higher",
+          "explanation": "(8+10+13)÷3≈10.3, which is higher than 10"
+        },
+        // Question 5.3
+        {
+          "question": "What's the average when you spend $4, save $8, and find $6?",
+          "options": ["$6", "$18", "$4", "$8", "A treasure chest full"],
+          "answer": "$6",
+          "explanation": "Add amounts (4+8+6=18) and divide by count (18÷3=6)"
+        },
+        // Question 5.4
+        {
+          "question": "The average of four numbers is 8. Three numbers are 6, 12, and 8. What's the fourth?",
+          "options": ["6", "8", "32", "10", "As big as a house"],
+          "answer": "6",
+          "explanation": "Total should be 32 (8×4). Current sum is 26. So, 32-26=6"
+        },
+        // Question 5.5
+        {
+          "question": "Which change would increase the average of 4, 6, and 8?",
+          "options": [
+            "Change 4 to 9",
+            "Change 8 to 6",
+            "Change 6 to 4",
+            "Change 8 to 7",
+            "Add rainbow colors"
+          ],
+          "answer": "Change 4 to 9",
+          "explanation": "Replacing a lower number with a higher number increases the average"
+        }
+      ]
+    },
+    // Stage 6
+    {
+      "text": "Nina's class is exploring how averages help them understand weekly allowances and video game scores. They're learning to solve problems with slightly bigger numbers.",
+      "questions": [
+        // Question 6.1
+        {
+          "question": "In a game, scores were 15, 25, and 20. What's the average score?",
+          "options": ["20", "60", "30", "18", "More than a unicorn can count"],
+          "answer": "20",
+          "explanation": "Add scores (15+25+20=60) and divide by count (60÷3=20)"
+        },
+        // Question 6.2
+        {
+          "question": "The average of 12, 16, and another number is 15. What's the missing number?",
+          "options": ["17", "15", "16", "45", "A mystery number"],
+          "answer": "17",
+          "explanation": "Total should be 45 (15×3). Current sum is 28. So, 45-28=17"
+        },
+        // Question 6.3
+        {
+          "question": "Four friends have an average of 12 stickers each. How many stickers altogether?",
+          "options": ["48", "12", "24", "36", "As many as stars in the sky"],
+          "answer": "48",
+          "explanation": "Multiply average by number of friends (12×4=48)"
+        },
+        // Question 6.4
+        {
+          "question": "What happens to the average of 10, 15, and 20 if you change 10 to 12?",
+          "options": [
+            "It increases",
+            "It stays the same",
+            "It decreases",
+            "It disappears",
+            "It does a backflip"
+          ],
+          "answer": "It increases",
+          "explanation": "Replacing a lower number with a higher number makes the average bigger"
+        },
+        // Question 6.5
+        {
+          "question": "The average of five numbers is 10. Four numbers are 8, 12, 9, and 13. What's the fifth?",
+          "options": ["8", "10", "50", "12", "A bazillion"],
+          "answer": "8",
+          "explanation": "Total should be 50 (10×5). Current sum is 42. So, 50-42=8"
+        }
+      ]
+    },
+    // Stage 7
+    {
+      "text": "Jack's class is learning how averages can help them understand their daily screen time and homework minutes. They're working with time-based problems.",
+      "questions": [
+        // Question 7.1
+        {
+          "question": "A student spends 20, 30, and 25 minutes reading. What's the average time?",
+          "options": ["25", "75", "15", "35", "Until the book gets tired"],
+          "answer": "25",
+          "explanation": "Add minutes (20+30+25=75) and divide by count (75÷3=25)"
+        },
+        // Question 7.2
+        {
+          "question": "If the average of four numbers is 15, what's their total?",
+          "options": ["60", "15", "30", "45", "Infinity and beyond"],
+          "answer": "60",
+          "explanation": "Multiply average by count (15×4=60)"
+        },
+        // Question 7.3
+        {
+          "question": "The average screen time for three days is 40 minutes. Two days were 35 and 50 minutes. What about day three?",
+          "options": ["35", "40", "45", "120", "Until the screen falls asleep"],
+          "answer": "35",
+          "explanation": "Total should be 120 (40×3). Current sum is 85. So, 120-85=35"
+        },
+        // Question 7.4
+        {
+          "question": "Which set of numbers has an average of 20?",
+          "options": [
+            "15, 20, 25",
+            "10, 15, 20",
+            "25, 30, 35",
+            "5, 10, 15",
+            "Yesterday, today, tomorrow"
+          ],
+          "answer": "15, 20, 25",
+          "explanation": "15+20+25=60, and 60÷3=20"
+        },
+        // Question 7.5
+        {
+          "question": "How does adding 5 to each number affect the average of 10, 15, and 20?",
+          "options": [
+            "Adds 5 to average",
+            "Adds 15 to average",
+            "Doubles the average",
+            "No change",
+            "Makes it do cartwheels"
+          ],
+          "answer": "Adds 5 to average",
+          "explanation": "When you add same number to all values, average increases by that number"
+        }
+      ]
+    },
+    // Stage 8
+    {
+      "text": "Mia's class is discovering how averages help them understand distances walked and pages read. They're solving problems with mixed scenarios.",
+      "questions": [
+        // Question 8.1
+        {
+          "question": "Students read 22, 28, and 26 pages. What's the average?",
+          "options": ["25", "76", "24", "27", "A whole library"],
+          "answer": "25",
+          "explanation": "Add pages (22+28+26=76) and divide by count (76÷3=25)"
+        },
+        // Question 8.2
+        {
+          "question": "The average of six numbers is 12. Five numbers are 10, 14, 12, 15, and 11. What's the sixth?",
+          "options": ["10", "12", "72", "14", "To infinity!"],
+          "answer": "10",
+          "explanation": "Total should be 72 (12×6). Current sum is 62. So, 72-62=10"
+        },
+        // Question 8.3
+        {
+          "question": "What's the average when combining groups of 18, 24, and 21 items?",
+          "options": ["21", "63", "20", "19", "More than the clouds"],
+          "answer": "21",
+          "explanation": "Add items (18+24+21=63) and divide by count (63÷3=21)"
+        },
+        // Question 8.4
+        {
+          "question": "If the average of three numbers is 16, could the numbers be 14, 16, and 19?",
+          "options": [
+            "No, average would be higher",
+            "Yes, exactly right",
+            "No, average would be lower",
+            "Maybe on weekends",
+            "Only if they're happy numbers"
+          ],
+          "answer": "No, average would be higher",
+          "explanation": "(14+16+19)÷3≈16.3, which is higher than 16"
+        },
+        // Question 8.5
+        {
+          "question": "What happens to the average of 20, 25, and 30 if you subtract 5 from each?",
+          "options": [
+            "Decreases by 5",
+            "Stays the same",
+            "Decreases by 15",
+            "Increases by 5",
+            "Goes on vacation"
+          ],
+          "answer": "Decreases by 5",
+          "explanation": "When you subtract same number from all values, average decreases by that number"
+        }
+      ]
+    },
+    // Stage 9
+    {
+      "text": "David's class is learning how averages can help them understand quiz scores and running distances. They're working with more challenging scenarios.",
+      "questions": [
+        // Question 9.1
+        {
+          "question": "Five quizzes have an average score of 18. What's the total of all scores?",
+          "options": ["90", "18", "36", "45", "As high as a rocket"],
+          "answer": "90",
+          "explanation": "Multiply average by number of quizzes (18×5=90)"
+        },
+        // Question 9.2
+        {
+          "question": "The average of four numbers is 14. Three numbers are 12, 18, and 16. What's the fourth?",
+          "options": ["10", "14", "56", "20", "Whatever makes you happy"],
+          "answer": "10",
+          "explanation": "Total should be 56 (14×4). Current sum is 46. So, 56-46=10"
+        },
+        // Question 9.3
+        {
+          "question": "What's the average of these distances: 15 feet, 25 feet, and 20 feet?",
+          "options": ["20", "60", "30", "18", "To the moon and back"],
+          "answer": "20",
+          "explanation": "Add distances (15+25+20=60) and divide by count (60÷3=20)"
+        },
+        // Question 9.4
+        {
+          "question": "Which change would NOT affect the average of 16, 20, and 24?",
+          "options": [
+            "Adding 2 then subtracting 2 from same number",
+            "Adding 5 to all numbers",
+            "Subtracting 3 from all numbers",
+            "Changing 16 to 18",
+            "Teaching numbers to dance"
+          ],
+          "answer": "Adding 2 then subtracting 2 from same number",
+          "explanation": "Adding then subtracting same amount from one number doesn't change it"
+        },
+        // Question 9.5
+        {
+          "question": "How does doubling each number affect the average of 10, 15, and 20?",
+          "options": [
+            "Doubles the average",
+            "Adds to the average",
+            "No change",
+            "Triples the average",
+            "Makes it super duper big"
+          ],
+          "answer": "Doubles the average",
+          "explanation": "When you multiply all numbers by same value, average is multiplied too"
+        }
+      ]
+    },
+    // Stage 10
+    {
+      "text": "Emma's class is exploring how averages help them understand sales and temperatures. They're solving more complex problems with real-world applications.",
+      "questions": [
+        // Question 10.1
+        {
+          "question": "Store A sold 24 items, Store B sold 30 items, and Store C sold 27 items. What's the average?",
+          "options": ["27", "81", "25", "28", "More than all the stores combined"],
+          "answer": "27",
+          "explanation": "Add items (24+30+27=81) and divide by stores (81÷3=27)"
+        },
+        // Question 10.2
+        {
+          "question": "Six temperatures have an average of 16°. Five temperatures are 14°, 18°, 15°, 19°, and 16°. What's the sixth?",
+          "options": ["14°", "16°", "96°", "18°", "Hot as the sun"],
+          "answer": "14°",
+          "explanation": "Total should be 96 (16×6). Current sum is 82. So, 96-82=14"
+        },
+        // Question 10.3
+        {
+          "question": "The average of five numbers is 20. What happens if you add 2 to each number?",
+          "options": [
+            "Average becomes 22",
+            "Average stays 20",
+            "Average becomes 24",
+            "Average becomes 30",
+            "Average starts dancing"
+          ],
+          "answer": "Average becomes 22",
+          "explanation": "When you add same number to all values, average increases by that number"
+        },
+        // Question 10.4
+        {
+          "question": "If the average of four numbers is 15, and three numbers are 12, 20, and 16, what's the fourth?",
+          "options": ["12", "15", "60", "18", "As big as a dinosaur"],
+          "answer": "12",
+          "explanation": "Total should be 60 (15×4). Current sum is 48. So, 60-48=12"
+        },
+        // Question 10.5
+        {
+          "question": "Which strategy helps find the missing number when you know the average?",
+          "options": [
+            "Multiply average by count, then subtract known numbers",
+            "Add all known numbers",
+            "Pick the middle number",
+            "Use the average as answer",
+            "Ask a friendly calculator"
+          ],
+          "answer": "Multiply average by count, then subtract known numbers",
+          "explanation": "Find total first, then subtract known numbers to find missing one"
+        }
+      ]
+    },
+    // Stage 11
+    {
+      "text": "Sofia's class is exploring how averages help them understand weekly lunch costs and test scores. They're working with money and larger groups of numbers.",
+      "questions": [
+        // Question 11.1
+        {
+          "question": "Lunch costs were $5, $7, $6, and $6. What's the average cost?",
+          "options": ["$6", "$24", "$5", "$7", "A million dollars"],
+          "answer": "$6",
+          "explanation": "Add costs (5+7+6+6=24) and divide by days (24÷4=6)"
+        },
+        // Question 11.2
+        {
+          "question": "The average of six test scores is 85. What's the total of all scores?",
+          "options": ["510", "85", "170", "425", "More than a calculator can show"],
+          "answer": "510",
+          "explanation": "Multiply average by number of tests (85×6=510)"
+        },
+        // Question 11.3
+        {
+          "question": "If you know the average is 12 and there are 5 numbers, how do you find their total?",
+          "options": [
+            "Multiply 12 by 5",
+            "Add 12 five times",
+            "Divide 12 by 5",
+            "Add 5 to 12",
+            "Ask the numbers nicely"
+          ],
+          "answer": "Multiply 12 by 5",
+          "explanation": "Multiply average by how many numbers to find total (12×5=60)"
+        },
+        // Question 11.4
+        {
+          "question": "The average of 15, 25, and another number is 20. What's the missing number?",
+          "options": ["20", "60", "15", "25", "Whatever makes you smile"],
+          "answer": "20",
+          "explanation": "Total should be 60 (20×3). Current sum is 40. So, 60-40=20"
+        },
+        // Question 11.5
+        {
+          "question": "Which set of numbers would make the largest average?",
+          "options": [
+            "25, 30, 35",
+            "10, 15, 20",
+            "5, 10, 15",
+            "15, 20, 25",
+            "Tiny, small, medium"
+          ],
+          "answer": "25, 30, 35",
+          "explanation": "This set has the largest numbers, so it will have the largest average"
+        }
+      ]
+    },
+    // Stage 12
+    {
+      "text": "Marcus's class is learning how averages help them understand daily exercise minutes and weekly savings. They're discovering patterns in averages.",
+      "questions": [
+        // Question 12.1
+        {
+          "question": "Exercise times were 25, 35, and 30 minutes. What's the average?",
+          "options": ["30", "90", "25", "35", "Until you're super tired"],
+          "answer": "30",
+          "explanation": "Add times (25+35+30=90) and divide by days (90÷3=30)"
+        },
+        // Question 12.2
+        {
+          "question": "The average of four numbers is 25. Three numbers are 20, 30, and 28. What's the fourth?",
+          "options": ["22", "25", "100", "24", "As high as clouds"],
+          "answer": "22",
+          "explanation": "Total should be 100 (25×4). Current sum is 78. So, 100-78=22"
+        },
+        // Question 12.3
+        {
+          "question": "What happens to the average if you add the same number to each value?",
+          "options": [
+            "Average increases by that number",
+            "Average stays the same",
+            "Average doubles",
+            "Average decreases",
+            "Average goes on vacation"
+          ],
+          "answer": "Average increases by that number",
+          "explanation": "Adding same number to all values increases average by that number"
+        },
+        // Question 12.4
+        {
+          "question": "Five savings amounts average $8. What's the total saved?",
+          "options": ["$40", "$8", "$16", "$32", "More than a piggy bank can hold"],
+          "answer": "$40",
+          "explanation": "Multiply average by number of amounts (8×5=40)"
+        },
+        // Question 12.5
+        {
+          "question": "Which change would make the average of 20, 25, and 30 smaller?",
+          "options": [
+            "Change 30 to 24",
+            "Change 20 to 22",
+            "Change 25 to 28",
+            "Add 2 to each",
+            "Give them ice cream"
+          ],
+          "answer": "Change 30 to 24",
+          "explanation": "Changing a number to a smaller number decreases the average"
+        }
+      ]
+    },
+    // Stage 13
+    {
+      "text": "Hannah's class is exploring how averages help them understand class sizes and game points. They're working with more complex scenarios.",
+      "questions": [
+        // Question 13.1
+        {
+          "question": "Classes have 22, 26, and 24 students. What's the average class size?",
+          "options": ["24", "72", "23", "25", "As many as stars in the sky"],
+          "answer": "24",
+          "explanation": "Add students (22+26+24=72) and divide by classes (72÷3=24)"
+        },
+        // Question 13.2
+        {
+          "question": "If five numbers average 15, and you know four numbers (12, 18, 14, 16), what's the fifth?",
+          "options": ["15", "75", "20", "25", "Whatever makes math happy"],
+          "answer": "15",
+          "explanation": "Total should be 75 (15×5). Current sum is 60. So, 75-60=15"
+        },
+        // Question 13.3
+        {
+          "question": "What's true about the average of 18, 22, and 26?",
+          "options": [
+            "It's between 18 and 26",
+            "It's more than 26",
+            "It's less than 18",
+            "It equals 18",
+            "It's playing hide and seek"
+          ],
+          "answer": "It's between 18 and 26",
+          "explanation": "An average is always between the smallest and largest numbers"
+        },
+        // Question 13.4
+        {
+          "question": "Game scores were 35, 45, and 40. What would each score be if they were all average?",
+          "options": ["40", "120", "35", "45", "A zillion points"],
+          "answer": "40",
+          "explanation": "Add scores (35+45+40=120) and divide by games (120÷3=40)"
+        },
+        // Question 13.5
+        {
+          "question": "How can you check if your average calculation is reasonable?",
+          "options": [
+            "It should be between highest and lowest numbers",
+            "It should equal the highest number",
+            "It should equal the lowest number",
+            "It should be zero",
+            "Ask a friendly unicorn"
+          ],
+          "answer": "It should be between highest and lowest numbers",
+          "explanation": "An average is always between the smallest and largest values"
+        }
+      ]
+    },
+    // Stage 14
+    {
+      "text": "Tyler's class is discovering how averages help them understand daily steps and homework scores. They're learning to solve more challenging problems.",
+      "questions": [
+        // Question 14.1
+        {
+          "question": "Daily steps were 1000, 1200, and 1100. What's the average?",
+          "options": ["1100", "3300", "1000", "1200", "To the moon and back"],
+          "answer": "1100",
+          "explanation": "Add steps (1000+1200+1100=3300) and divide by days (3300÷3=1100)"
+        },
+        // Question 14.2
+        {
+          "question": "Six homework scores average 85. Five scores are 80, 90, 85, 88, and 87. What's the sixth?",
+          "options": ["80", "85", "510", "90", "Perfect score plus one"],
+          "answer": "80",
+          "explanation": "Total should be 510 (85×6). Current sum is 430. So, 510-430=80"
+        },
+        // Question 14.3
+        {
+          "question": "What happens to the average if you multiply each number by 2?",
+          "options": [
+            "Average doubles",
+            "Average stays same",
+            "Average adds 2",
+            "Average halves",
+            "Average does somersaults"
+          ],
+          "answer": "Average doubles",
+          "explanation": "When you multiply all numbers by same value, average is multiplied too"
+        },
+        // Question 14.4
+        {
+          "question": "The average of three numbers is 30. Two numbers are 25 and 40. What's the third?",
+          "options": ["25", "30", "90", "35", "Bigger than a dinosaur"],
+          "answer": "25",
+          "explanation": "Total should be 90 (30×3). Current sum is 65. So, 90-65=25"
+        },
+        // Question 14.5
+        {
+          "question": "Which statement about averages is NOT true?",
+          "options": [
+            "Average is always equal to largest number",
+            "Average can be found by dividing total by count",
+            "Average is between smallest and largest numbers",
+            "Average represents equal sharing",
+            "Average helps understand typical values"
+          ],
+          "answer": "Average is always equal to largest number",
+          "explanation": "Average is typically between the smallest and largest numbers"
+        }
+      ]
+    },
+    // Stage 15
+    {
+      "text": "Rachel's class is learning how averages help them understand weekly reading minutes and basketball scores. They're working with more complex scenarios and patterns.",
+      "questions": [
+        // Question 15.1
+        {
+          "question": "Reading times were 35, 45, and 40 minutes. What's the average?",
+          "options": ["40", "120", "35", "45", "Until the book ends"],
+          "answer": "40",
+          "explanation": "Add times (35+45+40=120) and divide by days (120÷3=40)"
+        },
+        // Question 15.2
+        {
+          "question": "The average of five numbers is 24. Four numbers are 20, 28, 25, and 23. What's the fifth?",
+          "options": ["24", "120", "22", "26", "More than imagination"],
+          "answer": "24",
+          "explanation": "Total should be 120 (24×5). Current sum is 96. So, 120-96=24"
+        },
+        // Question 15.3
+        {
+          "question": "Basketball scores were 28, 32, and 30 points. What does the average tell us?",
+          "options": [
+            "Typical points scored per game",
+            "Total points scored",
+            "Highest score",
+            "Lowest score",
+            "How many high-fives given"
+          ],
+          "answer": "Typical points scored per game",
+          "explanation": "Average represents the typical or representative value"
+        },
+        // Question 15.4
+        {
+          "question": "Which method finds the average of 22, 26, and 24?",
+          "options": [
+            "Add all then divide by 3",
+            "Pick middle number",
+            "Add all numbers",
+            "Pick largest number",
+            "Use magic powers"
+          ],
+          "answer": "Add all then divide by 3",
+          "explanation": "Add numbers (22+26+24=72) then divide by count (72÷3=24)"
+        },
+        // Question 15.5
+        {
+          "question": "What's the best way to check if 25 is the average of 20, 30, and 25?",
+          "options": [
+            "Multiply 25 by 3 and compare to total",
+            "Look at middle number",
+            "Add 3 to each number",
+            "Subtract all numbers",
+            "Ask a friendly mathematician"
+          ],
+          "answer": "Multiply 25 by 3 and compare to total",
+          "explanation": "Multiple average by count (25×3=75) should equal sum of numbers (20+30+25=75)"
+        }
+      ]
+    },
+    // Stage 16
+    {
+      "text": "Olivia's class is exploring how averages help them understand science experiment measurements and swimming pool temperatures. They're working with decimal numbers and temperature readings.",
+      "questions": [
+        // Question 16.1
+        {
+          "question": "Pool temperatures were 82°, 84°, and 86°. What's the average temperature?",
+          "options": ["84°", "252°", "83°", "85°", "Hot as lava"],
+          "answer": "84°",
+          "explanation": "Add temperatures (82+84+86=252) and divide by count (252÷3=84)"
+        },
+        // Question 16.2
+        {
+          "question": "The average of four measurements is 15. Three measurements are 12, 18, and 16. What's the fourth?",
+          "options": ["14", "15", "60", "20", "Bigger than a yardstick"],
+          "answer": "14",
+          "explanation": "Total should be 60 (15×4). Current sum is 46. So, 60-46=14"
+        },
+        // Question 16.3
+        {
+          "question": "What happens to the average of 30, 40, and 50 if you subtract 10 from each?",
+          "options": [
+            "Decreases by 10",
+            "Stays the same",
+            "Increases by 10",
+            "Becomes zero",
+            "Takes a nap"
+          ],
+          "answer": "Decreases by 10",
+          "explanation": "When you subtract same number from all values, average decreases by that number"
+        },
+        // Question 16.4
+        {
+          "question": "Five students scored an average of 90. What's their total score?",
+          "options": ["450", "90", "180", "360", "Infinite points"],
+          "answer": "450",
+          "explanation": "Multiply average by number of students (90×5=450)"
+        },
+        // Question 16.5
+        {
+          "question": "Which statement helps check if an average is reasonable?",
+          "options": [
+            "It should be near the middle of all numbers",
+            "It should be the biggest number",
+            "It should be the smallest number",
+            "It should be zero",
+            "It should make you happy"
+          ],
+          "answer": "It should be near the middle of all numbers",
+          "explanation": "A reasonable average is typically near the middle of the data set"
+        }
+      ]
+    },
+    // Stage 17
+    {
+      "text": "Justin's class is discovering how averages help them understand weekly rainfall measurements and computer game scores. They're working with decimals and larger numbers.",
+      "questions": [
+        // Question 17.1
+        {
+          "question": "Rainfall amounts were 1.5, 2.5, and 2.0 inches. What's the average?",
+          "options": ["2.0", "6.0", "1.5", "2.5", "Enough to float away"],
+          "answer": "2.0",
+          "explanation": "Add amounts (1.5+2.5+2.0=6.0) and divide by count (6.0÷3=2.0)"
+        },
+        // Question 17.2
+        {
+          "question": "The average of six game scores is 95. Five scores are 90, 100, 95, 98, and 92. What's the sixth?",
+          "options": ["95", "570", "100", "90", "Over nine thousand"],
+          "answer": "95",
+          "explanation": "Total should be 570 (95×6). Current sum is 475. So, 570-475=95"
+        },
+        // Question 17.3
+        {
+          "question": "Four numbers average 50. Three numbers are 45, 55, and 52. What's the fourth?",
+          "options": ["48", "50", "200", "60", "As big as space"],
+          "answer": "48",
+          "explanation": "Total should be 200 (50×4). Current sum is 152. So, 200-152=48"
+        },
+        // Question 17.4
+        {
+          "question": "How does dividing each number by 2 affect the average of 20, 30, and 40?",
+          "options": [
+            "Cuts average in half",
+            "Doubles average",
+            "No change",
+            "Adds 2",
+            "Makes it disappear"
+          ],
+          "answer": "Cuts average in half",
+          "explanation": "When you divide all numbers by same value, average is divided too"
+        },
+        // Question 17.5
+        {
+          "question": "Which method is best for finding the missing number in an average?",
+          "options": [
+            "Multiply average by count, subtract known numbers",
+            "Add all known numbers",
+            "Use the average as answer",
+            "Pick middle number",
+            "Ask a crystal ball"
+          ],
+          "answer": "Multiply average by count, subtract known numbers",
+          "explanation": "Find total first (average × count), then subtract known values"
+        }
+      ]
+    },
+    // Stage 18
+    {
+      "text": "Isabel's class is learning how averages help them understand daily temperatures and test scores. They're working with more complex scenarios and relationships.",
+      "questions": [
+        // Question 18.1
+        {
+          "question": "Temperatures were 65°, 75°, and 70°. What's the average?",
+          "options": ["70°", "210°", "65°", "75°", "Hotter than the sun"],
+          "answer": "70°",
+          "explanation": "Add temperatures (65+75+70=210) and divide by count (210÷3=70)"
+        },
+        // Question 18.2
+        {
+          "question": "Five test scores average 88. Four scores are 85, 90, 87, and 92. What's the fifth?",
+          "options": ["86", "88", "440", "91", "Perfect plus extra credit"],
+          "answer": "86",
+          "explanation": "Total should be 440 (88×5). Current sum is 354. So, 440-354=86"
+        },
+        // Question 18.3
+        {
+          "question": "What's special about the average of 40, 50, and 60?",
+          "options": [
+            "It equals the middle number",
+            "It equals the largest number",
+            "It equals the smallest number",
+            "It equals zero",
+            "It knows magic tricks"
+          ],
+          "answer": "It equals the middle number",
+          "explanation": "When numbers are evenly spaced, average equals middle number"
+        },
+        // Question 18.4
+        {
+          "question": "The average of three numbers is 45. Two numbers are 40 and 55. What's the third?",
+          "options": ["40", "45", "135", "50", "A million billion"],
+          "answer": "40",
+          "explanation": "Total should be 135 (45×3). Current sum is 95. So, 135-95=40"
+        },
+        // Question 18.5
+        {
+          "question": "Which change would keep the average of 30, 40, and 50 the same?",
+          "options": [
+            "Add 5 to one number, subtract 5 from another",
+            "Add 5 to all numbers",
+            "Subtract 5 from all numbers",
+            "Double all numbers",
+            "Send numbers on vacation"
+          ],
+          "answer": "Add 5 to one number, subtract 5 from another",
+          "explanation": "Adding and subtracting same amount from different numbers balances out"
+        }
+      ]
+    },
+    // Stage 19
+    {
+      "text": "Nathan's class is exploring how averages help them understand science experiment results and basketball free throw scores. They're discovering patterns in averages.",
+      "questions": [
+        // Question 19.1
+        {
+          "question": "Free throw scores were 7, 9, and 8 out of 10. What's the average?",
+          "options": ["8", "24", "7", "9", "More than possible"],
+          "answer": "8",
+          "explanation": "Add scores (7+9+8=24) and divide by count (24÷3=8)"
+        },
+        // Question 19.2
+        {
+          "question": "Six numbers average 75. Five numbers are 70, 80, 75, 78, and 72. What's the sixth?",
+          "options": ["75", "450", "80", "70", "Higher than clouds"],
+          "answer": "75",
+          "explanation": "Total should be 450 (75×6). Current sum is 375. So, 450-375=75"
+        },
+        // Question 19.3
+        {
+          "question": "What's true about the average of 60, 70, and 80?",
+          "options": [
+            "It's 70 because numbers are evenly spaced",
+            "It must be 60",
+            "It must be 80",
+            "It can't be calculated",
+            "It's playing hide and seek"
+          ],
+          "answer": "It's 70 because numbers are evenly spaced",
+          "explanation": "When numbers are evenly spaced, middle number is average"
+        },
+        // Question 19.4
+        {
+          "question": "How can you make the average of 40, 50, and 60 increase by 5?",
+          "options": [
+            "Add 5 to each number",
+            "Add 5 to one number",
+            "Subtract 5 from each",
+            "Double all numbers",
+            "Give them super powers"
+          ],
+          "answer": "Add 5 to each number",
+          "explanation": "Adding same number to all values increases average by that number"
+        },
+        // Question 19.5
+        {
+          "question": "Which statement about finding averages is most helpful?",
+          "options": [
+            "Total divided by count equals average",
+            "Always use largest number",
+            "Always use smallest number",
+            "Pick any number",
+            "Ask a friendly robot"
+          ],
+          "answer": "Total divided by count equals average",
+          "explanation": "This is the fundamental rule for calculating averages"
+        }
+      ]
+    },
+    // Stage 20
+    {
+      "text": "Sophia's class is reviewing everything they've learned about averages through real-world problems. They're putting all their knowledge together.",
+      "questions": [
+        // Question 20.1
+        {
+          "question": "Monthly savings were $45, $55, and $50. What's the average?",
+          "options": ["$50", "$150", "$45", "$55", "All the money in the world"],
+          "answer": "$50",
+          "explanation": "Add savings (45+55+50=150) and divide by months (150÷3=50)"
+        },
+        // Question 20.2
+        {
+          "question": "Four test scores average 85. Three scores are 80, 90, and 85. What's the fourth?",
+          "options": ["85", "340", "90", "80", "Perfect times infinity"],
+          "answer": "85",
+          "explanation": "Total should be 340 (85×4). Current sum is 255. So, 340-255=85"
+        },
+        // Question 20.3
+        {
+          "question": "What happens to the average if you add 10 to one number but subtract 10 from another?",
+          "options": [
+            "Stays the same",
+            "Increases by 10",
+            "Decreases by 10",
+            "Changes unpredictably",
+            "Goes on an adventure"
+          ],
+          "answer": "Stays the same",
+          "explanation": "Adding and subtracting same amount balances out, average stays same"
+        },
+        // Question 20.4
+        {
+          "question": "The average of 65, 75, and another number is 70. What's the missing number?",
+          "options": ["70", "210", "75", "65", "Bigger than a skyscraper"],
+          "answer": "70",
+          "explanation": "Total should be 210 (70×3). Current sum is 140. So, 210-140=70"
+        },
+        // Question 20.5
+        {
+          "question": "Which is the best strategy for checking your average calculation?",
+          "options": [
+            "Multiply average by count to match total",
+            "Add all numbers together",
+            "Pick the middle number",
+            "Choose the biggest number",
+            "Ask the numbers if they're happy"
+          ],
+          "answer": "Multiply average by count to match total",
+          "explanation": "This confirms your average works with the original numbers"
+        }
+      ]
+    }
+  
+//-------------------------------------------------------------------------------------------------------------------							
+				  ]
+				}
+        ];
+
+		const stageCount = quizData[0].stages.length; // This is the correct way to get the number of stages
+
+
+		const stateContents = {
+			'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+			,'Subject Overview 🗝️': `<div class="subject-overview-content">   <h1>Interpreting the Meaning of an Average</h1>   <p>An average is a number that represents the middle or typical value of a set of numbers. It helps us understand what is usual or common in a group of numbers. Learning about averages is important because it helps us make sense of data in everyday life, like your grades, the number of pets your friends have, or the scores in a game.</p>   <hr>   <h2>Table of Contents</h2>   <ol>     <li><a href="#what-is-an-average">What is an Average?</a></li>     <li><a href="#why-do-we-use-averages">Why Do We Use Averages?</a></li>     <li><a href="#how-to-calculate-an-average">How to Calculate an Average</a></li>     <li><a href="#examples-of-averages">Examples of Averages</a></li>     <li><a href="#conclusion">Conclusion</a></li>   </ol>   <hr>     <h2 id="what-is-an-average">What is an Average?</h2>   <p>An average is a single number that summarizes a group of numbers. It gives us an idea of what is typical or common in that group. There are different types of averages, but the most common one is the <strong>mean</strong>.</p>     <h2 id="why-do-we-use-averages">Why Do We Use Averages?</h2>   <p>Averages help us:</p>   <ul>     <li>Understand data easily</li>     <li>Compare different sets of numbers</li>     <li>Make decisions based on information</li>   </ul>   <p>For example, knowing the average score of your class can help you see how everyone is doing in a test.</p>   <hr>     <h2 id="how-to-calculate-an-average">How to Calculate an Average</h2>   <p>Calculating an average is simple! Follow these steps:</p>   <ol>     <li>Add up all the numbers in the group.</li>     <li>Count how many numbers are in the group.</li>     <li>Divide the total by the number of numbers.</li>   </ol>   <p>Let’s see an example:</p>     <h3>Example:</h3>   <p>Imagine you have the following test scores: 80, 85, 90, and 95.</p>   <ol>     <li>Add the scores: 80 + 85 + 90 + 95 = 350</li>     <li>Count the scores: There are 4 scores.</li>     <li>Divide the total by the count: 350 ÷ 4 = 87.5</li>   </ol>   <p>The average score is <strong>87.5</strong>.</p>   <hr>     <h2 id="examples-of-averages">Examples of Averages</h2>     <h3>Example 1: Average Number of Pets</h3>   <p>Let’s say your friends have the following number of pets: 1, 2, 2, 3, and 4.</p>   <ol>     <li>Add the numbers: 1 + 2 + 2 + 3 + 4 = 12</li>     <li>Count the numbers: There are 5 friends.</li>     <li>Divide the total by the count: 12 ÷ 5 = 2.4</li>   </ol>   <p>The average number of pets is <strong>2.4</strong>.</p>     <h3>Example 2: Average Score in a Game</h3>   <p>Suppose your game scores over 5 games are: 10, 15, 20, 25, and 30.</p>   <ol>     <li>Add the scores: 10 + 15 + 20 + 25 + 30 = 100</li>     <li>Count the scores: There are 5 games.</li>     <li>Divide the total by the count: 100 ÷ 5 = 20</li>   </ol>   <p>The average score is <strong>20</strong>.</p>   <hr>     <h2 id="conclusion">Conclusion</h2>   <p>Understanding averages helps you make sense of numbers in a simple way. Whether you’re looking at test scores, the number of pets, or game scores, knowing the average gives you a clear picture of what is typical or common. Keep practicing how to calculate and interpret averages, and you’ll find it easier to understand the world around you!</p> </div>`		
+			};
+
+
+		function showExplanations() {
+			// Hide the modal
+			document.getElementById('quizModal').style.display = 'none';
+			
+			// Show all explanation panels
+			document.querySelectorAll('.explanation-panel').forEach(exp => {
+				exp.style.display = 'block';
+			});
+		}
+		
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function isTextEmpty(text) {
+    return !text || text.trim() === "";
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+
+    // Only add stage text if it's not empty
+    const stageText = quizData[0].stages[currentStage].text;
+    if (!isTextEmpty(stageText)) {
+        const stageTextElement = document.createElement("div");
+        stageTextElement.className = "stage-text";
+        stageTextElement.textContent = stageText;
+        quizContainer.appendChild(stageTextElement);
+    }
+
+    // Render questions
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        // Create main question container
+        const questionContainer = document.createElement("div");
+        questionContainer.className = "question";
+        questionContainer.style.padding = "0px"; 
+		
+        // Create question line
+        const questionLine = document.createElement("div");
+        questionLine.className = "question-one-line";
+
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${questionData.question}`;
+
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+
+        // Add default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+		
+        select.appendChild(defaultOption);
+
+        // Add shuffled options
+        const shuffledOptions = shuffleArray([...questionData.options]);
+        shuffledOptions.forEach(option => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+
+        // Assemble question line
+        questionLine.appendChild(label);
+        questionLine.appendChild(resultDiv);
+        questionLine.appendChild(select);
+
+        // Create explanation panel
+        const explanationPanel = document.createElement("div");
+        explanationPanel.className = "explanation-panel";
+        explanationPanel.style.display = "none"; 
+
+        const explanationText = document.createElement("div");
+        explanationText.className = "explanation-panel-text";
+        explanationText.textContent = questionData.explanation;
+
+        explanationPanel.appendChild(explanationText);
+
+        // Assemble full question container
+        questionContainer.appendChild(questionLine);
+        questionContainer.appendChild(explanationPanel);
+
+        quizContainer.appendChild(questionContainer);
+    });
+
+    updateStageNumber();
+}
+
+
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[0].stages[currentStage].questions.length;
+
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        // Check if the selected answer is correct or incorrect
+        if (selectedAnswer === questionData.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect.";
+            resultElement.style.color = "red";
+        }
+
+        // Reveal explanations if the user reaches 10 attempts
+        if (attempts >= 5) {
+            // Reveal the explanation panel
+            const explanationElement = selectElement.closest('.question').querySelector('.explanation-panel');
+            explanationElement.style.display = "block"; // Make the explanation panel visible
+
+            // Modify the explanation text to include the correct answer
+            const explanationText = explanationElement.querySelector('.explanation-panel-text');
+            explanationText.innerHTML = `The correct answer is: <strong>${questionData.answer}</strong>.<br>${questionData.explanation}`;
+        }
+    });
+
+    if (correctCount === totalQuestions) {
+        console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+        addAnimalsToFarm(totalQuestions);
+
+        if (currentStage < quizData[0].stages.length - 1) {
+            singleStageConfetti();
+            showEncouragingPopup(correctCount, totalQuestions, true);
+            // Show both buttons in modal to allow moving to the next stage
+            document.getElementById('modalNextButton').style.display = 'inline-block';
+            document.getElementById('modalExplanationsButton').style.display = 'inline-block';
+        } else {
+            // Last stage completion
+            currentStage++;
+            updateProgressBar();
+            allStagesConfetti();
+            showModal("Congratulations! You've completed all stages!");
+        }
+    } else {
+        // Show the encouraging popup if the stage is not complete
+        showEncouragingPopup(correctCount, totalQuestions, false);
+
+        if (attempts >= 5) {
+            // If the user has reached 5 attempts, notify them about revealing the answers
+            const modalMessage = document.getElementById('modalMessage');
+            modalMessage.textContent = "You've reached the maximum number of attempts. The correct answers have been revealed.";
+            showModal(modalMessage.textContent);
+        }
+    }
+
+    scrollToTop();
+}
+
+
+	
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage;
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+		function updateStageNumber() {
+			const stageElement = document.getElementById("stage-number");
+			stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+		}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+		function showModal(message) {
+			const modal = document.getElementById("quizModal");
+			const modalMessage = document.getElementById("modalMessage");
+			const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+			const nextButton = document.getElementById("modalNextButton");
+			const explanationsButton = document.getElementById("modalExplanationsButton");
+
+			// Set message
+			modalMessage.textContent = message;
+			
+			// Show modal
+			modal.style.display = "block";
+
+			// By default, hide both buttons
+			nextButton.style.display = "none";
+			explanationsButton.style.display = "none";
+
+			// Close handlers
+			modalClose.onclick = function() {
+				modal.style.display = "none";
+			}
+
+			window.onclick = function(event) {
+				if (event.target == modal) {
+					modal.style.display = "none";
+				}
+			}
+		}
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+			
+			 document.getElementById('modalNextButton').addEventListener('click', () => {
+				document.getElementById('quizModal').style.display = 'none';
+				currentStage++;
+				attempts = 0;
+				renderQuiz();
+				document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+				updateProgressBar();
+			});
+			
+			document.getElementById('modalExplanationsButton').addEventListener('click', showExplanations);
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>
