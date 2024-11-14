@@ -1671,45 +1671,83 @@
 																								/* Flashcard styles END */
 																								/* Spinner ENG styles START */			
 		
-		.spinner-container {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			gap: 20px;
-			margin-top: 20px;
-		}
+.spinner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+}
 
-		.spinner {
-			position: relative;
-			width: 80px;
-			height: 80px;
-			display: inline-block;
-		}
+.spinner-layout {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    width: 100%;
+    gap: 10px;
+    margin: 0 20px; /* Margins from panel sides */
+}
 
-		.spinner svg {
-			transform: rotate(-90deg);
-		}
+.spinner-text-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
 
-		.spinner circle {
-			fill: none;
-			stroke-width: 10;
-		}
+.spinner-small-text {
+    height: 25%;
+    color: #fff;
+    font-size: 18px;
+}
 
-		.spinner-background-circle {
-			stroke: rgba(0, 0, 0, 0); /* Fully transparent */
-		}
+.spinner-large-text {
+    height: 75%;
+    color: #fff;
+    font-size: min(5vw, 24px);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
 
-		.spinner-progress-circle {
-			stroke-linecap: round;
-			transition: stroke-dashoffset 0.5s ease;
-		}
+.spinner-circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
 
-		.spinner-text {
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			font-size: 20px;
-			font-weight: 700;
-		}
+.spinner {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    display: inline-block;
+}
+
+.spinner svg {
+    transform: rotate(-90deg);
+}
+
+.spinner-circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.spinner-background-circle {
+    stroke: rgba(0, 0, 0, 0); /* Fully transparent */
+}
+
+.spinner-progress-circle {
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s ease;
+}
+
+.spinner-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    font-weight: 700;
+}
 																								/* Spinner ENG styles END */			
