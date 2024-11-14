@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-heb.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+	<title>✅ EZ42 - זה קל</title>
+</head> 
+<body>  
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+			<div class="logo-container">
+				<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+					<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+				</a>
+			</div>
+                <h2>הוראות</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                    <li>יש לקרוא כל שאלה/משפט בתשומת לב.</li>
+                    <li>בחר/י את התשובה הנכונה ביותר מתוך התפריט הנפתח.</li>
+                    <li>יש ללחוץ על בדיקת תשובות כשמוכנים!</li>
+                    <li>יש להשלים את כל השאלות כדי לעבור לשלב הבא.</li>
+                    <li>לאחר 5 ניסיונות, התשובות הנכונות יוצגו.</li>
+                    <li>שיהיה כיף!</li>
+                </ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->		
+                <h1>יחסים ושיעורי יחידה: מדריך מקיף</h1>
+				
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+
+                <div id="tabContent">
+                    <!--PLACHOLDERFORNEWGAME-START-->
+
+                    <!--PLACHOLDERFORNEWGAME-END-->
+                </div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+            <div id="sidePanel2" class="side-panel">
+                <h2>חוות החיות</h2>
+				<p>החווה שלך גדלה תוך כדי התקדמות! כל שלב מוסיף חיות חדשות לאוסף שלך.</p>
+                <ul id="animalFarm" class="emoji-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+
+    <!-- Modal -->
+    <div id="quizModal" class="modal-quiz">
+        <div class="modal-quiz-content">
+            <span class="modal-quiz-close">&times;</span>
+            <p id="modalMessage"></p>
+            <button id="modalButton" class="modal-quiz-button">אישור</button>
+        </div>
+    </div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+															//  PH3 - Quiz Data 
+        const quizData = [ 												 	
+{
+  "stages": [
+//-------------------------------------------------------------------------------------------------------------------	
+// שלב 1
+{
+  "text": "בכיתתה של המורה לוי, יש 10 בנים ו-15 בנות. הם מתכננים מסיבת כיתה.",
+  "questions": [
+    // שאלה 1.1
+    {
+      "question": "מה היחס בין מספר הבנים למספר הבנות בכיתה?",
+      "options": ["10:15", "15:10", "10:25", "15:25", "25:10"],
+      "answer": "10:15"
+    },
+    // שאלה 1.2
+    {
+      "question": "כמה תלמידים יש בסך הכל?",
+      "options": ["25", "20", "15", "30", "10"],
+      "answer": "25"
+    },
+    // שאלה 1.3
+    {
+      "question": "מה היחס בין מספר הבנים למספר התלמידים הכולל?",
+      "options": ["10:25", "15:25", "25:10", "1:2", "2:1"],
+      "answer": "10:25"
+    },
+    // שאלה 1.4
+    {
+      "question": "מה היחס בין מספר הבנות למספר הבנים?",
+      "options": ["15:10", "10:15", "25:15", "25:10", "15:25"],
+      "answer": "15:10"
+    },
+    // שאלה 1.5
+    {
+      "question": "מה היחס בין מספר הבנות למספר התלמידים הכולל?",
+      "options": ["15:25", "25:15", "10:25", "15:10", "25:10"],
+      "answer": "15:25"
+    }
+  ]
+},
+// שלב 2
+{
+  "text": "בשקית של 12 גולות יש 4 גולות אדומות, 6 גולות כחולות ו-2 גולות ירוקות.",
+  "questions": [
+    // שאלה 2.1
+    {
+      "question": "מה היחס בין מספר הגולות האדומות למספר הגולות הכחולות?",
+      "options": ["4:6", "6:4", "4:2", "6:2", "2:4"],
+      "answer": "4:6"
+    },
+    // שאלה 2.2
+    {
+      "question": "מה היחס בין מספר הגולות הכחולות למספר הגולות הכולל?",
+      "options": ["6:12", "12:6", "4:12", "2:12", "12:2"],
+      "answer": "6:12"
+    },
+    // שאלה 2.3
+    {
+      "question": "מה היחס בין מספר הגולות הירוקות למספר הגולות האדומות?",
+      "options": ["2:4", "4:2", "2:6", "6:2", "4:6"],
+      "answer": "2:4"
+    },
+    // שאלה 2.4
+    {
+      "question": "מה היחס בין מספר הגולות האדומות למספר הגולות הכולל?",
+      "options": ["4:12", "12:4", "6:12", "2:12", "12:2"],
+      "answer": "4:12"
+    },
+    // שאלה 2.5
+    {
+      "question": "מה היחס בין מספר הגולות הירוקות למספר הגולות הכולל?",
+      "options": ["2:12", "12:2", "4:12", "6:12", "12:4"],
+      "answer": "2:12"
+    }
+  ]
+},
+// שלב 3
+{
+  "text": "דני קונה 6 עוגיות ב-₪3. מיה קונה 8 עוגיות ב-₪4.",
+  "questions": [
+    // שאלה 3.1
+    {
+      "question": "כמה עולה עוגייה אחת ברכישה של דני?",
+      "options": ["₪0.50", "₪0.75", "₪1.00", "₪0.25", "₪1.50"],
+      "answer": "₪0.50"
+    },
+    // שאלה 3.2
+    {
+      "question": "כמה עולה עוגייה אחת ברכישה של מיה?",
+      "options": ["₪0.50", "₪0.75", "₪1.00", "₪0.25", "₪1.50"],
+      "answer": "₪0.50"
+    },
+    // שאלה 3.3
+    {
+      "question": "מה היחס בין מספר העוגיות של דני למספר העוגיות של מיה?",
+      "options": ["6:8", "8:6", "3:4", "4:3", "6:4"],
+      "answer": "6:8"
+    },
+    // שאלה 3.4
+    {
+      "question": "מה היחס בין הכסף שדני הוציא לכסף שמיה הוציאה?",
+      "options": ["3:4", "4:3", "6:8", "8:6", "6:4"],
+      "answer": "3:4"
+    },
+    // שאלה 3.5
+    {
+      "question": "כמה עוגיות אפשר לקנות ב-₪6?",
+      "options": ["12", "10", "8", "14", "16"],
+      "answer": "12"
+    }
+  ]
+},
+// שלב 4
+{
+  "text": "ליבי הולכת 3 קילומטרים בשעה. אחיה הולך 2 קילומטרים בשעה.",
+  "questions": [
+    // שאלה 4.1
+    {
+      "question": "מהי מהירות ההליכה של ליבי בקילומטרים לשעה?",
+      "options": ["3", "2", "1", "4", "5"],
+      "answer": "3"
+    },
+    // שאלה 4.2
+    {
+      "question": "מה היחס בין מהירותה של ליבי למהירות של אחיה?",
+      "options": ["3:2", "2:3", "1:2", "2:1", "3:1"],
+      "answer": "3:2"
+    },
+    // שאלה 4.3
+    {
+      "question": "כמה רחוק תלך ליבי ב-2 שעות?",
+      "options": ["6", "4", "5", "3", "7"],
+      "answer": "6"
+    },
+    // שאלה 4.4
+    {
+      "question": "כמה רחוק ילך אחיה ב-3 שעות?",
+      "options": ["6", "4", "5", "3", "7"],
+      "answer": "6"
+    },
+    // שאלה 4.5
+    {
+      "question": "מה ההפרש בקילומטרים בין ליבי לאחיה לאחר שעה אחת?",
+      "options": ["1", "2", "3", "4", "5"],
+      "answer": "1"
+    }
+  ]
+},
+// שלב 5
+{
+  "text": "מתכון משתמש ב-2 כוסות קמח כדי להכין 8 מאפינס. הוא גם משתמש ב-1 כוס חלב.",
+  "questions": [
+    // שאלה 5.1
+    {
+      "question": "כמה כוסות קמח נחוצות למאפין אחד?",
+      "options": ["1/4", "1/2", "1", "2", "3"],
+      "answer": "1/4"
+    },
+    // שאלה 5.2
+    {
+      "question": "מה היחס בין הקמח לחלב במתכון?",
+      "options": ["2:1", "1:2", "8:1", "1:8", "4:1"],
+      "answer": "2:1"
+    },
+    // שאלה 5.3
+    {
+      "question": "כמה כוסות קמח נחוצות ל-16 מאפינס?",
+      "options": ["4", "2", "6", "8", "3"],
+      "answer": "4"
+    },
+    // שאלה 5.4
+    {
+      "question": "כמה כוסות חלב נחוצות ל-24 מאפינס?",
+      "options": ["3", "2", "4", "1", "6"],
+      "answer": "3"
+    },
+    // שאלה 5.5
+    {
+      "question": "מה היחס בין מספר המאפינס למספר כוסות הקמח?",
+      "options": ["8:2", "2:8", "1:4", "4:1", "2:1"],
+      "answer": "8:2"
+    }
+  ]
+},
+// שלב 6
+{
+  "text": "בחנות בית הספר, 3 עפרונות עולים 75 אגורות. 5 מחקים עולים ₪1.",
+  "questions": [
+    // שאלה 6.1
+    {
+      "question": "כמה עולה עפרון אחד?",
+      "options": ["25 אגורות", "20 אגורות", "30 אגורות", "15 אגורות", "35 אגורות"],
+      "answer": "25 אגורות"
+    },
+    // שאלה 6.2
+    {
+      "question": "כמה עולה מחק אחד?",
+      "options": ["20 אגורות", "25 אגורות", "15 אגורות", "30 אגורות", "10 אגורות"],
+      "answer": "20 אגורות"
+    },
+    // שאלה 6.3
+    {
+      "question": "כמה עפרונות אפשר לקנות ב-₪1.50?",
+      "options": ["6", "5", "4", "7", "8"],
+      "answer": "6"
+    },
+    // שאלה 6.4
+    {
+      "question": "מה היחס בין מחיר העפרון למחיר המחק?",
+      "options": ["25:20", "20:25", "3:5", "5:3", "75:100"],
+      "answer": "25:20"
+    },
+    // שאלה 6.5
+    {
+      "question": "כמה יעלו בסך הכל 4 עפרונות ו-2 מחקים?",
+      "options": ["₪1.40", "₪1.20", "₪1.50", "₪1.30", "₪1.60"],
+      "answer": "₪1.40"
+    }
+  ]
+},
+// שלב 7
+{
+  "text": "מפה משתמשת בסולם שבו 1 סנטימטר מייצג 4 קילומטרים. המרחק בין שתי ערים במפה הוא 3 סנטימטרים.",
+  "questions": [
+    // שאלה 7.1
+    {
+      "question": "מהו המרחק האמיתי בין הערים בקילומטרים?",
+      "options": ["12", "8", "16", "10", "14"],
+      "answer": "12"
+    },
+    // שאלה 7.2
+    {
+      "question": "מהו סולם המפה הנכתב כיחס?",
+      "options": ["1:4", "4:1", "1:3", "3:1", "2:4"],
+      "answer": "1:4"
+    },
+    // שאלה 7.3
+    {
+      "question": "כמה סנטימטרים ייצגו 20 קילומטרים?",
+      "options": ["5", "4", "6", "3", "7"],
+      "answer": "5"
+    },
+    // שאלה 7.4
+    {
+      "question": "מה היחס בין הסנטימטרים במפה לקילומטרים האמיתיים בסולם זה?",
+      "options": ["3:12", "12:3", "1:4", "4:1", "2:8"],
+      "answer": "3:12"
+    },
+    // שאלה 7.5
+    {
+      "question": "אם שתי ערים נמצאות במרחק של 16 קילומטרים, כמה סנטימטרים יפרידו ביניהן על המפה?",
+      "options": ["4", "3", "5", "6", "2"],
+      "answer": "4"
+    }
+  ]
+},
+// שלב 8
+{
+  "text": "בסל פירות, היחס בין תפוחים לתפוזים לבננות הוא 3:2:1. ישנם 12 פירות בסך הכל.",
+  "questions": [
+    // שאלה 8.1
+    {
+      "question": "כמה תפוחים יש בסל?",
+      "options": ["6", "4", "3", "5", "2"],
+      "answer": "6"
+    },
+    // שאלה 8.2
+    {
+      "question": "כמה תפוזים יש בסל?",
+      "options": ["4", "6", "3", "5", "2"],
+      "answer": "4"
+    },
+    // שאלה 8.3
+    {
+      "question": "מה היחס בין מספר התפוחים למספר הפירות הכולל?",
+      "options": ["6:12", "4:12", "3:12", "2:12", "1:12"],
+      "answer": "6:12"
+    },
+    // שאלה 8.4
+    {
+      "question": "אם תכפיל את כל הפירות פי שניים, מה יהיה הסכום החדש?",
+      "options": ["24", "18", "20", "22", "26"],
+      "answer": "24"
+    },
+    // שאלה 8.5
+    {
+      "question": "מה היחס בין מספר התפוזים למספר הבננות?",
+      "options": ["2:1", "1:2", "3:1", "1:3", "4:2"],
+      "answer": "2:1"
+    }
+  ]
+},
+// שלב 9
+{
+  "text": "בכיתה של 30 תלמידים נערך מבחן. היחס בין הציונים העוברים לציונים הנכשלים היה 4:1.",
+  "questions": [
+    // שאלה 9.1
+    {
+      "question": "כמה תלמידים עברו את המבחן?",
+      "options": ["24", "20", "22", "26", "28"],
+      "answer": "24"
+    },
+    // שאלה 9.2
+    {
+      "question": "איזה חלק מהכיתה עבר?",
+      "options": ["4/5", "3/4", "2/3", "5/6", "1/2"],
+      "answer": "4/5"
+    },
+    // שאלה 9.3
+    {
+      "question": "כמה תלמידים נכשלו?",
+      "options": ["6", "8", "4", "10", "5"],
+      "answer": "6"
+    },
+    // שאלה 9.4
+    {
+      "question": "אם 10 תלמידים חדשים הצטרפו ושמרו על אותו יחס, כמה יעברו?",
+      "options": ["32", "30", "28", "34", "36"],
+      "answer": "32"
+    },
+    // שאלה 9.5
+    {
+      "question": "מה האחוז של התלמידים שעברו?",
+      "options": ["80%", "75%", "85%", "70%", "90%"],
+      "answer": "80%"
+    }
+  ]
+},
+// שלב 10
+{
+  "text": "מתכון לאגרוף פירות דורש 3 כוסות מיץ ל-2 כוסות סודה. אתה רוצה להכין כמויות שונות של האגרוף.",
+  "questions": [
+    // שאלה 10.1
+    {
+      "question": "כמה כוסות סודה נחוצות ל-9 כוסות מיץ?",
+      "options": ["6", "4", "8", "5", "7"],
+      "answer": "6"
+    },
+    // שאלה 10.2
+    {
+      "question": "מה הכמות הכוללת של האגרוף שמוכן עם 6 כוסות מיץ?",
+      "options": ["10", "8", "12", "14", "9"],
+      "answer": "10"
+    },
+    // שאלה 10.3
+    {
+      "question": "אם אתה רוצה להכין 15 כוסות אגרוף, כמה כוסות מיץ אתה צריך?",
+      "options": ["9", "6", "12", "8", "10"],
+      "answer": "9"
+    },
+    // שאלה 10.4
+    {
+      "question": "מה היחס בין המיץ לאגרוף הכולל?",
+      "options": ["3:5", "2:5", "3:2", "2:3", "5:3"],
+      "answer": "3:5"
+    },
+    // שאלה 10.5
+    {
+      "question": "כמה כוסות מכל מרכיב תצטרך כדי להכין 25 כוסות אגרוף?",
+      "options": ["15 מיץ, 10 סודה", "10 מיץ, 15 סודה", "12 מיץ, 13 סודה", "13 מיץ, 12 סודה", "20 מיץ, 5 סודה"],
+      "answer": "15 מיץ, 10 סודה"
+    }
+  ]
+},
+// שלב 11
+{
+  "text": "שתי מכוניות נוסעות במהירויות שונות. מכונית א' נוסעת 120 קילומטרים ב-2 שעות. מכונית ב' נוסעת 180 קילומטרים ב-3 שעות.",
+  "questions": [
+    // שאלה 11.1
+    {
+      "question": "מהי מהירותה של מכונית א' בקילומטרים לשעה?",
+      "options": ["60", "65", "55", "70", "50"],
+      "answer": "60"
+    },
+    // שאלה 11.2
+    {
+      "question": "מהי מהירותה של מכונית ב' בקילומטרים לשעה?",
+      "options": ["60", "65", "55", "70", "50"],
+      "answer": "60"
+    },
+    // שאלה 11.3
+    {
+      "question": "מה היחס בין זמני הנסיעה של מכונית א' למכונית ב'?",
+      "options": ["2:3", "3:2", "1:2", "2:1", "1:3"],
+      "answer": "2:3"
+    },
+    // שאלה 11.4
+    {
+      "question": "מה היחס בין המרחקים שמכונית א' ומכונית ב' נסעו?",
+      "options": ["2:3", "3:2", "1:2", "2:1", "1:3"],
+      "answer": "2:3"
+    },
+    // שאלה 11.5
+    {
+      "question": "אם שתי המכוניות ימשיכו באותה מהירות, כמה רחוק תיסע מכונית א' ב-6 שעות?",
+      "options": ["360", "300", "320", "340", "380"],
+      "answer": "360"
+    }
+  ]
+},
+// שלב 12
+{
+  "text": "לגינה מלבנית יש אורך של 8 מטרים ורוחב של 6 מטרים. אתה רוצה להכין גינה דומה שהיא גדולה יותר.",
+  "questions": [
+    // שאלה 12.1
+    {
+      "question": "מה היחס בין האורך לרוחב בגינה המקורית?",
+      "options": ["4:3", "3:4", "8:6", "6:8", "2:1"],
+      "answer": "4:3"
+    },
+    // שאלה 12.2
+    {
+      "question": "אם לגינה החדשה יש רוחב של 9 מטרים, מה צריך להיות האורך כדי לשמור על אותו יחס?",
+      "options": ["12", "10", "11", "13", "14"],
+      "answer": "12"
+    },
+    // שאלה 12.3
+    {
+      "question": "מה היחס בין שטח הגינה החדשה לשטח הגינה המקורית?",
+      "options": ["9:4", "4:9", "3:2", "2:3", "1:2"],
+      "answer": "9:4"
+    },
+    // שאלה 12.4
+    {
+      "question": "אם תשלש את ממדי הגינה המקורית, מה יהיה האורך החדש?",
+      "options": ["24", "18", "21", "27", "30"],
+      "answer": "24"
+    },
+    // שאלה 12.5
+    {
+      "question": "מה היחס בין היקף הגינה המשולשת להיקף הגינה המקורית?",
+      "options": ["3:1", "9:1", "1:3", "2:1", "1:2"],
+      "answer": "3:1"
+    }
+  ]
+},
+// שלב 13
+{
+  "text": "בשקית של פיצוחים מעורבים, יש 15 שקדים, 10 קשיו ו-5 פקנים. המחיר של השקית הוא ₪6.",
+  "questions": [
+    // שאלה 13.1
+    {
+      "question": "איזה חלק מהפיצוחים הם שקדים?",
+      "options": ["1/2", "1/3", "2/3", "3/4", "1/4"],
+      "answer": "1/2"
+    },
+    // שאלה 13.2
+    {
+      "question": "מה היחס בין מספר הקשיו למספר הפיצוחים הכולל?",
+      "options": ["10:30", "1:3", "1:2", "2:3", "3:10"],
+      "answer": "10:30"
+    },
+    // שאלה 13.3
+    {
+      "question": "מה העלות לכל פיצוח?",
+      "options": ["20 אגורות", "15 אגורות", "25 אגורות", "30 אגורות", "10 אגורות"],
+      "answer": "20 אגורות"
+    },
+    // שאלה 13.4
+    {
+      "question": "אם אתה רוצה להכין תערובת חדשה עם אותו יחס אבל 60 פיצוחים בסך הכל, כמה קשיו תצטרך?",
+      "options": ["20", "15", "25", "30", "10"],
+      "answer": "20"
+    },
+    // שאלה 13.5
+    {
+      "question": "מה היחס בין מספר השקדים למספר הפקנים?",
+      "options": ["3:1", "1:3", "2:1", "1:2", "4:1"],
+      "answer": "3:1"
+    }
+  ]
+},
+// שלב 14
+{
+  "text": "פיצרייה משתמשת ב-2½ כוסות קמח לכל 1 כוס מים כדי להכין בצק. הם גם משתמשים ב-¾ כוס רוטב לכל פיצה.",
+  "questions": [
+    // שאלה 14.1
+    {
+      "question": "כמה כוסות מים נחוצות ל-10 כוסות קמח?",
+      "options": ["4", "5", "3", "6", "2"],
+      "answer": "4"
+    },
+    // שאלה 14.2
+    {
+      "question": "מה היחס בין הקמח למים?",
+      "options": ["5:2", "2:5", "3:2", "2:3", "4:2"],
+      "answer": "5:2"
+    },
+    // שאלה 14.3
+    {
+      "question": "כמה פיצות ניתן להכין עם 3 כוסות רוטב?",
+      "options": ["4", "3", "5", "2", "6"],
+      "answer": "4"
+    },
+    // שאלה 14.4
+    {
+      "question": "כמה כוסות קמח נחוצות כדי להכין בצק ל-3 פיצות אם כל פיצה צריכה 2½ כוסות?",
+      "options": ["7½", "6½", "8½", "5½", "9½"],
+      "answer": "7½"
+    },
+    // שאלה 14.5
+    {
+      "question": "אם אתה צריך להכין 6 פיצות, כמה כוסות רוטב תצטרך?",
+      "options": ["4½", "3½", "5½", "2½", "6½"],
+      "answer": "4½"
+    }
+  ]
+},
+// שלב 15
+{
+  "text": "ביריד בית הספר, כרטיסים נמכרים בחבילות שונות. חבילה א' היא 15 כרטיסים ב-₪10. חבילה ב' היא 24 כרטיסים ב-₪15.",
+  "questions": [
+    // שאלה 15.1
+    {
+      "question": "מה העלות לכל כרטיס בחבילה א'?",
+      "options": ["₪0.67", "₪0.75", "₪0.50", "₪0.80", "₪0.60"],
+      "answer": "₪0.67"
+    },
+    // שאלה 15.2
+    {
+      "question": "מה העלות לכל כרטיס בחבילה ב'?",
+      "options": ["₪0.63", "₪0.75", "₪0.50", "₪0.80", "₪0.70"],
+      "answer": "₪0.63"
+    },
+    // שאלה 15.3
+    {
+      "question": "איזו חבילה מציעה את הערך הטוב יותר?",
+      "options": ["חבילה ב'", "חבילה א'", "הן זהות", "לא ניתן לקבוע", "אף אחת"],
+      "answer": "חבילה ב'"
+    },
+    // שאלה 15.4
+    {
+      "question": "כמה כרטיסים אתה יכול לקבל עבור ₪30 באמצעות חבילה ב'?",
+      "options": ["48", "45", "50", "40", "55"],
+      "answer": "48"
+    },
+    // שאלה 15.5
+    {
+      "question": "מה היחס בין מספר הכרטיסים לשקלים בחבילה א'?",
+      "options": ["3:2", "2:3", "5:3", "3:5", "4:3"],
+      "answer": "3:2"
+    }
+  ]
+},
+// שלב 16
+{
+  "text": "בלהקת בית הספר יש 40 תלמידים. היחס בין כלי הנשיפה ממתכת לכלי הנשיפה מעץ לכלי ההקשה הוא 4:3:1.",
+  "questions": [
+    // שאלה 16.1
+    {
+      "question": "כמה תלמידים מנגנים בכלי נשיפה ממתכת?",
+      "options": ["20", "15", "10", "25", "30"],
+      "answer": "20"
+    },
+    // שאלה 16.2
+    {
+      "question": "כמה תלמידים מנגנים בכלי נשיפה מעץ?",
+      "options": ["15", "20", "10", "25", "30"],
+      "answer": "15"
+    },
+    // שאלה 16.3
+    {
+      "question": "איזה חלק מהלהקה מנגן בכלי הקשה?",
+      "options": ["1/8", "1/4", "1/6", "1/5", "1/3"],
+      "answer": "1/8"
+    },
+    // שאלה 16.4
+    {
+      "question": "אם הלהקה תגדל ל-80 תלמידים תוך שמירה על אותו יחס, כמה ינגנו בכלי נשיפה מעץ?",
+      "options": ["30", "25", "35", "40", "45"],
+      "answer": "30"
+    },
+    // שאלה 16.5
+    {
+      "question": "מה היחס בין מספר נגני כלי הנשיפה ממתכת למספר נגני כלי ההקשה?",
+      "options": ["4:1", "3:1", "2:1", "5:1", "6:1"],
+      "answer": "4:1"
+    }
+  ]
+},
+// שלב 17
+{
+  "text": "בתערובת צבע, מערבבים 3 חלקים של צבע אדום עם 2 חלקים של צבע צהוב כדי ליצור כתום. אתה גם צריך 1 חלק של צבע לבן כדי להבהיר אותו.",
+  "questions": [
+    // שאלה 17.1
+    {
+      "question": "אם אתה משתמש ב-12 כוסות של צבע אדום, כמה כוסות של צבע צהוב אתה צריך?",
+      "options": ["8", "6", "10", "4", "14"],
+      "answer": "8"
+    },
+    // שאלה 17.2
+    {
+      "question": "כמה כוסות של צבע לבן תצטרך עם 12 כוסות של צבע אדום?",
+      "options": ["4", "6", "8", "2", "10"],
+      "answer": "4"
+    },
+    // שאלה 17.3
+    {
+      "question": "מה היחס בין סך כל הצבעים הצבעוניים (אדום וצהוב) לצבע הלבן?",
+      "options": ["5:1", "3:1", "4:1", "6:1", "2:1"],
+      "answer": "5:1"
+    },
+    // שאלה 17.4
+    {
+      "question": "כמה כוסות צבע בסך הכל נחוצות אם אתה משתמש ב-6 כוסות של צבע צהוב?",
+      "options": ["15", "12", "18", "9", "21"],
+      "answer": "18"
+    },
+    // שאלה 17.5
+    {
+      "question": "איזה חלק מהתערובת הכוללת הוא צבע אדום?",
+      "options": ["1/2", "1/3", "2/3", "3/4", "1/4"],
+      "answer": "1/2"
+    }
+  ]
+},
+// שלב 18
+{
+  "text": "חנות מוכרת מחברות ב-₪2 כל אחת או בחבילות של 5 ב-₪8. יש לך ₪24 להוציא.",
+  "questions": [
+    // שאלה 18.1
+    {
+      "question": "כמה אתה חוסך בקניית 5 מחברות בחבילה במקום בנפרד?",
+      "options": ["₪2", "₪3", "₪4", "₪1", "₪5"],
+      "answer": "₪2"
+    },
+    // שאלה 18.2
+    {
+      "question": "מה העלות לכל מחברת כאשר קונים בחבילה?",
+      "options": ["₪1.60", "₪1.50", "₪1.75", "₪1.80", "₪1.40"],
+      "answer": "₪1.60"
+    },
+    // שאלה 18.3
+    {
+      "question": "כמה מחברות אתה יכול לקבל אם אתה קונה רק חבילות?",
+      "options": ["15", "10", "20", "25", "12"],
+      "answer": "15"
+    },
+    // שאלה 18.4
+    {
+      "question": "מה היחס בין מחיר החבילה למחיר היחיד עבור 5 מחברות?",
+      "options": ["8:10", "4:5", "3:5", "2:5", "1:2"],
+      "answer": "8:10"
+    },
+    // שאלה 18.5
+    {
+      "question": "איזה אחוז אתה חוסך בקניית החבילה במקום מחברות בודדות?",
+      "options": ["20%", "15%", "25%", "30%", "10%"],
+      "answer": "20%"
+    }
+  ]
+},
+// שלב 19
+{
+  "text": "חקלאי שותל ירקות בשורות. על כל 4 שורות של תירס, יש 3 שורות של שעועית ו-2 שורות של אפונים. כל שורה היא באורך 20 מטרים.",
+  "questions": [
+    // שאלה 19.1
+    {
+      "question": "אם יש 36 שורות בסך הכל, כמה מהן הן שורות תירס?",
+      "options": ["16", "12", "18", "14", "20"],
+      "answer": "16"
+    },
+    // שאלה 19.2
+    {
+      "question": "כמה מטרים של שעועית נשתלו בסך הכל?",
+      "options": ["240", "220", "260", "280", "200"],
+      "answer": "240"
+    },
+    // שאלה 19.3
+    {
+      "question": "מה היחס בין שורות התירס למספר השורות הכולל?",
+      "options": ["4:9", "2:9", "3:9", "5:9", "1:3"],
+      "answer": "4:9"
+    },
+    // שאלה 19.4
+    {
+      "question": "אם החקלאי רוצה 24 שורות של תירס, כמה שורות יהיו בסך הכל?",
+      "options": ["54", "48", "60", "45", "51"],
+      "answer": "54"
+    },
+    // שאלה 19.5
+    {
+      "question": "איזה חלק מהשורות הן שורות אפונים?",
+      "options": ["2/9", "1/9", "3/9", "4/9", "5/9"],
+      "answer": "2/9"
+    }
+  ]
+},
+// שלב 20
+{
+  "text": "רוכב אופניים רוכב במשך 2½ שעות במהירות של 12 קמ\"ש, ואז במשך 1½ שעות במהירות של 8 קמ\"ש.",
+  "questions": [
+    // שאלה 20.1
+    {
+      "question": "כמה רחוק רוכב האופניים בחלק הראשון?",
+      "options": ["30", "25", "35", "40", "45"],
+      "answer": "30"
+    },
+    // שאלה 20.2
+    {
+      "question": "כמה רחוק רוכב האופניים בחלק השני?",
+      "options": ["12", "10", "14", "16", "18"],
+      "answer": "12"
+    },
+    // שאלה 20.3
+    {
+      "question": "מה היחס בין המהירות הגבוהה למהירות הנמוכה?",
+      "options": ["3:2", "2:3", "4:3", "3:4", "5:4"],
+      "answer": "3:2"
+    },
+    // שאלה 20.4
+    {
+      "question": "מהי המהירות הממוצעת לכל הרכיבה?",
+      "options": ["10.5", "11", "9.5", "10", "12"],
+      "answer": "10.5"
+    },
+    // שאלה 20.5
+    {
+      "question": "איזה חלק מהזמן הכולל בוזבז במהירות הגבוהה?",
+      "options": ["5/8", "1/2", "3/4", "2/3", "3/8"],
+      "answer": "5/8"
+    }
+  ]
+},
+// שלב 21
+{
+  "text": "בטורניר משחקי וידאו, כספי הפרס מחולקים בין שלושת השחקנים המובילים ביחס של 5:3:2. סך כל כספי הפרס הוא ₪200.",
+  "questions": [
+    // שאלה 21.1
+    {
+      "question": "כמה כסף מקבל המקום הראשון?",
+      "options": ["₪100", "₪80", "₪120", "₪90", "₪110"],
+      "answer": "₪100"
+    },
+    // שאלה 21.2
+    {
+      "question": "איזה חלק מכספי הפרס מקבל המקום השני?",
+      "options": ["3/10", "1/3", "2/5", "1/4", "1/5"],
+      "answer": "3/10"
+    },
+    // שאלה 21.3
+    {
+      "question": "כמה יותר כסף מקבל המקום הראשון מהמקום השלישי?",
+      "options": ["₪60", "₪50", "₪70", "₪80", "₪40"],
+      "answer": "₪60"
+    },
+    // שאלה 21.4
+    {
+      "question": "אם סך כל כספי הפרס הוגדל ל-₪500, כמה יקבל המקום השני?",
+      "options": ["₪150", "₪200", "₪175", "₪125", "₪225"],
+      "answer": "₪150"
+    },
+    // שאלה 21.5
+    {
+      "question": "מה ההפרש בין הפרסים של המקום השני למקום השלישי בסכום המקורי?",
+      "options": ["₪20", "₪30", "₪40", "₪25", "₪35"],
+      "answer": "₪20"
+    }
+  ]
+},
+// שלב 22
+{
+  "text": "חנות מוכרת גולות אדומות וכחולות. שתי שקיות של גולות אדומות עולות ₪5, ושלוש שקיות של גולות כחולות עולות ₪6. בכל שקית יש אותו מספר גולות.",
+  "questions": [
+    // שאלה 22.1
+    {
+      "question": "מה העלות של שקית אחת של גולות אדומות?",
+      "options": ["₪2.50", "₪2.00", "₪3.00", "₪1.50", "₪3.50"],
+      "answer": "₪2.50"
+    },
+    // שאלה 22.2
+    {
+      "question": "מה העלות של שקית אחת של גולות כחולות?",
+      "options": ["₪2.00", "₪2.50", "₪1.50", "₪3.00", "₪1.00"],
+      "answer": "₪2.00"
+    },
+    // שאלה 22.3
+    {
+      "question": "מה היחס בין עלות שקית הגולות האדומות לעלות שקית הגולות הכחולות?",
+      "options": ["5:4", "4:5", "3:2", "2:3", "6:5"],
+      "answer": "5:4"
+    },
+    // שאלה 22.4
+    {
+      "question": "כמה יעלו 4 שקיות של גולות אדומות?",
+      "options": ["₪10.00", "₪8.00", "₪12.00", "₪9.00", "₪11.00"],
+      "answer": "₪10.00"
+    },
+    // שאלה 22.5
+    {
+      "question": "כמה שקיות של גולות כחולות אתה יכול לקנות ב-₪10?",
+      "options": ["5", "4", "6", "3", "7"],
+      "answer": "5"
+    }
+  ]
+},
+// שלב 23
+{
+  "text": "בקופסה של 60 עפרונות צבעוניים, היחס בין צבעי היסוד (אדום, כחול, צהוב) לצבעי המשנה (ירוק, כתום, סגול) לצבעים אחרים הוא 3:2:1.",
+  "questions": [
+    // שאלה 23.1
+    {
+      "question": "כמה עפרונות בצבעי יסוד יש בקופסה?",
+      "options": ["30", "25", "35", "20", "40"],
+      "answer": "30"
+    },
+    // שאלה 23.2
+    {
+      "question": "כמה עפרונות הם בצבעי משנה?",
+      "options": ["20", "15", "25", "30", "10"],
+      "answer": "20"
+    },
+    // שאלה 23.3
+    {
+      "question": "איזה חלק מהעפרונות הם בצבעים אחרים?",
+      "options": ["1/6", "1/3", "1/4", "1/5", "1/2"],
+      "answer": "1/6"
+    },
+    // שאלה 23.4
+    {
+      "question": "אם לכל צבע יסוד יש מספר שווה של עפרונות, כמה עפרונות כחולים יש?",
+      "options": ["10", "15", "5", "20", "8"],
+      "answer": "10"
+    },
+    // שאלה 23.5
+    {
+      "question": "מה היחס בין צבעי היסוד לכל שאר הצבעים?",
+      "options": ["3:3", "1:1", "2:1", "1:2", "3:1"],
+      "answer": "3:3"
+    }
+  ]
+},
+// שלב 24
+{
+  "text": "מתכון דורש תערובת שבה משתמשים ב-1¾ כוסות סוכר עם 2¼ כוסות קמח. אתה רוצה להכין כמויות שונות של תערובת זו.",
+  "questions": [
+    // שאלה 24.1
+    {
+      "question": "אם אתה משתמש ב-3½ כוסות סוכר, כמה כוסות קמח אתה צריך?",
+      "options": ["4½", "3½", "5", "4", "5½"],
+      "answer": "4½"
+    },
+    // שאלה 24.2
+    {
+      "question": "מה היחס בין הסוכר לקמח בצורה הפשוטה ביותר?",
+      "options": ["7:9", "8:9", "6:8", "7:8", "9:7"],
+      "answer": "7:9"
+    },
+    // שאלה 24.3
+    {
+      "question": "כמה כוסות סוכר נחוצות ל-9 כוסות קמח?",
+      "options": ["7", "6", "8", "6½", "7½"],
+      "answer": "7"
+    },
+    // שאלה 24.4
+    {
+      "question": "מהו סך כל כוסות המרכיבים במתכון המקורי?",
+      "options": ["4", "3½", "4½", "3¾", "4¼"],
+      "answer": "4"
+    },
+    // שאלה 24.5
+    {
+      "question": "אם אתה רוצה להכין חצי מהמתכון, כמה כוסות סוכר אתה צריך?",
+      "options": ["⅞", "¾", "1", "1⅛", "1¼"],
+      "answer": "⅞"
+    }
+  ]
+}
+
+//-------------------------------------------------------------------------------------------------------------------	
+   ]
+}
+
+
+        ];
+
+        const stageCount = quizData[0].stages.length; // This is the correct way to get the number of stages
+
+		const stateContents = {
+			'תרגול': `
+				<div id="stage-number" class="stage-number">שלב 1 מתוך ${stageCount}</div>
+				<div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div>
+				<div id="attempts">ניסיונות: 0</div>
+				<div id="quiz-content"></div>
+				<button class="center-button" onclick="checkStage()">בדיקת תשובות</button>
+			`
+			,'לימוד הנושא 🗝️': `<div class="subject-overview-content subject-overview-content_heb">     <h1>יחסים ושיעורי יחידה: מדריך מקיף</h1>     <p>יחסים ושיעורי יחידה הם מושגים יסודיים במתמטיקה המסייעים לנו להשוות כמויות ולהבין את הקשרים ביניהן. יחס משווה בין שתי כמויות או יותר, בעוד ששיעור יחידה מביע את היחס כהשוואה ליחידה אחת של כמות אחרת. מדריך זה נועד לסייע להבין את המושגים הללו דרך הסברים ברורים ודוגמאות מעשיות.</p>    <hr>     <h2 class="highlight_heb">תוכן העניינים</h2>     <ol>         <li><a href="#what-are-ratios" class="highlight_heb">מהם יחסים?</a></li>         <li><a href="#understanding-unit-rates" class="highlight_heb">הבנת שיעורי יחידה</a></li>         <li><a href="#general-characteristics" class="highlight_heb">מאפיינים כלליים של יחסים ושיעורי יחידה</a></li>         <li><a href="#detailed-explanation" class="highlight_heb">הסבר מפורט על יחסים ושיעורי יחידה</a>             <ul>                 <li><a href="#definitions-and-calculations" class="highlight_heb">הגדרות וחישובים</a></li>                 <li><a href="#simplifying-ratios" class="highlight_heb">פישוט יחסים</a></li>                 <li><a href="#finding-unit-rates" class="highlight_heb">מציאת שיעורי יחידה</a></li>             </ul>         </li>         <li><a href="#conclusion" class="highlight_heb">סיכום</a></li>     </ol>     <hr>     <h2 id="what-are-ratios" class="highlight_heb">מהם יחסים?</h2>     <p>יחס הוא השוואה בין שתי כמויות או יותר המציגה את הגודל היחסי של כל כמות. ניתן להשוות כל שתי דברים, כגון מספרים, אורכים, משקלים או מדידות אחרות.</p>     <p>לדוגמה:</p>     <ul>         <li>יש 3 תפוחים ו-2 תפוזים בסל. היחס בין תפוחים לתפוזים הוא 3:2.</li>         <li>היחס בין בנים לבנות בכיתה הוא 4:5.</li>     </ul>     <hr>     <h2 id="understanding-unit-rates" class="highlight_heb">הבנת שיעורי יחידה</h2>     <p>שיעור יחידה הוא סוג מיוחד של יחס המשווה בין שתי כמויות כאשר אחת מהן היא אחד. שיעורי יחידה שימושיים להשוואה בין תרחישים שונים על בסיס משותף.</p>     <p>לדוגמה:</p>     <ul>         <li>אם מכונית נוסעת 150 מייל ב-3 שעות, שיעור היחידה הוא 50 מייל לשעה.</li>         <li>אם 5 תפוחים עולים $10, שיעור היחידה הוא $2 לתפוח.</li>     </ul>     <hr>     <h2 id="general-characteristics" class="highlight_heb">מאפיינים כלליים של יחסים ושיעורי יחידה</h2>     <p>לפני שנעמיק יותר ביחסים ושיעורי יחידה, חשוב להבין כמה כללים כלליים:</p>     <ol>         <li><strong>יחסים שקולים</strong>: יחסים שונים יכולים לבטא את אותה מערכת יחסית. לדוגמה, 2:3 שקול ל-4:6.</li>         <li><strong>פישוט יחסים</strong>: ניתן לפשט יחסים על ידי חלוקת שני האיברים במכנה המשותף הגדול ביותר שלהם.</li>         <li><strong>השוואת יחסים</strong>: ניתן להשוות יחסים על ידי המרתם לשברים או לשיעורי יחידה.</li>         <li><strong>שיעורי יחידה</strong>: תמיד מבטאים אחת מהכמויות ביחס ליחידה אחת מהכמות השנייה.</li>     </ol>     <hr>     <h2 id="detailed-explanation" class="highlight_heb">הסבר מפורט על יחסים ושיעורי יחידה</h2>     <h3 id="definitions-and-calculations" class="highlight_heb">הגדרות וחישובים</h3>     <p><strong>יחס:</strong> יחס נכתב בצורה a:b או a ל-b, כאשר a ו-b הן הכמויות המשוות.</p>     <p><strong>שיעור יחידה:</strong> שיעור יחידה יש מכנה של אחד, מה שמקל על השוואה בין שיעורים שונים.</p>     <p><strong>חישוב יחסים:</strong></p>     <ol>         <li>זהו את הכמויות להשוואה.</li>         <li>רשמו את היחס בצורה הפשוטה ביותר.</li>     </ol>     <p><strong>דוגמה:</strong></p>     <ul>         <li>יש 8 כדורי אדום ו-4 כדורי כחול. היחס בין אדום לכחול הוא 8:4, שמתפשט ל-2:1.</li>     </ul>     <h3 id="simplifying-ratios" class="highlight_heb">פישוט יחסים</h3>     <p>פישוט יחסים כולל הקטנתם ליחסים בעלי מספרים שלמים קטנים יותר על ידי חלוקת שני האיברים במכנה המשותף הגדול ביותר (GCD).</p>     <p><strong>שלבים לפישוט יחס:</strong></p>     <ol>         <li>מצאו את ה-GCD של שני האיברים ביחס.</li>         <li>חלקו את שני האיברים ב-GCD.</li>     </ol>     <p><strong>דוגמה:</strong></p>     <ul>         <li>פשטו את היחס 12:16.</li>         <li>ה-GCD של 12 ו-16 הוא 4.</li>         <li>חלקו את שני האיברים ב-4: 12 ÷ 4 = 3 ו-16 ÷ 4 = 4.</li>         <li>לכן, היחס המפושט הוא 3:4.</li>     </ul>     <h3 id="finding-unit-rates" class="highlight_heb">מציאת שיעורי יחידה</h3>     <p>כדי למצוא שיעור יחידה, חלקו את הכמות הראשונה בשנייה כך שאחת מהכמויות תהפוך לאחד.</p>     <p><strong>שלבים למציאת שיעור יחידה:</strong></p>     <ol>         <li>זהו את שתי הכמויות ביחס.</li>         <li>חלקו את הכמות הראשונה בשנייה כדי לקבל את שיעור היחידה.</li>     </ol>     <p><strong>דוגמה:</strong></p>     <ul>         <li>מתכון משתמש ב-6 כוסות קמח להכנת 12 עוגיות. שיעור היחידה הוא 6 ÷ 12 = 0.5 כוס קמח לעוגייה.</li>         <li>אם מכונית נוסעת 300 מייל ב-5 שעות, שיעור היחידה הוא 300 ÷ 5 = 60 מייל לשעה.</li>     </ul>     <hr>     <h2 id="conclusion" class="highlight_heb">סיכום</h2>     <p>הבנת יחסים ושיעורי יחידה חיונית לפתרון בעיות בעולם האמיתי והשוואה בין כמויות שונות. הנה סיכום קצר:</p>     <ul>         <li><strong>יחס</strong>: השוואה בין שתי כמויות או יותר (למשל, 3:2).</li>         <li><strong>שיעור יחידה</strong>: יחס שבו אחת מהכמויות היא אחד, מה שמקל על ההשוואה (למשל, 50 מייל לשעה).</li>         <li><strong>פישוט יחסים</strong>: הקטנת היחסים לצורה הפשוטה ביותר על ידי חלוקה ב-GCD.</li>         <li><strong>מציאת שיעורי יחידה</strong>: חלוקת אחת מהכמויות בשנייה כדי להביע את היחס ליחידה אחת.</li>     </ul>     <p><strong>זכרו</strong>: תרגול הוא המפתח לשליטה ביחסים ושיעורי יחידה. השתמשו במושגים אלו לניתוח והשוואה של תרחישים שונים, ואל תהססו לחזור למדריך זה בעת הצורך!</p>     <hr>     <p>על ידי הכרות עם יחסים ושיעורי יחידה ושימושם, תשפרו את היכולת המתמטית שלכם ותבינו טוב יותר את היחסים בין כמויות שונות. המשיכו לתרגל וחקור בעיות שונות כדי לחזק את ההבנה שלכם במושגים אלו.</p> </div>`
+		
+		};
+
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'תרגול') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function isTextEmpty(text) {
+    return !text || text.trim() === "";
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+    
+    // Only add stage text if it's not empty
+    const stageText = quizData[0].stages[currentStage].text;
+    if (!isTextEmpty(stageText)) {
+        const stageTextElement = document.createElement("div");
+        stageTextElement.className = "stage-text";
+        stageTextElement.style.marginBottom = "20px";
+        stageTextElement.style.padding = "15px";
+        stageTextElement.style.backgroundColor = "#f5f5f5";
+        stageTextElement.style.borderRadius = "5px";
+        stageTextElement.textContent = stageText;
+        quizContainer.appendChild(stageTextElement);
+    }
+    
+    // Render questions
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const questionElement = document.createElement("div");
+        questionElement.className = "question-one-line";  
+        
+        // Create label for the question text
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${questionData.question}`;
+        
+        // Create div for result feedback
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result";
+        resultDiv.id = `result${index}`;
+        resultDiv.style.marginRight = "5px";  // Adjust spacing
+        
+        // Create select element for answers
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+        select.style.marginLeft = "5px"; // Adjust spacing
+        
+        // Add default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "בחירה"; 
+        select.appendChild(defaultOption);
+        
+        // Shuffle and add answer options
+        const shuffledOptions = shuffleArray([...questionData.options]);
+        shuffledOptions.forEach((option) => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+        
+        // Append elements to questionElement in the desired order
+        questionElement.appendChild(label);
+        questionElement.appendChild(resultDiv); // Feedback before dropdown
+        questionElement.appendChild(select);
+        
+        quizContainer.appendChild(questionElement);
+    });
+
+    updateStageNumber();
+}
+
+
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[0].stages[currentStage].questions.length;
+
+    quizData[0].stages[currentStage].questions.forEach((question, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        if (selectedAnswer === question.answer) {
+            resultElement.textContent = "נכון!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "תשובה לא נכונה.";
+            resultElement.style.color = "red";
+        }
+
+        if (attempts >= 5) {
+            selectElement.value = question.answer;
+            selectElement.disabled = true;
+            resultElement.textContent += ` התשובה הנכונה היא: ${question.answer}`;
+        }
+    });
+
+    if (correctCount === totalQuestions) {
+        console.log(`שלב ${currentStage + 1} הושלם. מוסיף ${totalQuestions} חיות.`);
+        addAnimalsToFarm(totalQuestions);
+
+        if (currentStage < stageCount - 1) {
+            singleStageConfetti();
+            showEncouragingPopup(correctCount, totalQuestions, true);
+            currentStage++;
+            updateProgressBar();
+            setTimeout(() => {
+                attempts = 0;
+                renderQuiz();
+                document.getElementById("attempts").textContent = `ניסיונות: ${attempts}`;
+            }, 1500);
+        } else {
+            currentStage++;
+            updateProgressBar();
+            allStagesConfetti();
+            showModal("כל הכבוד! השלמת את כל השלבים.");
+        }
+    } else {
+        showEncouragingPopup(correctCount, totalQuestions, false);
+        if (attempts >= 5) {
+            showModal("הגעת למספר הניסיונות המקסימלי. התשובות הנכונות נחשפו.");
+        }
+    }
+
+    scrollToTop();
+}
+
+		
+        function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+            const incorrectCount = totalQuestions - correctCount;
+            let message = `קיבלת ${correctCount} נכונות ו-${incorrectCount} שגויות.`;
+            
+            if (correctCount === totalQuestions) {
+                message += " ציון מושלם!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+                message += " עבודה מצוינת! רואים שהנושא מתחיל להיות מובן!";
+            } else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+                message += " מאמץ טוב! נמשיך לתרגל כי השיפור קרוב!";
+            } else {
+                message += " לא לוותר! כל נסיון עוזר לך ללמוד. ננסה שוב!";
+            }
+
+            if (isStageComplete) {
+                message += "\n\n השלב הזה הסתיים, עוברים לשלב הבא.";
+            }
+
+            showModal(message);
+        }
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `נסיונות: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage; // Remove the +1 here
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+        function updateStageNumber() {
+            const stageElement = document.getElementById("stage-number");
+            stageElement.textContent = `שלב ${currentStage + 1} מתוך ${stageCount}`;
+        }
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+        function showModal(message) {
+            const modal = document.getElementById("quizModal");
+            const modalMessage = document.getElementById("modalMessage");
+            const modalButton = document.getElementById("modalButton");
+            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+
+            modalButton.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modalClose.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        // Load the copyright content from the external URL and insert it into the div
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>

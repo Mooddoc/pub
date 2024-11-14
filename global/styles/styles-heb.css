@@ -1705,8 +1705,8 @@
             line-height: 1.6;
         }	
 
-																								/* Explanation Panel styles END*/	
-																								
+																								/* Explanation Panel styles END */	
+																								/* Flashcards styles START */																									
 																								
 		.stage-text {
 			margin-bottom: 20px;
@@ -1715,4 +1715,102 @@
 			border-radius: 5px;
 			font-size: 1em;
 			font-weight: 500;
-		}																							
+		}
+		
+		
+        .flashcard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
+            gap: 10px;
+            padding: 20px;
+            border: 2px solid var(--blue);
+        }
+
+        .flashcard {
+            min-width: 20%;
+            min-height: 14vw;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flip .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            box-sizing: border-box;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .flashcard-back {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-content {
+            font-size: calc(1em + 0.3vw);
+            padding: 20px;
+            z-index: 1;
+        }
+
+        .flashcard-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .flashcard-style-3 .flashcard-front {
+            background: var(--white);
+            border: 2px solid var(--blue);
+            color: var(--blue);
+        }
+        .flashcard-style-3 .flashcard-front::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50%;
+            height: 5px;
+            background: var(--blue);
+            transform: skewX(-45deg);
+            transform-origin: bottom right;
+        }
+        .flashcard-style-3 .flashcard-back {
+            background: var(--orange);
+            color: var(--white);
+        }
+        .flashcard-style-3 .flashcard-back::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 5px;
+            background: var(--blue);
+            transform: skewX(-45deg);
+            transform-origin: top left;
+        }
+
+        @media (max-width: 768px) {
+            .flashcard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        																								/* Flashcards styles END */	

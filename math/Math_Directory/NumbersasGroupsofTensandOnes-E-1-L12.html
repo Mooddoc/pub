@@ -9,10 +9,8 @@
  	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
     <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
     <title>✅ EZ42 LIVE - It's EZ</title>
-	<style>
- 
-	</style>
-</head>
+
+</head> 
 <body>
     <div class="page-container">
         <div class="content-wrapper">
@@ -27,7 +25,7 @@
 			<h2>Instructions & Rules</h2>
 			<ul>
 																		<!--  PH1 - Instructions & Rules   -->	
-                <li>Read each question carefully.</li>
+                <li>Read the text and questions carefully.</li>
                 <li>Select the best answer.</li>
                 <li>Click "Check Answers" when you're ready to see how you did!</li>
                 <li>You can check your answers multiple times to improve your score.</li>
@@ -62,14 +60,15 @@
     </div>
     <div id="copyright-container"></div>
  
-    <!-- Modal -->
-    <div id="quizModal" class="modal-quiz">
-        <div class="modal-quiz-content">
-            <span class="modal-quiz-close">&times;</span>
-            <p id="modalMessage"></p>
-            <button id="modalButton" class="modal-quiz-button">OK</button>
-        </div>
-    </div>
+	<!-- Modal -->
+	<div id="quizModal" class="modal-quiz">
+		<div class="modal-quiz-content">
+			<span class="modal-quiz-close">&times;</span>
+			<p id="modalMessage"></p>  
+			<button id="modalExplanationsButton" class="modal-quiz-button" style="display: none; background-color: #ff7f50;">View Explanations</button>
+			<button id="modalNextButton" class="modal-quiz-button">Next Stage</button>
+		</div>
+	</div>
 	<button id="scrollToTopBtn" title="Go to top">↑</button>
     <script>
         let isQuizExpanded = false;
@@ -80,597 +79,773 @@
 
         const manuallySetDefaultTab = 0;
 
-        const quizData = [ 												//  PH3 - Quiz Data   	
-
-  // Stage 1 - Introduction to counting objects and basic grouping
-  [
-    {
-      question: "Count the apples: 🍎🍎🍎. How many apples are there?",
-      options: ["3", "2", "4", "5", "1"],
-      answer: "3"
-    },
-    {
-      question: "How many stars do you see? ⭐⭐⭐⭐",
-      options: ["4", "3", "5", "6", "2"],
-      answer: "4"
-    },
-    {
-      question: "Count the hearts: ❤️❤️. How many hearts are there?",
-      options: ["2", "3", "1", "4", "5"],
-      answer: "2"
-    },
-    {
-      question: "How many suns can you count? ☀️☀️☀️☀️☀️",
-      options: ["5", "4", "6", "3", "2"],
-      answer: "5"
-    },
-    {
-      question: "Count the moons: 🌙🌙🌙. How many moons are there?",
-      options: ["3", "4", "2", "5", "1"],
-      answer: "3"
-    }
-  ],
-
-  // Stage 2 - Simple grouping with small numbers
-  [
-    {
-      question: "Here are some balls: ⚽⚽⚽⚽⚽ ⚽. How many balls in total?",
-      options: ["6", "5", "7", "4", "8"],
-      answer: "6"
-    },
-    {
-      question: "Count the flowers in groups: 🌸🌸🌸 🌸🌸. Total flowers?",
-      options: ["5", "4", "6", "3", "7"],
-      answer: "5"
-    },
-    {
-      question: "Trees in groups: 🌳🌳 🌳🌳. How many trees?",
-      options: ["4", "3", "5", "2", "6"],
-      answer: "4"
-    },
-    {
-      question: "Count by groups: 🎈🎈 🎈🎈 🎈. Total balloons?",
-      options: ["5", "4", "6", "3", "7"],
-      answer: "5"
-    },
-    {
-      question: "How many in total: 🐶🐶 🐶. Count the dogs.",
-      options: ["3", "4", "2", "5", "1"],
-      answer: "3"
-    }
-  ],
-
-  // Stage 3 - Introduction to tens
-  [
-    {
-      question: "Count the stars: ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐. How many?",
-      options: ["10", "9", "11", "8", "12"],
-      answer: "10"
-    },
-    {
-      question: "Groups of hearts: ❤️❤️❤️❤️❤️ ❤️❤️. Total hearts?",
-      options: ["7", "6", "8", "9", "5"],
-      answer: "7"
-    },
-    {
-      question: "Count by groups: 🎈🎈🎈🎈🎈 🎈🎈🎈. Total balloons?",
-      options: ["8", "7", "9", "6", "10"],
-      answer: "8"
-    },
-    {
-      question: "How many apples: 🍎🍎🍎🍎🍎 🍎🍎🍎🍎. Count them.",
-      options: ["9", "8", "10", "7", "11"],
-      answer: "9"
-    },
-    {
-      question: "Count the total: 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟. How many stars?",
-      options: ["10", "9", "11", "8", "12"],
-      answer: "10"
-    }
-  ],
-
-  // Stage 4 - Identifying tens and ones
-  [
-    {
-      question: "Count groups: 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈. How many ones?",
-      options: ["1", "2", "3", "4", "5"],
-      answer: "1"
-    },
-    {
-      question: "Look: ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐. How many after ten?",
-      options: ["2", "3", "1", "4", "5"],
-      answer: "2"
-    },
-    {
-      question: "Count: 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸🌸. How many ones?",
-      options: ["3", "2", "4", "1", "5"],
-      answer: "3"
-    },
-    {
-      question: "Groups: 🐶🐶🐶🐶🐶 🐶🐶🐶🐶🐶 🐶🐶🐶🐶. Extra after ten?",
-      options: ["4", "3", "5", "2", "6"],
-      answer: "4"
-    },
-    {
-      question: "Count: 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈. How many groups of ten?",
-      options: ["1", "2", "3", "0", "4"],
-      answer: "1"
-    }
-  ],
-
-  // Stage 5 - Working with tens and ones
-  [
-    {
-      question: "Count: 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟. What number is this?",
-      options: ["12", "11", "13", "10", "14"],
-      answer: "12"
-    },
-    {
-      question: "Groups: ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐. Number shown?",
-      options: ["13", "12", "14", "11", "15"],
-      answer: "13"
-    },
-    {
-      question: "Count all: 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈. Total?",
-      options: ["14", "13", "15", "12", "16"],
-      answer: "14"
-    },
-    {
-      question: "How many: 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸?",
-      options: ["15", "14", "16", "13", "17"],
-      answer: "15"
-    },
-    {
-      question: "Count groups of ten and ones: ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️. Total?",
-      options: ["16", "15", "17", "14", "18"],
-      answer: "16"
-    }
-  ],
-  // Stage 6 - Working with larger teen numbers
-  [
-    {
-      question: "Count the flowers: 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸. How many?",
-      options: ["17", "16", "18", "15", "19"],
-      answer: "17"
-    },
-    {
-      question: "How many stars make 1 ten and 8 ones? ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐",
-      options: ["18", "17", "19", "16", "20"],
-      answer: "18"
-    },
-    {
-      question: "Count by tens and ones: 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈. Total?",
-      options: ["19", "18", "20", "17", "21"],
-      answer: "19"
-    },
-    {
-      question: "Make groups of ten: ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️. How many tens?",
-      options: ["2", "1", "3", "4", "0"],
-      answer: "2"
-    },
-    {
-      question: "Count the ones: 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟. How many ones?",
-      options: ["8", "4", "2", "5", "1"],
-      answer: "8"
-    }
-  ],
-
-  // Stage 7 - Understanding place value
-  [
-    {
-      question: "In 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 (20), how many groups of ten?",
-      options: ["2", "1", "3", "4", "0"],
-      answer: "2"
-    },
-    {
-      question: "How many ones in: ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐? (13)",
-      options: ["3", "2", "4", "1", "5"],
-      answer: "3"
-    },
-    {
-      question: "Which number has 1 ten and 5 ones? 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸",
-      options: ["15", "51", "5", "10", "50"],
-      answer: "15"
-    },
-    {
-      question: "Count tens first: 🐶🐶🐶🐶🐶 🐶🐶🐶🐶🐶 🐶🐶🐶🐶🐶 🐶. How many in total?",
-      options: ["16", "15", "17", "14", "18"],
-      answer: "16"
-    },
-    {
-      question: "If you have 2 tens, how many more ❤️ do you need to make 23?",
-      options: ["3", "2", "4", "5", "1"],
-      answer: "3"
-    }
-  ],
-
-  // Stage 8 - Comparing numbers with tens and ones
-  [
-    {
-      question: "Which is more: 1 ten and 5 ones (🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟) or 2 tens?",
-      options: ["20", "15", "Both same", "25", "10"],
-      answer: "20"
-    },
-    {
-      question: "What comes after 19 balls? 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈",
-      options: ["20", "19", "21", "18", "22"],
-      answer: "20"
-    },
-    {
-      question: "How many more to make 2 tens: ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐?",
-      options: ["3", "2", "4", "5", "1"],
-      answer: "3"
-    },
-    {
-      question: "What's 1 ten and 7 ones plus 1 more? 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸 + 🌸",
-      options: ["18", "17", "19", "16", "20"],
-      answer: "18"
-    },
-    {
-      question: "How many tens in 24 stars? ⭐ (twenty-four)",
-      options: ["2", "4", "3", "1", "5"],
-      answer: "2"
-    }
-  ],
-
-  // Stage 9 - Simple addition with tens and ones
-  [
-    {
-      question: "If you have 1 ten (🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈) and add 5 more 🎈, what number do you have?",
-      options: ["15", "11", "14", "16", "10"],
-      answer: "15"
-    },
-    {
-      question: "What's 2 tens plus 3 more hearts? ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ + ❤️❤️❤️",
-      options: ["23", "20", "22", "21", "24"],
-      answer: "23"
-    },
-    {
-      question: "Add 1 ten to 13 stars: ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐ + ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐",
-      options: ["23", "24", "22", "21", "25"],
-      answer: "23"
-    },
-    {
-      question: "What's 16 plus 1 ten? 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟 + 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟",
-      options: ["26", "25", "27", "24", "28"],
-      answer: "26"
-    },
-    {
-      question: "Add 5 to 2 tens: 🐶🐶🐶🐶🐶 🐶🐶🐶🐶🐶 🐶🐶🐶🐶🐶 🐶🐶🐶🐶🐶 + 🐶🐶🐶🐶🐶",
-      options: ["25", "24", "26", "23", "27"],
-      answer: "25"
-    }
-  ],
-
-  // Stage 10 - Mixed operations with tens and ones
-  [
-    {
-      question: "What's 2 tens and 3 ones minus 1 one? 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈 - 🎈",
-      options: ["22", "21", "23", "20", "24"],
-      answer: "22"
-    },
-    {
-      question: "Add 1 ten to 17 flowers: 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸 + 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸",
-      options: ["27", "26", "28", "25", "29"],
-      answer: "27"
-    },
-    {
-      question: "What's 1 less than 2 tens? ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ - ⭐",
-      options: ["19", "18", "20", "17", "21"],
-      answer: "19"
-    },
-    {
-      question: "How many tens in 25 hearts? ❤️ (twenty-five)",
-      options: ["2", "5", "3", "1", "4"],
-      answer: "2"
-    },
-    {
-      question: "What's 3 more than 2 tens? 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 + 🌟🌟🌟",
-      options: ["23", "22", "24", "21", "25"],
-      answer: "23"
-    }
-  ],
-  // Stage 11 - Understanding multiple tens
-  [
-    {
-      question: "How many groups of ten in: 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈?",
-      options: ["2", "3", "4", "5", "1"],
-      answer: "2"
-    },
-    {
-      question: "Count: 3 tens and 2 ones is ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐. Total?",
-      options: ["32", "23", "31", "33", "30"],
-      answer: "32"
-    },
-    {
-      question: "How many ones in 24 flowers? 🌸 (twenty-four)",
-      options: ["4", "2", "14", "24", "40"],
-      answer: "4"
-    },
-    {
-      question: "What number is 2 tens and 8 ones? ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️",
-      options: ["28", "82", "20", "38", "18"],
-      answer: "28"
-    },
-    {
-      question: "Count tens first: 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟. What number?",
-      options: ["26", "25", "27", "24", "28"],
-      answer: "26"
-    }
-  ],
-
-  // Stage 12 - Simple word problems with tens
-  [
-    {
-      question: "I have 2 tens of apples 🍎, and get 5 more 🍎. How many apples now?",
-      options: ["25", "15", "20", "30", "35"],
-      answer: "25"
-    },
-    {
-      question: "There are 3 tens of stars ⭐. How many more to make 34?",
-      options: ["4", "3", "5", "6", "7"],
-      answer: "4"
-    },
-    {
-      question: "You have 27 hearts ❤️. How many tens?",
-      options: ["2", "7", "27", "20", "17"],
-      answer: "2"
-    },
-    {
-      question: "2 tens of balloons 🎈 plus 1 ten equals how many balloons?",
-      options: ["30", "20", "21", "40", "31"],
-      answer: "30"
-    },
-    {
-      question: "I see 35 flowers 🌸. Is this more than 3 tens?",
-      options: ["Yes", "No", "Same", "Can't tell", "Neither"],
-      answer: "Yes"
-    }
-  ],
-
-  // Stage 13 - Comparing larger numbers
-  [
-    {
-      question: "Which is more: 2 tens and 7 ones or 3 tens and 2 ones? 🎈",
-      options: ["32", "27", "Same", "37", "22"],
-      answer: "32"
-    },
-    {
-      question: "Count: ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐. How many?",
-      options: ["33", "32", "34", "31", "35"],
-      answer: "33"
-    },
-    {
-      question: "What comes after 29 hearts? ❤️",
-      options: ["30", "31", "28", "20", "19"],
-      answer: "30"
-    },
-    {
-      question: "Is 35 closer to 3 tens or 4 tens? 🌸",
-      options: ["3 tens", "4 tens", "Same", "Neither", "Can't tell"],
-      answer: "Same"
-    },
-    {
-      question: "Which number has more ones: 24 or 31? 🌟",
-      options: ["31", "24", "Same", "Neither", "Can't tell"],
-      answer: "24"
-    }
-  ],
-
-  // Stage 14 - Simple addition with larger numbers
-  [
-    {
-      question: "Add 1 ten to 25 balloons: 🎈🎈🎈🎈🎈 ... 🎈🎈🎈🎈🎈 + 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈",
-      options: ["35", "26", "45", "15", "25"],
-      answer: "35"
-    },
-    {
-      question: "What's 2 tens and 6 ones plus 2 more? ⭐",
-      options: ["28", "26", "27", "29", "25"],
-      answer: "28"
-    },
-    {
-      question: "Add 3 tens and 4 ones: 3️⃣0️⃣ + 4️⃣ = ?",
-      options: ["34", "43", "31", "33", "44"],
-      answer: "34"
-    },
-    {
-      question: "What's 27 plus 1 ten? 🌸",
-      options: ["37", "28", "17", "47", "26"],
-      answer: "37"
-    },
-    {
-      question: "How many is 2 tens plus 2 tens plus 5? ❤️",
-      options: ["45", "25", "40", "35", "50"],
-      answer: "45"
-    }
-  ],
-
-  // Stage 15 - Missing numbers and patterns
-  [
-    {
-      question: "Fill the missing number: 25, 26, __, 28, 29 🎈",
-      options: ["27", "24", "30", "31", "25"],
-      answer: "27"
-    },
-    {
-      question: "What comes between 3 tens and 32? ⭐",
-      options: ["31", "29", "33", "30", "34"],
-      answer: "31"
-    },
-    {
-      question: "Complete: 15, 25, 35, __ 🌸",
-      options: ["45", "40", "30", "50", "55"],
-      answer: "45"
-    },
-    {
-      question: "Pattern: 22, 24, 26, __, 30 ❤️",
-      options: ["28", "27", "29", "25", "31"],
-      answer: "28"
-    },
-    {
-      question: "What's missing: 2 tens, 21, __, 23, 24 🌟",
-      options: ["22", "20", "25", "19", "26"],
-      answer: "22"
-    }
-  ],
-  // Stage 16 - Simple subtraction with tens
-  [
-    {
-      question: "If you have 3 tens (🎈🎈🎈🎈🎈...🎈🎈🎈🎈🎈) and remove 1 ten, how many balloons left?",
-      options: ["20", "30", "10", "40", "25"],
-      answer: "20"
-    },
-    {
-      question: "Start with 25 stars ⭐. Take away 5. How many left?",
-      options: ["20", "15", "25", "30", "19"],
-      answer: "20"
-    },
-    {
-      question: "What's 34 hearts ❤️ minus 1 ten?",
-      options: ["24", "33", "23", "14", "44"],
-      answer: "24"
-    },
-    {
-      question: "Take 2 away from 28 flowers 🌸. What number now?",
-      options: ["26", "27", "25", "24", "29"],
-      answer: "26"
-    },
-    {
-      question: "3 tens minus 1 ten equals how many stars? ⭐",
-      options: ["20", "10", "30", "40", "25"],
-      answer: "20"
-    }
-  ],
-
-  // Stage 17 - Word problems with subtraction
-  [
-    {
-      question: "I had 25 balloons 🎈. 5 flew away. How many left?",
-      options: ["20", "15", "25", "30", "10"],
-      answer: "20"
-    },
-    {
-      question: "There were 34 stars ⭐. 4 disappeared. Now there are...",
-      options: ["30", "29", "31", "24", "34"],
-      answer: "30"
-    },
-    {
-      question: "Start with 3 tens of hearts ❤️. Give away 1 ten. Left with?",
-      options: ["20", "30", "10", "40", "25"],
-      answer: "20"
-    },
-    {
-      question: "Had 27 flowers 🌸. Lost 7. How many remain?",
-      options: ["20", "21", "19", "17", "26"],
-      answer: "20"
-    },
-    {
-      question: "38 stars ⭐ minus 8 equals?",
-      options: ["30", "31", "29", "28", "40"],
-      answer: "30"
-    }
-  ],
-
-  // Stage 18 - Mixed operations with word problems
-  [
-    {
-      question: "2 tens of balloons 🎈 plus 5, then take away 3. How many?",
-      options: ["22", "25", "20", "23", "21"],
-      answer: "22"
-    },
-    {
-      question: "Start with 15 stars ⭐, add 1 ten, then remove 2. Total now?",
-      options: ["23", "25", "13", "24", "22"],
-      answer: "23"
-    },
-    {
-      question: "Had 3 tens of hearts ❤️, lost 1 ten, got 5 more. How many?",
-      options: ["25", "20", "35", "15", "30"],
-      answer: "25"
-    },
-    {
-      question: "4 tens of flowers 🌸 minus 1 ten, plus 3. Total?",
-      options: ["33", "43", "23", "30", "13"],
-      answer: "33"
-    },
-    {
-      question: "26 stars ⭐, take away 6, add 1 ten. Now have?",
-      options: ["30", "20", "36", "40", "16"],
-      answer: "30"
-    }
-  ],
-
-  // Stage 19 - Complex patterns and sequences
-  [
-    {
-      question: "Complete: 20, 22, 24, __, 28, 30 🎈",
-      options: ["26", "25", "23", "27", "29"],
-      answer: "26"
-    },
-    {
-      question: "Pattern: 15, 25, 35, __, 55 ⭐",
-      options: ["45", "40", "50", "30", "20"],
-      answer: "45"
-    },
-    {
-      question: "Fill in: 33, 30, 27, __, 21 ❤️",
-      options: ["24", "23", "25", "26", "22"],
-      answer: "24"
-    },
-    {
-      question: "What's next: 18, 20, 22, 24, __ 🌸",
-      options: ["26", "25", "23", "27", "28"],
-      answer: "26"
-    },
-    {
-      question: "Complete: 40, 35, 30, __, 20 ⭐",
-      options: ["25", "24", "26", "15", "35"],
-      answer: "25"
-    }
-  ],
-
-  // Stage 20 - Multi-step word problems
-  [
-    {
-      question: "I have 2 tens of balloons 🎈. Got 1 ten more, then 5 flew away. Total now?",
-      options: ["25", "30", "20", "35", "15"],
-      answer: "25"
-    },
-    {
-      question: "Started with 15 stars ⭐, doubled them, then added 5. How many?",
-      options: ["35", "30", "25", "40", "20"],
-      answer: "35"
-    },
-    {
-      question: "Had 40 hearts ❤️, gave half away, then got 5 more. Total?",
-      options: ["25", "20", "30", "35", "15"],
-      answer: "25"
-    },
-    {
-      question: "3 tens of flowers 🌸, lost 1 ten, found 7 more. How many now?",
-      options: ["27", "37", "17", "47", "20"],
-      answer: "27"
-    },
-    {
-      question: "Start with 24 stars ⭐, add 1 ten, take away 4. Left with?",
-      options: ["30", "34", "20", "40", "14"],
-      answer: "30"
+																		//  PH3 - Quiz Data 
+        const quizData = [ 												   	
+				{
+				  "stages": [
+//-------------------------------------------------------------------------------------------------------------------				  
+// Stage 1 - Introduction to counting objects and basic grouping
+{
+  "text": "Introduction to counting objects and basic grouping. Learning to count small sets of items and group them together.",
+  "questions": [
+    {
+      "question": "Count the apples: 🍎🍎🍎. How many apples are there?",
+      "options": ["3", "2", "4", "5", "1"],
+      "answer": "3",
+      "explanation": "There are 3 apples, as shown by the three apple emojis."
+    },
+    {
+      "question": "How many stars do you see? ⭐⭐⭐⭐",
+      "options": ["4", "3", "5", "6", "2"],
+      "answer": "4",
+      "explanation": "There are 4 stars, as indicated by the four star emojis."
+    },
+    {
+      "question": "Count the hearts: ❤️❤️. How many hearts are there?",
+      "options": ["2", "3", "1", "4", "5"],
+      "answer": "2",
+      "explanation": "There are 2 hearts, represented by two heart emojis."
+    },
+    {
+      "question": "How many suns can you count? ☀️☀️☀️☀️☀️",
+      "options": ["5", "4", "6", "3", "2"],
+      "answer": "5",
+      "explanation": "There are 5 suns, as represented by the five sun emojis."
+    },
+    {
+      "question": "Count the moons: 🌙🌙🌙. How many moons are there?",
+      "options": ["3", "4", "2", "5", "1"],
+      "answer": "3",
+      "explanation": "There are 3 moons, as indicated by the three moon emojis."
     }
   ]
+},
+
+// Stage 2 - Simple grouping with small numbers
+{
+  "text": "Simple grouping with small numbers. Learn to count items that are grouped together in smaller sets.",
+  "questions": [
+    {
+      "question": "Here are some balls: ⚽⚽⚽⚽⚽ ⚽. How many balls in total?",
+      "options": ["6", "5", "7", "4", "8"],
+      "answer": "6",
+      "explanation": "There are 6 balls in total, represented by six ball emojis."
+    },
+    {
+      "question": "Count the flowers in groups: 🌸🌸🌸 🌸🌸. Total flowers?",
+      "options": ["5", "4", "6", "3", "7"],
+      "answer": "5",
+      "explanation": "There are 5 flowers, grouped as three and two flowers."
+    },
+    {
+      "question": "Trees in groups: 🌳🌳 🌳🌳. How many trees?",
+      "options": ["4", "3", "5", "2", "6"],
+      "answer": "4",
+      "explanation": "There are 4 trees, grouped as two sets of two trees."
+    },
+    {
+      "question": "Count by groups: 🎈🎈 🎈🎈 🎈. Total balloons?",
+      "options": ["5", "4", "6", "3", "7"],
+      "answer": "5",
+      "explanation": "There are 5 balloons, grouped as three sets of two and one."
+    },
+    {
+      "question": "How many in total: 🐶🐶 🐶. Count the dogs.",
+      "options": ["3", "4", "2", "5", "1"],
+      "answer": "3",
+      "explanation": "There are 3 dogs, as represented by the three dog emojis."
+    }
+  ]
+},
+
+// Stage 3 - Introduction to tens
+{
+  "text": "Introduction to tens. Learn to count items grouped into tens.",
+  "questions": [
+    {
+      "question": "Count the stars: ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐. How many?",
+      "options": ["10", "9", "11", "8", "12"],
+      "answer": "10",
+      "explanation": "There are 10 stars, grouped into two sets of five."
+    },
+    {
+      "question": "Groups of hearts: ❤️❤️❤️❤️❤️ ❤️❤️. Total hearts?",
+      "options": ["7", "6", "8", "9", "5"],
+      "answer": "7",
+      "explanation": "There are 7 hearts, grouped as five and two hearts."
+    },
+    {
+      "question": "Count by groups: 🎈🎈🎈🎈🎈 🎈🎈🎈. Total balloons?",
+      "options": ["8", "7", "9", "6", "10"],
+      "answer": "8",
+      "explanation": "There are 8 balloons, grouped as five and three."
+    },
+    {
+      "question": "How many apples: 🍎🍎🍎🍎🍎 🍎🍎🍎🍎. Count them.",
+      "options": ["9", "8", "10", "7", "11"],
+      "answer": "9",
+      "explanation": "There are 9 apples, grouped as five and four."
+    },
+    {
+      "question": "Count the total: 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟. How many stars?",
+      "options": ["10", "9", "11", "8", "12"],
+      "answer": "10",
+      "explanation": "There are 10 stars, grouped into two sets of five."
+    }
+  ]
+},
+
+// Stage 4 - Identifying tens and ones
+{
+  "text": "Identifying tens and ones. Understand how numbers are grouped into tens and ones.",
+  "questions": [
+    {
+      "question": "Count groups: 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈. How many ones?",
+      "options": ["1", "2", "3", "4", "5"],
+      "answer": "1",
+      "explanation": "There is 1 group of ones represented by one balloon emoji."
+    },
+    {
+      "question": "Look: ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐. How many after ten?",
+      "options": ["2", "3", "1", "4", "5"],
+      "answer": "2",
+      "explanation": "There are 2 stars after the group of ten."
+    },
+    {
+      "question": "Count: 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸🌸. How many ones?",
+      "options": ["3", "2", "4", "1", "5"],
+      "answer": "3",
+      "explanation": "There are 3 flowers remaining as ones after the two groups of ten."
+    },
+    {
+      "question": "Groups: 🐶🐶🐶🐶🐶 🐶🐶🐶🐶🐶 🐶🐶🐶🐶. Extra after ten?",
+      "options": ["4", "3", "5", "2", "6"],
+      "answer": "4",
+      "explanation": "There are 4 dogs extra after the group of two tens."
+    },
+    {
+      "question": "Count: 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈. How many groups of ten?",
+      "options": ["1", "2", "3", "0", "4"],
+      "answer": "1",
+      "explanation": "There is 1 group of ten balloons, with other balloons being grouped differently."
+    }
+  ]
+},
+
+// Stage 5 - Working with tens and ones
+{
+  "text": "Working with tens and ones. Understand how to combine tens and ones to form larger numbers.",
+  "questions": [
+    {
+      "question": "Count: 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟. What number is this?",
+      "options": ["12", "11", "13", "10", "14"],
+      "answer": "12",
+      "explanation": "There are 12 stars, formed by one group of ten and two ones."
+    },
+    {
+      "question": "Groups: ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐. Number shown?",
+      "options": ["13", "12", "14", "11", "15"],
+      "answer": "13",
+      "explanation": "There are 13 stars, formed by two groups of five and three additional stars."
+    },
+    {
+      "question": "Count all: 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈. Total?",
+      "options": ["14", "13", "15", "12", "16"],
+      "answer": "14",
+      "explanation": "There are 14 balloons in total."
+    },
+    {
+      "question": "How many: 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸?",
+      "options": ["15", "14", "16", "13", "17"],
+      "answer": "15",
+      "explanation": "There are 15 flowers, grouped into three sets of five."
+    },
+    {
+      "question": "Count groups of ten and ones: ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️. Total?",
+      "options": ["16", "15", "17", "14", "18"],
+      "answer": "16",
+      "explanation": "There are 16 hearts, formed by three groups of five and one additional heart."
+    }
+  ]
+},
+
+// Stage 6 - Working with larger teen numbers
+{
+  "text": "Working with larger teen numbers. Understand counting and grouping with numbers in the teens.",
+  "questions": [
+    {
+      "question": "Count the flowers: 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸. How many?",
+      "options": ["17", "16", "18", "15", "19"],
+      "answer": "17",
+      "explanation": "There are 17 flowers, formed by three groups of five and two additional flowers."
+    },
+    {
+      "question": "How many stars make 1 ten and 8 ones? ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐",
+      "options": ["18", "17", "19", "16", "20"],
+      "answer": "18",
+      "explanation": "There are 18 stars, grouped into one set of ten and eight additional stars."
+    },
+    {
+      "question": "Count by tens and ones: 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈. Total?",
+      "options": ["19", "18", "20", "17", "21"],
+      "answer": "19",
+      "explanation": "There are 19 balloons, grouped into one set of ten and nine additional balloons."
+    },
+    {
+      "question": "Make groups of ten: ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️. How many tens?",
+      "options": ["2", "1", "3", "4", "0"],
+      "answer": "2",
+      "explanation": "There are 2 groups of ten represented by the emojis."
+    },
+    {
+      "question": "Count the ones: 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟. How many ones?",
+      "options": ["8", "4", "2", "5", "1"],
+      "answer": "8",
+      "explanation": "There are 8 individual stars in the last group."
+    }
+  ]
+},
+
+// Stage 7 - Understanding place value
+{
+  "text": "Understanding place value. Learn how to count numbers by understanding tens and ones.",
+  "questions": [
+    {
+      "question": "In 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 (20), how many groups of ten?",
+      "options": ["2", "1", "3", "4", "0"],
+      "answer": "2",
+      "explanation": "There are 2 groups of ten balloons, making a total of 20."
+    },
+    {
+      "question": "How many ones in: ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐? (13)",
+      "options": ["3", "2", "4", "1", "5"],
+      "answer": "3",
+      "explanation": "There are 3 stars as ones in the final group."
+    },
+    {
+      "question": "Which number has 1 ten and 5 ones? 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸",
+      "options": ["15", "51", "5", "10", "50"],
+      "answer": "15",
+      "explanation": "The number represented is 15, formed by one set of ten and five additional ones."
+    },
+    {
+      "question": "Count tens first: 🐶🐶🐶🐶🐶 🐶🐶🐶🐶🐶 🐶🐶🐶🐶🐶 🐶. How many in total?",
+      "options": ["16", "15", "17", "14", "18"],
+      "answer": "16",
+      "explanation": "There are 16 dogs in total, formed by one group of ten and six additional ones."
+    },
+    {
+      "question": "If you have 2 tens, how many more ❤️ do you need to make 23?",
+      "options": ["3", "2", "4", "5", "1"],
+      "answer": "3",
+      "explanation": "You need 3 more hearts to add to the 20 to make a total of 23."
+    }
+  ]
+},
+// Stage 8 - Comparing numbers with tens and ones
+{
+  "text": "Comparing numbers with tens and ones. Learn to compare numbers based on their tens and ones.",
+  "questions": [
+    {
+      "question": "Which is more: 1 ten and 5 ones (🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟) or 2 tens?",
+      "options": ["20", "15", "Both same", "25", "10"],
+      "answer": "20",
+      "explanation": "1 ten and 5 ones make 15, while 2 tens make 20, which is greater."
+    },
+    {
+      "question": "What comes after 19 balls? 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈",
+      "options": ["20", "19", "21", "18", "22"],
+      "answer": "20",
+      "explanation": "After 19 comes 20, which is represented by adding one more ball."
+    },
+    {
+      "question": "How many more to make 2 tens: ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐?",
+      "options": ["3", "2", "4", "5", "1"],
+      "answer": "3",
+      "explanation": "There are 17 stars, and adding 3 more will make 20, which is 2 tens."
+    },
+    {
+      "question": "What's 1 ten and 7 ones plus 1 more? 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸 + 🌸",
+      "options": ["18", "17", "19", "16", "20"],
+      "answer": "18",
+      "explanation": "1 ten and 7 ones make 17, and adding 1 more makes 18."
+    },
+    {
+      "question": "How many tens in 24 stars? ⭐ (twenty-four)",
+      "options": ["2", "4", "3", "1", "5"],
+      "answer": "2",
+      "explanation": "There are 2 tens in 24, with 4 ones remaining."
+    }
+  ]
+},
+
+// Stage 9 - Simple addition with tens and ones
+{
+  "text": "Simple addition with tens and ones. Learn to add numbers that include tens and ones.",
+  "questions": [
+    {
+      "question": "If you have 1 ten (🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈) and add 5 more 🎈, what number do you have?",
+      "options": ["15", "11", "14", "16", "10"],
+      "answer": "15",
+      "explanation": "1 ten is 10, and adding 5 more gives 15."
+    },
+    {
+      "question": "What's 2 tens plus 3 more hearts? ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ + ❤️❤️❤️",
+      "options": ["23", "20", "22", "21", "24"],
+      "answer": "23",
+      "explanation": "2 tens are 20, and adding 3 more gives 23."
+    },
+    {
+      "question": "Add 1 ten to 13 stars: ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐ + ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐",
+      "options": ["23", "24", "22", "21", "25"],
+      "answer": "23",
+      "explanation": "13 plus 1 ten (10) gives 23."
+    },
+    {
+      "question": "What's 16 plus 1 ten? 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟 + 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟",
+      "options": ["26", "25", "27", "24", "28"],
+      "answer": "26",
+      "explanation": "16 plus 10 gives 26."
+    },
+    {
+      "question": "Add 5 to 2 tens: 🐶🐶🐶🐶🐶 🐶🐶🐶🐶🐶 🐶🐶🐶🐶🐶 🐶🐶🐶🐶🐶 + 🐶🐶🐶🐶🐶",
+      "options": ["25", "24", "26", "23", "27"],
+      "answer": "25",
+      "explanation": "2 tens are 20, and adding 5 gives 25."
+    }
+  ]
+},
+
+// Stage 10 - Mixed operations with tens and ones
+{
+  "text": "Mixed operations with tens and ones. Practice adding and subtracting numbers involving tens and ones.",
+  "questions": [
+    {
+      "question": "What's 2 tens and 3 ones minus 1 one? 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈 - 🎈",
+      "options": ["22", "21", "23", "20", "24"],
+      "answer": "22",
+      "explanation": "2 tens and 3 ones make 23, and subtracting 1 gives 22."
+    },
+    {
+      "question": "Add 1 ten to 17 flowers: 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸 🌸🌸 + 🌸🌸🌸🌸🌸 🌸🌸🌸🌸🌸",
+      "options": ["27", "26", "28", "25", "29"],
+      "answer": "27",
+      "explanation": "17 plus 1 ten (10) gives 27."
+    },
+    {
+      "question": "What's 1 less than 2 tens? ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ - ⭐",
+      "options": ["19", "18", "20", "17", "21"],
+      "answer": "19",
+      "explanation": "2 tens are 20, and subtracting 1 gives 19."
+    },
+    {
+      "question": "How many tens in 25 hearts? ❤️ (twenty-five)",
+      "options": ["2", "5", "3", "1", "4"],
+      "answer": "2",
+      "explanation": "There are 2 tens in 25, with 5 ones remaining."
+    },
+    {
+      "question": "What's 3 more than 2 tens? 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 + 🌟🌟🌟",
+      "options": ["23", "22", "24", "21", "25"],
+      "answer": "23",
+      "explanation": "2 tens are 20, and adding 3 gives 23."
+    }
+  ]
+},
+
+// Stage 11 - Understanding multiple tens
+{
+  "text": "Understanding multiple tens. Practice counting numbers involving multiple groups of ten.",
+  "questions": [
+    {
+      "question": "How many groups of ten in: 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈 🎈🎈🎈?",
+      "options": ["2", "3", "4", "5", "1"],
+      "answer": "2",
+      "explanation": "There are 2 complete groups of ten, and additional balloons beyond that."
+    },
+    {
+      "question": "Count: 3 tens and 2 ones is ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐. Total?",
+      "options": ["32", "23", "31", "33", "30"],
+      "answer": "32",
+      "explanation": "3 tens are 30, and adding 2 gives 32."
+    },
+    {
+      "question": "How many ones in 24 flowers? 🌸 (twenty-four)",
+      "options": ["4", "2", "14", "24", "40"],
+      "answer": "4",
+      "explanation": "There are 4 ones in 24, with 2 tens."
+    },
+    {
+      "question": "What number is 2 tens and 8 ones? ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️❤️❤️ ❤️❤️❤️",
+      "options": ["28", "82", "20", "38", "18"],
+      "answer": "28",
+      "explanation": "2 tens are 20, and adding 8 gives 28."
+    },
+    {
+      "question": "Count tens first: 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟🌟🌟🌟🌟 🌟. What number?",
+      "options": ["26", "25", "27", "24", "28"],
+      "answer": "26",
+      "explanation": "There are 2 complete groups of ten and 6 additional stars, making 26."
+    }
+  ]
+},
+
+// Stage 12 - Simple word problems with tens
+{
+  "text": "Simple word problems with tens. Solve basic word problems that involve groups of tens.",
+  "questions": [
+    {
+      "question": "I have 2 tens of apples 🍎, and get 5 more 🍎. How many apples now?",
+      "options": ["25", "15", "20", "30", "35"],
+      "answer": "25",
+      "explanation": "2 tens are 20, and adding 5 gives 25."
+    },
+    {
+      "question": "There are 3 tens of stars ⭐. How many more to make 34?",
+      "options": ["4", "3", "5", "6", "7"],
+      "answer": "4",
+      "explanation": "3 tens are 30, and adding 4 gives 34."
+    },
+    {
+      "question": "You have 27 hearts ❤️. How many tens?",
+      "options": ["2", "7", "27", "20", "17"],
+      "answer": "2",
+      "explanation": "There are 2 tens in 27, with 7 ones remaining."
+    },
+    {
+      "question": "2 tens of balloons 🎈 plus 1 ten equals how many balloons?",
+      "options": ["30", "20", "21", "40", "31"],
+      "answer": "30",
+      "explanation": "2 tens are 20, and adding 1 more ten gives 30."
+    },
+    {
+      "question": "I see 35 flowers 🌸. Is this more than 3 tens?",
+      "options": ["Yes", "No", "Same", "Can't tell", "Neither"],
+      "answer": "Yes",
+      "explanation": "3 tens are 30, and 35 is more than 30."
+    }
+  ]
+},
+// Stage 13 - Comparing larger numbers
+{
+  "text": "Comparing larger numbers. Learn to compare numbers that include multiple tens and ones.",
+  "questions": [
+    {
+      "question": "Which is more: 2 tens and 7 ones or 3 tens and 2 ones? 🎈",
+      "options": ["32", "27", "Same", "37", "22"],
+      "answer": "32",
+      "explanation": "2 tens and 7 ones make 27, while 3 tens and 2 ones make 32, which is greater."
+    },
+    {
+      "question": "Count: ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ ⭐⭐⭐. How many?",
+      "options": ["33", "32", "34", "31", "35"],
+      "answer": "33",
+      "explanation": "There are 33 stars in total."
+    },
+    {
+      "question": "What comes after 29 hearts? ❤️",
+      "options": ["30", "31", "28", "20", "19"],
+      "answer": "30",
+      "explanation": "After 29 comes 30, represented by adding one more heart."
+    },
+    {
+      "question": "Is 35 closer to 3 tens or 4 tens? 🌸",
+      "options": ["3 tens", "4 tens", "Same", "Neither", "Can't tell"],
+      "answer": "Same",
+      "explanation": "35 is equally close to 30 (3 tens) and 40 (4 tens), making it the same."
+    },
+    {
+      "question": "Which number has more ones: 24 or 31? 🌟",
+      "options": ["31", "24", "Same", "Neither", "Can't tell"],
+      "answer": "24",
+      "explanation": "24 has 4 ones, while 31 has only 1 one, making 24 have more ones."
+    }
+  ]
+},
+
+// Stage 14 - Simple addition with larger numbers
+{
+  "text": "Simple addition with larger numbers. Practice adding numbers that involve tens and ones.",
+  "questions": [
+    {
+      "question": "Add 1 ten to 25 balloons: 🎈🎈🎈🎈🎈 ... 🎈🎈🎈🎈🎈 + 🎈🎈🎈🎈🎈 🎈🎈🎈🎈🎈",
+      "options": ["35", "26", "45", "15", "25"],
+      "answer": "35",
+      "explanation": "25 plus 1 ten (10) gives 35."
+    },
+    {
+      "question": "What's 2 tens and 6 ones plus 2 more? ⭐",
+      "options": ["28", "26", "27", "29", "25"],
+      "answer": "28",
+      "explanation": "2 tens and 6 ones make 26, and adding 2 gives 28."
+    },
+    {
+      "question": "Add 3 tens and 4 ones: 3️⃣0️⃣ + 4️⃣ = ?",
+      "options": ["34", "43", "31", "33", "44"],
+      "answer": "34",
+      "explanation": "30 plus 4 gives 34."
+    },
+    {
+      "question": "What's 27 plus 1 ten? 🌸",
+      "options": ["37", "28", "17", "47", "26"],
+      "answer": "37",
+      "explanation": "27 plus 1 ten (10) gives 37."
+    },
+    {
+      "question": "How many is 2 tens plus 2 tens plus 5? ❤️",
+      "options": ["45", "25", "40", "35", "50"],
+      "answer": "45",
+      "explanation": "2 tens plus 2 tens make 40, and adding 5 gives 45."
+    }
+  ]
+},
+
+// Stage 15 - Missing numbers and patterns
+{
+  "text": "Missing numbers and patterns. Practice identifying missing numbers in sequences.",
+  "questions": [
+    {
+      "question": "Fill the missing number: 25, 26, __, 28, 29 🎈",
+      "options": ["27", "24", "30", "31", "25"],
+      "answer": "27",
+      "explanation": "27 comes between 26 and 28 in the sequence."
+    },
+    {
+      "question": "What comes between 3 tens and 32? ⭐",
+      "options": ["31", "29", "33", "30", "34"],
+      "answer": "31",
+      "explanation": "31 is between 30 and 32 in the sequence."
+    },
+    {
+      "question": "Complete: 15, 25, 35, __ 🌸",
+      "options": ["45", "40", "30", "50", "55"],
+      "answer": "45",
+      "explanation": "The sequence increases by 10 each time, so the next number is 45."
+    },
+    {
+      "question": "Pattern: 22, 24, 26, __, 30 ❤️",
+      "options": ["28", "27", "29", "25", "31"],
+      "answer": "28",
+      "explanation": "The sequence increases by 2 each time, so the next number is 28."
+    },
+    {
+      "question": "What's missing: 2 tens, 21, __, 23, 24 🌟",
+      "options": ["22", "20", "25", "19", "26"],
+      "answer": "22",
+      "explanation": "22 comes between 21 and 23 in the sequence."
+    }
+  ]
+},
+
+// Stage 16 - Simple subtraction with tens
+{
+  "text": "Simple subtraction with tens. Practice subtracting numbers that involve tens and ones.",
+  "questions": [
+    {
+      "question": "If you have 3 tens (🎈🎈🎈🎈🎈...🎈🎈🎈🎈🎈) and remove 1 ten, how many balloons left?",
+      "options": ["20", "30", "10", "40", "25"],
+      "answer": "20",
+      "explanation": "3 tens are 30, and removing 1 ten leaves 20."
+    },
+    {
+      "question": "Start with 25 stars ⭐. Take away 5. How many left?",
+      "options": ["20", "15", "25", "30", "19"],
+      "answer": "20",
+      "explanation": "25 minus 5 gives 20."
+    },
+    {
+      "question": "What's 34 hearts ❤️ minus 1 ten?",
+      "options": ["24", "33", "23", "14", "44"],
+      "answer": "24",
+      "explanation": "34 minus 10 gives 24."
+    },
+    {
+      "question": "Take 2 away from 28 flowers 🌸. What number now?",
+      "options": ["26", "27", "25", "24", "29"],
+      "answer": "26",
+      "explanation": "28 minus 2 gives 26."
+    },
+    {
+      "question": "3 tens minus 1 ten equals how many stars? ⭐",
+      "options": ["20", "10", "30", "40", "25"],
+      "answer": "20",
+      "explanation": "3 tens are 30, and removing 1 ten leaves 20."
+    }
+  ]
+},
+// Stage 17 - Word problems with subtraction
+{
+  "text": "Word problems with subtraction. Solve word problems involving subtraction of tens and ones.",
+  "questions": [
+    {
+      "question": "I had 25 balloons 🎈. 5 flew away. How many left?",
+      "options": ["20", "15", "25", "30", "10"],
+      "answer": "20",
+      "explanation": "25 minus 5 gives 20."
+    },
+    {
+      "question": "There were 34 stars ⭐. 4 disappeared. Now there are...",
+      "options": ["30", "29", "31", "24", "34"],
+      "answer": "30",
+      "explanation": "34 minus 4 gives 30."
+    },
+    {
+      "question": "Start with 3 tens of hearts ❤️. Give away 1 ten. Left with?",
+      "options": ["20", "30", "10", "40", "25"],
+      "answer": "20",
+      "explanation": "3 tens are 30, and giving away 1 ten leaves 20."
+    },
+    {
+      "question": "Had 27 flowers 🌸. Lost 7. How many remain?",
+      "options": ["20", "21", "19", "17", "26"],
+      "answer": "20",
+      "explanation": "27 minus 7 gives 20."
+    },
+    {
+      "question": "38 stars ⭐ minus 8 equals?",
+      "options": ["30", "31", "29", "28", "40"],
+      "answer": "30",
+      "explanation": "38 minus 8 gives 30."
+    }
+  ]
+},
+
+// Stage 18 - Mixed operations with word problems
+{
+  "text": "Mixed operations with word problems. Solve problems involving both addition and subtraction.",
+  "questions": [
+    {
+      "question": "2 tens of balloons 🎈 plus 5, then take away 3. How many?",
+      "options": ["22", "25", "20", "23", "21"],
+      "answer": "22",
+      "explanation": "2 tens are 20, plus 5 gives 25, and taking away 3 gives 22."
+    },
+    {
+      "question": "Start with 15 stars ⭐, add 1 ten, then remove 2. Total now?",
+      "options": ["23", "25", "13", "24", "22"],
+      "answer": "23",
+      "explanation": "15 plus 10 gives 25, and removing 2 gives 23."
+    },
+    {
+      "question": "Had 3 tens of hearts ❤️, lost 1 ten, got 5 more. How many?",
+      "options": ["25", "20", "35", "15", "30"],
+      "answer": "25",
+      "explanation": "3 tens are 30, losing 1 ten leaves 20, and adding 5 gives 25."
+    },
+    {
+      "question": "4 tens of flowers 🌸 minus 1 ten, plus 3. Total?",
+      "options": ["33", "43", "23", "30", "13"],
+      "answer": "33",
+      "explanation": "4 tens are 40, minus 10 gives 30, and adding 3 gives 33."
+    },
+    {
+      "question": "26 stars ⭐, take away 6, add 1 ten. Now have?",
+      "options": ["30", "20", "36", "40", "16"],
+      "answer": "30",
+      "explanation": "26 minus 6 gives 20, and adding 10 gives 30."
+    }
+  ]
+},
+
+// Stage 19 - Complex patterns and sequences
+{
+  "text": "Complex patterns and sequences. Practice completing number sequences with varying steps.",
+  "questions": [
+    {
+      "question": "Complete: 20, 22, 24, __, 28, 30 🎈",
+      "options": ["26", "25", "23", "27", "29"],
+      "answer": "26",
+      "explanation": "The sequence increases by 2 each time, so the next number is 26."
+    },
+    {
+      "question": "Pattern: 15, 25, 35, __, 55 ⭐",
+      "options": ["45", "40", "50", "30", "20"],
+      "answer": "45",
+      "explanation": "The sequence increases by 10 each time, so the next number is 45."
+    },
+    {
+      "question": "Fill in: 33, 30, 27, __, 21 ❤️",
+      "options": ["24", "23", "25", "26", "22"],
+      "answer": "24",
+      "explanation": "The sequence decreases by 3 each time, so the next number is 24."
+    },
+    {
+      "question": "What's next: 18, 20, 22, 24, __ 🌸",
+      "options": ["26", "25", "23", "27", "28"],
+      "answer": "26",
+      "explanation": "The sequence increases by 2 each time, so the next number is 26."
+    },
+    {
+      "question": "Complete: 40, 35, 30, __, 20 ⭐",
+      "options": ["25", "24", "26", "15", "35"],
+      "answer": "25",
+      "explanation": "The sequence decreases by 5 each time, so the next number is 25."
+    }
+  ]
+},
+
+// Stage 20 - Multi-step word problems
+{
+  "text": "Multi-step word problems. Solve problems that require multiple steps to find the solution.",
+  "questions": [
+    {
+      "question": "I have 2 tens of balloons 🎈. Got 1 ten more, then 5 flew away. Total now?",
+      "options": ["25", "30", "20", "35", "15"],
+      "answer": "25",
+      "explanation": "2 tens are 20, adding 1 ten gives 30, and subtracting 5 gives 25."
+    },
+    {
+      "question": "Started with 15 stars ⭐, doubled them, then added 5. How many?",
+      "options": ["35", "30", "25", "40", "20"],
+      "answer": "35",
+      "explanation": "15 doubled is 30, and adding 5 gives 35."
+    },
+    {
+      "question": "Had 40 hearts ❤️, gave half away, then got 5 more. Total?",
+      "options": ["25", "20", "30", "35", "15"],
+      "answer": "25",
+      "explanation": "Half of 40 is 20, and adding 5 gives 25."
+    },
+    {
+      "question": "3 tens of flowers 🌸, lost 1 ten, found 7 more. How many now?",
+      "options": ["27", "37", "17", "47", "20"],
+      "answer": "27",
+      "explanation": "3 tens are 30, minus 10 gives 20, and adding 7 gives 27."
+    },
+    {
+      "question": "Start with 24 stars ⭐, add 1 ten, take away 4. Left with?",
+      "options": ["30", "34", "20", "40", "14"],
+      "answer": "30",
+      "explanation": "24 plus 10 gives 34, and subtracting 4 gives 30."
+    }
+  ]
+}
+
+
+//-------------------------------------------------------------------------------------------------------------------							
+				  ]
+				}
         ];
 
-        const stageCount = quizData.length;
-
-        const stateContents = {
+		const stageCount = quizData[0].stages.length; // This is the correct way to get the number of stages
 
 
-		   'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
-           ,'Subject Overview 🗝️': `<div class="subject-overview-content">   <h1>Numbers: Groups of Tens and Ones</h1>   <p>Understanding numbers is an important part of learning math. When we look at numbers, we can see them as groups of tens and ones. This helps us understand how numbers are made and how to work with them easily. Let’s explore how tens and ones come together to form numbers!</p>   <hr>   <h2>Table of Contents</h2>   <ol>     <li><a href="#what-are-tens-and-ones">What Are Tens and Ones?</a></li>     <li><a href="#how-to-group-numbers">How to Group Numbers</a></li>     <li><a href="#examples">Examples</a></li>     <li><a href="#practice">Practice</a></li>     <li><a href="#conclusion">Conclusion</a></li>   </ol>   <hr>     <h2 id="what-are-tens-and-ones">What Are Tens and Ones?</h2>   <p>Every number is made up of tens and ones. The <strong>tens</strong> place tells us how many groups of ten there are, and the <strong>ones</strong> place tells us how many single units there are.</p>   <p>For example:</p>   <ul>     <li>In the number <strong>23</strong>, the <em>2</em> is in the tens place (which means 2 tens) and the <em>3</em> is in the ones place.</li>     <li>In the number <strong>47</strong>, the <em>4</em> is in the tens place and the <em>7</em> is in the ones place.</li>   </ul>   <hr>     <h2 id="how-to-group-numbers">How to Group Numbers</h2>   <p>Grouping numbers into tens and ones makes it easier to add and subtract. Here’s how you can do it:</p>   <ol>     <li><strong>Identify the Tens:</strong> Look at the first digit from the right. This is the tens place.</li>     <li><strong>Identify the Ones:</strong> Look at the second digit from the right. This is the ones place.</li>     <li><strong>Write Them Separately:</strong> Separate the tens and ones to see how many you have of each.</li>   </ol>   <p>Let’s see an example:</p>   <ul>     <li>Number <strong>35</strong>:       <ul>         <li>Tens: 3 tens (which is 30)</li>         <li>Ones: 5 ones (which is 5)</li>       </ul>     </li>     <li>Number <strong>68</strong>:       <ul>         <li>Tens: 6 tens (which is 60)</li>         <li>Ones: 8 ones (which is 8)</li>       </ul>     </li>   </ul>   <hr>     <h2 id="examples">Examples</h2>   <h3>Example 1: Number 14</h3>   <p>Let’s break down the number <strong>14</strong>:</p>   <ul>     <li>Tens: 1 ten (which is 10)</li>     <li>Ones: 4 ones (which is 4)</li>     <li>So, 14 = 10 + 4</li>   </ul>     <h3>Example 2: Number 29</h3>   <p>Let’s break down the number <strong>29</strong>:</p>   <ul>     <li>Tens: 2 tens (which is 20)</li>     <li>Ones: 9 ones (which is 9)</li>     <li>So, 29 = 20 + 9</li>   </ul>   <hr>     <h2 id="practice">Practice</h2>   <p>Try breaking down these numbers into tens and ones:</p>   <ul>     <li>Number <strong>46</strong>:       <ul>         <li>Tens: ___ tens</li>         <li>Ones: ___ ones</li>       </ul>     </li>     <li>Number <strong>53</strong>:       <ul>         <li>Tens: ___ tens</li>         <li>Ones: ___ ones</li>       </ul>     </li>     <li>Number <strong>81</strong>:       <ul>         <li>Tens: ___ tens</li>         <li>Ones: ___ ones</li>       </ul>     </li>   </ul>     <h2 id="conclusion">Conclusion</h2>   <p>Understanding numbers as groups of tens and ones helps you see how numbers are built and makes math easier. Remember:</p>   <ul>     <li>Each number has a tens place and a ones place.</li>     <li>Grouping helps with adding and subtracting.</li>     <li>Practice breaking down numbers to get better at math!</li>   </ul>   <hr>   <p>Keep practicing, and soon you'll be a numbers expert!</p> </div>`
+		const stateContents = {
+			'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+			//,'Subject Overview 🗝️': `<li>"Hi there" </li>`		
+			};
 
+
+		function showExplanations() {
+			// Hide the modal
+			document.getElementById('quizModal').style.display = 'none';
+			
+			// Show all explanation panels
+			document.querySelectorAll('.explanation-panel').forEach(exp => {
+				exp.style.display = 'block';
+			});
+		}
 		
-		};
-
         function setQuizExpansion(allow) {
             allowQuizExpansion = allow;
             adjustLayout();
@@ -760,116 +935,157 @@ function shuffleArray(array) {
     return array;
 }
 
+function isTextEmpty(text) {
+    return !text || text.trim() === "";
+}
+
 function renderQuiz() {
     const quizContainer = document.getElementById("quiz-content");
     quizContainer.innerHTML = '';
-    quizData[currentStage].forEach((question, index) => {
-        const questionElement = document.createElement("div");
-        questionElement.className = "question-one-line";
-        
-        // Create label for the question text
+
+    // Only add stage text if it's not empty
+    const stageText = quizData[0].stages[currentStage].text;
+    if (!isTextEmpty(stageText)) {
+        const stageTextElement = document.createElement("div");
+        stageTextElement.className = "stage-text";
+        stageTextElement.textContent = stageText;
+        quizContainer.appendChild(stageTextElement);
+    }
+
+    // Render questions
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        // Create main question container
+        const questionContainer = document.createElement("div");
+        questionContainer.className = "question";
+        questionContainer.style.padding = "0px"; 
+		
+        // Create question line
+        const questionLine = document.createElement("div");
+        questionLine.className = "question-one-line";
+
         const label = document.createElement("label");
         label.htmlFor = `q${index}`;
-        label.textContent = `${index + 1}. ${question.question}`;
-        
-        // Create div for result feedback
+        label.textContent = `${index + 1}. ${questionData.question}`;
+
         const resultDiv = document.createElement("div");
         resultDiv.className = "result result-ltr";
         resultDiv.id = `result${index}`;
-        
-        // Create select element for answers
+
         const select = document.createElement("select");
         select.id = `q${index}`;
         select.name = `q${index}`;
-        
+
         // Add default option
         const defaultOption = document.createElement("option");
         defaultOption.value = "";
         defaultOption.textContent = "Select";
+		
         select.appendChild(defaultOption);
-        
-        // Shuffle and add answer options
-        const shuffledOptions = shuffleArray([...question.options]);
-        shuffledOptions.forEach((option, optionIndex) => {
+
+        // Add shuffled options
+        const shuffledOptions = shuffleArray([...questionData.options]);
+        shuffledOptions.forEach(option => {
             const optionElement = document.createElement("option");
             optionElement.value = option;
             optionElement.textContent = option;
             select.appendChild(optionElement);
         });
-        
-        // Append elements to questionElement in the desired order
-        questionElement.appendChild(label);
-        questionElement.appendChild(resultDiv); // Feedback before dropdown
-        questionElement.appendChild(select);
-        
-        quizContainer.appendChild(questionElement);
+
+        // Assemble question line
+        questionLine.appendChild(label);
+        questionLine.appendChild(resultDiv);
+        questionLine.appendChild(select);
+
+        // Create explanation panel
+        const explanationPanel = document.createElement("div");
+        explanationPanel.className = "explanation-panel";
+        explanationPanel.style.display = "none"; 
+
+        const explanationText = document.createElement("div");
+        explanationText.className = "explanation-panel-text";
+        explanationText.textContent = questionData.explanation;
+
+        explanationPanel.appendChild(explanationText);
+
+        // Assemble full question container
+        questionContainer.appendChild(questionLine);
+        questionContainer.appendChild(explanationPanel);
+
+        quizContainer.appendChild(questionContainer);
     });
 
     updateStageNumber();
 }
 
-		function checkStage() {
-   attempts++;
+
+function checkStage() {
+    attempts++;
     document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
 
     let correctCount = 0;
-    const totalQuestions = quizData[currentStage].length;
+    const totalQuestions = quizData[0].stages[currentStage].questions.length;
 
-    quizData[currentStage].forEach((question, index) => {
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
         const resultElement = document.getElementById(`result${index}`);
         const selectElement = document.getElementById(`q${index}`);
         const selectedAnswer = selectElement.value;
 
-        if (selectedAnswer === question.answer) {
+        // Check if the selected answer is correct or incorrect
+        if (selectedAnswer === questionData.answer) {
             resultElement.textContent = "Correct!";
             resultElement.style.color = "green";
             correctCount++;
         } else {
-            resultElement.textContent = "Incorrect answer.";
+            resultElement.textContent = "Incorrect.";
             resultElement.style.color = "red";
         }
 
+        // Reveal explanations if the user reaches 10 attempts
         if (attempts >= 5) {
-            selectElement.value = question.answer;
-            selectElement.disabled = true;
-            resultElement.textContent += ` The correct answer is: ${question.answer}`;
+            // Reveal the explanation panel
+            const explanationElement = selectElement.closest('.question').querySelector('.explanation-panel');
+            explanationElement.style.display = "block"; // Make the explanation panel visible
+
+            // Modify the explanation text to include the correct answer
+            const explanationText = explanationElement.querySelector('.explanation-panel-text');
+            explanationText.innerHTML = `${questionData.explanation}`;
         }
     });
 
-    console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+    if (correctCount === totalQuestions) {
+        console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+        addAnimalsToFarm(totalQuestions);
 
-			if (correctCount === totalQuestions) {
-				console.log(`Stage ${currentStage + 1} completed. Adding ${totalQuestions} animals.`);
-				addAnimalsToFarm(totalQuestions); // Add animals to the farm
+        if (currentStage < quizData[0].stages.length - 1) {
+            singleStageConfetti();
+            showEncouragingPopup(correctCount, totalQuestions, true);
+            // Show both buttons in modal to allow moving to the next stage
+            document.getElementById('modalNextButton').style.display = 'inline-block';
+            document.getElementById('modalExplanationsButton').style.display = 'inline-block';
+        } else {
+            // Last stage completion
+            currentStage++;
+            updateProgressBar();
+            allStagesConfetti();
+            showModal("Congratulations! You've completed all stages!");
+        }
+    } else {
+        // Show the encouraging popup if the stage is not complete
+        showEncouragingPopup(correctCount, totalQuestions, false);
 
-				if (currentStage < stageCount - 1) {
-					singleStageConfetti();
-					showEncouragingPopup(correctCount, totalQuestions, true);
-					currentStage++; // Increment stage immediately
-					updateProgressBar(); // Update progress bar right after incrementing stage
-					console.log(`Moving to stage ${currentStage + 1}`);
-					setTimeout(() => {
-						attempts = 0;
-						renderQuiz();
-						document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
-					}, 1500);
-				} else {
-					// This is the final stage completion
-					currentStage++;
-					updateProgressBar(); // This will now show 100%
-					allStagesConfetti();
-					showModal("Congratulations! You've completed all stages.");
-				}
-			} else {
-				showEncouragingPopup(correctCount, totalQuestions, false);
-				if (attempts >= 5) {
-					showModal("You've reached the maximum number of attempts. The correct answers have been revealed.");
-				}
-			}
+        if (attempts >= 5) {
+            // If the user has reached 5 attempts, notify them about revealing the answers
+            const modalMessage = document.getElementById('modalMessage');
+            modalMessage.textContent = "You've reached the maximum number of attempts. The correct answers have been revealed.";
+            showModal(modalMessage.textContent);
+        }
+    }
 
-			scrollToTop();
-		}
-		
+    scrollToTop();
+}
+
+
+	
 		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
 			const incorrectCount = totalQuestions - correctCount;
 			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
@@ -904,7 +1120,7 @@ function renderQuiz() {
 
 		function updateProgressBar() {
 			const progressBar = document.getElementById("progress-bar");
-			const completedStages = currentStage; // Remove the +1 here
+			const completedStages = currentStage;
 			const progress = (completedStages / stageCount) * 100;
 			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
 			progressBar.style.width = `${roundedProgress}%`;
@@ -1047,39 +1263,54 @@ function renderQuiz() {
 			"🐷", "🐩", "🐘", "🐸", "🐝"
 		];
 
-        function showModal(message) {
-            const modal = document.getElementById("quizModal");
-            const modalMessage = document.getElementById("modalMessage");
-            const modalButton = document.getElementById("modalButton");
-            const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+		function showModal(message) {
+			const modal = document.getElementById("quizModal");
+			const modalMessage = document.getElementById("modalMessage");
+			const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+			const nextButton = document.getElementById("modalNextButton");
+			const explanationsButton = document.getElementById("modalExplanationsButton");
 
-            modalMessage.textContent = message;
-            modal.style.display = "block";
+			// Set message
+			modalMessage.textContent = message;
+			
+			// Show modal
+			modal.style.display = "block";
 
-            modalButton.onclick = function() {
-                modal.style.display = "none";
-            }
+			// By default, hide both buttons
+			nextButton.style.display = "none";
+			explanationsButton.style.display = "none";
 
-            modalClose.onclick = function() {
-                modal.style.display = "none";
-            }
+			// Close handlers
+			modalClose.onclick = function() {
+				modal.style.display = "none";
+			}
 
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
-        }
+			window.onclick = function(event) {
+				if (event.target == modal) {
+					modal.style.display = "none";
+				}
+			}
+		}
 
 		window.addEventListener('load', () => {
 			initializeSwitch();
 			initializeQuiz();
 			adjustLayout();
+			
+			 document.getElementById('modalNextButton').addEventListener('click', () => {
+				document.getElementById('quizModal').style.display = 'none';
+				currentStage++;
+				attempts = 0;
+				renderQuiz();
+				document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+				updateProgressBar();
+			});
+			
+			document.getElementById('modalExplanationsButton').addEventListener('click', showExplanations);
         });
 
         window.addEventListener('resize', adjustLayout);
 
-        // Load the copyright content from the external URL and insert it into the div
         fetch('http://ez42.live/global/copyright.html')
             .then(response => response.text())
             .then(data => {

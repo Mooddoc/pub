@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ez42.live/global/analytics.js"></script>
+    <script src="https://ez42.live/global/ads.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+ 	<link rel="stylesheet" href="http://www.ez42.live/global/styles/styles-eng.css"> <!-- Link to external CSS file -->
+    <link rel="icon" type="image/svg+xml" href="http://www.ez42.live/global/styles/ez42-icon.svg">
+    <title>✅ EZ42 LIVE - It's EZ</title>
+
+</head> 
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+		
+		<!--  Side Panel 1  -->
+            <div id="sidePanel1" class="side-panel">
+				<div class="logo-container">
+					<a href="http://ez42.live" target="_blank" rel="noopener noreferrer">
+						<img src="http://ez42.live/global/logo/logo.svg" alt="EZ42 Logo" class="logo-image">
+					</a>
+				</div>
+			<h2>Instructions & Rules</h2>
+			<ul>
+																		<!--  PH1 - Instructions & Rules   -->	
+                <li>Read the text and questions carefully.</li>
+                <li>Select the best answer.</li>
+                <li>Click "Check Answers" when you're ready to see how you did!</li>
+                <li>You can check your answers multiple times to improve your score.</li>
+                <li>Correct answers are revealed after 5 attempts.</li>
+                <li>You must answer all questions correctly to proceed to the next stage.</li>
+				<li>Have fun!</li>
+			</ul>
+            </div>
+			
+		<!--  Quiz Panel   -->
+            <div id="quizContainer" class="quiz-container">
+																			<!--  PH2 - Title  X  2 : A1 - 📗 Green, A2 - 📘 Blue, B1 - 📒 Yellow, 📙 Orange, 📔 Beige, 📓 Gray , 📕 Red-->	
+                <h1>Multiplying Multi-Digit Numbers by Multi-Digit Numbers</h1>
+                
+                <div id="switchContainer" class="switch-container">
+                    <div id="multiStateSwitch" class="switch">
+                        <div class="switch-labels"></div>
+                        <div class="switch-handle"></div>
+                    </div>
+                </div>
+                <div id="tabContent"></div>
+            </div>
+			
+		<!--  Side Panel 2  -->
+			<div id="sidePanel2" class="side-panel">
+				<h2>Animal Farm</h2>
+				<p>Watch your farm grow as you progress! Each completed stage adds new animal friends to your collection.</p>
+				<ul id="animalFarm" class="emoji-list">
+				</ul>
+			</div>
+        </div>
+    </div>
+    <div id="copyright-container"></div>
+ 
+	<!-- Modal -->
+	<div id="quizModal" class="modal-quiz">
+		<div class="modal-quiz-content">
+			<span class="modal-quiz-close">&times;</span>
+			<p id="modalMessage"></p>  
+			<button id="modalExplanationsButton" class="modal-quiz-button" style="display: none; background-color: #ff7f50;">View Explanations</button>
+			<button id="modalNextButton" class="modal-quiz-button">Next Stage</button>
+		</div>
+	</div>
+	<button id="scrollToTopBtn" title="Go to top">↑</button>
+    <script>
+        let isQuizExpanded = false;
+        let allowQuizExpansion = true;
+
+        let attempts = 0;
+        let currentStage = 0;
+
+        const manuallySetDefaultTab = 0;
+
+																		//  PH3 - Quiz Data 
+        const quizData = [ 												   	
+				{
+				  "stages": [
+//-------------------------------------------------------------------------------------------------------------------				  
+
+    {
+      "text": "In the local market, Sarah needs to calculate different costs. She's buying supplies for her class project.",
+      "questions": [
+        {
+          "question": "If each notebook costs 12 dollars and Sarah needs 23 notebooks, how much will she spend?",
+          "options": ["276 dollars", "245 dollars", "235 dollars", "265 dollars", "256 dollars"],
+          "answer": "276 dollars",
+          "explanation": "Multiply 12 × 23: (12 × 20) + (12 × 3) = 240 + 36 = 276"
+        },
+        {
+          "question": "Sarah buys 31 colored pencils at 14 dollars each. What's the total cost?",
+          "options": ["434 dollars", "424 dollars", "444 dollars", "414 dollars", "404 dollars"],
+          "answer": "434 dollars",
+          "explanation": "Multiply 31 × 14: (30 × 14) + (1 × 14) = 420 + 14 = 434"
+        },
+        {
+          "question": "If one art set costs 21 dollars and she needs 13 sets, how much money does she need?",
+          "options": ["273 dollars", "263 dollars", "283 dollars", "253 dollars", "293 dollars"],
+          "answer": "273 dollars",
+          "explanation": "Multiply 21 × 13: (20 × 13) + (1 × 13) = 260 + 13 = 273"
+        },
+        {
+          "question": "Each pack of paper costs 11 dollars. Sarah needs 24 packs. What's the total?",
+          "options": ["264 dollars", "254 dollars", "274 dollars", "244 dollars", "284 dollars"],
+          "answer": "264 dollars",
+          "explanation": "Multiply 11 × 24: (11 × 20) + (11 × 4) = 220 + 44 = 264"
+        },
+        {
+          "question": "If glue sticks cost 13 dollars each and Sarah needs 22 of them, what's the cost?",
+          "options": ["286 dollars", "276 dollars", "296 dollars", "266 dollars", "256 dollars"],
+          "answer": "286 dollars",
+          "explanation": "Multiply 13 × 22: (13 × 20) + (13 × 2) = 260 + 26 = 286"
+        }
+      ]
+    },
+    {
+      "text": "In the Magical Kingdom of Arithmetica, wizard apprentices are learning to calculate potion ingredients.",
+      "questions": [
+        {
+          "question": "A magic crystal multiplies its power by 24 when charged. If you have 13 crystals, how much total power do you get?",
+          "options": ["312 power units", "302 power units", "322 power units", "332 power units", "342 power units"],
+          "answer": "312 power units",
+          "explanation": "Multiply 24 × 13: (24 × 10) + (24 × 3) = 240 + 72 = 312"
+        },
+        {
+          "question": "Each spell book contains 32 pages of wisdom. If a wizard reads 14 books, how many pages of wisdom do they gain?",
+          "options": ["448 pages", "438 pages", "458 pages", "468 pages", "478 pages"],
+          "answer": "448 pages",
+          "explanation": "Multiply 32 × 14: (32 × 10) + (32 × 4) = 320 + 128 = 448"
+        },
+        {
+          "question": "A magical garden grows 21 flowers each day. After 15 days, how many flowers will there be?",
+          "options": ["315 flowers", "305 flowers", "325 flowers", "335 flowers", "345 flowers"],
+          "answer": "315 flowers",
+          "explanation": "Multiply 21 × 15: (21 × 10) + (21 × 5) = 210 + 105 = 315"
+        },
+        {
+          "question": "Each wizard's wand contains 23 magical cores. If there are 16 wands, how many cores are there in total?",
+          "options": ["368 cores", "358 cores", "378 cores", "388 cores", "398 cores"],
+          "answer": "368 cores",
+          "explanation": "Multiply 23 × 16: (23 × 10) + (23 × 6) = 230 + 138 = 368"
+        },
+        {
+          "question": "A potion requires 25 drops of essence. For 12 potions, how many drops are needed?",
+          "options": ["300 drops", "290 drops", "310 drops", "320 drops", "330 drops"],
+          "answer": "300 drops",
+          "explanation": "Multiply 25 × 12: (25 × 10) + (25 × 2) = 250 + 50 = 300"
+        }
+      ]
+    },//2
+   {
+      "text": "At the school book fair, students are helping to calculate inventory and sales.",
+      "questions": [
+        {
+          "question": "The library orders 26 copies of 15 different books. How many books in total?",
+          "options": ["390 books", "380 books", "400 books", "370 books", "410 books"],
+          "answer": "390 books",
+          "explanation": "Multiply 26 × 15: (26 × 10) + (26 × 5) = 260 + 130 = 390"
+        },
+        {
+          "question": "Each reading set has 24 flashcards. For 17 sets, how many flashcards are there?",
+          "options": ["408 flashcards", "398 flashcards", "418 flashcards", "428 flashcards", "438 flashcards"],
+          "answer": "408 flashcards",
+          "explanation": "Multiply 24 × 17: (24 × 10) + (24 × 7) = 240 + 168 = 408"
+        },
+        {
+          "question": "If each student reads 16 pages per day for 23 days, how many pages total?",
+          "options": ["368 pages", "358 pages", "378 pages", "388 pages", "398 pages"],
+          "answer": "368 pages",
+          "explanation": "Multiply 16 × 23: (16 × 20) + (16 × 3) = 320 + 48 = 368"
+        },
+        {
+          "question": "The library has 28 shelves with 14 books each. How many books altogether?",
+          "options": ["392 books", "382 books", "402 books", "412 books", "422 books"],
+          "answer": "392 books",
+          "explanation": "Multiply 28 × 14: (28 × 10) + (28 × 4) = 280 + 112 = 392"
+        },
+        {
+          "question": "Each student needs 27 pencils for the year. With 13 students, how many pencils needed?",
+          "options": ["351 pencils", "341 pencils", "361 pencils", "371 pencils", "381 pencils"],
+          "answer": "351 pencils",
+          "explanation": "Multiply 27 × 13: (27 × 10) + (27 × 3) = 270 + 81 = 351"
+        }
+      ]
+    },
+    {
+      "text": "Deep in the Dragon's Cave, brave adventurers must solve multiplication puzzles to find treasure!",
+      "questions": [
+        {
+          "question": "A dragon's scale multiplies its weight by 28 gold pieces. With 16 scales, how much gold?",
+          "options": ["448 gold pieces", "438 gold pieces", "458 gold pieces", "468 gold pieces", "478 gold pieces"],
+          "answer": "448 gold pieces",
+          "explanation": "Multiply 28 × 16: (28 × 10) + (28 × 6) = 280 + 168 = 448"
+        },
+        {
+          "question": "Each treasure chest contains 32 gems. In 15 chests, how many gems total?",
+          "options": ["480 gems", "470 gems", "490 gems", "460 gems", "500 gems"],
+          "answer": "480 gems",
+          "explanation": "Multiply 32 × 15: (32 × 10) + (32 × 5) = 320 + 160 = 480"
+        },
+        {
+          "question": "A magic sword strikes 25 times per minute. In 18 minutes, how many strikes?",
+          "options": ["450 strikes", "440 strikes", "460 strikes", "470 strikes", "480 strikes"],
+          "answer": "450 strikes",
+          "explanation": "Multiply 25 × 18: (25 × 10) + (25 × 8) = 250 + 200 = 450"
+        },
+        {
+          "question": "Dragon eggs come in clutches of 34. With 17 clutches, how many eggs?",
+          "options": ["578 eggs", "568 eggs", "588 eggs", "598 eggs", "608 eggs"],
+          "answer": "578 eggs",
+          "explanation": "Multiply 34 × 17: (34 × 10) + (34 × 7) = 340 + 238 = 578"
+        },
+        {
+          "question": "Each magical shield deflects 29 arrows. With 19 shields, how many arrows deflected?",
+          "options": ["551 arrows", "541 arrows", "561 arrows", "571 arrows", "581 arrows"],
+          "answer": "551 arrows",
+          "explanation": "Multiply 29 × 19: (29 × 10) + (29 × 9) = 290 + 261 = 551"
+        }
+      ]
+    },
+    {
+      "text": "The city's construction project needs careful calculations for materials and costs.",
+      "questions": [
+        {
+          "question": "Each floor needs 35 windows. In a 19-story building, how many windows total?",
+          "options": ["665 windows", "655 windows", "675 windows", "685 windows", "695 windows"],
+          "answer": "665 windows",
+          "explanation": "Multiply 35 × 19: (35 × 10) + (35 × 9) = 350 + 315 = 665"
+        },
+        {
+          "question": "If each room needs 42 tiles and there are 16 rooms, how many tiles needed?",
+          "options": ["672 tiles", "662 tiles", "682 tiles", "692 tiles", "702 tiles"],
+          "answer": "672 tiles",
+          "explanation": "Multiply 42 × 16: (42 × 10) + (42 × 6) = 420 + 252 = 672"
+        },
+        {
+          "question": "A wall section needs 37 bricks. For 18 sections, how many bricks total?",
+          "options": ["666 bricks", "656 bricks", "676 bricks", "686 bricks", "696 bricks"],
+          "answer": "666 bricks",
+          "explanation": "Multiply 37 × 18: (37 × 10) + (37 × 8) = 370 + 296 = 666"
+        },
+        {
+          "question": "Each floor requires 45 light fixtures. For 17 floors, how many fixtures?",
+          "options": ["765 fixtures", "755 fixtures", "775 fixtures", "785 fixtures", "795 fixtures"],
+          "answer": "765 fixtures",
+          "explanation": "Multiply 45 × 17: (45 × 10) + (45 × 7) = 450 + 315 = 765"
+        },
+        {
+          "question": "If each worker needs 39 tools and there are 19 workers, how many tools needed?",
+          "options": ["741 tools", "731 tools", "751 tools", "761 tools", "771 tools"],
+          "answer": "741 tools",
+          "explanation": "Multiply 39 × 19: (39 × 10) + (39 × 9) = 390 + 351 = 741"
+        }
+      ]
+    },
+    {
+      "text": "In the Enchanted Forest, magical creatures are collecting starlight in crystal vials!",
+      "questions": [
+        {
+          "question": "Each fairy collects 46 drops of starlight. With 23 fairies, how many drops total?",
+          "options": ["1,058 drops", "1,048 drops", "1,068 drops", "1,078 drops", "1,088 drops"],
+          "answer": "1,058 drops",
+          "explanation": "Multiply 46 × 23: (46 × 20) + (46 × 3) = 920 + 138 = 1,058"
+        },
+        {
+          "question": "Moonflowers bloom 48 petals each. With 25 flowers, how many petals?",
+          "options": ["1,200 petals", "1,190 petals", "1,210 petals", "1,220 petals", "1,230 petals"],
+          "answer": "1,200 petals",
+          "explanation": "Multiply 48 × 25: (48 × 20) + (48 × 5) = 960 + 240 = 1,200"
+        },
+        {
+          "question": "Magical butterflies carry 52 sparkles each. For 24 butterflies, how many sparkles?",
+          "options": ["1,248 sparkles", "1,238 sparkles", "1,258 sparkles", "1,268 sparkles", "1,278 sparkles"],
+          "answer": "1,248 sparkles",
+          "explanation": "Multiply 52 × 24: (52 × 20) + (52 × 4) = 1,040 + 208 = 1,248"
+        },
+        {
+          "question": "Enchanted trees grow 54 leaves daily. After 26 days, how many leaves?",
+          "options": ["1,404 leaves", "1,394 leaves", "1,414 leaves", "1,424 leaves", "1,434 leaves"],
+          "answer": "1,404 leaves",
+          "explanation": "Multiply 54 × 26: (54 × 20) + (54 × 6) = 1,080 + 324 = 1,404"
+        },
+        {
+          "question": "Star sprites gather 56 wishes each night. For 28 nights, how many wishes?",
+          "options": ["1,568 wishes", "1,558 wishes", "1,578 wishes", "1,588 wishes", "1,598 wishes"],
+          "answer": "1,568 wishes",
+          "explanation": "Multiply 56 × 28: (56 × 20) + (56 × 8) = 1,120 + 448 = 1,568"
+        }
+      ]
+    },//6
+   {
+      "text": "At the local sports stadium, organizers are planning a major event.",
+      "questions": [
+        {
+          "question": "Each section has 57 seats. If there are 31 sections, how many seats total?",
+          "options": ["1,767 seats", "1,757 seats", "1,777 seats", "1,787 seats", "1,797 seats"],
+          "answer": "1,767 seats",
+          "explanation": "Multiply 57 × 31: (57 × 30) + (57 × 1) = 1,710 + 57 = 1,767"
+        },
+        {
+          "question": "Vendors prepare 63 hot dogs each. With 32 vendors, how many hot dogs total?",
+          "options": ["2,016 hot dogs", "2,006 hot dogs", "2,026 hot dogs", "2,036 hot dogs", "2,046 hot dogs"],
+          "answer": "2,016 hot dogs",
+          "explanation": "Multiply 63 × 32: (63 × 30) + (63 × 2) = 1,890 + 126 = 2,016"
+        },
+        {
+          "question": "Each player needs 65 minutes of practice. For 33 players, how many minutes?",
+          "options": ["2,145 minutes", "2,135 minutes", "2,155 minutes", "2,165 minutes", "2,175 minutes"],
+          "answer": "2,145 minutes",
+          "explanation": "Multiply 65 × 33: (65 × 30) + (65 × 3) = 1,950 + 195 = 2,145"
+        },
+        {
+          "question": "Parking lots have 67 spaces each. With 34 lots, how many spaces?",
+          "options": ["2,278 spaces", "2,268 spaces", "2,288 spaces", "2,298 spaces", "2,308 spaces"],
+          "answer": "2,278 spaces",
+          "explanation": "Multiply 67 × 34: (67 × 30) + (67 × 4) = 2,010 + 268 = 2,278"
+        },
+        {
+          "question": "Each team needs 69 balls for practice. For 35 teams, how many balls?",
+          "options": ["2,415 balls", "2,405 balls", "2,425 balls", "2,435 balls", "2,445 balls"],
+          "answer": "2,415 balls",
+          "explanation": "Multiply 69 × 35: (69 × 30) + (69 × 5) = 2,070 + 345 = 2,415"
+        }
+      ]
+    },
+    {
+      "text": "In the Space Explorers Academy, young astronauts calculate cosmic measurements!",
+      "questions": [
+        {
+          "question": "Each starship carries 72 cosmic crystals. With 36 ships, how many crystals total?",
+          "options": ["2,592 crystals", "2,582 crystals", "2,602 crystals", "2,612 crystals", "2,622 crystals"],
+          "answer": "2,592 crystals",
+          "explanation": "Multiply 72 × 36: (72 × 30) + (72 × 6) = 2,160 + 432 = 2,592"
+        },
+        {
+          "question": "Space gardens grow 75 moon flowers each. In 37 gardens, how many flowers?",
+          "options": ["2,775 flowers", "2,765 flowers", "2,785 flowers", "2,795 flowers", "2,805 flowers"],
+          "answer": "2,775 flowers",
+          "explanation": "Multiply 75 × 37: (75 × 30) + (75 × 7) = 2,250 + 525 = 2,775"
+        },
+        {
+          "question": "Asteroid fields contain 78 meteors each. In 38 fields, how many meteors?",
+          "options": ["2,964 meteors", "2,954 meteors", "2,974 meteors", "2,984 meteors", "2,994 meteors"],
+          "answer": "2,964 meteors",
+          "explanation": "Multiply 78 × 38: (78 × 30) + (78 × 8) = 2,340 + 624 = 2,964"
+        },
+        {
+          "question": "Each space station observes 82 galaxies. With 39 stations, how many galaxies?",
+          "options": ["3,198 galaxies", "3,188 galaxies", "3,208 galaxies", "3,218 galaxies", "3,228 galaxies"],
+          "answer": "3,198 galaxies",
+          "explanation": "Multiply 82 × 39: (82 × 30) + (82 × 9) = 2,460 + 738 = 3,198"
+        },
+        {
+          "question": "Cosmic maps show 85 star systems each. For 41 maps, how many systems?",
+          "options": ["3,485 systems", "3,475 systems", "3,495 systems", "3,505 systems", "3,515 systems"],
+          "answer": "3,485 systems",
+          "explanation": "Multiply 85 × 41: (85 × 40) + (85 × 1) = 3,400 + 85 = 3,485"
+        }
+      ]
+    },
+    {
+      "text": "At the grand chocolate factory, workers calculate production numbers.",
+      "questions": [
+        {
+          "question": "Each batch makes 87 chocolates. With 42 batches, how many chocolates?",
+          "options": ["3,654 chocolates", "3,644 chocolates", "3,664 chocolates", "3,674 chocolates", "3,684 chocolates"],
+          "answer": "3,654 chocolates",
+          "explanation": "Multiply 87 × 42: (87 × 40) + (87 × 2) = 3,480 + 174 = 3,654"
+        },
+        {
+          "question": "Candy boxes hold 89 pieces each. For 43 boxes, how many pieces total?",
+          "options": ["3,827 pieces", "3,817 pieces", "3,837 pieces", "3,847 pieces", "3,857 pieces"],
+          "answer": "3,827 pieces",
+          "explanation": "Multiply 89 × 43: (89 × 40) + (89 × 3) = 3,560 + 267 = 3,827"
+        },
+        {
+          "question": "Each worker wraps 92 caramels per hour. In 44 hours, how many wrapped?",
+          "options": ["4,048 caramels", "4,038 caramels", "4,058 caramels", "4,068 caramels", "4,078 caramels"],
+          "answer": "4,048 caramels",
+          "explanation": "Multiply 92 × 44: (92 × 40) + (92 × 4) = 3,680 + 368 = 4,048"
+        },
+        {
+          "question": "Chocolate bars need 94 cacao beans each. For 45 bars, how many beans?",
+          "options": ["4,230 beans", "4,220 beans", "4,240 beans", "4,250 beans", "4,260 beans"],
+          "answer": "4,230 beans",
+          "explanation": "Multiply 94 × 45: (94 × 40) + (94 × 5) = 3,760 + 470 = 4,230"
+        },
+        {
+          "question": "Each shelf displays 96 truffles. With 46 shelves, how many truffles total?",
+          "options": ["4,416 truffles", "4,406 truffles", "4,426 truffles", "4,436 truffles", "4,446 truffles"],
+          "answer": "4,416 truffles",
+          "explanation": "Multiply 96 × 46: (96 × 40) + (96 × 6) = 3,840 + 576 = 4,416"
+        }
+      ]
+    },
+    {
+      "text": "In the Kingdom of Time, magical clockmakers measure moments and memories!",
+      "questions": [
+        {
+          "question": "Each time crystal captures 98 memories. With 47 crystals, how many memories?",
+          "options": ["4,606 memories", "4,596 memories", "4,616 memories", "4,626 memories", "4,636 memories"],
+          "answer": "4,606 memories",
+          "explanation": "Multiply 98 × 47: (98 × 40) + (98 × 7) = 3,920 + 686 = 4,606"
+        },
+        {
+          "question": "Magical hourglasses count 103 seconds each. For 48 hourglasses, how many seconds?",
+          "options": ["4,944 seconds", "4,934 seconds", "4,954 seconds", "4,964 seconds", "4,974 seconds"],
+          "answer": "4,944 seconds",
+          "explanation": "Multiply 103 × 48: (103 × 40) + (103 × 8) = 4,120 + 824 = 4,944"
+        },
+        {
+          "question": "Time portals show 105 futures each. With 49 portals, how many futures?",
+          "options": ["5,145 futures", "5,135 futures", "5,155 futures", "5,165 futures", "5,175 futures"],
+          "answer": "5,145 futures",
+          "explanation": "Multiply 105 × 49: (105 × 40) + (105 × 9) = 4,200 + 945 = 5,145"
+        },
+        {
+          "question": "Clock towers chime 107 times daily. In 52 days, how many chimes?",
+          "options": ["5,564 chimes", "5,554 chimes", "5,574 chimes", "5,584 chimes", "5,594 chimes"],
+          "answer": "5,564 chimes",
+          "explanation": "Multiply 107 × 52: (107 × 50) + (107 × 2) = 5,350 + 214 = 5,564"
+        },
+        {
+          "question": "Time weavers collect 109 moments each. For 53 weavers, how many moments?",
+          "options": ["5,777 moments", "5,767 moments", "5,787 moments", "5,797 moments", "5,807 moments"],
+          "answer": "5,777 moments",
+          "explanation": "Multiply 109 × 53: (109 × 50) + (109 × 3) = 5,450 + 327 = 5,777"
+        }
+      ]
+    },//
+    {
+      "text": "At the grand electronics factory, workers track production of computers and parts.",
+      "questions": [
+        {
+          "question": "Each computer needs 112 microchips. For 54 computers, how many chips needed?",
+          "options": ["6,048 chips", "6,038 chips", "6,058 chips", "6,068 chips", "6,078 chips"],
+          "answer": "6,048 chips",
+          "explanation": "Multiply 112 × 54: (112 × 50) + (112 × 4) = 5,600 + 448 = 6,048"
+        },
+        {
+          "question": "Assembly lines produce 115 keyboards hourly. In 55 hours, how many keyboards?",
+          "options": ["6,325 keyboards", "6,315 keyboards", "6,335 keyboards", "6,345 keyboards", "6,355 keyboards"],
+          "answer": "6,325 keyboards",
+          "explanation": "Multiply 115 × 55: (115 × 50) + (115 × 5) = 5,750 + 575 = 6,325"
+        },
+        {
+          "question": "Each box contains 118 circuit boards. With 56 boxes, how many boards total?",
+          "options": ["6,608 boards", "6,598 boards", "6,618 boards", "6,628 boards", "6,638 boards"],
+          "answer": "6,608 boards",
+          "explanation": "Multiply 118 × 56: (118 × 50) + (118 × 6) = 5,900 + 708 = 6,608"
+        },
+        {
+          "question": "Workers install 121 components per hour. In 57 hours, how many installed?",
+          "options": ["6,897 components", "6,887 components", "6,907 components", "6,917 components", "6,927 components"],
+          "answer": "6,897 components",
+          "explanation": "Multiply 121 × 57: (121 × 50) + (121 × 7) = 6,050 + 847 = 6,897"
+        },
+        {
+          "question": "Quality checks test 124 devices hourly. In 58 hours, how many tested?",
+          "options": ["7,192 devices", "7,182 devices", "7,202 devices", "7,212 devices", "7,222 devices"],
+          "answer": "7,192 devices",
+          "explanation": "Multiply 124 × 58: (124 × 50) + (124 × 8) = 6,200 + 992 = 7,192"
+        }
+      ]
+    },
+    {
+      "text": "In the Elemental Academy, young wizards study the power of magical combinations!",
+      "questions": [
+        {
+          "question": "Fire spells combine 127 flame particles each. For 59 spells, how many particles?",
+          "options": ["7,493 particles", "7,483 particles", "7,503 particles", "7,513 particles", "7,523 particles"],
+          "answer": "7,493 particles",
+          "explanation": "Multiply 127 × 59: (127 × 50) + (127 × 9) = 6,350 + 1,143 = 7,493"
+        },
+        {
+          "question": "Water runes hold 131 droplets each. In 62 runes, how many droplets total?",
+          "options": ["8,122 droplets", "8,112 droplets", "8,132 droplets", "8,142 droplets", "8,152 droplets"],
+          "answer": "8,122 droplets",
+          "explanation": "Multiply 131 × 62: (131 × 60) + (131 × 2) = 7,860 + 262 = 8,122"
+        },
+        {
+          "question": "Earth crystals contain 134 mineral fragments. With 63 crystals, how many fragments?",
+          "options": ["8,442 fragments", "8,432 fragments", "8,452 fragments", "8,462 fragments", "8,472 fragments"],
+          "answer": "8,442 fragments",
+          "explanation": "Multiply 134 × 63: (134 × 60) + (134 × 3) = 8,040 + 402 = 8,442"
+        },
+        {
+          "question": "Air scrolls capture 137 wind whispers each. For 64 scrolls, how many whispers?",
+          "options": ["8,768 whispers", "8,758 whispers", "8,778 whispers", "8,788 whispers", "8,798 whispers"],
+          "answer": "8,768 whispers",
+          "explanation": "Multiply 137 × 64: (137 × 60) + (137 × 4) = 8,220 + 548 = 8,768"
+        },
+        {
+          "question": "Lightning staffs channel 142 energy bolts each. With 65 staffs, how many bolts?",
+          "options": ["9,230 bolts", "9,220 bolts", "9,240 bolts", "9,250 bolts", "9,260 bolts"],
+          "answer": "9,230 bolts",
+          "explanation": "Multiply 142 × 65: (142 × 60) + (142 × 5) = 8,520 + 710 = 9,230"
+        }
+      ]
+    },
+    {
+      "text": "At the international airport, staff manage flights and passenger statistics.",
+      "questions": [
+        {
+          "question": "Each flight carries 145 passengers. With 66 flights, how many passengers total?",
+          "options": ["9,570 passengers", "9,560 passengers", "9,580 passengers", "9,590 passengers", "9,600 passengers"],
+          "answer": "9,570 passengers",
+          "explanation": "Multiply 145 × 66: (145 × 60) + (145 × 6) = 8,700 + 870 = 9,570"
+        },
+        {
+          "question": "Luggage cars transport 148 bags each. For 67 cars, how many bags?",
+          "options": ["9,916 bags", "9,906 bags", "9,926 bags", "9,936 bags", "9,946 bags"],
+          "answer": "9,916 bags",
+          "explanation": "Multiply 148 × 67: (148 × 60) + (148 × 7) = 8,880 + 1,036 = 9,916"
+        },
+        {
+          "question": "Security checks process 152 items hourly. In 68 hours, how many items?",
+          "options": ["10,336 items", "10,326 items", "10,346 items", "10,356 items", "10,366 items"],
+          "answer": "10,336 items",
+          "explanation": "Multiply 152 × 68: (152 × 60) + (152 × 8) = 9,120 + 1,216 = 10,336"
+        },
+        {
+          "question": "Each terminal handles 155 travelers hourly. For 69 hours, how many travelers?",
+          "options": ["10,695 travelers", "10,685 travelers", "10,705 travelers", "10,715 travelers", "10,725 travelers"],
+          "answer": "10,695 travelers",
+          "explanation": "Multiply 155 × 69: (155 × 60) + (155 × 9) = 9,300 + 1,395 = 10,695"
+        },
+        {
+          "question": "Duty-free shops stock 158 items each. In 72 shops, how many items total?",
+          "options": ["11,376 items", "11,366 items", "11,386 items", "11,396 items", "11,406 items"],
+          "answer": "11,376 items",
+          "explanation": "Multiply 158 × 72: (158 × 70) + (158 × 2) = 11,060 + 316 = 11,376"
+        }
+      ]
+    },
+    {
+      "text": "In the Rainbow Kingdom, color magicians create spectacular light shows!",
+      "questions": [
+        {
+          "question": "Each rainbow contains 162 color sparkles. With 73 rainbows, how many sparkles?",
+          "options": ["11,826 sparkles", "11,816 sparkles", "11,836 sparkles", "11,846 sparkles", "11,856 sparkles"],
+          "answer": "11,826 sparkles",
+          "explanation": "Multiply 162 × 73: (162 × 70) + (162 × 3) = 11,340 + 486 = 11,826"
+        },
+        {
+          "question": "Light prisms create 165 beams each. For 74 prisms, how many beams total?",
+          "options": ["12,210 beams", "12,200 beams", "12,220 beams", "12,230 beams", "12,240 beams"],
+          "answer": "12,210 beams",
+          "explanation": "Multiply 165 × 74: (165 × 70) + (165 × 4) = 11,550 + 660 = 12,210"
+        },
+        {
+          "question": "Color wizards blend 168 hues daily. In 75 days, how many hues?",
+          "options": ["12,600 hues", "12,590 hues", "12,610 hues", "12,620 hues", "12,630 hues"],
+          "answer": "12,600 hues",
+          "explanation": "Multiply 168 × 75: (168 × 70) + (168 × 5) = 11,760 + 840 = 12,600"
+        },
+        {
+          "question": "Aurora spells release 172 light waves each. For 76 spells, how many waves?",
+          "options": ["13,072 waves", "13,062 waves", "13,082 waves", "13,092 waves", "13,102 waves"],
+          "answer": "13,072 waves",
+          "explanation": "Multiply 172 × 76: (172 × 70) + (172 × 6) = 12,040 + 1,032 = 13,072"
+        },
+        {
+          "question": "Rainbow bridges span 175 color streams each. With 77 bridges, how many streams?",
+          "options": ["13,475 streams", "13,465 streams", "13,485 streams", "13,495 streams", "13,505 streams"],
+          "answer": "13,475 streams",
+          "explanation": "Multiply 175 × 77: (175 × 70) + (175 × 7) = 12,250 + 1,225 = 13,475"
+        }
+      ]
+    },
+    {
+      "text": "At the massive shipping warehouse, workers track inventory and deliveries.",
+      "questions": [
+        {
+          "question": "Each container holds 178 packages. With 78 containers, how many packages?",
+          "options": ["13,884 packages", "13,874 packages", "13,894 packages", "13,904 packages", "13,914 packages"],
+          "answer": "13,884 packages",
+          "explanation": "Multiply 178 × 78: (178 × 70) + (178 × 8) = 12,460 + 1,424 = 13,884"
+        },
+        {
+          "question": "Delivery trucks carry 182 boxes each. For 79 trucks, how many boxes?",
+          "options": ["14,378 boxes", "14,368 boxes", "14,388 boxes", "14,398 boxes", "14,408 boxes"],
+          "answer": "14,378 boxes",
+          "explanation": "Multiply 182 × 79: (182 × 70) + (182 × 9) = 12,740 + 1,638 = 14,378"
+        },
+        {
+          "question": "Sorting machines process 185 items hourly. In 82 hours, how many items?",
+          "options": ["15,170 items", "15,160 items", "15,180 items", "15,190 items", "15,200 items"],
+          "answer": "15,170 items",
+          "explanation": "Multiply 185 × 82: (185 × 80) + (185 × 2) = 14,800 + 370 = 15,170"
+        },
+        {
+          "question": "Storage racks hold 188 products each. With 83 racks, how many products?",
+          "options": ["15,604 products", "15,594 products", "15,614 products", "15,624 products", "15,634 products"],
+          "answer": "15,604 products",
+          "explanation": "Multiply 188 × 83: (188 × 80) + (188 × 3) = 15,040 + 564 = 15,604"
+        },
+        {
+          "question": "Packing stations handle 192 orders daily. For 84 days, how many orders?",
+          "options": ["16,128 orders", "16,118 orders", "16,138 orders", "16,148 orders", "16,158 orders"],
+          "answer": "16,128 orders",
+          "explanation": "Multiply 192 × 84: (192 × 80) + (192 × 4) = 15,360 + 768 = 16,128"
+        }
+      ]
+    },// stage 15 end
+	 {
+	  "text": "In the Pirate Cove, the crew is calculating the treasure they found on their latest voyage.",
+	  "questions": [
+		{
+		  "question": "Each chest contains 123 gold coins. The crew found 45 chests. How many gold coins did they find?",
+		  "options": ["5,535 coins", "5,625 coins", "5,415 coins", "5,505 coins", "5,595 coins"],
+		  "answer": "5,535 coins",
+		  "explanation": "Multiply 123 × 45: (123 × 40) + (123 × 5) = 4,920 + 615 = 5,535"
+		},
+		{
+		  "question": "The pirate captain buys 67 maps for 89 dollars each. How much does he spend?",
+		  "options": ["5,963 dollars", "5,933 dollars", "5,903 dollars", "5,973 dollars", "5,943 dollars"],
+		  "answer": "5,963 dollars",
+		  "explanation": "Multiply 67 × 89: (67 × 80) + (67 × 9) = 5,360 + 603 = 5,963"
+		},
+		{
+		  "question": "The ship has 156 sails, and each sail costs 34 dollars. What is the total cost for all sails?",
+		  "options": ["5,304 dollars", "5,284 dollars", "5,324 dollars", "5,344 dollars", "5,364 dollars"],
+		  "answer": "5,304 dollars",
+		  "explanation": "Multiply 156 × 34: (150 × 34) + (6 × 34) = 5,100 + 204 = 5,304"
+		},
+		{
+		  "question": "The crew catches 89 fish each day for 27 days. How many fish do they catch in total?",
+		  "options": ["2,403 fish", "2,433 fish", "2,463 fish", "2,393 fish", "2,423 fish"],
+		  "answer": "2,403 fish",
+		  "explanation": "Multiply 89 × 27: (89 × 20) + (89 × 7) = 1,780 + 623 = 2,403"
+		},
+		{
+		  "question": "The pirates collect 98 pieces of eight for 56 days. How many pieces do they collect?",
+		  "options": ["5,488 pieces", "5,468 pieces", "5,498 pieces", "5,478 pieces", "5,508 pieces"],
+		  "answer": "5,488 pieces",
+		  "explanation": "Multiply 98 × 56: (98 × 50) + (98 × 6) = 4,900 + 588 = 5,488"
+		}
+	  ]
+	},
+	{
+	  "text": "At the Science Laboratory, young scientists are measuring ingredients for exciting experiments.",
+	  "questions": [
+		{
+		  "question": "Each experiment requires 132 milliliters of solution. If there are 48 experiments, how much solution is needed in total?",
+		  "options": ["6,336 milliliters", "6,216 milliliters", "6,396 milliliters", "6,276 milliliters", "6,156 milliliters"],
+		  "answer": "6,336 milliliters",
+		  "explanation": "Multiply 132 × 48: (132 × 40) + (132 × 8) = 5,280 + 1,056 = 6,336"
+		},
+		{
+		  "question": "The lab needs 145 grams of chemical for each of 53 projects. What is the total amount needed?",
+		  "options": ["7,685 grams", "7,675 grams", "7,695 grams", "7,705 grams", "7,715 grams"],
+		  "answer": "7,685 grams",
+		  "explanation": "Multiply 145 × 53: (145 × 50) + (145 × 3) = 7,250 + 435 = 7,685"
+		},
+		{
+		  "question": "Each microscope costs 178 dollars, and the lab buys 26 microscopes. What is the total cost?",
+		  "options": ["4,628 dollars", "4,618 dollars", "4,638 dollars", "4,648 dollars", "4,658 dollars"],
+		  "answer": "4,628 dollars",
+		  "explanation": "Multiply 178 × 26: (178 × 20) + (178 × 6) = 3,560 + 1,068 = 4,628"
+		},
+		{
+		  "question": "For each trial, 219 drops of reagent are needed. If there are 35 trials, how many drops are needed in total?",
+		  "options": ["7,665 drops", "7,655 drops", "7,675 drops", "7,685 drops", "7,695 drops"],
+		  "answer": "7,665 drops",
+		  "explanation": "Multiply 219 × 35: (219 × 30) + (219 × 5) = 6,570 + 1,095 = 7,665"
+		},
+		{
+		  "question": "The laboratory prepares 241 samples, and each sample requires 64 data points. How many data points are collected in total?",
+		  "options": ["15,424 data points", "15,414 data points", "15,434 data points", "15,444 data points", "15,404 data points"],
+		  "answer": "15,424 data points",
+		  "explanation": "Multiply 241 × 64: (241 × 60) + (241 × 4) = 14,460 + 964 = 15,424"
+		}
+	  ]
+	},
+	{
+	  "text": "At the Zoo Management Center, staff are counting animals and preparing habitats.",
+	  "questions": [
+		{
+		  "question": "Each enclosure has 187 animals, and there are 42 enclosures. How many animals are there in total?",
+		  "options": ["7,854 animals", "7,844 animals", "7,864 animals", "7,874 animals", "7,884 animals"],
+		  "answer": "7,854 animals",
+		  "explanation": "Multiply 187 × 42: (187 × 40) + (187 × 2) = 7,480 + 374 = 7,854"
+		},
+		{
+		  "question": "The zoo acquires 198 birds for each of 35 aviaries. What is the total number of birds?",
+		  "options": ["6,930 birds", "6,920 birds", "6,940 birds", "6,950 birds", "6,960 birds"],
+		  "answer": "6,930 birds",
+		  "explanation": "Multiply 198 × 35: (198 × 30) + (198 × 5) = 5,940 + 990 = 6,930"
+		},
+		{
+		  "question": "Each habitat requires 254 square meters of space. For 29 habitats, how much space is needed in total?",
+		  "options": ["7,366 square meters", "7,356 square meters", "7,376 square meters", "7,386 square meters", "7,396 square meters"],
+		  "answer": "7,366 square meters",
+		  "explanation": "Multiply 254 × 29: (254 × 20) + (254 × 9) = 5,080 + 2,286 = 7,366"
+		},
+		{
+		  "question": "The zoo plans to feed each giraffe 78 kilograms of food weekly. With 36 giraffes, how much food is needed per week?",
+		  "options": ["2,808 kilograms", "2,818 kilograms", "2,798 kilograms", "2,828 kilograms", "2,768 kilograms"],
+		  "answer": "2,808 kilograms",
+		  "explanation": "Multiply 78 × 36: (78 × 30) + (78 × 6) = 2,340 + 468 = 2,808"
+		},
+		{
+		  "question": "Each elephant consumes 365 liters of water daily. For 18 elephants, how much water is consumed daily?",
+		  "options": ["6,570 liters", "6,560 liters", "6,580 liters", "6,590 liters", "6,600 liters"],
+		  "answer": "6,570 liters",
+		  "explanation": "Multiply 365 × 18: (365 × 10) + (365 × 8) = 3,650 + 2,920 = 6,570"
+		}
+	  ]
+	},
+	{
+	  "text": "In the busy Bakery, bakers are calculating the ingredients needed for delicious pastries.",
+	  "questions": [
+		{
+		  "question": "Each batch of cookies requires 256 grams of flour. The bakery makes 47 batches. How much flour is needed in total?",
+		  "options": ["12,032 grams", "12,022 grams", "12,042 grams", "12,012 grams", "12,052 grams"],
+		  "answer": "12,032 grams",
+		  "explanation": "Multiply 256 × 47: (256 × 40) + (256 × 7) = 10,240 + 1,792 = 12,032"
+		},
+		{
+		  "question": "The bakery bakes 198 cupcakes each day for 53 days. How many cupcakes are baked in total?",
+		  "options": ["10,494 cupcakes", "10,484 cupcakes", "10,504 cupcakes", "10,514 cupcakes", "10,524 cupcakes"],
+		  "answer": "10,494 cupcakes",
+		  "explanation": "Multiply 198 × 53: (198 × 50) + (198 × 3) = 9,900 + 594 = 10,494"
+		},
+		{
+		  "question": "Each loaf of bread requires 321 grams of yeast. For 29 loaves, how much yeast is needed?",
+		  "options": ["9,309 grams", "9,319 grams", "9,299 grams", "9,329 grams", "9,339 grams"],
+		  "answer": "9,309 grams",
+		  "explanation": "Multiply 321 × 29: (321 × 20) + (321 × 9) = 6,420 + 2,889 = 9,309"
+		},
+		{
+		  "question": "The bakery produces 432 pastries each day. How many pastries are made in 36 days?",
+		  "options": ["15,552 pastries", "15,542 pastries", "15,562 pastries", "15,572 pastries", "15,582 pastries"],
+		  "answer": "15,552 pastries",
+		  "explanation": "Multiply 432 × 36: (432 × 30) + (432 × 6) = 12,960 + 2,592 = 15,552"
+		},
+		{
+		  "question": "For each special cake, the bakery uses 487 grams of sugar. If they make 25 cakes, how much sugar is used?",
+		  "options": ["12,175 grams", "12,165 grams", "12,185 grams", "12,195 grams", "12,155 grams"],
+		  "answer": "12,175 grams",
+		  "explanation": "Multiply 487 × 25: (487 × 20) + (487 × 5) = 9,740 + 2,435 = 12,175"
+		}
+	  ]
+	},
+	{
+	  "text": "At the Movie Studio, crew members are budgeting for props and costumes needed for the new film.",
+	  "questions": [
+		{
+		  "question": "Each costume costs 385 dollars. The studio buys 46 costumes. What is the total cost?",
+		  "options": ["17,710 dollars", "17,720 dollars", "17,730 dollars", "17,740 dollars", "17,750 dollars"],
+		  "answer": "17,710 dollars",
+		  "explanation": "Multiply 385 × 46: (385 × 40) + (385 × 6) = 15,400 + 2,310 = 17,710"
+		},
+		{
+		  "question": "The studio orders 529 props, each priced at 62 dollars. How much do the props cost in total?",
+		  "options": ["32,798 dollars", "32,788 dollars", "32,808 dollars", "32,818 dollars", "32,828 dollars"],
+		  "answer": "32,798 dollars",
+		  "explanation": "Multiply 529 × 62: (529 × 60) + (529 × 2) = 31,740 + 1,058 = 32,798"
+		},
+		{
+		  "question": "Each set of special effects requires 413 liters of paint. For 38 sets, how much paint is needed?",
+		  "options": ["15,694 liters", "15,684 liters", "15,704 liters", "15,714 liters", "15,724 liters"],
+		  "answer": "15,694 liters",
+		  "explanation": "Multiply 413 × 38: (413 × 30) + (413 × 8) = 12,390 + 3,304 = 15,694"
+		},
+		{
+		  "question": "The production team needs 627 bolts for 49 sets of equipment. How many bolts are needed in total?",
+		  "options": ["30,723 bolts", "30,713 bolts", "30,733 bolts", "30,743 bolts", "30,753 bolts"],
+		  "answer": "30,723 bolts",
+		  "explanation": "Multiply 627 × 49: (627 × 40) + (627 × 9) = 25,080 + 5,643 = 30,723"
+		},
+		{
+		  "question": "Each filming day requires 725 power units. For 54 days, how many power units are needed?",
+		  "options": ["39,150 power units", "39,160 power units", "39,140 power units", "39,170 power units", "39,180 power units"],
+		  "answer": "39,150 power units",
+		  "explanation": "Multiply 725 × 54: (725 × 50) + (725 × 4) = 36,250 + 2,900 = 39,150"
+		}
+	  ]
+	}
+
+//-------------------------------------------------------------------------------------------------------------------							
+				  ]
+				}
+        ];
+
+		const stageCount = quizData[0].stages.length; // This is the correct way to get the number of stages
+
+
+		const stateContents = {
+			'Practice': `<div id="stage-number" class="stage-number">Stage 1 of ${stageCount}</div><div class="progress-bar-container"><div id="progress-bar" class="progress-bar"></div></div><div id="attempts">Attempts: 0</div><div id="quiz-content"></div><button class="center-button" onclick="checkStage()">Check Answers</button>`
+			,'Subject Overview 🗝️': `
+<div class="subject-overview-content">
+    <h1>Multiplying Multi-Digit Numbers by Multi-Digit Numbers: A Step-by-Step Guide</h1>
+    <p>Multiplying multi-digit numbers by multi-digit numbers is an important math skill that helps you solve bigger and more complex problems. This guide will break down the steps, rules, and provide plenty of examples to help you master this topic. Whether you're in 4th or 5th grade, these explanations and examples are designed to make multiplication easier and more fun!</p>
+    <hr>
+    <h2>Table of Contents</h2>
+    <ol>
+        <li><a href="#introduction">Introduction to Multi-Digit Multiplication</a></li>
+        <li><a href="#place-value">Understanding Place Value</a></li>
+        <li><a href="#multiplication-steps">Steps to Multiply Multi-Digit Numbers</a></li>
+        <li><a href="#examples">Examples</a></li>
+        <li><a href="#common-mistakes">Common Mistakes and Tips</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+    </ol>
+    <hr>
+    <h2 id="introduction">Introduction to Multi-Digit Multiplication</h2>
+    <p>When you multiply multi-digit numbers, you're combining the values of each digit based on their place (units, tens, hundreds, etc.). This process might seem tricky at first, but with practice, it becomes much easier. Let's start by understanding the importance of place value in multiplication.</p>
+    <hr>
+    <h2 id="place-value">Understanding Place Value</h2>
+    <p>Place value tells us the value of each digit in a number based on its position. For example, in the number 345:</p>
+    <ul>
+        <li><strong>3</strong> is in the hundreds place, so it represents 300.</li>
+        <li><strong>4</strong> is in the tens place, so it represents 40.</li>
+        <li><strong>5</strong> is in the ones place, so it represents 5.</li>
+    </ul>
+    <p>Understanding place value helps us multiply each part of the numbers separately before adding them all together.</p>
+    <hr>
+    <h2 id="multiplication-steps">Steps to Multiply Multi-Digit Numbers</h2>
+    <p>Follow these steps to multiply multi-digit numbers:</p>
+    <ol>
+        <li><strong>Write the Numbers Vertically:</strong> Place the larger number on top and the smaller number below it, aligning the digits by place value.</li>
+        <li><strong>Multiply by Each Digit:</strong> Start with the digit in the ones place of the bottom number and multiply it by each digit of the top number.</li>
+        <li><strong>Write the Partial Products:</strong> Write each partial product below the line, shifting one place to the left each time you move to the next digit of the bottom number.</li>
+        <li><strong>Add the Partial Products:</strong> Add all the partial products together to get the final answer.</li>
+    </ol>
+    <hr>
+    <h2 id="examples">Examples</h2>
+    <h3>Example 1: Multiply 23 by 45</h3>
+    <p>Let's multiply 23 by 45 step by step:</p>
+    <table class="multiplication-example">
+        <tr>
+            <td>Write the numbers vertically:</td>
+            <td>
+                <pre>
+  23
+x 45
+------
+                </pre>
+            </td>
+        </tr>
+        <tr>
+            <td>Multiply 5 (ones place of 45) by 23:</td>
+            <td>
+                <pre>
+  23
+x  5
+------
+ 115
+                </pre>
+            </td>
+        </tr>
+        <tr>
+            <td>Multiply 4 (tens place of 45) by 23. Since it's in the tens place, add a zero at the end:</td>
+            <td>
+                <pre>
+  23
+x 40
+------
+ 920
+                </pre>
+            </td>
+        </tr>
+        <tr>
+            <td>Add the partial products:</td>
+            <td>
+                <pre>
+  115
++ 920
+------
+ 1035
+                </pre>
+            </td>
+        </tr>
+    </table>
+    <p><strong>Answer:</strong> 23 × 45 = 1035</p>
+    <h3>Example 2: Multiply 156 by 24</h3>
+    <p>Let's multiply 156 by 24 step by step:</p>
+    <table class="multiplication-example">
+        <tr>
+            <td>Write the numbers vertically:</td>
+            <td>
+                <pre>
+  156
+x  24
+------
+                </pre>
+            </td>
+        </tr>
+        <tr>
+            <td>Multiply 4 (ones place of 24) by 156:</td>
+            <td>
+                <pre>
+  156
+x   4
+------
+  624
+                </pre>
+            </td>
+        </tr>
+        <tr>
+            <td>Multiply 2 (tens place of 24) by 156. Since it's in the tens place, add a zero at the end:</td>
+            <td>
+                <pre>
+  156
+x  20
+------
+ 3120
+                </pre>
+            </td>
+        </tr>
+        <tr>
+            <td>Add the partial products:</td>
+            <td>
+                <pre>
+  624
++3120
+------
+ 3744
+                </pre>
+            </td>
+        </tr>
+    </table>
+    <p><strong>Answer:</strong> 156 × 24 = 3744</p>
+    <hr>
+    <h2 id="common-mistakes">Common Mistakes and Tips</h2>
+    <p>When multiplying multi-digit numbers, it's easy to make mistakes. Here are some common ones and how to avoid them:</p>
+    <ul>
+        <li><strong>Misaligning Digits:</strong> Always align the numbers by place value to ensure accurate multiplication.</li>
+        <li><strong>Forgetting to Add Zeros:</strong> When multiplying by the tens, hundreds, etc., remember to add the necessary zeros to the partial products.</li>
+        <li><strong>Incorrect Addition:</strong> Double-check your addition of partial products to avoid simple addition errors.</li>
+        <li><strong>Skipping Steps:</strong> Follow each step carefully to ensure you don't miss any part of the multiplication process.</li>
+    </ul>
+    <p><strong>Tip:</strong> Practice with different numbers to become more comfortable with multi-digit multiplication.</p>
+    <hr>
+    <h2 id="conclusion">Conclusion</h2>
+    <p>Multiplying multi-digit numbers by multi-digit numbers might seem challenging at first, but with a clear understanding of place value and by following the step-by-step process, you can master this important math skill. Remember to practice regularly, watch out for common mistakes, and use the examples as a guide to improve your multiplication abilities. Keep practicing, and you'll become confident in solving multi-digit multiplication problems!</p>
+</div>
+
+`		
+			};
+
+
+		function showExplanations() {
+			// Hide the modal
+			document.getElementById('quizModal').style.display = 'none';
+			
+			// Show all explanation panels
+			document.querySelectorAll('.explanation-panel').forEach(exp => {
+				exp.style.display = 'block';
+			});
+		}
+		
+        function setQuizExpansion(allow) {
+            allowQuizExpansion = allow;
+            adjustLayout();
+        }
+
+        function adjustLayout() {
+            const wrapper = document.querySelector('.content-wrapper');
+            const quizContainer = document.getElementById('quizContainer');
+            const sidePanel1 = document.getElementById('sidePanel1');
+            
+            const isPanel1Visible = window.getComputedStyle(sidePanel1).display !== 'none';
+
+            wrapper.style.justifyContent = 'space-between';
+
+            if (isPanel1Visible) {
+                sidePanel1.style.flex = '0 0 calc(20% - 0.5rem)';
+                sidePanel1.style.maxWidth = 'calc(20% - 0.5rem)';
+                quizContainer.style.flex = '1';
+            } else {
+                quizContainer.style.flex = '1';
+                wrapper.style.justifyContent = 'center';
+            }
+
+            [sidePanel1, quizContainer].forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            adjustLayout();
+        }
+
+        function updateSwitcherLayout() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const handle = switchElement.querySelector('.switch-handle');
+
+            labels.forEach(label => {
+                label.style.flex = 'none';
+                label.style.padding = '0 20px';
+            });
+
+            const activeLabel = switchElement.querySelector('.switch-label.active');
+            if (activeLabel) {
+                const switchRect = switchElement.getBoundingClientRect();
+                const labelRect = activeLabel.getBoundingClientRect();
+
+                handle.style.left = `${labelRect.left - switchRect.left}px`;
+                handle.style.width = `${labelRect.width}px`;
+            }
+
+            switchElement.style.width = 'auto';
+        }
+        
+        function switchTab(index) {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labels = switchElement.querySelectorAll('.switch-label');
+            const activeStates = Array.from(labels).map(label => label.textContent);
+
+            labels.forEach((label, i) => {
+                label.classList.toggle('active', i === index);
+            });
+
+            updateSwitcherLayout();
+            showContent(activeStates[index]);
+
+            adjustLayout();
+        }
+
+        function showContent(state) {
+            const tabContent = document.getElementById('tabContent');
+            tabContent.innerHTML = stateContents[state] || '';
+
+            if (state === 'Practice') {
+                renderQuiz();
+                updateProgressBar();
+            }
+        }
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function isTextEmpty(text) {
+    return !text || text.trim() === "";
+}
+
+function renderQuiz() {
+    const quizContainer = document.getElementById("quiz-content");
+    quizContainer.innerHTML = '';
+
+    // Only add stage text if it's not empty
+    const stageText = quizData[0].stages[currentStage].text;
+    if (!isTextEmpty(stageText)) {
+        const stageTextElement = document.createElement("div");
+        stageTextElement.className = "stage-text";
+        stageTextElement.textContent = stageText;
+        quizContainer.appendChild(stageTextElement);
+    }
+
+    // Render questions
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        // Create main question container
+        const questionContainer = document.createElement("div");
+        questionContainer.className = "question";
+        questionContainer.style.padding = "0px"; 
+		
+        // Create question line
+        const questionLine = document.createElement("div");
+        questionLine.className = "question-one-line";
+
+        const label = document.createElement("label");
+        label.htmlFor = `q${index}`;
+        label.textContent = `${index + 1}. ${questionData.question}`;
+
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result result-ltr";
+        resultDiv.id = `result${index}`;
+
+        const select = document.createElement("select");
+        select.id = `q${index}`;
+        select.name = `q${index}`;
+
+        // Add default option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select";
+		
+        select.appendChild(defaultOption);
+
+        // Add shuffled options
+        const shuffledOptions = shuffleArray([...questionData.options]);
+        shuffledOptions.forEach(option => {
+            const optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+        });
+
+        // Assemble question line
+        questionLine.appendChild(label);
+        questionLine.appendChild(resultDiv);
+        questionLine.appendChild(select);
+
+        // Create explanation panel
+        const explanationPanel = document.createElement("div");
+        explanationPanel.className = "explanation-panel";
+        explanationPanel.style.display = "none"; 
+
+        const explanationText = document.createElement("div");
+        explanationText.className = "explanation-panel-text";
+        explanationText.textContent = questionData.explanation;
+
+        explanationPanel.appendChild(explanationText);
+
+        // Assemble full question container
+        questionContainer.appendChild(questionLine);
+        questionContainer.appendChild(explanationPanel);
+
+        quizContainer.appendChild(questionContainer);
+    });
+
+    updateStageNumber();
+}
+
+
+function checkStage() {
+    attempts++;
+    document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+
+    let correctCount = 0;
+    const totalQuestions = quizData[0].stages[currentStage].questions.length;
+
+    quizData[0].stages[currentStage].questions.forEach((questionData, index) => {
+        const resultElement = document.getElementById(`result${index}`);
+        const selectElement = document.getElementById(`q${index}`);
+        const selectedAnswer = selectElement.value;
+
+        // Check if the selected answer is correct or incorrect
+        if (selectedAnswer === questionData.answer) {
+            resultElement.textContent = "Correct!";
+            resultElement.style.color = "green";
+            correctCount++;
+        } else {
+            resultElement.textContent = "Incorrect.";
+            resultElement.style.color = "red";
+        }
+
+        // Reveal explanations if the user reaches 10 attempts
+        if (attempts >= 5) {
+            // Reveal the explanation panel
+            const explanationElement = selectElement.closest('.question').querySelector('.explanation-panel');
+            explanationElement.style.display = "block"; // Make the explanation panel visible
+
+            // Modify the explanation text to include the correct answer
+            const explanationText = explanationElement.querySelector('.explanation-panel-text');
+            explanationText.innerHTML = `${questionData.explanation}`;
+        }
+    });
+
+    if (correctCount === totalQuestions) {
+        console.log(`Stage ${currentStage + 1}: ${correctCount} correct out of ${totalQuestions}`);
+        addAnimalsToFarm(totalQuestions);
+
+        if (currentStage < quizData[0].stages.length - 1) {
+            singleStageConfetti();
+            showEncouragingPopup(correctCount, totalQuestions, true);
+            // Show both buttons in modal to allow moving to the next stage
+            document.getElementById('modalNextButton').style.display = 'inline-block';
+            document.getElementById('modalExplanationsButton').style.display = 'inline-block';
+        } else {
+            // Last stage completion
+            currentStage++;
+            updateProgressBar();
+            allStagesConfetti();
+            showModal("Congratulations! You've completed all stages!");
+        }
+    } else {
+        // Show the encouraging popup if the stage is not complete
+        showEncouragingPopup(correctCount, totalQuestions, false);
+
+        if (attempts >= 5) {
+            // If the user has reached 5 attempts, notify them about revealing the answers
+            const modalMessage = document.getElementById('modalMessage');
+            modalMessage.textContent = "You've reached the maximum number of attempts. The correct answers have been revealed.";
+            showModal(modalMessage.textContent);
+        }
+    }
+
+    scrollToTop();
+}
+
+
+	
+		function showEncouragingPopup(correctCount, totalQuestions, isStageComplete) {
+			const incorrectCount = totalQuestions - correctCount;
+			let message = `You got ${correctCount} correct and ${incorrectCount} incorrect.`;
+			
+			// Add encouraging message based on performance
+			if (correctCount === totalQuestions) {
+				message += " Perfect score!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.7)) {
+				message += " Great job! You're really getting the hang of this!";
+			} else if (correctCount >= Math.ceil(totalQuestions * 0.5)) {
+				message += " Good effort! Keep practicing and you'll improve in no time!";
+			} else {
+				message += " Don't give up! Every attempt helps you learn. Try again!";
+			}
+
+			// Add stage completion message if applicable
+			if (isStageComplete) {
+				message += "\n\n You've completed this stage. Moving to the next stage.";
+			}
+
+			showModal(message);
+		}
+
+		function initializeQuiz() {
+			currentStage = 0;
+			attempts = 0;
+			updateProgressBar(); // This should now set the progress to 0%
+			renderQuiz();
+			document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+			updateStageNumber();
+		}
+
+		function updateProgressBar() {
+			const progressBar = document.getElementById("progress-bar");
+			const completedStages = currentStage;
+			const progress = (completedStages / stageCount) * 100;
+			const roundedProgress = Math.min(100, Math.max(0, Math.round(progress)));
+			progressBar.style.width = `${roundedProgress}%`;
+			progressBar.textContent = roundedProgress > 0 ? `${roundedProgress}%` : '';
+			console.log(`Progress updated: ${roundedProgress}% (Stage ${currentStage + 1} of ${stageCount})`);
+		}
+
+		function updateStageNumber() {
+			const stageElement = document.getElementById("stage-number");
+			stageElement.textContent = `Stage ${currentStage + 1} of ${stageCount}`;
+		}
+
+		function singleStageConfetti() {
+			function randomInRange(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			confetti({
+				angle: randomInRange(55, 125),
+				spread: randomInRange(50, 70),
+				particleCount: randomInRange(50, 100),
+				origin: { y: 0.6 },
+			});
+		}
+
+		function allStagesConfetti() {
+			const defaults = {
+				spread: 360,
+				ticks: 50,
+				gravity: 0,
+				decay: 0.94,
+				startVelocity: 30,
+				shapes: ["star"],
+				colors: ["FFE400", "FFBD00", "E89400", "FFCA6C", "FDFFB8"],
+			};
+			function shoot() {
+				confetti({
+					...defaults,
+					particleCount: 40,
+					scalar: 1.2,
+					shapes: ["star"],
+				});
+				confetti({
+					...defaults,
+					particleCount: 10,
+					scalar: 0.75,
+					shapes: ["circle"],
+				});
+			}
+			setTimeout(shoot, 0);
+			setTimeout(shoot, 100);
+			setTimeout(shoot, 200);
+		}
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+			    scrollToTopBtn.style.display = "none";
+        }
+
+        function initializeSwitch() {
+            const switchElement = document.getElementById('multiStateSwitch');
+            const labelsContainer = switchElement.querySelector('.switch-labels');
+            const switchContainer = document.getElementById('switchContainer');
+            
+            const activeStates = Object.keys(stateContents).filter(state => stateContents[state].trim() !== '');
+            
+            if (activeStates.length <= 1) {
+                switchContainer.style.display = 'none';
+                if (activeStates.length === 1) {
+                    showContent(activeStates[0]);
+                }
+                return;
+            }
+            
+            switchContainer.style.display = 'flex';
+            
+            activeStates.forEach((state, index) => {
+                const label = document.createElement('div');
+                label.className = 'switch-label';
+                label.textContent = state;
+                label.addEventListener('click', () => switchTab(index));
+                labelsContainer.appendChild(label);
+            });
+   
+            const defaultTab = manuallySetDefaultTab !== null && manuallySetDefaultTab < activeStates.length
+                ? manuallySetDefaultTab
+                : 0;
+
+            switchTab(defaultTab);
+        }
+
+		let farmAnimals = [];
+
+		function addAnimalsToFarm(count) {
+			const animalFarm = document.getElementById('animalFarm');
+			let availableAnimals = animals.filter(animal => !farmAnimals.includes(animal));
+
+			console.log(`Adding ${count} animals to the farm. Current farm size: ${farmAnimals.length}`);
+
+			for (let i = 0; i < count; i++) {
+				if (availableAnimals.length === 0) {
+					console.log("No more unique animals available!");
+					break;
+				}
+
+				const randomIndex = Math.floor(Math.random() * availableAnimals.length);
+				const chosenAnimal = availableAnimals[randomIndex];
+
+				const animalElement = document.createElement('li');
+				animalElement.textContent = chosenAnimal;
+				animalFarm.appendChild(animalElement);
+
+				farmAnimals.push(chosenAnimal);
+				availableAnimals.splice(randomIndex, 1);
+				console.log(`Added animal: ${chosenAnimal}`);
+			}
+
+			console.log(`Farm size after addition: ${farmAnimals.length}`);
+			logAnimalFarmState();
+		}
+
+		function logAnimalFarmState() {
+			console.log(`Current animal farm state: ${farmAnimals.length} animals`);
+			console.log(farmAnimals);
+		}
+
+		const animals = [
+			"🐉", "🐻", "🦗", "🦁", "🐔", "🦂", "🐟", "🐣", "🐯", "🦡",
+			"🐰", "🐍", "🦅", "🐈", "🦈", "🦜", "🦛", "🐀", "🐑",
+			"🐮", "🦇", "🐇", "🦖", "🦀", "🦎", "🐃", "🐡", "🐤",
+			"🐪", "🦥", "🐛", "🐅", "🐥", "🐱", "🐺", "🐕", "🦩", "🐊",
+			"🐖", "🐢", "🕷", "🦕", "🦌", "🐁", "🦨", "🦘", "🐵",
+			"🦑", "🐋", "🦓", "🦒", "🐲", "🦆", "🦉", "🐶", "🐄", "🦟",
+			"🦃", "🦧", "🦏", "🐙", "🐿", "🦢", "🐜", "🐦", "🐞",
+			"🦐", "🦔", "🐼", "🦄", "🦞", "🐫", "🐭", "🐆", "🦝",
+			"🐠", "🦚", "🐴", "🐏", "🦮", "🐐", "🐹", "🐎", "🦋", "🐳",
+			"🐨", "🐂", "🦍", "🦙", "🐬", "🦦", "🦊", "🐌", "🐓", "🐧",
+			"🐷", "🐩", "🐘", "🐸", "🐝"
+		];
+
+		function showModal(message) {
+			const modal = document.getElementById("quizModal");
+			const modalMessage = document.getElementById("modalMessage");
+			const modalClose = document.getElementsByClassName("modal-quiz-close")[0];
+			const nextButton = document.getElementById("modalNextButton");
+			const explanationsButton = document.getElementById("modalExplanationsButton");
+
+			// Set message
+			modalMessage.textContent = message;
+			
+			// Show modal
+			modal.style.display = "block";
+
+			// By default, hide both buttons
+			nextButton.style.display = "none";
+			explanationsButton.style.display = "none";
+
+			// Close handlers
+			modalClose.onclick = function() {
+				modal.style.display = "none";
+			}
+
+			window.onclick = function(event) {
+				if (event.target == modal) {
+					modal.style.display = "none";
+				}
+			}
+		}
+
+		window.addEventListener('load', () => {
+			initializeSwitch();
+			initializeQuiz();
+			adjustLayout();
+			
+			 document.getElementById('modalNextButton').addEventListener('click', () => {
+				document.getElementById('quizModal').style.display = 'none';
+				currentStage++;
+				attempts = 0;
+				renderQuiz();
+				document.getElementById("attempts").textContent = `Attempts: ${attempts}`;
+				updateProgressBar();
+			});
+			
+			document.getElementById('modalExplanationsButton').addEventListener('click', showExplanations);
+        });
+
+        window.addEventListener('resize', adjustLayout);
+
+        fetch('http://ez42.live/global/copyright.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('copyright-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading copyright:', error));
+			
+		let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+			window.onscroll = function() {
+				// Check if the scroll distance is more than twice the height of the screen
+				if (document.body.scrollTop > window.innerHeight * 1.5 || 
+					document.documentElement.scrollTop > window.innerHeight * 1.5) {
+					scrollToTopBtn.style.display = "block";
+				} else {
+					scrollToTopBtn.style.display = "none";
+				}
+			};
+
+		scrollToTopBtn.onclick = function() {
+		  document.body.scrollTop = 0;
+		  document.documentElement.scrollTop = 0;
+		};	
+    </script>
+</body>
+</html>
