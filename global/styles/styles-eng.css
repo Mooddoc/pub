@@ -1685,6 +1685,10 @@
     width: 100%; /* Constrain width */
 }
 
+
+.spinner-layout {
+
+}
 .spinner-container {
     position: absolute;
     bottom: 20px; /* Add some padding from bottom */
