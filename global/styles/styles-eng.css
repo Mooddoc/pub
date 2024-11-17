@@ -201,8 +201,16 @@
         left: 0;
         top: 0;
     }
-
-    #attempts {
+	
+	.counters-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 150px;
+		margin-bottom: 0.5rem; /* Add some margin below the container if needed */
+	}
+	
+	#attempts, #currentStreak, #longestStreak {
         text-align: center;
         font-size: 1.125rem;
         margin-bottom: 0.5rem;
