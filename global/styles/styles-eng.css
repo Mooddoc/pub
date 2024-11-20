@@ -1824,20 +1824,22 @@
 /* Shared styles for select and input within question-one-line */
 .question-one-line select.quiz-input,
 .question-one-line input.quiz-input {
-    min-width: 12.5rem;
-    padding: 0.5rem 1rem;
-    border-radius: 0.3rem;
+    width: 200px; /* Uniform width for both elements */
+    height: 40px; /* Uniform height for both elements */
+    padding: 5px 10px; /* Consistent padding */
+    margin-left: 20px; /* Consistent left margin from the label */
+    margin-right: 20px; /* Consistent right margin to the end of the row */
     border: 1px solid #ccc;
+    border-radius: 4px; /* Slightly increased for better appearance */
     direction: ltr;
     text-align: left;
     background-color: white;
     color: black;
     font-family: inherit;
-    font-size: 1rem;
+    font-size: 16px; /* Increased font size for better readability */
     box-sizing: border-box;
     outline: none; /* Remove default outline */
     transition: border-color 0.3s, box-shadow 0.3s;
-    margin: 0; /* Remove any default margins */
 }
 
 /* Specific styles for select elements */
@@ -1845,9 +1847,10 @@
     appearance: none; /* Remove default arrow */
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: right 0.625rem center;
-    background-size: 0.75rem;
+    background-position: right 10px center; /* Adjusted for better positioning */
+    background-size: 0.75rem 0.75rem; /* Uniform size */
     cursor: pointer;
+    background-color: white; /* Ensure background matches input */
 }
 
 /* Specific styles for input elements */
@@ -1865,18 +1868,21 @@
 .question-one-line select.quiz-input:focus,
 .question-one-line input.quiz-input:focus {
     border-color: #007c91;
-    box-shadow: 0 1px 0 0 #007c91;
+    box-shadow: 0 0 5px rgba(0, 124, 145, 0.5); /* Enhanced box-shadow for better visibility */
 }
 
 /* Ensure consistent alignment within the row */
 .question-one-line {
     display: flex;
     align-items: center;
+    justify-content: space-between; /* Distribute space evenly */
     gap: 1rem; /* Adjust as needed for spacing between elements */
 }
 
 /* Optional: Ensure labels take consistent space */
 .question-one-line label {
-    flex: 1; /* Adjust based on your layout needs */
+    flex: 1; /* Allows labels to take up available space */
+    max-width: 150px; /* Prevents labels from becoming too wide */
+    text-align: left; /* Ensure text is aligned properly */
 }
-																								
+																							
