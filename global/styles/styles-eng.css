@@ -136,33 +136,32 @@
 
 /* --- Consolidated Styles for Select and Input Elements --- */
 .form-control {
-    width: 12.5rem; /* Fixed width to ensure consistency */
-    padding: 0.5rem 1rem; /* Uniform padding */
-    font-size: 1rem; /* Uniform font size */
-    border: 1px solid #ccc; /* Uniform border */
-    border-radius: 0.3rem; /* Uniform border radius */
-    background-color: white; /* Uniform background */
-    color: black; /* Uniform text color */
-    box-sizing: border-box; /* Include padding and border in width */
-    margin-right: 1rem; /* Consistent right margin */
-    height: 2.5rem; /* Fixed height for consistency */
-    line-height: 1.5; /* Consistent line height */
-    display: inline-block; /* Normalize display property */
-    -webkit-appearance: none; /* Remove default appearance for consistency */
+    width: 12.5rem; 
+    padding: 0.5rem 1rem; 
+    font-size: 1rem; 
+    border: 1px solid #ccc; 
+    border-radius: 0.3rem; 
+    background-color: white; 
+    color: black;
+    box-sizing: border-box; 
+    margin-right: 1rem; 
+    height: 2.5rem; 
+    line-height: 1.5; 
+    display: inline-block; 
+    -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transitions for interactive states */
-    flex-shrink: 0; /* Prevent shrinking within Flexbox */
+    transition: border-color 0.3s, box-shadow 0.3s; 
+    flex-shrink: 0; 
 }
 
-/* Focus Styles for Better User Experience */
+
 .form-control:focus {
-    border-color: #00acc1; /* Accent color on focus */
-    outline: none; /* Remove default outline */
-    box-shadow: 0 0 5px rgba(0, 172, 193, 0.5); /* Subtle shadow on focus */
+    border-color: #00acc1; 
+    outline: none; 
+    box-shadow: 0 0 5px rgba(0, 172, 193, 0.5); 
 }
 
-/* Optional: Style the select arrow consistently */
 .form-control.select-custom {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23000000' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
@@ -171,11 +170,10 @@
     background-color: white; /* Ensure background is white */
 }
 
-/* Flexbox Alignment for .question-one-line */
 .question-one-line {
     display: flex;
-    align-items: center; /* Vertically center the children */
-    justify-content: flex-start; /* Align children to the start horizontally */
+    align-items: center; 
+    justify-content: flex-start; 
     padding: 0.6rem;
     background-color: #f1f1f1;
     border-radius: 0.5rem;
@@ -184,18 +182,16 @@
     line-height: 1.8;
 }
 
-/* Ensure labels take up appropriate space */
 .question-one-line label {
     flex-grow: 1;
     text-align: left;
     margin-left: 1rem;
 }
 
-/* Ensure that the result div does not take up excessive space */
 .question-one-line .result {
     flex: 0 0 10%; /* Allocate a fixed percentage of the container's width */
     margin-right: 1rem;
-    text-align: center; /* Center the result text */
+    text-align: center; 
 }
 
 /* Responsive Design */
