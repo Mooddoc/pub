@@ -136,7 +136,7 @@
 
 /* --- Consolidated Styles for Select and Input Elements --- */
 .form-control {
-    width: 12.5rem; /* Set the same width for both elements */
+    width: 12.5rem; /* Fixed width to ensure consistency */
     padding: 0.5rem 1rem; /* Uniform padding */
     font-size: 1rem; /* Uniform font size */
     border: 1px solid #ccc; /* Uniform border */
@@ -145,19 +145,21 @@
     color: black; /* Uniform text color */
     box-sizing: border-box; /* Include padding and border in width */
     margin-right: 1rem; /* Consistent right margin */
-    height: 3rem; /* Explicitly set height for consistency */
-    line-height: 1.5; /* Ensure consistent line height */
+    height: 2.5rem; /* Fixed height for consistency */
+    line-height: 1.5; /* Consistent line height */
     display: inline-block; /* Normalize display property */
     -webkit-appearance: none; /* Remove default appearance for consistency */
     -moz-appearance: none;
     appearance: none;
+    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transitions for interactive states */
+    flex-shrink: 0; /* Prevent shrinking within Flexbox */
 }
 
-/* Optional: Add focus styles for better UX */
+/* Focus Styles for Better User Experience */
 .form-control:focus {
     border-color: #00acc1; /* Accent color on focus */
     outline: none; /* Remove default outline */
-    box-shadow: 0 0 5px rgba(0, 172, 193, 0.5); /* Subtle shadow */
+    box-shadow: 0 0 5px rgba(0, 172, 193, 0.5); /* Subtle shadow on focus */
 }
 
 /* Optional: Style the select arrow consistently */
@@ -168,6 +170,49 @@
     background-size: 0.75rem;
     background-color: white; /* Ensure background is white */
 }
+
+/* Flexbox Alignment for .question-one-line */
+.question-one-line {
+    display: flex;
+    align-items: center; /* Vertically center the children */
+    justify-content: flex-start; /* Align children to the start horizontally */
+    padding: 0.6rem;
+    background-color: #f1f1f1;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    direction: ltr;
+    line-height: 1.8;
+}
+
+/* Ensure labels take up appropriate space */
+.question-one-line label {
+    flex-grow: 1;
+    text-align: left;
+    margin-left: 1rem;
+}
+
+/* Ensure that the result div does not take up excessive space */
+.question-one-line .result {
+    flex: 0 0 10%; /* Allocate a fixed percentage of the container's width */
+    margin-right: 1rem;
+    text-align: center; /* Center the result text */
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .question-one-line select,
+    .question-one-line input[type="text"] {
+        width: 100%; /* Full width on small screens */
+        margin-right: 0; /* Remove right margin */
+        margin-top: 0.5rem; /* Add top margin for spacing */
+    }
+
+    .question-one-line {
+        flex-direction: column; /* Stack elements vertically */
+        align-items: flex-start; /* Align items to the start */
+    }
+}
+
 
     .stage-number {
         font-size: 1.5rem;
@@ -918,27 +963,6 @@
 			border-radius: 0.3rem;
 			text-align: center;
 		}
-																				/* ------------ question in one row Styles --------------- */	
-
-/* Flexbox Alignment for .question-one-line */
-.question-one-line {
-    display: flex;
-    align-items: center; /* Vertically center the children */
-    justify-content: flex-start; /* Align children to the start horizontally */
-    padding: 0.6rem;
-    background-color: #f1f1f1;
-    border-radius: 0.5rem;
-    margin-bottom: 1rem;
-    direction: ltr;
-    line-height: 1.8;
-}
-
-/* Ensure labels take up appropriate space */
-.question-one-line label {
-    flex-grow: 1;
-    text-align: left;
-    margin-left: 1rem;
-}
 
 		
 																					/* ------------ question in one row Styles DOUBLE SIZE INPUT BOX--------------- */		
