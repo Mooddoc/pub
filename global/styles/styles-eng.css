@@ -134,23 +134,6 @@
         border-radius: 0.625rem;
     }
 
-    select {
-        font-family: inherit;
-        font-size: 1rem;
-        padding: 0.5rem;
-        border: none;
-        border-radius: 0.3125rem;
-        border-bottom: 0.125rem solid #00acc1;
-        background-color: transparent;
-        color: #37474f;
-        width: 100%;
-        max-width: 9.375rem;
-        appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 0.625rem center;
-        background-size: 0.75rem;
-    }
 
     .stage-number {
         font-size: 1.5rem;
@@ -903,45 +886,45 @@
 		}
 																				/* ------------ question in one row Styles --------------- */	
 		/* Consolidated Styles for Select and Input within .question-one-line */
-		.question-one-line select,
-		.question-one-line input[type="text"] {
-			width: 12.5rem; 
-			padding: 0.5rem 1rem; 
-			font-size: 1rem; 
-			border: 1px solid #ccc; 
-			border-radius: 0.3rem; 
-			background-color: white; 
-			color: black; 
-			box-sizing: border-box; 
-			margin-right: 1rem; 
-			height: 2.5rem; 
-		}
+/* Consolidated Styles for Select and Input Elements */
+.question-one-line select,
+.question-one-line input[type="text"] {
+    width: 12.5rem; /* Same width */
+    padding: 0.5rem 1rem; /* Same padding */
+    font-size: 1rem; /* Same font size */
+    border: 1px solid #ccc; /* Same border */
+    border-radius: 0.3rem; /* Same border radius */
+    background-color: white; /* Same background */
+    color: black; /* Same text color */
+    box-sizing: border-box; /* Include padding and border in width */
+    margin-right: 1rem; /* Same right margin */
+    height: 3rem; /* Same height */
+    line-height: 1.5; /* Consistent line height */
+    display: inline-block; /* Normalize display */
+    -webkit-appearance: none; /* Remove default appearance for consistency */
+    -moz-appearance: none;
+    appearance: none;
+}
 
-		.question-one-line {
-			display: flex;
-			align-items: center; 
-			justify-content: flex-start;
-			padding: 0.6rem;
-			background-color: #f1f1f1;
-			border-radius: 0.5rem;
-			margin-bottom: 1rem;
-			direction: ltr;
-			line-height: 1.8;
-		}
+/* Flexbox Alignment for .question-one-line */
+.question-one-line {
+    display: flex;
+    align-items: center; /* Vertically center the children */
+    justify-content: flex-start; /* Align children to the start horizontally */
+    padding: 0.6rem;
+    background-color: #f1f1f1;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    direction: ltr;
+    line-height: 1.8;
+}
 
-		.question-one-line label {
-			flex-grow: 1;
-			text-align: left;
-			margin-left: 1rem;
-		}
-
-
-		.question-one-line select option {
-			padding: 0.5rem 1rem !important; 
-			margin: 0.3125rem !important;  
-			height: 1.875rem !important; 
-			line-height: 1.875rem !important; 
-		}
+/* Ensure labels take up appropriate space */
+.question-one-line label {
+    flex-grow: 1;
+    text-align: left;
+    margin-left: 1rem;
+}
 
 		
 																					/* ------------ question in one row Styles DOUBLE SIZE INPUT BOX--------------- */		
