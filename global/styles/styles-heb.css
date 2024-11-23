@@ -185,25 +185,114 @@
         float: left; /* Keep this to align the select to the left of its container */
     }
 
-    select {
-        font-family: inherit;
-        font-size: 1rem;
-        padding: 0.5rem;
-        padding-right: 0.5rem;
-        padding-left: 1.5rem;
-        border: none;
-        border-radius: 0.3125rem;
-        border-bottom: 0.125rem solid #00acc1;
-        background-color: transparent;
-        color: #37474f;
+<style>
+/* --- Consolidated Styles for Select and Input Elements --- */
+.form-control {
+    width: 12.5rem; 
+    padding: 0.5rem 1rem; 
+    font-size: 1rem; 
+    border: 1px solid #ccc; 
+    border-radius: 0.3rem; 
+    background-color: white; 
+    color: black;
+    box-sizing: border-box; 
+    margin-left: 1rem; /* Changed from margin-right for RTL */
+    height: 2.5rem; 
+    line-height: 1.5; 
+    display: inline-block; 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    transition: border-color 0.3s, box-shadow 0.3s; 
+    flex-shrink: 0;
+    text-align: right; /* Added for RTL */
+    direction: rtl; /* Added for RTL */
+}
+
+.form-control:focus {
+    border-color: #00acc1; 
+    outline: none; 
+    box-shadow: 0 0 5px rgba(0, 172, 193, 0.5); 
+}
+
+.form-control.select-custom {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23000000' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: left 1rem center; /* Changed from right to left for RTL */
+    background-size: 0.75rem;
+    background-color: white;
+    padding-left: 2.5rem; /* Added for dropdown icon spacing */
+}
+
+.question-one-line {
+    display: flex;
+    align-items: center; 
+    justify-content: flex-end; /* Changed from flex-start for RTL */
+    padding: 0.6rem;
+    background-color: #f1f1f1;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    direction: rtl; /* Changed to rtl */
+    line-height: 1.8;
+}
+
+.question-one-line label {
+    flex-grow: 1;
+    text-align: right; /* Changed from left for RTL */
+    margin-right: 1rem; /* Changed from margin-left for RTL */
+}
+
+.question-one-line .result {
+    flex: 0 0 10%;
+    margin-left: 1rem; /* Changed from margin-right for RTL */
+    text-align: center;
+}
+
+/* Result specific styles */
+.result-rtl {
+    margin: 0 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .form-control {
         width: 100%;
-        max-width: 9.375rem;
-        appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: left 0.625rem center;
-        background-size: 0.75rem;
+        margin-left: 0; /* Changed from margin-right for RTL */
+        margin-top: 0.5rem;
     }
+
+    .question-one-line {
+        flex-direction: column;
+        align-items: flex-end; /* Changed from flex-start for RTL */
+    }
+
+    .question-one-line label {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .question-one-line .result {
+        width: 100%;
+        text-align: right; /* Changed from center for RTL */
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Additional RTL Support */
+.explanation-panel {
+    text-align: right;
+    direction: rtl;
+    margin-top: 0.5rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+}
+
+.explanation-panel-text {
+    direction: rtl;
+    text-align: right;
+}
+</style>
 
     .stage-number {
         font-size: 1.5rem;
@@ -911,54 +1000,6 @@
 			border: 1px solid #ffffff;
 			border-radius: 0.3rem;
 			text-align: center;
-		}
-																				/* ------------ question in one row Styles - RTL --------------- */	
- 
-		
-		.question-one-line {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 0.5rem;
-            background-color: #f1f1f1;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-            direction: rtl;
-			line-height: 1.8;
-        }
-
-        .question-one-line label {
-            flex-grow: 1;
-            text-align: right;
-            margin-left: 1rem;
-        }
-
-        .question-one-line input[type="text"] {
-            width: 10rem;
-            padding: 0.5rem;
-            border-radius: 0.3rem;
-            border: 1px solid #ccc;
-            margin-right: 1rem;
-            autocomplete: off;
-        }
-		
-		.question-one-line select {
-			min-width: 12.5rem;
-			padding: 0.5rem 1rem;
-			border-radius: 0.3rem;
-			border: 1px solid #ccc;
-			direction: rtl;
-			text-align: right;
-			background-color: white; 
-			color: black; 
-		}
-
-
-		.question-one-line select option {
-			padding: 0.5rem 1rem !important;
-			margin: 0.3125rem !important;  
-			height: 1.875rem !important; 
-			line-height: 1.875rem !important; 
 		}
 
 																				/* ------------ question in one row Styles - LTR --------------- */	
