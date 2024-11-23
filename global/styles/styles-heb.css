@@ -219,8 +219,54 @@
     background-repeat: no-repeat;
     background-position: left 1rem center;
     background-size: 0.75rem;
-    padding-left: 2.5rem;
     background-color: white;
+	
+    text-align: right;
+    direction: rtl;
+    padding-right: 1rem;
+    padding-left: 2.5rem;
+    text-align-last: right; /* This aligns the selected option text */
+}
+
+.form-control.select-custom option {
+    direction: rtl;
+    text-align: right;
+    padding: 0.5rem 1rem;
+    background-color: white;
+}
+
+.form-control.select-custom option[value=""] {
+    direction: rtl;
+    text-align: right;
+}
+
+/* Additional RTL support for select elements in Webkit browsers */
+@supports (-webkit-appearance: none) {
+    .form-control.select-custom {
+        background-position: left 1rem center;
+        text-indent: 1px; /* Helps with alignment in Safari */
+    }
+}
+
+/* Firefox-specific styles */
+@-moz-document url-prefix() {
+    .form-control.select-custom {
+        text-align: right;
+        text-align-last: right;
+    }
+
+    .form-control.select-custom option {
+        direction: rtl;
+        text-align: right;
+    }
+}
+
+/* Edge and IE specific styles */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .form-control.select-custom {
+        text-align: right;
+        text-align-last: right;
+    }
 }
 
 .question-one-line {
