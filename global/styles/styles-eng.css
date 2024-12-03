@@ -1110,18 +1110,21 @@
         }
 
         .memory-card .front, 
-        .memory-card .back { 
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            backface-visibility: hidden;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: bold;
-        }
+		.memory-card .back { 
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			backface-visibility: hidden;
+			border-radius: 8px;
+			/* Remove fixed font-size */
+			font-weight: bold;
+			text-align: center;
+			padding: 10px; /* Optional: Adds padding for better text wrapping */
+			box-sizing: border-box; /* Ensures padding doesn't affect the overall size */
+		}
 
         .memory-card .front { /* Renamed from .card .front */
             background-color: #73AF48;
