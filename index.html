@@ -3,129 +3,281 @@
 <head>
 <meta charset="UTF-8">  
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Language Learning Playground</title>
+<title>AI EdTech Playground</title>
     
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9610203984741349"
+<!-- Google AdSense -->
+<script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9610203984741349"
      crossorigin="anonymous"></script>
 
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
+<!-- Font Awesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-papb8GLKp1iFZm1U8zZjHe6fFftkRNgBdKZL7XLhjNe1vGkL+g3kSg3x3XcUVhT2z9c8NLYm6r2aFk3dIbjzKw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
-
-body, html {
-    margin: 0;
-    padding: 0;
-    font-family: 'Quicksand', sans-serif;
-    background-color: #f9e8d4;
-    min-height: 100vh;
-}
-
-.container {
-    max-width: 1500px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-h1 {
-    font-family: 'Quicksand', sans-serif;
-    text-align: center;
-    color: #00acc1;
-    margin-bottom: 20px;
-    font-size: 3em;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-}
-
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-}
-
-.menu-section {
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-}
-
-.menu-section:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-h2 {
-    font-family: 'Quicksand', sans-serif;
-    color: #ff7f50;
-    border-bottom: 2px solid #ffd54f;
-    padding-bottom: 5px;
-    margin-top: 0;
-}
-
-ul {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-li {
-    margin-bottom: 10px;
-}
-
-a {
-    color: #00acc1;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-a:hover {
-    color: #ff7f50;
-    text-decoration: underline;
-}
-
-button {
-    background-color: #ff7f50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s, box-shadow 0.3s;
-    margin: 10px 0;
-    margin-top: 20px;
-}
-
-button:hover {
-    background-color: #ff5722;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-}
-
-button:disabled {
-    background: #cccccc;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-}
-
-@media (max-width: 1200px) {
-    .grid-container {
-        grid-template-columns: repeat(3, 1fr);
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: 'Quicksand', sans-serif;
+        background-color: #1e1e1e;
+        color: #f0f0f0;
+        min-height: 100vh;
     }
-}
 
-@media (max-width: 900px) {
-    .grid-container {
-        grid-template-columns: repeat(2, 1fr);
+    .banner {
+        background: linear-gradient(90deg, #1f4037, #99f2c8);
+        color: white;
+        padding: 30px 20px;
+        text-align: center;
+        font-size: 1.3em;
+        font-weight: 600;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        margin-bottom: 40px;
     }
-}
 
-@media (max-width: 600px) {
-    .grid-container {
-        grid-template-columns: 1fr;
+    .container {
+        max-width: 1500px;
+        margin: 0 auto;
+        padding: 20px;
     }
-}
+
+    h1 {
+        text-align: center;
+        color: #00e6e6;
+        font-size: 3em;
+        margin-bottom: 40px;
+        text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+    }
+
+    .menu-section {
+        background: #2e2e2e;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+    }
+
+    .menu-section:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
+    }
+
+    .menu-section h2 {
+        color: #00e6e6;
+        font-size: 1.6em;
+        border-bottom: 2px solid #00e6e6;
+        padding-bottom: 10px;
+        margin-top: 0;
+        position: relative;
+    }
+
+    .menu-section h2::after {
+        content: "";
+        position: absolute;
+        width: 50px;
+        height: 4px;
+        background: #00e6e6;
+        bottom: -2px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .menu-section ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 15px 0 0 0;
+    }
+
+    .menu-section li {
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+    }
+
+    .menu-section li a {
+        color: #f0f0f0;
+        text-decoration: none;
+        font-size: 1.1em;
+        transition: color 0.3s ease, text-shadow 0.3s ease;
+        margin-left: 10px;
+    }
+
+    .menu-section li a:hover {
+        color: #00e6e6;
+        text-shadow: 0 0 5px #00e6e6;
+    }
+
+    .menu-section li i {
+        color: #00e6e6;
+        min-width: 20px;
+        text-align: center;
+    }
+
+    .impact-section {
+        background: #2e2e2e;
+        border-radius: 10px;
+        padding: 40px 30px;
+        margin: 50px 0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    .impact-section h2 {
+        color: #ff7f50;
+        font-size: 2.5em;
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .impact-section p {
+        font-size: 1.3em;
+        line-height: 1.8;
+        text-align: center;
+        max-width: 900px;
+        margin: 0 auto 30px auto;
+    }
+
+    .impact-section .methodology {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 25px;
+    }
+
+    .methodology-item {
+        background: #3a3a3a;
+        border-radius: 10px;
+        padding: 25px;
+        width: 100%;
+        max-width: 300px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .methodology-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    .methodology-item i {
+        font-size: 2.5em;
+        color: #ff7f50;
+        margin-bottom: 15px;
+    }
+
+    .methodology-item h3 {
+        color: #00e6e6;
+        margin-bottom: 15px;
+        font-size: 1.4em;
+    }
+
+    .methodology-item p {
+        font-size: 1.1em;
+        line-height: 1.6;
+    }
+
+    .testimonial-section {
+        background: #2e2e2e;
+        border-radius: 10px;
+        padding: 40px 30px;
+        margin: 50px 0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    .testimonial-section h2 {
+        color: #ff7f50;
+        font-size: 2.5em;
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .testimonial-section .testimonial {
+        max-width: 800px;
+        margin: 0 auto;
+        font-size: 1.2em;
+        line-height: 1.8;
+        position: relative;
+        padding-left: 40px;
+    }
+
+    .testimonial-section .testimonial::before {
+        content: "“";
+        font-size: 4em;
+        position: absolute;
+        left: 0;
+        top: -10px;
+        color: #ff7f50;
+    }
+
+    .testimonial-section .testimonial .author {
+        text-align: right;
+        margin-top: 20px;
+        font-weight: 600;
+        color: #00e6e6;
+    }
+
+    .ads-container {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .ads-container ins.adsbygoogle {
+        display: block;
+        margin: 0 auto;
+    }
+
+    button {
+        background: #00e6e6;
+        color: #1e1e1e;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+        transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    button:hover {
+        background: #0077ff;
+        transform: scale(1.05);
+    }
+
+    @media (max-width: 1200px) {
+        .grid-container {
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+    }
+
+    @media (max-width: 900px) {
+        .grid-container {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+    }
+
+    @media (max-width: 600px) {
+        .impact-section .methodology,
+        .testimonial-section .testimonial {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .testimonial-section .testimonial::before {
+            left: 10px;
+            top: 0;
+        }
+    }
 </style>
 
-<!-- Google tag (gtag.js) -->
+<!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2PX045X805"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -136,106 +288,165 @@ button:disabled {
 </script>
 </head>
 <body>
+    <!-- Top Banner -->
+    <div class="banner">
+        <strong>AI-Driven EdTech Innovators</strong>
+        <br>
+        Revolutionizing Math and English education with AI-generated quizzes, videos, flash-cards, tests, and personalized mentoring. Explore our first drafts and witness the future of learning.
+    </div>
+    
+    <!-- Main Container -->
     <div class="container">
+        <!-- Main Heading -->
         <h1>Language Learning Playground</h1>
 
+        <!-- Grid of Menu Sections -->
         <div class="grid-container">
+            <!-- Language Games -->
             <div class="menu-section">
-                <h2>Language Games</h2>
+                <h2><i class="fas fa-language"></i> Language Games</h2>
                 <ul>
-                    <li><a href="IdentifyMainIdeasGameA1.html">Identify Main Ideas - A1</a></li>
-                    <li><a href="IdentifyMainIdeasGameA2.html">Identify Main Ideas - A2</a></li>
-                    <li><a href="PositiveNegativeInterrogativeGameA2.html">Positive Negative Interrogative - A2</a></li>
-                    <li><a href="PositiveNegativeInterrogativeGameA1.html">Positive Negative Interrogative - A1</a></li>
-                    <li><a href="ComplexSentencesGameA1.html">Complex Sentences - A1</a></li>
-                    <li><a href="ComplexSentencesGameA2.html">Complex Sentences - A2</a></li>
-                    <li><a href="DialogCompletionGameA1.html">Dialog Completion - A1</a></li>
-                    <li><a href="DialogCompletionGameA2.html">Dialog Completion - A2</a></li>
-                    <li><a href="WordOrderinSentencesGameA2.html">Word Order in Sentences - A2</a></li>
-                    <li><a href="WordOrderinSentencesGameA1.html">Word Order in Sentences - A1</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/IdentifyMainIdeasGameA1.html" target="_blank" rel="noopener noreferrer">Identify Main Ideas - A1</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/IdentifyMainIdeasGameA2.html" target="_blank" rel="noopener noreferrer">Identify Main Ideas - A2</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/PositiveNegativeInterrogativeGameA2.html" target="_blank" rel="noopener noreferrer">Positive Negative Interrogative - A2</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/PositiveNegativeInterrogativeGameA1.html" target="_blank" rel="noopener noreferrer">Positive Negative Interrogative - A1</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/ComplexSentencesGameA1.html" target="_blank" rel="noopener noreferrer">Complex Sentences - A1</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/ComplexSentencesGameA2.html" target="_blank" rel="noopener noreferrer">Complex Sentences - A2</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/DialogCompletionGameA1.html" target="_blank" rel="noopener noreferrer">Dialog Completion - A1</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/DialogCompletionGameA2.html" target="_blank" rel="noopener noreferrer">Dialog Completion - A2</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/WordOrderinSentencesGameA2.html" target="_blank" rel="noopener noreferrer">Word Order in Sentences - A2</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/WordOrderinSentencesGameA1.html" target="_blank" rel="noopener noreferrer">Word Order in Sentences - A1</a></li>
                 </ul>
             </div>
 
+            <!-- Vocabulary Games -->
             <div class="menu-section">
-                <h2>Vocabulary Games</h2>
+                <h2><i class="fas fa-book-open"></i> Vocabulary Games</h2>
                 <ul>
-                    <li><a href="VocabularyGame1.html">Vocabulary Game - 1</a></li>
-                    <li><a href="VocabularyGame2.html">Vocabulary Game - 2</a></li>
-                    <li><a href="FoodandMealsVocabularyGameA1.html">Food and Meals - A1</a></li>
-                    <li><a href="FoodandMealsVocabularyGameA2.html">Food and Meals - A2</a></li>
-                    <li><a href="AnimalsandNatureVocabularyGameA2.html">Animals and Nature - A2</a></li>
-                    <li><a href="AnimalsandNatureVocabularyGameA1.html">Animals and Nature - A1</a></li>
-                    <li><a href="DailyRoutinesVocabularyGameA2.html">Daily Routines - A2</a></li>
-                    <li><a href="DailyRoutinesVocabularyGameA1.html">Daily Routines - A1</a></li>
-                    <li><a href="ModalVerbsVocabularyGameA2.html">Modal Verbs - A2</a></li>
-                    <li><a href="ConditionalSentencesVocabularyGameA2.html">Conditional Sentences - A2</a></li>
-                    <li><a href="ConditionalSentencesVocabularyGameA1.html">Conditional Sentences - A1</a></li>
-                    <li><a href="WordPuzzleA1.html">Word Puzzles - A2</a></li>
-                    <li><a href="WordPuzzleA2.html">Word Puzzles - A1</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/VocabularyGame1.html" target="_blank" rel="noopener noreferrer">Vocabulary Game - 1</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/VocabularyGame2.html" target="_blank" rel="noopener noreferrer">Vocabulary Game - 2</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/FoodandMealsVocabularyGameA1.html" target="_blank" rel="noopener noreferrer">Food and Meals - A1</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/FoodandMealsVocabularyGameA2.html" target="_blank" rel="noopener noreferrer">Food and Meals - A2</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/AnimalsandNatureVocabularyGameA2.html" target="_blank" rel="noopener noreferrer">Animals and Nature - A2</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/AnimalsandNatureVocabularyGameA1.html" target="_blank" rel="noopener noreferrer">Animals and Nature - A1</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/DailyRoutinesVocabularyGameA2.html" target="_blank" rel="noopener noreferrer">Daily Routines - A2</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/DailyRoutinesVocabularyGameA1.html" target="_blank" rel="noopener noreferrer">Daily Routines - A1</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/ModalVerbsVocabularyGameA2.html" target="_blank" rel="noopener noreferrer">Modal Verbs - A2</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/ConditionalSentencesVocabularyGameA2.html" target="_blank" rel="noopener noreferrer">Conditional Sentences - A2</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/ConditionalSentencesVocabularyGameA1.html" target="_blank" rel="noopener noreferrer">Conditional Sentences - A1</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/WordPuzzleA1.html" target="_blank" rel="noopener noreferrer">Word Puzzles - A1</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/WordPuzzleA2.html" target="_blank" rel="noopener noreferrer">Word Puzzles - A2</a></li>
                 </ul>
             </div>
 
+            <!-- Grammar Practice -->
             <div class="menu-section">
-                <h2>Grammar Practice</h2>
+                <h2><i class="fas fa-pen-nib"></i> Grammar Practice</h2>
                 <ul>
-                    <li><a href="FillTheBlanksGameA1.html">Fill The Blanks A1</a></li>
-                    <li><a href="FillTheBlanksGameA2.html">Fill The Blanks A2</a></li>
-                    <li><a href="FillTheBlanksGameB1.html">Fill The Blanks B1</a></li>
-                    <li><a href="SynonymsandAntonymsGameA1.html">Synonyms and Antonyms - A1</a></li>
-                    <li><a href="SynonymsandAntonymsGameA2.html">Synonyms and Antonyms - A2</a></li>
-                    <li><a href="PresentsGame2.html">Present Simple and Present Progressive - Practice</a></li>
-                    <li><a href="presents.html">Present Simple and Present Progressive - Explanation</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/FillTheBlanksGameA1.html" target="_blank" rel="noopener noreferrer">Fill The Blanks - A1</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/FillTheBlanksGameA2.html" target="_blank" rel="noopener noreferrer">Fill The Blanks - A2</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/FillTheBlanksGameB1.html" target="_blank" rel="noopener noreferrer">Fill The Blanks - B1</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/SynonymsandAntonymsGameA1.html" target="_blank" rel="noopener noreferrer">Synonyms and Antonyms - A1</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/SynonymsandAntonymsGameA2.html" target="_blank" rel="noopener noreferrer">Synonyms and Antonyms - A2</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/PresentsGame2.html" target="_blank" rel="noopener noreferrer">Present Simple and Present Progressive - Practice</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/presents.html" target="_blank" rel="noopener noreferrer">Present Simple and Present Progressive - Explanation</a></li>
                 </ul>
             </div>
 
+            <!-- Audio Tests -->
             <div class="menu-section">
-                <h2>Audio Tests</h2>
+                <h2><i class="fas fa-headphones-alt"></i> Audio Tests</h2>
                 <ul>
-                    <li><a href="audiotest4.html">The Mysterious Forest</a></li>
-                    <li><a href="audiotest5.html">The Camping Trip</a></li>
-                    <li><a href="audiothehappycat.html">The Happy Cat</a></li>
-                    <li><a href="flute.html">Flute</a></li>
-                    <li><a href="audioemojiword.html">Emoji Word Spelling</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/audiotest4.html" target="_blank" rel="noopener noreferrer">The Mysterious Forest</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/audiotest5.html" target="_blank" rel="noopener noreferrer">The Camping Trip</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/audiothehappycat.html" target="_blank" rel="noopener noreferrer">The Happy Cat</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/flute.html" target="_blank" rel="noopener noreferrer">Flute</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/audioemojiword.html" target="_blank" rel="noopener noreferrer">Emoji Word Spelling</a></li>
                 </ul>
             </div>
 
+            <!-- Other Resources -->
             <div class="menu-section">
-                <h2>Other Resources</h2>
+                <h2><i class="fas fa-tools"></i> Other Resources</h2>
                 <ul>
-                    <li><a href="DaysandMonthsVocabularyA1A2.html">Days and Months Vocabulary - A1 & A2</a></li>
-                    <li><a href="TimesVocabularyA1A2.html">Times Vocabulary - A1 & A2</a></li>
-                    <li><a href="GeneralQuestionsGameA1.html">General Knowledge - A1</a></li>
-                    <li><a href="GeneralQuestionsGameA2.html">General Knowledge - A2</a></li>
-                    <li><a href="EngBookRead1.html">English Story - Danni</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/DaysandMonthsVocabularyA1A2.html" target="_blank" rel="noopener noreferrer">Days and Months Vocabulary - A1 & A2</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/TimesVocabularyA1A2.html" target="_blank" rel="noopener noreferrer">Times Vocabulary - A1 & A2</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/GeneralQuestionsGameA1.html" target="_blank" rel="noopener noreferrer">General Knowledge - A1</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/GeneralQuestionsGameA2.html" target="_blank" rel="noopener noreferrer">General Knowledge - A2</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/EngBookRead1.html" target="_blank" rel="noopener noreferrer">English Story - Danni</a></li>
                 </ul>
             </div>
 
+            <!-- For Skye (Kindergarten) -->
             <div class="menu-section">
-                <h2>For Skye (Kindergarten)</h2>
+                <h2><i class="fas fa-child"></i> For Skye (Kindergarten)</h2>
                 <ul>
-                    <li><a href="Math1.html">חיבור וחיסור 2</a></li>
-                    <li><a href="Math1.html">חיבור וחיסור 1</a></li>
-                    <li><a href="yashar.html">ישר המספרים לסקיי</a></li>
-                    <li><a href="מיליםקמץפתחחיריק.html">מילים קמץ חיריק</a></li>
-                    <li><a href="תרגולניקוד.html">תרגול ניקוד</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/Math1.html" target="_blank" rel="noopener noreferrer">חיבור וחיסור 2</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/Math1.html" target="_blank" rel="noopener noreferrer">חיבור וחיסור 1</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/yashar.html" target="_blank" rel="noopener noreferrer">ישר המספרים לסקיי</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/מיליםקמץפתחחיריק.html" target="_blank" rel="noopener noreferrer">מילים קמץ חיריק</a></li>
+                    <li><i class="fas fa-arrow-right"></i><a href="http://ez42.live/תרגולניקוד.html" target="_blank" rel="noopener noreferrer">תרגול ניקוד</a></li>
                 </ul>
             </div>
         </div>
-    </div>
-     <!-- AdSense code placement -->
-     <div style="text-align:center; margin-top: 20px;">
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9610203984741349"
-             crossorigin="anonymous"></script>
-        <!-- ez42-main-bottom -->
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-9610203984741349"
-             data-ad-slot="5815049676"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+
+        <!-- Impact-Momentum Methodology Section -->
+        <div class="impact-section">
+            <h2>Our Impact-Momentum Methodology</h2>
+            <p>
+                At AI EdTech Playground, our Impact-Momentum methodology integrates advanced AI technologies with proven educational strategies to create a dynamic and personalized learning experience for every student. This approach ensures significant educational impact and sustained academic momentum, preparing students for future success.
+            </p>
+            <div class="methodology">
+                <div class="methodology-item">
+                    <i class="fas fa-brain"></i>
+                    <h3>Impact</h3>
+                    <p>
+                        Leveraging AI to analyze and understand each student’s learning patterns, we tailor lessons to maximize comprehension and retention, ensuring a profound educational impact.
+                    </p>
+                </div>
+                <div class="methodology-item">
+                    <i class="fas fa-rocket"></i>
+                    <h3>Momentum</h3>
+                    <p>
+                        Our adaptive learning paths and continuous engagement strategies build academic momentum, fostering a love for learning and ensuring sustained progress.
+                    </p>
+                </div>
+                <div class="methodology-item">
+                    <i class="fas fa-cogs"></i>
+                    <h3>Integration</h3>
+                    <p>
+                        Seamlessly integrating AI-driven tools with traditional teaching methods, we create a balanced and effective educational environment that prepares students for future academic and professional success.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonial Section -->
+        <div class="testimonial-section">
+            <h2>Success Story</h2>
+            <div class="testimonial">
+                “As a father, watching my children struggle through school was heartbreaking. I wanted to help them, but I simply couldn’t afford private tutors. Then I discovered EZ42. Their AI-driven platform provided my kids with personalized quizzes, engaging videos, and interactive flash-cards that made learning both effective and enjoyable. The automated assessments helped track their progress, and the mentoring sessions gave them the support they needed to excel. Thanks to EZ42, my children are now more confident and performing better in math and English than ever before.”
+                <div class="author">— Adam Dagan, Proud Parent</div>
+            </div>
+        </div>
+
+        <!-- Call to Action for Investors -->
+        <div style="text-align: center; margin-top: 30px;">
+            <button onclick="window.location.href='mailto:avi@map42.com'">Contact Us for Investment Opportunities</button>
+        </div>
+
+        <!-- Advertisement Section -->
+        <div class="ads-container">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-9610203984741349"
+                 data-ad-slot="5815049676"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
     </div>
 </body>
 </html>
