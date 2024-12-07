@@ -31,7 +31,11 @@
         gap: 1rem;
         flex: 1;
     }
-
+	
+	.stage-text {
+		white-space: pre-line;
+	}
+	
     .side-panel {
         background-color: #00acc1;
         color: white;
