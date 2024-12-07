@@ -1563,7 +1563,7 @@
 																								/* Explanation Panel styles START*/
         .explanation-panel {
             max-width: 80%;
-            margin: 0px 0;
+            margin: 20px auto;
             padding: 30px;
             background-color: white;
             border-radius: 0.625rem;
@@ -1573,6 +1573,8 @@
             position: relative;
             transition: transform 0.2s ease;
         }	
+		
+
 		
         .explanation-panel:hover {
             transform: translateY(-5px);
@@ -1835,4 +1837,74 @@
     font-weight: 600;
 }						
 																								/* Stage Hero styles End */	
+																								/* TRIVIA and LONG TEXTBOXS styles START */																									
+																								
+.trivia-question-wrapper {
+    width: 100%;
+    margin-top: 1rem;
+}
 
+.trivia-options-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    width: 95%;
+    margin: 0;
+}
+
+.trivia-option-card {
+    background-color: #f8f9fa;
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.trivia-option-card:hover {
+    background-color: #e9ecef;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.trivia-option-card.selected {
+    background-color: #007bff;
+    color: white;
+    border-color: #0056b3;
+}
+
+.below-question-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 0;
+    margin: 0;
+    border: none;
+}
+
+/* Trivia Specific Wrapper */
+.below-question-wrapper.trivia-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 0;
+    margin: 0;
+    border: none;
+}
+
+/* Long Answer Textbox */
+.long-answer {
+    width: 95%;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    resize: vertical;
+    padding: 0.5rem;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    font-family: inherit;
+}
+
+																								/* TRIVIA and LONG TEXTBOXS styles END */
