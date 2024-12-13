@@ -1912,3 +1912,134 @@
 }
 
 																								/* TRIVIA and LONG TEXTBOXS styles END */
+																									/* Restricted Modal Styles Start */																							
+        /* Restricted Modal Styles */
+        .modal-restricted {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 9999; /* On top of everything */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.6); /* Black with opacity */
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-restricted-content {
+            background: #fff;
+            width: 90%;
+            max-width: 500px;
+            margin: 100px auto;
+            border-radius: 12px;
+            padding: 30px 20px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: slideDown 0.3s ease;
+            /* Flexbox for better content alignment */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center; /* Center the text */
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-restricted-close {
+            position: absolute;
+            top: 15px;
+            right: 15px; /* Changed to right for English alignment */
+            font-size: 24px;
+            font-weight: bold;
+            color: #555;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .modal-restricted-close:hover {
+            color: #ff7f50;
+        }
+
+        .modal-restricted-content h2 {
+            color: #00acc1;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            font-family: 'Rubik', sans-serif;
+        }
+
+        .modal-restricted-content p {
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .advantages-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 25px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .advantages-list li {
+            background: url('https://img.icons8.com/ios-filled/24/ff7f50/checkmark.png') no-repeat left center;
+            background-size: 20px 20px;
+            padding-left: 30px;
+            margin-bottom: 10px;
+            font-size: 1em;
+            color: #555;
+        }
+
+        .modal-restricted-button {
+            background-color: #ff7f50;
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: block; /* Changed from inline-block to block */
+            margin: 20px auto 0 auto; /* Center the button and add top margin */
+            text-decoration: none;
+            width: fit-content; /* Adjust width to content */
+        }
+
+        .modal-restricted-button:hover {
+            background-color: #ff5722;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .modal-restricted-content {
+                width: 95%;
+                margin: 60px auto;
+                padding: 20px 15px;
+            }
+
+            .modal-restricted-content h2 {
+                font-size: 1.5em;
+            }
+
+            .modal-restricted-button {
+                width: 100%;
+                padding: 12px 0;
+            }
+
+            .advantages-list {
+                max-width: 100%;
+            }
+        }
+																									/* Restricted Modal Styles END */			
