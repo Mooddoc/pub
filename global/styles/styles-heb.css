@@ -2275,5 +2275,40 @@ select.form-control {
     }
 																								  /* Restricted Modal Styles END */																											 
 																								
-																								
+		.button-container {
+	    position: relative;
+	    width: 100%;
+	    height: 100px;
+	    }
+
+        #clearProgressButton {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #clearProgressButton:hover {
+            background-color: #ff5252;
+        }
+
+
+		.modal-button-container {
+			display: flex;
+			gap: 10px;
+			justify-content: center;
+			margin-top: 20px;
+		}
+
+		#confirmModalSecondaryBtn {
+			background-color: #6b7280;
+		}
+
+		#confirmModalSecondaryBtn:hover {
+			background-color: #4b5563;
+		}
+
 																								
