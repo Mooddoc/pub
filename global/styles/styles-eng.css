@@ -1813,7 +1813,7 @@
 }
 
 .stage-hero-top-title {
-    color: white;
+    color: black;
     font-size: 18px;
     margin-bottom: 10px;
     font-weight: 500;
@@ -1836,7 +1836,7 @@
 }
 
 .stage-hero-name {
-    color: white;
+    color: black;
     font-size: 20px;
     margin-top: 10px;
     font-weight: 600;
