@@ -40,9 +40,10 @@
         background-color: white;
         color: black;
         border-radius: 0.625rem;
-		border-color: #00acc1;
-        padding: 1rem;
-        box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
+		padding: 1rem; 
+		padding-left: 0.8rem; 
+		padding-right: 1rem; 
+		box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
         flex: 0 0 calc(20% - 0.5rem);
         max-width: calc(20% - 0.5rem);
         transition: flex 0.3s ease, max-width 0.3s ease;
