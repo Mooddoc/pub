@@ -5,6 +5,7 @@
     }
 
     body, html {
+		direction: ltr;
         margin: 0;
         padding: 0;
         font-family: 'Quicksand', sans-serif;
@@ -35,6 +36,17 @@
 	.stage-text {
 		white-space: pre-line;
 	}
+
+    .quiz-container {
+        background-color: white;
+        border-radius: 0.625rem;
+        padding: 1rem;
+        box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
+        flex: 1;
+        min-width: 0;
+        transition: flex 0.3s ease;
+        min-height: 800px;
+    }
 	
     .side-panel {
         background-color: white;
@@ -49,17 +61,6 @@
         transition: flex 0.3s ease, max-width 0.3s ease;
         overflow-y: auto;
         max-height: 90vh;
-    }
-
-    .quiz-container {
-        background-color: white;
-        border-radius: 0.625rem;
-        padding: 1rem;
-        box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
-        flex: 1;
-        min-width: 0;
-        transition: flex 0.3s ease;
-        min-height: 800px;
     }
 
     .side-panel h2 {

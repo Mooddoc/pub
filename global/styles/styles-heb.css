@@ -36,7 +36,19 @@
 	.stage-text {
 		white-space: pre-line;
 	}
-	
+
+
+    .quiz-container {
+        background-color: white;
+        border-radius: 0.625rem;
+        padding: 1rem;
+        box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
+        flex: 1;
+        min-width: 0;
+        transition: flex 0.3s ease;
+        min-height: 800px;
+    }
+
 	.side-panel {
 		background-color: white;
 		color: black;
@@ -52,20 +64,6 @@
 		max-height: 90vh;
 	}
 
-
-	.side-panel ol {   				   	 /* Adjust ordered list styles */
-		list-style-type: none;
-		padding: 0;
-		margin: 0; /* Ensure no margin is applied */
-	}
-
-
-	.side-panel ol li {     		    /* List item margin adjustments */
-		margin: 0.5rem 0;   /* Balanced vertical margins for list items */
-		padding-right: 0.2rem; 	    /* Reduce padding inside list items */
-	}
-
-
 	.side-panel h2 {               	    	      /* Heading alignment */
         color: black;
         margin-top: 0;
@@ -73,22 +71,12 @@
         font-size: 1.25rem;
 	}
 
-    .quiz-container {
-        background-color: white;
-        border-radius: 0.625rem;
-        padding: 1rem;
-        box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
-        flex: 1;
-        min-width: 0;
-        transition: flex 0.3s ease;
-        min-height: 800px;
-    }
-
     .quiz-container h1 {
         color: black;
         text-align: center;
         font-size: 2rem;
     }
+	
 
     .quiz-container h2 {
         color: #ff7f50;
