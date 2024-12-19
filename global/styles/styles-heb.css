@@ -67,9 +67,10 @@
 
 
 	.side-panel h2 {               	    	      /* Heading alignment */
-		color: black;
-		text-align: right; 		/* Ensure text is aligned to the right */
-		margin-right: 0; /* Remove any right margin */
+        color: black;
+        margin-top: 0;
+        text-align: center;
+        font-size: 1.25rem;
 	}
 
     .quiz-container {
