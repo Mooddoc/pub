@@ -1753,13 +1753,13 @@
 
 .spinner-small-text {
     height: 25%;
-    color: #fff;
+    color: black;
     font-size: 18px;
 }
 
 .spinner-large-text {
     height: 75%;
-    color: #6b2fff1a8;
+    color: black;
     font-size: min(5vw, 24px);
     font-weight: bold;
     display: flex;
