@@ -2119,23 +2119,8 @@ select.form-control {
     border-radius: 4px;
     font-family: inherit;
 }
-
-																								/* TRIVIA and LONG TEXTBOXS styles END */
-																								 /* Restricted Modal Styles Start */	
-   /* Reset and Base Styles */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Assistant', sans-serif;
-    }
-
-    body {
-      background-color: #f0f0f0;
-      direction: rtl;
-    }
-
-    /* Restricted Modal Styles */
+												/* TRIVIA and LONG TEXTBOXS styles END */
+													/* Restricted Modal Styles Start */	
     .modal-restricted {
       display: none; /* Hidden by default */
       position: fixed;
