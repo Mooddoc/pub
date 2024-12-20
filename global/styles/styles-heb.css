@@ -37,7 +37,6 @@
 		white-space: pre-line;
 	}
 
-
     .quiz-container {
         background-color: white;
         border-radius: 0.625rem;
@@ -53,9 +52,9 @@
 		background-color: white;
 		color: black;
 		border-radius: 0.625rem;
-		padding: 1rem; /* Uniform padding */
-		padding-right: 0.8rem; /* Reduce right padding (RTL start side) */
-		padding-left: 1rem; /* Keep some padding on the left side */
+		padding: 1rem;
+		padding-right: 0.8rem;
+		padding-left: 1rem;
 		box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
 		flex: 0 0 calc(20% - 0.5rem);
 		max-width: calc(20% - 0.5rem);
@@ -64,7 +63,7 @@
 		max-height: 90vh;
 	}
 
-	.side-panel h2 {               	    	      /* Heading alignment */
+	.side-panel h2 {
         color: black;
         margin-top: 0;
         text-align: center;
@@ -76,7 +75,6 @@
         text-align: center;
         font-size: 2rem;
     }
-	
 
     .quiz-container h2 {
         color: #ff7f50;
@@ -136,49 +134,6 @@
         z-index: 1;
     }
 
-    .question {
-        margin-bottom: 1rem;
-        background-color: rgba(224, 247, 250, 0.8);
-        padding: 0.8rem;
-        border-radius: 0.625rem;
-    }
-
-    .question-heb {
-        margin-bottom: 1rem;
-        background-color: rgba(224, 247, 250, 0.8);
-        padding: 0.8rem;
-        border-radius: 0.625rem;
-		display: flex;
-        flex-direction: column;
-        align-items: flex-start;  /* Aligns children to the left */
-    }
-	
-	.question-heb p {
-		text-align: right !important;
-		direction: rtl !important;
-		width: 100%;
-	}
-
-    .question p {
-        text-align: left !important;
-        direction: ltr !important;
-        width: 100%;  /* Ensures the question text takes full width */
-    }
-
-    .options {
-        align-self: flex-start;  /* Aligns the options container to the left */
-        width: 100%;  /* Full width to allow alignment */
-    }
-	
-    .question select {
-        direction: ltr;
-        text-align: left;
-        padding-right: 1.5rem; /* Space for the arrow on the right */
-        padding-left: 0.5rem; /* Adjust left padding as needed */
-        background-position: right 0.625rem center; /* Move arrow to the right */
-        float: left; /* Keep this to align the select to the left of its container */
-    }
-
 
 .form-control {
     width: 12.5rem; 
@@ -233,6 +188,51 @@
     direction: rtl;
     text-align: right;
 }
+
+    .question {
+        margin-bottom: 1rem;
+        background-color: rgba(224, 247, 250, 0.8);
+        padding: 0.8rem;
+        border-radius: 0.625rem;
+    }
+
+    .question-heb {
+        margin-bottom: 1rem;
+        background-color: rgba(224, 247, 250, 0.8);
+        padding: 0.8rem;
+        border-radius: 0.625rem;
+		display: flex;
+        flex-direction: column;
+        align-items: flex-start;  /* Aligns children to the left */
+    }
+	
+	.question-heb p {
+		text-align: right !important;
+		direction: rtl !important;
+		width: 100%;
+	}
+
+    .question p {
+        text-align: left !important;
+        direction: ltr !important;
+        width: 100%;  /* Ensures the question text takes full width */
+    }
+
+    .options {
+        align-self: flex-start;  /* Aligns the options container to the left */
+        width: 100%;  /* Full width to allow alignment */
+    }
+	
+    .question select {
+        direction: ltr;
+        text-align: left;
+        padding-right: 1.5rem; /* Space for the arrow on the right */
+        padding-left: 0.5rem; /* Adjust left padding as needed */
+        background-position: right 0.625rem center; /* Move arrow to the right */
+        float: left; /* Keep this to align the select to the left of its container */
+    }
+
+
 
 /* Additional RTL support for select elements in Webkit browsers */
 @supports (-webkit-appearance: none) {
@@ -544,7 +544,8 @@ select.form-control {
 	    width: 50%;
 	    height: auto;
 	}
-	
+
+							/* Styles for the Subject Overview content */
 .subject-overview-content_heb {
     direction: rtl;
 }

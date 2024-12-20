@@ -134,13 +134,6 @@
         z-index: 1;
     }
 
-    .question {
-        margin-bottom: 1rem;
-        background-color: rgba(224, 247, 250, 0.8);
-        padding: 0.8rem;
-        border-radius: 0.625rem;
-    }
-
 /* --- Consolidated Styles for Select and Input Elements --- */
 .form-control {
     width: 12.5rem; 
@@ -162,7 +155,6 @@
     flex-shrink: 0; 
 }
 
-
 .form-control:focus {
     border-color: #00acc1; 
     outline: none; 
@@ -176,6 +168,14 @@
     background-size: 0.75rem;
     background-color: white; /* Ensure background is white */
 }
+
+
+    .question {
+        margin-bottom: 1rem;
+        background-color: rgba(224, 247, 250, 0.8);
+        padding: 0.8rem;
+        border-radius: 0.625rem;
+    }
 
 .question-one-line {
     display: flex;
@@ -393,10 +393,10 @@
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
 	
-.center-button {
-    display: block;
-    margin: 1rem auto;
-}
+	.center-button {
+		display: block;
+		margin: 1rem auto;
+	}
 
 	.logo-container {
 	    position: relative;
