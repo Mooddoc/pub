@@ -2287,7 +2287,7 @@ select.form-control {
 			background-color: #4b5563;
 		}
 		
-																									/* Animal Emoji Jump START */	
+																									/* Animations for Animal Emoji Jump, Spinner Pulse etc. START */	
 																									
 		@keyframes jump {
 			0% { transform: translateY(0); }
@@ -2297,4 +2297,14 @@ select.form-control {
 
 		.jumping {
 			animation: jump 0.5s ease-in-out;
+		}
+		
+		@keyframes pulse {
+			0% { transform: scale(1); }
+			50% { transform: scale(1.1); }
+			100% { transform: scale(1); }
+		}
+
+		.pulse {
+			animation: pulse 0.5s ease-in-out;
 		}
