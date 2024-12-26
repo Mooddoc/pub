@@ -726,6 +726,7 @@
             border-radius: 20px;
             cursor: pointer;
             user-select: none;
+			-webkit-user-select: none;
             transition: background-color 0.4s;
         }
 	
@@ -819,6 +820,7 @@
             border: 2px solid #00acc1;
             cursor: pointer;
             user-select: none;
+			-webkit-user-select: none;
             font-weight: 700;
             font-size: 1.2em;
             color: #1565c0;
@@ -1330,6 +1332,7 @@
             border-radius: 0.3125rem;
             cursor: move;
             user-select: none;
+			-webkit-user-select: none;
             font-size: 1.2rem;
             transition: all 0.2s ease;
         }
@@ -1506,6 +1509,7 @@
     text-align: center;
     font-size: 1.2rem;
     user-select: none;
+	-webkit-user-select: none;
     transition: background-color 0.3s, color 0.3s;
     height: 75px; /* Fixed height for answer cards */
     box-sizing: border-box; /* Include padding and border in the height */
@@ -1546,6 +1550,7 @@
         .apexcharts-canvas {
             position: relative;
             user-select: none;
+			-webkit-user-select: none;
         }
         .apexcharts-tooltip {
             border-radius: 5px;
