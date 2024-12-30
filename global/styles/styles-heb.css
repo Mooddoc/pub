@@ -2168,8 +2168,6 @@ select.form-control {
       to { opacity: 1; }
     }
 
-/*       width: 90%;
-      max-width: 500px; */
     .modal-restricted-content {
       background: #fff;
       max-width: 50%;
@@ -2179,11 +2177,10 @@ select.form-control {
       position: relative;
       box-shadow: 0 5px 15px rgba(0,0,0,0.3);
       animation: slideDown 0.3s ease;
-      /* Flexbox לשיפור יישור התוכן */
       display: flex;
       flex-direction: column;
       align-items: center;
-      text-align: center; /* מרכז את הטקסט */
+      text-align: center; 
     }
 
     @keyframes slideDown {
