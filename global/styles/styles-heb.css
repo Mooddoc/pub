@@ -2168,10 +2168,12 @@ select.form-control {
       to { opacity: 1; }
     }
 
+/*       width: 90%;
+      max-width: 500px; */
     .modal-restricted-content {
       background: #fff;
-      width: 90%;
-      max-width: 500px;
+      width: auto;
+      
       margin: 100px auto;
       border-radius: 12px;
       padding: 30px 20px;
