@@ -1848,6 +1848,30 @@
     margin-top: 10px;
     font-weight: 600;
 }						
+
+																/* HERO AWARD POPUP */		
+.hero-award-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.hero-display {
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.hero-display img {
+    max-width: 200px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.hero-display h3 {
+    color: #333;
+    margin: 10px 0;
+}
 																								/* Stage Hero styles End */	
 																								/* TRIVIA and LONG TEXTBOXS styles START */																									
 																								
@@ -2059,7 +2083,7 @@
 	    }
 
         #clearProgressButton {
-            background-color: #ff6b6b;
+            background-color: #ff7f50;
             color: white;
             border: none;
             padding: 0.5rem 1rem;
