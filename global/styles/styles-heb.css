@@ -2172,7 +2172,7 @@ select.form-control {
       max-width: 500px; */
     .modal-restricted-content {
       background: #fff;
-      width: 60%;
+      max-width: 50%;
       margin: 100px auto;
       border-radius: 12px;
       padding: 30px 20px;
