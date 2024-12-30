@@ -2173,7 +2173,7 @@ select.form-control {
     .modal-restricted-content {
       background: #fff;
       width: auto;
-      
+      max-width: 800px;
       margin: 100px auto;
       border-radius: 12px;
       padding: 30px 20px;
