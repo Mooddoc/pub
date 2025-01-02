@@ -2130,3 +2130,43 @@
 		.pulse {
 			animation: pulse 0.5s ease-in-out;
 		}
+																/* Coins START */	
+
+    #coin-container {
+        width: 50px;
+        height: 50px;
+        perspective: 1000px;
+        margin-right: 16px;
+        cursor: pointer;
+    }
+    #nav-coin {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transform-style: preserve-3d;
+        animation: none;
+    }
+    .coin-face {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        backface-visibility: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .coin-face.front {
+        transform: rotateY(0deg);
+    }
+    .coin-face.back {
+        transform: rotateY(180deg);
+    }
+    @keyframes rotateCoin {
+        0% { transform: rotateY(0deg); }
+        100% { transform: rotateY(360deg); }
+    }
+    /* Add styles for non-logged-in state */
+    .coin-disabled {
+        filter: grayscale(1);
+        opacity: 0.5;
+    }
