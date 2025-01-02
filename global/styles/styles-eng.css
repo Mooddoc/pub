@@ -2174,5 +2174,6 @@
     #coins-counter {
         display: flex;
         align-items: center;
-        font-size: 1.1rem;
+        font-size: 2rem;
+		color: #e6b400;
     }
