@@ -2376,3 +2376,9 @@ select.form-control {
         filter: grayscale(1);
         opacity: 0.5;
     }
+    /* Coins counter styles */
+    #coins-counter {
+        display: flex;
+        align-items: center;
+        font-size: 1.1rem;
+    }
