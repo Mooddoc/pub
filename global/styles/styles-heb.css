@@ -2383,3 +2383,58 @@ select.form-control {
         font-size: 2rem;
 		color: #F9E8D4;
     }
+	
+																/* Notification Banner START */	
+.notification-banner {
+    position: fixed;
+    background: #ff7f50;
+    color: white;
+    padding: 12px 40px 12px 20px;
+    border-radius: 8px;
+    font-family: system-ui, -apple-system, sans-serif;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    opacity: 0;
+    transform: translate(calc(-50% + 100%), -50%);
+    transition: all 0.5s ease-out;
+    z-index: 1000;
+}
+
+.notification-banner.show {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+}
+
+.notification-banner.hide {
+    opacity: 0;
+    transform: translate(calc(-50% + 100%), -50%);
+}
+
+.notification-banner-close {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.notification-banner:hover .notification-banner-close {
+    opacity: 1;
+}
+
+.notification-banner:hover {
+    background: #00acc1;
+}
+
+	
