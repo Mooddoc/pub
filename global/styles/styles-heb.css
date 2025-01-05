@@ -2149,134 +2149,207 @@ select.form-control {
     font-family: inherit;
 }
 												/* TRIVIA and LONG TEXTBOXS styles END */
-													/* Restricted Modal Styles Start */	
-    .modal-restricted {
-      display: none; /* Hidden by default */
-      position: fixed;
-      z-index: 9999; /* On top of everything */
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto; /* Enable scroll if needed */
-      background-color: rgba(0, 0, 0, 0.6); /* Black with opacity */
-      animation: fadeIn 0.3s ease;
+												
+																		/* CUSTOM Modal Styles Start */	
+/* Custom Modal Styles - Hebrew RTL Version */
+.custom-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.custom-modal-content {
+    background: #fff;
+    max-width: 50%;
+    margin: 100px auto;
+    border-radius: 12px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: slideDown 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.custom-modal-close {
+    position: absolute;
+    top: 15px;
+    left: 15px; /* Changed from right to left */
+    font-size: 24px;
+    font-weight: bold;
+    color: #555;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    z-index: 1;
+}
+
+.custom-modal-close:hover {
+    color: #ff7f50;
+}
+
+.custom-modal-title-section {
+    padding: 20px;
+    text-align: center;
+}
+
+.custom-modal-title {
+    color: #000080;
+    font-size: 1.8em;
+    margin: 0;
+    font-family: 'Rubik', sans-serif;
+}
+
+.custom-modal-body {
+    display: flex;
+    flex-direction: row-reverse; /* Changed to row-reverse for RTL */
+    gap: 20px;
+    padding: 20px;
+}
+
+.custom-modal-image-section {
+    flex: 0 0 40%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.custom-modal-image-section img {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+}
+
+.custom-modal-content-section {
+    flex: 0 0 60%;
+    min-width: 0;
+    text-align: right; /* Added for RTL */
+}
+
+#customModalContent {
+    color: #333;
+    line-height: 1.6;
+    direction: rtl; /* Added for RTL */
+}
+
+.custom-modal p {
+    font-size: 1.1em;
+    margin-bottom: 15px;
+}
+
+.custom-modal h3 {
+    color: #333;
+    margin: 20px 0 10px;
+}
+
+.custom-modal-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 25px;
+    width: 100%;
+    max-width: 400px;
+    margin-right: auto; /* Changed from margin-left for RTL */
+    margin-left: 0; /* Added for RTL */
+}
+
+.custom-modal-list li {
+    background: url('https://img.icons8.com/ios-filled/24/ff7f50/checkmark.png') no-repeat right center; /* Changed from left to right */
+    background-size: 20px 20px;
+    padding-right: 30px; /* Changed from padding-left */
+    padding-left: 0; /* Added for RTL */
+    margin-bottom: 10px;
+    font-size: 1em;
+    color: #555;
+}
+
+.custom-modal-footer {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.custom-modal-button {
+    background-color: #ff7f50;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1em;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    min-width: 150px;
+}
+
+.custom-modal-button:hover {
+    background-color: #ff5722;
+    transform: translateY(-2px);
+}
+
+.custom-modal-button.secondary {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.custom-modal-button.secondary:hover {
+    background-color: #e0e0e0;
+}
+
+@media (max-width: 768px) {
+    .custom-modal-content {
+        max-width: 95%;
+        margin: 20px auto;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    .custom-modal-body {
+        flex-direction: column;
     }
 
-    .modal-restricted-content {
-      background: #fff;
-      max-width: 50%;
-      margin: 100px auto;
-      border-radius: 12px;
-      padding: 30px 20px;
-      position: relative;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-      animation: slideDown 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center; 
-    }
-
-    @keyframes slideDown {
-      from { transform: translateY(-50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    .modal-restricted-close {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      font-size: 24px;
-      font-weight: bold;
-      color: #555;
-      cursor: pointer;
-      transition: color 0.3s ease;
-    }
-
-    .modal-restricted-close:hover {
-      color: #ff7f50;
-    }
-
-    .modal-restricted-content h2 {
-      color: #000080;
-      font-size: 1.8em;
-      margin-bottom: 15px;
-      font-family: 'Rubik', sans-serif;
-    }
-
-    .modal-restricted-content p {
-      font-size: 1.1em;
-      color: #333;
-      margin-bottom: 20px;
-      line-height: 1.6;
-    }
-
-    .advantages-list {
-      list-style: none;
-      padding: 0;
-      margin-bottom: 25px;
-      width: 100%;
-      max-width: 400px;
-    }
-
-    .advantages-list li {
-      background: url('https://img.icons8.com/ios-filled/24/ff7f50/checkmark.png') no-repeat left center;
-      background-size: 20px 20px;
-      padding-left: 30px;
-      margin-bottom: 10px;
-      font-size: 1em;
-      color: #555;
-    }
-
-    .modal-restricted-button {
-      background-color: #ff7f50;
-      color: #fff;
-      border: none;
-      padding: 12px 25px;
-      font-size: 1.1em;
-      border-radius: 25px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      display: block; /* שינו מ-inline-block ל-block */
-      margin: 20px auto 0 auto; /* מרכז את הכפתור ומוסיף מרווח מלמעלה */
-      text-decoration: none;
-      width: fit-content; /* מתאים את הרוחב לתוכן */
-    }
-
-    .modal-restricted-button:hover {
-      background-color: #ff5722;
-      transform: translateY(-2px);
-    }
-
-    /* Responsive Design */
-    @media (max-width: 600px) {
-      .modal-restricted-content {
-        width: 95%;
-        margin: 60px auto;
-        padding: 20px 15px;
-      }
-
-      .modal-restricted-content h2 {
-        font-size: 1.5em;
-      }
-
-      .modal-restricted-button {
+    .custom-modal-image-section {
+        flex: 0 0 auto;
         width: 100%;
-        padding: 12px 0;
-      }
-
-      .advantages-list {
-        max-width: 100%;
-      }
+        max-width: 300px;
+        margin: 0 auto;
     }
-																								  /* Restricted Modal Styles END */																											 
+
+    .custom-modal-content-section {
+        flex: 1;
+    }
+
+    .custom-modal-footer {
+        flex-direction: column;
+    }
+
+    .custom-modal-button {
+        width: 100%;
+    }
+}
+
+.custom-modal-image-section:empty {
+    display: none;
+}
+
+.custom-modal-image-section:empty + .custom-modal-content-section {
+    flex: 1;
+}
+																		 /* CUSTOM Modal Styles END */																											 
 																								
 		.button-container {
 	    position: relative;
