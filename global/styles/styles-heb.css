@@ -2243,24 +2243,6 @@ select.form-control {
 	padding: 30px;
 }
 
-/* Specific RTL content adjustments */
-[dir="rtl"] .custom-modal-content-section {
-    text-align: right;
-    margin-right: 30px; /* Additional right margin for RTL */
-}
-
-/* If needed, more specific targeting */
-[dir="rtl"] .custom-modal-body {
-    padding-right: 30px;
-    padding-left: 30px;
-}
-
-/* For the text content itself */
-[dir="rtl"] .custom-modal-content-section p {
-    margin-right: 30px;
-    margin-left: 30px;
-}
-
 .custom-modal-content-section p {
     margin-bottom: 15px;
     line-height: 1.6;
