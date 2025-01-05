@@ -1983,7 +1983,6 @@
 			to { transform: translateY(0); opacity: 1; }
 		}
 
-		/* Close Button */
 		.custom-modal-close {
 			position: absolute;
 			top: 15px;
@@ -2000,9 +1999,7 @@
 			color: #ff7f50;
 		}
 
-		/* Title Section (Yellow) */
 		.custom-modal-title-section {
-			background: #FFE900;
 			padding: 20px;
 			text-align: center;
 		}
@@ -2014,15 +2011,12 @@
 			font-family: 'Rubik', sans-serif;
 		}
 
-		/* Main Content Area */
 		.custom-modal-body {
 			display: flex;
 			min-height: 200px;
 		}
 
-		/* Image Section (Red) */
 		.custom-modal-image-section {
-			background: #FF4444;
 			padding: 20px;
 			flex: 0 0 200px;
 			display: flex;
@@ -2036,9 +2030,7 @@
 			display: block;
 		}
 
-		/* Content Section (Green) */
 		.custom-modal-content-section {
-			background: #4CAF50;
 			flex: 1;
 			padding: 20px;
 		}
@@ -2048,7 +2040,6 @@
 			line-height: 1.6;
 		}
 
-		/* Text Styles */
 		.custom-modal p {
 			font-size: 1.1em;
 			margin-bottom: 15px;
@@ -2059,7 +2050,6 @@
 			margin: 20px 0 10px;
 		}
 
-		/* List Styles */
 		.custom-modal-list {
 			list-style: none;
 			padding: 0;
@@ -2077,16 +2067,13 @@
 			color: #555;
 		}
 
-		/* Button Section (Blue) */
 		.custom-modal-footer {
-			background: #007BFF;
 			padding: 20px;
 			display: flex;
 			justify-content: center;
 			gap: 10px;
 		}
 
-		/* Button Styles */
 		.custom-modal-button {
 			background-color: #ff7f50;
 			color: #fff;
@@ -2114,7 +2101,6 @@
 			background-color: #e0e0e0;
 		}
 
-		/* Responsive Design */
 		@media (max-width: 768px) {
 			.custom-modal-content {
 				max-width: 95%;
@@ -2139,7 +2125,6 @@
 			}
 		}
 
-		/* Handle image-less modal */
 		.custom-modal-image-section:empty {
 			display: none;
 		}
