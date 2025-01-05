@@ -2239,13 +2239,19 @@ select.form-control {
 .custom-modal-content-section {
     flex: 0 0 60%;
     min-width: 0;
-    text-align: right; /* Added for RTL */
+    text-align: right; 
+	padding: 20px 30px;
+}
+
+.custom-modal-content-section p {
+    margin-bottom: 15px;
+    line-height: 1.6;
 }
 
 #customModalContent {
     color: #333;
     line-height: 1.6;
-    direction: rtl; /* Added for RTL */
+    direction: rtl; 
 }
 
 .custom-modal p {
@@ -2261,19 +2267,19 @@ select.form-control {
 .custom-modal-list {
     list-style: none;
     padding: 0;
-    margin-bottom: 25px;
+    margin: 20px 0;
     width: 100%;
     max-width: 400px;
-    margin-right: auto; /* Changed from margin-left for RTL */
-    margin-left: 0; /* Added for RTL */
+    margin-right: auto; 
+    margin-left: 0; 
 }
 
 .custom-modal-list li {
     background: url('https://img.icons8.com/ios-filled/24/ff7f50/checkmark.png') no-repeat right center; /* Changed from left to right */
     background-size: 20px 20px;
-    padding-right: 30px; /* Changed from padding-left */
-    padding-left: 0; /* Added for RTL */
-    margin-bottom: 10px;
+    padding-right: 30px; 
+    padding-left: 0;
+    margin-bottom: 12px;
     font-size: 1em;
     color: #555;
 }
