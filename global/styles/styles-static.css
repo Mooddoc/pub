@@ -309,3 +309,88 @@
       }
     }
 	
+	
+     /*    --------------------------------------------------------  ABOUT US  ----------------------------------------------------------------*/	
+
+    /* Fun Quotes */
+    .quote {
+      position: absolute;
+      font-style: italic;
+      font-family: "Georgia", serif;
+      color: white;
+      font-size: 1rem;
+      line-height: 1.5;
+      width: 200px;
+    }
+    .quote.one {
+      top: 20%;
+      left: 15%;
+    }
+    .quote.two {
+      top: 30%;
+      right: 15%;
+    }
+    .quote.three {
+      top: 40%;
+      left: 10%;
+    }
+
+    /* Who We Are Section */
+    section.who-we-are {
+      background: linear-gradient(135deg, #fefefe, #e8f4ff);
+    }
+
+    .who-we-are .content {
+      text-align: center;
+    }
+
+    /* What We Offer Section */
+    section.what-we-offer {
+      background: #fff7f0;
+    }
+    .what-we-offer .cards-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .offer-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 1rem;
+      width: 280px;
+      text-align: center;
+      border: 2px solid #ff7f50;
+    }
+    .offer-card:hover {
+      transform: translateY(-5px);
+      border-color: #000080;
+    }
+    .offer-card img {
+      width: 60px;
+    }
+
+    /* Our Story Section */
+    section.our-story {
+      background: #000080;
+      color: #fff;
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+    .our-story .story-overlay {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    /* Why EZ Section */
+    section.why-ez {
+      background: #ffefd5;
+    }
+
+    .why-ez .content {
+      text-align: center;
+    }
+	
