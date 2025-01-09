@@ -394,3 +394,9 @@
       text-align: center;
     }
 	
+    .section-title {
+      text-align: center;
+      color: #000080;
+      margin-bottom: 1rem;
+      font-size: 2rem;
+    }
