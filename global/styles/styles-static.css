@@ -141,18 +141,19 @@
       text-align: center;
       position: relative;
     }
-#contact .hero-img {
-  position: static; /* Remove absolute positioning */
-  transform: none; /* Remove the translate transformation */
-  width: auto; /* Allow images to scale naturally */
-  height: 100px; /* Set consistent height */
-}
+	
+	#contact .hero-img {
+	  position: static; /* Remove absolute positioning */
+	  transform: none; /* Remove the translate transformation */
+	  width: auto; /* Allow images to scale naturally */
+	  height: 100px; /* Set consistent height */
+	}
 
-#contact .hero-left, #contact .hero-right {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+	#contact .hero-left, #contact .hero-right {
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	}
 
     footer {
       background: #000080;
@@ -169,3 +170,142 @@
       height: auto;
       opacity: 0.8;
     }
+	
+     /*    --------------------------------------------------------  CONTACT US  ----------------------------------------------------------------*/
+	 
+	    /* Hero Section */
+    header.hero-section {
+      position: relative;
+      text-align: center;
+      padding: 4rem 2rem;
+      background: #00acc1;
+      color: #fff;
+      overflow: hidden;
+    }
+    header.hero-section h1 {
+      font-size: 2.8rem;
+      margin: 0;
+      z-index: 2;
+      position: relative;
+    }
+    header.hero-section p {
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: 1rem auto;
+      z-index: 2;
+      position: relative;
+    }
+    header.hero-section img.stage-hero {
+      max-width: 100px;
+      opacity: 0.8;
+      position: absolute;
+    }
+    header.hero-section .hero1 {
+      top: 10%;
+      left: 5%;
+    }
+    header.hero-section .hero2 {
+      bottom: 10%;
+      right: 5%;
+    }
+    header.hero-section .hero3 {
+      top: 5%;
+      right: 10%;
+    }
+    header.hero-section .hero4 {
+      bottom: 5%;
+      left: 10%;
+    }
+    header.hero-section .hero5 {
+      top: 20%;
+      right: 20%;
+    }
+    header.hero-section .hero6 {
+      bottom: 20%;
+      left: 20%;
+    }
+
+    /* Contact Section */
+    section.contact-section {
+      padding: 3rem 2rem;
+      background: #fff;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+    }
+    .contact-info, .contact-form-container {
+      background: #fafafa;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      flex: 1 1 300px;
+      max-width: 400px;
+      position: relative;
+    }
+    .contact-info h2, .contact-form-container h2 {
+      color: #000080;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .contact-info p {
+      margin: 0.5rem 0;
+    }
+    .contact-info img {
+      display: block;
+      margin: 0 auto;
+      width: 200px;
+      height: 200px;
+      border-radius: 10px;
+    }
+    .contact-info a {
+      color: #ff7f50;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .contact-form-container form {
+      display: flex;
+      flex-direction: column;
+    }
+    .contact-form-container label {
+      margin: 0.5rem 0 0.2rem;
+      font-weight: bold;
+    }
+    .contact-form-container input,
+    .contact-form-container textarea {
+      padding: 0.5rem;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+    .contact-form-container input:focus,
+    .contact-form-container textarea:focus {
+      border-color: #ff7f50;
+      outline: none;
+    }
+    .contact-form-container button {
+      background: #ff7f50;
+      color: #fff;
+      border: none;
+      padding: 0.8rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .contact-form-container button:hover {
+      background: #e06647;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      section.contact-section {
+        flex-direction: column;
+        align-items: center;
+      }
+      .contact-info, .contact-form-container {
+        max-width: 90%;
+      }
+    }
+	
