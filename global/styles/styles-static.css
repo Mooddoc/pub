@@ -140,19 +140,19 @@
       text-align: center;
       position: relative;
     }
-    #contact .hero-img {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 100px;
-      height: auto;
-    }
-    #contact .hero-left {
-      left: 10px;
-    }
-    #contact .hero-right {
-      right: 10px;
-    }
+#contact .hero-img {
+  position: static; /* Remove absolute positioning */
+  transform: none; /* Remove the translate transformation */
+  width: auto; /* Allow images to scale naturally */
+  height: 100px; /* Set consistent height */
+}
+
+#contact .hero-left, #contact .hero-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
     footer {
       background: #000080;
       color: #fff;
