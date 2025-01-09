@@ -404,3 +404,24 @@
     h1, h2, h3 {
       font-family: 'Arial', sans-serif;
     }	
+	
+     /*    --------------------------------------------------------  CONTACT BUTTON  ----------------------------------------------------------------*/	
+	
+.contact-button {
+  background: #ff7f50;
+  color: #ffffff;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 2rem auto;
+  display: block;
+  text-align: center;
+  transition: background 0.3s, color 0.3s;
+}
+
+.contact-button:hover {
+  background: #000080;
+  color: #fff;
+}
