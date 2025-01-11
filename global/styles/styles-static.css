@@ -550,3 +550,47 @@
       text-align: center;
       padding: 2rem;
     }
+    .unsubscribe-header {
+      background: #ff7f50;
+      color: #fff;
+      padding: 2rem;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    .unsubscribe-content {
+      padding: 2rem;
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
+    .unsubscribe-content p {
+      margin-bottom: 2rem;
+    }
+    .unsubscribe-content .unsubscribe-resubscribe-button {
+      display: inline-block;
+      background: #00acc1;
+      color: #fff;
+      padding: 1rem 2rem;
+      text-decoration: none;
+      font-size: 1.2rem;
+      border-radius: 50px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+    .unsubscribe-content .unsubscribe-resubscribe-button:hover {
+      background: #ff7f50;
+      transform: translateY(-3px);
+    }
+    .unsubscribe-heroes-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+    .unsubscribe-heroes-row img {
+      width: 100px;
+      height: auto;
+      border-radius: 10px;
+    }
+
