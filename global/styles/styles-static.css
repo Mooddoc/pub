@@ -602,18 +602,17 @@
     }
 
      /*    --------------------------------------------------------  EMAIL VERIFIED  ----------------------------------------------------------------*/	
-    .static-container {
-      max-width: 1000px;
+ 
+	.ev-container {
+      max-width: 800px;
       margin: 3rem auto;
       background: #ffffff;
-      border: 2px solid #ff7f50;
+      border: 2px solid #00acc1;
       border-radius: 15px;
       overflow: hidden;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      text-align: center;
       padding: 2rem;
     }
-	
     .ev-header {
       background: #00acc1;
       color: #fff;
