@@ -539,7 +539,7 @@
 		
      /*    --------------------------------------------------------  UNSUBSCRIBED  ----------------------------------------------------------------*/	
 	 
-    .unsubscribe-container {
+    .static-container {
       max-width: 1000px;
       margin: 3rem auto;
       background: #ffffff;
