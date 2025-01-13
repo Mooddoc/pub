@@ -985,18 +985,28 @@
     border-radius: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* This ensures proper spacing */
+    justify-content: space-between; /* This creates space between image and name */
     align-items: center;
     padding: 10px;
     box-sizing: border-box;
 }
 
-.mh-hero-image {
-    max-width: 90%;
-    max-height: calc(100% - 60px); /* Leave space for the name */
-    border-radius: 16px;
-    margin-top: 10px;
-    object-fit: contain; /* Ensures image maintains aspect ratio */
+.mh-hero-image-container {
+    flex: 1;           /* Take up available space */
+    width: 100%;
+    display: flex;     /* Create a flex container for the image */
+    align-items: center; /* Center image vertically */
+    justify-content: center; /* Center image horizontally */
+}
+
+.mh-hero-name {
+    width: 100%;
+    padding: 10px 0;
+    color: #333;
+    font-size: 1.2rem;
+    text-align: center;
+    font-weight: bold;
+    margin-top: auto; /* Push to bottom */
 }
 
 .mh-hero-name {
