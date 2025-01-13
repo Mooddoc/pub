@@ -643,3 +643,410 @@
       background: #ff7f50;
       transform: translateY(-3px);
     }
+
+
+
+  /* Top Section */
+  .top-section {
+    background: linear-gradient(135deg, #00acc1, #0097a7);
+    color: white;
+    padding: 30px 10px;
+    text-align: center;
+    border-bottom: 4px solid #ff7f50;
+    position: relative;
+  }
+
+  .top-section h1 {
+    margin: 0;
+    font-size: 3rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .top-section p {
+    margin-top: 5px;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: #ffeb3b;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-decorations {
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: white;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .hero-decorations.right {
+    left: auto;
+    right: 5%;
+  }
+
+  .hero-decorations img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Quotes */
+  .quote {
+    position: absolute;
+    font-style: italic;
+    font-family: "Georgia", serif;
+    color: white;
+    font-size: 1rem;
+    line-height: 1.5;
+    width: 200px;
+  }
+
+  .quote.one {
+    top: 15%;
+    left: 20%;
+  }
+
+  .quote.two {
+    top: 25%;
+    right: 20%;
+    text-align: right;
+  }
+
+  .quote.three {
+    top: 40%;
+    left: 10%;
+  }
+
+  /* Card Grid */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
+  gap: 20px;
+  justify-items: center;
+  padding: 20px;
+}
+
+
+  /* Card Frame */
+.card-frame {
+  position: relative;
+  width: 256px;
+  height: 384px;
+  perspective: 1000px; /* Enables 3D effect for flipping */
+  display: inline-block; /* Prevents shifting during flip */
+  transform-style: preserve-3d; /* Ensures proper 3D rendering */
+}
+
+.card {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease-in-out; /* Smooth flip animation */
+}
+
+.card-frame.flipped .card {
+  transform: rotateY(180deg); /* Rotate the card */
+}
+
+  /* Front of Card */
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden; /* Hides the back face when flipped */
+  border-radius: 20px;
+}
+
+
+/* General Card Front Styling */
+.card-front {
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2; /* Ensure it's above the back initially */
+}
+
+/* Outer Frame for Gradient */
+.card-front .outer-frame {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px; /* Matches the outer frame's radius */
+  background: linear-gradient(135deg, #ff7f50, #000080); /* Gradient */
+  z-index: -1; /* Places the frame behind the inner content */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px; /* Space between the outer frame and inner card */
+  box-sizing: border-box;
+}
+
+/* Inner Card (White) */
+.card-front .inner-card {
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 20px; /* Inner white card's radius */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column; /* Stack content vertically */
+  justify-content: space-between; /* Push content to the top and bottom */
+  align-items: center;
+  overflow: hidden; /* Ensures content respects rounded corners */
+  padding: 10px; /* Add some padding for spacing */
+}
+
+/* Image Inside the Inner Card */
+.card-front .inner-card img {
+  max-width: 90%; /* Scale down image size */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 16px;
+  margin-top: 10px; /* Add spacing at the top */
+  flex-shrink: 0; /* Prevent shrinking of the image */
+}
+
+/* Heading (Name) at Fixed Position */
+.card-front .inner-card h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+  text-align: center;
+  padding: 5px 0;
+  flex-shrink: 0; /* Prevent shrinking of the heading */
+}
+  /* Back of Card */
+.card-back {
+  background: #ff7f50;
+  transform: rotateY(180deg); /* Ensure back starts hidden */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1; /* Ensure back is below front initially */
+  color: white;
+  text-align: center;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+  .card-back p {
+    margin: 0;
+    font-size: 1rem;
+  }
+     /*    --------------------------------------------------------  MY HEROES ----------------------------------------------------------------*/	
+	 
+	 /* Top Section Styles */
+.mh-top-section {
+    background: linear-gradient(135deg, #00acc1, #0097a7);
+    color: white;
+    padding: 30px 10px;
+    text-align: center;
+    border-bottom: 4px solid #ff7f50;
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.mh-top-section h1 {
+    margin: 0;
+    font-size: 3rem;
+    position: relative;
+    z-index: 2;
+}
+
+.mh-hero-decorations {
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: white;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.mh-hero-decorations.mh-right {
+    left: auto;
+    right: 5%;
+}
+
+.mh-hero-decorations img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Quotes */
+.mh-quote {
+    position: absolute;
+    font-style: italic;
+    font-family: "Georgia", serif;
+    color: white;
+    font-size: 1rem;
+    line-height: 1.5;
+    width: 200px;
+}
+
+.mh-quote.mh-one {
+    top: 15%;
+    left: 20%;
+}
+
+.mh-quote.mh-two {
+    top: 25%;
+    right: 20%;
+    text-align: right;
+}
+
+.mh-quote.mh-three {
+    top: 40%;
+    left: 10%;
+}
+
+/* Grid Container */
+.mh-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
+    gap: 20px;
+    justify-items: center;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Card Styles */
+.mh-card-frame {
+    position: relative;
+    width: 256px;
+    height: 384px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.mh-card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease-in-out;
+}
+
+.mh-card-frame.mh-flipped .mh-card {
+    transform: rotateY(180deg);
+}
+
+.mh-card-front,
+.mh-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 20px;
+}
+
+.mh-card-front {
+    background: white;
+    z-index: 2;
+}
+
+.mh-outer-frame {
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    background: linear-gradient(135deg, #ff7f50, #000080);
+    padding: 6px;
+    box-sizing: border-box;
+}
+
+.mh-inner-card {
+    width: 100%;
+    height: 100%;
+    background: white;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.mh-hero-image {
+    max-width: 90%;
+    height: auto;
+    border-radius: 16px;
+    margin-top: 10px;
+}
+
+.mh-hero-title {
+    margin: 10px 0;
+    font-size: 1.2rem;
+    color: #333;
+    text-align: center;
+}
+
+.mh-card-back {
+    background: #ff7f50;
+    transform: rotateY(180deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: white;
+    text-align: center;
+}
+
+.mh-card-back-content {
+    padding: 15px;
+}
+
+.mh-fact-title {
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
+
+.mh-fact-text {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* Loading Indicator */
+.mh-text-center {
+    text-align: center;
+}
+
+.mh-py-4 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.mh-spinner {
+    color: #ff7f50;
+    font-weight: bold;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .mh-grid-container {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        padding: 10px;
+    }
+
+    .mh-card-frame {
+        width: 200px;
+        height: 300px;
+    }
+
+    .mh-top-section h1 {
+        font-size: 2rem;
+    }
+
+    .mh-quote {
+        display: none;
+    }
+}
