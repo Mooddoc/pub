@@ -977,7 +977,6 @@
     padding: 6px;
     box-sizing: border-box;
 }
-
 .mh-inner-card {
     width: 100%;
     height: 100%;
@@ -985,34 +984,35 @@
     border-radius: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* This creates space between image and name */
-    align-items: center;
     padding: 10px;
     box-sizing: border-box;
+    position: relative; /* For absolute positioning of the name */
 }
 
 .mh-hero-image-container {
-    flex: 1;           /* Take up available space */
+    flex: 1;
     width: 100%;
-    display: flex;     /* Create a flex container for the image */
-    align-items: center; /* Center image vertically */
-    justify-content: center; /* Center image horizontally */
+    height: calc(100% - 50px); /* Reserve space for the name */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Prevent image overflow */
+}
+
+.mh-hero-image {
+    max-width: 90%;
+    max-height: 100%; /* Use full height of container */
+    object-fit: contain; /* Maintain aspect ratio */
+    display: block; /* Remove any extra spacing */
 }
 
 .mh-hero-name {
     width: 100%;
-    padding: 10px 0;
-    color: #333;
-    font-size: 1.2rem;
-    text-align: center;
-    font-weight: bold;
-    margin-top: auto; /* Push to bottom */
-}
-
-.mh-hero-name {
-    width: 100%;
-    padding: 10px 0;
-    margin-top: auto; /* Pushes the name to the bottom */
+    height: 40px; /* Fixed height for name */
+    position: absolute; /* Position at bottom */
+    bottom: 10px;
+    left: 0;
+    padding: 5px 0;
     color: #333;
     font-size: 1.2rem;
     text-align: center;
