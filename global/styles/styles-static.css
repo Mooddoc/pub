@@ -909,15 +909,29 @@
     left: 10%;
 }
 
-/* Grid Container */
 .mh-grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 20px;
     justify-items: center;
     padding: 20px;
-    max-width: 1200px;
+    width: 80%;
     margin: 0 auto;
+    max-width: 1600px;  /* Optional: prevent too wide layout on very large screens */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .mh-grid-container {
+        width: 90%;     /* Slightly wider on medium screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .mh-grid-container {
+        width: 95%;     /* Almost full width on mobile */
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
 }
 
 /* Card Styles */
