@@ -971,6 +971,7 @@
     border-radius: 20px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between; /* This ensures proper spacing */
     align-items: center;
     padding: 10px;
     box-sizing: border-box;
@@ -978,9 +979,20 @@
 
 .mh-hero-image {
     max-width: 90%;
-    height: auto;
+    max-height: calc(100% - 60px); /* Leave space for the name */
     border-radius: 16px;
     margin-top: 10px;
+    object-fit: contain; /* Ensures image maintains aspect ratio */
+}
+
+.mh-hero-name {
+    width: 100%;
+    padding: 10px 0;
+    margin-top: auto; /* Pushes the name to the bottom */
+    color: #333;
+    font-size: 1.2rem;
+    text-align: center;
+    font-weight: bold;
 }
 
 .mh-hero-title {
