@@ -1069,7 +1069,7 @@
             z-index: 2;
         }
         header.fp-header button {
-            background: #fff;
+            background: #ff7f50;
             color: #000080;
             border: none;
             padding: 1rem 2rem;
@@ -1083,7 +1083,7 @@
             transition: background 0.3s, color 0.3s;
         }
         header.fp-header button:hover {
-            background: #ff7f50;
+            background: #00acc1;
             color: #fff;
         }
         header.fp-header .fp-stage-hero {
