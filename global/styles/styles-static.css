@@ -646,199 +646,6 @@
 
 
 
-  /* Top Section */
-  .top-section {
-    background: linear-gradient(135deg, #00acc1, #0097a7);
-    color: white;
-    padding: 30px 10px;
-    text-align: center;
-    border-bottom: 4px solid #ff7f50;
-    position: relative;
-  }
-
-  .top-section h1 {
-    margin: 0;
-    font-size: 3rem;
-    position: relative;
-    z-index: 2;
-  }
-
-  .top-section p {
-    margin-top: 5px;
-    font-size: 1.2rem;
-    font-style: italic;
-    color: #ffeb3b;
-    position: relative;
-    z-index: 2;
-  }
-
-  .hero-decorations {
-    position: absolute;
-    top: 10%;
-    left: 5%;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: white;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-
-  .hero-decorations.right {
-    left: auto;
-    right: 5%;
-  }
-
-  .hero-decorations img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  /* Quotes */
-  .quote {
-    position: absolute;
-    font-style: italic;
-    font-family: "Georgia", serif;
-    color: white;
-    font-size: 1rem;
-    line-height: 1.5;
-    width: 200px;
-  }
-
-  .quote.one {
-    top: 15%;
-    left: 20%;
-  }
-
-  .quote.two {
-    top: 25%;
-    right: 20%;
-    text-align: right;
-  }
-
-  .quote.three {
-    top: 40%;
-    left: 10%;
-  }
-
-  /* Card Grid */
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
-  gap: 20px;
-  justify-items: center;
-  padding: 20px;
-}
-
-
-  /* Card Frame */
-.card-frame {
-  position: relative;
-  width: 256px;
-  height: 384px;
-  perspective: 1000px; /* Enables 3D effect for flipping */
-  display: inline-block; /* Prevents shifting during flip */
-  transform-style: preserve-3d; /* Ensures proper 3D rendering */
-}
-
-.card {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  transition: transform 0.6s ease-in-out; /* Smooth flip animation */
-}
-
-.card-frame.flipped .card {
-  transform: rotateY(180deg); /* Rotate the card */
-}
-
-  /* Front of Card */
-.card-front,
-.card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden; /* Hides the back face when flipped */
-  border-radius: 20px;
-}
-
-
-/* General Card Front Styling */
-.card-front {
-  background: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2; /* Ensure it's above the back initially */
-}
-
-/* Outer Frame for Gradient */
-.card-front .outer-frame {
-  position: absolute;
-  inset: 0;
-  border-radius: 24px; /* Matches the outer frame's radius */
-  background: linear-gradient(135deg, #ff7f50, #000080); /* Gradient */
-  z-index: -1; /* Places the frame behind the inner content */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px; /* Space between the outer frame and inner card */
-  box-sizing: border-box;
-}
-
-/* Inner Card (White) */
-.card-front .inner-card {
-  width: 100%;
-  height: 100%;
-  background: white;
-  border-radius: 20px; /* Inner white card's radius */
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column; /* Stack content vertically */
-  justify-content: space-between; /* Push content to the top and bottom */
-  align-items: center;
-  overflow: hidden; /* Ensures content respects rounded corners */
-  padding: 10px; /* Add some padding for spacing */
-}
-
-/* Image Inside the Inner Card */
-.card-front .inner-card img {
-  max-width: 90%; /* Scale down image size */
-  height: auto; /* Maintain aspect ratio */
-  border-radius: 16px;
-  margin-top: 10px; /* Add spacing at the top */
-  flex-shrink: 0; /* Prevent shrinking of the image */
-}
-
-/* Heading (Name) at Fixed Position */
-.card-front .inner-card h2 {
-  margin: 0;
-  font-size: 1.2rem;
-  color: #333;
-  text-align: center;
-  padding: 5px 0;
-  flex-shrink: 0; /* Prevent shrinking of the heading */
-}
-  /* Back of Card */
-.card-back {
-  background: #ff7f50;
-  transform: rotateY(180deg); /* Ensure back starts hidden */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1; /* Ensure back is below front initially */
-  color: white;
-  text-align: center;
-  padding: 10px;
-  border-radius: 20px;
-}
-
-  .card-back p {
-    margin: 0;
-    font-size: 1rem;
-  }
      /*    --------------------------------------------------------  MY HEROES ----------------------------------------------------------------*/	
 	 
 	 /* Top Section Styles */
@@ -937,8 +744,8 @@
 /* Card Styles */
 .mh-card-frame {
     position: relative;
-    width: 256px;
-    height: 384px;
+    width: 270px;  /* Increased from 256px - about 5% wider */
+    height: 405px; /* Increased proportionally */
     perspective: 1000px;
     cursor: pointer;
 }
@@ -977,6 +784,7 @@
     padding: 6px;
     box-sizing: border-box;
 }
+
 .mh-inner-card {
     width: 100%;
     height: 100%;
@@ -986,33 +794,32 @@
     flex-direction: column;
     padding: 10px;
     box-sizing: border-box;
-    position: relative; /* For absolute positioning of the name */
+    position: relative;
 }
 
 .mh-hero-image-container {
     flex: 1;
     width: 100%;
-    height: calc(100% - 50px); /* Reserve space for the name */
+    height: calc(100% - 60px); /* More space for name */
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden; /* Prevent image overflow */
+    padding-bottom: 15px; /* Add padding between image and name */
 }
 
 .mh-hero-image {
     max-width: 90%;
-    max-height: 100%; /* Use full height of container */
-    object-fit: contain; /* Maintain aspect ratio */
-    display: block; /* Remove any extra spacing */
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
 }
 
 .mh-hero-name {
     width: 100%;
-    height: 40px;
+    height: 45px; /* Increased height */
     position: absolute;
-    bottom: 10px;
+    bottom: 15px; /* Increased bottom padding */
     left: 0;
-    padding: 10px 0;
     color: #333;
     font-size: 1.2rem;
     text-align: center;
@@ -1040,25 +847,22 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0; /* Remove padding from container */
 }
 
 .mh-card-back-content {
-    padding: 20px;
-    max-height: 90%; /* Ensure content doesn't overflow */
-    overflow-y: auto; /* Add scroll if content is too long */
+    padding: 25px;
     width: 90%;
     margin: auto;
 }
 
 .mh-fact-title {
     margin-bottom: 10px;
-    font-size: 1.2rem;
+    font-size: 1.1rem; /* Slightly smaller */
     color: white;
 }
 
 .mh-fact-text {
-    font-size: 1rem;
+    font-size: 0.95rem; /* Slightly smaller to fit content */
     line-height: 1.4;
     color: white;
     margin: 0;
