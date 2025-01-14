@@ -857,9 +857,12 @@
 }
 
 .mh-card-back-content {
-    padding: 25px;
+    padding: 15px;
     width: 90%;
     margin: auto;
+    overflow: hidden;
+    position: relative;
+    display: block;
 }
 
 .mh-fact-title {
@@ -869,11 +872,14 @@
 }
 
 .mh-fact-text {
-    font-size: 0.95rem; /* Slightly smaller to fit content */
-    line-height: 1.3;
+    font-size: 0.85rem;
+    line-height: 1.2;
     color: white;
-    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
     word-wrap: break-word;
+    max-height: 100%;
 }
 
 /* Loading Indicator */
