@@ -4,7 +4,7 @@
     .login-container {
       display: flex;
       width: 90%;
-      max-width: 1400px;
+      max-width: 1300px;
       height: 90vh;
       border-radius: 16px;
       background-color: white;
@@ -214,7 +214,7 @@
     .signup-container {
       display: flex;
       width: 90%;
-      max-width: 1400px;
+      max-width: 1300px;
       height: 90vh;
       border-radius: 16px;
       background-color: white;
