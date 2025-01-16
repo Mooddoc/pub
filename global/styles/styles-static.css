@@ -601,6 +601,25 @@
       border-radius: 10px;
     }
 
+    .resubscribe-container {
+      max-width: 1000px;
+      margin: 3rem auto;
+      background: #ffffff;
+      border: 2px solid #ff7f50;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .resubscribe-header {
+      background: #ff7f50;
+      color: #fff;
+      padding: 2rem;
+      font-size: 2rem;
+      font-weight: bold;
+    }
      /*    --------------------------------------------------------  EMAIL VERIFIED  ----------------------------------------------------------------*/	
  
 	.ev-container {
