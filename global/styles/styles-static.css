@@ -466,6 +466,10 @@
         header.imm-hero-section .imm-hero1 { top: 10%; left: 5%; } /* Renamed */
         header.imm-hero-section .imm-hero2 { bottom: 10%; right: 5%; } /* Renamed */
 
+        .imm-section-title { /* Renamed */
+            margin-bottom: 20px;
+        }
+
         /* Explanation Section */
         .imm-explanation { /* Renamed */
             background: #fff7f0;
