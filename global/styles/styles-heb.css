@@ -2515,5 +2515,55 @@ select.form-control {
 .notification-banner:hover {
     background: #000080;
 }
+																			/* Style for the audio icon */
+.audio-icon {
+    width: 50px; /* Default size for larger screens */
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #00acc1;
+    border-radius: 50%;
+    position: fixed; /* Stay fixed at the bottom-right corner */
+    bottom: 20px; /* Fixed position */
+    right: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.3s;
+    font-size: 1.5rem; /* Initial emoji size */
+}
+
+/* Medium screens (e.g., tablets) */
+@media (max-width: 1400px) {
+    .audio-icon {
+        width: 35px; /* Reduce size */
+        height: 35px;
+        bottom: 10px; /* Adjust position */
+        right: 10px;
+        font-size: 1.2rem; /* Reduce emoji size */
+    }
+}
+
+/* Small screens (e.g., phones) */
+@media (max-width: 1100px) {
+    .audio-icon {
+        width: 30px; /* Further reduce size */
+        height: 30px;
+        bottom: 10px; /* Adjust position */
+        right: 10px;
+        font-size: 1rem; /* Smaller emoji */
+    }
+}
+
+/* Extra small screens (e.g., very small phones) */
+@media (max-width: 800px) {
+    .audio-icon {
+        width: 25px; /* Minimal size */
+        height: 25px;
+        bottom: 8px; /* Adjust position */
+        right: 8px;
+        font-size: 0.8rem; /* Smallest emoji size */
+    }
+}
 
 	
