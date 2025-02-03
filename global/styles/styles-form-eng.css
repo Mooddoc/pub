@@ -117,7 +117,10 @@ button {
     cursor: pointer;
     font-size: 1rem;
     transition: background-color 0.3s, box-shadow 0.3s;
-    margin: 0.5rem 0;
+    margin: 0.5rem;
+    min-width: 150px; /* Set minimum width */
+    max-width: fit-content; /* Allow button to fit content */
+    align-self: center; /* Center the button */
 }
 
 button:hover {
@@ -126,15 +129,17 @@ button:hover {
 }
 
 .save-button {
-    background-color: #000080;
-    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
     width: 100%;
+    margin-top: 1rem;
 }
 
 .submit-button {
-    background-color: #ff7f50;
-    margin-top: 1rem;
-    width: 100%;
+    min-width: 150px;
+    max-width: fit-content;
+    margin: 1rem auto;
+    display: block;
 }
 
 /* Progress Section */
@@ -202,6 +207,81 @@ button:hover {
 
 .save-status.error {
     color: #ff0000;
+}
+
+/* Stage List Styles */
+.stage-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem;
+}
+
+.stages-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: calc(90vh - 200px); /* Adjust based on your needs */
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+/* Stage Button Styles */
+.stage-button {
+    background-color: #f0f0f0;
+    color: #333;
+    border: none;
+    padding: 0.8rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    text-align: left;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin: 0.2rem 0;
+    border-left: 4px solid transparent;
+}
+
+.stage-button:hover {
+    background-color: #e0e0e0;
+    border-left-color: #ff7f50;
+}
+
+.stage-button.active {
+    background-color: #000080;
+    color: white;
+    border-left-color: #ff7f50;
+}
+
+/* Scrollbar Styles for Stage List */
+.stages-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.stages-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.stages-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+.stages-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Logo Container in Side Panel */
+.logo-container {
+    text-align: center;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+}
+
+.logo-image {
+    max-width: 100px;
+    height: auto;
 }
 
 /* Responsive Design */
