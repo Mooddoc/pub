@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
+
+:root {
+    font-size: 16px;
+}
+
+/* Base Styles */
+body, html {
+    direction: ltr;
+    margin: 0;
+    padding: 0;
+    font-family: 'Quicksand', sans-serif;
+    background-color: #f0f0f0;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Layout */
+.page-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 1rem;
+    box-sizing: border-box;
+    min-height: 100vh;
+}
+
+.content-wrapper {
+    display: flex;
+    width: 100%;
+    max-width: 1800px;
+    gap: 1rem;
+    flex: 1;
+}
+
+/* Side Panels */
+.side-panel {
+    background-color: white;
+    color: black;
+    border-radius: 0.625rem;
+    padding: 1rem;
+    padding-left: 0.8rem;
+    padding-right: 1rem;
+    box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
+    flex: 0 0 calc(20% - 0.5rem);
+    max-width: calc(20% - 0.5rem);
+    transition: flex 0.3s ease, max-width 0.3s ease;
+    overflow-y: auto;
+    max-height: 90vh;
+    position: relative;
+}
+
+/* Main Form Container */
+.quiz-container {
+    background-color: white;
+    border-radius: 0.625rem;
+    padding: 1rem;
+    box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
+    flex: 1;
+    min-width: 0;
+    transition: flex 0.3s ease;
+    min-height: 800px;
+}
+
+/* Headers */
+.side-panel h2 {
+    color: black;
+    margin-top: 0;
+    text-align: center;
+    font-size: 1.25rem;
+}
+
+.quiz-container h1 {
+    color: black;
+    text-align: center;
+    font-size: 2rem;
+}
+
+.quiz-container h2 {
+    color: #ff7f50;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+/* Question Styles */
+.question {
+    margin-bottom: 1rem;
+    background-color: rgba(224, 247, 250, 0.8);
+    padding: 0.8rem;
+    border-radius: 0.625rem;
+}
+
+.question label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+/* Form Controls */
+.form-select, .form-input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.3rem;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Buttons */
+button {
+    background-color: #ff7f50;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.3125rem;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    margin: 0.5rem 0;
+}
+
+button:hover {
+    background-color: #ff6b3d;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.save-button {
+    background-color: #000080;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.submit-button {
+    background-color: #ff7f50;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+/* Progress Section */
+.progress-section {
+    margin-top: 1rem;
+}
+
+.progress-stats {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+/* Modal Styles */
+.modal-quiz {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-quiz-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.modal-quiz-button {
+    background-color: #000080;
+    margin: 0.5rem;
+}
+
+/* Scroll to Top Button */
+#scrollToTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99;
+    border: none;
+    outline: none;
+    background-color: #000080;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 50%;
+    font-size: 18px;
+}
+
+/* Save Status */
+.save-status {
+    text-align: center;
+    padding: 0.5rem;
+    margin-top: 1rem;
+}
+
+.save-status.error {
+    color: #ff0000;
+}
+
+/* Responsive Design */
+@media (max-width: 75rem) {
+    .content-wrapper {
+        flex-direction: column;
+    }
+    .side-panel, .quiz-container {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+}
+
+@media (min-width: 120rem) {
+    :root {
+        font-size: 18px;
+    }
+}
