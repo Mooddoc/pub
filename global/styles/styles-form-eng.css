@@ -324,11 +324,6 @@ button:hover {
     display: none;
 }
 
-/* Even-numbered stages (like stage 2) */
-.stage-button:nth-child(2n) {
-    background-color: #ff7f50; /* Coral */
-}
-
 /* Active Stage Style */
 .stage-button.active {
     background-color: #ff7f50;
