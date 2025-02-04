@@ -246,7 +246,7 @@ button:hover {
 
 /* Stage Button Styles */
 .stage-button {
-    background-color: #f0f0f0; /* Light gray/white background */
+    background-color: #f0f0f0; /* Light gray background */
     color: #333;
     border: 2px solid #000080;
     padding: 1rem;
@@ -262,6 +262,8 @@ button:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+    /* Reset any potential inherited styles */
+    box-shadow: none;
 }
 
 /* Stage Number Badge */
@@ -269,6 +271,8 @@ button:hover {
     content: "Stage " attr(data-stage-number);
     position: absolute;
     top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
     background-color: #000080;
     color: white;
     padding: 2px 12px;
@@ -289,6 +293,30 @@ button:hover {
     height: 30px;
     background-color: #000080;
     z-index: 1;
+}
+
+/* Hover state */
+.stage-button:hover:not(.active) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Ensure no other styles persist */
+.stage-button:not(.active) {
+    background-color: #f0f0f0;
+    color: #333;
+    border-color: #000080;
+}
+
+/* Active Stage Style - Make this more specific to override any other styles */
+.stages-container .stage-button.active {
+    background-color: #ff7f50;
+    color: white;
+    border-color: #ff7f50;
+}
+
+.stages-container .stage-button.active::before {
+    background-color: #ff7f50;
 }
 
 /* Remove connecting line from last button */
