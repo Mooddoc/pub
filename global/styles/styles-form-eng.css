@@ -246,21 +246,20 @@ button:hover {
 
 /* Stage Button Styles */
 .stage-button {
-    background-color: #f0f0f0;
+    background-color: #f0f0f0; /* Light gray/white background */
     color: #333;
     border: 2px solid #000080;
     padding: 1rem;
-    border-radius: 10px;
+    border-radius: 15px;
     cursor: pointer;
     font-size: 1rem;
     text-align: center;
     transition: all 0.3s ease;
-    width: 90%;
+    width: 220px;
     position: relative;
     margin: 15px 0;
-    min-height: 60px;
+    min-height: 45px;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
@@ -279,15 +278,15 @@ button:hover {
     z-index: 2;
 }
 
-/* Connecting Line - Position it behind the button */
+/* Connecting Line */
 .stage-button::after {
     content: "";
     position: absolute;
-    top: 100%; /* Start from bottom of button */
+    top: 100%;
     left: 50%;
     transform: translateX(-50%);
     width: 2px;
-    height: 30px; /* Match the gap between buttons */
+    height: 30px;
     background-color: #000080;
     z-index: 1;
 }
@@ -297,18 +296,22 @@ button:hover {
     display: none;
 }
 
-/* Alternating Colors */
-.stage-button:nth-child(even) {
-    background-color: #ff7f50;
-}
-
-.stage-button:nth-child(even)::before {
-    background-color: #ff7f50;
+/* Even-numbered stages (like stage 2) */
+.stage-button:nth-child(2n) {
+    background-color: #ff7f50; /* Coral */
 }
 
 /* Active Stage Style */
 .stage-button.active {
+    background-color: #ff7f50;
+    color: white;
+    border-color: #ff7f50;
+    transform: scale(1.05);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.stage-button.active::before {
+    background-color: #ff7f50;
 }
 
 .stage-button:hover {
