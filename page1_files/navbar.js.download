@@ -1,0 +1,44 @@
+// navbar.js
+const NavBar = {
+  init() {
+    if (!window.Auth) {
+      console.error("Auth module not found");
+      window.location.href = "/500";
+      return;
+    }
+
+    this.setupScrollHandler();
+  },
+
+  setupScrollHandler() {
+    let lastScrollTop = 0;
+    const navbar = document.querySelector('.navbar');
+    if (!navbar) return;
+
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      if (scrollTop > lastScrollTop && scrollTop > 100) {
+        // Scrolling down & past threshold - hide navbar
+        navbar.classList.add('hidden');
+      } else {
+        // Scrolling up or near top - show navbar
+        navbar.classList.remove('hidden');
+      }
+      lastScrollTop = scrollTop;
+    });
+  }
+};
+
+// Initialize navbar when DOM is ready and Auth is available
+document.addEventListener("DOMContentLoaded", () => {
+  // Wait for Auth to be available
+  const checkAuth = () => {
+    if (window.Auth) {
+      NavBar.init();
+    } else {
+      // Retry after a short delay
+      setTimeout(checkAuth, 100);
+    }
+  };
+  checkAuth();
+});

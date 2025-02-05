@@ -1,0 +1,146 @@
+// auth.js - Authentication module for EZ42 applications
+const Auth = {
+    // Module state
+    _initialized: false,
+    _loading: false,
+    _cachedLoginState: null,
+    _lastCheck: 0,
+
+    // Initialize the auth module
+    init() {
+        if (this._initialized) return;
+        this._initialized = true;
+        this._loading = false;
+        this._bindErrorHandler();
+    },
+
+    // Set up error handling for the module
+    _bindErrorHandler() {
+        window.addEventListener('error', (e) => {
+            if (e.target.tagName === 'SCRIPT' &&
+                (e.target.src.includes('auth.js') || e.target.src.includes('navbar.js'))) {
+                console.error('Authentication script failed to load:', e.target.src);
+                window.location.href = '/500';
+            }
+        });
+    },
+
+    // Check if user is logged in
+    isLoggedIn() {
+        // Use cached value if available and recent (within 5 seconds)
+        const currentTime = Date.now();
+        if (this._cachedLoginState && currentTime - this._lastCheck < 5000) {
+            return this._cachedLoginState;
+        }
+
+        try {
+            // Get all cookies and split them
+            const cookies = document.cookie.split(';').map(c => c.trim());
+
+            // Find frontend token
+            const frontendToken = cookies.find(cookie => cookie.startsWith('frontend_token='));
+            if (!frontendToken) {
+                this._cacheLoginState([false, null], currentTime);
+                return [false, null];
+            }
+
+            // Extract and decode token
+            const token = frontendToken.split('=')[1];
+            const payloadBase64 = token.split('.')[1];
+            const base64 = payloadBase64.replace(/-/g, '+').replace(/_/g, '/');
+            const payload = JSON.parse(atob(base64));
+
+            // Validate token expiration and user_id
+            const epochSeconds = Math.floor(Date.now() / 1000);
+            if (payload.exp < epochSeconds || !payload.uid) {
+                this._cacheLoginState([false, null], currentTime);
+                return [false, null];
+            }
+            this._cacheLoginState([true, payload.uid], currentTime);
+            return [true, payload.uid];
+
+        } catch (error) {
+            console.error("Error checking login status:", error);
+            this._cacheLoginState([false, null], currentTime);
+            return [false, null];
+        }
+    },
+
+    // Cache login state
+    _cacheLoginState(state, timestamp) {
+        this._cachedLoginState = state;
+        this._lastCheck = timestamp;
+    },
+
+    // Handle login
+    async login(redirectUrl = window.location.href) {
+        if (this._loading) return;
+        this._loading = true;
+
+        try {
+            // Navigate to login page with redirect URL
+            window.location.href = `/auth/login?next_url=${encodeURIComponent(redirectUrl)}`;
+        } catch (error) {
+            console.error("Login error:", error);
+            window.location.href = '/500';
+        } finally {
+            this._loading = false;
+        }
+    },
+
+    // Handle logout
+    async logout() {
+        console.log("Logout function called");
+        if (this._loading) {
+            console.log("Already processing a logout request");
+            return;
+        }
+        this._loading = true;
+
+        try {
+            console.log("Sending logout request to /auth/logout");
+            const response = await fetch('/auth/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                credentials: 'include'  // Include cookies in the request
+            });
+
+            console.log("Logout response status:", response.status);
+            
+            // Clear cached login state
+            this._cachedLoginState = null;
+            this._lastCheck = 0;
+
+            if (!response.ok) {
+                throw new Error('Logout failed');
+            }
+
+            // Reload the current page and let the page handle authentication
+            window.location.reload();
+
+        } catch (error) {
+            console.error("Logout error:", error);
+            this._loading = false;
+            alert('Failed to logout: ' + error.message);
+        }
+    },
+
+    // Check if request is in progress
+    isLoading() {
+        return this._loading;
+    }
+};
+
+// Initialize auth module
+Auth.init();
+
+// Make Auth globally available
+window.Auth = Auth;
+
+// Export for module usage and expose globally
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = Auth;
+}
