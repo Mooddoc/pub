@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
 
-:root {
-    font-size: 16px;
-}
+    :root {
+		--prime-color: #141f2e;
+		--accent-color: #ff7f50;
+        font-size: 16px;
+    }
 
 /* Base Styles */
 body, html {

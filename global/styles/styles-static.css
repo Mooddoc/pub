@@ -1,8 +1,11 @@
     @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
     
     :root {
+		--prime-color: #141f2e;
+		--accent-color: #ff7f50;
         font-size: 16px;
     }
+	
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -24,7 +27,7 @@
     }
     header button {
       background: #fff;
-      color: #000080;
+      color: var(--prime-color);
       border: none;
       padding: 1rem 2rem;
       font-size: 1rem;
@@ -85,7 +88,7 @@
       text-align: center;
     }
     .feature-card h3 {
-      color: #000080;
+      color: var(--prime-color);
     }
     .feature-card button {
       background: #ff7f50;
@@ -118,7 +121,7 @@
     }
     .testimonials h2 {
       margin-top: 0;
-      color: #000080;
+      color: var(--prime-color);
     }
     .testimonials p {
       max-width: 600px;
@@ -146,7 +149,7 @@
 	}
 
     footer {
-      background: #000080;
+      background: var(--prime-color);
       color: #fff;
       text-align: center;
       padding: 1rem;
@@ -234,7 +237,7 @@
       position: relative;
     }
     .contact-info h2, .contact-form-container h2 {
-      color: #000080;
+      color: var(--prime-color);
       text-align: center;
       margin-bottom: 1rem;
     }
@@ -354,7 +357,7 @@
     }
     .offer-card:hover {
       transform: translateY(-5px);
-      border-color: #000080;
+      border-color: var(--prime-color);
     }
     .offer-card img {
       width: 60px;
@@ -362,7 +365,7 @@
 
     /* Our Story Section */
     section.our-story {
-      background: #000080;
+      background: var(--prime-color);
       color: #fff;
       text-align: center;
       padding: 4rem 2rem;
@@ -386,7 +389,7 @@
 	
     .section-title {
       text-align: center;
-      color: #000080;
+      color: var(--prime-color);
       margin-bottom: 1rem;
       font-size: 2rem;
     }
@@ -412,7 +415,7 @@
 }
 
 .contact-button:hover {
-  background: #000080;
+  background: var(--prime-color);
   color: #fff;
 }
 
@@ -490,7 +493,7 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         .imm-metric h3 { /* Renamed */
-            color: #000080;
+            color: var(--prime-color);
         }
 
         /* Benefits Section */
@@ -519,7 +522,7 @@
         /* Application Section */
         .imm-application { /* Renamed */
             background: #fff;
-            border-top: 5px solid #000080;
+            border-top: 5px solid var(--prime-color);
         }
         .imm-application .imm-content { /* Renamed */
             max-width: 900px;
@@ -527,7 +530,7 @@
             position: relative;
         }
         .imm-application h2 { /* Renamed */
-            color: #000080;
+            color: var(--prime-color);
             text-align: center;
         }
 		
@@ -793,7 +796,7 @@
     position: absolute;
     inset: 0;
     border-radius: 24px;
-    background: linear-gradient(135deg, #ff7f50, #000080);
+    background: linear-gradient(135deg, #ff7f50, var(--prime-color));
     padding: 6px;
     box-sizing: border-box;
 }
@@ -977,7 +980,7 @@
     height: 100%;
     padding: 6px;
     border-radius: 20px;
-    background: linear-gradient(135deg, #ff7f50, #000080);
+    background: linear-gradient(135deg, #ff7f50, var(--prime-color));
     box-sizing: border-box;
 }
 
@@ -1102,7 +1105,7 @@
             transition: background 0.3s, color 0.3s;
         }
         .fp-button:hover {
-            background: #000080;
+            background: var(--prime-color);
             color: #fff;
         }
         header.fp-header .fp-stage-hero {
@@ -1123,7 +1126,7 @@
         }
 
         .fp-section .fp-section-title {
-            color: #000080;
+            color: var(--prime-color);
             margin-bottom: 1rem;
             font-size: 2rem;
         }
@@ -1158,7 +1161,7 @@
         }
         .fp-section .fp-section-content h3{
             text-align: center;
-            color: #000080;
+            color: var(--prime-color);
             margin-bottom: 1rem;
         }
 
@@ -1173,10 +1176,10 @@
 
         .fp-section:nth-child(odd) .fp-section-content { /* Odd sections */
             background-color: white; /* White background */
-            border: 2px solid #000080; /* Blue border */
+            border: 2px solid var(--prime-color); /* Blue border */
         }
         .fp-section:nth-child(odd) .fp-section-title{
-            color: #000080;
+            color: var(--prime-color);
         }
 
         .fp-cta-section .fp-section-content{
@@ -1184,5 +1187,5 @@
             border: none;
         }
         .fp-cta-section .fp-section-title{
-            color: #000080;
+            color: var(--prime-color);
         }

@@ -2451,7 +2451,7 @@ select.form-control {
         }
 
         #clearProgressButton:hover {
-            background-color: #000080;
+            background-color: var(--prime-color);
         }
 
 
@@ -2590,7 +2590,7 @@ select.form-control {
 }
 
 .notification-banner:hover {
-    background: #000080;
+    background: var(--prime-color);
 }
 																			/* Style for the audio icon */
 .audio-icon {
