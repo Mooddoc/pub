@@ -1,6 +1,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
     
     :root {
+		--prime-color: #000080;
         font-size: 16px;
     }
 
@@ -129,7 +130,7 @@
         position: absolute;
         top: 0.3125rem;
         height: calc(100% - 0.625rem);
-        background-color: #000080;
+        background-color: var(--prime-color);
         border-radius: 1.25rem;
         transition: all 0.3s ease;
         z-index: 1;
@@ -157,7 +158,7 @@
 }
 
 .form-control:focus {
-    border-color: #000080; 
+    border-color: var(--prime-color); 
     outline: none; 
     box-shadow: 0 0 5px rgba(0, 172, 193, 0.5); 
 }
@@ -239,7 +240,7 @@
     }
 
      .button-blue {
-        background-color: #000080;
+        background-color: var(--prime-color);
      }
 
     .progress-bar-container {
@@ -255,7 +256,7 @@
     .progress-bar {
         width: 0%;
         height: 100%;
-        background-color: #000080;
+        background-color: var(--prime-color);
         border-radius: 0.625rem;
         display: flex;
         align-items: center;
@@ -379,7 +380,7 @@
         cursor: pointer;
     }
     .modal-quiz-button {
-        background-color: #000080;
+        background-color: var(--prime-color);
         color: white;
         border: none;
         padding: 10px 20px;
@@ -463,7 +464,7 @@
 }
 
 .subject-overview-content a {
-    color: #000080; /* Use the accent color for links */
+    color: var(--prime-color); /* Use the accent color for links */
     text-decoration: none;
 }
 
@@ -505,7 +506,7 @@
             font-size: inherit;
             padding: 2px 5px;
             border: none;
-            border-bottom: 2px solid #000080;
+            border-bottom: 2px solid var(--prime-color);
             background-color: transparent;
             color: black;
             width: 100px;
@@ -532,7 +533,7 @@
 			width: 60%;
 			padding: 10px;
 			font-size: 22px;
-			border: 2px solid #000080;
+			border: 2px solid var(--prime-color);
 			border-radius: 25px;
 			margin: 20px;
 			text-align: center;
@@ -548,7 +549,7 @@
         .result {
             font-size: 18px;
             margin-top: 10px;
-            color: #000080;
+            color: var(--prime-color);
         }
 																	/* Story Page styles */
         .story-page {
@@ -603,7 +604,7 @@
         }
 
         .tooltip b {
-            color: #000080;
+            color: var(--prime-color);
             transition: color 0.3s ease;
         }
 
@@ -614,7 +615,7 @@
         .tooltip .tooltiptext {
             visibility: hidden;
             width: 120px;
-            background-color: #000080;
+            background-color: var(--prime-color);
             color: white;
             text-align: center;
             border-radius: 6px;
@@ -639,7 +640,7 @@
             margin-left: -5px;
             border-width: 5px;
             border-style: solid;
-            border-color: #000080 transparent transparent transparent;
+            border-color: var(--prime-color) transparent transparent transparent;
         }
 
         .tooltip:hover .tooltiptext {
@@ -658,7 +659,7 @@
 			border-radius: 15px; /* Smooth rounded edges */
 			box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2); /* Enhanced shadow for depth */
 			padding: 15px; /* Increased padding for better spacing */
-			background-color: #000080; /* Use the accent teal color */
+			background-color: var(--prime-color); /* Use the accent teal color */
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -682,7 +683,7 @@
 
 		/* Webkit (Chrome, Safari) controls styling */
 		.story-audio audio::-webkit-media-controls-panel {
-			background-color: #000080; /* Match your accent teal color */
+			background-color: var(--prime-color); /* Match your accent teal color */
 			border-radius: 10px;
 		}
 
@@ -701,7 +702,7 @@
 		}
 
 		.story-audio audio::-moz-range-thumb {
-			background: #000080; /* Teal color for the thumb */
+			background: var(--prime-color); /* Teal color for the thumb */
 			border: none;
 			border-radius: 50%;
 			width: 15px;
@@ -711,7 +712,7 @@
 
 		/* Edge and IE controls styling */
 		.story-audio audio::-ms-fill-lower {
-			background: #000080; /* Teal color */
+			background: var(--prime-color); /* Teal color */
 		}
 
 		.story-audio audio::-ms-fill-upper {
@@ -722,7 +723,7 @@
             display: inline-block;
             padding: 10px 15px;
             margin: 5px;
-            background-color: #000080;
+            background-color: var(--prime-color);
             color: white;
             border-radius: 20px;
             cursor: pointer;
@@ -769,7 +770,7 @@
 
         .word {
             padding: 5px 10px;
-            background-color: #000080;
+            background-color: var(--prime-color);
             color: white;
             border-radius: 15px;
             font-weight: 700;
@@ -818,7 +819,7 @@
             justify-content: center;
             align-items: center;
             background-color: #e3f2fd;
-            border: 2px solid #000080;
+            border: 2px solid var(--prime-color);
             cursor: pointer;
             user-select: none;
 			-webkit-user-select: none;
@@ -829,7 +830,7 @@
         }
 
         .letter:hover {
-            background-color: #000080;
+            background-color: var(--prime-color);
             color: white;
             transform: scale(1.1);
         }
@@ -964,7 +965,7 @@
 
 		.numbers-table-td { 
 			padding: 0.75rem 1rem;
-			background-color: #000080;
+			background-color: var(--prime-color);
 			border: 1px solid #ffffff;
 			border-radius: 0.3rem;
 			text-align: center;
@@ -1085,7 +1086,7 @@
 			padding: 10px 20px;
 			font-size: 1em;
 			cursor: pointer;
-			background-color: #000080;
+			background-color: var(--prime-color);
 			color: white;
 			border: none;
 			border-radius: 5px;
@@ -1280,7 +1281,7 @@
         .answer-area {
             width: 90px; /* 10% larger than .answer */
             height: 70px;  /* Maintain aspect ratio */
-            border: 3px dashed #000080;
+            border: 3px dashed var(--prime-color);
             background-color: #f0f0f0;
             border-radius: 0.3125rem;
             display: inline-flex;
@@ -1290,7 +1291,7 @@
         }
 		
         .cloud-options {
-            background-color: #000080;
+            background-color: var(--prime-color);
             color: white;
             border-radius: 0.625rem;
             padding: 1rem;
@@ -1329,7 +1330,7 @@
             justify-content: center;
             margin: 0.5rem;
             background-color: #ffffff;
-            border: 2px solid #000080;
+            border: 2px solid var(--prime-color);
             border-radius: 0.3125rem;
             cursor: move;
             user-select: none;
@@ -1341,7 +1342,7 @@
             transform: scale(1.05);
         }
         .check-btn {
-            background-color: #000080;
+            background-color: var(--prime-color);
             color: white;
             border: none;
             padding: 0.5rem 1rem;
@@ -1373,7 +1374,7 @@
         }
 
         th {
-            background-color: #000080; /* Teal color for header */
+            background-color: var(--prime-color); /* Teal color for header */
             color: white; /* White text for contrast */
             font-weight: bold;
             padding: 1rem; /* Increased padding for header */
@@ -1418,7 +1419,7 @@
 		  z-index: 99;
 		  border: none;
 		  outline: none;
-		  background-color: #000080;
+		  background-color: var(--prime-color);
 		  color: white;
 		  cursor: pointer;
 		  padding: 15px;
@@ -1538,7 +1539,7 @@
 /* Optional: Selected States */
 .match-single-question-item.selected,
 .match-single-answer-item.selected {
-    border-color: #000080;
+    border-color: var(--prime-color);
     background-color: #b2ebf2;
 }
 																							/* --- End of Quiz-Specific Styles --- */
@@ -2076,7 +2077,7 @@
 }
 
 .custom-modal-title {
-    color: #000080;
+    color: var(--prime-color);
     font-size: 1.8em;
     margin: 0;
     font-family: 'Rubik', sans-serif;
@@ -2235,7 +2236,7 @@
         }
 
         #clearProgressButton:hover {
-            background-color: #000080;
+            background-color: var(--prime-color);
         }
 
 		.modal-button-container {
@@ -2372,7 +2373,7 @@
 }
 
 .notification-banner:hover {
-    background: #000080;
+    background: var(--prime-color);
 }
 
 																						/* Style for the audio icon */
