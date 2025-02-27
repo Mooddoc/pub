@@ -81,7 +81,7 @@
     }
 
     .quiz-container h2 {
-        color: #ff7f50;
+        color: var(--accent-color);
         text-align: center;
         font-size: 1.5rem;
     }
@@ -132,7 +132,7 @@
         position: absolute;
         top: 0.3125rem;
         height: calc(100% - 0.625rem);
-        background-color: #000080;
+        background-color: var(--prime-color);
         border-radius: 1.25rem;
         transition: all 0.3s ease;
         z-index: 1;
@@ -162,7 +162,7 @@
 }
 
 .form-control:focus {
-    border-color: #000080; 
+    border-color: var(--prime-color); 
     outline: none; 
     box-shadow: 0 0 5px rgba(0, 172, 193, 0.5); 
 }
@@ -358,11 +358,11 @@ select.form-control {
         font-weight: bold;
         text-align: center;
         margin-bottom: 1rem;
-        color: #ff7f50;
+        color: var(--accent-color);
     }
 
     button {
-        background-color: #ff7f50;
+        background-color: var(--accent-color);
         color: white;
         border: none;
         padding: 0.5rem 1rem;
@@ -374,12 +374,12 @@ select.form-control {
     }
 
      .button-blue {
-        background-color: #000080;
+        background-color: var(--prime-color);
      }
 
     .progress-bar-container {
         width: 100%;
-        background-color: #ff7f50;
+        background-color: var(--accent-color);
         border-radius: 0.625rem;
         margin: 0.5rem 0;
         height: 1.875rem;
@@ -390,7 +390,7 @@ select.form-control {
     .progress-bar {
         width: 0%;
         height: 100%;
-        background-color: #000080;
+        background-color: var(--prime-color);
         border-radius: 0.625rem;
         display: flex;
         align-items: center;
@@ -415,7 +415,7 @@ select.form-control {
         text-align: center;
         font-size: 1.125rem;
         margin-bottom: 0.5rem;
-        color: #ff7f50;
+        color: var(--accent-color);
     }
 
     @media (max-width: 75rem) {
@@ -514,7 +514,7 @@ select.form-control {
         cursor: pointer;
     }
     .modal-quiz-button {
-        background-color: #000080;
+        background-color: var(--prime-color);
         color: white;
         border: none;
         padding: 10px 20px;
@@ -570,14 +570,14 @@ select.form-control {
 /* Modify this to include only h2 and h3 */
 .subject-overview-content_heb h2,
 .subject-overview-content_heb h3 {
-    color: #FF7F50; /* Coral orange color */
+    color: var(--accent-color); /* Coral orange color */
 }
 
 .subject-overview-content_heb .subheading_heb {
     font-weight: bold;
     margin-top: 1em;
     margin-bottom: 0.5em;
-    color: #FF7F50; /* Add this line to ensure subheadings are orange */
+    color: var(--accent-color); /* Add this line to ensure subheadings are orange */
 }
 
     .audio-player {
@@ -592,7 +592,7 @@ select.form-control {
     }
 
 .highlight_heb {
-    color: #FF7F50;
+    color: var(--accent-color);
 }
 
         .input-in-row {
@@ -600,7 +600,7 @@ select.form-control {
             font-size: inherit;
             padding: 2px 5px;
             border: none;
-            border-bottom: 2px solid #000080;
+            border-bottom: 2px solid var(--prime-color);
             background-color: transparent;
             color: black;
             width: 100px;
@@ -627,7 +627,7 @@ select.form-control {
 			width: 60%;
 			padding: 10px;
 			font-size: 22px;
-			border: 2px solid #000080;
+			border: 2px solid var(--prime-color);
 			border-radius: 25px;
 			margin: 20px;
 			text-align: center;
@@ -643,7 +643,7 @@ select.form-control {
         .result {
             font-size: 18px;
             margin-top: 10px;
-            color: #000080;
+            color: var(--prime-color);
         }
 																	/* Story Page styles */
         .story-page {
@@ -698,18 +698,18 @@ select.form-control {
         }
 
         .tooltip b {
-            color: #000080;
+            color: var(--prime-color);
             transition: color 0.3s ease;
         }
 
         .tooltip:hover b {
-            color: #ff7f50;
+            color: var(--accent-color);
         }
 
         .tooltip .tooltiptext {
             visibility: hidden;
             width: 120px;
-            background-color: #000080;
+            background-color: var(--prime-color);
             color: white;
             text-align: center;
             border-radius: 6px;
@@ -734,7 +734,7 @@ select.form-control {
             margin-left: -5px;
             border-width: 5px;
             border-style: solid;
-            border-color: #000080 transparent transparent transparent;
+            border-color: var(--prime-color) transparent transparent transparent;
         }
 
         .tooltip:hover .tooltiptext {
@@ -754,7 +754,7 @@ select.form-control {
 			border-radius: 15px; /* Smooth rounded edges */
 			box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2); /* Enhanced shadow for depth */
 			padding: 15px; /* Increased padding for better spacing */
-			background-color: #000080; /* Use the accent teal color */
+			background-color: var(--prime-color); /* Use the accent teal color */
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -778,7 +778,7 @@ select.form-control {
 
 		/* Webkit (Chrome, Safari) controls styling */
 		.story-audio audio::-webkit-media-controls-panel {
-			background-color: #000080; /* Match your accent teal color */
+			background-color: var(--prime-color); /* Match your accent teal color */
 			border-radius: 10px;
 		}
 
@@ -792,12 +792,12 @@ select.form-control {
 
 		/* Firefox controls styling */
 		.story-audio audio::-moz-range-track {
-			background: #ff7f50; /* Use your accent coral color */
+			background: var(--accent-color); /* Use your accent coral color */
 			border-radius: 5px;
 		}
 
 		.story-audio audio::-moz-range-thumb {
-			background: #000080; /* Teal color for the thumb */
+			background: var(--prime-color); /* Teal color for the thumb */
 			border: none;
 			border-radius: 50%;
 			width: 15px;
@@ -807,18 +807,18 @@ select.form-control {
 
 		/* Edge and IE controls styling */
 		.story-audio audio::-ms-fill-lower {
-			background: #000080; /* Teal color */
+			background: var(--prime-color); /* Teal color */
 		}
 
 		.story-audio audio::-ms-fill-upper {
-			background: #ff7f50; /* Coral color */
+			background: var(--accent-color); /* Coral color */
 		}
 																		/* moving word bubbles styles */	
         .word-bubble {
             display: inline-block;
             padding: 10px 15px;
             margin: 5px;
-            background-color: #000080;
+            background-color: var(--prime-color);
             color: white;
             border-radius: 20px;
             cursor: pointer;
@@ -828,7 +828,7 @@ select.form-control {
         }
 	
         .word-bubble:hover {
-            background-color: #ff7f50;
+            background-color: var(--accent-color);
         }
 		
 		.word-container {
@@ -863,7 +863,7 @@ select.form-control {
 
         .word {
             padding: 5px 10px;
-            background-color: #000080;
+            background-color: var(--prime-color);
             color: white;
             border-radius: 15px;
             font-weight: 700;
@@ -912,7 +912,7 @@ select.form-control {
             justify-content: center;
             align-items: center;
             background-color: #e3f2fd;
-            border: 2px solid #000080;
+            border: 2px solid var(--prime-color);
             cursor: pointer;
 			user-select: none;
 			-webkit-user-select: none; /* For Safari support */
@@ -923,7 +923,7 @@ select.form-control {
         }
 
         .letter:hover {
-            background-color: #000080;
+            background-color: var(--prime-color);
             color: white;
             transform: scale(1.1);
         }
@@ -941,7 +941,7 @@ select.form-control {
         }
 
         .controls button {
-            background-color: #ff7f50;
+            background-color: var(--accent-color);
             color: white;
             border: none;
             padding: 0.5rem 1rem;
@@ -1058,7 +1058,7 @@ select.form-control {
 
 		.numbers-table-td { 
 			padding: 0.75rem 1rem;
-			background-color: #000080;
+			background-color: var(--prime-color);
 			border: 1px solid #ffffff;
 			border-radius: 0.3rem;
 			text-align: center;
@@ -1220,14 +1220,14 @@ select.form-control {
 			padding: 10px 20px;
 			font-size: 1em;
 			cursor: pointer;
-			background-color: #000080;
+			background-color: var(--prime-color);
 			color: white;
 			border: none;
 			border-radius: 5px;
 			transition: background-color 0.3s;
 		}
 		.center-button:hover {
-			background-color: #ff7f50;
+			background-color: var(--accent-color);
 		}	
 		
 		h2.stage-name {
@@ -1322,7 +1322,7 @@ select.form-control {
             margin-bottom: 1rem;
         }
         .cloud-options {
-            background-color: #000080;
+            background-color: var(--prime-color);
             color: white;
             border-radius: 0.625rem;
             padding: 1rem;
@@ -1354,7 +1354,7 @@ select.form-control {
         }
         .whole-number, .operator {
             margin: 0 0.2rem;
-            color: #ff7f50;
+            color: var(--accent-color);
         }
        .operator-btn {
             background-color: #0097a7;
@@ -1367,7 +1367,7 @@ select.form-control {
             transition: background-color 0.1s;
         }
         .operator-btn.selected {
-            background-color: #ff7f50;
+            background-color: var(--accent-color);
         }		
         .exercise-grid {
             direction: ltr;
@@ -1398,17 +1398,17 @@ select.form-control {
             text-align: center;
             vertical-align: middle;
             margin: 0 0.2rem;
-            color: #ff7f50;
+            color: var(--accent-color);
         }
         .fraction .numerator {
             display: block;
-            border-bottom: 2px solid #ff7f50;
+            border-bottom: 2px solid var(--accent-color);
         }
         .fraction .denominator {
             display: block;
         }	
         .generate-btn, .check-btn {
-            background-color: #ff7f50;
+            background-color: var(--accent-color);
             color: white;
             border: none;
             padding: 0.5rem 1rem;
@@ -1426,7 +1426,7 @@ select.form-control {
         .answer-area {
             width: 90px;
             height: 70px;
-            border: 3px dashed #000080;
+            border: 3px dashed var(--prime-color);
             background-color: #f0f0f0;
             border-radius: 0.3125rem;
             display: inline-flex;
@@ -1443,7 +1443,7 @@ select.form-control {
             justify-content: center;
             margin: 0.5rem;
             background-color: #ffffff;
-            border: 2px solid #000080;
+            border: 2px solid var(--prime-color);
             border-radius: 0.3125rem;
             cursor: move;
 			user-select: none;
@@ -1467,7 +1467,7 @@ select.form-control {
             gap: 1rem;
         }
         .check-btn {
-            background-color: #000080;
+            background-color: var(--prime-color);
             color: white;
             border: none;
             padding: 0.5rem 1rem;
@@ -1499,7 +1499,7 @@ select.form-control {
         }
 
         th {
-            background-color: #000080; /* Teal color for header */
+            background-color: var(--prime-color); /* Teal color for header */
             color: white; /* White text for contrast */
             font-weight: bold;
             padding: 1rem; /* Increased padding for header */
@@ -1520,7 +1520,7 @@ select.form-control {
         }
 
         td:hover {
-            background-color: #ff7f50; /* Coral orange hover effect for interaction */
+            background-color: var(--accent-color); /* Coral orange hover effect for interaction */
             color: white; /* White text on hover for better contrast */
         }
 
@@ -1544,7 +1544,7 @@ select.form-control {
 		  z-index: 99;
 		  border: none;
 		  outline: none;
-		  background-color: #000080;
+		  background-color: var(--prime-color);
 		  color: white;
 		  cursor: pointer;
 		  padding: 15px;
@@ -1578,7 +1578,7 @@ select.form-control {
 		.fraction-whole-number {
 			margin: 0 5px;
 			margin: 0 0.2rem;
-			color: #ff7f50;
+			color: var(--accent-color);
 		}
         .fraction-cloud-answer {
             direction: ltr;
@@ -1589,7 +1589,7 @@ select.form-control {
             justify-content: center;
             margin: 0.5rem;
             background-color: #ffffff;
-            border: 2px solid #000080;
+            border: 2px solid var(--prime-color);
             border-radius: 0.3125rem;
             cursor: move;
 			user-select: none;
@@ -1760,7 +1760,7 @@ select.form-control {
 /* Optional: Selected States */
 .match-single-question-item.selected,
 .match-single-answer-item.selected {
-    border-color: #000080;
+    border-color: var(--prime-color);
     background-color: #b2ebf2;
 }
 
@@ -2278,7 +2278,7 @@ select.form-control {
 }
 
 .custom-modal-close:hover {
-    color: #ff7f50;
+    color: var(--accent-color);
 }
 
 .custom-modal-title-section {
@@ -2287,7 +2287,7 @@ select.form-control {
 }
 
 .custom-modal-title {
-    color: #000080;
+    color: var(--prime-color);
     font-size: 1.8em;
     margin: 0;
     font-family: 'Rubik', sans-serif;
@@ -2369,7 +2369,7 @@ select.form-control {
 }
 
 .custom-modal-button {
-    background-color: #ff7f50;
+    background-color: var(--accent-color);
     color: #fff;
     border: none;
     padding: 12px 25px;
@@ -2441,7 +2441,7 @@ select.form-control {
 	    }
 
         #clearProgressButton {
-            background-color: #ff7f50;
+            background-color: var(--accent-color);
             color: white;
             border: none;
             padding: 0.5rem 1rem;
@@ -2543,7 +2543,7 @@ select.form-control {
 																/* Notification Banner START */	
 .notification-banner {
     position: fixed;
-    background: #ff7f50;
+    background: var(--accent-color);
     color: white;
     padding: 12px 40px 12px 20px;
     border-radius: 8px;
@@ -2641,6 +2641,22 @@ select.form-control {
         right: 8px;
         font-size: 0.8rem; /* Smallest emoji size */
     }
+}
+
+/* Generate glow effect around an object - see switcher on load */
+@keyframes glowAnimation {
+  0% {
+	box-shadow: 0 0 0px var(--accent-color);
+  }
+  50% {
+	box-shadow: 0 0 20px #FC2A0D;
+  }
+  100% {
+	box-shadow: 0 0 0px var(--accent-color);
+  }
+}
+.glow {
+  animation: glowAnimation 2s ease;
 }
 
 	

@@ -2428,3 +2428,21 @@
     }
 }
 
+
+/* Generate glow effect around an object - see switcher on load */
+@keyframes glowAnimation {
+  0% {
+	box-shadow: 0 0 0px var(--accent-color);
+  }
+  50% {
+	box-shadow: 0 0 20px #FC2A0D;
+  }
+  100% {
+	box-shadow: 0 0 0px var(--accent-color);
+  }
+}
+.glow {
+  animation: glowAnimation 2s ease;
+}
+
+	
