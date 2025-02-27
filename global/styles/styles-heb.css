@@ -260,7 +260,7 @@
 }
 
 /* Edge and IE specific styles */
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+@media (forced-colors: active) {
     .form-control.select-custom {
         text-align: right;
         text-align-last: right;
