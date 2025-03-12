@@ -1,0 +1,551 @@
+
+  /* Basic layout */
+  .min-h-screen {
+    min-height: 100vh;
+  }
+
+  /* Card styles */
+/* Card base styles */
+.education-card,
+div.education-card,
+.card-grid .education-card {
+    /* Transition only transform and box-shadow for a smoother effect */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 250px;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+
+/* Header styles */
+.english-card-bg,
+.math-card-bg {
+    position: relative;
+    height: 125px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-top-left-radius: 20px !important;
+    border-top-right-radius: 20px !important;
+    background-color: var(--prime-color) !important;
+    padding: 1rem;
+}
+
+/* Card hover effect */
+.education-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Bottom content area */
+.education-card > div:last-child {
+    border-bottom-left-radius: 20px !important;
+    border-bottom-right-radius: 20px !important;
+    background-color: white !important;
+}
+
+/* Expanded state */
+.education-card.expanded {
+    height: auto;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+}
+
+/* Open icon styles */
+.card-open-icon {
+    position: absolute !important;
+    top: 8px !important;
+    right: 8px !important;
+    opacity: 0 !important;
+    transition: opacity 0.2s ease !important;
+    width: 24px !important;
+    height: 24px !important;
+    z-index: 10 !important;
+    cursor: pointer !important;
+    color: white !important;
+}
+
+/* Show icon on card hover */
+.education-card:hover .card-open-icon {
+    opacity: 1 !important;
+}
+
+/* Make sure the header can position the icon properly */
+.education-card div:first-child {
+    position: relative !important;
+}
+
+/* Fallbacks for browsers that don't support the image format */
+@supports not (background-image: url('https://mooddoc.github.io/pub/global/portal_images/eng_bg.jpg')) {
+    .english-card-bg {
+        background-image: url('https://mooddoc.github.io/pub/global/portal_images/eng_bg.jpg') !important;
+    }
+
+    .math-card-bg {
+        background-image: url('https://mooddoc.github.io/pub/global/portal_images/math_bg.jpg') !important;
+    }
+}
+
+  .selected-count {
+    padding: 2px 8px;
+    background-color: rgb(255, 127, 80);
+    color: white;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  /* Right controls */
+  .right-controls-wrapper {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+  }
+
+  .right-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .action-button {
+    height: 44px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
+  }
+
+  .action-button.primary {
+    color: rgb(0, 172, 193);
+    background: transparent;
+    margin-right: 12px;
+  }
+
+  .action-button.primary:hover {
+    background-color: rgba(0, 172, 193, 0.1);
+  }
+
+  .counter-display {
+    height: 44px;
+    padding: 0 20px;
+    background-color: rgb(255, 127, 80);
+    color: white;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Selected filters row */
+  .selected-filters-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 50px;
+    background-color: white;
+    border-bottom: 1px solid rgb(229, 231, 233);
+  }
+
+  /* Announcement bar */
+  #announcement-bar {
+    height: 43px;
+    background-color: var(--prime-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  /* Skills panel styles */
+  .skills-button {
+    width: 100%;
+    text-align: left;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid #e5e7e9;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .skills-button:hover {
+    background-color: rgba(0, 0, 128, 0.05);
+  }
+
+  .skills-button.selected {
+    background-color: var(--prime-color);
+    color: white;
+    border-color: var(--prime-color);
+  }
+
+  /* Custom card grid */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+    width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    .card-grid {
+      grid-template-columns: repeat(auto-fill, 320px);
+      justify-content: start;
+    }
+  }
+
+  .card-grid-item {
+    width: 320px;
+    justify-self: center;
+    min-height: 250px;
+  }
+
+  /* Utility classes */
+  .bg-primary {
+    background-color: var(--prime-color);
+  }
+
+  .text-primary {
+    color: var(--prime-color);
+  }
+
+  .border-primary {
+    border-color: var(--prime-color);
+  }
+
+  /***************************************
+    Base Directional Settings
+  ***************************************/
+  .welcome-popup-container,
+  .popup-side-box,
+  .popup-main-content,
+  .popup-parents-educators,
+  .popup-cta {
+    direction: ltr;
+  }
+
+  /***************************************
+    OVERLAY
+  ***************************************/
+  .welcome-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  /***************************************
+    CONTAINER
+  ***************************************/
+  .welcome-popup-container {
+    width: 90vw;
+    max-width: 1200px;
+    max-height: 90vh;
+    background: linear-gradient(135deg, #fff7f0 0%, #ffefd5 100%);
+    border: 3px solid var(--accent-color);
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 1rem;
+    padding: 1.5rem;
+    overflow-y: auto;
+  }
+
+  /***************************************
+    SIDE BOXES (Coins & Heroes)
+  ***************************************/
+  .popup-side-box {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0.75rem;
+    color: #333;
+  }
+
+  .popup-side-box img {
+    width: 40px;
+    height: auto;
+    margin-bottom: 0.5rem;
+  }
+
+  .popup-side-box h4 {
+    font-size: 1.1rem;
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+
+  .popup-side-box p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  /***************************************
+    MAIN CONTENT
+  ***************************************/
+  .popup-main-content {
+    text-align: center;
+    grid-column: 2 / 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0.75rem;
+  }
+
+  .popup-main-content img {
+    width: 120px;
+    height: auto;
+    margin-bottom: 1rem;
+  }
+
+  .popup-main-content h2 {
+    font-size: 2rem;
+    color: var(--prime-color);
+    margin-bottom: 0.75rem;
+    text-align: center;
+  }
+
+  .popup-main-content p {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: #333;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  /***************************************
+    PARENTS & EDUCATORS SECTION
+  ***************************************/
+  .popup-parents-educators {
+    grid-column: 1 / 4;
+    background-color: #fff;
+    border: 2px solid var(--prime-color);
+    border-radius: 10px;
+    padding: 0.75rem;
+    text-align: center;
+    margin-top: 0.5rem;
+  }
+
+  .popup-parents-educators h3 {
+    margin: 0 0 0.5rem;
+    color: var(--accent-color);
+    font-size: 1.2rem;
+  }
+
+  .popup-parents-educators p {
+    margin-bottom: 1rem;
+  }
+
+  .popup-parents-buttons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .popup-parents-buttons button {
+    background-color: var(--auxiliary-color);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .popup-parents-buttons button:hover {
+    background-color: var(--accent-color);
+  }
+
+  /***************************************
+    CTA BUTTON
+  ***************************************/
+  .popup-cta {
+    grid-column: 1 / 4;
+    text-align: center;
+    margin-top: 0.5rem;
+    position: sticky;
+    bottom: 0;
+    background: linear-gradient(135deg, #fff7f0 0%, #ffefd5 100%);
+    padding: 0.5rem 0;
+  }
+
+  .popup-cta button {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.2rem;
+    width: auto;
+    min-width: 200px;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .popup-cta button:hover {
+    background-color: var(--prime-color);
+  }
+
+  /***************************************
+    RESPONSIVE DESIGN
+  ***************************************/
+  @media (max-width: 1024px) {
+    .welcome-popup-container {
+      width: 95vw;
+      grid-template-columns: 1fr 2fr 1fr;
+      gap: 0.75rem;
+      padding: 1rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .welcome-popup-container {
+      grid-template-columns: 1fr;
+      grid-auto-rows: auto;
+      padding: 1rem;
+      gap: 0.5rem;
+    }
+
+    .popup-side-box,
+    .popup-main-content,
+    .popup-parents-educators,
+    .popup-cta {
+      grid-column: 1 / -1;
+      padding: 0.5rem;
+    }
+
+    .popup-main-content img {
+      width: 100px;
+    }
+
+    .popup-main-content h2 {
+      font-size: 1.75rem;
+    }
+
+    .popup-main-content p {
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-height: 700px) {
+    .welcome-popup-container {
+      gap: 0.5rem;
+      padding: 1rem;
+    }
+
+    .popup-main-content img {
+      width: 80px;
+      margin-bottom: 0.5rem;
+    }
+
+    .popup-side-box img {
+      width: 30px;
+    }
+
+    .popup-main-content h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .popup-main-content p,
+    .popup-side-box p {
+      font-size: 0.9rem;
+      line-height: 1.3;
+    }
+  }
+
+  /* Handle very small screens */
+  @media (max-width: 480px) {
+    .welcome-popup-overlay {
+      padding: 0.5rem;
+    }
+
+    .welcome-popup-container {
+      width: 100%;
+      padding: 0.75rem;
+    }
+
+    .popup-cta button {
+      width: 100%;
+      font-size: 1.1rem;
+      padding: 0.6rem 1rem;
+    }
+
+    .popup-parents-buttons {
+      flex-direction: column;
+    }
+
+    .popup-parents-buttons button {
+      width: 100%;
+    }
+  }
+
+/* -------------------------------------------    Education Card Styles  ---------------------- */
+/* -------------------------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------------------------- */
+
+/* Fallbacks for browsers that don't support webp */
+@supports not (background-image: url('https://mooddoc.github.io/pub/global/portal_images/eng_bg.jpg')) {
+    .english-card-bg {
+        background-image: url('https://mooddoc.github.io/pub/global/portal_images/eng_bg.jpg');
+    }
+
+    .math-card-bg {
+        background-image: url('https://mooddoc.github.io/pub/global/portal_images/math_bg.jpg');
+    }
+}
+
+#cardsContainer {
+    height: auto !important;
+    min-height: unset !important;
+}
+
+.collapse-btn.hidden {
+  display: none;
+}
+
+/* -------------------------------------------     Glow Effect    ---------------------- */
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 1);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+  }
+}
+
+.glow-effect {
+  animation: glow 1.5s ease-in-out infinite;
+}
+
+/* -------------------------------------------     Other    ---------------------- */

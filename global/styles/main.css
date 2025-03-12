@@ -1,0 +1,6 @@
+     :root {
+            --prime-color: #141f2e; /* Define the main color globally  #141f2e */
+            --accent-color: #ff7f50; /* Optional: Define other commonly used colors #ff7f50 */
+            --auxiliary-color: #00acc1; /*Original Blue */
+            font-size: 16px;
+     }

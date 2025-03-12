@@ -1,0 +1,381 @@
+/* styles-portal-filterbar-heb.css */
+
+/* Global RTL direction for the filter bar */
+.filter-bar-container {
+  background-color: white;
+  direction: rtl;
+}
+
+/* Reverse the main filters row */
+.filters-row {
+  display: flex;
+  flex-direction: row-reverse !important;
+  justify-content: space-between;
+  width: 100%;
+  background-color: white;
+  padding: 15px 50px;
+  border-bottom: 1px solid #e5e7e9;
+}
+
+/* Position filters-and-search on the right */
+.filters-and-search {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 0 12px;
+  overflow: visible;
+  flex: 1 !important;
+  max-width: 80% !important;
+  width: auto;
+  margin-right: 0;
+  margin-left: auto;
+  order: 2;
+}
+
+/* Position right-controls-wrapper on the left */
+.right-controls-wrapper {
+  order: 1;
+  width: auto;
+  flex: 0 0 auto;
+  margin-right: auto;
+  margin-left: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Device selector styling */
+.device-selector {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 30px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-left: 1px solid #e5e7eb;
+  border-right: none;
+}
+
+.device-selector:first-child {
+  border-right: none;
+}
+
+.device-selector:last-child {
+  border-left: none;
+}
+
+.device-selector:hover {
+  background-color: transparent !important;
+}
+
+.device-selector.active {
+  background-color: rgb(249, 250, 251);
+}
+
+/* Inner content of the selector */
+.device-selector-content {
+  display: flex;
+  /* flex-direction: row-reverse; */
+  align-items: center;
+  gap: 12px;
+  min-width: max-content;
+}
+
+/* The label for each filter control */
+.filter-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--prime-color);
+  letter-spacing: -0.01em;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  text-align: right;
+}
+
+/* Container for showing the count of selected items */
+.device-selector-text .selected-count {
+  padding: 2px 8px;
+  background-color: var(--accent-color);
+  color: white;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Arrow indicator */
+.device-selector-arrow {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.device-selector.active .device-selector-arrow {
+  transform: rotate(180deg);
+}
+
+.device-selector-arrow svg {
+  width: 24px;
+  height: 24px;
+  fill: rgb(107, 114, 128);
+}
+
+/* Dropdown container (hidden by default) */
+.filter-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: auto;
+  margin-top: 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background-color: white;
+  min-width: 220px;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all 0.2s ease;
+}
+
+.device-selector.active .filter-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Content inside the dropdown */
+.filter-dropdown-content {
+  padding: 8px;
+  color: #333333;
+  background-color: white;
+  text-align: right;
+}
+
+/* Options inside the dropdown */
+.filter-option {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--prime-color);
+  transition: background-color 0.15s ease;
+  cursor: pointer;
+  text-align: right;
+}
+
+.filter-option:hover {
+  background-color: rgb(243, 244, 246);
+}
+
+.filter-option.selected {
+  background-color: var(--prime-color);
+  color: white;
+  border: 1px solid var(--prime-color);
+}
+
+/* Search container */
+.search-input-container {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  flex: 1;
+
+  padding: 30px 16px;
+  border: none;
+  background-color: white;
+  overflow: visible;
+}
+
+/* Search icon */
+.search-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #757575;
+  margin-left: 12px;
+  margin-right: 0;
+}
+
+.search-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: #757575;
+}
+
+/* Search input styling */
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: #141f2e;
+  background: transparent;
+  text-align: right;
+}
+
+.search-input::placeholder {
+  color: rgb(107, 114, 128);
+  font-weight: 500;
+}
+
+/* Overlay to close dropdowns */
+.dropdown-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  display: none;
+  z-index: 999;
+}
+
+.dropdown-overlay.active {
+  display: block;
+}
+
+/* When no filters are selected */
+#selectedFiltersRow:empty {
+  display: none;
+}
+
+/* Selected Filters Row Container */
+#selectedFiltersRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 16px 50px;
+  background-color: white;
+  border-bottom: 1px solid rgb(229, 231, 233);
+  margin-top: 1px;
+  text-align: right;
+}
+
+/* Individual Filter Tag */
+.filter-tag {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background-color: #FFB683;
+  border: 1px solid #e5e7e9;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #141f2e;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* Hover state for filter tags */
+.filter-tag:hover {
+  background-color: #e5e7e9;
+  border-color: #d1d5db;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Remove (×) button within tags */
+.filter-tag .remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #e5e7e9;
+  color: #4b5563;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-right: 6px;
+  margin-left: 0;
+}
+
+/* Hover state for remove button */
+.filter-tag .remove:hover {
+  background-color: #d1d5db;
+  color: #1f2937;
+}
+
+/* Action buttons and counter display */
+.action-button {
+  height: 44px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.action-button.primary {
+  color: rgb(0, 172, 193);
+  background: transparent;
+  margin-left: 12px;
+  margin-right: 0;
+}
+
+.action-button.primary:hover {
+  background-color: rgba(0, 172, 193, 0.1);
+}
+
+.counter-display {
+  height: 44px;
+  padding: 0 20px;
+  background-color: rgb(255, 127, 80);
+  color: white;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+
+/* Updated CSS for content area in Hebrew version */
+
+/* Reset the flex-direction we added earlier */
+.flex-1.p-8 {
+  display: flex;
+  flex-direction: row !important; /* Keep same direction as English */
+}
+
+/* Adjust sidebar spacing for RTL */
+.w-\[300px\].mr-8 {
+  margin-right: 8px !important; /* Keep margin on right side */
+  margin-left: 0 !important;
+}
+
+/* Fix card container spacing */
+#cardsContainer {
+  margin-left: 24px !important; /* Add space between cards and skills panel */
+  margin-right: 0 !important;
+}
+
+/* Make sure the sidebar stays on the right in Hebrew */
+@media (min-width: 768px) {
+  .flex-1.p-8 {
+    flex-direction: row !important;
+  }
+
+  .w-\[300px\].mr-8 {
+    order: 2 !important; /* Move skills panel to the right */
+  }
+
+  #cardsContainer {
+    order: 1 !important; /* Keep cards on the left */
+    margin-right: 24px !important; /* Add proper spacing */
+  }
+}

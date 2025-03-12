@@ -1,0 +1,398 @@
+							
+							/* -------------------------------------            Login Page         -----------------------------------*/
+    /* Container */
+    .login-container {
+      display: flex;
+      width: 90%;
+      max-width: 1300px;
+      height: 90vh;
+      border-radius: 16px;
+      background-color: white;
+    }
+
+    /* Left Section */
+    .login-left-container {
+      width: 50%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-left-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 16px;
+    }
+
+    /* Right Section */
+    .login-right-container {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px 30px;
+      height: 100%;
+    }
+
+    /* Logo */
+    .login-logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .login-logo img {
+      height: 100px;
+      max-width: 100%;
+    }
+
+    /* Header Panel */
+    .login-header-panel {
+      background-color: var(--auxiliary-color);
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    .login-header-panel .login-subtitle {
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+      line-height: 1.5;
+    }
+
+    /* SSO Buttons */
+    .login-sso-buttons {
+      display: flex;
+      gap: 15px;
+      margin: 20px 0;
+      justify-content: center;
+    }
+
+    .login-sso-button {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #333;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .login-sso-button:hover {
+      background-color: #f0f0f0;
+    }
+
+    .login-sso-button img {
+      height: 24px;
+      margin-right: 8px;
+    }
+
+    /* Form */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .login-form a {
+      font-size: 16px; /* Increased font size */
+      color: var(--auxiliary-color);
+      text-decoration: none;
+      padding-top: 8px; /* Additional padding above */
+      display: inline-block; /* Ensures padding applies properly */
+    }
+
+    .login-form a:hover {
+      text-decoration: underline; /* Adds underline on hover */
+    }
+
+    label {
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    input {
+      margin: 0;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: var(--auxiliary-color);
+    }
+
+    /* Submit Button */
+    button {
+      width: 100%;
+      padding: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      background-color: var(--auxiliary-color);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: var(--accent-color);
+      transform: scale(1.05);
+    }
+
+    .signinup-bottom-section {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .signinup-bottom-button {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+      background-color: var(--accent-color);
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      text-align: center;
+    }
+
+    .signinup-bottom-button:hover {
+      background-color: #000080; /* Hover background color */
+      transform: scale(1.05); /* Slight scaling effect on hover */
+    }
+
+    /* Images in Right Panel */
+    .login-images {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .login-images img {
+      max-height: 100px;
+      max-width: 100%;
+      object-fit: contain; /* Ensures the whole image fits within the container */
+      object-position: center; /* Centers the image within its box */
+      border-radius: 8px;
+    }
+
+    /* Bottom Section */
+    .login-bottom-section a {
+      color: #000080;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .login-bottom-section a:hover {
+      text-decoration: underline;
+    }
+	
+							/* -------------------------------------            Sign up Page         -----------------------------------*/
+							
+
+    /* Container */
+    .signup-container {
+      display: flex;
+      width: 90%;
+      max-width: 1300px;
+      height: 90vh;
+      border-radius: 16px;
+      background-color: white;
+    }
+
+    /* Left Section */
+    .signup-left-container {
+      width: 50%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .signup-left-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 16px;
+    }
+
+    /* Right Section */
+    .signup-right-container {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px 30px;
+      height: 100%;
+    }
+
+    /* Logo */
+    .signup-logo {
+      text-align: center;
+    }
+
+    .signup-logo img {
+      height: 50px;
+      max-width: 100%;
+    }
+
+    /* Header Panel */
+    .signup-header-panel {
+      background-color: var(--auxiliary-color);
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    .signup-header-panel .signup-subtitle {
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      line-height: 1.5;
+    }
+
+    /* SSO Buttons */
+    .signup-sso-buttons {
+      display: flex;
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    .signup-sso-button {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px 10px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #333;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .signup-sso-button:hover {
+      background-color: #f0f0f0;
+    }
+
+    .signup-sso-button img {
+      height: 20px;
+      margin-right: 8px;
+    }
+
+    /* Form */
+    .signup-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex-grow: 1;
+    }
+
+    .signup-form label {
+      font-size: 14px;
+      color: #333;
+      margin-bottom: 2px;
+      display: block;
+    }
+
+    .signup-form input {
+      margin: 0;
+      width: 100%;
+      padding: 8px;
+      font-size: 14px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    .signup-form input:focus {
+      border-color: var(--auxiliary-color);
+    }
+
+    /* Captcha */
+    .signup-captcha-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    /* Submit Button */
+    .signup-button {
+      width: 100%;
+      padding: 10px;
+      font-size: 22px;
+      font-weight: bold;
+      color: white;
+      background-color: var(--auxiliary-color);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 5px;
+    }
+
+    .signup-button:hover {
+      background-color: var(--accent-color);
+    }
+
+    /* Already Account */
+    .signup-already-account {
+      font-size: 14px;
+      color: #333;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .signup-already-account a {
+      color: #000080;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .signup-already-account a:hover {
+      text-decoration: underline;
+    }
+
+    /* Terms */
+    .signup-terms {
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+
+    .signup-terms a {
+      color: #000080;
+      text-decoration: none;
+    }
+
+    .signup-terms a:hover {
+      text-decoration: underline;
+    }					
